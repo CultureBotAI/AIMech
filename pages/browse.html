@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1328</strong> artificial intelligence concepts, comprising <strong>886</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1329</strong> artificial intelligence concepts, comprising <strong>887</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1328)</option>
-        <option value="curated">Curated AIMech (886)</option>
+        <option value="all">All Origins (1329)</option>
+        <option value="curated">Curated AIMech (887)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (584)</option>
+          <option value="algorithm">Algorithms (585)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1328</span> of <span id="totalCount">1328</span>
+      Showing <span id="matchCount">1329</span> of <span id="totalCount">1329</span>
     </div>
   </div>
 </div>
@@ -10021,6 +10021,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fed-et (heterogeneous ensemble knowledge transfer with confidence-weighted consensus and diversity regularization) fedetheterogeneousensembleknowledgetransferwithweightedconsensusanddiversityregularization aimech:fedetheterogeneousensembleknowledgetransferwithweightedconsensusanddiversityregularization algorithms algorithm a bi-directional ensemble knowledge transfer framework for model-heterogeneous federated learning (cho, manoel, joshi, sim, &amp; dimitriadis 2022, section 3, equations 1-13, algorithm 1, theorem 1) that trains a large server model w_bar in r^n (with representation layer h_bar in r^u) using a hashmap m = {1: w_bar_1, ..., u: w_bar_u} of smaller heterogeneous client architectures w_bar_i in r^{n_i} (n &gt;&gt; n_i, each equipped with a matched representation layer h_bar_i in r^u) and an unlabeled server-side public dataset p without requiring client access to p. each round t executes three steps: (1) selected clients k in s^{(t,0)} train their designated small models w_k^{(t,0)} = m[m(k)] on private data b_k (equation 1) and the server pre-conditions its representation layer via h_bar^{(t,0)} = (1/m) sum_{k in s^{(t,0)}} h_k^{(t,tau)}; (2) on each unlabeled sample x in p, the server computes each client&#39;s intra-logit probability variance sigma_s^2(w_k^{(t,tau)}, x) = var(s(w_k^{(t,tau)}, x)) across the n classes, forms the variance-weighted consensus logit s^{(t,tau)}(x) = sum_{k in s^{(t,0)}} alpha_k^{(t,tau)}(x) s(w_k^{(t,tau)}, x) with alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in s^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) and pseudo-label y_s^{(t,tau)}(x) = argmax s^{(t,tau)}(x) (equations 2-4), aggregates dissenting clients s_{div}^{(t,0)}(x) = {l in s^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} into a diversity logit s_{div}^{(t,tau)}(x) = sum_{k in s_{div}^{(t,0)}(x)} alpha_k(x) s(w_k^{(t,tau)}, x) (equations 6-8), and updates w_bar by minimizing f(w_bar^{(t,0)}) = (1/|p|) sum_{x in p} [l((x, y_s^{(t,tau)}(x)), w_bar^{(t,0)}) + lambda kl(s_{div}^{(t,tau)}(x), s(w_bar^{(t,0)}, x))] (equations 10-11); and (3) aggregates same-architecture client models m[i] (equation 12) and transfers the updated server representation layer h_bar^{(t,tau_s)} back to all models in m. distinct from feddf (aimech:feddfensembledistillationforrobustmodelfusioninfederatedlearning, lin et al. 2020), which averages client logits with uniform weights without intra-logit variance confidence weighting, dissenting-client diversity kl regularization, or bi-directional representation-layer transfer to a strictly larger server model; and distinct from fedaux (aimech:fedauxcertaintyweightedunsupervisedauxiliaryensembledistillationforfederatedlearning, sattler et al. 2021), which requires clients to access auxiliary data and train separate logistic-regression out-of-distribution certainty scorers rather than weighting client teachers purely at the server via intra-logit probability variance sigma_s^2(w_k, x) and regularizing with dissenting-client kl divergence. fed-et federated ensemble knowledge transfer federated ensemble transfer with weighted consensus and diversity regularization fed-et weights each client k&#39;s soft prediction s(w_k^{(t,tau)}, x) on unlabeled server sample x in p by its normalized intra-logit variance alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in s^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) to derive consensus pseudo-label y_s^{(t,tau)}(x) (equations 2-4), while regularizing the large server model w_bar with lambda kl(s_{div}^{(t,tau)}(x), s(w_bar, x)) computed over the dissenting client subset s_{div}^{(t,0)}(x) = {l in s^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} and exchanging a shared u-dimensional representation layer h_bar bidirectionally between w_bar and the small models in m (equations 6-12, algorithm 1). theorem 1 (section 3.3, equation 13; appendix a, lemmas 1-2) bounds the target-distribution risk of any convex ensemble sum_{i=1}^k alpha_i h_{d_hat_i} with probability at least 1 - delta by l_d(sum_{i=1}^k alpha_i h_{d_hat_i}) &lt;= sum_{i=1}^k alpha_i l_{d_hat_i}(h_{d_hat_i}) + sqrt(log delta^{-1}) sum_{i=1}^k (alpha_i / sqrt(|b_i|)) + (1/2) sum_{i=1}^k alpha_i d(d_i, d) + sum_{i=1}^k alpha_i nu_i, motivating confidence-weighted down-weighting of high-discrepancy non-expert clients and size-proportional client sampling. fed-et requires an unlabeled public dataset p at the server and requires all heterogeneous client architectures and the server model to share a representation layer h_i in r^u of identical dimension u prior to the classification layer, and an overly large diversity weight lambda can degrade accuracy when dissenting clients are noisy. applied to heterogeneous client pools (cnn, resnet8, resnet18 training a vgg19 server model on dirichlet-partitioned cifar-10 and cifar-100; tiny-bert and lstm training a mini-bert server model on sent140), achieving higher accuracy and ~3x lower parameter communication cost than homogeneous and kd baselines under high data heterogeneity (alpha = 0.1). heterogeneous ensemble knowledge transfer for training large models in federated learning heterogeneous ensemble knowledge transfer for training large models in federated learning (arxiv abstract) heterogeneous ensemble knowledge transfer for training large models in federated learning (crossref metadata) yae jee cho andre manoel gauri joshi robert sim dimitrios dimitriadis yae jee cho andre manoel gauri joshi robert sim dimitrios dimitriadis yae jee cho andre manoel gauri joshi robert sim dimitrios dimitriadis">
+        <td>
+          <a href="curated/FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization.html" style="font-weight: 600; font-size: 1rem;">Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Fed-ET, Federated Ensemble Knowledge Transfer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A bi-directional ensemble knowledge transfer framework for model-heterogeneous federated learning (Cho, Manoel, Joshi, Sim, &amp; Dimitriadis 20…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

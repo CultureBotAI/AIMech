@@ -1,0 +1,102 @@
+id: AIMech:FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization
+name: Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A bi-directional ensemble knowledge transfer framework for model-heterogeneous federated learning (Cho, Manoel, Joshi, Sim, & Dimitriadis 2022, Section 3, Equations 1-13, Algorithm 1, Theorem 1) that trains a large server model w_bar in R^n (with representation layer h_bar in R^u) using a hashmap M = {1: w_bar_1, ..., U: w_bar_U} of smaller heterogeneous client architectures w_bar_i in R^{n_i} (n >> n_i, each equipped with a matched representation layer h_bar_i in R^u) and an unlabeled server-side public dataset P without requiring client access to P. Each round t executes three steps: (1) selected clients k in S^{(t,0)} train their designated small models w_k^{(t,0)} = M[M(k)] on private data B_k (Equation 1) and the server pre-conditions its representation layer via h_bar^{(t,0)} = (1/m) sum_{k in S^{(t,0)}} h_k^{(t,tau)}; (2) on each unlabeled sample x in P, the server computes each client''s intra-logit probability variance sigma_s^2(w_k^{(t,tau)}, x) = Var(s(w_k^{(t,tau)}, x)) across the N classes, forms the variance-weighted consensus logit s^{(t,tau)}(x) = sum_{k in S^{(t,0)}} alpha_k^{(t,tau)}(x) s(w_k^{(t,tau)}, x) with alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in S^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) and pseudo-label y_s^{(t,tau)}(x) = argmax s^{(t,tau)}(x) (Equations 2-4), aggregates dissenting clients S_{div}^{(t,0)}(x) = {l in S^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} into a diversity logit s_{div}^{(t,tau)}(x) = sum_{k in S_{div}^{(t,0)}(x)} alpha_k(x) s(w_k^{(t,tau)}, x) (Equations 6-8), and updates w_bar by minimizing F(w_bar^{(t,0)}) = (1/|P|) sum_{x in P} [l((x, y_s^{(t,tau)}(x)), w_bar^{(t,0)}) + lambda KL(s_{div}^{(t,tau)}(x), s(w_bar^{(t,0)}, x))] (Equations 10-11); and (3) aggregates same-architecture client models M[i] (Equation 12) and transfers the updated server representation layer h_bar^{(t,tau_s)} back to all models in M.'
+identity_notes: Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which averages client logits with uniform weights without intra-logit variance confidence weighting, dissenting-client diversity KL regularization, or bi-directional representation-layer transfer to a strictly larger server model; and distinct from FedAUX (AIMech:FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning, Sattler et al. 2021), which requires clients to access auxiliary data and train separate logistic-regression out-of-distribution certainty scorers rather than weighting client teachers purely at the server via intra-logit probability variance sigma_s^2(w_k, x) and regularizing with dissenting-client KL divergence.
+aliases:
+- Fed-ET
+- Federated Ensemble Knowledge Transfer
+- Federated Ensemble Transfer with Weighted Consensus and Diversity Regularization
+definition_evidence:
+- source_id: r492-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r492-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r492-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r492-claim-1
+  kind: mechanism
+  statement: 'Fed-ET weights each client k''s soft prediction s(w_k^{(t,tau)}, x) on unlabeled server sample x in P by its normalized intra-logit variance alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in S^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) to derive consensus pseudo-label y_s^{(t,tau)}(x) (Equations 2-4), while regularizing the large server model w_bar with lambda KL(s_{div}^{(t,tau)}(x), s(w_bar, x)) computed over the dissenting client subset S_{div}^{(t,0)}(x) = {l in S^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} and exchanging a shared u-dimensional representation layer h_bar bidirectionally between w_bar and the small models in M (Equations 6-12, Algorithm 1).'
+  evidence:
+  - source_id: r492-primary-pdf
+    locator: Section 3.2, pp. 3-5, Equations 1-12, Algorithm 1
+    relation: supports
+- claim_id: r492-claim-2
+  kind: mechanism
+  statement: Theorem 1 (Section 3.3, Equation 13; Appendix A, Lemmas 1-2) bounds the target-distribution risk of any convex ensemble sum_{i=1}^K alpha_i h_{D_hat_i} with probability at least 1 - delta by L_D(sum_{i=1}^K alpha_i h_{D_hat_i}) <= sum_{i=1}^K alpha_i L_{D_hat_i}(h_{D_hat_i}) + sqrt(log delta^{-1}) sum_{i=1}^K (alpha_i / sqrt(|B_i|)) + (1/2) sum_{i=1}^K alpha_i d(D_i, D) + sum_{i=1}^K alpha_i nu_i, motivating confidence-weighted down-weighting of high-discrepancy non-expert clients and size-proportional client sampling.
+  evidence:
+  - source_id: r492-primary-pdf
+    locator: Section 3.3, p. 5, Equation 13, Theorem 1; Appendix A, p. 8, Equations 14-19
+    relation: supports
+- claim_id: r492-claim-3
+  kind: limitation
+  statement: Fed-ET requires an unlabeled public dataset P at the server and requires all heterogeneous client architectures and the server model to share a representation layer h_i in R^u of identical dimension u prior to the classification layer, and an overly large diversity weight lambda can degrade accuracy when dissenting clients are noisy.
+  evidence:
+  - source_id: r492-primary-pdf
+    locator: Sections 3.1 & 4, pp. 3 & 6, Table 4
+    relation: supports
+- claim_id: r492-claim-4
+  kind: application
+  statement: Applied to heterogeneous client pools (CNN, ResNet8, ResNet18 training a VGG19 server model on Dirichlet-partitioned CIFAR-10 and CIFAR-100; Tiny-BERT and LSTM training a Mini-BERT server model on Sent140), achieving higher accuracy and ~3x lower parameter communication cost than homogeneous and KD baselines under high data heterogeneity (alpha = 0.1).
+  evidence:
+  - source_id: r492-primary-pdf
+    locator: Section 4, pp. 5-6, Tables 2-4; Appendix B-C, pp. 8-9, Tables 5-6
+    relation: supports
+evidence_sources:
+- source_id: r492-primary-pdf
+  title: Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning
+  authors: &id001
+  - Yae Jee Cho
+  - Andre Manoel
+  - Gauri Joshi
+  - Robert Sim
+  - Dimitrios Dimitriadis
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.12703.pdf
+  persistent_id: https://arxiv.org/abs/2204.12703
+  version: Conference Proceedings (2022) (1782298 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:35:00Z'
+  sha256: 4b6da9405016651de138452c186e81f42f9ef42f70736427aedaba5c645a64f0
+- source_id: r492-arxiv-abs
+  title: Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.12703
+  persistent_id: https://arxiv.org/abs/2204.12703
+  version: arXiv abstract page (1659 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:35:00Z'
+  sha256: 567817547841c550252f457db3f259dd00f6a9b19c6dc57e62962db898f94c73
+- source_id: r492-metadata-cr
+  title: Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.12703
+  persistent_id: https://arxiv.org/abs/2204.12703
+  version: Crossref API work record (490 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:35:00Z'
+  sha256: 57b8d4d1446f5ed7a0f7cb49f6c4ffe049d59df63e159a51404a7ff318b32a92
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: Fed-ET is a model-heterogeneous ensemble knowledge transfer algorithm within the broader FederatedLearning category.
+limitations:
+- Requires an unlabeled public dataset P at the server and a matched-dimension penultimate representation layer h_i in R^u across all heterogeneous client and server architectures.
+- Sensitive to the diversity regularization hyperparameter lambda, where overly large lambda on image tasks degrades consensus distillation accuracy.
+curation:
+  created_at: '2026-10-19T09:35:00Z'
+  updated_at: '2026-10-19T09:35:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

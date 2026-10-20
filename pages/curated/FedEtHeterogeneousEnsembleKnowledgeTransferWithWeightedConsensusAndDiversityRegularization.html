@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Fed-ET (Heterogeneous Ensemble Knowledge Transfer with Confidence-Weighted Consensus and Diversity Regularization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Fed-ET, Federated Ensemble Knowledge Transfer, Federated Ensemble Transfer with Weighted Consensus and Diversity Regularization
+    </div>
+
+  <div class="detail-desc">
+    A bi-directional ensemble knowledge transfer framework for model-heterogeneous federated learning (Cho, Manoel, Joshi, Sim, &amp; Dimitriadis 2022, Section 3, Equations 1-13, Algorithm 1, Theorem 1) that trains a large server model w_bar in R^n (with representation layer h_bar in R^u) using a hashmap M = {1: w_bar_1, ..., U: w_bar_U} of smaller heterogeneous client architectures w_bar_i in R^{n_i} (n &gt;&gt; n_i, each equipped with a matched representation layer h_bar_i in R^u) and an unlabeled server-side public dataset P without requiring client access to P. Each round t executes three steps: (1) selected clients k in S^{(t,0)} train their designated small models w_k^{(t,0)} = M[M(k)] on private data B_k (Equation 1) and the server pre-conditions its representation layer via h_bar^{(t,0)} = (1/m) sum_{k in S^{(t,0)}} h_k^{(t,tau)}; (2) on each unlabeled sample x in P, the server computes each client&#39;s intra-logit probability variance sigma_s^2(w_k^{(t,tau)}, x) = Var(s(w_k^{(t,tau)}, x)) across the N classes, forms the variance-weighted consensus logit s^{(t,tau)}(x) = sum_{k in S^{(t,0)}} alpha_k^{(t,tau)}(x) s(w_k^{(t,tau)}, x) with alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in S^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) and pseudo-label y_s^{(t,tau)}(x) = argmax s^{(t,tau)}(x) (Equations 2-4), aggregates dissenting clients S_{div}^{(t,0)}(x) = {l in S^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} into a diversity logit s_{div}^{(t,tau)}(x) = sum_{k in S_{div}^{(t,0)}(x)} alpha_k(x) s(w_k^{(t,tau)}, x) (Equations 6-8), and updates w_bar by minimizing F(w_bar^{(t,0)}) = (1/|P|) sum_{x in P} [l((x, y_s^{(t,tau)}(x)), w_bar^{(t,0)}) + lambda KL(s_{div}^{(t,tau)}(x), s(w_bar^{(t,0)}, x))] (Equations 10-11); and (3) aggregates same-architecture client models M[i] (Equation 12) and transfers the updated server representation layer h_bar^{(t,tau_s)} back to all models in M.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from FedDF (AIMech:FedDfEnsembleDistillationForRobustModelFusionInFederatedLearning, Lin et al. 2020), which averages client logits with uniform weights without intra-logit variance confidence weighting, dissenting-client diversity KL regularization, or bi-directional representation-layer transfer to a strictly larger server model; and distinct from FedAUX (AIMech:FedAuxCertaintyWeightedUnsupervisedAuxiliaryEnsembleDistillationForFederatedLearning, Sattler et al. 2021), which requires clients to access auxiliary data and train separate logistic-regression out-of-distribution certainty scorers rather than weighting client teachers purely at the server via intra-logit probability variance sigma_s^2(w_k, x) and regularizing with dissenting-client KL divergence.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r492-claim-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fed-ET weights each client k&#39;s soft prediction s(w_k^{(t,tau)}, x) on unlabeled server sample x in P by its normalized intra-logit variance alpha_k^{(t,tau)}(x) = sigma_s^2(w_k^{(t,tau)}, x) / sum_{l in S^{(t,0)}} sigma_s^2(w_l^{(t,tau)}, x) to derive consensus pseudo-label y_s^{(t,tau)}(x) (Equations 2-4), while regularizing the large server model w_bar with lambda KL(s_{div}^{(t,tau)}(x), s(w_bar, x)) computed over the dissenting client subset S_{div}^{(t,0)}(x) = {l in S^{(t,0)} : y_s^{(t,tau)}(x) != argmax s(w_l^{(t,tau)}, x)} and exchanging a shared u-dimensional representation layer h_bar bidirectionally between w_bar and the small models in M (Equations 6-12, Algorithm 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r492-primary-pdf">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, pp. 3-5, Equations 1-12, Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r492-claim-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 (Section 3.3, Equation 13; Appendix A, Lemmas 1-2) bounds the target-distribution risk of any convex ensemble sum_{i=1}^K alpha_i h_{D_hat_i} with probability at least 1 - delta by L_D(sum_{i=1}^K alpha_i h_{D_hat_i}) &lt;= sum_{i=1}^K alpha_i L_{D_hat_i}(h_{D_hat_i}) + sqrt(log delta^{-1}) sum_{i=1}^K (alpha_i / sqrt(|B_i|)) + (1/2) sum_{i=1}^K alpha_i d(D_i, D) + sum_{i=1}^K alpha_i nu_i, motivating confidence-weighted down-weighting of high-discrepancy non-expert clients and size-proportional client sampling.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r492-primary-pdf">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, p. 5, Equation 13, Theorem 1; Appendix A, p. 8, Equations 14-19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r492-claim-3</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fed-ET requires an unlabeled public dataset P at the server and requires all heterogeneous client architectures and the server model to share a representation layer h_i in R^u of identical dimension u prior to the classification layer, and an overly large diversity weight lambda can degrade accuracy when dissenting clients are noisy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r492-primary-pdf">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1 &amp; 4, pp. 3 &amp; 6, Table 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r492-claim-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to heterogeneous client pools (CNN, ResNet8, ResNet18 training a VGG19 server model on Dirichlet-partitioned CIFAR-10 and CIFAR-100; Tiny-BERT and LSTM training a Mini-BERT server model on Sent140), achieving higher accuracy and ~3x lower parameter communication cost than homogeneous and KD baselines under high data heterogeneity (alpha = 0.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r492-primary-pdf">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, pp. 5-6, Tables 2-4; Appendix B-C, pp. 8-9, Tables 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an unlabeled public dataset P at the server and a matched-dimension penultimate representation layer h_i in R^u across all heterogeneous client and server architectures.</li>
+      <li>Sensitive to the diversity regularization hyperparameter lambda, where overly large lambda on image tasks degrades consensus distillation accuracy.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Fed-ET is a model-heterogeneous ensemble knowledge transfer algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r492-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r492-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2204.12703.pdf" target="_blank" rel="noopener">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yae Jee Cho, Andre Manoel, Gauri Joshi, Robert Sim, Dimitrios Dimitriadis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.12703</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4b6da9405016…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r492-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r492-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2204.12703" target="_blank" rel="noopener">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yae Jee Cho, Andre Manoel, Gauri Joshi, Robert Sim, Dimitrios Dimitriadis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.12703</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:567817547841…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r492-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r492-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2204.12703" target="_blank" rel="noopener">Heterogeneous Ensemble Knowledge Transfer for Training Large Models in Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yae Jee Cho, Andre Manoel, Gauri Joshi, Robert Sim, Dimitrios Dimitriadis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2204.12703</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:57b8d4d1446f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:35:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:35:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedEtHeterogeneousEnsembleKnowledgeTransferWithWeightedConsensusAndDiversityRegularization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
