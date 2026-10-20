@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoRA-GA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>LoRA-GA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">LoRA-GA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LoRAGA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Low-Rank Adaptation with Gradient Approximation, Low-Rank Gradient Approximation LoRA Initialization, Gradient-Aligned SVD LoRA Initialization
+    </div>
+
+  <div class="detail-desc">
+    A low-rank adaptation initialization algorithm that aligns the initial update direction of a low-rank adapter product eta B A with the first-step full fine-tuning weight update by initializing A_init and B_init from disjoint top-2r singular vectors of the sampled loss gradient nabla_W L under forward-and-backward scale-stable normalization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (which uses Kaiming uniform initialization for A and zeros for B, restricting the initial update to rank r) and from AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (PiSSA, which decomposes the pre-trained weight matrix W_0 via SVD rather than the task loss gradient nabla_W L). LoRA-GA (Shaowen Wang, Linxi Yu, &amp; Jian Li, NeurIPS 2024, arXiv:2407.05000) minimizes ||eta^2 (nabla_W L A_init^T A_init + B_init B_init^T nabla_W L) - zeta nabla_W L||_F (Equation 3). Given SVD nabla_W L = U S V^T, Theorem 3.1 proves that choosing disjoint index sets I_A = {1, ..., r} and I_B = {r+1, ..., 2r} with A_init = (sqrt(zeta)/eta) V_{[1:r]}^T and B_init = (sqrt(zeta)/eta) U_{[r+1:2r]} produces the exact rank-2r Eckart-Young-Mirsky optimal Frobenius approximation zeta sum_{i=1}^{2r} sigma_i u_i v_i^T. Combined with Theorem 3.2&#39;s scale-stability analysis (eta = alpha / sqrt(r) and zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2), LoRA-GA sets A_init = (d_out^{1/4} / gamma) V_{[1:r]}^T, B_init = (d_out^{1/4} / gamma) U_{[r+1:2r]}, and adjusts the frozen base weight to W_init = W_0 - eta B_init A_init via layer-by-layer backward hooks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#loraga-disjoint-2r-gradient-svd-eckart-young-optimality</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the first-step update of eta B A is proportional to eta^2 (nabla_W L A_init^T A_init + B_init B_init^T nabla_W L) (Lemma 3.1), initializing A_init and B_init with disjoint singular vector sets I_A = {1..r} and I_B = {r+1..2r} of nabla_W L = U S V^T yields zeta sum_{i=1}^{2r} sigma_i u_i v_i^T, achieving the exact Eckart-Young optimal rank-2r Frobenius approximation to the scaled full-fine-tuning gradient zeta nabla_W L (Theorem 3.1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r671-primary-pdf">LoRA-GA: Low-Rank Adaptation with Gradient Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Gradient Approximation, Lemma 3.1 &amp; Theorem 3.1) &amp; Appendix A.1, pp. 4-5, 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#loraga-non-zero-initialization-scale-stability-and-o1-layerwise-memory</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under η = alpha / sqrt(r), setting zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2 so that A_init = (d_out^{1/4}/gamma) V_{[1:r]}^T and B_init = (d_out^{1/4}/gamma) U_{[r+1:2r]} guarantees forward second-moment stability Theta_{r, d_out, d_in}(1) (Theorem 3.2), while subtracting eta B_init A_init from W_0 and discarding each layer&#39;s gradient immediately during the backward hook keeps initialization memory at O(1) layer overhead.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r671-primary-pdf">LoRA-GA: Low-Rank Adaptation with Gradient Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3-3.4 (Definition 3.1, Theorem 3.2, Algorithm 1), Section 4.4 (Table 5) &amp; Appendix A.2, pp. 5-6, 9, 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#loraga-application-glue-t5-and-llama2-math-code-chat</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Without altering the LoRA forward architecture or training loop, LoRA-GA accelerates convergence by 2x-4x over vanilla LoRA, improving T5-Base GLUE average accuracy by +5.69 points (87.77% vs. 82.08%) and boosting LLaMA-2-7B by +11.52% on GSM8K (53.60% vs. 42.08%), +5.05% on HumanEval (19.81% vs. 14.76%), and +0.34 on MT-Bench.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r671-primary-pdf">LoRA-GA: Low-Rank Adaptation with Gradient Approximation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3 (Tables 1-4, Figure 2), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#loraga-limitation-double-adapter-checkpoint-storage-and-aspect-ratio-asymmetry</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because W_frozen = W_0 - eta B_init A_init depends on the non-zero initial adapters, LoRA-GA requires double the adapter checkpoint storage (saving both (A_init, B_init) and the trained (A, B) to reconstruct W&#39; from an unmodified shared base model W_0), and no single scalar zeta can simultaneously make both forward and backward scales exact Theta(1) when d_out / d_in diverges.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r671-primary-pdf">LoRA-GA: Low-Rank Adaptation with Gradient Approximation</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.2 (Equations 5-6, p. 14) &amp; Appendix F (Limitations, p. 18)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing both the initial adapter pair (A_init, B_init) and the final adapter pair (A, B)—doubling adapter checkpoint storage—whenever the base weights W_0 are kept unmodified across tasks.</li>
+      <li>Cannot simultaneously guarantee exact Theta_{r, d_out, d_in}(1) forward and backward variance with a single scalar zeta when the layer aspect ratio d_out / d_in is not Theta(1).</li>
+      <li>Incurs a one-time initialization pass (forward-backward over a sampled calibration batch plus per-layer SVD) prior to fine-tuning.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoRA-GA initializes low-rank adapter layers inside pre-trained artificial neural networks by decomposing sampled loss gradients via SVD.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LoRA-GA extracts the top-2r left and right singular vectors of the initial weight gradient matrix via singular value decomposition.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r671-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r671-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2407.05000.pdf" target="_blank" rel="noopener">LoRA-GA: Low-Rank Adaptation with Gradient Approximation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shaowen Wang, Linxi Yu, Jian Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:eebc441dda1c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r671-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r671-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2407.05000" target="_blank" rel="noopener">LoRA-GA: Low-Rank Adaptation with Gradient Approximation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shaowen Wang, Linxi Yu, Jian Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2407.05000</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ffbdc05eed25…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r671-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r671-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&amp;format=xml" target="_blank" rel="noopener">LoRA-GA: Low-Rank Adaptation with Gradient Approximation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shaowen Wang, Linxi Yu, Jian Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:df8a272b12be…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LoRAGA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LoRAGA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

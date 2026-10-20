@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1507</strong> artificial intelligence concepts, comprising <strong>1065</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1508</strong> artificial intelligence concepts, comprising <strong>1066</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1507)</option>
-        <option value="curated">Curated AIMech (1065)</option>
+        <option value="all">All Origins (1508)</option>
+        <option value="curated">Curated AIMech (1066)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (761)</option>
+          <option value="algorithm">Algorithms (762)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1507</span> of <span id="totalCount">1507</span>
+      Showing <span id="matchCount">1508</span> of <span id="totalCount">1508</span>
     </div>
   </div>
 </div>
@@ -20836,6 +20836,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="lora-ga loraga aimech:loraga algorithms algorithm a low-rank adaptation initialization algorithm that aligns the initial update direction of a low-rank adapter product eta b a with the first-step full fine-tuning weight update by initializing a_init and b_init from disjoint top-2r singular vectors of the sampled loss gradient nabla_w l under forward-and-backward scale-stable normalization. distinct from aimech:lowrankadaptation (which uses kaiming uniform initialization for a and zeros for b, restricting the initial update to rank r) and from aimech:pissaprincipalsingularvaluesandsingularvectorsadaptation (pissa, which decomposes the pre-trained weight matrix w_0 via svd rather than the task loss gradient nabla_w l). lora-ga (shaowen wang, linxi yu, &amp; jian li, neurips 2024, arxiv:2407.05000) minimizes ||eta^2 (nabla_w l a_init^t a_init + b_init b_init^t nabla_w l) - zeta nabla_w l||_f (equation 3). given svd nabla_w l = u s v^t, theorem 3.1 proves that choosing disjoint index sets i_a = {1, ..., r} and i_b = {r+1, ..., 2r} with a_init = (sqrt(zeta)/eta) v_{[1:r]}^t and b_init = (sqrt(zeta)/eta) u_{[r+1:2r]} produces the exact rank-2r eckart-young-mirsky optimal frobenius approximation zeta sum_{i=1}^{2r} sigma_i u_i v_i^t. combined with theorem 3.2&#39;s scale-stability analysis (eta = alpha / sqrt(r) and zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2), lora-ga sets a_init = (d_out^{1/4} / gamma) v_{[1:r]}^t, b_init = (d_out^{1/4} / gamma) u_{[r+1:2r]}, and adjusts the frozen base weight to w_init = w_0 - eta b_init a_init via layer-by-layer backward hooks. low-rank adaptation with gradient approximation low-rank gradient approximation lora initialization gradient-aligned svd lora initialization because the first-step update of eta b a is proportional to eta^2 (nabla_w l a_init^t a_init + b_init b_init^t nabla_w l) (lemma 3.1), initializing a_init and b_init with disjoint singular vector sets i_a = {1..r} and i_b = {r+1..2r} of nabla_w l = u s v^t yields zeta sum_{i=1}^{2r} sigma_i u_i v_i^t, achieving the exact eckart-young optimal rank-2r frobenius approximation to the scaled full-fine-tuning gradient zeta nabla_w l (theorem 3.1). under η = alpha / sqrt(r), setting zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2 so that a_init = (d_out^{1/4}/gamma) v_{[1:r]}^t and b_init = (d_out^{1/4}/gamma) u_{[r+1:2r]} guarantees forward second-moment stability theta_{r, d_out, d_in}(1) (theorem 3.2), while subtracting eta b_init a_init from w_0 and discarding each layer&#39;s gradient immediately during the backward hook keeps initialization memory at o(1) layer overhead. without altering the lora forward architecture or training loop, lora-ga accelerates convergence by 2x-4x over vanilla lora, improving t5-base glue average accuracy by +5.69 points (87.77% vs. 82.08%) and boosting llama-2-7b by +11.52% on gsm8k (53.60% vs. 42.08%), +5.05% on humaneval (19.81% vs. 14.76%), and +0.34 on mt-bench. because w_frozen = w_0 - eta b_init a_init depends on the non-zero initial adapters, lora-ga requires double the adapter checkpoint storage (saving both (a_init, b_init) and the trained (a, b) to reconstruct w&#39; from an unmodified shared base model w_0), and no single scalar zeta can simultaneously make both forward and backward scales exact theta(1) when d_out / d_in diverges. lora-ga: low-rank adaptation with gradient approximation lora-ga: low-rank adaptation with gradient approximation (arxiv abstract) lora-ga: low-rank adaptation with gradient approximation (crossref metadata) shaowen wang linxi yu jian li shaowen wang linxi yu jian li shaowen wang linxi yu jian li">
+        <td>
+          <a href="curated/LoRAGA.html" style="font-weight: 600; font-size: 1rem;">LoRA-GA</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Low-Rank Adaptation with Gradient Approximation, Low-Rank Gradient Approximation LoRA Initialization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A low-rank adaptation initialization algorithm that aligns the initial update direction of a low-rank adapter product eta B A with the first…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:LoRAGA</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

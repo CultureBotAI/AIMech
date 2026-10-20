@@ -1,0 +1,104 @@
+id: AIMech:LoRAGA
+name: LoRA-GA
+concept_kind: algorithm
+review_status: DRAFT
+definition: A low-rank adaptation initialization algorithm that aligns the initial update direction of a low-rank adapter product eta B A with the first-step full fine-tuning weight update by initializing A_init and B_init from disjoint top-2r singular vectors of the sampled loss gradient nabla_W L under forward-and-backward scale-stable normalization.
+identity_notes: Distinct from AIMech:LowRankAdaptation (which uses Kaiming uniform initialization for A and zeros for B, restricting the initial update to rank r) and from AIMech:PissaPrincipalSingularValuesAndSingularVectorsAdaptation (PiSSA, which decomposes the pre-trained weight matrix W_0 via SVD rather than the task loss gradient nabla_W L). LoRA-GA (Shaowen Wang, Linxi Yu, & Jian Li, NeurIPS 2024, arXiv:2407.05000) minimizes ||eta^2 (nabla_W L A_init^T A_init + B_init B_init^T nabla_W L) - zeta nabla_W L||_F (Equation 3). Given SVD nabla_W L = U S V^T, Theorem 3.1 proves that choosing disjoint index sets I_A = {1, ..., r} and I_B = {r+1, ..., 2r} with A_init = (sqrt(zeta)/eta) V_{[1:r]}^T and B_init = (sqrt(zeta)/eta) U_{[r+1:2r]} produces the exact rank-2r Eckart-Young-Mirsky optimal Frobenius approximation zeta sum_{i=1}^{2r} sigma_i u_i v_i^T. Combined with Theorem 3.2's scale-stability analysis (eta = alpha / sqrt(r) and zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2), LoRA-GA sets A_init = (d_out^{1/4} / gamma) V_{[1:r]}^T, B_init = (d_out^{1/4} / gamma) U_{[r+1:2r]}, and adjusts the frozen base weight to W_init = W_0 - eta B_init A_init via layer-by-layer backward hooks.
+aliases:
+- Low-Rank Adaptation with Gradient Approximation
+- Low-Rank Gradient Approximation LoRA Initialization
+- Gradient-Aligned SVD LoRA Initialization
+definition_evidence:
+- source_id: r671-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r671-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r671-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: loraga-disjoint-2r-gradient-svd-eckart-young-optimality
+  kind: mechanism
+  statement: Because the first-step update of eta B A is proportional to eta^2 (nabla_W L A_init^T A_init + B_init B_init^T nabla_W L) (Lemma 3.1), initializing A_init and B_init with disjoint singular vector sets I_A = {1..r} and I_B = {r+1..2r} of nabla_W L = U S V^T yields zeta sum_{i=1}^{2r} sigma_i u_i v_i^T, achieving the exact Eckart-Young optimal rank-2r Frobenius approximation to the scaled full-fine-tuning gradient zeta nabla_W L (Theorem 3.1).
+  evidence:
+  - source_id: r671-primary-pdf
+    locator: Section 3.2 (Gradient Approximation, Lemma 3.1 & Theorem 3.1) & Appendix A.1, pp. 4-5, 12
+    relation: supports
+- claim_id: loraga-non-zero-initialization-scale-stability-and-o1-layerwise-memory
+  kind: mechanism
+  statement: "Under \u03B7 = alpha / sqrt(r), setting zeta = (alpha^2 / gamma^2) sqrt(d_out) / r^2 so that A_init = (d_out^{1/4}/gamma) V_{[1:r]}^T and B_init = (d_out^{1/4}/gamma) U_{[r+1:2r]} guarantees forward second-moment stability Theta_{r, d_out, d_in}(1) (Theorem 3.2), while subtracting eta B_init A_init from W_0 and discarding each layer's gradient immediately during the backward hook keeps initialization memory at O(1) layer overhead."
+  evidence:
+  - source_id: r671-primary-pdf
+    locator: Section 3.3-3.4 (Definition 3.1, Theorem 3.2, Algorithm 1), Section 4.4 (Table 5) & Appendix A.2, pp. 5-6, 9, 12-14
+    relation: supports
+- claim_id: loraga-application-glue-t5-and-llama2-math-code-chat
+  kind: application
+  statement: Without altering the LoRA forward architecture or training loop, LoRA-GA accelerates convergence by 2x-4x over vanilla LoRA, improving T5-Base GLUE average accuracy by +5.69 points (87.77% vs. 82.08%) and boosting LLaMA-2-7B by +11.52% on GSM8K (53.60% vs. 42.08%), +5.05% on HumanEval (19.81% vs. 14.76%), and +0.34 on MT-Bench.
+  evidence:
+  - source_id: r671-primary-pdf
+    locator: Section 4.1-4.3 (Tables 1-4, Figure 2), pp. 6-9
+    relation: supports
+- claim_id: loraga-limitation-double-adapter-checkpoint-storage-and-aspect-ratio-asymmetry
+  kind: limitation
+  statement: Because W_frozen = W_0 - eta B_init A_init depends on the non-zero initial adapters, LoRA-GA requires double the adapter checkpoint storage (saving both (A_init, B_init) and the trained (A, B) to reconstruct W' from an unmodified shared base model W_0), and no single scalar zeta can simultaneously make both forward and backward scales exact Theta(1) when d_out / d_in diverges.
+  evidence:
+  - source_id: r671-primary-pdf
+    locator: Appendix A.2 (Equations 5-6, p. 14) & Appendix F (Limitations, p. 18)
+    relation: supports
+evidence_sources:
+- source_id: r671-primary-pdf
+  title: 'LoRA-GA: Low-Rank Adaptation with Gradient Approximation'
+  authors: &id001
+  - Shaowen Wang
+  - Linxi Yu
+  - Jian Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2407.05000.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&format=xml
+  version: Advances in Neural Information Processing Systems 37 (NeurIPS 2024) (2024) (1829894 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:34:00Z'
+  sha256: eebc441dda1c7ec61e2995b67f1dce007982966670d9cab29db211b55617288f
+- source_id: r671-arxiv-abs
+  title: 'LoRA-GA: Low-Rank Adaptation with Gradient Approximation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2407.05000
+  persistent_id: https://arxiv.org/abs/2407.05000
+  version: arXiv abstract page (7047 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:34:00Z'
+  sha256: ffbdc05eed25c8030bc45e8b83ec9366e0f2c241d9ac1e2abb980f1109d46b43
+- source_id: r671-metadata-cr
+  title: 'LoRA-GA: Low-Rank Adaptation with Gradient Approximation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=LoRA-GA+Low-Rank+Adaptation+Gradient+Approximation&format=xml
+  version: Crossref API work record (872 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:34:00Z'
+  sha256: df8a272b12be752c32d72ef1560d939e3eae7153015e88cb3ed540a462acff13
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LoRA-GA initializes low-rank adapter layers inside pre-trained artificial neural networks by decomposing sampled loss gradients via SVD.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: LoRA-GA extracts the top-2r left and right singular vectors of the initial weight gradient matrix via singular value decomposition.
+limitations:
+- "Requires storing both the initial adapter pair (A_init, B_init) and the final adapter pair (A, B)\u2014doubling adapter checkpoint storage\u2014whenever the base weights W_0 are kept unmodified across tasks."
+- Cannot simultaneously guarantee exact Theta_{r, d_out, d_in}(1) forward and backward variance with a single scalar zeta when the layer aspect ratio d_out / d_in is not Theta(1).
+- Incurs a one-time initialization pass (forward-backward over a sampled calibration batch plus per-layer SVD) prior to fine-tuning.
+curation:
+  created_at: '2026-10-19T12:34:00Z'
+  updated_at: '2026-10-19T12:34:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
