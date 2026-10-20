@@ -1,0 +1,100 @@
+id: AIMech:FedMaxMaximumEntropyActivationDivergenceMitigationInFederatedLearning
+name: FedMAX (Maximum-Entropy Activation Divergence Mitigation in Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A non-IID federated learning regularization algorithm (Chen, Bhardwaj, & Marculescu 2020, Section 3, Equations 1-4) that mitigates cross-client classifier weight divergence caused by penultimate-layer activation divergence delta = (1/M) sum_{k=1}^M KL(a_bar || a_k) by augmenting each client k''s local empirical loss F_k(w_k) with a maximum-entropy prior on the softmax-normalized penultimate activation vectors sigma(a_i^k) in R^D across local training samples i = 1, ..., N: g_k(w_k) = F_k(w_k) - (beta / N) sum_{i=1}^N H(sigma(a_i^k)) (Equation 3), which is equivalent up to an additive constant C = beta log D to penalizing the Kullback-Leibler divergence between sigma(a_i^k) and the D-dimensional uniform distribution U: g_k(w_k) = F_k(w_k) + (beta / N) sum_{i=1}^N KL(sigma(a_i^k) || U) - C (Equation 4).'
+identity_notes: Distinct from FedProx (AIMech:FedProxProximalHeterogeneousFederatedOptimization, Li et al. 2020), which penalizes Euclidean distance ||w_k - w^t||^2 in weight space rather than regularizing penultimate-layer feature activations; and distinct from FedDecorr (AIMech:FedDecorrFeatureDecorrelationForDimensionalCollapseMitigationInFederatedLearning, Shi et al. 2023), which penalizes the Frobenius norm of off-diagonal entries of the batch feature correlation matrix rather than the Shannon entropy / KL divergence to uniformity of individual softmax-normalized activation vectors sigma(a_i^k).
+aliases:
+- FedMAX
+- Maximum Entropy Activation Regularized Federated Learning
+- Activation Divergence Mitigation via Maximum Entropy in Federated Learning
+definition_evidence:
+- source_id: r477-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r477-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r477-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r477-maximum-entropy-and-uniform-kl-activation-prior-equivalence-mechanism
+  kind: mechanism
+  statement: FedMAX applies the Principle of Maximum Entropy to the softmax-normalized penultimate activation vector sigma(a_i^k) of each local sample i on device k, yielding the local objective g_k(w_k) = F_k(w_k) - (beta / N) sum_{i=1}^N H(sigma(a_i^k)) (Equation 3) = F_k(w_k) + (beta / N) sum_{i=1}^N KL(sigma(a_i^k) || U) - C (Equation 4), which aligns activation distributions across non-IID clients toward a common uniform reference U without collapsing activation norms ||a_i^k||_2 to zero as naive L2 activation regularization (Equation 2) does (Chen et al. 2020, Section 3.2, pp. 4-6).
+  evidence:
+  - source_id: r477-primary-pdf
+    locator: Section 3.2 (Equations 2-4), pp. 4-6
+    relation: supports
+- claim_id: r477-penultimate-activation-divergence-reduction-and-communication-efficiency-scope
+  kind: scope
+  statement: By reducing cross-device penultimate activation divergence delta = (1/M) sum_{k=1}^M KL(a_bar || a_k) during local training epochs without any additional communication payload beyond standard FedAvg, FedMAX stabilizes last-layer classifier weight updates across non-IID clients and reduces communication rounds required to reach target test accuracy by up to 3.3x-5x (Chen et al. 2020, Section 4.1-4.2, Figure 2c, Tables 2-4).
+  evidence:
+  - source_id: r477-primary-pdf
+    locator: Section 4.1-4.2 (Figure 2, Tables 2-4), pp. 7-12
+    relation: supports
+- claim_id: r477-iot-vision-and-medical-imaging-federated-classification-application
+  kind: application
+  statement: Applied to non-IID federated classification across FEMNIST, CIFAR-10, CIFAR-100, Shakespeare character prediction, and APTOS diabetic retinopathy medical imaging with CNN and VGG-11 architectures (Chen et al. 2020, Section 4, Tables 1-4, Figures 2-4).
+  evidence:
+  - source_id: r477-primary-pdf
+    locator: Section 4.1-4.2 (Tables 1-4, Figures 2-4), pp. 7-13
+    relation: supports
+- claim_id: r477-hyperparameter-beta-and-over-smoothing-limitation
+  kind: limitation
+  statement: Requires tuning the entropy regularization coefficient beta (e.g., beta in {1, 10, 150} across architectures and datasets); excessively large beta over-constrains penultimate activations toward uniformity and can degrade discriminative feature separability (Chen et al. 2020, Section 4.1, p. 8).
+  evidence:
+  - source_id: r477-primary-pdf
+    locator: Section 4.1 (Experimental Setup), p. 8
+    relation: supports
+evidence_sources:
+- source_id: r477-primary-pdf
+  title: 'FedMAX: Mitigating Activation Divergence for Accurate and Communication-Efficient Federated Learning'
+  authors: &id001
+  - Wei Chen
+  - Kartikeya Bhardwaj
+  - Radu Marculescu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.03657.pdf
+  persistent_id: https://arxiv.org/abs/2004.03657
+  version: ECML PKDD 2020 (2020) (1373 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:20:00Z'
+  sha256: 382c146681288debc3b666725307c0f88385aad05abfd3ec20b5bb66a04d1697
+- source_id: r477-arxiv-abs
+  title: 'FedMAX: Mitigating Activation Divergence for Accurate and Communication-Efficient Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.03657
+  persistent_id: https://arxiv.org/abs/2004.03657
+  version: arXiv abstract page (605 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:20:00Z'
+  sha256: 56ce71057fee10aad482d7382e9a9fd07393efed1a8bba6071d8b08455f16140
+- source_id: r477-metadata-cr
+  title: 'FedMAX: Mitigating Activation Divergence for Accurate and Communication-Efficient Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.03657
+  persistent_id: https://arxiv.org/abs/2004.03657
+  version: Crossref API work record (319 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:20:00Z'
+  sha256: 91346f40271aa324fe6e348fc87d58e91199ae175bce4f350095e470db63bc41
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedMAX is a non-IID federated optimization algorithm within the broader FederatedLearning category.
+limitations:
+- Requires choosing the maximum-entropy activation multiplier beta via dataset- and architecture-dependent hyperparameter tuning.
+- Regularizes only the penultimate activation layer, leaving earlier intermediate representations unaligned when client architectures are deep.
+curation:
+  created_at: '2026-10-19T09:20:00Z'
+  updated_at: '2026-10-19T09:20:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
