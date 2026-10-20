@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ByRDiE Byzantine-Resilient Distributed Coordinate Descent for Decentralized Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ByRDiE Byzantine-Resilient Distributed Coordinate Descent for Decentralized Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ByRDiE Byzantine-Resilient Distributed Coordinate Descent for Decentralized Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ByrdieByzantineResilientDistributedCoordinateDescentForDecentralizedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ByRDiE, Byzantine-Resilient Distributed Coordinate Descent, ByRDiE Decentralized Coordinate Descent
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-resilient decentralized optimization algorithm (ByRDiE) that decomposes a P-dimensional empirical risk minimization problem across a directed network G(J, E) with up to b Byzantine nodes into an outer coordinate-descent loop over coordinates k in {1, ..., P} and an inner T-step scalar screening loop in which each nonfaulty node j in J&#39; discards the b smallest (N_j^s) and b largest (N_j^l) received neighbor scalars [w_i^r(t)]_k before averaging the remaining |N_j| - 2b + 1 values (including self) and stepping along its local coordinate gradient -[grad f_hat(w_j^r(t), S_j)]_k.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Zhixiong Yang and Waheed U. Bajwa (IEEE Transactions on Signal and Information Processing over Networks, Vol. 5, No. 4, pp. 611-627, 2019; arXiv:1708.08155). Distinct from BRIDGE (Fang, Yang, &amp; Bajwa, IEEE TSIPN 2022, Round 546), which performs simultaneous full-vector gradient descent with coordinate-wise trimmed mean in a single loop rather than sequential coordinate-by-coordinate T-step inner updates; and distinct from ClippedGossip (He, Karimireddy, &amp; Jaggi, 2022, Round 545), which clips neighbor model differences in L2 norm around a node&#39;s own iterate.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#byrdie-coordinate-wise-trimmed-screening-and-stochastic-transition-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each coordinate k in {1, ..., P} and inner step t in {1, ..., T}, each nonfaulty node j in J&#39; partitions its incoming neighborhood N_j into the b smallest values N_j^s(r, k, t), the b largest values N_j^l(r, k, t), and the screened set N_j^*(r, k, t) = N_j \ N_j^s \ N_j^l, updating [w_j^r(t+1)]_k = (1 / (|N_j| - 2b + 1)) sum_{i in N_j^* U {j}} [w_i^r(t)]_k - rho(r + t - 1) [grad f_hat(w_j^r(t), S_j)]_k so that any retained Byzantine value is expressible as a convex combination of two trimmed nonfaulty neighbor values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r551-primary-pdf">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning</a></span>
+        <span>· <strong>Locator:</strong> Section III-A Equations (5)-(8) &amp; Section III-B Equations (9)-(13), pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#byrdie-consensus-and-statistical-risk-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When every reduced graph G_r obtained by removing all b Byzantine nodes and up to b additional incoming edges per nonfaulty node contains a source component of size at least b + 1, ByRDiE achieves consensus at rate O(sqrt(P) * rho(r)) and converges in probability to the statistical risk minimizer w* with effective sample size N_eff = N / a_bar^2 in [N, |J&#39;|*N] for both T -&gt; infinity and T = 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r551-primary-pdf">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning</a></span>
+        <span>· <strong>Locator:</strong> Section III-B..D Theorems 1-6, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#byrdie-sequential-coordinate-communication-latency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because ByRDiE updates and screens one coordinate k in {1, ..., P} at a time, each outer pass requires T * P sequential scalar communication rounds tc = (r - 1)*T*P + (k - 1)*T + t, and certifying the reduced-graph source-component condition (Assumption 3) is combinatorially hard on general directed graphs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r551-primary-pdf">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning</a></span>
+        <span>· <strong>Locator:</strong> Section II-A Remark 3 &amp; Section III-E Equation (35), pp. 4, 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#byrdie-decentralized-svm-and-neural-network-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to Byzantine-resilient decentralized linear SVM classification on the infinite MNIST dataset and decentralized multi-layer neural network classification on the Iris dataset under 10%-20% Byzantine node failures.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r551-primary-pdf">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning</a></span>
+        <span>· <strong>Locator:</strong> Section IV Numerical Results, Figures 1-3 &amp; Table I, pp. 9-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires at least 2b + 1 incoming neighbors per nonfaulty node so that |N_j| - 2b + 1 &gt;= 1 after trimming b smallest and b largest values.</li>
+      <li>Incurs P * T sequential scalar communication rounds per full coordinate cycle.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning covers collaborative distributed training, whereas ByRDiE is a serverless Byzantine-resilient coordinate-descent algorithm with two-sided scalar neighborhood screening.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r551-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r551-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1708.08155.pdf" target="_blank" rel="noopener">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhixiong Yang, Waheed U. Bajwa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tsipn/YangB19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ccf7bf274194…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r551-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r551-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1708.08155" target="_blank" rel="noopener">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhixiong Yang, Waheed U. Bajwa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1708.08155</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7676f11341d5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r551-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r551-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/tsipn/YangB19" target="_blank" rel="noopener">ByRDiE: Byzantine-resilient Distributed Coordinate Descent for Decentralized Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhixiong Yang, Waheed U. Bajwa
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tsipn/YangB19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:27210c861ca8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:34:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:34:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ByrdieByzantineResilientDistributedCoordinateDescentForDecentralizedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ByrdieByzantineResilientDistributedCoordinateDescentForDecentralizedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
