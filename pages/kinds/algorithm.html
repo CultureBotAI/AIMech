@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">588 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">589 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">588</span> of <span id="totalCount">588</span>
+      Showing <span id="matchCount">589</span> of <span id="totalCount">589</span>
     </div>
   </div>
 </div>
@@ -14308,6 +14308,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="term (tilted empirical risk minimization and hierarchical multi-objective tilting) termtiltedempiricalriskminimizationandhierarchicalmultiobjectivetilting aimech:termtiltedempiricalriskminimizationandhierarchicalmultiobjectivetilting algorithms algorithm a parametric family of exponentially tilted risk minimization objectives and batch/stochastic first-order solvers (li, beirami, sanjabi, &amp; smith 2021, sections 1-4, equations 2-4, lemmas 1-7, theorems 1-10, algorithms 1-4) that generalizes standard empirical risk minimization (erm) via a real-valued tilt hyperparameter t in r \ {0}: r_tilde(t; theta) := (1 / t) log((1 / n) sum_{i in [n]} exp(t f(x_i; theta))) (equation 2), with continuous extension r_tilde(0; theta) = r_bar(theta) = (1 / n) sum_{i in [n]} f(x_i; theta), r_tilde(-inf; theta) = min_{i in [n]} f(x_i; theta), and r_tilde(+inf; theta) = max_{i in [n]} f(x_i; theta) (lemma 2). its tilted gradient dynamically reweights individual sample gradients exponentially by their relative loss: grad_theta r_tilde(t; theta) = sum_{i in [n]} w_i(t; theta) grad_theta f(x_i; theta) with w_i(t; theta) = exp(t f(x_i; theta)) / sum_{j in [n]} exp(t f(x_j; theta)) = (1 / n) exp(t (f(x_i; theta) - r_tilde(t; theta))) (lemma 1, equation 3), magnifying high-loss samples to reduce loss variance and promote fairness when t &gt; 0 or suppressing high-loss outliers when t &lt; 0. for compound problems involving both group fairness/imbalance and sample-level noise across groups g in [g], hierarchical multi-objective term optimizes j_tilde(t, tau; theta) := (1 / t) log((1 / n) sum_{g in [g]} |g| exp(t r_tilde_g(tau; theta))) where r_tilde_g(tau; theta) := (1 / tau) log((1 / |g|) sum_{x in g} exp(tau f(x; theta))) (equation 4). distinct from q-ffl (aimech:qfairfederatedlearningalphafairresourceallocation, li et al. 2020), which raises positive losses to a polynomial power (1/(q+1)) f_k^{q+1}(w) for q &gt;= 0 only and cannot take negative exponents to suppress outliers or nest hierarchical group/sample tilts; and distinct from agnostic federated learning (aimech:agnosticfederatedlearningminimaxdistributionallyrobustoptimization, mohri et al. 2019), which solves a hard minimax saddle-point problem min_w max_{lambda in lambda} l_lambda(w) rather than a smooth, tunable cumulant-generating log-sum-exp objective spanning min-loss (t -&gt; -inf), average-loss (t -&gt; 0), and max-loss (t -&gt; +inf). term tilted empirical risk minimization hierarchical multi-objective tilted empirical risk minimization t-tilted empirical risk minimization under generalized linear model and strict-saddle assumptions (assumptions 1-4), as the tilt parameter t in r increases, the t-tilted solution theta_breve(t) in argmin_theta r_tilde(t; theta) monotonically reduces empirical loss variance (d/dt var(f(theta_breve(t))) &lt; 0, theorem 4), monotonically increases the cosine similarity between the loss vector f(theta_breve(t)) and the all-ones vector 1_n (d/dt s(f(theta_breve(t)), 1_n) &gt; 0, theorem 5), and increases the shannon entropy h(w(tau; theta_breve(t))) of the tilted gradient weights (theorem 6), while trading off average loss against max-loss for t &gt; 0 (theorem 2) and against min-loss for t &lt; 0 (theorem 3). hierarchical multi-objective term j_tilde(t, tau; theta) (equation 4) recovers sample-level term r_tilde(t; theta) when tau = t (lemma 7), has closed-form factored gradient weights w_{g,x}(t, tau; theta) = w_g(t, tau; theta) w_{g,x}(tau; theta) (lemma 6, equations 44-52), and is solved in the stochastic setting (algorithm 2) by maintaining a tilted moving-average estimator r_tilde_{g,tau} &lt;- (1/tau) log((1 - lambda) exp(tau r_tilde_{g,tau}) + lambda exp(tau r_tilde_{b,tau})) and sampling groups from a gumbel-softmax distribution with logits r_tilde_{g,tau} + (1/t) log |g| and temperature 1/t. for t &lt; 0, r_tilde(t; theta) can become non-convex with spurious local minima even when individual losses f(x_i; theta) are strongly convex (requiring continuation from t = 0) and can overfit to structured or adversarial outliers (section 5.1 &amp; appendix h.1, figure 14); for t -&gt; +inf, the local smoothness constant beta(t) scales linearly as o(t) (lemma 4, equation 31), slowing gradient-descent convergence rate (1 - beta_min / (c_1 + c_2 t))^m (theorem 13). applied to robust regression on drug discovery under 20%-80% target corruption, robust dnn classification on cifar-10 with noisy labels and crowd-sourced spammers, fair pca on default credit, fair federated learning on vehicle sensor data, and hierarchical class-imbalance plus 30% label-noise classification on hiv-1 (achieving 0.778 rare-class and 0.900 overall accuracy with term_sc vs. 0.240 and 0.831 for erm at 1:20 imbalance). tilted empirical risk minimization tilted empirical risk minimization (arxiv abstract) tilted empirical risk minimization (crossref metadata) tian li ahmad beirami maziar sanjabi virginia smith tian li ahmad beirami maziar sanjabi virginia smith tian li ahmad beirami maziar sanjabi virginia smith">
+        <td>
+          <a href="../curated/TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting.html" style="font-weight: 600; font-size: 1rem;">TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> TERM, Tilted Empirical Risk Minimization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A parametric family of exponentially tilted risk minimization objectives and batch/stochastic first-order solvers (Li, Beirami, Sanjabi, &amp; S…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>

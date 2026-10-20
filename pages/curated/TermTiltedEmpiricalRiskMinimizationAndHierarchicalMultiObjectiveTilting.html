@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">TERM (Tilted Empirical Risk Minimization and Hierarchical Multi-Objective Tilting)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> TERM, Tilted Empirical Risk Minimization, Hierarchical Multi-Objective Tilted Empirical Risk Minimization, t-Tilted Empirical Risk Minimization
+    </div>
+
+  <div class="detail-desc">
+    A parametric family of exponentially tilted risk minimization objectives and batch/stochastic first-order solvers (Li, Beirami, Sanjabi, &amp; Smith 2021, Sections 1-4, Equations 2-4, Lemmas 1-7, Theorems 1-10, Algorithms 1-4) that generalizes standard Empirical Risk Minimization (ERM) via a real-valued tilt hyperparameter t in R \ {0}: R_tilde(t; theta) := (1 / t) log((1 / N) sum_{i in [N]} exp(t f(x_i; theta))) (Equation 2), with continuous extension R_tilde(0; theta) = R_bar(theta) = (1 / N) sum_{i in [N]} f(x_i; theta), R_tilde(-inf; theta) = min_{i in [N]} f(x_i; theta), and R_tilde(+inf; theta) = max_{i in [N]} f(x_i; theta) (Lemma 2). Its tilted gradient dynamically reweights individual sample gradients exponentially by their relative loss: grad_theta R_tilde(t; theta) = sum_{i in [N]} w_i(t; theta) grad_theta f(x_i; theta) with w_i(t; theta) = exp(t f(x_i; theta)) / sum_{j in [N]} exp(t f(x_j; theta)) = (1 / N) exp(t (f(x_i; theta) - R_tilde(t; theta))) (Lemma 1, Equation 3), magnifying high-loss samples to reduce loss variance and promote fairness when t &gt; 0 or suppressing high-loss outliers when t &lt; 0. For compound problems involving both group fairness/imbalance and sample-level noise across groups g in [G], hierarchical multi-objective TERM optimizes J_tilde(t, tau; theta) := (1 / t) log((1 / N) sum_{g in [G]} |g| exp(t R_tilde_g(tau; theta))) where R_tilde_g(tau; theta) := (1 / tau) log((1 / |g|) sum_{x in g} exp(tau f(x; theta))) (Equation 4).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from q-FFL (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which raises positive losses to a polynomial power (1/(q+1)) F_k^{q+1}(w) for q &gt;= 0 only and cannot take negative exponents to suppress outliers or nest hierarchical group/sample tilts; and distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization, Mohri et al. 2019), which solves a hard minimax saddle-point problem min_w max_{lambda in Lambda} L_lambda(w) rather than a smooth, tunable cumulant-generating log-sum-exp objective spanning min-loss (t -&gt; -inf), average-loss (t -&gt; 0), and max-loss (t -&gt; +inf).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r496-claim-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under generalized linear model and strict-saddle assumptions (Assumptions 1-4), as the tilt parameter t in R increases, the t-tilted solution theta_breve(t) in argmin_theta R_tilde(t; theta) monotonically reduces empirical loss variance (d/dt var(f(theta_breve(t))) &lt; 0, Theorem 4), monotonically increases the cosine similarity between the loss vector f(theta_breve(t)) and the all-ones vector 1_N (d/dt s(f(theta_breve(t)), 1_N) &gt; 0, Theorem 5), and increases the Shannon entropy H(w(tau; theta_breve(t))) of the tilted gradient weights (Theorem 6), while trading off average loss against max-loss for t &gt; 0 (Theorem 2) and against min-loss for t &lt; 0 (Theorem 3).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r496-primary-pdf">Tilted Empirical Risk Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 2, pp. 3-4; Appendix E, pp. 23-29, Theorems 1-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r496-claim-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Hierarchical multi-objective TERM J_tilde(t, tau; theta) (Equation 4) recovers sample-level TERM R_tilde(t; theta) when tau = t (Lemma 7), has closed-form factored gradient weights w_{g,x}(t, tau; theta) = w_g(t, tau; theta) w_{g,x}(tau; theta) (Lemma 6, Equations 44-52), and is solved in the stochastic setting (Algorithm 2) by maintaining a tilted moving-average estimator R_tilde_{g,tau} &lt;- (1/tau) log((1 - lambda) exp(tau R_tilde_{g,tau}) + lambda exp(tau R_tilde_{B,tau})) and sampling groups from a Gumbel-Softmax distribution with logits R_tilde_{g,tau} + (1/t) log |g| and temperature 1/t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r496-primary-pdf">Tilted Empirical Risk Minimization</a></span>
+        <span>· <strong>Locator:</strong> Sections 3-4, pp. 4-5, Equation 4, Algorithm 1; Appendix C, pp. 19-20, Lemmas 6-7; Appendix H, pp. 34-35, Algorithms 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r496-claim-3</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For t &lt; 0, R_tilde(t; theta) can become non-convex with spurious local minima even when individual losses f(x_i; theta) are strongly convex (requiring continuation from t = 0) and can overfit to structured or adversarial outliers (Section 5.1 &amp; Appendix H.1, Figure 14); for t -&gt; +inf, the local smoothness constant beta(t) scales linearly as O(t) (Lemma 4, Equation 31), slowing gradient-descent convergence rate (1 - beta_min / (C_1 + C_2 t))^m (Theorem 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r496-primary-pdf">Tilted Empirical Risk Minimization</a></span>
+        <span>· <strong>Locator:</strong> Appendix B, pp. 17-18, Lemma 4; Appendix H.1, pp. 35-36, Theorem 13, Figure 8; Appendix I.2, p. 39, Figure 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r496-claim-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to robust regression on Drug Discovery under 20%-80% target corruption, robust DNN classification on CIFAR-10 with noisy labels and crowd-sourced spammers, fair PCA on Default Credit, fair federated learning on Vehicle sensor data, and hierarchical class-imbalance plus 30% label-noise classification on HIV-1 (achieving 0.778 rare-class and 0.900 overall accuracy with TERM_sc vs. 0.240 and 0.831 for ERM at 1:20 imbalance).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r496-primary-pdf">Tilted Empirical Risk Minimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5, pp. 5-8, Tables 1-3, Figures 3-5; Appendix I.2, pp. 38-41, Tables 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Negative tilt values (t &lt; 0) induce non-convexity even when the base loss is strongly convex and fail under structured or adversarial outlier corruption (Appendix H.1 &amp; Appendix I.2, Figure 14).</li>
+      <li>Large positive tilt values (t &gt;&gt; 0) increase the objective&#39;s smoothness constant linearly with t (Lemma 4), requiring smaller step sizes O(1/t) (Theorem 13).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/GeneralizedLinearModel.html" style="font-weight: 600;"><code>AIO:GeneralizedLinearModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Generalized Linear Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            TERM&#39;s theoretical guarantees on variance reduction, gradient-weight entropy, and min/average/max loss trade-offs (Theorems 1-8) are derived for exponential-family Generalized Linear Model losses alongside applications in Fair PCA (AIO:PrincipalComponentAnalysis) and Fair Federated Learning (AIO:FederatedLearning).
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Stochastic group-level TERM is applied directly to fair federated learning across heterogeneous devices (Appendix I.2, Table 7, Figure 16).
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r496-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r496-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.01162.pdf" target="_blank" rel="noopener">Tilted Empirical Risk Minimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Ahmad Beirami, Maziar Sanjabi, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=K5YasWXZT3O</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b46ffa1681aa…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r496-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r496-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.01162" target="_blank" rel="noopener">Tilted Empirical Risk Minimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Ahmad Beirami, Maziar Sanjabi, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.01162</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5e5cd6764462…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r496-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r496-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openreview.net/forum?id=K5YasWXZT3O" target="_blank" rel="noopener">Tilted Empirical Risk Minimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tian Li, Ahmad Beirami, Maziar Sanjabi, Virginia Smith
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://openreview.net/forum?id=K5YasWXZT3O</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:505a9450f7da…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:39:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:39:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting.yaml" target="_blank" rel="noopener">
+      <code>data/curated/TermTiltedEmpiricalRiskMinimizationAndHierarchicalMultiObjectiveTilting.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
