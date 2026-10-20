@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lottery Ticket Sparse Fine-Tuning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Lottery Ticket Sparse Fine-Tuning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Lottery Ticket Sparse Fine-Tuning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:LTSFTLotteryTicketSparseFineTuning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> LT-SFT, Composable Lottery-Ticket Sparse Fine-Tuning, Composable Sparse Fine-Tuning for Cross-Lingual Transfer
+    </div>
+
+  <div class="detail-desc">
+    A modular two-phase sparse fine-tuning algorithm for pretrained language models inspired by the Lottery Ticket Hypothesis that first performs full fine-tuning from pretrained parameters theta^(0) on task or language data to obtain theta^(1) and selects a binary mask mu over the K parameters with greatest absolute deviation |theta_i^(1) - theta_i^(0)|, then resets the model to its original pretrained initialization theta^(0) (without zeroing unselected weights) and re-trains only the masked parameters via masked gradients mu odot nabla_theta L to produce a sparse difference vector phi = theta^(2) - theta^(0) that can be composed additively across languages and tasks as F(.; theta^(0) + phi_T + phi_L) without modifying model architecture or increasing inference cost.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Alan Ansell, Edoardo Maria Ponti, Anna Korhonen, and Ivan Vulic (ACL 2022, pp. 1778-1796, arXiv:2110.07560) as Lottery Ticket Sparse Fine-Tuning (LT-SFT). Distinct from DiffPruning (AIMech:DiffPruning), which learns continuous L0-relaxed binary masks end-to-end in a single training phase; from FISH Mask (AIMech:FISHMask), which selects sparse masks before training using empirical Fisher information without Phase-1 magnitude-change selection and rewinding; and from MAD-X / AdapterFusion (AIMech:AdapterFusion), which insert serial bottleneck adapter layers that increase inference latency.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ltsft-two-phase-rewinding-and-sparse-difference-vector</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Phase 1, LT-SFT fully fine-tunes pretrained parameters theta^(0) on dataset D (optionally with L1 regularization J(theta) = (lambda/N) sum_i |theta_i - theta_i^(0)|) to obtain theta^(1) and sets a binary mask mu_i = 1 for the top-K parameters ranked by |theta_i^(1) - theta_i^(0)|; in Phase 2, it resets parameters to theta^(0) without zeroing frozen weights and applies masked gradient updates mu odot nabla_theta L(F(.; theta), D) to obtain theta^(2) and sparse difference vector phi = theta^(2) - theta^(0).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r710-primary-pdf">Composable Sparse Fine-Tuning for Cross-Lingual Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; Algorithm 1, pp. 3-4, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ltsft-zero-shot-cross-lingual-functional-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For zero-shot cross-lingual transfer from source language s to target language l on task t, LT-SFT learns language SFTs phi_L^(s) and phi_L^(l) via masked language modeling on theta^(0), learns task SFT phi_T^(t) = theta&#39; - (theta^(0) + phi_L^(s)) by running LT-SFT atop source-adapted parameters theta^(0) + phi_L^(s) and subtracting phi_L^(s), and composes them at inference as F_{t,l} = F(.; theta^(0) + phi_T^(t) + phi_L^(l)) with zero additional parameters or latency.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r710-primary-pdf">Composable Sparse Fine-Tuning for Cross-Lingual Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2 &amp; Algorithm 1, pp. 4, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#ltsft-multilingual-pos-dp-ner-nli-and-xquad-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated across 35 typologically diverse languages on Universal Dependencies POS tagging and dependency parsing, MasakhaNER, and AmericasNLI, LT-SFT outperforms MAD-X across all four tasks (+2.5 POS accuracy, +2.5/+3.7 DP UAS/LAS, +1.8 NER F1, and +1.9 NLI accuracy), and with multi-source training on XLM-R Base surpasses full fine-tuning of XLM-R Large on XQuAD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r710-primary-pdf">Composable Sparse Fine-Tuning for Cross-Lingual Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Tables 2-4, pp. 6-8</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r710-metadata-cr">Composable Sparse Fine-Tuning for Cross-Lingual Transfer (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> ACL 2022 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ltsft-two-phase-training-and-density-interference-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    LT-SFT requires two sequential training phases (a full fine-tuning pass followed by a sparse fine-tuning pass), decoupling input and output embeddings while freezing output embeddings and layer normalization during language adaptation, and degrades markedly when mask density exceeds approximately 30% due to parameter overlap and interference.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r710-primary-pdf">Composable Sparse Fine-Tuning for Cross-Lingual Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 &amp; Section 5.2, Figure 3, pp. 5, 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires two training phases (Phase 1 full fine-tuning to identify the top-K mask mu followed by Phase 2 masked re-training from theta^(0)), increasing training compute compared to single-phase fine-tuning.</li>
+      <li>During language MLM adaptation, input and output embedding matrices must be decoupled with the output matrix and layer-normalization parameters held fixed, or else most top-K changes concentrate in the output embeddings and harm downstream transfer.</li>
+      <li>Cross-lingual composition performance degrades significantly when SFT mask density exceeds ~30% due to parameter overlap and interference between language and task difference vectors.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">narrow_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LT-SFT is a sparse parameter-adaptation algorithm that learns and composes sparse difference vectors over a fixed pretrained model.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            LT-SFT adapts pretrained Transformer neural networks across languages and downstream tasks without altering their neural architecture.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r710-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r710-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.07560.pdf" target="_blank" rel="noopener">Composable Sparse Fine-Tuning for Cross-Lingual Transfer</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alan Ansell, Edoardo Maria Ponti, Anna Korhonen, Ivan Vulic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e3bcda384cf1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r710-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r710-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.07560" target="_blank" rel="noopener">Composable Sparse Fine-Tuning for Cross-Lingual Transfer (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alan Ansell, Edoardo Maria Ponti, Anna Korhonen, Ivan Vulic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.07560</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:21d33b154193…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r710-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r710-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&amp;h=5&amp;format=xml" target="_blank" rel="noopener">Composable Sparse Fine-Tuning for Cross-Lingual Transfer (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Alan Ansell, Edoardo Maria Ponti, Anna Korhonen, Ivan Vulic
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Composable+Sparse+Fine-Tuning+for+Cross-Lingual+Transfer&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b73031bc723e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:13:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:13:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/LTSFTLotteryTicketSparseFineTuning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/LTSFTLotteryTicketSparseFineTuning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
