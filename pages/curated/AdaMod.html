@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaMod · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaMod</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaMod</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaMod</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adaptive and Momental Bound Method for Stochastic Learning, Momental Step-Size Upper-Bounded Adaptive Optimization, Exponentially Smoothed Learning-Rate Clipped Adam
+    </div>
+
+  <div class="detail-desc">
+    An adaptive stochastic gradient optimization algorithm that restricts extreme coordinate-wise adaptive learning rates eta_t = alpha_t / (sqrt(v_hat_t) + epsilon) by maintaining an uncorrected exponential moving average s_t = beta_3 s_{t-1} + (1 - beta_3) eta_t (with s_0 = 0 and smoothing hyperparameter beta_3 in (0, 1)) of historical adaptive step sizes and clipping each coordinate&#39;s effective step size from above via eta_hat_t = min(eta_t, s_t) before updating parameters x_t = x_{t-1} - eta_hat_t odot m_hat_t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AdaBound/AMSBound (AIMech:AdaBoundAndAMSBound, which clips step sizes to a deterministic scalar schedule [eta_l(t), eta_u(t)] converging to vanilla SGD) and from RAdam (AIMech:RectifiedAdam, which uses an analytical tractable-variance switch at rho_t &gt; 4). AdaMod preserves per-coordinate adaptive step-size heterogeneity throughout training while using the uncorrected EMA s_t = (1 - beta_3) sum_{k=0}^{t-1} beta_3^k eta_{t-k} both as an automatic early-stage warmup ramp and as a dynamic momental upper bound against anomalous gradient-induced learning-rate spikes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#adamod-momental-step-size-upper-bound-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At iteration t, AdaMod computes the bias-corrected first and second moments m_hat_t = m_t / (1 - beta_1^t) and v_hat_t = v_t / (1 - beta_2^t), forms the raw adaptive learning rate vector eta_t = alpha_t / (sqrt(v_hat_t) + epsilon), updates the uncorrected exponential moving average s_t = beta_3 s_{t-1} + (1 - beta_3) eta_t = (1 - beta_3) sum_{k=0}^{t-1} beta_3^k eta_{t-k} with s_0 = 0, caps the step size via eta_hat_t = min(eta_t, s_t), and updates parameters via x_t = x_{t-1} - eta_hat_t odot m_hat_t, reducing exactly to Adam when beta_3 = 0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r613-primary-pdf">An Adaptive and Momental Bound Method for Stochastic Learning</a></span>
+        <span>· <strong>Locator:</strong> Methods Section, Algorithm 2 and Equations 1-3, p. 3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r613-metadata-cr">An Adaptive and Momental Bound Method for Stochastic Learning (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Ding et al. 2019</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#adamod-intrinsic-warmup-and-spike-suppression-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because s_0 = 0 is intentionally left without bias correction, s_t starts at (1 - beta_3) eta_1 (reducing initial step-size spikes above 10^4 by a factor of 1 - beta_3 in {10^{-3}, 10^{-4}} for beta_3 in {0.999, 0.9999}) and acts as a long-term memory filter over approximately 1 / (1 - beta_3) steps that prevents sudden large learning-rate spikes when v_hat_t is transiently small.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r613-primary-pdf">An Adaptive and Momental Bound Method for Stochastic Learning</a></span>
+        <span>· <strong>Locator:</strong> Introduction (Figure 1) and Empirical Analysis on Learning Rates (Figures 2-3), p. 1-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#adamod-vision-lm-and-unwarmed-transformer-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaMod improves test accuracy and perplexity over Adam, AMSGrad, and AdaBound on CIFAR-10 and CIFAR-100 (ResNet-34 and DenseNet-121), ImageNet (ResNet-18), Penn Treebank LSTM language modeling (1-, 2-, and 3-layer LSTMs), and WMT14 English-to-German and IWSLT14 German-to-English Transformer neural machine translation without requiring a manual learning-rate warmup schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r613-primary-pdf">An Adaptive and Momental Bound Method for Stochastic Learning</a></span>
+        <span>· <strong>Locator:</strong> Experiments Section, Figures 4-8 and Tables 1-3, p. 4-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adamod-extra-state-vector-and-beta3-memory-horizon-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AdaMod requires maintaining a third per-parameter state vector s_t alongside m_t and v_t (increasing optimizer state memory from 2P to 3P floats) and introduces the memory-horizon hyperparameter beta_3 whose effective window length 1 / (1 - beta_3) must align with the training horizon.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r613-primary-pdf">An Adaptive and Momental Bound Method for Stochastic Learning</a></span>
+        <span>· <strong>Locator:</strong> Methods Section (Algorithm 2) and Experiments Section (Table 3), p. 3, 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Stores an additional per-parameter step-size moving average vector s_t alongside m_t and v_t, increasing optimizer state memory from 2P to 3P floats.</li>
+      <li>Introduces an additional smoothing hyperparameter beta_3 in {0.999, 0.9999} whose effective memory horizon 1 / (1 - beta_3) can overly damp step sizes on very short training runs.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdaMod stabilizes adaptive optimization of deep convolutional, recurrent, and Transformer neural networks without manual warmup schedules.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r613-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r613-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.12249.pdf" target="_blank" rel="noopener">An Adaptive and Momental Bound Method for Stochastic Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianbang Ding, Xuancheng Ren, Ruixuan Luo, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1910-12249.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:086818082905…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r613-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r613-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.12249" target="_blank" rel="noopener">An Adaptive and Momental Bound Method for Stochastic Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianbang Ding, Xuancheng Ren, Ruixuan Luo, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.12249</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f47aad693c26…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r613-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r613-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-1910-12249.xml" target="_blank" rel="noopener">An Adaptive and Momental Bound Method for Stochastic Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jianbang Ding, Xuancheng Ren, Ruixuan Luo, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1910-12249.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5a2142bbe649…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:36:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:36:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaMod.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaMod.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
