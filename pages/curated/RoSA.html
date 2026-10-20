@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RoSA · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RoSA</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RoSA</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RoSA</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Robust Adaptation, Robust Low-Rank and Sparse Adaptation, RoSA Parameter-Efficient Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    An additive parameter-efficient fine-tuning algorithm inspired by robust principal component analysis that jointly trains a low-rank adapter and a highly sparse adapter on top of frozen pretrained weights, selecting the sparse support mask via top-magnitude gradients from an initial LoRA warm-up phase and computing sparse weight gradients on the fly via sparse-dense matrix multiplication hooks.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from AIMech:LowRankAdaptation (LoRA), which constrains weight updates solely to a low-rank product BA and struggles to capture high-rank outlier residuals that emerge during complex generative reasoning tasks, and from pure sparse fine-tuning methods that optimize only a sparse coordinate subset without a global low-rank subspace component. RoSA (Mahdi Nikdan, Soroush Tabesh, Elvir Crncevic, and Dan Alistarh, ICML 2024, PMLR v235, arXiv:2401.04679) models the full-fine-tuning update matrix via a robust PCA decomposition W = W_0 + Delta_W^L + Delta_W^S, where Delta_W^L = B A in R^{m x n} has rank r &lt;&lt; min(m, n) and Delta_W^S in R^{m x n} has density d = ||Delta_W^S||_0 / (m n) &lt;&lt; 1 on a fixed support mask M. To avoid materializing full dense m x n weight gradient matrices during backpropagation, RoSA accumulates the low-rank branch for a short warm-up window while extracting top-k gradient coordinates layer-by-layer to construct M, and then uses a custom sparse-dense matrix multiplication (SpMM) backward kernel to compute gradients only at the active indices of M.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rosa-rpca-additive-low-rank-sparse-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RoSA decomposes the fine-tuning weight update around a frozen pretrained matrix W_0 into an additive sum W = W_0 + B A + S of a rank-r matrix product B A (with B in R^{m x r}, A in R^{r x n}) and a sparse matrix S in R^{m x n} supported on a fixed binary mask M of density d, capturing both dominant singular directions and unstructured outlier entries that violate a pure low-rank hypothesis.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r662-primary-pdf">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 (Motivation: Robust Principal Component Analysis) &amp; Section 3.1 (Formulation), pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rosa-gradient-warmup-mask-and-spmm-backward-kernel</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To construct the sparse support mask M and train S without incurring O(m n) dense weight-gradient memory overhead, RoSA runs a brief LoRA-only warm-up phase, accumulates full weight gradients one layer at a time via backward hooks to select the top-d fraction of coordinates by magnitude, and subsequently computes dL/dS restricted to M using a custom sparse-dense matrix multiplication (SpMM) kernel.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r662-primary-pdf">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Mask Generation and System Implementation) &amp; Algorithm 1, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#rosa-application-complex-math-and-code-generation-peft</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to LLaMA-2-7B and LLaMA-2-13B across mathematical reasoning (GSM8K) and code generation benchmarks at matched trainable parameter and memory budgets, RoSA substantially outperforms pure LoRA, pure sparse fine-tuning, and QLoRA—including under 4-bit base-weight quantization (QRoSA)—and closes the accuracy gap to full fine-tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r662-primary-pdf">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Experiments), Tables 1-4, pp. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#rosa-limitation-static-mask-and-unmerged-sparse-inference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Once the sparse mask M is fixed after the initial warm-up phase, coordinates outside M cannot enter the sparse support later in training, and when the base weights are quantized (QRoSA) the floating-point sparse adapter S cannot be folded directly into the 4-bit weights without dequantization or running a parallel sparse forward pass.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r662-primary-pdf">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (QRoSA and System Implementation) &amp; Appendix, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Fixing the sparse coordinate mask after a short initial warm-up phase prevents the sparse adapter from reallocating active entries if the loss landscape shifts later in training.</li>
+      <li>In quantized settings (QRoSA), the sparse floating-point residual cannot be merged losslessly into 4-bit base weights, requiring either runtime dequantization or an auxiliary sparse matrix-vector multiplication during inference.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RoSA adapts linear projection layers inside deep artificial neural networks via a joint low-rank and sparse residual decomposition.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SparseLearning.html" style="font-weight: 600;"><code>AIO:SparseLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sparse Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RoSA learns a sparse parameter perturbation matrix S alongside a low-rank adapter to capture high-rank residual updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r662-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r662-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2401.04679" target="_blank" rel="noopener">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Nikdan, Soroush Tabesh, Elvir Crncevic, Dan Alistarh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/NikdanTCA24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:06e6bed6e11a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r662-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r662-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2401.04679" target="_blank" rel="noopener">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Nikdan, Soroush Tabesh, Elvir Crncevic, Dan Alistarh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2401.04679</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:237b47fa378d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r662-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r662-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/NikdanTCA24.xml" target="_blank" rel="noopener">RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Mahdi Nikdan, Soroush Tabesh, Elvir Crncevic, Dan Alistarh
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/NikdanTCA24.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ac28b316f4da…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:25:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:25:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RoSA.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RoSA.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

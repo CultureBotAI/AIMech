@@ -1,0 +1,104 @@
+id: AIMech:RoSA
+name: RoSA
+concept_kind: algorithm
+review_status: DRAFT
+definition: An additive parameter-efficient fine-tuning algorithm inspired by robust principal component analysis that jointly trains a low-rank adapter and a highly sparse adapter on top of frozen pretrained weights, selecting the sparse support mask via top-magnitude gradients from an initial LoRA warm-up phase and computing sparse weight gradients on the fly via sparse-dense matrix multiplication hooks.
+identity_notes: Distinct from AIMech:LowRankAdaptation (LoRA), which constrains weight updates solely to a low-rank product BA and struggles to capture high-rank outlier residuals that emerge during complex generative reasoning tasks, and from pure sparse fine-tuning methods that optimize only a sparse coordinate subset without a global low-rank subspace component. RoSA (Mahdi Nikdan, Soroush Tabesh, Elvir Crncevic, and Dan Alistarh, ICML 2024, PMLR v235, arXiv:2401.04679) models the full-fine-tuning update matrix via a robust PCA decomposition W = W_0 + Delta_W^L + Delta_W^S, where Delta_W^L = B A in R^{m x n} has rank r << min(m, n) and Delta_W^S in R^{m x n} has density d = ||Delta_W^S||_0 / (m n) << 1 on a fixed support mask M. To avoid materializing full dense m x n weight gradient matrices during backpropagation, RoSA accumulates the low-rank branch for a short warm-up window while extracting top-k gradient coordinates layer-by-layer to construct M, and then uses a custom sparse-dense matrix multiplication (SpMM) backward kernel to compute gradients only at the active indices of M.
+aliases:
+- Robust Adaptation
+- Robust Low-Rank and Sparse Adaptation
+- RoSA Parameter-Efficient Fine-Tuning
+definition_evidence:
+- source_id: r662-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r662-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r662-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: rosa-rpca-additive-low-rank-sparse-decomposition
+  kind: mechanism
+  statement: RoSA decomposes the fine-tuning weight update around a frozen pretrained matrix W_0 into an additive sum W = W_0 + B A + S of a rank-r matrix product B A (with B in R^{m x r}, A in R^{r x n}) and a sparse matrix S in R^{m x n} supported on a fixed binary mask M of density d, capturing both dominant singular directions and unstructured outlier entries that violate a pure low-rank hypothesis.
+  evidence:
+  - source_id: r662-primary-pdf
+    locator: 'Section 2.2 (Motivation: Robust Principal Component Analysis) & Section 3.1 (Formulation), pp. 3-4'
+    relation: supports
+- claim_id: rosa-gradient-warmup-mask-and-spmm-backward-kernel
+  kind: mechanism
+  statement: To construct the sparse support mask M and train S without incurring O(m n) dense weight-gradient memory overhead, RoSA runs a brief LoRA-only warm-up phase, accumulates full weight gradients one layer at a time via backward hooks to select the top-d fraction of coordinates by magnitude, and subsequently computes dL/dS restricted to M using a custom sparse-dense matrix multiplication (SpMM) kernel.
+  evidence:
+  - source_id: r662-primary-pdf
+    locator: Section 3.2 (Mask Generation and System Implementation) & Algorithm 1, pp. 4-6
+    relation: supports
+- claim_id: rosa-application-complex-math-and-code-generation-peft
+  kind: application
+  statement: "Applied to LLaMA-2-7B and LLaMA-2-13B across mathematical reasoning (GSM8K) and code generation benchmarks at matched trainable parameter and memory budgets, RoSA substantially outperforms pure LoRA, pure sparse fine-tuning, and QLoRA\u2014including under 4-bit base-weight quantization (QRoSA)\u2014and closes the accuracy gap to full fine-tuning."
+  evidence:
+  - source_id: r662-primary-pdf
+    locator: Section 4 (Experiments), Tables 1-4, pp. 6-8
+    relation: supports
+- claim_id: rosa-limitation-static-mask-and-unmerged-sparse-inference
+  kind: limitation
+  statement: Once the sparse mask M is fixed after the initial warm-up phase, coordinates outside M cannot enter the sparse support later in training, and when the base weights are quantized (QRoSA) the floating-point sparse adapter S cannot be folded directly into the 4-bit weights without dequantization or running a parallel sparse forward pass.
+  evidence:
+  - source_id: r662-primary-pdf
+    locator: Section 3.2 (QRoSA and System Implementation) & Appendix, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r662-primary-pdf
+  title: 'RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation'
+  authors: &id001
+  - Mahdi Nikdan
+  - Soroush Tabesh
+  - Elvir Crncevic
+  - Dan Alistarh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2401.04679
+  persistent_id: https://dblp.org/rec/conf/icml/NikdanTCA24.xml
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235 (2024) (1471470 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:25:00Z'
+  sha256: 06e6bed6e11ae9cf1e6a35226e49ba18418795c35be7af4bb63ce4e29c5fa71e
+- source_id: r662-arxiv-abs
+  title: 'RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2401.04679
+  persistent_id: https://arxiv.org/abs/2401.04679
+  version: arXiv abstract page (6926 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:25:00Z'
+  sha256: 237b47fa378d7e1fe191765706754a8d55a4e2377824d1dabc690eacf1bd19fa
+- source_id: r662-metadata-cr
+  title: 'RoSA: Accurate Parameter-Efficient Fine-Tuning via Robust Adaptation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/NikdanTCA24.xml
+  persistent_id: https://dblp.org/rec/conf/icml/NikdanTCA24.xml
+  version: Crossref API work record (905 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:25:00Z'
+  sha256: ac28b316f4da1f98275b9796b1070283df7df0fe4db22fba24b1afcaba108f4b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: RoSA adapts linear projection layers inside deep artificial neural networks via a joint low-rank and sparse residual decomposition.
+- target: AIO:SparseLearning
+  relation: related_match
+  rationale: RoSA learns a sparse parameter perturbation matrix S alongside a low-rank adapter to capture high-rank residual updates.
+limitations:
+- Fixing the sparse coordinate mask after a short initial warm-up phase prevents the sparse adapter from reallocating active entries if the loss landscape shifts later in training.
+- In quantized settings (QRoSA), the sparse floating-point residual cannot be merged losslessly into 4-bit base weights, requiring either runtime dequantization or an auxiliary sparse matrix-vector multiplication during inference.
+curation:
+  created_at: '2026-10-19T12:25:00Z'
+  updated_at: '2026-10-19T12:25:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
