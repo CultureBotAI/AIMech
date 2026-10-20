@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaling &amp; Shifting Your Features · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Scaling &amp; Shifting Your Features</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Scaling &amp; Shifting Your Features</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SSFScaleAndShiftFeatures</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SSF, SSF-ADA, Scaling and Shifting Your Features, Scale and Shift Features Fine-Tuning
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient fine-tuning algorithm (SSF) for pre-trained deep neural networks (including Vision Transformers, hierarchical Transformers, convolutional networks, and MLPs) that freezes all pre-trained backbone weights and inserts lightweight linear feature modulation modules (SSF-ADA) after backbone operations (such as multi-head self-attention, MLP, convolution, and normalization layers) to alleviate upstream-to-downstream distribution mismatch. Given an intermediate feature tensor x in R^{(N^2+1) x d}, each SSF-ADA module applies an input-independent, channel-wise Hadamard scale vector gamma in R^d (initialized from a normal distribution with mean 1) and additive shift vector beta in R^d (initialized with mean 0) via y = gamma (*) x + beta. Because SSF-ADA is a purely linear affine transformation, at inference time gamma and beta are algebraically absorbed into the frozen preceding linear or convolutional weights w and biases b via structural re-parameterization y = (gamma (*) w) * t + (gamma (*) b + beta), yielding zero extra inference parameters and zero extra inference FLOPs.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Batch Normalization (AIO:BatchNormalizationLayer), Layer Normalization, FiLM, and AdaIN: SSF-ADA modulates outputs of general backbone operations (MSA, MLP, and normalization layers) rather than only normalization layers, and uses task-level input-independent parameters (gamma, beta) so they can be folded into preceding linear weights at inference time without conditional generator networks or nonlinear activations. Distinct from BitFit (AIMech:BitFit), which only tunes existing bias terms without multiplicative channel scaling or post-operation residual shifts, and from Adapter / VPT methods that retain unmergeable modules or extra tokens at inference time.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ssf-reparameterization-zero-inference-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During fine-tuning, SSF inserts SSF-ADA modules after K backbone operations to compute y = gamma (*) x + beta with input-independent scale gamma in R^d and shift beta in R^d (initialized with normal distributions centered at 1 and 0, respectively); during inference, when preceded by a linear or convolutional operation x = w * t + b, SSF re-parameterizes the weights as w&#39; = gamma (*) w and b&#39; = gamma (*) b + beta (Equation 5), incurring m*L*d trainable parameters during training and exactly zero extra parameters and zero extra FLOPs at inference time (Table 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r692-primary-pdf">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Equations 4-5, Table 2, pp. 5-6; Section 4.3, Table 6c-6d, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#ssf-fgvc-vtab-and-ood-generalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On ViT-B/16 pre-trained on ImageNet-21K, SSF achieves 90.72% mean Top-1 accuracy across five FGVC datasets (0.39M trainable parameters vs. 85.98M for full fine-tuning at 88.54% and 0.85M for VPT-Deep at 89.11%) and 73.10% mean Top-1 accuracy across the 19-task VTAB-1k benchmark (0.24M trainable parameters vs. 65.57% for full fine-tuning and 69.43% for VPT-Deep), while improving out-of-distribution robustness on ImageNet-A (45.88% vs. 34.49%), ImageNet-R (56.77% vs. 51.29%), and ImageNet-C (41.47 mCE vs. 46.47 mCE).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r692-primary-pdf">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Tables 3-5, pp. 7-8; Section 4.4, Table 7, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ssf-dense-prediction-and-independent-task-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On dense prediction tasks such as COCO object detection and instance segmentation with Mask R-CNN (34.9 AP^b / 33.5 AP^m vs. 43.7 AP^b / 39.8 AP^m for full fine-tuning) and ADE20K semantic segmentation with UPerNet (38.9 mIoU vs. 44.5 mIoU for full fine-tuning), modulating only linear scale and shift features leaves a substantial accuracy gap relative to full backbone fine-tuning, and SSF treats each downstream task independently without modeling cross-task correlations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r692-primary-pdf">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.3 &amp; B, Table 9, p. 18; Appendix D, p. 20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exhibits a substantial performance gap relative to full fine-tuning on dense prediction benchmarks such as COCO object detection/instance segmentation and ADE20K semantic segmentation (Appendix B, Table 9).</li>
+      <li>Zero-mean random initialization of the scale vector gamma disrupts pre-trained feature propagation and can fail to converge, requiring unit-mean normal initialization around gamma = 1 and beta = 0 (Section 4.3, Table 6c).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SSF adapts pre-trained artificial neural network backbones via mergeable channel-wise affine feature modulation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BatchNormalizationLayer.html" style="font-weight: 600;"><code>AIO:BatchNormalizationLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">BatchNormalization Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Like batch normalization folding, SSF uses channel-wise scale and shift parameters that fold into preceding linear or convolutional weights at inference time.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r692-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r692-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2210.08823.pdf" target="_blank" rel="noopener">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongze Lian, Daquan Zhou, Jiashi Feng, Xinchao Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:43899f3e99b5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r692-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r692-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2210.08823" target="_blank" rel="noopener">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongze Lian, Daquan Zhou, Jiashi Feng, Xinchao Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2210.08823</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1e0a859cdfeb…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r692-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r692-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&amp;format=xml" target="_blank" rel="noopener">Scaling &amp; Shifting Your Features: A New Baseline for Efficient Model Tuning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dongze Lian, Daquan Zhou, Jiashi Feng, Xinchao Wang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Scaling+Shifting+Your+Features+Lian&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d2d551f75ad7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:55:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:55:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SSFScaleAndShiftFeatures.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SSFScaleAndShiftFeatures.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
