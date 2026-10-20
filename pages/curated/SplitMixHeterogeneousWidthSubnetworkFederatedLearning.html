@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Split-Mix Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Split-Mix Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Split-Mix Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SplitMixHeterogeneousWidthSubnetworkFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Split-Mix, Split-Mix FL, Split-Mix and Split-Mix+DAT, Split-Mix On-Demand and In-Situ Customizable Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A model-heterogeneous federated learning and in-situ customization algorithm (Split-Mix; Hong, Wang, Wang, and Zhou, ICLR 2022) that decomposes a full-width network into M = floor(1 / r) independent base sub-networks W = {w_{i,r}}_{i=1}^M of base width ratio r in (0, 1] initialized with rescaled Kaiming initialization matching the full-width variance. In each round t, client k with width budget R_k in {r, 2r, ..., 1} draws floor(R_k / r) base sub-networks via shuffled cyclic without-replacement sampling (SampleBaseModels, Algorithm 2), trains them independently in parallel on local data (LocalUpdate, Algorithm 3), and returns updates aggregated per base sub-network weighted by participating clients&#39; sample sizes (Algorithm 1 lines 7-9). At deployment, an on-demand R-width model aggregates predictions of K_R = floor(R / r) base sub-networks via F(x; W^T) = (1 / K_R) sum_{i=1}^{K_R} f(x; w_{i,r}^T) (Algorithm 1 line 11), and for joint adversarial robustness customization (Split-Mix+DAT) mixes Dual Batch-Normalization statistics via DBN(x) = (1 - lambda) BN_c(x) + lambda BN_n(x) for lambda in [0, 1] (Eq. 2).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from nested width-slimming heterogeneous FL algorithms such as HeteroFL (AIMech:HeteroFlWidthScaledSubnetworkAggregationForHeterogeneousFederatedLearning; Diao et al., ICLR 2021) and FjORD (AIMech:FjordOrderedDropoutAndSelfDistillationForHeterogeneousFederatedLearning; Horvath et al., NeurIPS 2021), which slice nested prefix channel blocks from a single monolithic parameter tensor (causing wider channel blocks to be trained exclusively on wide-budget clients) rather than decomposing the model into M = floor(1/r) modular width-r base sub-networks sampled cyclically across all clients and ensembled on demand at inference time. Distinct from FedRolex (AIMech:FedRolexModelHeterogeneousFederatedLearningWithRollingSubModelExtraction; Alam et al., NeurIPS 2022), which extracts a deterministic rolling channel window from a single global model rather than maintaining M independent width-r base sub-networks with training-free Dual Batch-Normalization mixing.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#split-mix-cyclic-base-subnetwork-sampling-and-ensemble-inference-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Split-Mix (Algorithms 1-3), the server initializes M = floor(1 / r) base sub-networks {w_{i,r}}_{i=1}^M of width ratio r using rescaled Kaiming initialization with the x1 full-width fan-in variance, assigns each client k with width budget R_k a subset W_k^t of floor(R_k / r) base sub-networks via shuffled cyclic sampling without replacement (Algorithm 2), aggregates each base model w_{i,r}^{t+1} over all clients k whose W_k^t contains w_{i,r}, and constructs an on-demand R-width predictor at inference by averaging K_R = floor(R / r) base sub-network outputs F(x; W^T) = (1 / K_R) sum_{i=1}^{K_R} f(x; w_{i,r}^T).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r506-primary-pdf">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Customize Model Size via Width-wise Splitting and Mixing, Algorithms 1-3, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#split-mix-dat-dual-batch-normalization-in-situ-robustness-customization-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Split-Mix+DAT (Section 4.2, Eq. 2, p. 6; Algorithm 4, p. 14) equips each base sub-network with Dual Batch-Normalization (DBN) consisting of separate clean (BN_c) and PGD-adversarial (BN_n) normalization branches optimized under local loss (1 - beta) ell(f(x; BN_c), y) + beta ell(f(x + delta; BN_n), y), enabling training-free in-situ trade-off between standard accuracy and adversarial robustness after FL training via layer-wise linear interpolation DBN(x) = (1 - lambda) BN_c(x) + lambda BN_n(x) for lambda in [0, 1].
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r506-primary-pdf">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Customize Robustness by Mixing Dual Batch Normalization, Eq. (2), p. 6; Appendix A.2 Algorithm 4, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#split-mix-discrete-width-granularity-and-pseudo-residual-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Split-Mix restricts customizable model widths to discrete integer multiples of the base width ratio r (R in {r, 2r, ..., M r}), requires tuning beta and PGD inner maximization steps on clients capable of adversarial training in Split-Mix+DAT, and incurs M-way parallel forward passes at full-width R = 1 inference (Section 4.1-4.2, pp. 4-6; Appendix B.1, pp. 14-16).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r506-primary-pdf">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, pp. 4-6; Appendix B.1 Customize Model Widths, pp. 14-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#split-mix-domain-shift-and-heterogeneous-budget-image-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to budget-heterogeneous and domain-heterogeneous federated image classification and in-situ robustness customization on CIFAR-10, DomainNet, and Digits (MNIST, SVHN, USPS, SynthDigits, MNIST-M) using PreActResNet-18, AlexNet, and ConvNet backbones.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r506-primary-pdf">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments, Figures 4-7, Table 1, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Customizable inference widths are quantized to discrete multiples of the base sub-network width ratio r (Section 4.1, pp. 4-5).</li>
+      <li>Full-width (R = 1) inference evaluates M = floor(1 / r) independent width-r base sub-networks in parallel rather than a single dense weight tensor (Algorithm 1 line 11, p. 5).</li>
+      <li>In-situ adversarial robustness customization via Split-Mix+DAT requires a non-empty fraction of clients with sufficient compute budget to perform local PGD adversarial training on Dual Batch-Normalization branches (Section 4.2, p. 6; Section 5.2, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Split-Mix is a model-heterogeneous federated learning algorithm with width-wise base sub-network splitting and on-demand mixing.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r506-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r506-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.09747.pdf" target="_blank" rel="noopener">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Junyuan Hong, Haotao Wang, Zhangyang Wang, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/HongWWZ22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ce80fbc0dde3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r506-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r506-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.09747" target="_blank" rel="noopener">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Junyuan Hong, Haotao Wang, Zhangyang Wang, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.09747</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5de0cf8a9a0d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r506-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r506-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/HongWWZ22" target="_blank" rel="noopener">Efficient Split-Mix Federated Learning for On-Demand and In-Situ Customization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Junyuan Hong, Haotao Wang, Zhangyang Wang, Jiayu Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/HongWWZ22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:881de19f952b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:49:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:49:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SplitMixHeterogeneousWidthSubnetworkFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SplitMixHeterogeneousWidthSubnetworkFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
