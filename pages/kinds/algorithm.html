@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">823 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">824 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">823</span> of <span id="totalCount">823</span>
+      Showing <span id="matchCount">824</span> of <span id="totalCount">824</span>
     </div>
   </div>
 </div>
@@ -3475,6 +3475,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="coco-dr contrastive and distributionally robust zero-shot dense retrieval cocodrdenseretrievaldistributionallyrobustcontrastivelearning aimech:cocodrdenseretrievaldistributionallyrobustcontrastivelearning algorithms algorithm a two-stage zero-shot dense retrieval training algorithm that mitigates document-side and query-side distribution shifts between a labeled source retrieval dataset and unlabeled target corpora by (1) performing continuous contrastive pretraining (coco) on the target corpora using disjoint same-document span pairs (s_{i,1}, s_{i,2}) and masked language modeling to align and uniformly distribute target document representations, and (2) fine-tuning on source retrieval labels via implicit distributionally robust optimization (idro) l_idro(theta) = sum_{i=1}^k alpha_i omega_i l_i(theta) over k k-means source query clusters, where alpha_i proportional to [l_i(theta)]^beta up-weights harder clusters and omega_i^{t*} = omega_i^{(t-1)} exp((1/tau) sum_{j=1}^k r_{ij}) / z dynamically reweights clusters via a kl-regularized first-order taylor expansion using cross-cluster loss-and-gradient similarity r_{ij} = [l_i(theta) l_j(theta)]^beta (grad_theta l_i(theta))^t grad_theta l_j(theta). distinct from cocondenser (gao &amp; callan, acl 2022, aimech:cocondenserunsupervisedcorpusawarelanguagemodelpretraining), which pre-trains on the source corpus (e.g., ms marco) and fine-tunes with uniform empirical risk minimization without target-corpus adaptation or idro query-cluster reweighting; distinct from gpl (wang et al., naacl 2022, aimech:gplgenerativepseudolabelingfordenseretrieval), which generates synthetic queries and cross-encoder pseudo-labels to train a separate model per target task rather than a single unified zero-shot model; and distinct from groupdro (sagawa et al., iclr 2020, aimech:groupdistributionallyrobustoptimization), which weights groups solely by loss magnitude without the cross-cluster gradient dot-product similarity r_{ij}. coco-dr continuous contrastive and implicit distributionally robust dense retrieval coco-dr zero-shot dense retrieval continuous contrastive pretraining with implicit dro (coco + idro) because ms marco and beir tasks exhibit only 32.4% average query-intent similarity and 34.6% average document weighted jaccard lexical similarity j(s, t) = sum_k min(s_k, t_k) / sum_k max(s_k, t_k), standard dense retrievers degrade severely under domain shift; coco initializes from condenser and continuously pre-trains on target corpora with sequence contrastive loss l_co = sum_{i=1}^n -log(exp(&lt;g(s_{i,1}), g(s_{i,2})&gt;) / sum_{j=1,2} sum_{s^- in b} exp(&lt;g(s_{i,j}), g(s^-)&gt;)) plus mlm to simultaneously improve target representation alignment l_align and hypersphere uniformity l_uniform. during ance-style fine-tuning on ms marco, idro clusters source queries via k-means (k = 50) at each negative-refresh episode and solves min_{omega^{(t)}} l_g + tau d_kl(omega^{(t)} || omega^{(t-1)}) subject to sum_i omega_i^{(t)} = 1 over the first-order total cluster loss change l_g approx -eta sum_{i,j} alpha_i alpha_j omega_i^t (grad_theta l_i)^t grad_theta l_j, yielding the closed-form kkt update omega_i^{t*} = omega_i^{(t-1)} exp((1/tau) sum_{j=1}^k r_{ij}) / z with r_{ij} = [l_i(theta) l_j(theta)]^beta (grad_theta l_i(theta))^t grad_theta l_j(theta) (beta = 0.25) that prioritizes clusters sharing aligned gradients. using a single unified dual-encoder across 18 beir zero-shot retrieval benchmarks, coco-dr_base (110m parameters) achieves 0.462 average ndcg@10 (outperforming bm25 at 0.428, ance at 0.389, colbert at 0.431, per-task gpl at 0.459, and 4.8b-parameter gtr_xxl at 0.458), while coco-dr_large (335m parameters) reaches 0.484 average ndcg@10 across all 18 tasks and 0.541 on the 11-task cpt subset, surpassing the 175b-parameter gpt-3 cpt_xl model (0.528) with 0.17% of its parameters. setting the idro cluster count k too large (e.g., k &gt;= 150-200) creates fragmented source query clusters that are distant from target beir tasks and degrades average ndcg@10, while extreme temperature values tau either collapse weights to uniform (large tau) or over-concentrate on a few clusters (small tau); moreover, coco-dr requires access to the target document corpora for 200k steps (~1.5-3 days on 8 a100 gpus) of continuous contrastive pre-training prior to fine-tuning. coco-dr: combating distribution shifts in zero-shot dense retrieval with contrastive and distributionally robust learning coco-dr: combating distribution shifts in zero-shot dense retrieval with contrastive and distributionally robust learning (arxiv abstract) coco-dr: combating distribution shifts in zero-shot dense retrieval with contrastive and distributionally robust learning (crossref metadata) yue yu chenyan xiong si sun chao zhang arnold overwijk yue yu chenyan xiong si sun chao zhang arnold overwijk yue yu chenyan xiong si sun chao zhang arnold overwijk">
+        <td>
+          <a href="../curated/COCODRDenseRetrievalDistributionallyRobustContrastiveLearning.html" style="font-weight: 600; font-size: 1rem;">COCO-DR Contrastive and Distributionally Robust Zero-Shot Dense Retrieval</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> COCO-DR, COntinuous COntrastive and Implicit Distributionally Robust Dense Retrieval…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A two-stage zero-shot dense retrieval training algorithm that mitigates document-side and query-side distribution shifts between a labeled s…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:COCODRDenseRetrievalDistributionallyRobustContrastiveLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
