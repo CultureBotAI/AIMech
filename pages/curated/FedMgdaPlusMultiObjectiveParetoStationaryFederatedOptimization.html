@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedMGDA+ (Multi-Objective Pareto-Stationary Federated Learning with Normalized Multiple Gradient Descent)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedMGDA+, FedMGDA and MGDA-Prox, Multi-Objective Pareto-Stationary Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A multi-objective federated optimization algorithm (Hu, Shaloudegi, Zhang, &amp; Yu 2022, Sections 3-5, Definition 1, Lemma 1, Equations 4-9 &amp; 19-30, Algorithm 1, Theorems 1a, 1b, &amp; 2) that formulates federated learning over m users as vector minimization min_{w in R^d} f(w) = (f_1(w), ..., f_m(w)) targeting Pareto-stationary solutions w^* where min_{lambda in Delta} ||J_f(w^*) lambda||_2 = 0 (Definition 1, Equation 11), while interpreting intermediate-k local-epoch FedAvg and FedProx through the proximal average A_{f, lambda}^eta(w) whose proximal map equals sum_{i=1}^m lambda_i P_{f_i}^eta(w) (Equations 4-9). In each communication round t, sampled clients i in I_t perform k local epochs of r mini-batch steps and return pseudo-gradients g_i = w^0 - w, which the server normalizes to unit length g_bar_i = g_i / ||g_i||_2 (Algorithm 1, line 5) and combines by solving the epsilon-constrained minimum-norm quadratic program over the probability simplex lambda^* = argmin_{lambda in Delta, ||lambda - lambda_0||_infty &lt;= epsilon} ||sum_{i in I_t} lambda_i g_bar_i||_2^2 to form the common descent direction d_t = sum_{i in I_t} lambda_i^* g_bar_i and global update w_{t+1} = w_t - eta_t d_t (Equation 25, Algorithm 1 lines 6-9), interpolating continuously between normalized FedAvg (epsilon = 0) and unconstrained MGDA (epsilon = 1) while guaranteeing simultaneous descent for all participating clients and invariance against both additive loss-bias and positive multiplicative loss-scaling attacks.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Agnostic Federated Learning (AIMech:AgnosticFederatedLearningMinimaxDistributionallyRobustOptimization, Mohri et al. 2019) and q-Fair Federated Learning (AIMech:QFairFederatedLearningAlphaFairResourceAllocation, Li et al. 2020), which weight client updates by raw loss levels max_{lambda in Lambda} sum_i lambda_i f_i(w) or f_i(w)^q and are vulnerable to malicious clients inflating their loss by an additive constant or multiplicative scalar, whereas FedMGDA+ centers function values (Equation 19) and normalizes client pseudo-gradients g_bar_i = g_i / ||g_i||_2 before solving the epsilon-constrained Frank-Wolfe / minimum-norm quadratic program (Equation 25).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r493-claim-1</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedMGDA+ normalizes each participating client i&#39;s accumulated update g_bar_i = g_i / ||g_i||_2 and computes weights lambda_t^* = argmin_{lambda in Delta, ||lambda - lambda_0||_infty &lt;= epsilon} ||sum_{i in I_t} lambda_i g_bar_i||_2^2 to step along d_t = sum_{i in I_t} lambda_{t,i}^* g_bar_i (Equation 25, Algorithm 1), recovering fixed-weight normalized FedAvg at epsilon = 0 and unconstrained MGDA at epsilon = 1 where d_t is a common descent direction satisfying f(w_{t+1}) &lt;= f(w_t) component-wise for all participating objectives (Equation 24).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r493-primary-pdf">Federated Learning Meets Multi-Objective Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 5, pp. 6-9, Equations 19-25, Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r493-claim-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Function-value centering w_tilde_{t+1} = argmin_w max_{lambda in Delta} lambda^T (f(w) - f(w_tilde_t)) (Equation 19) makes FedMGDA+ invariant to arbitrary additive loss-inflation attacks f_i -&gt; f_i + c_i, unit gradient normalization g_bar_i = g_i / ||g_i||_2 confers invariance to positive multiplicative scaling attacks f_i -&gt; alpha_i f_i, and Theorems 1a, 1b, and 2 prove convergence to Pareto-stationary solutions with min_{0 &lt;= t &lt;= T} E||J_f(w_t) lambda_t||_2^2 -&gt; 0 and E||w_t - w_t^*||_2^2 &lt;= 4 M^2 / (c^2 (t + 3)) (Equations 28-30).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r493-primary-pdf">Federated Learning Meets Multi-Objective Optimization</a></span>
+        <span>· <strong>Locator:</strong> Sections 5 &amp; 6.2.2, pp. 6-8 &amp; 13, Equations 19 &amp; 26-30; Appendix A, pp. 17-20, Equations 31-75</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r493-claim-3</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the number of simultaneously participating users exceeds the model dimension d so that the Jacobian J_f has full row rank, unconstrained MGDA can hit trivial Pareto-stationarity in a single step unless user subsampling or epsilon-box constraints are applied; additionally, small-batch stochastic gradient noise can reduce the fraction of participating users whose loss strictly decreases in a single round.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r493-primary-pdf">Federated Learning Meets Multi-Objective Optimization</a></span>
+        <span>· <strong>Locator:</strong> Sections 5 &amp; 6.2.3, pp. 7-8 &amp; 14, Figure 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r493-claim-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to fair and adversary-robust federated learning on CIFAR-10, Fashion-MNIST, Federated EMNIST, Shakespeare, and Adult benchmarks, improving worst-5% user accuracy and percentage of improved participants per round while maintaining accuracy under additive bias and multiplicative scaling attacks that degrade AFL and q-FedAvg.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r493-primary-pdf">Federated Learning Meets Multi-Objective Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 6, pp. 9-14, Tables 1-6, Figures 1-4; Appendix B, pp. 21-31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires solving a server-side quadratic program over the participating clients in each round, and degenerates if the number of participating clients exceeds the parameter dimension d without subsampling or epsilon constraints.</li>
+      <li>Mini-batch gradient variance at small local batch sizes b &lt; |D_i| can cause the stochastic common descent direction to occasionally increase individual participating clients&#39; losses unless step sizes decay.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedMGDA+ is a multi-objective Pareto-stationary federated optimization algorithm within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r493-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r493-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.11489.pdf" target="_blank" rel="noopener">Federated Learning Meets Multi-Objective Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeou Hu, Kiarash Shaloudegi, Guojun Zhang, Yaoliang Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ee969302a405…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r493-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r493-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.11489" target="_blank" rel="noopener">Federated Learning Meets Multi-Objective Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeou Hu, Kiarash Shaloudegi, Guojun Zhang, Yaoliang Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9cc2d90e7375…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r493-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r493-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.11489" target="_blank" rel="noopener">Federated Learning Meets Multi-Objective Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zeou Hu, Kiarash Shaloudegi, Guojun Zhang, Yaoliang Yu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.11489</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:356ffb96b28c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:36:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:36:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedMgdaPlusMultiObjectiveParetoStationaryFederatedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
