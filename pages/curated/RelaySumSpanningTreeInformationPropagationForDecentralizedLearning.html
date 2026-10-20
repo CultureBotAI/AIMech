@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RelaySum Spanning-Tree Information Propagation for Decentralized Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RelaySum Spanning-Tree Information Propagation for Decentralized Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RelaySum Spanning-Tree Information Propagation for Decentralized Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RelaySumSpanningTreeInformationPropagationForDecentralizedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RelaySum, RelaySGD, RelaySum Spanning-Tree Decentralized Optimization
+    </div>
+
+  <div class="detail-desc">
+    A decentralized information propagation and model-optimization mechanism (RelaySum / RelaySGD) that routes local model updates across spanning trees of a peer-to-peer communication network without hop-wise weight decay by having each worker i send to each tree neighbor j in N_i the sum m_{i-&gt;j}^(t) = x_i^(t+1/2) + sum_{k in N_i \ {j}} m_{k-&gt;i}^(t-1) along with scalar parcel counters c_{i-&gt;j}^(t), delivering to every worker an exact uniform average (1/n) sum_{j=1}^n x_j^(t - tau_{ij} + 1/2) of delayed local models within a finite number of steps equal to the tree diameter tau_max while using the same per-step communication volume as standard gossip averaging.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Thijs Vogels, Lie He, Anastasia Koloskova, Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, and Martin Jaggi (NeurIPS 2021, pp. 28004-28015; arXiv:2110.04175). Distinct from standard gossip averaging / DP-SGD (Lian et al., NeurIPS 2017) and Stochastic Gradient Push (Assran et al., ICML 2019), which decay message weights by mixing-matrix entries &lt; 1 at every hop and suffer from data heterogeneity drift; and distinct from gradient-tracking / exact-diffusion algorithms (D^2, NEXT, SONATA, Push-Pull), which subtract previous gradients or maintain gradient trackers rather than relaying unattenuated model sums over spanning trees.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#relaysum-tree-message-merging-and-counter-normalization-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On any tree network G = (V, E), each node i in V computes its local half-step model x_i^(t+1/2) = x_i^(t) - gamma * grad f_i(x_i^(t)) and transmits to each neighbor j in N_i the merged relay sum m_{i-&gt;j}^(t) = x_i^(t+1/2) + sum_{k in N_i \ {j}} m_{k-&gt;i}^(t-1) together with the counter c_{i-&gt;j}^(t) = 1 + sum_{k in N_i \ {j}} c_{k-&gt;i}^(t-1), updating x_i^(t+1) = (x_i^(t+1/2) + sum_{j in N_i} m_{j-&gt;i}^(t)) / (1 + sum_{j in N_i} c_{j-&gt;i}^(t)) so that for all t &gt;= tau_max every worker receives an exact 1/n uniform average of all n workers&#39; models delayed by shortest-path hop distance tau_{ij}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r549-primary-pdf">RelaySum for Decentralized Deep Learning on Heterogeneous Data</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Method &amp; Algorithm 1 RelaySGD, pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#relaysum-data-heterogeneity-independence-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smoothness and bounded stochastic gradient variance sigma_bar^2, RelaySGD converges on convex and non-convex objectives at rate O(sigma_bar^2 / (n * epsilon^2) + C * sigma_bar / epsilon^(3/2) + C / epsilon) completely independent of the inter-worker data heterogeneity bound zeta^2 = max_i ||grad f_i(x) - grad f(x)||^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r549-primary-pdf">RelaySum for Decentralized Deep Learning on Heterogeneous Data</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theoretical Analysis, Lemma 1 &amp; Theorem I, pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#relaysum-spanning-tree-restriction-and-neighbor-memory-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RelaySum requires an acyclic spanning tree (or double binary trees) so that messages do not loop indefinitely, requires auxiliary memory O(|N_i| * d) proportional to the number of tree neighbors to store incoming directional buffers m_{k-&gt;i}^(t-1), and attenuates effective step-size energy by a topology-dependent factor alpha &lt;= 1/n.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r549-primary-pdf">RelaySum for Decentralized Deep Learning on Heterogeneous Data</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Method, Section 5.2, &amp; Appendix D.1, pp. 4, 7, 33-34</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#relaysum-heterogeneous-decentralized-deep-learning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to decentralized deep learning on heterogeneous non-IID image classification (CIFAR-10 VGG-11, ImageNet ResNet-20-EvoNorm) and NLP fine-tuning (DistilBERT on AG News) over spanning trees and double binary trees.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r549-primary-pdf">RelaySum for Decentralized Deep Learning on Heterogeneous Data</a></span>
+        <span>· <strong>Locator:</strong> Section 5.3 Effect of data heterogeneity in decentralized deep learning, Tables 1-5, pp. 7-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot utilize cycle edges directly on general graphs without first extracting one or more spanning trees.</li>
+      <li>Requires storing one model-sized message buffer per incident tree edge at each worker node.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning represents centralized server-coordinated distributed learning, whereas RelaySum/RelaySGD is a serverless spanning-tree information-propagation and optimization protocol for decentralized networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r549-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r549-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.04175.pdf" target="_blank" rel="noopener">RelaySum for Decentralized Deep Learning on Heterogeneous Data</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thijs Vogels, Lie He, Anastasia Koloskova, Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/VogelsHKKLSJ21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fab0dba33b56…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r549-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r549-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.04175" target="_blank" rel="noopener">RelaySum for Decentralized Deep Learning on Heterogeneous Data (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thijs Vogels, Lie He, Anastasia Koloskova, Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.04175</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ee3a1cfd3860…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r549-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r549-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/VogelsHKKLSJ21" target="_blank" rel="noopener">RelaySum for Decentralized Deep Learning on Heterogeneous Data (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thijs Vogels, Lie He, Anastasia Koloskova, Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, Martin Jaggi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/VogelsHKKLSJ21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d78b01d8d47a…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:32:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:32:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RelaySumSpanningTreeInformationPropagationForDecentralizedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RelaySumSpanningTreeInformationPropagationForDecentralizedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

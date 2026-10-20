@@ -1,0 +1,104 @@
+id: AIMech:RelaySumSpanningTreeInformationPropagationForDecentralizedLearning
+name: RelaySum Spanning-Tree Information Propagation for Decentralized Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A decentralized information propagation and model-optimization mechanism (RelaySum / RelaySGD) that routes local model updates across spanning trees of a peer-to-peer communication network without hop-wise weight decay by having each worker i send to each tree neighbor j in N_i the sum m_{i->j}^(t) = x_i^(t+1/2) + sum_{k in N_i \ {j}} m_{k->i}^(t-1) along with scalar parcel counters c_{i->j}^(t), delivering to every worker an exact uniform average (1/n) sum_{j=1}^n x_j^(t - tau_{ij} + 1/2) of delayed local models within a finite number of steps equal to the tree diameter tau_max while using the same per-step communication volume as standard gossip averaging.
+identity_notes: Introduced by Thijs Vogels, Lie He, Anastasia Koloskova, Tao Lin, Sai Praneeth Karimireddy, Sebastian U. Stich, and Martin Jaggi (NeurIPS 2021, pp. 28004-28015; arXiv:2110.04175). Distinct from standard gossip averaging / DP-SGD (Lian et al., NeurIPS 2017) and Stochastic Gradient Push (Assran et al., ICML 2019), which decay message weights by mixing-matrix entries < 1 at every hop and suffer from data heterogeneity drift; and distinct from gradient-tracking / exact-diffusion algorithms (D^2, NEXT, SONATA, Push-Pull), which subtract previous gradients or maintain gradient trackers rather than relaying unattenuated model sums over spanning trees.
+aliases:
+- RelaySum
+- RelaySGD
+- RelaySum Spanning-Tree Decentralized Optimization
+definition_evidence:
+- source_id: r549-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r549-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r549-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: relaysum-tree-message-merging-and-counter-normalization-mechanism
+  kind: mechanism
+  statement: On any tree network G = (V, E), each node i in V computes its local half-step model x_i^(t+1/2) = x_i^(t) - gamma * grad f_i(x_i^(t)) and transmits to each neighbor j in N_i the merged relay sum m_{i->j}^(t) = x_i^(t+1/2) + sum_{k in N_i \ {j}} m_{k->i}^(t-1) together with the counter c_{i->j}^(t) = 1 + sum_{k in N_i \ {j}} c_{k->i}^(t-1), updating x_i^(t+1) = (x_i^(t+1/2) + sum_{j in N_i} m_{j->i}^(t)) / (1 + sum_{j in N_i} c_{j->i}^(t)) so that for all t >= tau_max every worker receives an exact 1/n uniform average of all n workers' models delayed by shortest-path hop distance tau_{ij}.
+  evidence:
+  - source_id: r549-primary-pdf
+    locator: Section 3 Method & Algorithm 1 RelaySGD, pp. 4-5
+    relation: supports
+- claim_id: relaysum-data-heterogeneity-independence-convergence-scope
+  kind: scope
+  statement: Under L-smoothness and bounded stochastic gradient variance sigma_bar^2, RelaySGD converges on convex and non-convex objectives at rate O(sigma_bar^2 / (n * epsilon^2) + C * sigma_bar / epsilon^(3/2) + C / epsilon) completely independent of the inter-worker data heterogeneity bound zeta^2 = max_i ||grad f_i(x) - grad f(x)||^2.
+  evidence:
+  - source_id: r549-primary-pdf
+    locator: Section 4 Theoretical Analysis, Lemma 1 & Theorem I, pp. 5-6
+    relation: supports
+- claim_id: relaysum-spanning-tree-restriction-and-neighbor-memory-limitation
+  kind: limitation
+  statement: RelaySum requires an acyclic spanning tree (or double binary trees) so that messages do not loop indefinitely, requires auxiliary memory O(|N_i| * d) proportional to the number of tree neighbors to store incoming directional buffers m_{k->i}^(t-1), and attenuates effective step-size energy by a topology-dependent factor alpha <= 1/n.
+  evidence:
+  - source_id: r549-primary-pdf
+    locator: Section 3 Method, Section 5.2, & Appendix D.1, pp. 4, 7, 33-34
+    relation: supports
+- claim_id: relaysum-heterogeneous-decentralized-deep-learning-application
+  kind: application
+  statement: Applied to decentralized deep learning on heterogeneous non-IID image classification (CIFAR-10 VGG-11, ImageNet ResNet-20-EvoNorm) and NLP fine-tuning (DistilBERT on AG News) over spanning trees and double binary trees.
+  evidence:
+  - source_id: r549-primary-pdf
+    locator: Section 5.3 Effect of data heterogeneity in decentralized deep learning, Tables 1-5, pp. 7-10
+    relation: supports
+evidence_sources:
+- source_id: r549-primary-pdf
+  title: RelaySum for Decentralized Deep Learning on Heterogeneous Data
+  authors: &id001
+  - Thijs Vogels
+  - Lie He
+  - Anastasia Koloskova
+  - Tao Lin
+  - Sai Praneeth Karimireddy
+  - Sebastian U. Stich
+  - Martin Jaggi
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.04175.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/VogelsHKKLSJ21
+  version: Advances in Neural Information Processing Systems (NeurIPS 2021) (2021) (1584642 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:32:00Z'
+  sha256: fab0dba33b562bcf32892f88040e87d22d06c9ee78cb38afafd07663ca24c6f6
+- source_id: r549-arxiv-abs
+  title: RelaySum for Decentralized Deep Learning on Heterogeneous Data (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.04175
+  persistent_id: https://arxiv.org/abs/2110.04175
+  version: arXiv abstract page (7795 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:32:00Z'
+  sha256: ee3a1cfd3860c813c84664bbb95f63e000208a62ab37b847433e6ad0b0b034c8
+- source_id: r549-metadata-cr
+  title: RelaySum for Decentralized Deep Learning on Heterogeneous Data (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/VogelsHKKLSJ21
+  persistent_id: https://dblp.org/rec/conf/nips/VogelsHKKLSJ21
+  version: Crossref API work record (2706 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:32:00Z'
+  sha256: d78b01d8d47a3eb30c8c153fba90261d3bc85c60f0890f2c8f938c6214ffcae6
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning represents centralized server-coordinated distributed learning, whereas RelaySum/RelaySGD is a serverless spanning-tree information-propagation and optimization protocol for decentralized networks.
+limitations:
+- Cannot utilize cycle edges directly on general graphs without first extracting one or more spanning trees.
+- Requires storing one model-sized message buffer per incident tree edge at each worker node.
+curation:
+  created_at: '2026-10-19T10:32:00Z'
+  updated_at: '2026-10-19T10:32:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
