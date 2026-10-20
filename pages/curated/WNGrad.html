@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WNGrad · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>WNGrad</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">WNGrad</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:WNGrad</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Weight-Normalization Inspired Adaptive Learning Rate Gradient Descent, Square-Root-Free Reciprocal Step-Size Update Optimization, WN-Adam Weight-Normalized Adaptive Momentum
+    </div>
+
+  <div class="detail-desc">
+    A weight-normalization-inspired adaptive step-size gradient descent algorithm that maintains an inverse learning-rate scalar b_k &gt; 0 (globally or per neuron) updated via the square-root-free nonlinear recurrence b_{k+1} = b_k + (lambda^2 ||g_k||_2^2) / b_k and updates parameters via x_{k+1} = x_k - (lambda / b_k) g_k, automatically stabilizing at a constant multiple of the unknown Lipschitz smoothness constant L in deterministic batch optimization while growing as O(sqrt(k)) to achieve O(1/sqrt(k)) convergence in stochastic convex optimization.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Motivated by the Pythagorean norm growth ||v_{k+1}||_2^2 = ||v_k||_2^2 + (eta^2 / ||v_k||_2^2) ||P_{v_k^perp} nabla f||_2^2 of Weight Normalization on the unit sphere (Equation 4), WNGrad satisfies b_{k+1}^2 = b_k^2 + 2 ||g_k||_2^2 + ||g_k||_2^4 / b_k^2, avoiding square-root operations while remaining invariant to rescaling f -&gt; lambda f when b_1 = C ||nabla f(x_1)||_2 (Remark 2.2). Also includes momentum extensions WNGrad-Momentum and WN-Adam (Algorithm 4).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#wngrad-spherical-projection-inspiration-and-scale-invariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Inspired by unit-sphere weight normalization where orthogonal tangent steps satisfy ||v_{k+1}||_2^2 = ||v_k||_2^2 + (eta^2 / ||v_k||_2^2) ||P_{v_k^perp}(nabla f)||_2^2 (Equation 4), WNGrad updates the inverse step size via b_{k+1} = b_k + ||g_k||_2^2 / b_k (so b_{k+1}^2 = b_k^2 + 2 ||g_k||_2^2 + ||g_k||_2^4 / b_k^2 without square roots) and is strictly invariant to objective rescaling f -&gt; lambda f when b_1 = C ||nabla f(x_1)||_2 (Remark 2.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r618-primary-pdf">WNGrad: Learn the Learning Rate in Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2-1.3 (Equations 3-5) and Section 2 (Remark 2.2), p. 3-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r618-metadata-cr">WNGrad: Learn the Learning Rate in Gradient Descent (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Wu, Ward, &amp; Bottou 2018</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#wngrad-batch-lipschitz-stabilization-and-stochastic-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For L-smooth non-convex functions in the batch setting with b_1 = delta L &gt;= ||nabla f(x_1)||_2, Lemmas 2.4-2.6 and Theorem 2.3 prove that if b_k crosses L at step k_0 then b_{k_0} &lt;= 3L + 2L^2 / b_1 and b_k stabilizes bounded above by b_{k_0} + 8(f(x_{k_0}) - f^*) for all k &gt;= k_0, reaching min_{k&lt;=T} ||nabla f(x_k)||_2^2 &lt;= epsilon in O(1/epsilon) steps; in the stochastic convex setting with E||g_k||_2^2 &lt;= G^2 and ||g_k||_2 &gt;= gamma, Lemma 3.3 and Theorem 3.1 prove b_k &gt;= gamma sqrt(k) and E[f(x_bar_k) - f^*] &lt;= G^2 (D^2 + 2) / (gamma sqrt(k)) + b_1 ||x_1 - x^*||_2^2 / (2k).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r618-primary-pdf">WNGrad: Learn the Learning Rate in Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 2 (Theorem 2.3, Lemmas 2.4-2.6, p. 5-6), Section 3 (Theorem 3.1, Lemma 3.3, p. 6-8), and Appendices A.1-A.2 (p. 12-15)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#wngrad-per-neuron-deep-learning-and-wn-adam-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied with one inverse step-size accumulator b_j per neuron across two-layer MLPs on MNIST, five-layer CNNs on CIFAR-10, and (via WNGrad-Momentum and WN-Adam, Algorithm 4) ResNet-18 on CIFAR-10, WNGrad remains stable across four orders of magnitude of initial learning-rate / Lipschitz scale lambda in [10^{-4}, 10^1] where standard SGD and Adam diverge.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r618-primary-pdf">WNGrad: Learn the Learning Rate in Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Numerical Experiments), Algorithms 3-4, Figures 1-3, and Appendix A.3 (Figure 4), p. 8-10, 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#wngrad-monotonic-accumulator-and-very-small-b1-overshoot-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because b_k is monotonically non-decreasing, an extremely small initialization b_1 = delta L &lt;&lt; L causes a large initial transient bound O(L^2 / (delta^2 epsilon)) in Theorem 2.3 Case 2 before b_k reaches L, and in non-stationary deep learning tasks b_k cannot increase the effective learning rate 1/b_k once accumulated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r618-primary-pdf">WNGrad: Learn the Learning Rate in Gradient Descent</a></span>
+        <span>· <strong>Locator:</strong> Section 2 (Theorem 2.3 Case 2 and Lemma 2.6), p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because b_{k+1} = b_k + ||g_k||_2^2 / b_k is strictly non-decreasing, the effective learning rate 1 / b_k can only decrease over time and cannot re-expand if the optimization enters a flatter region.</li>
+      <li>If initialized with a very small b_1 = delta L (delta &lt;&lt; 1), the initial overshoot before b_k crosses L scales as O(L / delta) under Lemma 2.6.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            WNGrad and WN-Adam dynamically adapt per-neuron learning rates in deep neural networks for Lipschitz-scale robustness.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r618-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r618-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1803.02865.pdf" target="_blank" rel="noopener">WNGrad: Learn the Learning Rate in Gradient Descent</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxia Wu, Rachel Ward, Leon Bottou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1803-02865.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d2a295c7755c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r618-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r618-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1803.02865" target="_blank" rel="noopener">WNGrad: Learn the Learning Rate in Gradient Descent (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxia Wu, Rachel Ward, Leon Bottou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1803.02865</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d67f925c9543…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r618-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r618-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-1803-02865.xml" target="_blank" rel="noopener">WNGrad: Learn the Learning Rate in Gradient Descent (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xiaoxia Wu, Rachel Ward, Leon Bottou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1803-02865.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b334e798d4d1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:41:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:41:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/WNGrad.yaml" target="_blank" rel="noopener">
+      <code>data/curated/WNGrad.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
