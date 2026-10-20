@@ -1,0 +1,101 @@
+id: AIMech:LoraPlusEfficientLowRankAdaptationWithAsymmetricLearningRates
+name: LoRA+ (Asymmetric Learning Rate Low-Rank Adaptation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: "LoRA+ is an optimization algorithm for Low-Rank Adaptation (LoRA) of large-width neural networks that sets distinct, asymmetrically scaled learning rates for the two low-rank adapter matrices A in R^{r x n} (initialized with variance Theta(n^{-1})) and B in R^{n x r} (initialized to zero) in W = W^* + (alpha / r) B A. Based on an infinite-width scaling analysis (n -> infinity with fixed rank r << n) showing that efficient feature learning\u2014where both linear feature-update terms delta_t^1 = B_{t-1} Delta Z_A^t and delta_t^2 = Delta B_t Z_A^{t-1} are Theta(1) without exploding activations\u2014requires eta_A = Theta(n^{-1}) and eta_B = Theta(1), LoRA+ enforces a fixed learning-rate ratio eta_B = lambda * eta_A with lambda >> 1 (typically lambda in [2^1, 2^4]) and tunes only the base learning rate eta_A at zero additional computational or memory cost."
+identity_notes: Distinct from standard LoRA (Hu et al., 2022), which updates both A and B using the same learning rate eta_A = eta_B = eta and consequently suffers from inefficient feature learning in large-width models (where either delta_t^1 = o(1) or intermediate features explode as width n grows). Also distinct from structural LoRA reparameterizations such as DoRA (Liu et al., 2024) and PiSSA (Meng et al., 2024), which alter the forward-pass weight decomposition or SVD initialization rather than the relative optimizer step sizes eta_B / eta_A.
+aliases:
+- LoRA+
+- LoRA Plus
+- Asymmetric Learning Rate Low-Rank Adaptation
+- Width-Scaled LoRA+
+definition_evidence:
+- source_id: r654-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r654-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r654-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r654-claim-inefficiency-of-equal-learning-rates
+  kind: mechanism
+  statement: In the infinite-width limit n -> infinity with fixed rank r << n, decomposing the step-t LoRA feature update Delta Z_B^t = delta_t^1 + delta_t^2 + delta_t^3 into linear updates delta_t^1 = B_{t-1} Delta Z_A^t and delta_t^2 = Delta B_t Z_A^{t-1} and multiplicative update delta_t^3 = Delta B_t Delta Z_A^t shows (Proposition 1 and Theorem 1) that any single learning rate eta_A = eta_B = Theta(n^c) cannot simultaneously satisfy stability (Z_A, Z_B = O(1)) and efficient feature learning (delta_t^1 = Theta(1) and delta_t^2 = Theta(1)).
+  evidence:
+  - source_id: r654-primary-pdf
+    locator: Section 3.1 (Proposition 1), p. 4; Section 4 (Definitions 3-5 & Theorem 1), p. 6-7; Appendix A.3-A.5, p. 13-16
+    relation: supports
+- claim_id: r654-claim-optimal-width-scaling-ratio
+  kind: mechanism
+  statement: "When training LoRA adapters with gradient descent (Proposition 2) or Adam-type normalized gradients where g_A^t Z = Theta(n) (Theorem 1), setting eta_A = Theta(n^{-1}) and eta_B = Theta(1)\u2014so that the learning rate exponent sum satisfies gamma[eta_A] + gamma[eta_B] = -1 and eta_B / eta_A = Theta(n)\u2014uniquely guarantees Z_A^t = O(1), Z_B^t = O(1), and delta_t^i = Theta(1) for all i in {1, 2, 3} and steps t > 1."
+  evidence:
+  - source_id: r654-primary-pdf
+    locator: Section 3.1 (Proposition 2), p. 4; Section 4 (Theorem 1), p. 7; Appendix A.4-A.5, p. 14-16
+    relation: supports
+- claim_id: r654-claim-llm-finetuning-speedup-and-accuracy
+  kind: application
+  statement: Setting eta_B = lambda * eta_A with lambda > 1 (empirically lambda = 2^4 = 16 for RoBERTa/GPT-2 on GLUE and lambda in [2^1, 2^2] for LLaMA-7B on Flan-v2/MMLU) delivers 1%-2% test accuracy improvements and up to ~2x fine-tuning convergence speedup over standard LoRA (eta_B = eta_A) at identical per-step computational cost.
+  evidence:
+  - source_id: r654-primary-pdf
+    locator: Section 5.1-5.3, Figures 3-7, p. 7-9
+    relation: supports
+- claim_id: r654-claim-architecture-and-task-dependent-constant-limitation
+  kind: limitation
+  statement: Because the asymptotic scaling law eta_B / eta_A = Theta(n) leaves the constant prefactor in Theta(n) unspecified, the optimal finite-width ratio lambda = eta_B / eta_A varies across model architectures, initialization schemes (Init[1] vs. Init[2]), and task difficulty (e.g., lambda approx 2^4 for RoBERTa on MNLI versus lambda approx 2^1-2^2 for LLaMA-7B).
+  evidence:
+  - source_id: r654-primary-pdf
+    locator: Section 5.3 (How to set LoRA+ Ratio?) & Section 6 (Conclusion and Limitations), Figure 6, p. 9
+    relation: supports
+evidence_sources:
+- source_id: r654-primary-pdf
+  title: 'LoRA+: Efficient Low Rank Adaptation of Large Models'
+  authors: &id001
+  - Soufiane Hayou
+  - Nikhil Ghosh
+  - Bin Yu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.12354.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/HayouG024.html
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235:17783-17806 (2024) (1472541 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:17:00Z'
+  sha256: ee93deb531da2dc2fcc4db5aa7ff6f26c08c9e8a77853afe68d1940bb0b1d301
+- source_id: r654-arxiv-abs
+  title: 'LoRA+: Efficient Low Rank Adaptation of Large Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.12354
+  persistent_id: https://arxiv.org/abs/2402.12354
+  version: arXiv abstract page (6261 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:17:00Z'
+  sha256: 9d111adab605da5e4bbadb01ddb848da9a41bae00913529c2cc5d75e50697842
+- source_id: r654-metadata-cr
+  title: 'LoRA+: Efficient Low Rank Adaptation of Large Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/HayouG024.html
+  persistent_id: https://dblp.org/rec/conf/icml/HayouG024.html
+  version: Crossref API work record (1676 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:17:00Z'
+  sha256: 27db33885dde5b4454eb8e31bd07b9275db63ed119770f2435a94abf3cfb1015
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LoRA+ derives infinite-width learning-rate scaling laws for low-rank fine-tuning of deep neural networks and large language models.
+limitations:
+- The asymptotic scaling rule eta_B / eta_A = Theta(n) does not determine the exact finite-width constant factor lambda, which depends on the pretrained model architecture, adapter initialization scheme, and downstream task difficulty.
+- "On \u201Deasy\u201D downstream tasks that require minimal feature adaptation (such as single-epoch MNLI on LLaMA-7B), setting lambda >> 1 provides negligible gain over standard equal learning rates eta_B = eta_A."
+curation:
+  created_at: '2026-10-19T12:17:00Z'
+  updated_at: '2026-10-19T12:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
