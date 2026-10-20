@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aggregated Momentum (AggMo Passive Damping Optimizer) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Aggregated Momentum (AggMo Passive Damping Optimizer)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Aggregated Momentum (AggMo Passive Damping Optimizer)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AggMoAggregatedMomentumPassiveDampingOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AggMo, Aggregated Momentum Optimizer, Passive Damping Aggregated Momentum and Beta-Averaged Momentum
+    </div>
+
+  <div class="detail-desc">
+    A multi-velocity first-order momentum optimization method inspired by passive structural damping that maintains K parallel velocity vectors v_t^(1), ..., v_t^(K) associated with a damping vector beta = [beta^(1), ..., beta^(K)] (by default exponentially spaced as beta^(i) = 1 - a^{i-1} with scale factor a = 0.1 for i = 1, ..., K). At each step t, AggMo updates every velocity independently via v_t^(i) = beta^(i) v_{t-1}^(i) - nabla_theta f(theta_{t-1}) and updates the parameters by averaging the velocities: theta_t = theta_{t-1} + (gamma_t / K) sum_{i=1}^K v_t^(i) (or with per-velocity stepsizes gamma_t^(i) in Eq. 4, or continuous Beta(alpha, beta) density integration in Beta-Averaged Momentum, Eqs. 14-17).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Classical Polyak Momentum, Nesterov Accelerated Gradient, and AdEMAMix (AIMech:AdEMAMixAdaptiveEMAMixtureOptimization): AggMo is a non-adaptive multi-frequency passive-damping momentum scheme whose dynamics evolve according to a (K + 1)-th order finite difference equation (Appendix C.1, Eq. 12) rather than a 2nd-order ODE discretization, and whose generalized K = 2 form with beta = [0, beta] and gamma_t^(1) = 2 gamma, gamma_t^(2) = 2 beta gamma exactly recovers Nesterov&#39;s half-step reparameterized iterate phi_t = theta_t + gamma beta v_t (Section 4, Eqs. 4-7).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#nesterov-accelerated-gradient-recovery-as-k2-aggmo-special-case</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 4 (Eqs. 4-7, p. 4) proves that generalized AggMo with K = 2 damping coefficients beta = [0, beta] and velocity learning rates gamma_t^(1) = 2 gamma, gamma_t^(2) = 2 beta gamma yields the update theta_t = theta_{t-1} + gamma beta^2 v_{t-1} - (1 + beta) gamma nabla_theta f(theta_{t-1}), which is identical at every iteration to Nesterov&#39;s accelerated gradient under the lookahead reparameterization phi_t = theta_t + gamma beta v_t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r606-primary-pdf">Aggregated Momentum: Stability Through Passive Damping</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Eqs. 4-7, p. 4; Appendix A, Figures 8-9, p. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#block-companion-dynamical-system-and-k-plus-1-order-finite-difference</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On quadratic objectives f(x) = (1/2) x^T A x + b^T x with eigenvalues {lambda_j}, AggMo evolves as a (K + 1)-dimensional linear dynamical system per eigenmode with block matrix B_j (Appendix B &amp; C.1, p. 12-13, 17) and satisfies a (K + 1)-th order finite difference equation (Eqs. 9-12, p. 18), interpolating smoothly between the critical-damping convergence rates of its constituent beta^(i) modes and achieving ~3x faster convergence than Nesterov momentum in the under-damped regime (Section 5.1, Figure 3, p. 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r606-primary-pdf">Aggregated Momentum: Stability Through Passive Damping</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Figure 3, p. 4-5; Appendix B &amp; C.1, Eqs. 9-12, p. 12-13, 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#online-convex-programming-regret-bound-and-beta-averaged-momentum</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under online convex programming with bounded gradients ||nabla f_t(theta)||_infty &lt; G_infty, bounded domain diameter D, D_infty, stepsize gamma_t = gamma / sqrt(t), and decaying damping beta_t^(i) = beta^(i) lambda^t, Lemma 1 and Theorem 1 (Section 5.2, p. 5-6; Appendix C, p. 14-17) prove R(T) &lt;= D_infty^2 sqrt(T) / gamma + (gamma sqrt(1 + log T) / (2K)) sum_{j=1}^d ||g_{1:T,j}||_4^2 sum_{i=1}^K (1 + beta^(i)) / (1 - beta^(i))^2 + (D^2 / (2K gamma (1 - lambda)^2)) sum_{i=1}^K beta^(i) = O(sqrt(T)); Appendix F (Eqs. 14-17, p. 21) further derives closed-form Beta-Averaged Momentum updates with weight E[b^k] = prod_{r=0}^{k-1} (alpha + r) / (alpha + beta + r).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r606-primary-pdf">Aggregated Momentum: Stability Through Passive Damping</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, Theorem 1, p. 5-6; Appendix C, Lemma 1, p. 14-17; Appendix F, Eqs. 14-17, p. 21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#autoencoder-cnn-resnet-without-batchnorm-and-lstm-benchmarks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across MNIST deep autoencoders, CIFAR-10 CNN-5, CIFAR-10/100 ResNet-32 (including training ResNet-32 without batch normalization at large learning rates), and Penn Treebank 3-layer LSTM language modeling, AggMo achieves faster training convergence and lower or competitive validation/test loss compared to classical momentum, Nesterov momentum, and Adam while remaining stable at damping coefficients up to 0.999.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r606-primary-pdf">Aggregated Momentum: Stability Through Passive Damping</a></span>
+        <span>· <strong>Locator:</strong> Section 7.1-7.3, Tables 1-3 and Figures 4-7, p. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#k-fold-velocity-memory-overhead-and-open-closed-form-spectral-analysis</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AggMo stores K separate velocity vectors of the same dimension as the model parameters (increasing optimizer state memory K-fold over classical momentum), lacks a closed-form analytical formula for the optimal learning rate and complex eigenvalue boundaries of B_j for K &gt;= 2 (Appendix B &amp; C.1, p. 13, 17), and its continuous Beta-Averaged Momentum analog requires storing the full gradient history (Appendix F, p. 21).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r606-primary-pdf">Aggregated Momentum: Stability Through Passive Damping</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, p. 4; Appendix B, p. 13; Appendix C.1, p. 17-18; Appendix F, p. 21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires storing K velocity vectors of full parameter dimension (e.g., K = 3 or K = 4), multiplying momentum state memory by K compared to classical or Nesterov momentum.</li>
+      <li>Because the (K + 1)-th order finite difference dynamics do not correspond to a standard 2nd-order Hamiltonian ODE discretization, closed-form optimal learning rates for general K &gt;= 2 are unavailable and Beta-Averaged Momentum requires full gradient history.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AggMo is a drop-in momentum optimization method for training deep autoencoders, convolutional neural networks, and recurrent language models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r606-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r606-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1804.00325" target="_blank" rel="noopener">Aggregated Momentum: Stability Through Passive Damping</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Lucas, Shengyang Sun, Richard Zemel, Roger Grosse
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LucasSZG19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b69c87fd4b1f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r606-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r606-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1804.00325" target="_blank" rel="noopener">Aggregated Momentum: Stability Through Passive Damping (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Lucas, Shengyang Sun, Richard Zemel, Roger Grosse
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1804.00325</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a2a5fdd0f834…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r606-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r606-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LucasSZG19" target="_blank" rel="noopener">Aggregated Momentum: Stability Through Passive Damping (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            James Lucas, Shengyang Sun, Richard Zemel, Roger Grosse
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LucasSZG19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b30cded505c2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:29:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:29:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AggMoAggregatedMomentumPassiveDampingOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AggMoAggregatedMomentumPassiveDampingOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
