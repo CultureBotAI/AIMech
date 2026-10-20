@@ -1,0 +1,106 @@
+id: AIMech:LayerDropStructuredDropoutForTransformerDepthReduction
+name: 'LayerDrop: Structured Dropout for On-Demand Transformer Depth Reduction'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A structured dropout regularization and on-demand depth-pruning algorithm for Transformer networks that constrains a binary Bernoulli mask M in {0, 1} to be constant across each predefined layer weight group G in calG (so M[i] = M[j] for all (i, j) in G and entire layers are stochastically bypassed via residual connections with drop probability p during training, yielding N(1 - p) expected active layers), sets the optimal training drop rate to p* = 1 - r/N for a target inference depth of r layers, and extracts shallow sub-networks of any desired depth at inference time without post-hoc fine-tuning by deterministically dropping every other strided layer d == 0 (mod floor(1/p_prune)).
+identity_notes: Introduced by Angela Fan, Edouard Grave, and Armand Joulin (ICLR 2020, arXiv:1909.11556). Distinct from unstructured weight DropConnect (which zeroes individual weights without reducing inference latency), from Stochastic Depth in ResNets (which uses a linear depth-decay survival schedule purely to accelerate training without inference-time layer pruning), and from distillation-based depth compression methods such as DistilBERT (Round 803) and TinyBERT (Round 800) that must train a separate student model for each target depth.
+aliases:
+- LayerDrop
+- LayerDrop Structured Layer Dropout for Transformers
+- On-Demand Transformer Depth Pruning via LayerDrop
+definition_evidence:
+- source_id: r810-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r810-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r810-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r810-claim-group-constant-structured-dropout-and-optimal-drop-rate
+  kind: mechanism
+  statement: LayerDrop generalizes DropConnect W_d = M o W by partitioning network parameters into predefined layer groups G in calG and enforcing M[i] = M[j] for all (i, j) in G with independent group drop probability p (Section 3.2.1); because N(1 - p) layers are active on average during training, targeting an inference-time pruned sub-network of r layers out of N yields the optimal training drop rate p* = 1 - r/N (Section 3.2.2).
+  evidence:
+  - source_id: r810-primary-pdf
+    locator: Section 3.2.1 (Randomly Dropping Structures at Training Time) & Section 3.2.2 (Setting the drop rate for optimal pruning), Pages 3-4
+    relation: supports
+  - source_id: r810-primary-pdf
+    locator: optimal_drop_rate and expected_active_layers verification in main()
+    relation: supports
+- claim_id: r810-claim-every-other-strided-inference-pruning
+  kind: mechanism
+  statement: At inference time, LayerDrop extracts shallow sub-networks from a single trained Transformer without fine-tuning using the deterministic 'Every Other' strategy, which prunes at rate p_prune by dropping layers at depth d satisfying d == 0 (mod floor(1/p_prune)), matching or nearly matching validation-search and learned data-driven softmax layer-selection while avoiding the severe perplexity degradation caused by contiguous first-half or last-half layer removal.
+  evidence:
+  - source_id: r810-primary-pdf
+    locator: Section 3.2.2 (Pruning at Inference Time) & Section 6 (Ablation Studies, Figures 4-5), Pages 4 & 7-8
+    relation: supports
+  - source_id: r810-primary-pdf
+    locator: every_other_kept_layers verification for p_prune=0.25 and p_prune=0.50 in main()
+    relation: supports
+- claim_id: r810-claim-deep-transformer-stabilization-and-roberta-pruning
+  kind: application
+  statement: "LayerDrop stabilizes and regularizes very deep Transformers\u2014enabling a 12-encoder-layer Transformer to reach 30.2 BLEU on WMT14 En-De (where the baseline without LayerDrop diverges), a 40-layer Adaptive Inputs Transformer to reach 17.7 test perplexity on WikiText-103, and a 48-layer RoBERTa-Large model to train at almost 2x speed with p = 0.5\u2014while 6-layer (50% pruned) and 3-layer (75% pruned) RoBERTa sub-networks outperform DistilBERT and from-scratch small models on MNLI and SST-2."
+  evidence:
+  - source_id: r810-primary-pdf
+    locator: Section 5.1-5.2 (Tables 1-4, Figures 2-3) & Appendix A.2-A.3 (Table 7, Figure 7), Pages 5-7 & 14-15
+    relation: supports
+- claim_id: r810-claim-boundary-layer-sensitivity-and-high-pruning-rate-limitation
+  kind: limitation
+  statement: In a LayerDrop-trained Transformer, the earliest input layers and final output projection layers remain disproportionately critical to performance (removing contiguous blocks of initial or final layers causes severe perplexity degradation from 19.7 to 26.1-29.3 on WikiText-103), and extracting aggressively pruned sub-networks (e.g., >=50% depth reduction) requires training with a correspondingly large drop rate (p = 0.4-0.5).
+  evidence:
+  - source_id: r810-primary-pdf
+    locator: Section 6 (Ablation Studies, Figures 4, 5, & 6), Pages 7-8
+    relation: supports
+evidence_sources:
+- source_id: r810-primary-pdf
+  title: Reducing Transformer Depth on Demand with Structured Dropout
+  authors: &id001
+  - Angela Fan
+  - Edouard Grave
+  - Armand Joulin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1909.11556.pdf
+  persistent_id: https://arxiv.org/bibtex/1909.11556
+  version: International Conference on Learning Representations (ICLR 2020) (2020) (643102 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:53:00Z'
+  sha256: e18966beebdb74c3a1539e15532dfa1c38c1bdc6238d1bbac525f53afe28c6f4
+- source_id: r810-arxiv-abs
+  title: Reducing Transformer Depth on Demand with Structured Dropout (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1909.11556
+  persistent_id: https://arxiv.org/abs/1909.11556
+  version: arXiv abstract page (6569 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:53:00Z'
+  sha256: 1fbc269f83e9b74243cb8ff366a50ad1fd1856c0d0338fab2c48c4b0b70ecf0a
+- source_id: r810-metadata-cr
+  title: Reducing Transformer Depth on Demand with Structured Dropout (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/1909.11556
+  persistent_id: https://arxiv.org/bibtex/1909.11556
+  version: Crossref API work record (388 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:53:00Z'
+  sha256: 2b9ddb7be4da8c6e17c32433a1e432cc53047f468a62be0bc210d519876675ff
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Regularizes deep Transformer neural networks via group-constant layer dropout masks during training to enable zero-shot structured depth pruning at inference time.
+limitations:
+- Input-adjacent and output-adjacent Transformer layers remain critical for token processing and vocabulary projection, so pruning contiguous initial or final layer blocks severely degrades accuracy.
+- Aggressive inference-time depth reduction (>=50% layers pruned) requires training with a high LayerDrop rate (p = 0.4-0.5) to align train-time and test-time active depths.
+curation:
+  created_at: '2026-10-19T14:53:00Z'
+  updated_at: '2026-10-19T14:53:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
