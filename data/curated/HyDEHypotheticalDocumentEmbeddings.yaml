@@ -1,0 +1,104 @@
+id: AIMech:HyDEHypotheticalDocumentEmbeddings
+name: HyDE Hypothetical Document Embeddings
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A training-free zero-shot dense retrieval method that decomposes relevance modeling into an instruction-following natural language generation step and an unsupervised document-document similarity step: given a test query, an instruction-following language model generates N hypothetical documents that exemplify relevant answer patterns (even if factually ungrounded), an unsupervised contrastively pretrained encoder maps those hypothetical documents and the query into a dense query vector by averaging their embeddings, and real corpus documents are retrieved via inner-product similarity in the document embedding space.'
+identity_notes: Distinct from document-to-query data augmentation methods such as Promptagator (AIMech:PromptagatorFewShotDenseRetrievalDataGeneration) and InPars (AIMech:InParsInContextDataAugmentationForInformationRetrieval), which generate synthetic queries from real documents offline to train retrievers or rerankers, whereas HyDE requires no model training or corpus access beforehand and instead translates each incoming query online into hypothetical documents so that retrieval occurs purely in an unsupervised document-document contrastive embedding space.
+aliases:
+- HyDE
+- Hypothetical Document Embeddings
+- Zero-Shot Dense Retrieval via Hypothetical Document Embeddings
+definition_evidence:
+- source_id: r742-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r742-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r742-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hyde-generative-hypothetical-document-pivoting
+  kind: mechanism
+  statement: Given a query q_{ij} and task instruction INST_i, HyDE samples N hypothetical answer passages d_hat_k ~ InstructLM(q_{ij}, INST_i) and computes the query representation as the expectation average v_hat_{q_{ij}} = (1/(N+1)) (sum_{k=1}^N f(d_hat_k) + f(q_{ij})) using an unsupervised contrastive document encoder f = enc_con.
+  evidence:
+  - source_id: r742-primary-pdf
+    locator: Section 3.2, pp. 3-4, Equations 2-8
+    relation: supports
+- claim_id: hyde-dense-bottleneck-hallucination-filtering
+  kind: mechanism
+  statement: Because the unsupervised contrastive encoder f maps text into a compact dense vector trained for document-document similarity, it acts as a lossy bottleneck that filters out hallucinated factual details in the generated hypothetical passages while grounding the resulting vector to real corpus documents via inner-product search.
+  evidence:
+  - source_id: r742-primary-pdf
+    locator: Section 1 & Section 3.2, pp. 2 & 4
+    relation: supports
+- claim_id: hyde-zero-shot-web-beir-and-multilingual-application
+  kind: application
+  statement: Without any relevance labels or model fine-tuning, HyDE pairing InstructGPT with Contriever or mContriever substantially outperforms BM25 and standalone Contriever across TREC DL19/DL20 web search, six BEIR low-resource retrieval tasks, and multilingual retrieval in Swahili, Korean, Japanese, and Bengali on Mr.TyDi.
+  evidence:
+  - source_id: r742-primary-pdf
+    locator: Section 4.1-4.4, pp. 4-6, Tables 1-3
+    relation: supports
+  - source_id: r742-metadata-cr
+    locator: DBLP bibliographic record Luyu Gao et al. ACL 2023
+    relation: supports
+- claim_id: hyde-online-llm-generation-latency-and-low-resource-limitation
+  kind: limitation
+  statement: HyDE requires invoking an instruction-following generative language model at query time for every user query and its effectiveness degrades when the generative model or contrastive encoder is under-trained on low-resource languages or specialized entity domains.
+  evidence:
+  - source_id: r742-primary-pdf
+    locator: Section 4.3-4.4 & Section 6, pp. 5-7
+    relation: supports
+evidence_sources:
+- source_id: r742-primary-pdf
+  title: Precise Zero-Shot Dense Retrieval without Relevance Labels
+  authors: &id001
+  - Luyu Gao
+  - Xueguang Ma
+  - Jimmy Lin
+  - Jamie Callan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2212.10496.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Precise+Zero-Shot+Dense+Retrieval+without+Relevance+Labels+Gao&h=5&format=xml
+  version: 'Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) (ACL 2023) (2023) (424964 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:45:00Z'
+  sha256: dc0ae3c5584ed146beee122e6a9ad9c48547dde048d53e9be8435d8f1d354531
+- source_id: r742-arxiv-abs
+  title: Precise Zero-Shot Dense Retrieval without Relevance Labels (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2212.10496
+  persistent_id: https://arxiv.org/abs/2212.10496
+  version: arXiv abstract page (6540 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:45:00Z'
+  sha256: 52600703c77c08137c7f7346ed194d2158358b6c14d7f52c74bfb4a5edfcb275
+- source_id: r742-metadata-cr
+  title: Precise Zero-Shot Dense Retrieval without Relevance Labels (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Precise+Zero-Shot+Dense+Retrieval+without+Relevance+Labels+Gao&h=5&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Precise+Zero-Shot+Dense+Retrieval+without+Relevance+Labels+Gao&h=5&format=xml
+  version: Crossref API work record (891 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:45:00Z'
+  sha256: be5331ed507741d427296cd261c0b15d33616d2140b85e9da1d735e46ec20385
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: HyDE combines an instruction-following neural language model with an unsupervised contrastive neural document encoder for zero-shot dense retrieval.
+limitations:
+- Online generation of N hypothetical passages per query using a large language model increases query-time latency and compute cost compared to a standalone bi-encoder.
+- Assumes a unimodal embedding expectation over generated documents, which can be suboptimal for highly ambiguous queries with multiple distinct interpretations.
+curation:
+  created_at: '2026-10-19T13:45:00Z'
+  updated_at: '2026-10-19T13:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
