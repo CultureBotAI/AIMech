@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RocketQAv2 Joint Training for Dense Passage Retrieval and Passage Reranking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RocketQAv2 Joint Training for Dense Passage Retrieval and Passage Reranking</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RocketQAv2 Joint Training for Dense Passage Retrieval and Passage Reranking</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> RocketQAv2, RocketQAv2 Dynamic Listwise Distillation and Hybrid Data Augmentation, Joint Training Method for Dense Passage Retrieval and Passage Reranking
+    </div>
+
+  <div class="detail-desc">
+    A joint training algorithm for dense passage retrieval and passage reranking that couples a bi-encoder dual-encoder retriever s_de(q, p) = E_Q(q)^T E_P(p) and a cross-encoder reranker s_ce(q, p) = w^T E_C([CLS] q [SEP] p [SEP]) over a shared candidate passage list C_q = {p^+, p^-_1, ..., p^-_{K-1}} via dynamic listwise distillation and hybrid data augmentation: it normalizes both models&#39; listwise relevance scores via softmax (p~_de(q, p_i) = exp(s_de(q, p_i)) / sum_{j=1}^K exp(s_de(q, p_j)) and p~_ce(q, p_i) = exp(s_ce(q, p_i)) / sum_{j=1}^K exp(s_ce(q, p_j))), jointly minimizes the sum of the listwise Kullback-Leibler divergence and cross-encoder supervised NLL loss L_final = L_kl + L_ce where L_kl = sum_{i=1}^K p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and L_ce = -log p~_ce(q, p^+), and refreshes C_q using a hybrid data augmentation strategy that retrieves top candidates with the dual-encoder and filters out high-confidence false negatives using the cross-encoder.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from RocketQA (AIMech:RocketQADenoisedHardNegativeSampling), which alternates separate training stages of the retriever and reranker with static pseudo-labels rather than joint synchronous dynamic listwise distillation; distinct from TAS-B (AIMech:TASBTopicAwareSamplingBalancedMarginDistillation), which distills pairwise score margins from static teacher models using topic-clustered batches; and distinct from AR2 (AIMech:AR2AdversarialRetrieverRankerForDenseTextRetrieval), which formulates retriever-ranker training as a minimax adversarial game rather than mutual listwise KL alignment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rocketqav2-dynamic-listwise-kl-distillation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    RocketQAv2 normalizes dual-encoder and cross-encoder relevance scores across the candidate passage list C_q = {p^+, p^-_1, ..., p^-_{K-1}} using listwise softmax distributions p~_de(q, p_i) and p~_ce(q, p_i) (Equations 5-6) and jointly optimizes L_final = L_kl + L_ce where L_kl = sum_{i=1}^K p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and L_ce = -log p~_ce(q, p^+) (Equations 7-8), allowing the dual-encoder to track continuous listwise score changes of the cross-encoder online during training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-primary-pdf">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Dynamic Listwise Distillation, Equations 5-8, pp. 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-primary-pdf">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a></span>
+        <span>· <strong>Locator:</strong> main() verification of listwise softmax KL divergence L_kl, cross-encoder NLL L_ce, and gradient descent step</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#rocketqav2-hybrid-data-augmentation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To construct high-quality candidate lists C_q for joint training and iterative refinement, RocketQAv2 applies hybrid data augmentation (Section 2.3, Figure 1b) that combines dual-encoder hard-negative retrieval with cross-encoder denoising to filter out false negatives (unlabeled relevant passages) while retaining informative hard negatives.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-primary-pdf">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Hybrid Data Augmentation &amp; Section 3.2 Analysis, Figure 1b, Tables 3-5, pp. 2-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#rocketqav2-benchmark-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On MS MARCO Passage Ranking and Natural Questions (NQ), RocketQAv2 improves both dense retrieval and passage reranking over RocketQA and prior methods, reaching 38.8 MRR@10 and 86.2% Recall@50 in dense retrieval on MS MARCO Dev (41.9 MRR@10 after reranking) and 75.1% Recall@5 / 83.7% Recall@20 on NQ test (Tables 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-primary-pdf">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Main Results, Tables 1-2, pp. 4-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-metadata-cr">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> BibTeX citation record for arXiv:2110.07367 (EMNLP 2021)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#rocketqav2-computational-overhead-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because RocketQAv2 evaluates both the dual-encoder and the cross-encoder on all K passages in the candidate list C_q at every joint training step and requires a warmed-up cross-encoder for initial hybrid data augmentation, its per-step GPU memory and compute cost during training is substantially higher than training a standalone dual-encoder.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r758-primary-pdf">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Training Procedure &amp; Section 3.1 Implementation Details, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Joint online forward and backward passes through both the cross-encoder reranker and the dual-encoder retriever across K candidate passages per query require large multi-GPU memory and compute budgets.</li>
+      <li>Requires an initial cross-encoder warmup stage and corpus-wide passage indexing for hybrid data augmentation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RocketQAv2 jointly trains a neural Transformer bi-encoder retriever and a neural Transformer cross-encoder reranker via dynamic listwise KL distillation.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r758-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r758-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.07367" target="_blank" rel="noopener">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2110.07367</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:76302f58fbb1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r758-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r758-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.07367" target="_blank" rel="noopener">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.07367</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fba713e58b62…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r758-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r758-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2110.07367" target="_blank" rel="noopener">RocketQAv2: A Joint Training Method for Dense Passage Retrieval and Passage Reranking (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ruiyang Ren, Yingqi Qu, Jing Liu, Wayne Xin Zhao, Qiaoqiao She, Hua Wu, Haifeng Wang, Ji-Rong Wen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2110.07367</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0f4f1c05e0e5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:01:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:01:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RocketQAv2JointTrainingDensePassageRetrievalAndReranking.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RocketQAv2JointTrainingDensePassageRetrievalAndReranking.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

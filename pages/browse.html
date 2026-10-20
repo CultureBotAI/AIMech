@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1594</strong> artificial intelligence concepts, comprising <strong>1152</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1595</strong> artificial intelligence concepts, comprising <strong>1153</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1594)</option>
-        <option value="curated">Curated AIMech (1152)</option>
+        <option value="all">All Origins (1595)</option>
+        <option value="curated">Curated AIMech (1153)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (826)</option>
+          <option value="algorithm">Algorithms (827)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (57)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1594</span> of <span id="totalCount">1594</span>
+      Showing <span id="matchCount">1595</span> of <span id="totalCount">1595</span>
     </div>
   </div>
 </div>
@@ -32376,6 +32376,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="rocketqav2 joint training for dense passage retrieval and passage reranking rocketqav2jointtrainingdensepassageretrievalandreranking aimech:rocketqav2jointtrainingdensepassageretrievalandreranking algorithms algorithm a joint training algorithm for dense passage retrieval and passage reranking that couples a bi-encoder dual-encoder retriever s_de(q, p) = e_q(q)^t e_p(p) and a cross-encoder reranker s_ce(q, p) = w^t e_c([cls] q [sep] p [sep]) over a shared candidate passage list c_q = {p^+, p^-_1, ..., p^-_{k-1}} via dynamic listwise distillation and hybrid data augmentation: it normalizes both models&#39; listwise relevance scores via softmax (p~_de(q, p_i) = exp(s_de(q, p_i)) / sum_{j=1}^k exp(s_de(q, p_j)) and p~_ce(q, p_i) = exp(s_ce(q, p_i)) / sum_{j=1}^k exp(s_ce(q, p_j))), jointly minimizes the sum of the listwise kullback-leibler divergence and cross-encoder supervised nll loss l_final = l_kl + l_ce where l_kl = sum_{i=1}^k p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and l_ce = -log p~_ce(q, p^+), and refreshes c_q using a hybrid data augmentation strategy that retrieves top candidates with the dual-encoder and filters out high-confidence false negatives using the cross-encoder. distinct from rocketqa (aimech:rocketqadenoisedhardnegativesampling), which alternates separate training stages of the retriever and reranker with static pseudo-labels rather than joint synchronous dynamic listwise distillation; distinct from tas-b (aimech:tasbtopicawaresamplingbalancedmargindistillation), which distills pairwise score margins from static teacher models using topic-clustered batches; and distinct from ar2 (aimech:ar2adversarialretrieverrankerfordensetextretrieval), which formulates retriever-ranker training as a minimax adversarial game rather than mutual listwise kl alignment. rocketqav2 rocketqav2 dynamic listwise distillation and hybrid data augmentation joint training method for dense passage retrieval and passage reranking rocketqav2 normalizes dual-encoder and cross-encoder relevance scores across the candidate passage list c_q = {p^+, p^-_1, ..., p^-_{k-1}} using listwise softmax distributions p~_de(q, p_i) and p~_ce(q, p_i) (equations 5-6) and jointly optimizes l_final = l_kl + l_ce where l_kl = sum_{i=1}^k p~_ce(q, p_i) log(p~_ce(q, p_i) / p~_de(q, p_i)) and l_ce = -log p~_ce(q, p^+) (equations 7-8), allowing the dual-encoder to track continuous listwise score changes of the cross-encoder online during training. to construct high-quality candidate lists c_q for joint training and iterative refinement, rocketqav2 applies hybrid data augmentation (section 2.3, figure 1b) that combines dual-encoder hard-negative retrieval with cross-encoder denoising to filter out false negatives (unlabeled relevant passages) while retaining informative hard negatives. on ms marco passage ranking and natural questions (nq), rocketqav2 improves both dense retrieval and passage reranking over rocketqa and prior methods, reaching 38.8 mrr@10 and 86.2% recall@50 in dense retrieval on ms marco dev (41.9 mrr@10 after reranking) and 75.1% recall@5 / 83.7% recall@20 on nq test (tables 1-2). because rocketqav2 evaluates both the dual-encoder and the cross-encoder on all k passages in the candidate list c_q at every joint training step and requires a warmed-up cross-encoder for initial hybrid data augmentation, its per-step gpu memory and compute cost during training is substantially higher than training a standalone dual-encoder. rocketqav2: a joint training method for dense passage retrieval and passage reranking rocketqav2: a joint training method for dense passage retrieval and passage reranking (arxiv abstract) rocketqav2: a joint training method for dense passage retrieval and passage reranking (crossref metadata) ruiyang ren yingqi qu jing liu wayne xin zhao qiaoqiao she hua wu haifeng wang ji-rong wen ruiyang ren yingqi qu jing liu wayne xin zhao qiaoqiao she hua wu haifeng wang ji-rong wen ruiyang ren yingqi qu jing liu wayne xin zhao qiaoqiao she hua wu haifeng wang ji-rong wen">
+        <td>
+          <a href="curated/RocketQAv2JointTrainingDensePassageRetrievalAndReranking.html" style="font-weight: 600; font-size: 1rem;">RocketQAv2 Joint Training for Dense Passage Retrieval and Passage Reranking</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> RocketQAv2, RocketQAv2 Dynamic Listwise Distillation and Hybrid Data Augmentation…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A joint training algorithm for dense passage retrieval and passage reranking that couples a bi-encoder dual-encoder retriever s_de(q, p) = E…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:RocketQAv2JointTrainingDensePassageRetrievalAndReranking</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
