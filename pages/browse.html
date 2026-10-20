@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1640</strong> artificial intelligence concepts, comprising <strong>1198</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1641</strong> artificial intelligence concepts, comprising <strong>1199</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1640)</option>
-        <option value="curated">Curated AIMech (1198)</option>
+        <option value="all">All Origins (1641)</option>
+        <option value="curated">Curated AIMech (1199)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -53,7 +53,7 @@
           <option value="algorithm">Algorithms (840)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
-          <option value="architecture">Architectures (81)</option>
+          <option value="architecture">Architectures (82)</option>
           <option value="layer">Layers &amp; Modules (12)</option>
           <option value="learning_paradigm">Learning Paradigms (10)</option>
           <option value="evaluation_criterion">Evaluation Criteria (5)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1640</span> of <span id="totalCount">1640</span>
+      Showing <span id="matchCount">1641</span> of <span id="totalCount">1641</span>
     </div>
   </div>
 </div>
@@ -24607,6 +24607,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="mobilebert: compact task-agnostic bert with bottleneck structures and progressive knowledge transfer mobilebertcompacttaskagnosticbertwithbottlenecks aimech:mobilebertcompacttaskagnosticbertwithbottlenecks architectures architecture a deep-and-thin task-agnostic 24-layer transformer architecture and progressive distillation framework that compresses bert width rather than depth by equipping both an inverted-bottleneck teacher (ib-bert_large, inter-block hidden dimension 512 and intra-block dimension 1024) and a bottlenecked student (mobilebert, inter-block dimension 512 and intra-block dimension 128) with shared-dimension linear input/output projections, stacking 4 feed-forward networks per multi-head attention block to restore the 1:2 mha-to-ffn parameter ratio, compressing token embeddings to 128 dimensions with a kernel-3 1d convolution, replacing layernorm and gelu with elementwise affine nonorm(h) = gamma o h + beta and relu, and transferring layer-wise feature maps and attention distributions bottom-to-top across l stages via progressive knowledge transfer (pkt) followed by pre-training distillation. introduced by zhiqing sun, hongkun yu, xiaodan song, renjie liu, yiming yang, and denny zhou (acl 2020, pp. 2158-2170, arxiv:2004.02984, doi:10.18653/v1/2020.acl-main.195). distinct from shallow-and-wide bert distillation methods such as distilbert (round 803), bert-pkd (round 802), tinybert (round 800), and minilm (round 801): mobilebert preserves the full 24-layer depth of bert_large to avoid the capacity loss of depth reduction and narrows intra-block hidden dimensions via matched inter-block linear bottlenecks (d_inter = 512) so that feature map transfer (eq. 2) and attention transfer (eq. 3) require no auxiliary projection matrices. mobilebert mobilebert bottleneck transformer architecture inverted-bottleneck progressive knowledge transfer for mobilebert mobilebert pairs a 24-layer inverted-bottleneck teacher (ib-bert_large with inter-block hidden size 512 and intra-block hidden size 1024) with a 24-layer bottlenecked student (inter-block hidden size 512 and intra-block hidden size 128 with 512-dimensional residual connections), and replaces the single ffn in each block with 4 stacked ffns (128 input/output, 512 intermediate) to restore the 1:2 multi-head attention-to-ffn parameter ratio distorted by the bottleneck projections. because joint multi-layer transfer across 24 layers can destabilize student optimization, mobilebert trains the student via l-stage bottom-to-top progressive knowledge transfer (pkt), where stage l freezes lower layers 1..l-1 and minimizes a linear combination of feature map transfer l_fmt^l = (1/(t*n)) sum_{t=1}^t sum_{n=1}^n (h_{t,l,n}^{tr} - h_{t,l,n}^{st})^2 (eq. 2) and attention transfer l_at^l = (1/(t*a)) sum_{t=1}^t sum_{a=1}^a d_kl(a_{t,l,a}^{tr} || a_{t,l,a}^{st}) (eq. 3), followed by pre-training distillation l_pd = alpha * l_mlm + (1 - alpha) * l_kd + l_nsp (eq. 4). replacing layernorm with the elementwise affine operation nonorm(h) = gamma o h + beta (eq. 1), gelu with relu, and 768-d embeddings with 128-d embeddings expanded by a kernel-3 1d convolution yields a 25.3m-parameter mobilebert that is 4.3x smaller and 5.5x faster than bert_base (62 ms vs. 342 ms latency on a pixel 4 phone), achieving 77.7 glue test score (0.6 below bert_base) and 90.0 / 79.2 dev f1 on squad v1.1 / v2.0 (+1.5 / +2.1 f1 over bert_base). mobilebert cannot directly distill intermediate layer feature maps and 4-head attention maps from an off-the-shelf standard bert_large checkpoint; it requires first pre-training a custom 24-layer inverted-bottleneck teacher (ib-bert_large) from scratch whose inter-block dimension (512) and head count (4) match the student, followed by 24 sequential layer-wise pkt stages. mobilebert: a compact task-agnostic bert for resource-limited devices mobilebert: a compact task-agnostic bert for resource-limited devices (arxiv abstract) mobilebert: a compact task-agnostic bert for resource-limited devices (crossref metadata) zhiqing sun hongkun yu xiaodan song renjie liu yiming yang denny zhou zhiqing sun hongkun yu xiaodan song renjie liu yiming yang denny zhou zhiqing sun hongkun yu xiaodan song renjie liu yiming yang denny zhou">
+        <td>
+          <a href="curated/MobileBERTCompactTaskAgnosticBERTWithBottlenecks.html" style="font-weight: 600; font-size: 1rem;">MobileBERT: Compact Task-Agnostic BERT with Bottleneck Structures and Progressive Knowledge Transfer</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MobileBERT, MobileBERT Bottleneck Transformer Architecture…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A deep-and-thin task-agnostic 24-layer Transformer architecture and progressive distillation framework that compresses BERT width rather tha…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MobileBERTCompactTaskAgnosticBERTWithBottlenecks</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
