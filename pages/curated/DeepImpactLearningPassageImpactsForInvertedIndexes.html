@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DeepImpact Learning Passage Impacts for Inverted Indexes · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DeepImpact Learning Passage Impacts for Inverted Indexes</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DeepImpact Learning Passage Impacts for Inverted Indexes</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DeepImpactLearningPassageImpactsForInvertedIndexes</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DeepImpact, Learning Passage Impacts for Inverted Indexes, DeepImpact Passage Impact Model
+    </div>
+
+  <div class="detail-desc">
+    A learned sparse impact-scoring and inverted-index retrieval method that expands each passage offline with DocT5Query predicted queries concatenated after a [SEP] token, encodes the expanded passage with BERT, takes the contextualized representation of the first occurrence of each unique term (merging WordPiece sub-tokens into space-separated words by averaging their contextual representations), passes each unique term embedding through a two-layer ReLU multi-layer perceptron trained end-to-end via pairwise softmax cross-entropy loss on the sum-of-impacts query-document score over intersecting terms, and linearly quantizes the resulting positive impact scores into b-bit integers (b = 8) stored directly in standard inverted-index postings for fast query-independent top-k retrieval.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DeepCT (AIMech:DeepCTContextAwareTermImportanceEstimationForFirstStageRetrieval), which trains per-token linear regression against static heuristic ground-truth term recall weights rather than end-to-end pairwise ranking over sum-of-impacts and requires BM25 scoring formulas at query time; and distinct from uniCOIL (AIMech:uniCOILUnifiedContextualizedInvertedList), which operates over WordPiece subword tokens and computes query-time contextualized query term weights rather than query-independent first-occurrence word-level impacts.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deepimpact-first-occurrence-relu-mlp-and-sum-of-impacts-training</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    DeepImpact concatenates each passage d with DocT5Query expansion terms separated by a [SEP] token, feeds the sequence into BERT (averaging WordPiece sub-tokens for multi-piece words), feeds only the contextualized embedding of the first occurrence of each unique term t in d into a two-layer MLP with ReLU activations to produce a single non-negative scalar impact score s_{t,d}, defines the query-document score as the sum of impacts over intersecting query-document terms score(q, d) = sum_{t in q cap d} s_{t,d}, and optimizes the encoder and MLP end-to-end via pairwise softmax cross-entropy loss over (q, d+, d-) triples (Section 2, Figure 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Figure 1, pp. 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> first_occurrence_positions(), compute_document_impacts(), sum_of_impacts_score(), and pairwise_softmax_ce_loss()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deepimpact-linear-quantization-into-inverted-index-postings</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To support fast top-k query processing in standard inverted-index engines such as PISA using MaxScore without runtime BM25/TF-IDF computation, DeepImpact linearly scales positive real-valued impact scores (stored at 3 digits of precision) across the collection into b-bit integers in [1, 2^b - 1] (with b = 8 yielding [1, 255]) and stores each quantized integer directly in the frequency payload field of the inverted list alongside the document ID (Section 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> Section 2 (Indexing and Quantization &amp; Query Processing), pp. 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> quantize_impacts_linear() and main() verification</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#deepimpact-msmarco-and-trec-dl-effectiveness-and-speedup-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On MS MARCO Dev and TREC DL 2019/2020, DeepImpact achieves 0.326 MRR@10 on MS MARCO Dev (up to +17.7% over DocT5Query at 0.277 and +34.2% over DeepCT at 0.243) and, when used as a first-stage retriever feeding a ColBERT re-ranker over k = 100 candidates, matches the end-to-end effectiveness of re-ranking k = 1000 BM25 candidates while achieving up to a 5.1x query latency speedup (Section 3, Tables 1-2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Tables 1-2, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#deepimpact-offline-doct5query-expansion-dependency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because DeepImpact only estimates impact scores for terms physically present in its input token sequence, bridging vocabulary mismatch depends on first running an external generative document-expansion model (DocT5Query) across the entire corpus prior to BERT impact scoring and inverted-index construction, and passages remain truncated at 300 tokens (Section 2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r776-primary-pdf">Learning Passage Impacts for Inverted Indexes</a></span>
+        <span>· <strong>Locator:</strong> Section 2 (Eliminating the Vocabulary Mismatch &amp; Implementation Details), pp. 2-3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Vocabulary-mismatch mitigation relies on pre-expanding every passage in the corpus with an external generative sequence-to-sequence model (DocT5Query) before computing BERT passage impacts.</li>
+      <li>Input sequences (original passage plus expansion queries) are truncated at a maximum length of 300 tokens during training and inference.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DeepImpact fine-tunes a contextualized BERT encoder coupled with a two-layer ReLU multi-layer perceptron to predict scalar passage-term impact scores.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r776-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r776-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.12016.pdf" target="_blank" rel="noopener">Learning Passage Impacts for Inverted Indexes</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Antonio Mallia, Omar Khattab, Torsten Suel, Nicola Tonellotto
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2104.12016</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:bb75e79dae3a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r776-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r776-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.12016" target="_blank" rel="noopener">Learning Passage Impacts for Inverted Indexes (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Antonio Mallia, Omar Khattab, Torsten Suel, Nicola Tonellotto
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.12016</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ae21315454b8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r776-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r776-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2104.12016" target="_blank" rel="noopener">Learning Passage Impacts for Inverted Indexes (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Antonio Mallia, Omar Khattab, Torsten Suel, Nicola Tonellotto
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2104.12016</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d3b8bec5869b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DeepImpactLearningPassageImpactsForInvertedIndexes.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DeepImpactLearningPassageImpactsForInvertedIndexes.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
