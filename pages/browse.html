@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1463</strong> artificial intelligence concepts, comprising <strong>1021</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1464</strong> artificial intelligence concepts, comprising <strong>1022</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1463)</option>
-        <option value="curated">Curated AIMech (1021)</option>
+        <option value="all">All Origins (1464)</option>
+        <option value="curated">Curated AIMech (1022)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (717)</option>
+          <option value="algorithm">Algorithms (718)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1463</span> of <span id="totalCount">1463</span>
+      Showing <span id="matchCount">1464</span> of <span id="totalCount">1464</span>
     </div>
   </div>
 </div>
@@ -36384,6 +36384,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:ZenoPlusPlusRobustFullyAsynchronousStochasticGradientDescent</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="zero-offload zerooffloadheterogeneouslargemodeltraining aimech:zerooffloadheterogeneouslargemodeltraining algorithms algorithm a heterogeneous gpu-cpu deep learning training algorithm for mixed-precision adam optimization that partitions the directed cyclic training data-flow graph into two device super-nodes: it retains fp16 parameters (p_16, 2m bytes) and o(m b) forward-backward propagation (fwd-bwd super node) on gpu while offloading fp16 gradients (g_16, 2m bytes), fp32 master parameters, momentum, and variance (p_32, m_32, v_32, 12m bytes), and o(m) parameter update and float2half casting computations (update super node) to cpu, combining with zero stage-2 across multiple gpus so each rank offloads and updates only a 1 / n_dp partition on cpu. distinct from gpu-only model-state sharding (zero-1/2/3, which require aggregate gpu memory to hold all model states), from layer-to-layer weight swapping (l2l, which keeps optimizer compute on gpu, incurs 28m cpu-gpu communication per step, and cannot scale across multiple gpus), and from zero-infinity (which builds on zero-3 to partition parameters and offload to nvme plus cpu with memory-centric tiling). zero redundancy optimizer offload zero-offload heterogeneous gpu-cpu training deepspeed zero-offload modeling mixed-precision adam training on m parameters (16m bytes of model states: 2m each for p_16 and g_16, 4m each for p_32, m_32, and v_32) as a weighted directed cyclic data-flow graph where o(m b) fwd-bwd compute resides on gpu implies that any model-state offload cut must cross at least two directed cycle edges of weight &gt;= 2m, yielding a theoretical minimum gpu-cpu communication volume of 4m bytes per step (2m g_16 offload + 2m p_16 swap); among all partitions achieving 4m communication, co-locating {g_16, p_32, m_32, v_32, paramupdate, float2half} on cpu and {p_16, fwd-bwd} on gpu uniquely achieves the maximum 8x gpu model-state memory reduction (from 16m to 2m steady / 4m buffered, table 1). by integrating with zero stage-2 across n_dp data-parallel gpus, each gpu reduce-scatters and offloads only its 1 / n_dp partition of fp16 gradients to cpu and updates only its 1 / n_dp shard of fp32 optimizer states in parallel via a simd avx512 / loop-unrolled / openmp cpu-adam kernel before an all-gather on gpu, keeping aggregate gpu-cpu communication volume constant at 4m bytes regardless of n_dp while scaling total cpu optimizer compute linearly with n_dp. to hide cpu optimizer overhead at small batch sizes, one-step delayed parameter update (dpu) trains the first n - 1 steps normally, skips the cpu update at step n, and for step i &gt;= n + 1 executes the cpu parameter update using step i - 1 gradients concurrently with the gpu forward-backward pass using step i - 1 parameters (figure 6), yielding 1.12x-1.59x higher throughput while preserving gpt-2 pretraining loss and bert-large squad f1 (92.8), and enabling 13b-parameter training on a single v100 gpu at 40 tflops and 70b-parameter training on a 16-gpu dgx-2 node. because zero-offload builds on zero-2 and keeps a full replica of fp16 parameters p_16 on every gpu, its maximum trainable model size without model parallelism is bounded by the parameter capacity of a single gpu&#39;s memory, and at large gpu counts (e.g., 64-128 gpus) where zero-2 fits in aggregate gpu memory, zero-offload&#39;s pcie transfer overhead makes it slightly slower than gpu-only zero-2. zero-offload: democratizing billion-scale model training zero-offload: democratizing billion-scale model training (arxiv abstract) zero-offload: democratizing billion-scale model training (crossref metadata) jie ren samyam rajbhandari reza yazdani aminabadi olatunji ruwase shuangyan yang minjia zhang dong li yuxiong he jie ren samyam rajbhandari reza yazdani aminabadi olatunji ruwase shuangyan yang minjia zhang dong li yuxiong he jie ren samyam rajbhandari reza yazdani aminabadi olatunji ruwase shuangyan yang minjia zhang dong li yuxiong he">
+        <td>
+          <a href="curated/ZeROOffloadHeterogeneousLargeModelTraining.html" style="font-weight: 600; font-size: 1rem;">ZeRO-Offload</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Zero Redundancy Optimizer Offload, ZeRO-Offload Heterogeneous GPU-CPU Training…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A heterogeneous GPU-CPU deep learning training algorithm for mixed-precision Adam optimization that partitions the directed cyclic training…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ZeROOffloadHeterogeneousLargeModelTraining</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
