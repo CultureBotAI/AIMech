@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DETOX, DETOX Hierarchical Robust Aggregation, DETOX HIER-AGGR
+    </div>
+
+  <div class="detail-desc">
+    A two-stage Byzantine-resilient distributed gradient aggregation framework that partitions p compute nodes into hat_p = p/r node groups of small odd redundancy size r to evaluate the same sub-batch gradients and applies within-group majority voting z_{t,j} = maj({hat_g_{t,i} | i in A_j}) in a filtering stage that exponentially reduces the effective number of Byzantine votes hat_q, followed by a median-of-means-style hierarchical aggregation stage (HIER-AGGR) that partitions the hat_p group votes into k vote groups, aggregates each vote group via a primary operator A_0 (such as the mean), and aggregates the k group outputs via a base robust aggregator A_1.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from DRACO (which requires r = 2s + 1 linear redundancy in the number of Byzantine nodes s to achieve exact zero-error gradient recovery without a second-stage statistical robust aggregator) and from standalone robust aggregators (Krum, Multi-Krum, Bulyan, Coordinate-Wise Median, Geometric Median) applied directly to all p ungrouped compute nodes. Specifically denotes the DETOX and HIER-AGGR algorithms of Rajput, Wang, Charles, &amp; Papailiopoulos (NeurIPS 2019, Algorithms 1-2, Theorems 1 &amp; 3, Corollary 2, Lemma 4).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r525-exponential-byzantine-vote-reduction-via-group-majority</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Stage 1 (Algorithm 1 Lines 1-7), DETOX randomly partitions p compute nodes into hat_p = p/r groups {A_j} of odd size r, assigns each node i in A_j the same subsample S_{t,j} of size rb/p, and computes the group majority vote z_{t,j} = maj({hat_g_{t,i} | i in A_j}); Lemma 4 (for r = 3) proves E[hat_q] &lt;= q*epsilon*(4 - 2*epsilon)/3, Theorem 1 (for odd r &gt; 3) proves E[hat_q] &lt;= 2q(40*epsilon*(1 - epsilon))^{(r-1)/2} / r, and Corollary 2 proves that for r &gt;= 3 + 2 log_2(q), hat_q &lt;= 1 + 2 log(1/delta) with probability at least 1 - delta.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r525-primary-pdf">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 1, Theorem 1, Corollary 2, pp. 4-5; Appendix A.1-A.3 Lemmas 4-5, pp. 13-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r525-hierarchical-median-of-means-inexact-oracle-bound</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In Stage 2 (Algorithm 2 HIER-AGGR and Section 4 Theorem 3), partitioning the hat_p filtered votes into k vote groups {Z_j}, averaging each group via z_hat_j = A_0(Z_j), and applying A_1 (Geometric Median with k = 128 ln(1/delta), Coordinate-Wise Median with k = 128 ln(d/delta), or 1/4-Trimmed Mean with k = 128 ln(d/delta)) yields a Delta-inexact gradient oracle ||G_hat - G||_2 &lt;= O(sigma * sqrt(ln(d/delta) / b)) that is independent of p and epsilon while reducing server aggregation runtime from O(p^2 d) to O(p d + k^2 d).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r525-primary-pdf">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Algorithm 2 and Section 4 Theorem 3, pp. 5-6; Appendix A.4 Lemma 6, pp. 15-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r525-server-data-partitioning-non-privacy-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because DETOX requires the parameter server to assign identical data sub-batches S_{t,j} to all r compute nodes within each node group A_j so honest nodes produce identical gradients for majority voting, it assumes centralized data ownership and is not directly privacy-preserving for decentralized private client datasets.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r525-primary-pdf">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation</a></span>
+        <span>· <strong>Locator:</strong> Section 2, p. 4; Section 6 Conclusion, p. 11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires r-fold redundant gradient evaluation across node groups of odd size r.</li>
+      <li>Requires the parameter server to own and assign shared data sub-batches S_{t,j} to each group A_j, precluding direct application to private unshared client data without modification.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DETOX is a Byzantine-robust gradient aggregation framework for parameter-server distributed optimization closely related to federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r525-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r525-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1907.12205.pdf" target="_blank" rel="noopener">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shashank Rajput, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:50ea3aead7ef…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r525-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r525-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1907.12205" target="_blank" rel="noopener">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shashank Rajput, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1907.12205</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:880b195f6826…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r525-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r525-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205" target="_blank" rel="noopener">DETOX: A Redundancy-based Framework for Faster and More Robust Gradient Aggregation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shashank Rajput, Hongyi Wang, Zachary Charles, Dimitris Papailiopoulos
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ca0be844a152…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

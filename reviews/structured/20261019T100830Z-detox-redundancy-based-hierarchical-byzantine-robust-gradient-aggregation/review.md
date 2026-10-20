@@ -1,0 +1,355 @@
+# Scientific author self-review of DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation
+
+- Review: 20261019T100830Z-detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T10:08:00Z
+- Finished UTC: 2026-10-19T10:08:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base e66a1f4289bcddc7f0a0b97a47436d98cb49128e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml | maintained | DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | Validated history sidecar files. |
+| python3 detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py | passed | True | AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation | [PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588&lt;=lemma4=2.1600, hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 &lt; err_vanilla_med=0.8530 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.
+
+DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation is a distinct concept.
+
+Distinct from DRACO (which requires r = 2s + 1 linear redundancy in the number of Byzantine nodes s to achieve exact zero-error gradient recovery without a second-stage statistical robust aggregator) and from standalone robust aggregators (Krum, Multi-Krum, Bulyan, Coordinate-Wise Median, Geometric Median) applied directly to all p ungrouped compute nodes. Specifically denotes the DETOX and HIER-AGGR algorithms of Rajput, Wang, Charles, &amp; Papailiopoulos (NeurIPS 2019, Algorithms 1-2, Theorems 1 &amp; 3, Corollary 2, Lemma 4).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py passed with exit code 0: [PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588&lt;=lemma4=2.1600, hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 &lt; err_vanilla_med=0.8530
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T100800Z-detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation.json | supports | No normalized identity match for AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py | supports | All constructed boundary assertions in detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py passed with exit code 0: [PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588&lt;=lemma4=2.1600, hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 &lt; err_vanilla_med=0.8530 |
+| r525-primary-pdf | https://arxiv.org/pdf/1907.12205.pdf; Full-text PDF | supports | Full-text PDF (Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 10320-10330 (2019)) read and verified. |
+| r525-arxiv-abs | https://arxiv.org/abs/1907.12205; arXiv abstract | supports | arXiv abstract read and verified. |
+| r525-metadata-cr | https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation in Round 525.
+- All pages of Advances in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 10320-10330 (2019) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T100830Z-detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of DETOX Redundancy-Based Hierarchical Byzantine-Robust
+  Gradient Aggregation
+started_at: '2026-10-19T10:08:00Z'
+finished_at: '2026-10-19T10:08:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+    against existing AIMech and AIO records and verified all claims against Advances
+    in Neural Information Processing Systems 32 (NeurIPS 2019), pp. 10320-10330 (2019)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: e66a1f4289bcddc7f0a0b97a47436d98cb49128e
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml
+    sha256: bd67c6e9338b090dcd296eb0aa3a6fffd6b7a0871a3684c8fc2d9a51e9c90b2d
+    role: target
+  - path: research/discovery/20261019T100800Z-detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation.json
+    sha256: 901b48166336dbaf0700313bcdcd6cd6e6996d8ced9a1e10b103f8fef8e8807a
+    role: context
+  - path: research/discovery/detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+    sha256: a2638bf8607acc6e8875b849238d6b4d459c6f13e34a74ba190f897223a375e2
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  path: data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml
+  label: DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+  command: python3 research/discovery/detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588<=lemma4=2.1600,
+    hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 < err_vanilla_med=0.8530'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T100800Z-detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation.json
+  accessed_at: '2026-10-19T10:08:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T10:08:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+  accessed_at: '2026-10-19T10:08:00Z'
+  snapshot_sha256: a2638bf8607acc6e8875b849238d6b4d459c6f13e34a74ba190f897223a375e2
+  support: supports
+  summary: 'All constructed boundary assertions in detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+    passed with exit code 0: [PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588<=lemma4=2.1600,
+    hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 < err_vanilla_med=0.8530'
+- evidence_id: r525-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1907.12205.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T10:08:00Z'
+  snapshot_sha256: 50ea3aead7ef122a34208337fe0733a601fc562ad16f9894146a037b7be61bf3
+  support: supports
+  summary: Full-text PDF (Advances in Neural Information Processing Systems 32 (NeurIPS
+    2019), pp. 10320-10330 (2019)) read and verified.
+- evidence_id: r525-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1907.12205
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T10:08:00Z'
+  snapshot_sha256: 880b195f682683033be9c5c4be38bb2fdc502d6a859dd6a5add2ad7aca3e1341
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r525-metadata-cr
+  kind: primary_source
+  reference: https://api.openalex.org/works/https://doi.org/10.48550/arXiv.1907.12205
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T10:08:00Z'
+  snapshot_sha256: ca0be844a152171c440b20e1b1ec7ae1da3e45f621f5187b2adee968cba5fb75
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  evidence_ids:
+  - identity
+  - r525-primary-pdf
+  - r525-arxiv-abs
+  - r525-metadata-cr
+  summary: DETOX Redundancy-Based Hierarchical Byzantine-Robust Gradient Aggregation
+    is a distinct concept.
+  details: Distinct from DRACO (which requires r = 2s + 1 linear redundancy in the
+    number of Byzantine nodes s to achieve exact zero-error gradient recovery without
+    a second-stage statistical robust aggregator) and from standalone robust aggregators
+    (Krum, Multi-Krum, Bulyan, Coordinate-Wise Median, Geometric Median) applied directly
+    to all p ungrouped compute nodes. Specifically denotes the DETOX and HIER-AGGR
+    algorithms of Rajput, Wang, Charles, & Papailiopoulos (NeurIPS 2019, Algorithms
+    1-2, Theorems 1 & 3, Corollary 2, Lemma 4).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  evidence_ids:
+  - mapping
+  - r525-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  evidence_ids:
+  - r525-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in detox-redundancy-based-hierarchical-byzantine-robust-gradient-aggregation-boundaries.py
+    passed with exit code 0: [PASS] Round 525 DETOX (Rajput et al. 2019): E[hat_q]_r3=1.4588<=lemma4=2.1600,
+    hat_eps_decay=[0.2, 0.1012, 0.0534, 0.0284], err_detox=0.4726 < err_vanilla_med=0.8530'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  evidence_ids:
+  - identity
+  - mapping
+  - r525-primary-pdf
+  - r525-arxiv-abs
+  - r525-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation
+  in Round 525.
+- All pages of Advances in Neural Information Processing Systems 32 (NeurIPS 2019),
+  pp. 10320-10330 (2019) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
