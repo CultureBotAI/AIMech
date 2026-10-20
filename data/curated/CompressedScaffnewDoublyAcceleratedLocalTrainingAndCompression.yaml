@@ -1,0 +1,102 @@
+id: AIMech:CompressedScaffnewDoublyAcceleratedLocalTrainingAndCompression
+name: CompressedScaffnew
+concept_kind: algorithm
+review_status: DRAFT
+definition: A doubly accelerated distributed and federated optimization algorithm for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) across n heterogeneous clients without any data-similarity assumption. CompressedScaffnew integrates Scaffnew/ProxSkip probabilistic local gradient updates x_hat_i^t = x_i^t - gamma (nabla f_i(x_i^t) - h_i^t) with a shared random column-permuted binary template mask Q^t in {0,1}^{d x n} having exactly s in {2, ..., n} active ones per coordinate row when communication is triggered (with probability p in (0, 1]). At communication rounds, each client i transmits only the entries of x_hat_i^t where q_{k,i}^t = 1, the server broadcasts the row average x_bar_k^t = (1/s) sum_{j=1}^n q_{k,j}^t x_hat_{j,k}^t, and each client updates its local control variate entry h_{i,k}^{t+1} = h_{i,k}^t + (p eta / gamma)(x_bar_k^t - x_hat_{i,k}^t) only on its active coordinates (q_{k,i}^t = 1), preserving sum_{i=1}^n h_i^t = 0 and achieving O(d * sqrt(kappa * n / (s (s - 1))) log(1/epsilon)) communicated floats.
+identity_notes: Distinct from uncommitted or uncompressed Scaffnew/ProxSkip (which requires full d-dimensional vector communication at every triggered sync round) and from independent random sparsifiers (which break Scaffnew's zero-sum control-variate invariant sum_{i=1}^n h_i^t = 0). CompressedScaffnew couples local training with a shared s-active-per-row permutation mask so that the control-variate updates sum to zero coordinatewise while compressing uplink communication by factor s/n.
+aliases:
+- CompressedScaffnew Algorithm
+- Doubly Accelerated Scaffnew with Permutation Mask Compression
+definition_evidence:
+- source_id: r576-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r576-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r576-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: shared-row-regular-permutation-mask-and-zero-sum-control-variates
+  kind: mechanism
+  statement: 'At each communication event (theta^t = 1 with probability p), CompressedScaffnew samples a binary mask Q^t = (q_1^t, ..., q_n^t) in {0,1}^{d x n} by uniformly permuting the columns of a template matrix having exactly s ones in every row (sum_{i=1}^n q_{k,i}^t = s for all k = 1..d) and balanced column sums in {floor(s d / n), ceil(s d / n)}. Because the server averages x_bar_k^t = (1/s) sum_{j: q_{k,j}^t=1} x_hat_{j,k}^t and only active clients update h_{i,k}^{t+1} = h_{i,k}^t + (p eta / gamma)(x_bar_k^t - x_hat_{i,k}^t), the invariant sum_{i=1}^n h_i^t = 0 holds exactly for all t >= 0 whenever initialized with sum_{i=1}^n h_i^0 = 0.'
+  evidence:
+  - source_id: r576-primary-pdf
+    locator: Section 2, Algorithm 1, Figure 1, and Equations (5)-(7), pp. 4-6
+    relation: supports
+- claim_id: linear-lyapunov-contraction-with-coupled-local-and-compression-factor
+  kind: mechanism
+  statement: Theorem 1 proves that for L-smooth, mu-strongly convex local functions f_i, stepsize 0 < gamma < 2/L, mixing parameter 0 < eta <= (n (s - 1)) / (s (n - 1)), and s >= 2, the Lyapunov potential Psi^t = (1/gamma) sum_{i=1}^n ||x_i^t - x^*||^2 + (gamma / (p^2 eta)) ((n - 1) / (s - 1)) sum_{i=1}^n ||h_i^t - h_i^*||^2 contracts linearly as E[Psi^{t+1} | F^t] <= rho Psi^t with rho = max{(1 - gamma mu)^2, (gamma L - 1)^2, 1 - (p^2 eta (s - 1)) / (n - 1)} < 1.
+  evidence:
+  - source_id: r576-primary-pdf
+    locator: Section 3.1, Theorem 1, p. 7, Equations (8)-(10)
+    relation: supports
+- claim_id: double-acceleration-in-condition-number-and-dimension
+  kind: application
+  statement: By choosing gamma = Theta(1/L), eta = (n (s - 1)) / (s (n - 1)), and communication probability p = min{1, sqrt((mu / L) * (s (n - 1)^2) / (n (s - 1)^2))}, CompressedScaffnew achieves iteration complexity O((kappa + (n - 1)/(s - 1) + sqrt(kappa * (n/s) * ((n - 1)/(s - 1))^2)) log(1/epsilon)) and uplink communication complexity O((d + (d s / n) sqrt(kappa * n / (s (s - 1)))) log(1/epsilon)) floats per client (which reduces to O((d + (d / n) sqrt(kappa n)) log(1/epsilon)) for constant s >= 2).
+  evidence:
+  - source_id: r576-primary-pdf
+    locator: Section 1.2, Table 1, p. 3; Section 3.1, Corollary 1 and Remark 1, pp. 7-8
+    relation: supports
+  - source_id: r576-metadata-cr
+    locator: Bibliographic record
+    relation: supports
+- claim_id: minimum-two-active-clients-per-coordinate-requirement
+  kind: limitation
+  statement: CompressedScaffnew requires at least s >= 2 active clients per coordinate row at every communication event so that the inter-client difference x_bar_k^t - x_hat_{i,k}^t is non-zero and eta = (n (s - 1)) / (s (n - 1)) > 0; if s = 1, x_bar_k^t equals the single active client's entry and consensus cannot progress.
+  evidence:
+  - source_id: r576-primary-pdf
+    locator: Section 2, p. 6 and Section 3.1, Theorem 1, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r576-primary-pdf
+  title: 'Doubly Accelerated Federated Learning: Improved Rate with Local Training and Communication Compression'
+  authors: &id001
+  - Laurent Condat
+  - Ivan Agarsky
+  - Peter Richtarik
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2210.13277
+  persistent_id: https://dblp.org/search/publ/api?q=CompressedScaffnew&format=json
+  version: arXiv / Optimization (2026) (2022) (1427553 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:59:00Z'
+  sha256: b1e7148496cfb1d745ce03a075721ad50ad85444891ed79a32e1eb2eaac67322
+- source_id: r576-arxiv-abs
+  title: 'Doubly Accelerated Federated Learning: Improved Rate with Local Training and Communication Compression (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2210.13277
+  persistent_id: https://arxiv.org/abs/2210.13277
+  version: arXiv abstract page (6637 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:59:00Z'
+  sha256: 93c6a02944c39a8cf9c65cb9279a268f1865a2343ca851faddc302d292b6bdd2
+- source_id: r576-metadata-cr
+  title: 'Doubly Accelerated Federated Learning: Improved Rate with Local Training and Communication Compression (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=CompressedScaffnew&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=CompressedScaffnew&format=json
+  version: Crossref API work record (1273 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:59:00Z'
+  sha256: ac2b9151a3b3276d9a1c931a629dfebb2ebdc27aae51727aa07e8712a6b17d04
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: CompressedScaffnew is a federated optimization algorithm combining local client training and uplink communication compression.
+limitations:
+- Requires at least s >= 2 clients to transmit each coordinate at every communication round so that inter-client differences can update the control variates.
+- Requires shared randomness (or a synchronized seed) across clients to generate the column-permuted template mask Q^t.
+curation:
+  created_at: '2026-10-19T10:59:00Z'
+  updated_at: '2026-10-19T10:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
