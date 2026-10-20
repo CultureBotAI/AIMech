@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gradient Masked Averaging for Federated Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Gradient Masked Averaging for Federated Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gradient Masked Averaging for Federated Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedGmaGradientMaskedAveragingForFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedGMA, Gradient Masked Averaging, Gradient Masked FedAvg, GMA Federated Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A server-side federated aggregation algorithm (FedGMA / GMA; Tenison, Sreeramadas, Mugunthan, Oyallon, Rish, and Belilovsky, TMLR 2023) that replaces sign-agnostic parameter averaging with an elementwise soft agreement mask over client multi-step pseudo-gradient updates. At communication round t, after each participating client n in C performs K local gradient steps from w_{t-1} to produce sample-weighted update Delta_t^n = (s_n / sum_{k in C} s_k)(w_t^n - w_{t-1}) and aggregate update Delta_t = sum_{n in C} Delta_t^n, the server computes for each coordinate j the directional agreement score A_j = |(1 / |C|) sum_{n in C} sign(Delta_{t,j}^n)| in [0, 1] and applies the soft mask [m_tilde_tau]_j = 1 if A_j &gt;= tau else A_j (with threshold tau in [0, 1]) to update w_t = w_{t-1} + eta_g (m_tilde_tau odot Delta_t).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from centralized sample-level hard binary AND-Mask (Parascandolo et al., 2020) and SAND-Mask (Shahtalebi et al., 2021), which mask single-step sample or environment gradients with hard zeroing or tanh-based magnitude scaling in centralized training; FedGMA operates at the federated server aggregation stage across client multi-step pseudo-gradients Delta_t^n and uses a piecewise-linear soft agreement mask [m_tilde_tau]_j = 1 if A_j &gt;= tau else A_j compatible with non-adaptive (FedAvg, FedProx) and adaptive (FedAdam, FedYogi) server optimizers. Distinct from FedAvg (AIMech:FederatedAveraging), which corresponds to the unmasked degenerate limit tau = 0 where m_tilde_0 = 1.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedgma-soft-sign-agreement-mask-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each server communication round t, FedGMA computes the coordinate-wise sign agreement score A_j = |(1 / |C|) sum_{n in C} sign(Delta_{t,j}^n)| across participating client updates Delta_t^n and constructs the soft mask [m_tilde_tau]_j = 1 when A_j &gt;= tau and [m_tilde_tau]_j = A_j when A_j &lt; tau, updating the global parameters via w_t = w_{t-1} + eta_g (m_tilde_tau odot Delta_t) (or applying m_tilde_tau odot Delta_t to the adaptive server step z_t / (sqrt(v_t) + eps) in FedAdam and FedYogi) so that coordinates with cross-client directional consensus take full steps while spurious client-specific directions are attenuated.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r500-primary-pdf">Gradient Masked Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Eq. (3) and Algorithm 1, pp. 4-5; Appendix B Algorithm 2, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fedgma-nonconvex-convergence-and-subgaussian-mask-stability</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smoothness (Assumption 4.1), bounded gradients (Assumption 4.2), bounded local and global gradient variances sigma_{l,j}^2 and sigma_{g,j}^2 (Assumptions 4.3-4.4), and random mask coordinates with inf_{j&lt;=d} E[m_t^j] &gt;= alpha &gt; 0 (Assumption 4.5), Proposition 4.8 proves that for eta_g = O(1) and eta_l &lt; 0.001 alpha / (K L), Gradient Masked FedAvg achieves (1/T) sum_{t=0}^{T-1} ||nabla f(w_t)||^2 &lt;= O(1 / sqrt(alpha^2 T) + 1 / (alpha^2 T)); furthermore, Proposition A.1 shows that for independent sigma-sub-Gaussian coordinate updates delta^n with (1/N) card({n | E[delta^n] &gt; 0}) &gt; tau, the soft mask equals 1 with probability at least 1 - O(exp(-(inf_{mu^n &gt; 0} mu^n)^2 / sigma^2)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r500-primary-pdf">Gradient Masked Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Method Analysis, Assumptions 4.1-4.5, Lemmas 4.6-4.7, Proposition 4.8, pp. 5-7; Appendix G Proposition A.1, p. 22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedgma-threshold-degeneracy-and-low-participation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the agreement threshold tau is set to 0, [m_tilde_tau]_j = 1 for all coordinates so FedGMA degenerates to naive FedAvg and underfits invariant features, whereas large tau near 1 attenuates almost all coordinates and impedes fitting; moreover, when only 2 clients participate per round (Appendix D.3 Table 5), any sign disagreement yields A_j = 0 so most parameters do not update in that round, reducing participating-client accuracy (-3.3%) despite improving non-participating client accuracy (+5.8%), and Proposition 4.8&#39;s theoretical analysis relies on an independent Bernoulli mask simplification rather than the deterministic sign mask.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r500-primary-pdf">Gradient Masked Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 discussion, p. 8; Appendix D.3 Table 5, p. 17; Appendix D.1 Effect of Tau, p. 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedgma-heterogeneous-and-ood-federated-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied as a drop-in server aggregation rule for FedAvg, FedProx, FedAdam, and FedYogi on label-skewed, quantity-skewed, real-world user-partitioned (FEMNIST), and spurious color-correlated out-of-distribution (FedCMNIST) image classification benchmarks (MNIST, FMNIST, CIFAR-10, CIFAR-100, TinyImageNet).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r500-primary-pdf">Gradient Masked Averaging for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments, Tables 1-4, pp. 8-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Setting the agreement threshold tau = 0 reduces the soft mask to the all-ones vector and degenerates to naive parameter averaging, whereas setting tau close to 1 over-attenuates updates and degrades accuracy (Appendix D.1, p. 18).</li>
+      <li>In extreme partial participation with only 2 sampled clients per round, any opposite-sign coordinate has agreement score A_j = 0 and does not update, lowering participating-client accuracy (-3.3% on FMNIST, Appendix D.3 Table 5, p. 17).</li>
+      <li>The non-convex convergence rate in Proposition 4.8 relies on a simplified independent Bernoulli mask assumption (Assumption 4.5) rather than the deterministic sign-agreement mask of Eq. 3 (Section 4, p. 8).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedGMA is a specific sign-agreement soft gradient-masked server aggregation algorithm within federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r500-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r500-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2201.11986.pdf" target="_blank" rel="noopener">Gradient Masked Averaging for Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Irene Tenison, Sai Aravind Sreeramadas, Vaikkunth Mugunthan, Edouard Oyallon, Irina Rish, Eugene Belilovsky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tmlr/TenisonSMORB23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:93a137ff244f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r500-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r500-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2201.11986" target="_blank" rel="noopener">Gradient Masked Averaging for Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Irene Tenison, Sai Aravind Sreeramadas, Vaikkunth Mugunthan, Edouard Oyallon, Irina Rish, Eugene Belilovsky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2201.11986</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b24ec2785050…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r500-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r500-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/tmlr/TenisonSMORB23" target="_blank" rel="noopener">Gradient Masked Averaging for Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Irene Tenison, Sai Aravind Sreeramadas, Vaikkunth Mugunthan, Edouard Oyallon, Irina Rish, Eugene Belilovsky
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/tmlr/TenisonSMORB23</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5ee0a4ac1591…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:43:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:43:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedGmaGradientMaskedAveragingForFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedGmaGradientMaskedAveragingForFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
