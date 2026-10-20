@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaBound and AMSBound Dynamic Learning-Rate Bounds Optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaBound and AMSBound Dynamic Learning-Rate Bounds Optimization</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaBound and AMSBound Dynamic Learning-Rate Bounds Optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AdaBound, AMSBound, Adaptive Gradient Methods with Dynamic Bound of Learning Rate, Dynamic Learning-Rate Bound Adaptive Moment Estimation
+    </div>
+
+  <div class="detail-desc">
+    AdaBound and AMSBound are first-order adaptive stochastic optimization algorithms (Luo, Xiong, Liu, &amp; Sun, ICLR 2019) that eliminate both extremely large and extremely small late-stage learning rates in Adam and AMSGrad by clipping the element-wise adaptive learning rate alpha / sqrt(V_t) to a pair of dynamic monotone bound functions [eta_l(t), eta_u(t)]: eta_hat_t = Clip(alpha / sqrt(V_t), eta_l(t), eta_u(t)), eta_t = eta_hat_t / sqrt(t), and x_{t+1} = Pi_{F, diag(eta_t^{-1})}(x_t - eta_t odot m_t), where V_t = diag(v_t) for AdaBound and V_t = diag(v_hat_t) with v_hat_t = max(v_hat_{t-1}, v_t) for AMSBound, and where the non-decreasing lower bound eta_l(t) (initialized at 0) and non-increasing upper bound eta_u(t) (initialized at infinity) both converge smoothly to a constant final step size alpha* as t -&gt; infinity, inducing a continuous transition from adaptive gradient methods early in training to SGD (with momentum) asymptotically.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam (Kingma &amp; Ba, 2015), which sets eta_l(t) = 0 and eta_u(t) = infinity and can fail to converge on convex problems due to either huge or tiny learning rates (Theorems 1-3); distinct from AMSGrad (Reddi et al., 2018), which enforces non-increasing step sizes via v_hat_t = max(v_hat_{t-1}, v_t) to curb large learning rates but does not bound tiny learning rates from below; distinct from SWATS (Keskar &amp; Socher, 2017), which performs a discrete hard switch from Adam to SGD at a thresholded step rather than a continuous dynamic-bound transformation; and distinct from Padam (Chen et al., 2020), which scales the second-moment denominator exponent to v_hat_t^p with p in (0, 1/2] rather than clipping step sizes to time-varying bounds [eta_l(t), eta_u(t)].
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#theorem1-nonconvergence-of-adam-from-tiny-learning-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 (Section 3, p. 4 &amp; Appendix B, Eqs. 2-3, p. 12-13) proves that for the 1D online convex optimization sequence over F = [-2, 2] with f_t(x) = -100 for x &lt; 0, f_t(x) = -x for 0 &lt;= x &lt;= 1 and t mod C = 1, f_t(x) = 2x for 0 &lt;= x &lt;= 1 and t mod C = 2, and 0 otherwise, where C in N satisfies 5 * beta_2^{C-2} &lt;= (1 - beta_2)/(4 - beta_2) (Eq. 3), Adam with beta_1 = 0 and any initial step size alpha &gt; 0 satisfies V_{Ct+1} - 4 V_{Ct} &gt;= (4 - beta_2)[(1 - beta_2)/(4 - beta_2) - 5 * beta_2^{C-2}] &gt;= 0, keeping x_t &gt;= 0 for all t in N and suffering non-vanishing average regret R_T / T &gt;= 100 as T -&gt; infinity because the corrective gradient +2 at t mod C = 2 is scaled down by a larger second-moment accumulator than the wrong-direction gradient -1 at t mod C = 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r608-primary-pdf">Adaptive Gradient Methods with Dynamic Bound of Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Theorem 1, p. 4; Appendix B, Eqs. 2-3, p. 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#theorem4-and-theorem5-online-convex-regret-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorems 4 and 5 and Corollary 4.1 (Section 4, p. 5 &amp; Appendix E-F, p. 14-17) prove that under beta_1 = beta_{11}, beta_{1t} &lt;= beta_1, beta_1 / sqrt(beta_2) &lt; 1, monotone bounds eta_l(t+1) &gt;= eta_l(t) &gt; 0 and eta_u(t+1) &lt;= eta_u(t) converging to alpha* with L_infty = eta_l(1) and R_infty = eta_u(1), bounded diameter ||x - y||_infty &lt;= D_infty, and bounded gradients ||nabla f_t(x)||_2 &lt;= G_2, both AdaBound (Algorithm 2) and AMSBound (Algorithm 3) satisfy R_T &lt;= (D_infty^2 sqrt(T) / (2(1 - beta_1))) sum_{i=1}^d eta_hat_{T,i}^{-1} + (D_infty^2 / (2(1 - beta_1))) sum_{t=1}^T sum_{i=1}^d beta_{1t} eta_{t,i}^{-1} + (2 sqrt(T) - 1) R_infty G_2^2 / (1 - beta_1) = O(sqrt(T)) when beta_{1t} = beta_1 lambda^{t-1} or beta_{1t} = beta_1 / t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r608-primary-pdf">Adaptive Gradient Methods with Dynamic Bound of Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Theorem 4 &amp; Corollary 4.1, p. 5-6; Appendix E-F, Theorem 5, p. 14-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#canonical-rational-bound-functions-and-deep-network-generalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the canonical bound functions eta_l(t) = (1 - 1 / ((1 - beta)t + 1)) alpha* and eta_u(t) = (1 + 1 / ((1 - beta)t)) alpha* with default alpha = 0.001, alpha* = 0.1, beta_1 = 0.9, and beta_2 = 0.999 (Section 4-5, p. 6-9; Appendix G-H, p. 17-19), AdaBound and AMSBound match the early convergence speed of Adam/AMSGrad while improving CIFAR-10 test accuracy by ~2% over Adam on DenseNet-121 and surpassing SGDM by ~1% on ResNet-34, and reduce Penn Treebank test perplexity by over 2.8% relative to Adam on 3-layer LSTM language models while remaining robust across alpha* in [0.001, 1] and beta in [beta_1, beta_2].
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r608-primary-pdf">Adaptive Gradient Methods with Dynamic Bound of Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4-5, Table 2 &amp; Figures 2-4, p. 6-9; Appendix G-H, Figures 5-8, p. 17-19</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r608-arxiv-abs">Adaptive Gradient Methods with Dynamic Bound of Learning Rate (arXiv abstract)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#modest-gains-on-shallow-models-and-bound-schedule-specification</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 5.4-6 (p. 8-9) notes that on simple shallow architectures such as a 1-layer perceptron on MNIST or a 1-layer LSTM on Penn Treebank, the test accuracy or perplexity improvement of AdaBound and AMSBound over Adam and SGD is modest (~1.1% on 1-layer LSTM), that on recurrent language modeling tasks AdaBound and AMSBound do not match Adam&#39;s very earliest-epoch drop in perplexity, and that the algorithms require specifying two dynamic bound schedules eta_l(t) and eta_u(t) together with a target SGD step size alpha*.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r608-primary-pdf">Adaptive Gradient Methods with Dynamic Bound of Learning Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, 5.4, 5.5, and Section 6 Future Work, p. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Improvements over vanilla Adam and SGD are modest on shallow architectures such as a 1-layer MNIST perceptron or a 1-layer LSTM compared with deeper ResNet, DenseNet, and 3-layer LSTM models (Section 5.2, 5.4, 6, p. 7-9).</li>
+      <li>On Penn Treebank LSTM language modeling, AdaBound and AMSBound exhibit smoother learning curves and lower final perplexity than Adam and SGD, but do not match Adam&#39;s rapid perplexity drop during the very earliest training epochs (Section 5.4, Figure 4, p. 8).</li>
+      <li>Requires specifying functional forms for the lower and upper dynamic bounds eta_l(t) and eta_u(t) and the asymptotic SGD target step size alpha* (Section 4, 6, p. 6, 9).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdaBound and AMSBound are designed to train feedforward, convolutional (DenseNet-121, ResNet-34), and recurrent (LSTM) deep neural networks with rapid initial progress and strong out-of-sample generalization.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r608-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r608-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.09843.pdf" target="_blank" rel="noopener">Adaptive Gradient Methods with Dynamic Bound of Learning Rate</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liangchen Luo, Yuanhao Xiong, Yan Liu, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LuoXLS19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d2bca40bc2d3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r608-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r608-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.09843" target="_blank" rel="noopener">Adaptive Gradient Methods with Dynamic Bound of Learning Rate (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liangchen Luo, Yuanhao Xiong, Yan Liu, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.09843</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6e646d4b8652…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r608-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r608-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LuoXLS19" target="_blank" rel="noopener">Adaptive Gradient Methods with Dynamic Bound of Learning Rate (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Liangchen Luo, Yuanhao Xiong, Yan Liu, Xu Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LuoXLS19</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4c9119222166…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:31:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:31:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

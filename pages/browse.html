@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1444</strong> artificial intelligence concepts, comprising <strong>1002</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1445</strong> artificial intelligence concepts, comprising <strong>1003</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1444)</option>
-        <option value="curated">Curated AIMech (1002)</option>
+        <option value="all">All Origins (1445)</option>
+        <option value="curated">Curated AIMech (1003)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (698)</option>
+          <option value="algorithm">Algorithms (699)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1444</span> of <span id="totalCount">1444</span>
+      Showing <span id="matchCount">1445</span> of <span id="totalCount">1445</span>
     </div>
   </div>
 </div>
@@ -517,6 +517,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adabound and amsbound dynamic learning-rate bounds optimization adaboundandamsbounddynamiclearningrateboundsoptimization aimech:adaboundandamsbounddynamiclearningrateboundsoptimization algorithms algorithm adabound and amsbound are first-order adaptive stochastic optimization algorithms (luo, xiong, liu, &amp; sun, iclr 2019) that eliminate both extremely large and extremely small late-stage learning rates in adam and amsgrad by clipping the element-wise adaptive learning rate alpha / sqrt(v_t) to a pair of dynamic monotone bound functions [eta_l(t), eta_u(t)]: eta_hat_t = clip(alpha / sqrt(v_t), eta_l(t), eta_u(t)), eta_t = eta_hat_t / sqrt(t), and x_{t+1} = pi_{f, diag(eta_t^{-1})}(x_t - eta_t odot m_t), where v_t = diag(v_t) for adabound and v_t = diag(v_hat_t) with v_hat_t = max(v_hat_{t-1}, v_t) for amsbound, and where the non-decreasing lower bound eta_l(t) (initialized at 0) and non-increasing upper bound eta_u(t) (initialized at infinity) both converge smoothly to a constant final step size alpha* as t -&gt; infinity, inducing a continuous transition from adaptive gradient methods early in training to sgd (with momentum) asymptotically. distinct from adam (kingma &amp; ba, 2015), which sets eta_l(t) = 0 and eta_u(t) = infinity and can fail to converge on convex problems due to either huge or tiny learning rates (theorems 1-3); distinct from amsgrad (reddi et al., 2018), which enforces non-increasing step sizes via v_hat_t = max(v_hat_{t-1}, v_t) to curb large learning rates but does not bound tiny learning rates from below; distinct from swats (keskar &amp; socher, 2017), which performs a discrete hard switch from adam to sgd at a thresholded step rather than a continuous dynamic-bound transformation; and distinct from padam (chen et al., 2020), which scales the second-moment denominator exponent to v_hat_t^p with p in (0, 1/2] rather than clipping step sizes to time-varying bounds [eta_l(t), eta_u(t)]. adabound amsbound adaptive gradient methods with dynamic bound of learning rate dynamic learning-rate bound adaptive moment estimation theorem 1 (section 3, p. 4 &amp; appendix b, eqs. 2-3, p. 12-13) proves that for the 1d online convex optimization sequence over f = [-2, 2] with f_t(x) = -100 for x &lt; 0, f_t(x) = -x for 0 &lt;= x &lt;= 1 and t mod c = 1, f_t(x) = 2x for 0 &lt;= x &lt;= 1 and t mod c = 2, and 0 otherwise, where c in n satisfies 5 * beta_2^{c-2} &lt;= (1 - beta_2)/(4 - beta_2) (eq. 3), adam with beta_1 = 0 and any initial step size alpha &gt; 0 satisfies v_{ct+1} - 4 v_{ct} &gt;= (4 - beta_2)[(1 - beta_2)/(4 - beta_2) - 5 * beta_2^{c-2}] &gt;= 0, keeping x_t &gt;= 0 for all t in n and suffering non-vanishing average regret r_t / t &gt;= 100 as t -&gt; infinity because the corrective gradient +2 at t mod c = 2 is scaled down by a larger second-moment accumulator than the wrong-direction gradient -1 at t mod c = 1. theorems 4 and 5 and corollary 4.1 (section 4, p. 5 &amp; appendix e-f, p. 14-17) prove that under beta_1 = beta_{11}, beta_{1t} &lt;= beta_1, beta_1 / sqrt(beta_2) &lt; 1, monotone bounds eta_l(t+1) &gt;= eta_l(t) &gt; 0 and eta_u(t+1) &lt;= eta_u(t) converging to alpha* with l_infty = eta_l(1) and r_infty = eta_u(1), bounded diameter ||x - y||_infty &lt;= d_infty, and bounded gradients ||nabla f_t(x)||_2 &lt;= g_2, both adabound (algorithm 2) and amsbound (algorithm 3) satisfy r_t &lt;= (d_infty^2 sqrt(t) / (2(1 - beta_1))) sum_{i=1}^d eta_hat_{t,i}^{-1} + (d_infty^2 / (2(1 - beta_1))) sum_{t=1}^t sum_{i=1}^d beta_{1t} eta_{t,i}^{-1} + (2 sqrt(t) - 1) r_infty g_2^2 / (1 - beta_1) = o(sqrt(t)) when beta_{1t} = beta_1 lambda^{t-1} or beta_{1t} = beta_1 / t. using the canonical bound functions eta_l(t) = (1 - 1 / ((1 - beta)t + 1)) alpha* and eta_u(t) = (1 + 1 / ((1 - beta)t)) alpha* with default alpha = 0.001, alpha* = 0.1, beta_1 = 0.9, and beta_2 = 0.999 (section 4-5, p. 6-9; appendix g-h, p. 17-19), adabound and amsbound match the early convergence speed of adam/amsgrad while improving cifar-10 test accuracy by ~2% over adam on densenet-121 and surpassing sgdm by ~1% on resnet-34, and reduce penn treebank test perplexity by over 2.8% relative to adam on 3-layer lstm language models while remaining robust across alpha* in [0.001, 1] and beta in [beta_1, beta_2]. section 5.4-6 (p. 8-9) notes that on simple shallow architectures such as a 1-layer perceptron on mnist or a 1-layer lstm on penn treebank, the test accuracy or perplexity improvement of adabound and amsbound over adam and sgd is modest (~1.1% on 1-layer lstm), that on recurrent language modeling tasks adabound and amsbound do not match adam&#39;s very earliest-epoch drop in perplexity, and that the algorithms require specifying two dynamic bound schedules eta_l(t) and eta_u(t) together with a target sgd step size alpha*. adaptive gradient methods with dynamic bound of learning rate adaptive gradient methods with dynamic bound of learning rate (arxiv abstract) adaptive gradient methods with dynamic bound of learning rate (crossref metadata) liangchen luo yuanhao xiong yan liu xu sun liangchen luo yuanhao xiong yan liu xu sun liangchen luo yuanhao xiong yan liu xu sun">
+        <td>
+          <a href="curated/AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization.html" style="font-weight: 600; font-size: 1rem;">AdaBound and AMSBound Dynamic Learning-Rate Bounds Optimization</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdaBound, AMSBound…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            AdaBound and AMSBound are first-order adaptive stochastic optimization algorithms (Luo, Xiong, Liu, &amp; Sun, ICLR 2019) that eliminate both ex…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaBoundAndAmsBoundDynamicLearningRateBoundsOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
