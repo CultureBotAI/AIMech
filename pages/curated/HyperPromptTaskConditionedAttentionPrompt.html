@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HyperPrompt (HyperNetwork-Generated Task-Conditioned Self-Attention Prompts) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>HyperPrompt (HyperNetwork-Generated Task-Conditioned Self-Attention Prompts)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HyperPrompt (HyperNetwork-Generated Task-Conditioned Self-Attention Prompts)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:HyperPromptTaskConditionedAttentionPrompt</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HyperPrompt, HyperPrompt-Global, HyperPrompt-Share, HyperPrompt-Sep, MTL-Prompt-Share, MTL-Prompt-Sep
+    </div>
+
+  <div class="detail-desc">
+    A multi-task Transformer architecture that initializes a trainable global task prompt P_tau in R^{l x d} for each task tau and applies local bottleneck projection networks (D^m_{tau,k/v}, U^m_{tau,k/v})—either shared across tasks (HyperPrompt-Share), separate per task (HyperPrompt-Sep), or generated from a layer-aware task embedding I^m_tau = h_t(k_tau, z_m) via shared global HyperNetworks H_k and H_v (HyperPrompt-Global)—to produce layer-specific key and value hyper-prompts P^m_{tau,k}, P^m_{tau,v} prepended directly to the multi-head self-attention keys and values at every Transformer block.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Yun He, Huaixiu Steven Zheng, Yi Tay, Jai Gupta, Yu Du, Vamsi Aribandi, Zhe Zhao, YaGuang Li, Zhao Chen, Donald Metzler, Heng-Tze Cheng, and Ed H. Chi (ICML 2022, PMLR 162:8678-8690, arXiv:2203.00759). Distinct from Prefix-Tuning (Li &amp; Liang, ACL 2021; AIMech:PrefixTuning), which optimizes single-task per-layer prefixes without cross-task hypernetworks or global-to-local bottleneck projections, and distinct from HyperFormer (Karimi Mahabadi et al., ACL 2021; AIMech Round 703), which generates post-FFN sequential adapter layers rather than self-attention key/value memory tokens. All three architectural variants (HyperPrompt-Share, HyperPrompt-Sep, and HyperPrompt-Global) are covered within this single record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#hyperprompt-key-value-attention-injection-and-global-hypernetwork-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each Transformer block m for task tau, HyperPrompt-Global fuses a task embedding k_tau in R^{t&#39;} and layer embedding z_m in R^{t&#39;} via a two-layer ReLU MLP I^m_tau = h_t(k_tau, z_m) in R^t, uses shared global HyperNetworks H_k and H_v to generate local bottleneck matrices (U^m_{tau,k}, D^m_{tau,k}) = (W^{U_k}, W^{D_k}) I^m_tau and (U^m_{tau,v}, D^m_{tau,v}) = (W^{U_v}, W^{D_v}) I^m_tau (Eqs. 7-8), projects the task global prompt P_tau in R^{l x d} into P^m_{tau,k} = U^m_{tau,k}(ReLU(D^m_{tau,k}(P_tau))) and P^m_{tau,v} = U^m_{tau,v}(ReLU(D^m_{tau,v}(P_tau))) (Eqs. 5-6), and prepends them to the original keys and values as K&#39;_tau = concat(P^m_{tau,k}, K_tau) and V&#39;_tau = concat(P^m_{tau,v}, V_tau) (Eqs. 1-2) so O_tau = softmax(Q_tau K&#39;_tau^T) V&#39;_tau in R^{L x d} retains sequence length L and skips passing prompt tokens through standard FFN layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r706-primary-pdf">HyperPrompt: Prompt-based Task-Conditioning of Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Introduction, pp. 1-2; Section 3.1-3.3, Figure 2 &amp; Eqs. 1-8, pp. 3-5; Section 4.4 Table 2, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#hyperprompt-sublinear-task-parameter-complexity-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HyperPrompt-Global introduces exactly d l T + 4(b d t) + T t&#39; + M t&#39; + (2 t&#39; + t) e additional task-conditioning parameters (where d is model dimension, l is prompt length, T is number of tasks, b is local bottleneck dimension, M is number of layers, t&#39;/t are raw/final task embedding dimensions, and e is MLP hidden dimension), yielding O(d(l T + 4 b t)) space complexity that is independent of layer count M in its dominant terms and scales sub-linearly with T while requiring 9.8 x 10^{12} forward-pass ops on T5-Base versus 3.14 x 10^{13} for HyperFormer++.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r706-primary-pdf">HyperPrompt: Prompt-based Task-Conditioning of Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4 Parameter Efficiency of HyperPrompt, p. 5; Section 4.4 Computational Efficiency, Table 2, pp. 6-7; Appendix A.1, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#hyperprompt-superglue-and-glue-scaling-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across T5 model sizes from Base (220M) to XXL (11B), full multi-task fine-tuning with HyperPrompt-Global achieves state-of-the-art multi-task accuracy on GLUE and SuperGLUE, reaching 86.8 GLUE / 78.9 SuperGLUE on T5-Base (vs. 85.5 / 77.2 for MTL and 86.5 / 78.2 for HyperFormer++), 89.4 GLUE / 87.0 SuperGLUE on T5-Large, and 91.3 SuperGLUE on T5-XXL (vs. 90.2 for MTL) with as little as 0.14% additional task-conditioning parameters.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r706-primary-pdf">HyperPrompt: Prompt-based Task-Conditioning of Transformers</a></span>
+        <span>· <strong>Locator:</strong> Abstract &amp; Figure 1, p. 1; Section 4.2 Key Results, p. 6; Section 4.5 Ablation Study, Tables 3-4, p. 7; Appendix A.4 Tables 8-11, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#hyperprompt-frozen-backbone-superglue-drop-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the Transformer backbone parameters theta are kept frozen and only task-conditioned parameters are tuned, HyperPrompt-Global suffers a 5.5-point average score drop on SuperGLUE with T5-Large (falling from 87.0 to 81.5 in Table 1), and inserting hyper-prompts into the encoder alone degrades SuperGLUE performance on T5-Base relative to decoder-only insertion (76.5 vs. 78.9 in Table 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r706-primary-pdf">HyperPrompt: Prompt-based Task-Conditioning of Transformers</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3 Tuning all vs Task-Conditioned Parameters, Table 1, p. 6; Section 4.8 Encoder vs Decoder, Table 5, pp. 8-9; Appendix A.4 Tables 6-7, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Freezing the Transformer backbone and updating only task-conditioned HyperPrompt parameters drops average SuperGLUE accuracy by 5.5 points on T5-Large compared to joint backbone-and-hyperprompt fine-tuning.</li>
+      <li>Inserting hyper-prompts only into the T5 encoder underperforms decoder-only insertion on SuperGLUE (76.5 vs. 78.9 on T5-Base).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HyperPrompt conditions multi-head self-attention layers in Transformer neural networks using hypernetwork-generated task-specific key and value memory prompts.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r706-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r706-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2203.00759.pdf" target="_blank" rel="noopener">HyperPrompt: Prompt-based Task-Conditioning of Transformers</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yun He, Huaixiu Steven Zheng, Yi Tay, Jai Gupta, Yu Du, Vamsi Aribandi, Zhe Zhao, YaGuang Li, Zhao Chen, Donald Metzler, Heng-Tze Cheng, Ed H. Chi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=HyperPrompt+Prompt-based+Task-Conditioning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:29269d6e22d4…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r706-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r706-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2203.00759" target="_blank" rel="noopener">HyperPrompt: Prompt-based Task-Conditioning of Transformers (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yun He, Huaixiu Steven Zheng, Yi Tay, Jai Gupta, Yu Du, Vamsi Aribandi, Zhe Zhao, YaGuang Li, Zhao Chen, Donald Metzler, Heng-Tze Cheng, Ed H. Chi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2203.00759</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7a2f0307fe1c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r706-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r706-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=HyperPrompt+Prompt-based+Task-Conditioning&amp;format=xml" target="_blank" rel="noopener">HyperPrompt: Prompt-based Task-Conditioning of Transformers (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yun He, Huaixiu Steven Zheng, Yi Tay, Jai Gupta, Yu Du, Vamsi Aribandi, Zhe Zhao, YaGuang Li, Zhao Chen, Donald Metzler, Heng-Tze Cheng, Ed H. Chi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=HyperPrompt+Prompt-based+Task-Conditioning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:07e4d71c57a2…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:09:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:09:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HyperPromptTaskConditionedAttentionPrompt.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HyperPromptTaskConditionedAttentionPrompt.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

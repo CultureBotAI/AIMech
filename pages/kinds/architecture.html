@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">50 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">51 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">50</span> of <span id="totalCount">50</span>
+      Showing <span id="matchCount">51</span> of <span id="totalCount">51</span>
     </div>
   </div>
 </div>
@@ -617,6 +617,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:HyperFormerSharedHypernetworkAdapter</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="hyperprompt (hypernetwork-generated task-conditioned self-attention prompts) hyperprompttaskconditionedattentionprompt aimech:hyperprompttaskconditionedattentionprompt architectures architecture a multi-task transformer architecture that initializes a trainable global task prompt p_tau in r^{l x d} for each task tau and applies local bottleneck projection networks (d^m_{tau,k/v}, u^m_{tau,k/v})—either shared across tasks (hyperprompt-share), separate per task (hyperprompt-sep), or generated from a layer-aware task embedding i^m_tau = h_t(k_tau, z_m) via shared global hypernetworks h_k and h_v (hyperprompt-global)—to produce layer-specific key and value hyper-prompts p^m_{tau,k}, p^m_{tau,v} prepended directly to the multi-head self-attention keys and values at every transformer block. introduced by yun he, huaixiu steven zheng, yi tay, jai gupta, yu du, vamsi aribandi, zhe zhao, yaguang li, zhao chen, donald metzler, heng-tze cheng, and ed h. chi (icml 2022, pmlr 162:8678-8690, arxiv:2203.00759). distinct from prefix-tuning (li &amp; liang, acl 2021; aimech:prefixtuning), which optimizes single-task per-layer prefixes without cross-task hypernetworks or global-to-local bottleneck projections, and distinct from hyperformer (karimi mahabadi et al., acl 2021; aimech round 703), which generates post-ffn sequential adapter layers rather than self-attention key/value memory tokens. all three architectural variants (hyperprompt-share, hyperprompt-sep, and hyperprompt-global) are covered within this single record. hyperprompt hyperprompt-global hyperprompt-share hyperprompt-sep mtl-prompt-share mtl-prompt-sep at each transformer block m for task tau, hyperprompt-global fuses a task embedding k_tau in r^{t&#39;} and layer embedding z_m in r^{t&#39;} via a two-layer relu mlp i^m_tau = h_t(k_tau, z_m) in r^t, uses shared global hypernetworks h_k and h_v to generate local bottleneck matrices (u^m_{tau,k}, d^m_{tau,k}) = (w^{u_k}, w^{d_k}) i^m_tau and (u^m_{tau,v}, d^m_{tau,v}) = (w^{u_v}, w^{d_v}) i^m_tau (eqs. 7-8), projects the task global prompt p_tau in r^{l x d} into p^m_{tau,k} = u^m_{tau,k}(relu(d^m_{tau,k}(p_tau))) and p^m_{tau,v} = u^m_{tau,v}(relu(d^m_{tau,v}(p_tau))) (eqs. 5-6), and prepends them to the original keys and values as k&#39;_tau = concat(p^m_{tau,k}, k_tau) and v&#39;_tau = concat(p^m_{tau,v}, v_tau) (eqs. 1-2) so o_tau = softmax(q_tau k&#39;_tau^t) v&#39;_tau in r^{l x d} retains sequence length l and skips passing prompt tokens through standard ffn layers. hyperprompt-global introduces exactly d l t + 4(b d t) + t t&#39; + m t&#39; + (2 t&#39; + t) e additional task-conditioning parameters (where d is model dimension, l is prompt length, t is number of tasks, b is local bottleneck dimension, m is number of layers, t&#39;/t are raw/final task embedding dimensions, and e is mlp hidden dimension), yielding o(d(l t + 4 b t)) space complexity that is independent of layer count m in its dominant terms and scales sub-linearly with t while requiring 9.8 x 10^{12} forward-pass ops on t5-base versus 3.14 x 10^{13} for hyperformer++. across t5 model sizes from base (220m) to xxl (11b), full multi-task fine-tuning with hyperprompt-global achieves state-of-the-art multi-task accuracy on glue and superglue, reaching 86.8 glue / 78.9 superglue on t5-base (vs. 85.5 / 77.2 for mtl and 86.5 / 78.2 for hyperformer++), 89.4 glue / 87.0 superglue on t5-large, and 91.3 superglue on t5-xxl (vs. 90.2 for mtl) with as little as 0.14% additional task-conditioning parameters. when the transformer backbone parameters theta are kept frozen and only task-conditioned parameters are tuned, hyperprompt-global suffers a 5.5-point average score drop on superglue with t5-large (falling from 87.0 to 81.5 in table 1), and inserting hyper-prompts into the encoder alone degrades superglue performance on t5-base relative to decoder-only insertion (76.5 vs. 78.9 in table 5). hyperprompt: prompt-based task-conditioning of transformers hyperprompt: prompt-based task-conditioning of transformers (arxiv abstract) hyperprompt: prompt-based task-conditioning of transformers (crossref metadata) yun he huaixiu steven zheng yi tay jai gupta yu du vamsi aribandi zhe zhao yaguang li zhao chen donald metzler heng-tze cheng ed h. chi yun he huaixiu steven zheng yi tay jai gupta yu du vamsi aribandi zhe zhao yaguang li zhao chen donald metzler heng-tze cheng ed h. chi yun he huaixiu steven zheng yi tay jai gupta yu du vamsi aribandi zhe zhao yaguang li zhao chen donald metzler heng-tze cheng ed h. chi">
+        <td>
+          <a href="../curated/HyperPromptTaskConditionedAttentionPrompt.html" style="font-weight: 600; font-size: 1rem;">HyperPrompt (HyperNetwork-Generated Task-Conditioned Self-Attention Prompts)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> HyperPrompt, HyperPrompt-Global…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A multi-task Transformer architecture that initializes a trainable global task prompt P_tau in R^{l x d} for each task tau and applies local…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:HyperPromptTaskConditionedAttentionPrompt</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
