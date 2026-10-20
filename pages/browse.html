@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1374</strong> artificial intelligence concepts, comprising <strong>932</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1375</strong> artificial intelligence concepts, comprising <strong>933</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1374)</option>
-        <option value="curated">Curated AIMech (932)</option>
+        <option value="all">All Origins (1375)</option>
+        <option value="curated">Curated AIMech (933)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (630)</option>
+          <option value="algorithm">Algorithms (631)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1374</span> of <span id="totalCount">1374</span>
+      Showing <span id="matchCount">1375</span> of <span id="totalCount">1375</span>
     </div>
   </div>
 </div>
@@ -27775,6 +27775,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="s-bucketing for agnostic byzantine-robust aggregation on heterogeneous datasets bucketingforagnosticbyzantinerobustaggregationonheterogeneousdatasets aimech:bucketingforagnosticbyzantinerobustaggregationonheterogeneousdatasets algorithms algorithm a randomized pre-aggregation meta-algorithm proposed by karimireddy, he, and jaggi (iclr 2022) that adapts classical iid byzantine-robust aggregators (such as krum, coordinate-wise median, and geometric median / rfa) to heterogeneous non-iid datasets by randomly permuting the n worker momentum vectors in each round into ceil(n/s) buckets of size at most s, averaging the vectors within each bucket to reduce inter-client pairwise variance by a factor of 1/s, and feeding the bucket averages into the base robust aggregator to satisfy the variance-agnostic (delta_{max}, c)-aragg condition e||hat{x} - bar{x}||^2 &lt;= c delta rho^2. distinct from detox (aimech:detoxredundancybasedhierarchicalbyzantinerobustgradientaggregation, which assigns redundant data partitions to fixed worker groups in an iid cloud setting and takes within-group majority/mean over identical gradients) and from unbucketed krum (aimech:krumandmultikrumbyzantineresilientgradientaggregation), coordinate-wise median (aimech:coordinatewisemedianandtrimmedmeanbyzantinerobustgradientaggregation), and rfa (aimech:robustfederatedaggregationviasmoothedweiszfeldgeometricmedian), which fail on imbalanced non-iid data even with delta = 0 byzantine workers or under the mimic attack (section 3.1-3.2). bucketing (karimireddy, he, &amp; jaggi, iclr 2022 / arxiv:2006.09365, algorithms 1-2, lemma 1, definition a, theorems i-iv, pp. 4-8) randomly reshuffles the n worker momentum vectors m_i^t = beta m_i^{t-1} + (1 - beta) g_i(x^{t-1}) via a fresh random permutation pi of [n] at every step, computes bucket averages y_i = (1/s) sum_{k=(i-1)s+1}^{min(n, i s)} m_{pi(k)}^t for i = 1, ..., ceil(n/s), and outputs hat{m} = aggr(y_1, ..., y_{ceil(n/s)}) with bucket size s = floor(delta_{max} / delta). s-bucketing for byzantine-robust aggregation aragg bucketing agnostic robust aggregation via bucketing given n independent worker vectors {x_1, ..., x_n} with good subset g of size |g| &gt;= n(1 - delta) and pairwise variance e||x_i - x_j||^2 &lt;= rho^2, algorithm 1 draws a uniform random permutation pi of [n], averages consecutive blocks of s vectors into y_i = (1/s) sum_{k=(i-1)s+1}^{min(n, is)} x_{pi(k)}, and passes {y_1, ..., y_{ceil(n/s)}} to aggr; lemma 1 proves that at least ceil(n/s)(1 - delta s) good buckets satisfy e[y_i] = e[bar{x}] and reduced pairwise variance e||y_i - y_j||^2 &lt;= rho^2 / s. theorem i proves that choosing s = floor(delta_{max} / delta) turns krum (delta_{max} &lt; 1/4), geometric median / rfa (delta_{max} &lt; 1/2), and coordinate-wise median (delta_{max} &lt; 1/2) into variance-agnostic (delta_{max}, c)-aragg aggregators with optimal error o(delta rho^2) (or o(d delta rho^2) for cm); combining aragg with worker momentum (algorithm 2) achieves o(c delta zeta^2 + sigma sqrt(l f^0 (c delta + 1/n)/t) + l f^0 / t) (theorem ii), matching the information-theoretic non-iid lower bound omega(delta zeta^2) (theorem iii) and achieving exact convergence to 0 under overparameterized strong growth b^2 &lt; 1/(60 c delta) (theorem iv). s-bucketing amplifies the worst-case fraction of contaminated buckets by up to a factor of s (from delta to s delta &lt;= delta_{max}), limiting the maximum bucket size to floor(delta_{max} / delta), and without overparameterization any byzantine-robust algorithm suffers an irreducible stationarity error omega(delta zeta^2) under non-iid heterogeneity zeta^2 &gt; 0 (theorem iii). applied to byzantine-robust federated learning on non-iid and long-tailed partitions of mnist against the mimic attack (which copies a fixed honest worker along the top oja streaming eigenvector to induce class-imbalance bias), alie, inner product manipulation (ipm), bit-flipping, and label-flipping attacks. byzantine-robust learning on heterogeneous datasets via bucketing byzantine-robust learning on heterogeneous datasets via bucketing (arxiv abstract) byzantine-robust learning on heterogeneous datasets via bucketing (crossref metadata) sai praneeth karimireddy lie he martin jaggi sai praneeth karimireddy lie he martin jaggi sai praneeth karimireddy lie he martin jaggi">
+        <td>
+          <a href="curated/BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets.html" style="font-weight: 600; font-size: 1rem;">s-Bucketing for Agnostic Byzantine-Robust Aggregation on Heterogeneous Datasets</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> s-Bucketing for Byzantine-Robust Aggregation, ARAGG Bucketing…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A randomized pre-aggregation meta-algorithm proposed by Karimireddy, He, and Jaggi (ICLR 2022) that adapts classical IID Byzantine-robust ag…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
