@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1428</strong> artificial intelligence concepts, comprising <strong>986</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1429</strong> artificial intelligence concepts, comprising <strong>987</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1428)</option>
-        <option value="curated">Curated AIMech (986)</option>
+        <option value="all">All Origins (1429)</option>
+        <option value="curated">Curated AIMech (987)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (682)</option>
+          <option value="algorithm">Algorithms (683)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1428</span> of <span id="totalCount">1428</span>
+      Showing <span id="matchCount">1429</span> of <span id="totalCount">1429</span>
     </div>
   </div>
 </div>
@@ -615,6 +615,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adahessian (adaptive second-order optimizer) adahessianadaptivesecondorderoptimizer aimech:adahessianadaptivesecondorderoptimizer algorithms algorithm an adaptive second-order stochastic optimization algorithm with o(d) memory complexity that approximates the hessian diagonal at step t via hutchinson&#39;s method d_t = z odot (h_t z) using a rademacher vector z in {-1, +1}^d and a hessian-free matrix-vector product h_t z = d(g_t^t z)/dtheta (eqs. 8-9), smooths spatial variance via block-diagonal averaging of block size b, d_t^{(s)}[i b + j] = (1/b) sum_{r=1}^b d_t[i b + r] (eq. 10), tracks a bias-corrected root-mean-square exponential moving average d_bar_t = sqrt(((1 - beta_2) / (1 - beta_2^t)) sum_{i=1}^t beta_2^{t-i} d_i^{(s)} odot d_i^{(s)}) (eq. 11), and preconditions the bias-corrected gradient ema m_t by v_t = (d_bar_t)^k for hessian power 0 &lt;= k &lt;= 1 via theta_{t+1} = theta_t - eta_t m_t / v_t (eq. 12, algorithm 1). distinct from adam, adamw, and rmsprop in that adahessian replaces the elementwise squared gradient g_i odot g_i in the second-moment accumulator with the squared spatially averaged hutchinson hessian diagonal d_i^{(s)} odot d_i^{(s)} raised to power k in [0, 1]. distinct from sophia in that adahessian performs block-diagonal spatial averaging across convolutional/attention blocks of size b, accumulates an rms (l2) moving average of the hessian diagonal rather than a linear ema of max(h_t, 0), and applies unclipped power preconditioning m_t / (d_bar_t)^k. adahessian adahessian optimizer adaptive hessian diagonal optimizer adahessian computes an unbiased hessian diagonal estimate d = diag(h) = e[z odot (h z)] using a rademacher vector z in {-1, +1}^d and a single hessian-vector backpropagation h z = d(g^t z)/dtheta (eqs. 8-9), and applies block-diagonal spatial averaging d^{(s)}[i b + j] = (1/b) sum_{r=1}^b d[i b + r] over blocks of size b (e.g., 3x3 convolutional kernels or attention rows, eq. 10), preserving the strong-convexity spectral bounds alpha &lt;= d_i^{(s)} &lt;= beta and convergence rate (eqs. 13-19) while reducing single-sample hutchinson variance without extra computational cost. by maintaining a bias-corrected root-mean-square exponential moving average d_bar_t of the spatially averaged hessian diagonal (eq. 11) and preconditioning the gradient momentum m_t by v_t = (d_bar_t)^k (0 &lt;= k &lt;= 1, eq. 12), adahessian smooths out misleading local curvature spikes on rugged non-convex loss surfaces (figure 3) and exhibits high robustness to learning-rate scaling up to 10x on transformer machine translation where adamw diverges (table 6). using the same learning-rate schedule, warmup, weight decay, and (beta_1, beta_2) as first-order baselines, adahessian achieves +5.55% higher top-1 accuracy than adam (+2.67% over adamw) on imagenet resnet18, +0.13/+0.33 bleu over adamw on iwslt14/wmt14, 2.7/1.0 lower perplexity on ptb/wikitext-103, +0.41 glue points on squeezebert, and +0.032% test accuracy over adagrad on criteo dlrm. computing the hessian-vector product h z via automatic differentiation requires a second backpropagation pass (2x theoretical flops and 2.27x-2.91x measured per-iteration wall-clock time relative to adam when run at every step), and pytorch lacks native second-order backpropagation support for sparse embedding gradients. adahessian: an adaptive second order optimizer for machine learning adahessian: an adaptive second order optimizer for machine learning (arxiv abstract) adahessian: an adaptive second order optimizer for machine learning (crossref metadata) zhewei yao amir gholami sheng shen mustafa mustafa kurt keutzer michael w. mahoney zhewei yao amir gholami sheng shen mustafa mustafa kurt keutzer michael w. mahoney zhewei yao amir gholami sheng shen mustafa mustafa kurt keutzer michael w. mahoney">
+        <td>
+          <a href="curated/AdaHessianAdaptiveSecondOrderOptimizer.html" style="font-weight: 600; font-size: 1rem;">AdaHessian (Adaptive Second-Order Optimizer)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdaHessian, AdaHessian Optimizer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An adaptive second-order stochastic optimization algorithm with O(d) memory complexity that approximates the Hessian diagonal at step t via…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaHessianAdaptiveSecondOrderOptimizer</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
