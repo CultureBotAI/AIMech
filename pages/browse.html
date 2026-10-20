@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1590</strong> artificial intelligence concepts, comprising <strong>1148</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1591</strong> artificial intelligence concepts, comprising <strong>1149</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1590)</option>
-        <option value="curated">Curated AIMech (1148)</option>
+        <option value="all">All Origins (1591)</option>
+        <option value="curated">Curated AIMech (1149)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (822)</option>
+          <option value="algorithm">Algorithms (823)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (57)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1590</span> of <span id="totalCount">1590</span>
+      Showing <span id="matchCount">1591</span> of <span id="totalCount">1591</span>
     </div>
   </div>
 </div>
@@ -36868,6 +36868,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="tas-balanced topic-aware sampling and dual-teacher margin distillation tasbtopicawaresamplingbalancedmargindistillation aimech:tasbtopicawaresamplingbalancedmargindistillation algorithms algorithm a resource-efficient training and batch-sampling algorithm for single-vector dual-encoder dense retrieval (bert_dot) that clusters all training queries into k semantic topic clusters once before training via k-means over baseline query embeddings, constructs each training batch b of size b by drawing queries from n (typically 1) randomly chosen topic clusters so in-batch passages act as topically related hard negatives, stratifies each query&#39;s positive-negative passage pairs (p^+, p^-) across h uniform bins of static pairwise teacher margin m_t(q, p^+) - m_t(q, p^-) in [m_min + i*m, m_min + (i+1)*m) before sampling to unskew easy high-margin pairs, and optimizes the student dual-encoder under a dual-teacher margin-mse loss l_ds(q, p^+, p^-) = l_pair(q, p^+, p^-) + alpha * l_inb(q, p^+, p^-) combining a pairwise cross-encoder teacher (bert_cat) with an in-batch late-interaction teacher (colbert). distinct from ance (xiong et al., iclr 2021, aimech:anceapproximatenearestneighbornegativecontrastivelearning), which requires 8 v100 gpus to repeatedly re-encode the passage corpus and refresh an ann index every 10k batches; distinct from rocketqa (qu et al., naacl 2021, aimech:rocketqadenoisedhardnegativesampling), which requires cross-batch negatives of size 4,000 across 8 v100 gpus and multi-cycle training; and distinct from single-teacher pairwise margin-mse or tightly-coupled teachers (tct-colbert), which use random query batches without topic-aware query clustering or balanced margin bin stratification. tas-b tas-balanced balanced topic aware sampling for dense retrieval tas-balanced dual-teacher dense retrieval distillation before training, tas-balanced encodes all 400k ms marco training queries in one minute and partitions them into k=2,000 k-means clusters c_i in under 10 minutes; during training, each batch b of size b=32 samples queries q from n=1 random cluster c_i so all in-batch passages share the same topic, and draws (p^+, p^-) from a uniformly chosen margin bin h(p_q, i) = {(p^+, p^-) | m_min + i*m &lt;= m_t(q, p^+) - m_t(q, p^-) &lt; m_min + (i+1)*m} across h=10 bins to prevent easy high-margin negatives from dominating updates. tas-balanced supervises the 6-layer distilbert student m_s with l_ds = l_pair + alpha * l_inb (with alpha=0.75), where l_pair minimizes mse(m_s(q, p^+) - m_s(q, p^-), m_t(q, p^+) - m_t(q, p^-)) against precomputed pairwise bert_cat ensemble margins and l_inb minimizes margin-mse against a linear-complexity colbert teacher across all in-batch negative and positive passage pairings, outperforming kldiv, listnet, and lambdarank list-based in-batch losses. trained on a single consumer-grade 11gb gpu in under 48 hours with batch size 32 (and 64ms single-query latency over 8.8m passages), tas-balanced achieves 0.712 ndcg@10 and 0.845 recall@1k on trec-dl&#39;19, 0.693 ndcg@10 and 0.865 recall@1k on trec-dl&#39;20, and 0.340 mrr@10 and 0.975 recall@1k on ms marco dev (rising to 0.347 mrr@10 and 0.978 recall@1k at batch size 256, and 0.360 mrr@10 / 0.979 recall@1k at 67ms when fused with doct5query), outperforming bm25 by 44% and ance by 5%+ on trec-dl ndcg@10. when tas-balanced first-stage retrieval at high cutoff (top-1,000) is piped into a high-latency mono-duo-t5 reranker trained on bm25 candidates, the shift from lexical to dense candidate distributions prevents mono-duo-t5 from translating tas-balanced&#39;s higher recall@1k into higher trec-dl ndcg@10 (achieving 0.759 vs. 0.773 for doct5query + mono-duo-t5 on trec-dl&#39;19). efficiently teaching an effective dense retriever with balanced topic aware sampling efficiently teaching an effective dense retriever with balanced topic aware sampling (arxiv abstract) efficiently teaching an effective dense retriever with balanced topic aware sampling (crossref metadata) sebastian hofstatter sheng-chieh lin jheng-hong yang jimmy lin allan hanbury sebastian hofstatter sheng-chieh lin jheng-hong yang jimmy lin allan hanbury sebastian hofstatter sheng-chieh lin jheng-hong yang jimmy lin allan hanbury">
+        <td>
+          <a href="curated/TASBTopicAwareSamplingBalancedMarginDistillation.html" style="font-weight: 600; font-size: 1rem;">TAS-Balanced Topic-Aware Sampling and Dual-Teacher Margin Distillation</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> TAS-B, TAS-Balanced…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A resource-efficient training and batch-sampling algorithm for single-vector dual-encoder dense retrieval (BERT_DOT) that clusters all train…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:TASBTopicAwareSamplingBalancedMarginDistillation</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
