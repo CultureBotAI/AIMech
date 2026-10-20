@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1453</strong> artificial intelligence concepts, comprising <strong>1011</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1454</strong> artificial intelligence concepts, comprising <strong>1012</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1453)</option>
-        <option value="curated">Curated AIMech (1011)</option>
+        <option value="all">All Origins (1454)</option>
+        <option value="curated">Curated AIMech (1012)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (707)</option>
+          <option value="algorithm">Algorithms (708)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1453</span> of <span id="totalCount">1453</span>
+      Showing <span id="matchCount">1454</span> of <span id="totalCount">1454</span>
     </div>
   </div>
 </div>
@@ -23863,6 +23863,32 @@
         <td>
             <span class="badge badge-mechanism" title="2 claims curated">2 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="nostalgic adam nosadam aimech:nosadam algorithms algorithm an adaptive first-order stochastic optimization algorithm that replaces adam&#39;s constant second-moment decay parameter beta_2 with a scheduled sequence beta_{2,t} = b_{t-1} / b_t defined by cumulative sums b_t = sum_{k=1}^t b_k of non-increasing positive weights b_k (such as the hyperharmonic series b_k = k^{-gamma} with gamma &gt;= 0 in nosadam-hh), so that the second-moment estimate v_t = beta_{2,t} v_{t-1} + (1 - beta_{2,t}) g_t^2 = (1 / b_t) sum_{k=1}^t b_k g_k^2 weights past squared gradients at least as heavily as recent ones and guarantees positive semi-definiteness of the inverse learning-rate increment gamma_t = v_t / alpha_t^2 - v_{t-1} / alpha_{t-1}^2 &gt;= 0. distinct from adam (which uses constant beta_2 in (0, 1) giving exponentially increasing weights (1 - beta_2) beta_2^{t-k} to recent gradients and violating gamma_t &gt;= 0), from amsgrad (which forces monotonicity via a hard running maximum v_hat_t = max(v_hat_{t-1}, v_t) that permanently stalls step sizes after an outlier gradient spike), and from adashift (aimech:adashift, which shifts gradients by n steps). nosadam generalizes adagrad (recovered at gamma = 0 up to 1/t averaging) and extends to p-norm moment scaling in p-nosadam (theorem a.1). nosadam nosadam-hh hyperharmonic second-moment adaptive optimization past-gradient weighted adaptive moment estimation p-nosadam generalized hyperharmonic adaptive optimizer under algorithm 1 with beta_{2,t} = b_{t-1} / b_t and b_t = sum_{k=1}^t b_k, unrolling v_t = beta_{2,t} v_{t-1} + (1 - beta_{2,t}) g_t^2 yields v_t = (1 / b_t) sum_{k=1}^t b_k g_k^2, and lemma 3.1 proves that with alpha_t = alpha / sqrt(t) the inverse squared learning-rate difference v_t / alpha_t^2 - v_{t-1} / alpha_{t-1}^2 = (t / (b_t alpha^2)) sum_{j=1}^t b_j g_j^2 - ((t - 1) / (b_{t-1} alpha^2)) sum_{j=1}^{t-1} b_j g_j^2 &gt;= 0 is tightly satisfied if and only if b_t / t (equivalently b_t) is non-increasing. when b_t / t &lt;= b_{t-1} / (t - 1) and b_t / (t b_t^2) &gt;= b_{t-1} / ((t - 1) b_{t-1}^2)—both satisfied data-independently by hyperharmonic weights b_k = k^{-gamma} (gamma &gt;= 0) in nosadam-hh—theorem 3.2 and corollary 3.2.1 guarantee o(sqrt(t)) online convex regret r_t &lt;= (d_inf^2 / (2 alpha (1 - beta_1))) sum_{i=1}^d sqrt(t) v_{t,i}^{1/2} + (d_inf^2 g_inf beta_1 d) / (2 (1 - beta_1) (1 - lambda)^2) + (2 alpha beta_1 / (1 - beta_1)^3) g_inf sqrt(t), and theorem a.1 generalizes this to p-nosadam with regret o(t^{max(1/p, (p-1)/p)}) for any p &gt; 1. unlike amsgrad whose running maximum v_hat_t = max(v_hat_{t-1}, v_t) cannot decrease after a single 100x gradient spike and severely slows subsequent convergence, nosadam&#39;s weighted average v_t can both increase and decrease, converging to global minima on non-convex bowl landscapes with sharp local traps and outperforming adam and amsgrad on mnist multilayer perceptrons and cifar-10 wide-resnet-28. because nosadam assigns larger weights b_k to early gradients (k small), if the optimization is initialized directly inside a sharp suboptimal local valley where all initial gradients point toward the local trap, its strong memory of early gradients makes it harder to escape than adam&#39;s rapidly forgetting exponential moving average. nostalgic adam: weighting more of the past gradients when designing the adaptive learning rate nostalgic adam: weighting more of the past gradients when designing the adaptive learning rate (arxiv abstract) nostalgic adam: weighting more of the past gradients when designing the adaptive learning rate (crossref metadata) haiwen huang chang wang bin dong haiwen huang chang wang bin dong haiwen huang chang wang bin dong">
+        <td>
+          <a href="curated/NosAdam.html" style="font-weight: 600; font-size: 1rem;">Nostalgic Adam</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> NosAdam, NosAdam-HH Hyperharmonic Second-Moment Adaptive Optimization…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            An adaptive first-order stochastic optimization algorithm that replaces Adam&#39;s constant second-moment decay parameter beta_2 with a schedule…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:NosAdam</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

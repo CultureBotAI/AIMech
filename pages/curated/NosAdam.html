@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nostalgic Adam · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Nostalgic Adam</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Nostalgic Adam</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:NosAdam</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> NosAdam, NosAdam-HH Hyperharmonic Second-Moment Adaptive Optimization, Past-Gradient Weighted Adaptive Moment Estimation, p-NosAdam Generalized Hyperharmonic Adaptive Optimizer
+    </div>
+
+  <div class="detail-desc">
+    An adaptive first-order stochastic optimization algorithm that replaces Adam&#39;s constant second-moment decay parameter beta_2 with a scheduled sequence beta_{2,t} = B_{t-1} / B_t defined by cumulative sums B_t = sum_{k=1}^t b_k of non-increasing positive weights b_k (such as the hyperharmonic series b_k = k^{-gamma} with gamma &gt;= 0 in NosAdam-HH), so that the second-moment estimate V_t = beta_{2,t} V_{t-1} + (1 - beta_{2,t}) g_t^2 = (1 / B_t) sum_{k=1}^t b_k g_k^2 weights past squared gradients at least as heavily as recent ones and guarantees positive semi-definiteness of the inverse learning-rate increment Gamma_t = V_t / alpha_t^2 - V_{t-1} / alpha_{t-1}^2 &gt;= 0.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam (which uses constant beta_2 in (0, 1) giving exponentially increasing weights (1 - beta_2) beta_2^{t-k} to recent gradients and violating Gamma_t &gt;= 0), from AMSGrad (which forces monotonicity via a hard running maximum v_hat_t = max(v_hat_{t-1}, v_t) that permanently stalls step sizes after an outlier gradient spike), and from AdaShift (AIMech:AdaShift, which shifts gradients by n steps). NosAdam generalizes AdaGrad (recovered at gamma = 0 up to 1/t averaging) and extends to p-norm moment scaling in p-NosAdam (Theorem A.1).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#nosadam-lemma-3-1-non-increasing-weights-and-gamma-psd</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under Algorithm 1 with beta_{2,t} = B_{t-1} / B_t and B_t = sum_{k=1}^t b_k, unrolling V_t = beta_{2,t} V_{t-1} + (1 - beta_{2,t}) g_t^2 yields V_t = (1 / B_t) sum_{k=1}^t b_k g_k^2, and Lemma 3.1 proves that with alpha_t = alpha / sqrt(t) the inverse squared learning-rate difference V_t / alpha_t^2 - V_{t-1} / alpha_{t-1}^2 = (t / (B_t alpha^2)) sum_{j=1}^t b_j g_j^2 - ((t - 1) / (B_{t-1} alpha^2)) sum_{j=1}^{t-1} b_j g_j^2 &gt;= 0 is tightly satisfied if and only if B_t / t (equivalently b_t) is non-increasing.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r617-primary-pdf">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Lemma 3.1 and Algorithm 1, p. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r617-metadata-cr">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic metadata for Huang, Wang, &amp; Dong (IJCAI 2019, pp. 2542-2548)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#nosadam-hyperharmonic-regret-bound-and-p-nosadam-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When B_t / t &lt;= B_{t-1} / (t - 1) and B_t / (t b_t^2) &gt;= B_{t-1} / ((t - 1) b_{t-1}^2)—both satisfied data-independently by hyperharmonic weights b_k = k^{-gamma} (gamma &gt;= 0) in NosAdam-HH—Theorem 3.2 and Corollary 3.2.1 guarantee O(sqrt(T)) online convex regret R_T &lt;= (D_inf^2 / (2 alpha (1 - beta_1))) sum_{i=1}^d sqrt(T) v_{T,i}^{1/2} + (D_inf^2 G_inf beta_1 d) / (2 (1 - beta_1) (1 - lambda)^2) + (2 alpha beta_1 / (1 - beta_1)^3) G_inf sqrt(T), and Theorem A.1 generalizes this to p-NosAdam with regret O(T^{max(1/p, (p-1)/p)}) for any p &gt; 1.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r617-primary-pdf">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Theorem 3.2, Corollary 3.2.1, p. 4) and Appendix A (Algorithm 2, Theorem A.1, Lemmas A.2-A.5, p. 11-16)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#nosadam-outlier-recovery-and-deep-vision-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Unlike AMSGrad whose running maximum v_hat_t = max(v_hat_{t-1}, v_t) cannot decrease after a single 100x gradient spike and severely slows subsequent convergence, NosAdam&#39;s weighted average V_t can both increase and decrease, converging to global minima on non-convex bowl landscapes with sharp local traps and outperforming Adam and AMSGrad on MNIST multilayer perceptrons and CIFAR-10 Wide-ResNet-28.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r617-primary-pdf">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Figures 1-5) and Section 5 (Experiments, Figures 6-7), p. 5-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nosadam-bad-local-initialization-sensitivity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because NosAdam assigns larger weights b_k to early gradients (k small), if the optimization is initialized directly inside a sharp suboptimal local valley where all initial gradients point toward the local trap, its strong memory of early gradients makes it harder to escape than Adam&#39;s rapidly forgetting exponential moving average.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r617-primary-pdf">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate</a></span>
+        <span>· <strong>Locator:</strong> Section 4 (Why Nostalgic?, Figure 5), p. 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because early gradients receive the largest weights b_k = k^{-gamma}, initializing directly inside a sharp suboptimal local minimum can make escaping the local basin more difficult than with Adam.</li>
+      <li>Introduces the hyperharmonic exponent gamma &gt;= 0 requiring grid search across {10^{-1}, 10^{-2}, 10^{-3}, 10^{-4}}.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            NosAdam is a first-order adaptive optimizer used to train multilayer perceptrons and deep convolutional neural networks with guaranteed convergence.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r617-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r617-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1805.07557.pdf" target="_blank" rel="noopener">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haiwen Huang, Chang Wang, Bin Dong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ijcai/HuangWD19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8a952796ee2f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r617-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r617-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1805.07557" target="_blank" rel="noopener">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haiwen Huang, Chang Wang, Bin Dong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1805.07557</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:355305ed8c40…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r617-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r617-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/ijcai/HuangWD19.xml" target="_blank" rel="noopener">Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haiwen Huang, Chang Wang, Bin Dong
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ijcai/HuangWD19.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1943bb8c23e9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:40:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:40:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/NosAdam.yaml" target="_blank" rel="noopener">
+      <code>data/curated/NosAdam.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

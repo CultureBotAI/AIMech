@@ -1,0 +1,104 @@
+id: AIMech:NosAdam
+name: Nostalgic Adam
+concept_kind: algorithm
+review_status: DRAFT
+definition: An adaptive first-order stochastic optimization algorithm that replaces Adam's constant second-moment decay parameter beta_2 with a scheduled sequence beta_{2,t} = B_{t-1} / B_t defined by cumulative sums B_t = sum_{k=1}^t b_k of non-increasing positive weights b_k (such as the hyperharmonic series b_k = k^{-gamma} with gamma >= 0 in NosAdam-HH), so that the second-moment estimate V_t = beta_{2,t} V_{t-1} + (1 - beta_{2,t}) g_t^2 = (1 / B_t) sum_{k=1}^t b_k g_k^2 weights past squared gradients at least as heavily as recent ones and guarantees positive semi-definiteness of the inverse learning-rate increment Gamma_t = V_t / alpha_t^2 - V_{t-1} / alpha_{t-1}^2 >= 0.
+identity_notes: Distinct from Adam (which uses constant beta_2 in (0, 1) giving exponentially increasing weights (1 - beta_2) beta_2^{t-k} to recent gradients and violating Gamma_t >= 0), from AMSGrad (which forces monotonicity via a hard running maximum v_hat_t = max(v_hat_{t-1}, v_t) that permanently stalls step sizes after an outlier gradient spike), and from AdaShift (AIMech:AdaShift, which shifts gradients by n steps). NosAdam generalizes AdaGrad (recovered at gamma = 0 up to 1/t averaging) and extends to p-norm moment scaling in p-NosAdam (Theorem A.1).
+aliases:
+- NosAdam
+- NosAdam-HH Hyperharmonic Second-Moment Adaptive Optimization
+- Past-Gradient Weighted Adaptive Moment Estimation
+- p-NosAdam Generalized Hyperharmonic Adaptive Optimizer
+definition_evidence:
+- source_id: r617-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r617-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r617-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: nosadam-lemma-3-1-non-increasing-weights-and-gamma-psd
+  kind: mechanism
+  statement: Under Algorithm 1 with beta_{2,t} = B_{t-1} / B_t and B_t = sum_{k=1}^t b_k, unrolling V_t = beta_{2,t} V_{t-1} + (1 - beta_{2,t}) g_t^2 yields V_t = (1 / B_t) sum_{k=1}^t b_k g_k^2, and Lemma 3.1 proves that with alpha_t = alpha / sqrt(t) the inverse squared learning-rate difference V_t / alpha_t^2 - V_{t-1} / alpha_{t-1}^2 = (t / (B_t alpha^2)) sum_{j=1}^t b_j g_j^2 - ((t - 1) / (B_{t-1} alpha^2)) sum_{j=1}^{t-1} b_j g_j^2 >= 0 is tightly satisfied if and only if B_t / t (equivalently b_t) is non-increasing.
+  evidence:
+  - source_id: r617-primary-pdf
+    locator: Section 3, Lemma 3.1 and Algorithm 1, p. 3-4
+    relation: supports
+  - source_id: r617-metadata-cr
+    locator: Bibliographic metadata for Huang, Wang, & Dong (IJCAI 2019, pp. 2542-2548)
+    relation: supports
+- claim_id: nosadam-hyperharmonic-regret-bound-and-p-nosadam-scope
+  kind: scope
+  statement: "When B_t / t <= B_{t-1} / (t - 1) and B_t / (t b_t^2) >= B_{t-1} / ((t - 1) b_{t-1}^2)\u2014both satisfied data-independently by hyperharmonic weights b_k = k^{-gamma} (gamma >= 0) in NosAdam-HH\u2014Theorem 3.2 and Corollary 3.2.1 guarantee O(sqrt(T)) online convex regret R_T <= (D_inf^2 / (2 alpha (1 - beta_1))) sum_{i=1}^d sqrt(T) v_{T,i}^{1/2} + (D_inf^2 G_inf beta_1 d) / (2 (1 - beta_1) (1 - lambda)^2) + (2 alpha beta_1 / (1 - beta_1)^3) G_inf sqrt(T), and Theorem A.1 generalizes this to p-NosAdam with regret O(T^{max(1/p, (p-1)/p)}) for any p > 1."
+  evidence:
+  - source_id: r617-primary-pdf
+    locator: Section 3 (Theorem 3.2, Corollary 3.2.1, p. 4) and Appendix A (Algorithm 2, Theorem A.1, Lemmas A.2-A.5, p. 11-16)
+    relation: supports
+- claim_id: nosadam-outlier-recovery-and-deep-vision-applications
+  kind: application
+  statement: Unlike AMSGrad whose running maximum v_hat_t = max(v_hat_{t-1}, v_t) cannot decrease after a single 100x gradient spike and severely slows subsequent convergence, NosAdam's weighted average V_t can both increase and decrease, converging to global minima on non-convex bowl landscapes with sharp local traps and outperforming Adam and AMSGrad on MNIST multilayer perceptrons and CIFAR-10 Wide-ResNet-28.
+  evidence:
+  - source_id: r617-primary-pdf
+    locator: Section 4 (Figures 1-5) and Section 5 (Experiments, Figures 6-7), p. 5-9
+    relation: supports
+- claim_id: nosadam-bad-local-initialization-sensitivity-limitation
+  kind: limitation
+  statement: Because NosAdam assigns larger weights b_k to early gradients (k small), if the optimization is initialized directly inside a sharp suboptimal local valley where all initial gradients point toward the local trap, its strong memory of early gradients makes it harder to escape than Adam's rapidly forgetting exponential moving average.
+  evidence:
+  - source_id: r617-primary-pdf
+    locator: Section 4 (Why Nostalgic?, Figure 5), p. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r617-primary-pdf
+  title: 'Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate'
+  authors: &id001
+  - Haiwen Huang
+  - Chang Wang
+  - Bin Dong
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1805.07557.pdf
+  persistent_id: https://dblp.org/rec/conf/ijcai/HuangWD19.xml
+  version: Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence (IJCAI 2019) (2019) (3676722 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:40:00Z'
+  sha256: 8a952796ee2f6b5323510cce70feb63b4114bcb02f68f0cade5104b4d2361b1c
+- source_id: r617-arxiv-abs
+  title: 'Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.07557
+  persistent_id: https://arxiv.org/abs/1805.07557
+  version: arXiv abstract page (6735 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:40:00Z'
+  sha256: 355305ed8c40d51565252b43031d0ce8121c30bfaa25055e72f9efe575e14e8a
+- source_id: r617-metadata-cr
+  title: 'Nostalgic Adam: Weighting more of the past gradients when designing the adaptive learning rate (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/ijcai/HuangWD19.xml
+  persistent_id: https://dblp.org/rec/conf/ijcai/HuangWD19.xml
+  version: Crossref API work record (469 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:40:00Z'
+  sha256: 1943bb8c23e951ebcff03e1ee1d0137f99652400febce0794bb6d1ec6fc68267
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: NosAdam is a first-order adaptive optimizer used to train multilayer perceptrons and deep convolutional neural networks with guaranteed convergence.
+limitations:
+- Because early gradients receive the largest weights b_k = k^{-gamma}, initializing directly inside a sharp suboptimal local minimum can make escaping the local basin more difficult than with Adam.
+- Introduces the hyperharmonic exponent gamma >= 0 requiring grid search across {10^{-1}, 10^{-2}, 10^{-3}, 10^{-4}}.
+curation:
+  created_at: '2026-10-19T11:40:00Z'
+  updated_at: '2026-10-19T11:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
