@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1414</strong> artificial intelligence concepts, comprising <strong>972</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1415</strong> artificial intelligence concepts, comprising <strong>973</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1414)</option>
-        <option value="curated">Curated AIMech (972)</option>
+        <option value="all">All Origins (1415)</option>
+        <option value="curated">Curated AIMech (973)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (668)</option>
+          <option value="algorithm">Algorithms (669)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1414</span> of <span id="totalCount">1414</span>
+      Showing <span id="matchCount">1415</span> of <span id="totalCount">1415</span>
     </div>
   </div>
 </div>
@@ -2973,6 +2973,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="basis learn (bl1, bl2, and bl3) basislearncustommatrixbasissecondorderfederatedoptimization aimech:basislearncustommatrixbasissecondorderfederatedoptimization algorithms algorithm a family of communication-efficient second-order distributed and federated optimization algorithms (bl1, bl2, and bl3) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that transforms each client i&#39;s local hessian nabla^2 f_i(x) into a custom matrix basis {b_i^{jl}} of r^{d x d} or the symmetric matrix space s^d via nabla^2 f_i(x) = sum_{j,l} h_{jl}^i(nabla^2 f_i(x)) b_i^{jl} before applying lossy matrix compression. when local generalized linear model (glm) data vectors {a_{ij}}_{j=1}^m lie in an r-dimensional subspace g_i subseteq r^d spanned by {v_{it}}_{t=1}^r ( transmitted once to the server at cost r d floats without revealing raw data a_{ij}), the outer-product basis v_{itl} = v_{it} v_{il}^t concentrates all non-zero hessian coefficients into an r x r block gamma_{itl}(x) = (1/m) sum_{j=1}^m phi_{ij}&#39;&#39;(a_{ij}^t x) alpha_{ijt} alpha_{ijl} (r^2 &lt;&lt; d^2 floats). bl1 integrates custom-basis hessian learning l_i^{k+1} = l_i^k + alpha c_i^k(h^i(nabla^2 f_i(z^k)) - l_i^k) with bidirectional model/gradient compression, while bl2 and bl3 extend basis learning to partial client participation using frobenius-error shifting (bl2) or positive semidefinite basis decomposition (bl3). distinct from standard-basis fednl (which compresses dense d x d hessian differences directly in the canonical matrix basis e_{jl} = e_j e_l^t) and from newtonlearn (which requires revealing raw local data vectors a_{ij} to the server to send m scalar coefficients). basis learn sends only the r subspace basis vectors {v_{it}}_{t=1}^r once before training and learns the sparse r x r basis coefficient matrix l_i^k under bidirectional compression and partial participation. basis learn bl1 basis learn with bidirectional compression bl2 basis learn with partial participation bl3 positive semidefinite basis learn for any local generalized linear model f_i(x) = (1/m) sum_{j=1}^m phi_{ij}(a_{ij}^t x) whose feature vectors {a_{ij}}_{j=1}^m span an r-dimensional subspace g_i subseteq r^d with basis {v_{it}}_{t=1}^r (a_{ij} = sum_{t=1}^r alpha_{ijt} v_{it}), equation (5) and lemma b.1 show that the r^2 outer-product matrices v_{itl} = v_{it} v_{il}^t are linearly independent and represent nabla^2 f_i(x) = sum_{t,l=1}^r gamma_{itl}(x) v_{itl} exactly using only r^2 coefficients instead of d^2 entries, without revealing the local data vectors a_{ij} to the server. in bl1 (algorithm 1), each client i updates its basis-coefficient estimate l_i^{k+1} = l_i^k + alpha s_i^k with s_i^k = c_i^k(h^i(nabla^2 f_i(z^k)) - l_i^k), while the server updates h^{k+1} = h^k + (alpha / n) sum_{i=1}^n sum_{j,l} (s_i^k)_{jl} b_i^{jl}, takes the projected newton step x^{k+1} = z^k - [h^k]_mu^{-1} g^k, and broadcasts compressed model differences v^k = q^k(x^{k+1} - z^k). theorems 4.9 and 4.10 prove condition-number-independent local linear convergence e[phi_1^k] &lt;= (1 - min{a_m, p}/2)^k phi_1^0 and local superlinear convergence e[||x^{k+1} - x^*||^2 / ||x^k - x^*||^2] &lt;= theta_1^k (a_m h^2 / (8 b m_1^2 mu^2) + 2 n_b r^2 / mu^2) phi_2^0. bl2 (algorithm 2, theorems 4.12-4.13) and bl3 (algorithm 3, theorems 5.4-5.5) unify custom matrix bases with partial client participation (sampling tau out of n clients per round) and guarantee positive definiteness without matrix eigenvalue projection via either frobenius error shifts l_i^k i (bl2) or positive semidefinite symmetric basis matrices b_i^{jl} &gt;= 0 (bl3), while proposition 3.2 constructs a contractive matrix compressor c_2 of parameter delta = r / (d (omega_1 + 1)(omega_2 + 1)) by composing rank-r svd truncation with unbiased vector compressors q_1^i, q_2^i. basis learn requires a one-time preprocessing step (such as local feature-matrix svd) and initial transmission of the client basis matrices (costing r d floats per client in the glm subspace setting), and its lossless dimension reduction from d^2 to r^2 diminishes when local data matrices have full rank r = d. basis matters: better communication-efficient second order methods for federated learning basis matters: better communication-efficient second order methods for federated learning (arxiv abstract) basis matters: better communication-efficient second order methods for federated learning (crossref metadata) xun qian rustem islamov mher safaryan peter richtarik xun qian rustem islamov mher safaryan peter richtarik xun qian rustem islamov mher safaryan peter richtarik">
+        <td>
+          <a href="curated/BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization.html" style="font-weight: 600; font-size: 1rem;">Basis Learn (BL1, BL2, and BL3)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Basis Learn, BL1 Basis Learn with Bidirectional Compression…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A family of communication-efficient second-order distributed and federated optimization algorithms (BL1, BL2, and BL3) for minimizing f(x) =…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

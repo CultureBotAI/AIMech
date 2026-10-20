@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basis Learn (BL1, BL2, and BL3) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Basis Learn (BL1, BL2, and BL3)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Basis Learn (BL1, BL2, and BL3)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Basis Learn, BL1 Basis Learn with Bidirectional Compression, BL2 Basis Learn with Partial Participation, BL3 Positive Semidefinite Basis Learn
+    </div>
+
+  <div class="detail-desc">
+    A family of communication-efficient second-order distributed and federated optimization algorithms (BL1, BL2, and BL3) for minimizing f(x) = (1/n) sum_{i=1}^n f_i(x) that transforms each client i&#39;s local Hessian nabla^2 f_i(x) into a custom matrix basis {B_i^{jl}} of R^{d x d} or the symmetric matrix space S^d via nabla^2 f_i(x) = sum_{j,l} h_{jl}^i(nabla^2 f_i(x)) B_i^{jl} before applying lossy matrix compression. When local generalized linear model (GLM) data vectors {a_{ij}}_{j=1}^m lie in an r-dimensional subspace G_i subseteq R^d spanned by {v_{it}}_{t=1}^r ( transmitted once to the server at cost r d floats without revealing raw data a_{ij}), the outer-product basis V_{itl} = v_{it} v_{il}^T concentrates all non-zero Hessian coefficients into an r x r block gamma_{itl}(x) = (1/m) sum_{j=1}^m phi_{ij}&#39;&#39;(a_{ij}^T x) alpha_{ijt} alpha_{ijl} (r^2 &lt;&lt; d^2 floats). BL1 integrates custom-basis Hessian learning L_i^{k+1} = L_i^k + alpha C_i^k(h^i(nabla^2 f_i(z^k)) - L_i^k) with bidirectional model/gradient compression, while BL2 and BL3 extend basis learning to partial client participation using Frobenius-error shifting (BL2) or positive semidefinite basis decomposition (BL3).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard-basis FedNL (which compresses dense d x d Hessian differences directly in the canonical matrix basis E_{jl} = e_j e_l^T) and from NewtonLearn (which requires revealing raw local data vectors a_{ij} to the server to send m scalar coefficients). Basis Learn sends only the r subspace basis vectors {v_{it}}_{t=1}^r once before training and learns the sparse r x r basis coefficient matrix L_i^k under bidirectional compression and partial participation.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lossless-subspace-outer-product-hessian-basis-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For any local generalized linear model f_i(x) = (1/m) sum_{j=1}^m phi_{ij}(a_{ij}^T x) whose feature vectors {a_{ij}}_{j=1}^m span an r-dimensional subspace G_i subseteq R^d with basis {v_{it}}_{t=1}^r (a_{ij} = sum_{t=1}^r alpha_{ijt} v_{it}), Equation (5) and Lemma B.1 show that the r^2 outer-product matrices V_{itl} = v_{it} v_{il}^T are linearly independent and represent nabla^2 f_i(x) = sum_{t,l=1}^r gamma_{itl}(x) V_{itl} exactly using only r^2 coefficients instead of d^2 entries, without revealing the local data vectors a_{ij} to the server.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r578-primary-pdf">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Equations (4)-(5), Table 1, pp. 5-6; Appendix B.3, Lemma B.1, pp. 28-29</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#bl1-bidirectional-compressed-basis-learning-linear-and-superlinear-rates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In BL1 (Algorithm 1), each client i updates its basis-coefficient estimate L_i^{k+1} = L_i^k + alpha S_i^k with S_i^k = C_i^k(h^i(nabla^2 f_i(z^k)) - L_i^k), while the server updates H^{k+1} = H^k + (alpha / n) sum_{i=1}^n sum_{j,l} (S_i^k)_{jl} B_i^{jl}, takes the projected Newton step x^{k+1} = z^k - [H^k]_mu^{-1} g^k, and broadcasts compressed model differences v^k = Q^k(x^{k+1} - z^k). Theorems 4.9 and 4.10 prove condition-number-independent local linear convergence E[Phi_1^k] &lt;= (1 - min{A_M, p}/2)^k Phi_1^0 and local superlinear convergence E[||x^{k+1} - x^*||^2 / ||x^k - x^*||^2] &lt;= theta_1^k (A_M H^2 / (8 B M_1^2 mu^2) + 2 N_B R^2 / mu^2) Phi_2^0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r578-primary-pdf">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Algorithm 1, Theorems 4.9 and 4.10, pp. 9-10</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r578-metadata-cr">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Abstract</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#bl2-and-bl3-partial-participation-and-composed-rank-r-unbiased-compressors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    BL2 (Algorithm 2, Theorems 4.12-4.13) and BL3 (Algorithm 3, Theorems 5.4-5.5) unify custom matrix bases with partial client participation (sampling tau out of n clients per round) and guarantee positive definiteness without matrix eigenvalue projection via either Frobenius error shifts l_i^k I (BL2) or positive semidefinite symmetric basis matrices B_i^{jl} &gt;= 0 (BL3), while Proposition 3.2 constructs a contractive matrix compressor C_2 of parameter delta = R / (d (omega_1 + 1)(omega_2 + 1)) by composing Rank-R SVD truncation with unbiased vector compressors Q_1^i, Q_2^i.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r578-primary-pdf">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Lemma 3.1 and Proposition 3.2, pp. 7-8; Sections 4-5, Algorithms 2-3, pp. 11-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#one-time-basis-transmission-and-full-rank-data-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Basis Learn requires a one-time preprocessing step (such as local feature-matrix SVD) and initial transmission of the client basis matrices (costing r d floats per client in the GLM subspace setting), and its lossless dimension reduction from d^2 to r^2 diminishes when local data matrices have full rank r = d.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r578-primary-pdf">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3, Table 1, pp. 5-6; Section 6.1, p. 17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an initial communication phase of O(r d) floats per client to share the local subspace basis with the server.</li>
+      <li>Local linear and superlinear convergence guarantees hold within an explicit neighborhood around the strongly convex minimizer x^*.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Basis Learn (BL1, BL2, BL3) is a second-order federated optimization family with bidirectional compression and partial client participation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GeneralizedLinearModel.html" style="font-weight: 600;"><code>AIO:GeneralizedLinearModel</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Generalized Linear Model</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Exploits the rank-r subspace structure of local Generalized Linear Model Hessians to achieve lossless r^2-coefficient basis representations without revealing client data.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r578-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r578-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2111.01847" target="_blank" rel="noopener">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Qian, Rustem Islamov, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v151/qian22a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:be413251d60b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r578-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r578-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2111.01847" target="_blank" rel="noopener">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Qian, Rustem Islamov, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2111.01847</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:03d8df189562…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r578-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r578-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.mlr.press/v151/qian22a.html" target="_blank" rel="noopener">Basis Matters: Better Communication-Efficient Second Order Methods for Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Qian, Rustem Islamov, Mher Safaryan, Peter Richtarik
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://proceedings.mlr.press/v151/qian22a.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f1ee5a4ea660…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:01:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:01:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BasisLearnCustomMatrixBasisSecondOrderFederatedOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
