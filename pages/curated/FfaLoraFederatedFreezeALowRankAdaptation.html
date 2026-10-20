@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFA-LoRA: Federated Freeze-A Low-Rank Adaptation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FFA-LoRA: Federated Freeze-A Low-Rank Adaptation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FFA-LoRA: Federated Freeze-A Low-Rank Adaptation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FfaLoraFederatedFreezeALowRankAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FFA-LoRA, Federated Freeze A LoRA, Federated Freeze-A Low Rank Adapters, FFA-LoRA and QVP Adapters
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient and differentially private federated fine-tuning algorithm (Federated Freeze A LoRA / FFA-LoRA; Sun, Li, Li, and Ding, ICLR 2024) that re-parameterizes each adapted weight matrix W in R^{d x k} as W = W_0 + B A_0 with B in R^{d x r} initialized to zero (B_0 = 0) and A_0 in R^{r x k} initialized from a random Gaussian (or orthogonal/SVD) distribution and kept strictly frozen throughout local training and server aggregation. By updating and aggregating only B, FFA-LoRA halves the trainable parameter count and communication cost relative to vanilla LoRA, eliminates the server-side cross-client aggregation error ((1/n) sum_i B_i) A_0 = (1/n) sum_i (B_i A_0) (Eq. 4), removes the quadratic non-Gaussian DP-SGD noise amplification term xi_B xi_A so injected noise enters linearly as xi_B A_0, and achieves dynamics invariant to the LoRA scaling factor alpha (equivalent to the alpha -&gt; infinity limit of vanilla LoRA, Theorem 1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from vanilla federated LoRA / FedIT (Zhang et al., 2023; Kuang et al., 2023), which jointly trains both low-rank matrices A and B on each client and averages them separately on the server—incurring the bilinear aggregation error (1/2)(B_1 + B_2)(1/2)(A_1 + A_2) != (1/2)(B_1 A_1 + B_2 A_2) (Eq. 3) and quadratic DP-SGD noise amplification xi_B xi_A. Distinct from FLoRA (AIMech:FloraStackingBasedFederatedHeterogeneousLowRankAdaptation; Wang et al., NeurIPS 2024), which trains both A_k and B_k on clients and eliminates cross-term aggregation noise by stacking A_k vertically and B_k horizontally on the server rather than freezing A_0 globally across clients. Also encompasses the authors&#39; ultra-low-budget QVP Adapter extension W = W_0 + Q_0 V P_0 with frozen Q_0 in R^{d x r}, P_0 in R^{r x k} and trainable zero-initialized V in R^{r x r} (Appendix A.4, p. 16).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#ffa-lora-exact-linear-aggregation-and-dp-noise-linearization-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By fixing the randomly initialized projection matrix A_0 in R^{r x k} and updating only the zero-initialized matrix B in R^{d x r}, FFA-LoRA makes the weight increment Delta W_i = B_i A_0 linear in the trainable parameters so server FedAvg satisfies W_tilde^+ = W_0 + ((1/2)(B_1 + B_2)) A_0 = W_0 + (1/2)(B_1 A_0 + B_2 A_0) = W^+ with zero bilinear cross-term error (Eq. 4, p. 5), and under DP-SGD perturbations xi_B updates W_0 + (B + xi_B) A_0 = W_0 + B A_0 + xi_B A_0 without the quadratic noise cascade term xi_B xi_A of vanilla LoRA (Section 3, p. 4; Section 4, p. 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r510-primary-pdf">Improving LoRA in Privacy-preserving Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Discordances 1-2, Eq. (3), Figure 1, pp. 4-5; Section 4, Eq. (4), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#ffa-lora-infinite-alpha-limit-and-lipschitz-smoothness-preservation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 1 (p. 6; proof in Appendix A.2, pp. 13-14) proves that for identical initial weight W_0 + B_0 A_0 and learning rate scaling eta_alpha = eta_1 / alpha^2, the local update trajectory {W_{alpha_LoRA}^k} of vanilla LoRA converges to the alpha-invariant trajectory {W_{alpha_FFA}^k} of FFA-LoRA in the limit lim_{alpha_LoRA -&gt; inf} W_{alpha_LoRA}^k = W_{alpha_FFA}^k (Eq. 5); moreover, Theorem 2 (Appendix A.1, p. 13) proves that if F(W, D) is L-Lipschitz smooth in W and ||A_0||_F &lt;= C, then F(W_0 + B A_0) is (L C^2)-Lipschitz smooth with respect to B, whereas joint (A, B) LoRA has no global Lipschitz smoothness constant.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r510-primary-pdf">Improving LoRA in Privacy-preserving Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Theorem 1, Eq. (5), p. 6; Appendix A.1 Theorem 2, p. 13; Appendix A.2 Proof for Theorem 1, pp. 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#ffa-lora-frozen-random-subspace-expressivity-at-very-low-rank-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because row subspace A_0 in R^{r x k} is frozen at random initialization, FFA-LoRA cannot rotate A_0 toward task-specific right singular vectors and exhibits slightly lower non-private accuracy than equal-rank vanilla LoRA at very small rank r = 2 (e.g., 88.56% vs 91.76% on QNLI at r = 2 in Table 4, p. 9, though outperforming LoRA when compared at equal trainable parameter count r_FFA = 2 r_LoRA).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r510-primary-pdf">Improving LoRA in Privacy-preserving Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2 Ablation Study, Tables 3-4, pp. 8-9; Appendix A.4 Table 6, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#ffa-lora-differentially-private-federated-llm-and-vit-fine-tuning-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to privacy-preserving (DP-SGD with eps in {1, 3, 6}, delta = 10^-5) and non-IID cross-silo federated fine-tuning of RoBERTa-Large on GLUE (MNLI, SST-2, QQP, QNLI), LLaMA-7B on GSM-8K mathematical reasoning, and Vision Transformer (ViT) on Food-101.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r510-primary-pdf">Improving LoRA in Privacy-preserving Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Experiments, Tables 1-4, pp. 6-9; Appendix A.3 Table 5 &amp; Appendix A.7 Table 8, pp. 14-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Freezing A_0 restricts the row space of the weight update Delta W = B A_0 to the fixed random r-dimensional subspace spanned by A_0, which can underperform trainable-A LoRA in non-private settings when r is very small (e.g., r = 2 in Table 4, p. 9).</li>
+      <li>Cannot reduce the trainable parameter count per adapted layer below d + k (rank r = 1) unless replaced by the doubly-projected QVP Adapter variant W_0 + Q_0 V P_0, which trades off accuracy for smaller parameter budgets (Appendix A.4, Table 6, p. 16).</li>
+      <li>Requires all participating clients to share the same rank r and frozen projection matrix A_0 during aggregation (Section 4, p. 5).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FFA-LoRA is a federated low-rank adaptation algorithm designed for heterogeneous and differentially private federated learning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r510-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r510-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2403.12313.pdf" target="_blank" rel="noopener">Improving LoRA in Privacy-preserving Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Youbang Sun, Zitao Li, Yaliang Li, Bolin Ding
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/SunLLD24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c69b08e409e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r510-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r510-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2403.12313" target="_blank" rel="noopener">Improving LoRA in Privacy-preserving Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Youbang Sun, Zitao Li, Yaliang Li, Bolin Ding
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2403.12313</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:643e81ec144a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r510-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r510-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/SunLLD24" target="_blank" rel="noopener">Improving LoRA in Privacy-preserving Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Youbang Sun, Zitao Li, Yaliang Li, Bolin Ding
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/SunLLD24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b54d16361076…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:53:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:53:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FfaLoraFederatedFreezeALowRankAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
