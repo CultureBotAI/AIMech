@@ -1,0 +1,355 @@
+# Scientific author self-review of MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)
+
+- Review: 20261019T112730Z-mars-variance-reduced-preconditioned-gradient-optimization
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T11:27:00Z
+- Finished UTC: 2026-10-19T11:27:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 8b3a9d680241bbfa131459bab08edf0370467072.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:MarsVarianceReducedPreconditionedGradientOptimization | data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml | maintained | MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:MarsVarianceReducedPreconditionedGradientOptimization | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:MarsVarianceReducedPreconditionedGradientOptimization | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:MarsVarianceReducedPreconditionedGradientOptimization | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:MarsVarianceReducedPreconditionedGradientOptimization | Validated history sidecar files. |
+| python3 mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py | passed | True | AIMech:MarsVarianceReducedPreconditionedGradientOptimization | [PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15, cv_gain_err=8.88e-16, mse_ratio=0.2090&lt;1, loss_mars=1.0962e-01&lt;loss_adamw=1.1554e-01 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:MarsVarianceReducedPreconditionedGradientOptimization.
+
+MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework) is a distinct concept.
+
+Distinct from unpreconditioned STORM (AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization), AdamW, Lion (AIMech:LionEvoSignMomentumOptimizer), and Shampoo (AIMech:ShampooKroneckerFactoredPreconditionedOptimizer): MARS unifies preconditioned adaptive optimization and recursive variance reduction through Proposition 3.2, introducing the control-variate scaling factor gamma_t that continuously interpolates between standard exponential moving average momentum (gamma_t = 0) and full recursive momentum (gamma_t = 1) before applying diagonal, elementwise-sign, or orthogonal-matrix preconditioning H_t.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:MarsVarianceReducedPreconditionedGradientOptimization.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:MarsVarianceReducedPreconditionedGradientOptimization.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py passed with exit code 0: [PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15, cv_gain_err=8.88e-16, mse_ratio=0.2090&lt;1, loss_mars=1.0962e-01&lt;loss_adamw=1.1554e-01
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:MarsVarianceReducedPreconditionedGradientOptimization.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T112700Z-mars-variance-reduced-preconditioned-gradient-optimization.json | supports | No normalized identity match for AIMech:MarsVarianceReducedPreconditionedGradientOptimization across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py | supports | All constructed boundary assertions in mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py passed with exit code 0: [PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15, cv_gain_err=8.88e-16, mse_ratio=0.2090&lt;1, loss_mars=1.0962e-01&lt;loss_adamw=1.1554e-01 |
+| r604-primary-pdf | https://arxiv.org/pdf/2411.10438; Full-text PDF | supports | Full-text PDF (Proceedings of the 42nd International Conference on Machine Learning (ICML 2025, PMLR 267, arXiv:2411.10438) (2025)) read and verified. |
+| r604-arxiv-abs | https://arxiv.org/abs/2411.10438; arXiv abstract | supports | arXiv abstract read and verified. |
+| r604-metadata-cr | https://dblp.org/rec/conf/icml/Yuan0WZG25; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:MarsVarianceReducedPreconditionedGradientOptimization in Round 604.
+- All pages of Proceedings of the 42nd International Conference on Machine Learning (ICML 2025, PMLR 267, arXiv:2411.10438) (2025) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T112730Z-mars-variance-reduced-preconditioned-gradient-optimization
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of MARS (Make vAriance Reduction Shine Preconditioned
+  Optimizer Framework)
+started_at: '2026-10-19T11:27:00Z'
+finished_at: '2026-10-19T11:27:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 42nd International Conference on Machine Learning (ICML 2025, PMLR 267,
+    arXiv:2411.10438) (2025) and pure-Python boundary checks. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)
+  as a distinct DRAFT algorithm. All three claims are supported by full-text primary
+  evidence and pure-Python boundary verification.
+source:
+  git_revision: 8b3a9d680241bbfa131459bab08edf0370467072
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml
+    sha256: 4d8e5dc8daad6b8a65646a58a871449174bbb06a24e06314d37beab8236b1807
+    role: target
+  - path: research/discovery/20261019T112700Z-mars-variance-reduced-preconditioned-gradient-optimization.json
+    sha256: 9b128b547ae07cb8ae1f04953f1711362304bf4ec917148bb487aa5b40cc6598
+    role: context
+  - path: research/discovery/mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+    sha256: 0e7947ecdb230f3abf4039c034e1bb4b3ed1fa4d9d22ea2f1e115fc21d87a8b0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  path: data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml
+  label: MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:MarsVarianceReducedPreconditionedGradientOptimization'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+  command: python3 research/discovery/mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15,
+    cv_gain_err=8.88e-16, mse_ratio=0.2090<1, loss_mars=1.0962e-01<loss_adamw=1.1554e-01'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T112700Z-mars-variance-reduced-preconditioned-gradient-optimization.json
+  accessed_at: '2026-10-19T11:27:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T11:27:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+  accessed_at: '2026-10-19T11:27:00Z'
+  snapshot_sha256: 0e7947ecdb230f3abf4039c034e1bb4b3ed1fa4d9d22ea2f1e115fc21d87a8b0
+  support: supports
+  summary: 'All constructed boundary assertions in mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15,
+    cv_gain_err=8.88e-16, mse_ratio=0.2090<1, loss_mars=1.0962e-01<loss_adamw=1.1554e-01'
+- evidence_id: r604-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2411.10438
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T11:27:00Z'
+  snapshot_sha256: 921b00e1d0e8f97b9f9e03c52072860fd7c46edbe97a56723be1b8ca89c706f9
+  support: supports
+  summary: Full-text PDF (Proceedings of the 42nd International Conference on Machine
+    Learning (ICML 2025, PMLR 267, arXiv:2411.10438) (2025)) read and verified.
+- evidence_id: r604-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2411.10438
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T11:27:00Z'
+  snapshot_sha256: c319d2b0607104bf4d91b321afffee7b19ce6c00e7804f1cb06466a2f77bac74
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r604-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/icml/Yuan0WZG25
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T11:27:00Z'
+  snapshot_sha256: 2af8c66c1377aec9d4c52ad55af6b0129b487d3e036f1ad85a03743933e47ca9
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  evidence_ids:
+  - identity
+  - r604-primary-pdf
+  - r604-arxiv-abs
+  - r604-metadata-cr
+  summary: MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)
+    is a distinct concept.
+  details: 'Distinct from unpreconditioned STORM (AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization),
+    AdamW, Lion (AIMech:LionEvoSignMomentumOptimizer), and Shampoo (AIMech:ShampooKroneckerFactoredPreconditionedOptimizer):
+    MARS unifies preconditioned adaptive optimization and recursive variance reduction
+    through Proposition 3.2, introducing the control-variate scaling factor gamma_t
+    that continuously interpolates between standard exponential moving average momentum
+    (gamma_t = 0) and full recursive momentum (gamma_t = 1) before applying diagonal,
+    elementwise-sign, or orthogonal-matrix preconditioning H_t.'
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  evidence_ids:
+  - mapping
+  - r604-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  evidence_ids:
+  - r604-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in mars-variance-reduced-preconditioned-gradient-optimization-boundaries.py
+    passed with exit code 0: [PASS] Round 604 MARS verified: lion_err=4.44e-16, muon_err=2.66e-15,
+    cv_gain_err=8.88e-16, mse_ratio=0.2090<1, loss_mars=1.0962e-01<loss_adamw=1.1554e-01'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  evidence_ids:
+  - identity
+  - mapping
+  - r604-primary-pdf
+  - r604-arxiv-abs
+  - r604-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:MarsVarianceReducedPreconditionedGradientOptimization
+  in Round 604.
+- All pages of Proceedings of the 42nd International Conference on Machine Learning
+  (ICML 2025, PMLR 267, arXiv:2411.10438) (2025) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:MarsVarianceReducedPreconditionedGradientOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> MARS Optimizer Framework, MARS-AdamW and MARS-Lion and MARS-Shampoo, Make Variance Reduction Shine
+    </div>
+
+  <div class="detail-desc">
+    A unified variance-reduced preconditioned stochastic optimization framework for training large deep models that combines an Online Mirror Descent / matrix-preconditioned update x_{t+1} = argmin_x { eta_t &lt;m_t, x&gt; + (1/2) ||x - x_t||_{H_t}^2 } with a scaled STORM-style stochastic recursive momentum estimator. At step t, MARS forms the variance-reduced gradient surrogate c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) with scaling factor gamma_t in [0, 1] (clipped to L2 norm 1 for stability), accumulates m_t = beta_1 m_{t-1} + (1 - beta_1) c_t, and applies preconditioned updates yielding MARS-AdamW, MARS-Lion, and MARS-Shampoo (including Newton-Schulz orthogonalized MARS-Muon), alongside a single-pass approximate variant MARS-approx that replaces nabla f(x_{t-1}, xi_t) with nabla f(x_{t-1}, xi_{t-1}).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from unpreconditioned STORM (AIMech:StormStochasticRecursiveMomentumForNonconvexOptimization), AdamW, Lion (AIMech:LionEvoSignMomentumOptimizer), and Shampoo (AIMech:ShampooKroneckerFactoredPreconditionedOptimizer): MARS unifies preconditioned adaptive optimization and recursive variance reduction through Proposition 3.2, introducing the control-variate scaling factor gamma_t that continuously interpolates between standard exponential moving average momentum (gamma_t = 0) and full recursive momentum (gamma_t = 1) before applying diagonal, elementwise-sign, or orthogonal-matrix preconditioning H_t.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#preconditioned-omd-equivalence-for-adamw-lion-and-shampoo</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section 3.1 (p. 3-4) shows that any optimizer update of the Online Mirror Descent form x_{t+1} = argmin_x { eta_t &lt;m_t, x&gt; + (1/2) ||x - x_t||_{H_t}^2 } = x_t - eta_t H_t^{-1} m_t recovers Adam (with diagonal H_t = sqrt(v_t + eps)), Lion (with diagonal H_t = diag(|m_t|) yielding H_t^{-1} m_t = sign(m_t)), and idealized Shampoo / Muon (with spectral preconditioner H_t = (m_t m_t^T)^{1/2} yielding the orthogonal polar factor U_t V_t^T of m_t = U_t Sigma_t V_t^T).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r604-primary-pdf">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Eqs. 3.1-3.4, p. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#scaled-storm-recursive-momentum-and-proposition-3-2-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Proposition 3.2 (p. 4) proves that the scaled STORM momentum recursion m_t = beta_1 m_{t-1} + (1 - beta_1) nabla f(x_t, xi_t) + gamma_t beta_1 (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) is algebraically equivalent to a standard EMA update m_t = beta_1 m_{t-1} + (1 - beta_1) c_t applied to the variance-reduced gradient estimator c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)), allowing c_t (with optional unit-ball norm clipping Clip(c_t, 1)) to be plugged directly into AdamW (Algorithm 2), Lion (Algorithm 3), and Shampoo/Muon (Algorithm 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r604-primary-pdf">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Proposition 3.2 and Algorithms 1-4, p. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#optimal-o-epsilon-minus-3-nonconvex-preconditioned-complexity-theorem-4-2</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-average-smooth nonconvex stochastic objectives with bounded variance sigma^2 and bounded condition-number drift of the positive-definite preconditioners {H_t} (Assumption 4.1), Theorem 4.2 and Corollary 4.3 (Section 4, p. 6-7) prove that MARS with gamma_t = 1 achieves E[||nabla F(x_hat)||_2] &lt;= epsilon within O(epsilon^{-3}) stochastic gradient queries, improving over the O(epsilon^{-4}) rate of unreduced preconditioned SGD and Adam.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r604-primary-pdf">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Assumption 4.1, Theorem 4.2, and Corollary 4.3, p. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#gpt2-pretraining-token-and-wall-clock-efficiency</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On GPT-2 fineWeb pretraining across 125M (small), 355M (medium), and 770M (large) parameter scales, MARS-AdamW, MARS-Lion, and MARS-Shampoo consistently achieve lower validation perplexity and higher downstream zero-shot accuracy than AdamW, Lion, and Muon while reducing training tokens and wall-clock time by up to 35-50%.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r604-primary-pdf">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Figures 1-4 and Tables 1-4, p. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#exact-storm-double-gradient-cost-versus-mars-approx-bias</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Exact MARS (Algorithms 1-4) requires evaluating both nabla f(x_t, xi_t) and nabla f(x_{t-1}, xi_t) on the same minibatch xi_t—doubling per-step backward passes—whereas the single-pass practical approximation MARS-approx (Algorithm 5, p. 6) replaces nabla f(x_{t-1}, xi_t) with the cached previous minibatch gradient nabla f(x_{t-1}, xi_{t-1}), introducing cross-minibatch variance that requires a smaller scaling factor gamma_t (typically gamma_t in [0.025, 0.05]).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r604-primary-pdf">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Algorithm 5 and Remark on MARS-approx, p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Exact MARS requires two stochastic gradient evaluations per iteration on the same minibatch xi_t (at x_t and x_{t-1}), doubling per-step gradient computation cost.</li>
+      <li>The single-pass variant MARS-approx avoids the second backward pass by substituting nabla f(x_{t-1}, xi_{t-1}) for nabla f(x_{t-1}, xi_t), which introduces cross-minibatch noise and necessitates tuning a smaller variance-reduction scaling coefficient gamma_t.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MARS is a variance-reduced preconditioned optimization framework for training large transformer language models and neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r604-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r604-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2411.10438" target="_blank" rel="noopener">MARS: Unleashing the Power of Variance Reduction for Training Large Models</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Huizhuo Yuan, Yifeng Liu, Shuang Wu, Xun Zhou, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Yuan0WZG25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:921b00e1d0e8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r604-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r604-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2411.10438" target="_blank" rel="noopener">MARS: Unleashing the Power of Variance Reduction for Training Large Models (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Huizhuo Yuan, Yifeng Liu, Shuang Wu, Xun Zhou, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2411.10438</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c319d2b06071…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r604-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r604-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/Yuan0WZG25" target="_blank" rel="noopener">MARS: Unleashing the Power of Variance Reduction for Training Large Models (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Huizhuo Yuan, Yifeng Liu, Shuang Wu, Xun Zhou, Quanquan Gu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Yuan0WZG25</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2af8c66c1377…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:27:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:27:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MarsVarianceReducedPreconditionedGradientOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

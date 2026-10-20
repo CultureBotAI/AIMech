@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">694 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">695 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">694</span> of <span id="totalCount">694</span>
+      Showing <span id="matchCount">695</span> of <span id="totalCount">695</span>
     </div>
   </div>
 </div>
@@ -10377,6 +10377,32 @@
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">2 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="mars (make variance reduction shine preconditioned optimizer framework) marsvariancereducedpreconditionedgradientoptimization aimech:marsvariancereducedpreconditionedgradientoptimization algorithms algorithm a unified variance-reduced preconditioned stochastic optimization framework for training large deep models that combines an online mirror descent / matrix-preconditioned update x_{t+1} = argmin_x { eta_t &lt;m_t, x&gt; + (1/2) ||x - x_t||_{h_t}^2 } with a scaled storm-style stochastic recursive momentum estimator. at step t, mars forms the variance-reduced gradient surrogate c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) with scaling factor gamma_t in [0, 1] (clipped to l2 norm 1 for stability), accumulates m_t = beta_1 m_{t-1} + (1 - beta_1) c_t, and applies preconditioned updates yielding mars-adamw, mars-lion, and mars-shampoo (including newton-schulz orthogonalized mars-muon), alongside a single-pass approximate variant mars-approx that replaces nabla f(x_{t-1}, xi_t) with nabla f(x_{t-1}, xi_{t-1}). distinct from unpreconditioned storm (aimech:stormstochasticrecursivemomentumfornonconvexoptimization), adamw, lion (aimech:lionevosignmomentumoptimizer), and shampoo (aimech:shampookroneckerfactoredpreconditionedoptimizer): mars unifies preconditioned adaptive optimization and recursive variance reduction through proposition 3.2, introducing the control-variate scaling factor gamma_t that continuously interpolates between standard exponential moving average momentum (gamma_t = 0) and full recursive momentum (gamma_t = 1) before applying diagonal, elementwise-sign, or orthogonal-matrix preconditioning h_t. mars optimizer framework mars-adamw and mars-lion and mars-shampoo make variance reduction shine section 3.1 (p. 3-4) shows that any optimizer update of the online mirror descent form x_{t+1} = argmin_x { eta_t &lt;m_t, x&gt; + (1/2) ||x - x_t||_{h_t}^2 } = x_t - eta_t h_t^{-1} m_t recovers adam (with diagonal h_t = sqrt(v_t + eps)), lion (with diagonal h_t = diag(|m_t|) yielding h_t^{-1} m_t = sign(m_t)), and idealized shampoo / muon (with spectral preconditioner h_t = (m_t m_t^t)^{1/2} yielding the orthogonal polar factor u_t v_t^t of m_t = u_t sigma_t v_t^t). proposition 3.2 (p. 4) proves that the scaled storm momentum recursion m_t = beta_1 m_{t-1} + (1 - beta_1) nabla f(x_t, xi_t) + gamma_t beta_1 (nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)) is algebraically equivalent to a standard ema update m_t = beta_1 m_{t-1} + (1 - beta_1) c_t applied to the variance-reduced gradient estimator c_t = nabla f(x_t, xi_t) + gamma_t (beta_1 / (1 - beta_1))(nabla f(x_t, xi_t) - nabla f(x_{t-1}, xi_t)), allowing c_t (with optional unit-ball norm clipping clip(c_t, 1)) to be plugged directly into adamw (algorithm 2), lion (algorithm 3), and shampoo/muon (algorithm 4). under l-average-smooth nonconvex stochastic objectives with bounded variance sigma^2 and bounded condition-number drift of the positive-definite preconditioners {h_t} (assumption 4.1), theorem 4.2 and corollary 4.3 (section 4, p. 6-7) prove that mars with gamma_t = 1 achieves e[||nabla f(x_hat)||_2] &lt;= epsilon within o(epsilon^{-3}) stochastic gradient queries, improving over the o(epsilon^{-4}) rate of unreduced preconditioned sgd and adam. on gpt-2 fineweb pretraining across 125m (small), 355m (medium), and 770m (large) parameter scales, mars-adamw, mars-lion, and mars-shampoo consistently achieve lower validation perplexity and higher downstream zero-shot accuracy than adamw, lion, and muon while reducing training tokens and wall-clock time by up to 35-50%. exact mars (algorithms 1-4) requires evaluating both nabla f(x_t, xi_t) and nabla f(x_{t-1}, xi_t) on the same minibatch xi_t—doubling per-step backward passes—whereas the single-pass practical approximation mars-approx (algorithm 5, p. 6) replaces nabla f(x_{t-1}, xi_t) with the cached previous minibatch gradient nabla f(x_{t-1}, xi_{t-1}), introducing cross-minibatch variance that requires a smaller scaling factor gamma_t (typically gamma_t in [0.025, 0.05]). mars: unleashing the power of variance reduction for training large models mars: unleashing the power of variance reduction for training large models (arxiv abstract) mars: unleashing the power of variance reduction for training large models (crossref metadata) huizhuo yuan yifeng liu shuang wu xun zhou quanquan gu huizhuo yuan yifeng liu shuang wu xun zhou quanquan gu huizhuo yuan yifeng liu shuang wu xun zhou quanquan gu">
+        <td>
+          <a href="../curated/MarsVarianceReducedPreconditionedGradientOptimization.html" style="font-weight: 600; font-size: 1rem;">MARS (Make vAriance Reduction Shine Preconditioned Optimizer Framework)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> MARS Optimizer Framework, MARS-AdamW and MARS-Lion and MARS-Shampoo…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A unified variance-reduced preconditioned stochastic optimization framework for training large deep models that combines an Online Mirror De…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MarsVarianceReducedPreconditionedGradientOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="5 claims curated">5 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
