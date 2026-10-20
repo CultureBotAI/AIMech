@@ -1,0 +1,358 @@
+# Scientific author self-review of RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning
+
+- Review: 20261019T101230Z-rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T10:12:00Z
+- Finished UTC: 2026-10-19T10:12:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base b3dd08e68b525307c0b0291f4fcaf04ba34afb92.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml | maintained | RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | Validated history sidecar files. |
+| python3 rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py | passed | True | AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning | [PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0, -1.0], main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.
+
+RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning is a distinct concept.
+
+Introduced by Ozdayi, Kantarcioglu, and Gel (AAAI 2021, Vol. 35, No. 10, pp. 9268-9276, DOI:10.1609/aaai.v35i10.17118, arXiv:2007.03767). Distinct from SignSGD with majority vote (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, Bernstein et al. 2018), which discards update magnitudes and updates by eta * sgn(sum_k sgn(Delta_t^k)), whereas RLR preserves the full-precision aggregated update magnitude (e.g., FedAvg or coordinate-wise median) and flips the sign of the server learning rate to -eta on any coordinate where the absolute sum of update signs falls below threshold theta. Also distinct from FoolsGold (AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning), which assigns scalar per-client learning rates alpha_k based on historical cosine similarity rather than per-dimension sign-voting learning rates.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0, -1.0], main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T101200Z-rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning.json | supports | No normalized identity match for AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py | supports | All constructed boundary assertions in rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py passed with exit code 0: [PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0, -1.0], main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60 |
+| r529-primary-pdf | https://arxiv.org/pdf/2007.03767.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2021), Vol. 35, No. 10, pp. 9268-9276 (2021)) read and verified. |
+| r529-arxiv-abs | https://arxiv.org/abs/2007.03767; arXiv abstract | supports | arXiv abstract read and verified. |
+| r529-metadata-cr | https://dblp.org/rec/conf/aaai/OzdayiKG21; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning in Round 529.
+- All pages of Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2021), Vol. 35, No. 10, pp. 9268-9276 (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T101230Z-rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of RLR Robust Learning Rate Sign-Voting Backdoor
+  Defense for Federated Learning
+started_at: '2026-10-19T10:12:00Z'
+finished_at: '2026-10-19T10:12:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the AAAI Conference on Artificial Intelligence (AAAI 2021), Vol. 35, No. 10,
+    pp. 9268-9276 (2021) and pure-Python boundary checks. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated
+  Learning as a distinct DRAFT algorithm. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: b3dd08e68b525307c0b0291f4fcaf04ba34afb92
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml
+    sha256: 6a0148d4f7c48a0d95649d71339d4e1e4b95501565bb72e1b9a963830c89d693
+    role: target
+  - path: research/discovery/20261019T101200Z-rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning.json
+    sha256: 94a4542e7eb1e8e0214037167f7fe2cb2c0dbc55a18686a64fdc95d12492bb7d
+    role: context
+  - path: research/discovery/rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+    sha256: d2afed9d5e96f5d63d2752ae3a2c0aa488f7a930f776b20b3e06238221c8b13d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  path: data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml
+  label: RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+  command: python3 research/discovery/rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0, -1.0],
+    main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T101200Z-rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning.json
+  accessed_at: '2026-10-19T10:12:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T10:12:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+  accessed_at: '2026-10-19T10:12:00Z'
+  snapshot_sha256: d2afed9d5e96f5d63d2752ae3a2c0aa488f7a930f776b20b3e06238221c8b13d
+  support: supports
+  summary: 'All constructed boundary assertions in rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0,
+    -1.0], main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60'
+- evidence_id: r529-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2007.03767.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T10:12:00Z'
+  snapshot_sha256: 651d4101c1b3d22f10366fe0b38f5b8451b061c54d2ef7d7c6633a43776e2388
+  support: supports
+  summary: Full-text PDF (Proceedings of the AAAI Conference on Artificial Intelligence
+    (AAAI 2021), Vol. 35, No. 10, pp. 9268-9276 (2021)) read and verified.
+- evidence_id: r529-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2007.03767
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T10:12:00Z'
+  snapshot_sha256: e4c723d41cc46222457996743698b5fc725ee5bb84806baeed2dbe1d5dd03067
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r529-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/aaai/OzdayiKG21
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T10:12:00Z'
+  snapshot_sha256: 63e62cbed269000493a2d18ce4adba66fdc327d7e930fddb480bd880a0cd8521
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  evidence_ids:
+  - identity
+  - r529-primary-pdf
+  - r529-arxiv-abs
+  - r529-metadata-cr
+  summary: RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning
+    is a distinct concept.
+  details: Introduced by Ozdayi, Kantarcioglu, and Gel (AAAI 2021, Vol. 35, No. 10,
+    pp. 9268-9276, DOI:10.1609/aaai.v35i10.17118, arXiv:2007.03767). Distinct from
+    SignSGD with majority vote (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization,
+    Bernstein et al. 2018), which discards update magnitudes and updates by eta *
+    sgn(sum_k sgn(Delta_t^k)), whereas RLR preserves the full-precision aggregated
+    update magnitude (e.g., FedAvg or coordinate-wise median) and flips the sign of
+    the server learning rate to -eta on any coordinate where the absolute sum of update
+    signs falls below threshold theta. Also distinct from FoolsGold (AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning),
+    which assigns scalar per-client learning rates alpha_k based on historical cosine
+    similarity rather than per-dimension sign-voting learning rates.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  evidence_ids:
+  - mapping
+  - r529-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  evidence_ids:
+  - r529-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in rlr-robust-learning-rate-sign-voting-backdoor-defense-federated-learning-boundaries.py
+    passed with exit code 0: [PASS] Round 529 RLR (Ozdayi et al. 2021): diag(2*I_t-I)=[1.0,
+    -1.0], main_dim_step=0.50, backdoor_dim_fedavg=+0.60 vs backdoor_dim_rlr=-0.60'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  evidence_ids:
+  - identity
+  - mapping
+  - r529-primary-pdf
+  - r529-arxiv-abs
+  - r529-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+  in Round 529.
+- All pages of Proceedings of the AAAI Conference on Artificial Intelligence (AAAI
+  2021), Vol. 35, No. 10, pp. 9268-9276 (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

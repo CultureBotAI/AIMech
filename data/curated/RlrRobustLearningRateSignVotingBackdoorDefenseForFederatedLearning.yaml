@@ -1,0 +1,100 @@
+id: AIMech:RlrRobustLearningRateSignVotingBackdoorDefenseForFederatedLearning
+name: RLR Robust Learning Rate Sign-Voting Backdoor Defense for Federated Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A server-side federated learning backdoor defense that adjusts the server's learning rate vector eta_theta in {+eta, -eta}^d coordinate-wise at each communication round t according to the supermajority sign consensus of participating client updates Delta_t^k = w_t^k - w_t, setting eta_{theta, i} = +eta if |sum_{k in S_t} sgn(Delta_{t,i}^k)| >= theta and eta_{theta, i} = -eta otherwise, and updating the global model via element-wise product w_{t+1} = w_t + eta_theta odot g({Delta_t}) so that coordinates lacking honest sign consensus move in the loss-maximizing direction.
+identity_notes: Introduced by Ozdayi, Kantarcioglu, and Gel (AAAI 2021, Vol. 35, No. 10, pp. 9268-9276, DOI:10.1609/aaai.v35i10.17118, arXiv:2007.03767). Distinct from SignSGD with majority vote (AIMech:SignSgdAndMajorityVoteCompressedNonconvexOptimization, Bernstein et al. 2018), which discards update magnitudes and updates by eta * sgn(sum_k sgn(Delta_t^k)), whereas RLR preserves the full-precision aggregated update magnitude (e.g., FedAvg or coordinate-wise median) and flips the sign of the server learning rate to -eta on any coordinate where the absolute sum of update signs falls below threshold theta. Also distinct from FoolsGold (AIMech:FoolsGoldCosineSimilaritySybilDefenseForFederatedLearning), which assigns scalar per-client learning rates alpha_k based on historical cosine similarity rather than per-dimension sign-voting learning rates.
+aliases:
+- Robust Learning Rate for Federated Learning
+- RLR Federated Backdoor Defense
+- FedAvg with Robust Learning Rate
+definition_evidence:
+- source_id: r529-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r529-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r529-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c1-mechanism-coordinate-sign-vote-learning-rate-inversion
+  kind: mechanism
+  statement: Given client updates {Delta_t^k}_{k in S_t} at round t and a server learning threshold hyperparameter theta, RLR sets the i-th coordinate server learning rate to eta_{theta, i} = +eta if |sum_{k in S_t} sgn(Delta_{t,i}^k)| >= theta and eta_{theta, i} = -eta otherwise (Eq. 5), equivalently multiplying the aggregated update by the diagonal unitary operator (2 I_t - I) with ||2 I_t - I||_2 = 1 so that coordinates below the sign-consensus threshold ascend rather than descend the empirical loss surface (Eqs. 6, 8-9).
+  evidence:
+  - source_id: r529-primary-pdf
+    locator: Section 3 Equations (5)-(6) and Appendix D.1 Equations (8)-(9), pp. 3, 13
+    relation: supports
+- claim_id: c2-scope-nonconvex-convergence-under-population-weighted-symmetry
+  kind: scope
+  statement: Under L-Lipschitz smooth local objectives with bounded stochastic gradient variance sigma^2, population-weighted symmetric unimodal gradient noise (Eq. 7), universal update norm bound M, and sign-inversion probability Pr(1 - I_{|sum sgn(Delta_{t,i}^k)| >= theta} | F_t) <= p_0 < 0.25, Theorem 1 proves that RLR satisfies (1/T) sum_{t=0}^{T-1} E[||nabla f(w_hat_t)||^2] <= 2(f(w_hat_0) - f^*)/(eta T) + L^2 M^2 + L eta sigma^2 / n.
+  evidence:
+  - source_id: r529-primary-pdf
+    locator: Section 3 Theorem 1 and Appendix D.2 Equations (10)-(21), pp. 3-4, 13-15
+    relation: supports
+- claim_id: c3-application-trojan-and-distributed-backdoor-defense
+  kind: application
+  statement: Combined with FedAvg, coordinate-wise median, or weight-clipping and Gaussian noise, RLR reduces trojan backdoor accuracy from 99-100% to 0-3.4% on i.i.d. Fashion-MNIST and non-i.i.d. Federated EMNIST and defends CIFAR-10 against partitioned Distributed Backdoor Attacks (DBA) where FoolsGold, Comed, and SignSGD fail.
+  evidence:
+  - source_id: r529-primary-pdf
+    locator: Section 4, Tables 1-2, and Figures 2-5, pp. 4-7
+    relation: supports
+- claim_id: c4-limitation-threshold-selection-and-convergence-slowdown
+  kind: limitation
+  statement: Applying RLR from the beginning of training slows convergence and slightly reduces clean validation accuracy on non-i.i.d. client distributions where honest updates naturally disagree in sign, requiring careful tuning of theta in [K*F + 1, K - K*F] or delayed activation near convergence.
+  evidence:
+  - source_id: r529-primary-pdf
+    locator: Section 4 (Removing Backdoor During Training), Section 6, and Appendix A & C.1 Figure 6, pp. 5, 7, 9-10
+    relation: supports
+evidence_sources:
+- source_id: r529-primary-pdf
+  title: Defending against Backdoors in Federated Learning with Robust Learning Rate
+  authors: &id001
+  - Mustafa Safa Ozdayi
+  - Murat Kantarcioglu
+  - Yulia R. Gel
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.03767.pdf
+  persistent_id: https://dblp.org/rec/conf/aaai/OzdayiKG21
+  version: Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2021), Vol. 35, No. 10, pp. 9268-9276 (2021) (661380 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:12:00Z'
+  sha256: 651d4101c1b3d22f10366fe0b38f5b8451b061c54d2ef7d7c6633a43776e2388
+- source_id: r529-arxiv-abs
+  title: Defending against Backdoors in Federated Learning with Robust Learning Rate (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.03767
+  persistent_id: https://arxiv.org/abs/2007.03767
+  version: arXiv abstract page (7480 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:12:00Z'
+  sha256: e4c723d41cc46222457996743698b5fc725ee5bb84806baeed2dbe1d5dd03067
+- source_id: r529-metadata-cr
+  title: Defending against Backdoors in Federated Learning with Robust Learning Rate (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/aaai/OzdayiKG21
+  persistent_id: https://dblp.org/rec/conf/aaai/OzdayiKG21
+  version: Crossref API work record (1827 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:12:00Z'
+  sha256: 63e62cbed269000493a2d18ce4adba66fdc327d7e930fddb480bd880a0cd8521
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: RLR is a server-side coordinate sign-voting learning-rate defense against backdoor model poisoning in federated learning.
+limitations:
+- Requires the number of corrupt agents in each round to be strictly smaller than the server sign-voting threshold theta.
+- Sign disagreement caused by severe non-i.i.d. data heterogeneity can trigger learning-rate sign flips on benign coordinates, slowing convergence and slightly reducing clean validation accuracy.
+curation:
+  created_at: '2026-10-19T10:12:00Z'
+  updated_at: '2026-10-19T10:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
