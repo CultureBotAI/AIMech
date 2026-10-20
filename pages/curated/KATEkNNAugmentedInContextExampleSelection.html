@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KATE kNN-Augmented In-Context Example Selection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>KATE kNN-Augmented In-Context Example Selection</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">KATE kNN-Augmented In-Context Example Selection</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:KATEkNNAugmentedInContextExampleSelection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> KATE, kNN-Augmented In-Context Example Selection, KATE Nearest-Neighbor In-Context Demonstration Retrieval
+    </div>
+
+  <div class="detail-desc">
+    A non-parametric in-context demonstration selection algorithm for pretrained language models that maps training instances and a test input into a shared vector space using a pretrained or task-fine-tuned sentence encoder, retrieves the k nearest training neighbors to the test input under Euclidean or cosine similarity, and concatenates those retrieved input-output pairs in distance-sorted order as the conditioning context for autoregressive prediction.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from datastore-interpolated language modeling such as kNN-LM and kNN-MT, which interpolate a language model&#39;s next-token output probability distribution with a non-parametric kNN distribution over cached hidden states, because KATE operates purely at the input prompt level using an external sentence encoder without accessing the target language model&#39;s internal hidden states or modifying its decoding distribution. Also distinct from LM-scored contrastive prompt retrieval (AIMech:EPREfficientPromptRetrievalForInContextLearning), which trains a custom bi-encoder using positive and hard-negative labels scored by the target language model itself.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kate-sentence-encoder-knn-retrieval-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given a test query x_test and a training pool D_T = {(x_i, y_i)}, KATE encodes all inputs with a sentence encoder mu_theta, computes similarity scores s_i via negative Euclidean distance or cosine similarity, selects the top-k nearest neighbors ordered by distance, and concatenates their input-target pairs before x_test as the prompt for the frozen language model.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r734-primary-pdf">What Makes Good In-Context Examples for GPT-3?</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 &amp; Algorithm 1, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kate-task-related-encoder-finetuning-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Fine-tuning the retrieval sentence encoder on semantically aligned tasks—such as natural language inference and semantic textual similarity (NLI+STS-B) for open-domain question answering or domain-matched sentiment data—improves the quality of retrieved in-context examples compared to unaligned encoders.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r734-primary-pdf">What Makes Good In-Context Examples for GPT-3?</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 &amp; Section 4.1-4.3, pp. 4-7, Tables 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#kate-nlu-and-nlg-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    KATE is applied to few-shot sentiment transfer (SST-2 to IMDB), controlled table-to-text generation (ToTTo), and open-domain question answering (Natural Questions, WebQuestions, and TriviaQA) with GPT-3, substantially outperforming random demonstration sampling and standalone kNN majority voting.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r734-primary-pdf">What Makes Good In-Context Examples for GPT-3?</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, pp. 5-7, Tables 4, 5, and 7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r734-metadata-cr">What Makes Good In-Context Examples for GPT-3? (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> DBLP bibliographic record Jiachang Liu et al.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kate-dissimilar-encoder-task-mismatch-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the sentence encoder is fine-tuned on an objective that diverges from the downstream task structure (such as applying an STS-B similarity encoder to table-to-text generation or sentiment transfer), KATE&#39;s downstream accuracy can degrade relative to an un-finetuned pretrained RoBERTa encoder.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r734-primary-pdf">What Makes Good In-Context Examples for GPT-3?</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 &amp; Section 4.2, pp. 5-6, Tables 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires encoding a large labeled training datastore and performing nearest-neighbor lookup for every test query, and its gains depend on the availability of a sufficiently large retrieval pool.</li>
+      <li>Selects each neighbor independently by surface/semantic input similarity without modeling compositional interactions among the chosen examples.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            KATE retrieves nearest-neighbor in-context demonstrations in a neural sentence encoder space to condition a frozen neural language model.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r734-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r734-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2101.06804.pdf" target="_blank" rel="noopener">What Makes Good In-Context Examples for GPT-3?</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2507fe260f51…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r734-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r734-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2101.06804" target="_blank" rel="noopener">What Makes Good In-Context Examples for GPT-3? (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2101.06804</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2e35bb8dc68c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r734-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r734-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&amp;h=5&amp;format=xml" target="_blank" rel="noopener">What Makes Good In-Context Examples for GPT-3? (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiachang Liu, Dinghan Shen, Yizhe Zhang, Bill Dolan, Lawrence Carin, Weizhu Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=What+Makes+Good+In-Context+Examples+for+GPT-3+Liu&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b74d1163241c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:37:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:37:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/KATEkNNAugmentedInContextExampleSelection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/KATEkNNAugmentedInContextExampleSelection.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
