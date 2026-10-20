@@ -1,0 +1,105 @@
+id: AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning
+name: FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A personalized cross-silo federated learning algorithm (Huang et al. 2021, Sections 3-6, Definition 1, Equations 1-8, Algorithm 1, Theorems 1-2) that jointly optimizes client models W = [w_1, ..., w_m] under a pairwise attention-inducing regularizer min_W G(W) = sum_{i=1}^m F_i(w_i) + lambda sum_{1 <= i < j <= m} A(||w_i - w_j||^2) where A : [0, infty) -> R is a concave, strictly increasing attention-inducing function with A(0) = 0 and bounded right derivative lim_{t -> 0+} A''(t) < infty (such as A(t) = 1 - exp(-t / sigma), Equations 1-2), alternating between (1) a server-side attentive message passing step U^k = W^{k-1} - alpha_k nabla A(W^{k-1}) that forms each client''s personalized cloud model u_i^k = sum_{j=1}^m xi_{i,j} w_j^{k-1} with pairwise attention weights xi_{i,j} = alpha_k A''(||w_i^{k-1} - w_j^{k-1}||^2) for j != i and self-weight xi_{i,i} = 1 - sum_{j != i} xi_{i,j} (Equations 3, 5, 7) and (2) client-side proximal point optimization w_i^k = argmin_w {F_i(w) + (lambda / (2 alpha_k)) ||w - u_i^k||^2} (Equations 4, 6), together with the cosine-similarity variant HeurFedAMP (Equation 8) for high-dimensional deep networks.'
+identity_notes: Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which penalizes distance to a single shared global model ||w_i - w||^2 rather than pairwise concave attention functions sum_{i < j} A(||w_i - w_j||^2) producing personalized cloud models u_i^k; and distinct from FedFomo (AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning, Zhang et al. 2021), which computes weights on the client side using local validation loss evaluations of downloaded peer models rather than server-side attentive message passing.
+aliases:
+- FedAMP
+- HeurFedAMP
+- Federated Attentive Message Passing
+- Personalized Cross-Silo Federated Learning via Attentive Message Passing
+definition_evidence:
+- source_id: r465-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r465-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r465-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r465-concave-attention-inducing-cloud-model-and-proximal-update-mechanism
+  kind: mechanism
+  statement: Computes each client's personalized cloud model u_i^k via gradient descent on the concave pairwise regularizer A(W), yielding the convex combination u_i^k = (1 - alpha_k sum_{j != i} A'(||w_i^{k-1} - w_j^{k-1}||^2)) w_i^{k-1} + alpha_k sum_{j != i} A'(||w_i^{k-1} - w_j^{k-1}||^2) w_j^{k-1} (Equations 5 & 7) where non-increasing slope A'(t) assigns strictly larger collaboration weights to clients with closer parameter vectors, followed by local proximal minimization of F_i(w) + (lambda / (2 alpha_k)) ||w - u_i^k||^2 (Equation 6).
+  evidence:
+  - source_id: r465-primary-pdf
+    locator: Section 3 Definition 1 & Equations 1-2, pp. 2-3, and Section 4 Method of FedAMP (Equations 3-7, Algorithm 1), pp. 3-4
+    relation: supports
+- claim_id: r465-convex-and-nonconvex-convergence-and-heurfedamp-scope
+  kind: scope
+  statement: Establishes O(1 / sqrt(K)) convergence to the global minimum for convex objectives (Theorem 1, O(epsilon^{-2}) iterations) and O(1 / sqrt(K)) squared-gradient stationarity min_{0 <= k <= K} ||nabla G(W^k)||^2 for smooth non-convex objectives under incremental alternating optimization with inexact local proximal steps e_i^k (Theorem 2, O(epsilon^{-4}) iterations), and introduces softmax cosine-similarity weights xi_{i,j} propto exp(sigma cos(w_i, w_j)) in HeurFedAMP (Equation 8) to prevent Euclidean distance saturation in deep neural networks.
+  evidence:
+  - source_id: r465-primary-pdf
+    locator: Section 5 Convergence of FedAMP (Theorems 1-2), pp. 4-5, and Section 6 Heuristic Improvement of FedAMP on Deep Neural Networks (Equation 8), p. 5
+    relation: supports
+- claim_id: r465-cross-silo-server-memory-and-pairwise-distance-limitation
+  kind: limitation
+  statement: Requires the cloud server to store all m client parameter vectors W = [w_1, ..., w_m] in R^{d x m} and compute O(m^2 d) pairwise distances or cosine similarities per round, making it tailored to cross-silo federated learning with stateful clients rather than massive stateless cross-device federations.
+  evidence:
+  - source_id: r465-primary-pdf
+    locator: Section 1 Introduction & Section 4 Algorithm 1, pp. 1, 3-4
+    relation: supports
+- claim_id: r465-personalized-cross-silo-benchmark-application
+  kind: application
+  statement: Applied to personalized cross-silo federated learning under pathological and cluster-skewed non-IID partitions on MNIST, FMNIST, EMNIST, and CIFAR-100, outperforming FedAvg, FedProx, and pFedMe in personalized client test accuracy.
+  evidence:
+  - source_id: r465-primary-pdf
+    locator: Section 7 Experiments (Tables 1-2, Figures 2-3), pp. 5-7
+    relation: supports
+evidence_sources:
+- source_id: r465-primary-pdf
+  title: Personalized Cross-Silo Federated Learning on Non-IID Data
+  authors: &id001
+  - Yutao Huang
+  - Lingyang Chu
+  - Zirui Zhou
+  - Lanjun Wang
+  - Jiangchuan Liu
+  - Jian Pei
+  - Yong Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2007.03797.pdf
+  persistent_id: https://doi.org/10.1609/aaai.v35i9.16960
+  version: Conference Proceedings (2021) (2465 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:08:00Z'
+  sha256: 67efb72e9e230204d2ffd2c03a6d74de2495c31b8f45ca00b0562a2baf7d9fa5
+- source_id: r465-arxiv-abs
+  title: Personalized Cross-Silo Federated Learning on Non-IID Data (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2007.03797
+  persistent_id: https://arxiv.org/abs/2007.03797
+  version: arXiv abstract page (834 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:08:00Z'
+  sha256: 4a3d75d7c6e806bca646ed52a59a8ff440742419b04b460c752c1a503b07c06c
+- source_id: r465-metadata-cr
+  title: Personalized Cross-Silo Federated Learning on Non-IID Data (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1609/aaai.v35i9.16960
+  persistent_id: https://doi.org/10.1609/aaai.v35i9.16960
+  version: Crossref API work record (440 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:08:00Z'
+  sha256: 0f74aac273b3bea6da9d2f1c8e0b689209819af1545c90c40879d021f7edc7eb
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedAMP is a personalized cross-silo federated learning algorithm based on server-side attentive message passing over pairwise concave model distances.
+limitations:
+- Requires O(m d) server memory to maintain personalized models for all m silos and O(m^2 d) server computation per round for pairwise similarity weights.
+- In high-dimensional deep neural networks, Euclidean distance exp(-||w_i - w_j||^2 / sigma) can saturate, requiring the cosine-similarity heuristic HeurFedAMP.
+curation:
+  created_at: '2026-10-19T09:08:00Z'
+  updated_at: '2026-10-19T09:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

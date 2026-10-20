@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedAMP (Federated Attentive Message Passing for Personalized Cross-Silo Federated Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedAMP, HeurFedAMP, Federated Attentive Message Passing, Personalized Cross-Silo Federated Learning via Attentive Message Passing
+    </div>
+
+  <div class="detail-desc">
+    A personalized cross-silo federated learning algorithm (Huang et al. 2021, Sections 3-6, Definition 1, Equations 1-8, Algorithm 1, Theorems 1-2) that jointly optimizes client models W = [w_1, ..., w_m] under a pairwise attention-inducing regularizer min_W G(W) = sum_{i=1}^m F_i(w_i) + lambda sum_{1 &lt;= i &lt; j &lt;= m} A(||w_i - w_j||^2) where A : [0, infty) -&gt; R is a concave, strictly increasing attention-inducing function with A(0) = 0 and bounded right derivative lim_{t -&gt; 0+} A&#39;(t) &lt; infty (such as A(t) = 1 - exp(-t / sigma), Equations 1-2), alternating between (1) a server-side attentive message passing step U^k = W^{k-1} - alpha_k nabla A(W^{k-1}) that forms each client&#39;s personalized cloud model u_i^k = sum_{j=1}^m xi_{i,j} w_j^{k-1} with pairwise attention weights xi_{i,j} = alpha_k A&#39;(||w_i^{k-1} - w_j^{k-1}||^2) for j != i and self-weight xi_{i,i} = 1 - sum_{j != i} xi_{i,j} (Equations 3, 5, 7) and (2) client-side proximal point optimization w_i^k = argmin_w {F_i(w) + (lambda / (2 alpha_k)) ||w - u_i^k||^2} (Equations 4, 6), together with the cosine-similarity variant HeurFedAMP (Equation 8) for high-dimensional deep networks.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, T. Dinh et al. 2020), which penalizes distance to a single shared global model ||w_i - w||^2 rather than pairwise concave attention functions sum_{i &lt; j} A(||w_i - w_j||^2) producing personalized cloud models u_i^k; and distinct from FedFomo (AIMech:FedFomoFirstOrderModelOptimizationForPersonalizedFederatedLearning, Zhang et al. 2021), which computes weights on the client side using local validation loss evaluations of downloaded peer models rather than server-side attentive message passing.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r465-concave-attention-inducing-cloud-model-and-proximal-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Computes each client&#39;s personalized cloud model u_i^k via gradient descent on the concave pairwise regularizer A(W), yielding the convex combination u_i^k = (1 - alpha_k sum_{j != i} A&#39;(||w_i^{k-1} - w_j^{k-1}||^2)) w_i^{k-1} + alpha_k sum_{j != i} A&#39;(||w_i^{k-1} - w_j^{k-1}||^2) w_j^{k-1} (Equations 5 &amp; 7) where non-increasing slope A&#39;(t) assigns strictly larger collaboration weights to clients with closer parameter vectors, followed by local proximal minimization of F_i(w) + (lambda / (2 alpha_k)) ||w - u_i^k||^2 (Equation 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r465-primary-pdf">Personalized Cross-Silo Federated Learning on Non-IID Data</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Definition 1 &amp; Equations 1-2, pp. 2-3, and Section 4 Method of FedAMP (Equations 3-7, Algorithm 1), pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r465-convex-and-nonconvex-convergence-and-heurfedamp-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Establishes O(1 / sqrt(K)) convergence to the global minimum for convex objectives (Theorem 1, O(epsilon^{-2}) iterations) and O(1 / sqrt(K)) squared-gradient stationarity min_{0 &lt;= k &lt;= K} ||nabla G(W^k)||^2 for smooth non-convex objectives under incremental alternating optimization with inexact local proximal steps e_i^k (Theorem 2, O(epsilon^{-4}) iterations), and introduces softmax cosine-similarity weights xi_{i,j} propto exp(sigma cos(w_i, w_j)) in HeurFedAMP (Equation 8) to prevent Euclidean distance saturation in deep neural networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r465-primary-pdf">Personalized Cross-Silo Federated Learning on Non-IID Data</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Convergence of FedAMP (Theorems 1-2), pp. 4-5, and Section 6 Heuristic Improvement of FedAMP on Deep Neural Networks (Equation 8), p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r465-cross-silo-server-memory-and-pairwise-distance-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Requires the cloud server to store all m client parameter vectors W = [w_1, ..., w_m] in R^{d x m} and compute O(m^2 d) pairwise distances or cosine similarities per round, making it tailored to cross-silo federated learning with stateful clients rather than massive stateless cross-device federations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r465-primary-pdf">Personalized Cross-Silo Federated Learning on Non-IID Data</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Introduction &amp; Section 4 Algorithm 1, pp. 1, 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r465-personalized-cross-silo-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to personalized cross-silo federated learning under pathological and cluster-skewed non-IID partitions on MNIST, FMNIST, EMNIST, and CIFAR-100, outperforming FedAvg, FedProx, and pFedMe in personalized client test accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r465-primary-pdf">Personalized Cross-Silo Federated Learning on Non-IID Data</a></span>
+        <span>· <strong>Locator:</strong> Section 7 Experiments (Tables 1-2, Figures 2-3), pp. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires O(m d) server memory to maintain personalized models for all m silos and O(m^2 d) server computation per round for pairwise similarity weights.</li>
+      <li>In high-dimensional deep neural networks, Euclidean distance exp(-||w_i - w_j||^2 / sigma) can saturate, requiring the cosine-similarity heuristic HeurFedAMP.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedAMP is a personalized cross-silo federated learning algorithm based on server-side attentive message passing over pairwise concave model distances.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r465-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r465-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.03797.pdf" target="_blank" rel="noopener">Personalized Cross-Silo Federated Learning on Non-IID Data</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yutao Huang, Lingyang Chu, Zirui Zhou, Lanjun Wang, Jiangchuan Liu, Jian Pei, Yong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v35i9.16960</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:67efb72e9e23…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r465-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r465-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.03797" target="_blank" rel="noopener">Personalized Cross-Silo Federated Learning on Non-IID Data (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yutao Huang, Lingyang Chu, Zirui Zhou, Lanjun Wang, Jiangchuan Liu, Jian Pei, Yong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.03797</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4a3d75d7c6e8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r465-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r465-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1609/aaai.v35i9.16960" target="_blank" rel="noopener">Personalized Cross-Silo Federated Learning on Non-IID Data (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yutao Huang, Lingyang Chu, Zirui Zhou, Lanjun Wang, Jiangchuan Liu, Jian Pei, Yong Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v35i9.16960</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0f74aac273b3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:08:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:08:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedAmpFederatedAttentiveMessagePassingForPersonalizedCrossSiloFederatedLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
