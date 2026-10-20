@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMC (AutoML for Model Compression and Acceleration on Mobile Devices) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AMC (AutoML for Model Compression and Acceleration on Mobile Devices)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AMC (AutoML for Model Compression and Acceleration on Mobile Devices)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AMC, AutoML for Model Compression, AMC Reinforcement Learning Channel and Fine-Grained Pruning
+    </div>
+
+  <div class="detail-desc">
+    AMC (AutoML for Model Compression) is a reinforcement-learning-based neural network pruning framework that processes a pretrained network layer-by-layer using an 11-dimensional layer state vector s_t = (t, n, c, h, w, stride, k, FLOPs[t], reduced, rest, a_{t-1}) and a continuous-action Deep Deterministic Policy Gradient (DDPG) actor-critic agent to predict each layer&#39;s channel or fine-grained pruning sparsity ratio a_t in (0, 1], evaluates post-pruning validation accuracy without fine-tuning as a fast delegate reward, and supports both Resource-Constrained Compression (via duty-bounded action clamping W_duty = alpha*W_all - action_max*W_rest - W_reduced with R_err = -Error) and Accuracy-Guaranteed Compression (via R_FLOPs = -Error * log(FLOPs) or R_Param = -Error * log(#Param)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from hand-crafted sensitivity pruning heuristics (Li et al., 2016; He et al., 2017) that ignore cross-layer dependencies, distinct from Runtime Neural Pruning (Lin et al., 2017) which selects coarse 4-action dynamic channel groups per input image without reducing static model size, and distinct from HAQ (AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision) which allocates mixed-precision quantization bitwidths rather than pruning sparsity ratios.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#amc-continuous-ddpg-state-and-zero-finetuning-delegate-reward</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AMC characterizes each layer L_t by the 11-dimensional state vector s_t = (t, n, c, h, w, stride, k, FLOPs[t], reduced, rest, a_{t-1}) (Eq. 1), predicts a continuous sparsity action a_t in (0, 1] via a DDPG actor with truncated-normal exploration mu&#39;(s_t) ~ TN(mu(s_t | theta_t^mu), sigma^2, 0, 1) (Eqs. 2-3), and evaluates validation accuracy immediately after pruning all layers without fine-tuning as a correlated, zero-retraining proxy for final fine-tuned accuracy.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Automated Compression with Reinforcement Learning), Equations 1-3, pp. 5-6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> amc_duty_constrained_sparsity and main</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#amc-resource-constrained-duty-clamping-and-accuracy-guaranteed-rewards</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For resource-constrained compression, AMC uses reward R_err = -Error (Eq. 4) and enforces the target reduction ratio alpha via Algorithm 1 by bounding each layer&#39;s action to [W_duty / W_t, action_max] where W_duty = alpha*W_all - action_max*W_rest - W_reduced; for accuracy-guaranteed compression, AMC uses R_FLOPs = -Error * log(FLOPs) (Eq. 5) or R_Param = -Error * log(#Param) (Eq. 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Search Protocols) and Algorithm 1, Equations 4-6, pp. 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> amc_duty_constrained_sparsity and reward_accuracy_guaranteed</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#amc-imagenet-resnet50-and-mobilenet-mobile-speedup</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On ImageNet, AMC pushes ResNet-50 fine-grained compression from 3.4x to 5x without accuracy loss (automatically pruning 3x3 convolutions more aggressively than 1x1 convolutions), improves VGG-16 4x FLOPs pruning by 2.7% over hand-crafted policies, and achieves 1.81x-1.95x measured latency speedup on MobileNet on a Google Pixel 1 Android phone (and 1.53x on Titan XP GPU).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2, Figures 3-5 and Tables 3-5, pp. 9-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#amc-multi-stage-iterative-pruning-for-extreme-sparsity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under extreme single-shot fine-grained compression (e.g., &gt;=4x sparsity), validation accuracy without retraining collapses and ceases to provide an informative reward signal, requiring a multi-stage iterative prune-and-retrain schedule (e.g., four stages at 50%, 35%, 25%, and 20% density with 30 epochs of fine-tuning per stage).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r819-primary-pdf">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 (Push the Limit of Fine-grained Pruning), pp. 9-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Zero-retraining validation accuracy becomes uninformative under extreme single-shot fine-grained compression ratios (&gt;=4x), requiring multi-stage iterative AMC search and fine-tuning.</li>
+      <li>Fine-grained unstructured pruning policies require specialized sparse-matrix hardware accelerators (such as EIE or SCNN) to translate parameter sparsity into wall-clock inference speedup.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AMC is an automated reinforcement-learning pruning and compression framework for deep convolutional neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r819-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r819-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1802.03494" target="_blank" rel="noopener">AMC: AutoML for Model Compression and Acceleration on Mobile Devices</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yihui He, Ji Lin, Zhijian Liu, Hanrui Wang, Li-Jia Li, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1802.03494</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2aa8c022ce47…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r819-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r819-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1802.03494" target="_blank" rel="noopener">AMC: AutoML for Model Compression and Acceleration on Mobile Devices (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yihui He, Ji Lin, Zhijian Liu, Hanrui Wang, Li-Jia Li, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1802.03494</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6420acfd7435…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r819-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r819-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1802.03494" target="_blank" rel="noopener">AMC: AutoML for Model Compression and Acceleration on Mobile Devices (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yihui He, Ji Lin, Zhijian Liu, Hanrui Wang, Li-Jia Li, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1802.03494</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d7d415cf2fd3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:02:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:02:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AMCAccelerationAndModelCompressionOnMobileDevicesWithRL.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AMCAccelerationAndModelCompressionOnMobileDevicesWithRL.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
