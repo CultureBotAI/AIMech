@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1331</strong> artificial intelligence concepts, comprising <strong>889</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1332</strong> artificial intelligence concepts, comprising <strong>890</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1331)</option>
-        <option value="curated">Curated AIMech (889)</option>
+        <option value="all">All Origins (1332)</option>
+        <option value="curated">Curated AIMech (890)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (587)</option>
+          <option value="algorithm">Algorithms (588)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1331</span> of <span id="totalCount">1331</span>
+      Showing <span id="matchCount">1332</span> of <span id="totalCount">1332</span>
     </div>
   </div>
 </div>
@@ -10095,6 +10095,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedAlaAdaptiveLocalAggregationForPersonalizedFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedalign (data-free final-block lipschitz self-distillation via slimmed sub-block transmitting matrices) fedalignfinalblocklipschitzselfdistillationforheterogeneousfederatedlearning aimech:fedalignfinalblocklipschitzselfdistillationforheterogeneousfederatedlearning algorithms algorithm a resource-efficient local self-distillation regularization algorithm for heterogeneous federated learning (mendieta, yang, wang, lee, ding, &amp; chen 2022, sections 3.4 &amp; 4, equations 3-7, algorithm 1) that mitigates client drift by aligning the approximated lipschitz constants of a neural network&#39;s final block l across full width and a uniformly slimmed fractional width omega_s in (0, 1) while reusing intermediate features from block l - 1. during local training on batch (x, y) in d, each client runs a single full-network forward pass f_{theta_{l-1}}, f_{theta_l}, pred = f_theta(x) and one additional partial forward pass of the final block l at reduced channel width omega_s using f_{theta_{l-1}} as input: f_{theta_l^{omega_s}} = f_{theta_l^{omega_s}}(f_{theta_{l-1}}). the client constructs feature-map transmitting matrices x_f = (f_{theta_{l-1}})^t f_{theta_l} and x_s = (f_{theta_{l-1}})^t f_{theta_l^{omega_s}} (equations 6-7), approximates their spectral norms k_f = ||x_f||_{sn} and k_s = ||x_s||_{sn} via power iteration, and minimizes the local objective l_{fa} = l_{ce}(f_theta(x), y) + mu l_{lip}(k_s, k_f) (equation 5), where l_{lip}(k_s, k_f) is the mean squared error between k_s and k_f. distinct from fjord (aimech:fjordordereddropoutandselfdistillationforheterogeneousfederatedlearning, horvath et al. 2021), which executes end-to-end forward passes through nested ordered dropout sub-models and distills output class logits via kl divergence rather than reusing penultimate block features f_{theta_{l-1}} on only the final block l and matching spectral-norm lipschitz constants ||x_s||_{sn} and ||x_f||_{sn}; and distinct from moon (aimech:moonmodelcontrastivefederatedlearning, li et al. 2021), which stores three full models in memory to compute a representation contrastive loss (~3x compute and memory overhead) rather than training a single model in-place with a 1.02x flops final-block lipschitz regularization penalty. fedalign federated final-block lipschitz alignment final-block slimmed sub-network lipschitz self-distillation for federated learning fedalign reuses penultimate feature maps f_{theta_{l-1}} as input to a temporarily uniformly pruned sub-block f_{theta_l^{omega_s}} of fractional channel width omega_s (default omega_s = 0.25), forms transmitting matrices x_f = f_{theta_{l-1}}^t f_{theta_l} and x_s = f_{theta_{l-1}}^t f_{theta_l^{omega_s}} (with adaptive average pooling when spatial dimensions differ), and penalizes the mean squared error l_{lip}(k_s, k_f) between their power-iteration spectral norms k_f = ||x_f||_{sn} and k_s = ||x_s||_{sn} (equations 5-7, algorithm 1, supplementary section e). second-order analysis across clients using top hessian eigenvalue lambda_max, hessian trace h_t, cross-client diagonal hessian norm difference h_n^{k,j} = (||diag(h_k)||_f - ||diag(h_j)||_f)^2 (equation 3), and directional cosine similarity h_d^{k,j} = (diag(h_k) . diag(h_j)) / (||diag(h_k)||_f ||diag(h_j)||_f) (equation 4) shows that fedalign achieves the lowest top hessian eigenvalue (lambda_max = 143 vs. 297 for fedavg and 252 for moon on cifar-100) and highest directional alignment (h_d = 0.99) while adding only 2% forward-pass flops (89.1 vs. 87.3 mflops) and 0 additional stored parameters. while fedalign strongly reduces the top hessian eigenvalue lambda_max and improves cross-client hessian directional similarity h_d, it does not directly penalize cross-client hessian diagonal norm differences, resulting in a higher h_n (9655 on cifar-100) than full-network multi-pass gradaug (2924) and moon (5712) (supplementary section b, table 9). evaluated on dirichlet-partitioned cifar-100 (resnet56), cifar-10 (resnet56), and imagenet-200 (resnet18) across varying heterogeneity levels (dir(alpha) with alpha in {0.1, 0.5, 2.5} and homogeneous), local epochs e in {10, 20, 30}, and partial client participation, reaching 60% accuracy on cifar-100 in 37 rounds (3297 mflops, 11.56 gb) compared to 84 rounds for fedavg and 55 rounds for moon. local learning matters: rethinking data heterogeneity in federated learning local learning matters: rethinking data heterogeneity in federated learning (arxiv abstract) local learning matters: rethinking data heterogeneity in federated learning (crossref metadata) matias mendieta taojiannan yang pu wang minwoo lee zhengming ding chen chen matias mendieta taojiannan yang pu wang minwoo lee zhengming ding chen chen matias mendieta taojiannan yang pu wang minwoo lee zhengming ding chen chen">
+        <td>
+          <a href="curated/FedAlignFinalBlockLipschitzSelfDistillationForHeterogeneousFederatedLearning.html" style="font-weight: 600; font-size: 1rem;">FedAlign (Data-Free Final-Block Lipschitz Self-Distillation via Slimmed Sub-Block Transmitting Matrices)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedAlign, Federated Final-Block Lipschitz Alignment…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A resource-efficient local self-distillation regularization algorithm for heterogeneous federated learning (Mendieta, Yang, Wang, Lee, Ding,…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedAlignFinalBlockLipschitzSelfDistillationForHeterogeneousFederatedLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
