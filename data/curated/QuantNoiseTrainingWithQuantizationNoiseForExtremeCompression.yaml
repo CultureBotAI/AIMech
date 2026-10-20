@@ -1,0 +1,110 @@
+id: AIMech:QuantNoiseTrainingWithQuantizationNoiseForExtremeCompression
+name: Quant-Noise (Training with Quantization Noise for Extreme Model Compression)
+concept_kind: algorithm
+review_status: DRAFT
+definition: Quant-Noise is a quantization-aware neural network training method that partitions each weight matrix W in R^{n x p} into m x q subvector blocks b_{kl} matching a target scalar or vector quantizer phi (such as fixed-point int4/int8 scalar quantization or iterative Product Quantization iPQ), randomly selects a subset of blocks J subset {(k, l)} with probability p at each forward pass to distort via psi(b_{kl} | J) = phi(b_{kl}) for (k, l) in J and b_{kl} otherwise, and backpropagates exact unbiased gradients through the remaining 1 - p fraction of unquantized blocks while quantizing all weights at inference.
+identity_notes: Distinct from standard Quantization-Aware Training (QAT) with the Straight-Through Estimator (STE), which quantizes 100% of weights on every forward pass and suffers severe gradient bias under extreme compression (int4 or Product Quantization), distinct from Q-BERT (AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT), which uses Hessian-spectrum mixed-precision scalar allocation, and distinct from LayerDrop (AIMech:LayerDropStructuredDropoutForTransformerDepthReduction), which drops entire Transformer layers rather than applying quantizer distortion to random subvector weight blocks.
+aliases:
+- Quant-Noise
+- Training with Quantization Noise for Extreme Model Compression
+- Stochastic Block Quantization Noise Training
+definition_evidence:
+- source_id: r814-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r814-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r814-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: quant-noise-stochastic-block-distortion-and-unbiased-gradient-flow
+  kind: mechanism
+  statement: Given a weight matrix partitioned into m x q blocks b_{kl} (Eq. 1) and a scalar or vector quantizer phi (Eqs. 2-4, 9-10), Quant-Noise samples a subset J of block indices at rate p and applies psi(b_{kl} | J) = phi(b_{kl}) if (k, l) in J else b_{kl} (Eqs. 6-7), allowing exact unbiased gradients to flow through the 1 - p fraction of unquantized blocks instead of relying solely on biased STE gradients across a fully quantized network.
+  evidence:
+  - source_id: r814-primary-pdf
+    locator: Section 3.3 (Training with Quant-Noise), Equations 6-7 and Appendix A.1 Equations 9-10, pp. 4-5, 13
+    relation: supports
+  - source_id: r814-primary-pdf
+    locator: apply_quant_noise_blocks and main
+    relation: supports
+- claim_id: quant-noise-commutative-layerdrop-and-ipq-int8-hybrid-compression
+  kind: mechanism
+  statement: Quant-Noise composes commutatively with LayerDrop structured pruning via psi = psi_1 o psi_2 (Eq. 8) and combines iterative Product Quantization (iPQ) weight codebooks with int8 quantized centroids, column scales, and activations to achieve a per-layer memory footprint of M = 8*K*d + log_2(K)*m*p + 8*n bits (Eq. 5).
+  evidence:
+  - source_id: r814-primary-pdf
+    locator: Section 3.2 (Equation 5) and Section 3.3 (Composing Noise Functions, Equation 8), pp. 4-5
+    relation: supports
+  - source_id: r814-primary-pdf
+    locator: pq_int8_memory_bits and main
+    relation: supports
+- claim_id: quant-noise-roberta-and-efficientnet-extreme-compression
+  kind: application
+  statement: Across RoBERTa on MNLI, WikiText-103 language modeling, and ResNet-50 / EfficientNet-B3 on ImageNet, Quant-Noise consistently outperforms QAT, compressing RoBERTa to 14 MB (82.5% MNLI accuracy via LayerDrop + iPQ + int8) and EfficientNet-B3 to 3.3 MB with 80.0% ImageNet top-1 accuracy.
+  evidence:
+  - source_id: r814-primary-pdf
+    locator: Section 4.1-4.2, Figures 2-4 and Table 1, pp. 6-8
+    relation: supports
+- claim_id: quant-noise-per-forward-kmeans-overhead-and-noise-rate-tuning-limitation
+  kind: limitation
+  statement: Exact Product Quantization inside Quant-Noise requires running k-means steps on weight blocks during training (unless approximated by a block-dropout proxy before iPQ fine-tuning), and the quantization noise rate p must be tuned to balance regularization strength against train-test quantization mismatch.
+  evidence:
+  - source_id: r814-primary-pdf
+    locator: Section 3.3 (Proxy for Quantization Function) and Section 5 (Ablations, Figure 5), pp. 5, 8
+    relation: supports
+evidence_sources:
+- source_id: r814-primary-pdf
+  title: Training with Quantization Noise for Extreme Model Compression
+  authors: &id001
+  - Angela Fan
+  - Pierre Stock
+  - Benjamin Graham
+  - Edouard Grave
+  - Remi Gribonval
+  - Herve Jegou
+  - Armand Joulin
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.07320
+  persistent_id: https://arxiv.org/bibtex/2004.07320
+  version: ICLR 2021 (2021) (903249 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:57:00Z'
+  sha256: e0333e1fce4d0ce217220d3e2579a9fe295b7a06ce1fa62a88f55a5382d12773
+- source_id: r814-arxiv-abs
+  title: Training with Quantization Noise for Extreme Model Compression (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.07320
+  persistent_id: https://arxiv.org/abs/2004.07320
+  version: arXiv abstract page (7403 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:57:00Z'
+  sha256: 53522685332fb35219fd60895b835e55311b536aa2ab00d08b94949c7463641c
+- source_id: r814-metadata-cr
+  title: Training with Quantization Noise for Extreme Model Compression (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2004.07320
+  persistent_id: https://arxiv.org/bibtex/2004.07320
+  version: Crossref API work record (464 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:57:00Z'
+  sha256: 12a5b4e0bff9116acd187399910f4ad52c2c3f359b155c073b5ba0b622f82c0f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Quant-Noise is a stochastic block-quantization training and compression method for deep neural networks.
+limitations:
+- Applying exact Product Quantization during training incurs per-step k-means overhead unless initialized with the structured block-dropout proxy followed by iPQ fine-tuning.
+- The block noise rate p requires task- and bitwidth-dependent tuning to trade off gradient fidelity against full-inference quantization mismatch.
+curation:
+  created_at: '2026-10-19T14:57:00Z'
+  updated_at: '2026-10-19T14:57:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
