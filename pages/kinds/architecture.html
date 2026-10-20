@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">40 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">41 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">40</span> of <span id="totalCount">40</span>
+      Showing <span id="matchCount">41</span> of <span id="totalCount">41</span>
     </div>
   </div>
 </div>
@@ -595,6 +595,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="mole (mixture of lora experts) molemixtureofloraexperts aimech:molemixtureofloraexperts architectures architecture a hierarchical modular composition architecture for pre-trained low-rank adaptation (lora) modules that treats each layer of n frozen trained loras as a distinct expert, concatenates and normalizes their layer outputs e_{delta theta_i}(x) in r^{l x d} into e_omega(x) in r^{n l d}, projects them via a learnable gating embedding e in r^{(n l d) x n} and temperature-scaled softmax g(eps_i) = exp(eps_i / tau) / sum_j exp(eps_j / tau) to weight each lora expert&#39;s output, and regularizes gating entropy across m blocks via the balancing loss l_balance = -log(prod_{i=0}^{n-1} q^(i)). distinct from lorahub (aimech:lorahub, which optimizes static scalar weights per lora module via gradient-free black-box optimization), from lora-flow (aimech:loraflow, which computes token-level gates directly from the pre-lora hidden state x^l_t without concatenating lora expert outputs or optimizing a log-product gating balancing loss), and from loramoe (aimech:loramoe, which trains lora experts from scratch inside ffn blocks with a localized balancing constraint to prevent world knowledge forgetting during sft rather than composing separately pre-trained frozen loras). formulated by wu, huang, and wei (iclr 2024, arxiv:2404.13628). mixture of lora experts mole hierarchical lora composition layer-wise gated mixture of pre-trained lora experts for a set of n frozen trained loras omega = {delta theta_i}_{i=0}^{n-1} at a given block or layer, mole computes each lora&#39;s output e_{delta theta_i}(x) in r^{l x d}, concatenates and normalizes them into e_omega(x) = normalization(e_{delta theta_0}(x) oplus ... oplus e_{delta theta_{n-1}}(x)) in r^{xi} (xi = n l d), computes logits eps = flatten(e_omega(x))^t e in r^n, and combines expert outputs via o(x) = f_theta(x) + sum_{i=0}^{n-1} [exp(eps_i / tau) / sum_j exp(eps_j / tau)] e_{delta theta_i}(x). to prevent gating entropy collapse toward a single early-stage dominant lora expert during training, mole adds the gating balancing loss l_balance = -log(prod_{i=0}^{n-1} q^(i)) where q^(i) = (1/m) sum_{k=1}^m exp(eps_i^k / tau) / sum_{j=1}^n exp(eps_j^k / tau) across m gated blocks, and at inference time supports manual masking of undesired loras with proportional redistribution of the remaining gating weights without retraining. mole is applied to multi-subject text-to-image diffusion composition with dreambooth on stable diffusion v2.1 and to multi-task nlp composition on flan-t5 across wmt translation, struct-to-text, closed-book qa, big-bench hard (bbh), and nli, outperforming normalized linear arithmetic, svdiff, pems, and lorahub. when the number of composed loras scales to very large arrays (such as 128 loras on bbh), composition performance degrades relative to moderate expert counts (e.g., 48 loras), and applying gating at overly fine parameter-matrix granularity (m-mole) underperforms block-wise (b-mole) and layer-wise (l-mole) gating due to excessive control interfering with intra-layer parameter relationships. mixture of lora experts mixture of lora experts (arxiv abstract) mixture of lora experts (crossref metadata) xun wu shaohan huang furu wei xun wu shaohan huang furu wei xun wu shaohan huang furu wei">
+        <td>
+          <a href="../curated/MoLEMixtureOfLoRAExperts.html" style="font-weight: 600; font-size: 1rem;">MoLE (Mixture of LoRA Experts)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Mixture of LoRA Experts, MoLE Hierarchical LoRA Composition…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A hierarchical modular composition architecture for pre-trained Low-Rank Adaptation (LoRA) modules that treats each layer of N frozen traine…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:MoLEMixtureOfLoRAExperts</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

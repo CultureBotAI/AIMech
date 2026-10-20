@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MoLE (Mixture of LoRA Experts) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/architecture.html">Architectures</a>
+  <span>/</span>
+  <strong>MoLE (Mixture of LoRA Experts)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">MoLE (Mixture of LoRA Experts)</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:MoLEMixtureOfLoRAExperts</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Mixture of LoRA Experts, MoLE Hierarchical LoRA Composition, Layer-Wise Gated Mixture of Pre-Trained LoRA Experts
+    </div>
+
+  <div class="detail-desc">
+    A hierarchical modular composition architecture for pre-trained Low-Rank Adaptation (LoRA) modules that treats each layer of N frozen trained LoRAs as a distinct expert, concatenates and normalizes their layer outputs E_{Delta theta_i}(x) in R^{L x d} into E_Omega(x) in R^{N L d}, projects them via a learnable gating embedding e in R^{(N L d) x N} and temperature-scaled softmax G(eps_i) = exp(eps_i / tau) / sum_j exp(eps_j / tau) to weight each LoRA expert&#39;s output, and regularizes gating entropy across M blocks via the balancing loss L_balance = -log(prod_{i=0}^{N-1} q^(i)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from LoraHub (AIMech:LoraHub, which optimizes static scalar weights per LoRA module via gradient-free black-box optimization), from LoRA-Flow (AIMech:LoRAFlow, which computes token-level gates directly from the pre-LoRA hidden state x^l_t without concatenating LoRA expert outputs or optimizing a log-product gating balancing loss), and from LoRAMoE (AIMech:LoRAMoE, which trains LoRA experts from scratch inside FFN blocks with a localized balancing constraint to prevent world knowledge forgetting during SFT rather than composing separately pre-trained frozen LoRAs). Formulated by Wu, Huang, and Wei (ICLR 2024, arXiv:2404.13628).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mole-output-conditioned-hierarchical-layer-gating</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a set of N frozen trained LoRAs Omega = {Delta theta_i}_{i=0}^{N-1} at a given block or layer, MoLE computes each LoRA&#39;s output E_{Delta theta_i}(x) in R^{L x d}, concatenates and normalizes them into E_Omega(x) = Normalization(E_{Delta theta_0}(x) oplus ... oplus E_{Delta theta_{N-1}}(x)) in R^{xi} (xi = N L d), computes logits eps = Flatten(E_Omega(x))^T e in R^N, and combines expert outputs via O(x) = F_theta(x) + sum_{i=0}^{N-1} [exp(eps_i / tau) / sum_j exp(eps_j / tau)] E_{Delta theta_i}(x).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r686-primary-pdf">Mixture of LoRA Experts</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Mixture of LoRA Experts, Eq. 7-13, p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#mole-gating-balancing-loss-and-proportional-masking</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent gating entropy collapse toward a single early-stage dominant LoRA expert during training, MoLE adds the gating balancing loss L_balance = -log(prod_{i=0}^{N-1} q^(i)) where q^(i) = (1/M) sum_{k=1}^M exp(eps_i^k / tau) / sum_{j=1}^N exp(eps_j^k / tau) across M gated blocks, and at inference time supports manual masking of undesired LoRAs with proportional redistribution of the remaining gating weights without retraining.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r686-primary-pdf">Mixture of LoRA Experts</a></span>
+        <span>· <strong>Locator:</strong> Section 1 Figure 1, Section 3.3 Eq. 14-16 &amp; Section 5 Table 7 and Figure 8, p. 1, 6, 8-9, 12, 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#mole-multimodal-and-nlp-composition-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    MoLE is applied to multi-subject text-to-image diffusion composition with DreamBooth on Stable Diffusion V2.1 and to multi-task NLP composition on FLAN-T5 across WMT translation, Struct-to-Text, Closed-Book QA, Big-Bench Hard (BBH), and NLI, outperforming normalized linear arithmetic, SVDiff, PEMs, and LoraHub.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r686-primary-pdf">Mixture of LoRA Experts</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Tables 1-3 &amp; Section 5 Tables 6-10, p. 6-9, 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#mole-very-large-expert-array-and-matrix-granularity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When the number of composed LoRAs scales to very large arrays (such as 128 LoRAs on BBH), composition performance degrades relative to moderate expert counts (e.g., 48 LoRAs), and applying gating at overly fine parameter-matrix granularity (m-MoLE) underperforms block-wise (b-MoLE) and layer-wise (l-MoLE) gating due to excessive control interfering with intra-layer parameter relationships.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r686-primary-pdf">Mixture of LoRA Experts</a></span>
+        <span>· <strong>Locator:</strong> Section 5 Coarse-to-fine gating analysis, Section 6 Limitations &amp; Tables 6 and 9, p. 8-9, 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Composition accuracy declines when scaling to very large arrays of 128 simultaneous LoRA experts, and parameter-matrix-level gating (m-MoLE) underperforms intermediate block-level (b-MoLE) and layer-level (l-MoLE) gating granularities.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            MoLE is a hierarchical mixture-of-experts neural network composition architecture over pre-trained low-rank adapter layers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r686-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r686-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2404.13628.pdf" target="_blank" rel="noopener">Mixture of LoRA Experts</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Wu, Shaohan Huang, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=2404.13628&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:415b8d661e5e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r686-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r686-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2404.13628" target="_blank" rel="noopener">Mixture of LoRA Experts (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Wu, Shaohan Huang, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2404.13628</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d2cb6e24cd1a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r686-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r686-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=2404.13628&amp;format=xml" target="_blank" rel="noopener">Mixture of LoRA Experts (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Xun Wu, Shaohan Huang, Furu Wei
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=2404.13628&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:16ddc5ec05b1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:49:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:49:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/MoLEMixtureOfLoRAExperts.yaml" target="_blank" rel="noopener">
+      <code>data/curated/MoLEMixtureOfLoRAExperts.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
