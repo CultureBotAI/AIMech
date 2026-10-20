@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HAQ (Hardware-Aware Automated Quantization with Mixed Precision) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>HAQ (Hardware-Aware Automated Quantization with Mixed Precision)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">HAQ (Hardware-Aware Automated Quantization with Mixed Precision)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HAQHardwareAwareAutomatedQuantizationWithMixedPrecision</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> HAQ, Hardware-Aware Automated Quantization, Hardware-Aware Automated Quantization with Mixed Precision
+    </div>
+
+  <div class="detail-desc">
+    HAQ (Hardware-Aware Automated Quantization with Mixed Precision) is an automated mixed-precision neural network quantization framework that models layer-wise bitwidth allocation for both weights and activations as a continuous-control reinforcement learning task solved by a Deep Deterministic Policy Gradient (DDPG) actor-critic agent: at each layer step k, the agent observes a 10-dimensional normalized layer state vector O_k, outputs a continuous action a_k in [0, 1] rounded to discrete bitwidth b_k in [b_min, b_max] (with sequential bitwidth reduction to satisfy direct hardware simulator latency, energy, or size constraints), applies KL-divergence-calibrated linear quantization (or k-means for size constraints), and updates its policy from one-epoch fine-tuned validation accuracy rewards.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from uniform fixed-bitwidth quantization (e.g., PACT or 8-bit integer quantization), distinct from Hessian-spectrum mixed-precision quantization such as Q-BERT (AIMech:QBERTHessianBasedUltraLowPrecisionQuantizationOfBERT) which relies on second-order sensitivity without hardware-in-the-loop latency/energy feedback, and distinct from AMC (AIMech:AMCAccelerationAndModelCompressionOnMobileDevicesWithRL) which uses DDPG to search continuous channel/fine-grained pruning sparsity ratios rather than mixed-precision weight and activation bitwidths.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#haq-ddpg-layerwise-state-and-order-preserving-continuous-bitwidth-action</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    HAQ processes a neural network layer-by-layer (taking two steps per layer, one for weights and one for activations) using a 10-dimensional state vector O_k = (k, c_in, c_out, s_kernel, s_stride, s_feat, n_params, i_dw, i_{w/a}, a_{k-1}) (Eqs. 1-2) and maps a continuous DDPG action a_k in [0, 1] to discrete bitwidth b_k = round(b_min - 0.5 + a_k * (b_max - b_min + 1)) (Eq. 3), sequentially decrementing layer bitwidths whenever direct hardware latency, energy, or model-size budgets are exceeded.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Equations 1-3, pp. 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> map_continuous_action_to_bits and enforce_resource_budget</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#haq-kl-calibrated-linear-quantization-and-variance-reduced-bellman-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each layer k, HAQ linearly quantizes weights on [-c, c] (and non-negative ReLU activations on [0, c]) via quantize(w, a_k, c) = round(clamp(w, c)/s) * s with step size s = c / (2^{a_k - 1} - 1) (Eq. 4) by choosing c to minimize D_KL(W_k || quantize(W_k, a_k, x)) (Eq. 5), and updates the DDPG critic via the baseline-subtracted Bellman target Q_hat_k = R_k - B + gamma * Q(O_{k+1}, w(O_{k+1}) | theta^Q) with R = lambda * (acc_quant - acc_origin) (Eqs. 6-8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4-3.6, Equations 4-8, pp. 4-5</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> linear_quantize_weight and ddpg_target_q</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#haq-roofline-specialized-edge-vs-cloud-mixed-precision-policies</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across BISMO temporal FPGA edge/cloud accelerators and BitFusion spatial ASIC accelerators on ImageNet (MobileNet-V1, MobileNet-V2, ResNet-50), HAQ reduces inference latency by 1.4x-1.95x and energy consumption by ~1.9x with negligible accuracy loss compared to fixed 8-bit quantization, automatically assigning fewer activation bits to memory-bound depthwise convolutions on edge devices while assigning more bits to depthwise convolutions on compute-bound cloud devices.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.3, Tables 3-6 and Figures 3-5, pp. 5-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#haq-per-episode-retraining-and-hardware-simulator-dependency-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because HAQ fine-tunes the quantized network for one epoch after every RL episode to compute the reward signal R and queries a target hardware accelerator or simulator in the loop, policy exploration incurs multi-epoch retraining overhead and policies optimized for one hardware architecture are sub-optimal when deployed on another (Table 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r818-primary-pdf">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a></span>
+        <span>· <strong>Locator:</strong> Section 1 (Table 1, p. 2) and Section 3.5-3.7 (Finetuning, pp. 4-5)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Each RL exploration episode requires one epoch of SGD fine-tuning on a subset of training data to evaluate quantized accuracy reward R.</li>
+      <li>Quantization policies specialized for one hardware accelerator (e.g., spatial BitFusion ASIC) do not transfer optimally to different hardware architectures (e.g., temporal BISMO cloud FPGA).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            HAQ is an automated mixed-precision quantization method for deep neural network compression and hardware acceleration.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r818-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r818-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1811.08886" target="_blank" rel="noopener">HAQ: Hardware-Aware Automated Quantization with Mixed Precision</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kuan Wang, Zhijian Liu, Yujun Lin, Ji Lin, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1811.08886</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ecbe91505650…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r818-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r818-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1811.08886" target="_blank" rel="noopener">HAQ: Hardware-Aware Automated Quantization with Mixed Precision (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kuan Wang, Zhijian Liu, Yujun Lin, Ji Lin, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1811.08886</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7c04975f06ff…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r818-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r818-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/1811.08886" target="_blank" rel="noopener">HAQ: Hardware-Aware Automated Quantization with Mixed Precision (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Kuan Wang, Zhijian Liu, Yujun Lin, Ji Lin, Song Han
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/1811.08886</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1a2885363496…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:01:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:01:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HAQHardwareAwareAutomatedQuantizationWithMixedPrecision.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
