@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1540</strong> artificial intelligence concepts, comprising <strong>1098</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1541</strong> artificial intelligence concepts, comprising <strong>1099</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1540)</option>
-        <option value="curated">Curated AIMech (1098)</option>
+        <option value="all">All Origins (1541)</option>
+        <option value="curated">Curated AIMech (1099)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (783)</option>
+          <option value="algorithm">Algorithms (784)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (49)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1540</span> of <span id="totalCount">1540</span>
+      Showing <span id="matchCount">1541</span> of <span id="totalCount">1541</span>
     </div>
   </div>
 </div>
@@ -2601,6 +2601,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:AtomoAtomicSparsificationForDistributedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="attempt (attentional mixtures of prompt tuning) attemptattentionalmixturesofsoftprompts aimech:attemptattentionalmixturesofsoftprompts algorithms algorithm a modular parameter-efficient multi-task language model tuning method that pre-trains reusable soft source prompts on high-resource tasks and adapts a completely frozen language model to one or more target tasks by training a lightweight bottleneck-and-layernorm attention module g and a target soft prompt p_target to generate an instance-wise soft prompt p_instance(x) = p_target + sum_{j=1}^{t+1} a_j p_j as an input-conditioned attentional interpolation over the frozen source prompts and target prompt. introduced by akari asai, mohammadreza salehi, matthew e. peters, and hannaneh hajishirzi (emnlp 2022, arxiv:2205.11961). distinct from spot (vu et al., acl 2022; aimech round 698), which uses a single source prompt only as a static initialization and overwrites its parameters during target fine-tuning, and distinct from mpt (wang et al., iclr 2023; aimech round 702), which learns a single shared prompt factorized with rank-one multiplicative task vectors rather than an instance-wise attention gate over modular frozen source prompts. both single-target-task attempt and multi-task attempt-m (which shares the attention module g across n target tasks) are covered within this single record. attempt attempt-m attentional mixtures of prompt tuning attentional mixtures of soft prompts for multi-task tuning given an input embedding sequence x in r^{l x d}, t frozen pre-trained source prompts p_1, ..., p_t in r^{m x d}, and a newly initialized target prompt p_target = p_{t+1} in r^{m x d}, attempt applies dimension-wise max-pooling to obtain x_hat in r^d and p_hat_j in r^d, projects x_hat through a bottleneck attention network g with h_down = w_down^t(x_hat), h_up = w_up^t(silu(h_down)), and h_out = layernorm(h_up) (w_down in r^{d x r}, w_up in r^{r x d}, r &lt; d), computes temperature-scaled softmax weights a_j = exp(p_hat_j h_out / t) / sum_{k=1}^{t+1} exp(p_hat_k h_out / t) (eq. 3, with t = d exp(1)), and forms the instance-wise soft prompt p_instance(x) = p_target + sum_{j=1}^{t+1} a_j p_j (eq. 4), assigning effective weight 1 + a_{t+1} in (1, 2) to p_target so the target prompt always receives non-vanishing gradient updates even when no source task is relevant. when sharing the attention module g (with 2 r d + 2 d parameters) across n target tasks, attempt introduces exactly d m + (2 r d + 2 d) / n = d(m + 2(r + 1) / n) trainable parameters per target task, which is strictly independent of the number of transformer layers in the backbone language model (updating 96k parameters per task on glue with t5-base and 172k parameters per task with t5-xl, compared to 6m for adapter and 2m for bitfit on t5-xl). evaluated across 21 nlp datasets using 6 high-resource source tasks (mnli, qnli, qqp, sst-2, squad, record) with a frozen t5-base backbone, attempt-m achieves 85.8% average score on glue (outperforming prompt tuning at 72.2%, spot at 82.3%, hyperformer at 84.8%, hyperdecoder at 83.7%, and full fine-tuning at 84.9% while updating 96k vs. 220m parameters per task), 74.1% average on superglue, 72.8 average f1 on mrqa 2019, and outperforms fine-tuning, adapter, spot, and hyperformer in 4/16/32-shot domain adaptation on boolq and cb. because attempt prepends m = 100 soft prompt tokens to the input sequence and loads multiple source prompts alongside the attention module, it increases training peak gpu memory footprint on t5-base (13.7 gb vs. 8.5 gb for prompt tuning and 5.9 gb for adapter at batch size 32) and can experience negative transfer if unrelated qa source prompts (squad, record) are included on certain target tasks such as rte. attempt: parameter-efficient multi-task tuning via attentional mixtures of soft prompts attempt: parameter-efficient multi-task tuning via attentional mixtures of soft prompts (arxiv abstract) attempt: parameter-efficient multi-task tuning via attentional mixtures of soft prompts (crossref metadata) akari asai mohammadreza salehi matthew e. peters hannaneh hajishirzi akari asai mohammadreza salehi matthew e. peters hannaneh hajishirzi akari asai mohammadreza salehi matthew e. peters hannaneh hajishirzi">
+        <td>
+          <a href="curated/ATTEMPTAttentionalMixturesOfSoftPrompts.html" style="font-weight: 600; font-size: 1rem;">ATTEMPT (Attentional Mixtures of Prompt Tuning)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> ATTEMPT, ATTEMPT-m…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A modular parameter-efficient multi-task language model tuning method that pre-trains reusable soft source prompts on high-resource tasks an…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

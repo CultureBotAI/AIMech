@@ -1,0 +1,354 @@
+# Scientific author self-review of ATTEMPT (Attentional Mixtures of Prompt Tuning)
+
+- Review: 20261019T130730Z-attempt-attentional-mixtures-prompt-tuning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T13:07:00Z
+- Finished UTC: 2026-10-19T13:07:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain ATTEMPT (Attentional Mixtures of Prompt Tuning) as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 16b61c367dc42329a518eba7f53c890446f41e82.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml | maintained | ATTEMPT (Attentional Mixtures of Prompt Tuning) |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | Validated history sidecar files. |
+| python3 attempt-attentional-mixtures-prompt-tuning-boundaries.py | passed | True | AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts | [PASS] ATTEMPT boundaries verified: params(N=1)=231936, params(N=8)=96192, eff_target_weight=1.2697, max_decomp_err=2.22e-16 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts.
+
+ATTEMPT (Attentional Mixtures of Prompt Tuning) is a distinct concept.
+
+Introduced by Akari Asai, Mohammadreza Salehi, Matthew E. Peters, and Hannaneh Hajishirzi (EMNLP 2022, arXiv:2205.11961). Distinct from SPoT (Vu et al., ACL 2022; AIMech Round 698), which uses a single source prompt only as a static initialization and overwrites its parameters during target fine-tuning, and distinct from MPT (Wang et al., ICLR 2023; AIMech Round 702), which learns a single shared prompt factorized with rank-one multiplicative task vectors rather than an instance-wise attention gate over modular frozen source prompts. Both single-target-task ATTEMPT and multi-task ATTEMPT-m (which shares the attention module G across N target tasks) are covered within this single record.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in attempt-attentional-mixtures-prompt-tuning-boundaries.py passed with exit code 0: [PASS] ATTEMPT boundaries verified: params(N=1)=231936, params(N=8)=96192, eff_target_weight=1.2697, max_decomp_err=2.22e-16
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T130700Z-attempt-attentional-mixtures-prompt-tuning.json | supports | No normalized identity match for AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/attempt-attentional-mixtures-prompt-tuning-boundaries.py | supports | All constructed boundary assertions in attempt-attentional-mixtures-prompt-tuning-boundaries.py passed with exit code 0: [PASS] ATTEMPT boundaries verified: params(N=1)=231936, params(N=8)=96192, eff_target_weight=1.2697, max_decomp_err=2.22e-16 |
+| r704-primary-pdf | https://arxiv.org/pdf/2205.11961.pdf; Full-text PDF | supports | Full-text PDF (Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) (2022)) read and verified. |
+| r704-arxiv-abs | https://arxiv.org/abs/2205.11961; arXiv abstract | supports | arXiv abstract read and verified. |
+| r704-metadata-cr | https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&amp;format=xml; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts in Round 704.
+- All pages of Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP 2022) (2022) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T130730Z-attempt-attentional-mixtures-prompt-tuning
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of ATTEMPT (Attentional Mixtures of Prompt Tuning)
+started_at: '2026-10-19T13:07:00Z'
+finished_at: '2026-10-19T13:07:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 2022 Conference on Empirical Methods in Natural Language Processing (EMNLP
+    2022) (2022) and pure-Python boundary checks. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain ATTEMPT (Attentional Mixtures of Prompt Tuning) as a distinct DRAFT
+  algorithm. All three claims are supported by full-text primary evidence and pure-Python
+  boundary verification.
+source:
+  git_revision: 16b61c367dc42329a518eba7f53c890446f41e82
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml
+    sha256: 2294f42542b5d9f536dd6c767d0bcf7b13cb2dd317a2b579228f022813ad355e
+    role: target
+  - path: research/discovery/20261019T130700Z-attempt-attentional-mixtures-prompt-tuning.json
+    sha256: 784b2893d521781d42c2b600f7936cd687740c0326f0978bfd575b1cc293593d
+    role: context
+  - path: research/discovery/attempt-attentional-mixtures-prompt-tuning-boundaries.py
+    sha256: 50e8b9cb8a79664339872813d7fb75edc4fe6e98dd2758cbb13430dc9f93a067
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  path: data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml
+  label: ATTEMPT (Attentional Mixtures of Prompt Tuning)
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 attempt-attentional-mixtures-prompt-tuning-boundaries.py
+  command: python3 research/discovery/attempt-attentional-mixtures-prompt-tuning-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] ATTEMPT boundaries verified: params(N=1)=231936, params(N=8)=96192,
+    eff_target_weight=1.2697, max_decomp_err=2.22e-16'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T130700Z-attempt-attentional-mixtures-prompt-tuning.json
+  accessed_at: '2026-10-19T13:07:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T13:07:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/attempt-attentional-mixtures-prompt-tuning-boundaries.py
+  accessed_at: '2026-10-19T13:07:00Z'
+  snapshot_sha256: 50e8b9cb8a79664339872813d7fb75edc4fe6e98dd2758cbb13430dc9f93a067
+  support: supports
+  summary: 'All constructed boundary assertions in attempt-attentional-mixtures-prompt-tuning-boundaries.py
+    passed with exit code 0: [PASS] ATTEMPT boundaries verified: params(N=1)=231936,
+    params(N=8)=96192, eff_target_weight=1.2697, max_decomp_err=2.22e-16'
+- evidence_id: r704-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2205.11961.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T13:07:00Z'
+  snapshot_sha256: b8db9743df75fca84425c1f36cde04045e0987b2d0897d8b75527ab09b8591d3
+  support: supports
+  summary: Full-text PDF (Proceedings of the 2022 Conference on Empirical Methods
+    in Natural Language Processing (EMNLP 2022) (2022)) read and verified.
+- evidence_id: r704-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2205.11961
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T13:07:00Z'
+  snapshot_sha256: 5cd8b756d9d59c7b32b858369d869480209a3cd55d7e94c1e86ca7582c2ce949
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r704-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&format=xml
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T13:07:00Z'
+  snapshot_sha256: 341fc62029e40336a42ee978ef640973a71a373db9b806eee617bac23ea38308
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  evidence_ids:
+  - identity
+  - r704-primary-pdf
+  - r704-arxiv-abs
+  - r704-metadata-cr
+  summary: ATTEMPT (Attentional Mixtures of Prompt Tuning) is a distinct concept.
+  details: Introduced by Akari Asai, Mohammadreza Salehi, Matthew E. Peters, and Hannaneh
+    Hajishirzi (EMNLP 2022, arXiv:2205.11961). Distinct from SPoT (Vu et al., ACL
+    2022; AIMech Round 698), which uses a single source prompt only as a static initialization
+    and overwrites its parameters during target fine-tuning, and distinct from MPT
+    (Wang et al., ICLR 2023; AIMech Round 702), which learns a single shared prompt
+    factorized with rank-one multiplicative task vectors rather than an instance-wise
+    attention gate over modular frozen source prompts. Both single-target-task ATTEMPT
+    and multi-task ATTEMPT-m (which shares the attention module G across N target
+    tasks) are covered within this single record.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  evidence_ids:
+  - mapping
+  - r704-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  evidence_ids:
+  - r704-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in attempt-attentional-mixtures-prompt-tuning-boundaries.py
+    passed with exit code 0: [PASS] ATTEMPT boundaries verified: params(N=1)=231936,
+    params(N=8)=96192, eff_target_weight=1.2697, max_decomp_err=2.22e-16'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts
+  evidence_ids:
+  - identity
+  - mapping
+  - r704-primary-pdf
+  - r704-arxiv-abs
+  - r704-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts in Round 704.
+- All pages of Proceedings of the 2022 Conference on Empirical Methods in Natural
+  Language Processing (EMNLP 2022) (2022) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

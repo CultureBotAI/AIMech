@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ATTEMPT (Attentional Mixtures of Prompt Tuning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ATTEMPT (Attentional Mixtures of Prompt Tuning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ATTEMPT (Attentional Mixtures of Prompt Tuning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ATTEMPTAttentionalMixturesOfSoftPrompts</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ATTEMPT, ATTEMPT-m, ATTEntional Mixtures of Prompt Tuning, Attentional Mixtures of Soft Prompts for Multi-Task Tuning
+    </div>
+
+  <div class="detail-desc">
+    A modular parameter-efficient multi-task language model tuning method that pre-trains reusable soft source prompts on high-resource tasks and adapts a completely frozen language model to one or more target tasks by training a lightweight bottleneck-and-LayerNorm attention module G and a target soft prompt P_target to generate an instance-wise soft prompt P_instance(X) = P_target + sum_{j=1}^{t+1} a_j P_j as an input-conditioned attentional interpolation over the frozen source prompts and target prompt.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Akari Asai, Mohammadreza Salehi, Matthew E. Peters, and Hannaneh Hajishirzi (EMNLP 2022, arXiv:2205.11961). Distinct from SPoT (Vu et al., ACL 2022; AIMech Round 698), which uses a single source prompt only as a static initialization and overwrites its parameters during target fine-tuning, and distinct from MPT (Wang et al., ICLR 2023; AIMech Round 702), which learns a single shared prompt factorized with rank-one multiplicative task vectors rather than an instance-wise attention gate over modular frozen source prompts. Both single-target-task ATTEMPT and multi-task ATTEMPT-m (which shares the attention module G across N target tasks) are covered within this single record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#attempt-input-prompt-attention-and-interpolation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given an input embedding sequence X in R^{l x d}, t frozen pre-trained source prompts P_1, ..., P_t in R^{m x d}, and a newly initialized target prompt P_target = P_{t+1} in R^{m x d}, ATTEMPT applies dimension-wise max-pooling to obtain X_hat in R^d and P_hat_j in R^d, projects X_hat through a bottleneck attention network G with H_down = W_down^T(X_hat), H_up = W_up^T(SiLU(H_down)), and H_out = LayerNorm(H_up) (W_down in R^{d x r}, W_up in R^{r x d}, r &lt; d), computes temperature-scaled softmax weights a_j = exp(P_hat_j H_out / T) / sum_{k=1}^{t+1} exp(P_hat_k H_out / T) (Eq. 3, with T = d exp(1)), and forms the instance-wise soft prompt P_instance(X) = P_target + sum_{j=1}^{t+1} a_j P_j (Eq. 4), assigning effective weight 1 + a_{t+1} in (1, 2) to P_target so the target prompt always receives non-vanishing gradient updates even when no source task is relevant.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r704-primary-pdf">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2.1 Input-prompt Attentions, Eq. 3, pp. 3-4; Section 3.2.2 Prompt Interpolation, Eq. 4, p. 4; Appendix C.5, p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#attempt-layer-independent-parameter-efficiency-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When sharing the attention module G (with 2 r d + 2 d parameters) across N target tasks, ATTEMPT introduces exactly d m + (2 r d + 2 d) / N = d(m + 2(r + 1) / N) trainable parameters per target task, which is strictly independent of the number of Transformer layers in the backbone language model (updating 96k parameters per task on GLUE with T5-base and 172k parameters per task with T5-XL, compared to 6M for Adapter and 2M for BitFit on T5-XL).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r704-primary-pdf">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Multi-task Training and Inference, p. 4; Section 3.4 Parameter Efficiency of ATTEMPT, pp. 4-5; Table 1, p. 6; Appendix A.3 Figure 7, p. 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#attempt-multi-task-nlu-and-few-shot-domain-adaptation-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evaluated across 21 NLP datasets using 6 high-resource source tasks (MNLI, QNLI, QQP, SST-2, SQuAD, ReCoRD) with a frozen T5-base backbone, ATTEMPT-m achieves 85.8% average score on GLUE (outperforming Prompt Tuning at 72.2%, SPoT at 82.3%, HyperFormer at 84.8%, HyperDecoder at 83.7%, and full fine-tuning at 84.9% while updating 96k vs. 220M parameters per task), 74.1% average on SuperGLUE, 72.8 average F1 on MRQA 2019, and outperforms fine-tuning, Adapter, SPoT, and HyperFormer in 4/16/32-shot domain adaptation on BoolQ and CB.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r704-primary-pdf">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 Main Results, Tables 1-2, pp. 6-7; Section 5.2 Few-shot Domain Adaptations, Table 3, p. 7; Section 5.3 Table 4, p. 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#attempt-prepended-prompt-length-memory-footprint-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because ATTEMPT prepends m = 100 soft prompt tokens to the input sequence and loads multiple source prompts alongside the attention module, it increases training peak GPU memory footprint on T5-base (13.7 GB vs. 8.5 GB for Prompt Tuning and 5.9 GB for Adapter at batch size 32) and can experience negative transfer if unrelated QA source prompts (SQuAD, ReCoRD) are included on certain target tasks such as RTE.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r704-primary-pdf">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts</a></span>
+        <span>· <strong>Locator:</strong> Section 5.3 Modularity: effects of variable source prompts, Figure 5a, p. 8; Section 7 Limitations, p. 9; Appendix C.10 Memory Footprints, Table 9, pp. 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Prepending m = 100 soft prompt tokens and loading multiple source prompts increases peak GPU memory during training on smaller backbones (13.7 GB on T5-base vs. 5.9 GB for Adapter).</li>
+      <li>Including source prompts from tasks with mismatched structure (such as extractive QA source prompts SQuAD and ReCoRD when transferring to RTE entailment) can cause mild negative transfer unless modularly excluded.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ATTEMPT adapts frozen pre-trained Transformer language models via an input-conditioned attentional mixture over pre-trained source soft prompts and a task-specific target soft prompt.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r704-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r704-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2205.11961.pdf" target="_blank" rel="noopener">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Akari Asai, Mohammadreza Salehi, Matthew E. Peters, Hannaneh Hajishirzi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b8db9743df75…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r704-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r704-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2205.11961" target="_blank" rel="noopener">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Akari Asai, Mohammadreza Salehi, Matthew E. Peters, Hannaneh Hajishirzi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2205.11961</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5cd8b756d9d5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r704-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r704-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&amp;format=xml" target="_blank" rel="noopener">ATTEMPT: Parameter-Efficient Multi-task Tuning via Attentional Mixtures of Soft Prompts (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Akari Asai, Mohammadreza Salehi, Matthew E. Peters, Hannaneh Hajishirzi
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=ATTEMPT+Parameter-Efficient+Multi-task+Tuning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:341fc62029e4…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:07:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:07:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ATTEMPTAttentionalMixturesOfSoftPrompts.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
