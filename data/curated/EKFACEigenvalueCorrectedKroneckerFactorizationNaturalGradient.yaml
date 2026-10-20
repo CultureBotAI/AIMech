@@ -1,0 +1,112 @@
+id: AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient
+name: EKFAC (Eigenvalue-Corrected Kronecker Factorization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: An approximate natural gradient optimization and Fisher information matrix factorization method that projects layer-wise parameter gradients into the orthogonal Kronecker-Factored Eigenbasis (KFE) U_A (x) U_B derived from input activation and backpropagated gradient covariances, and preconditions them using the Frobenius-optimal diagonal second-moment vector s*_i = E[((U_A (x) U_B)^T grad_theta)_i^2] tracked at every mini-batch.
+identity_notes: Distinct from K-FAC (AIMech:KFacKroneckerFactoredApproximateCurvature), which approximates each layer's Fisher block as G_KFAC = A (x) B = (U_A (x) U_B)(S_A (x) S_B)(U_A (x) U_B)^T with eigenvalues restricted to the Kronecker product S_A (x) S_B; EKFAC keeps the Kronecker-Factored Eigenbasis U_A (x) U_B but replaces S_A (x) S_B with the unconstrained diagonal second-moment matrix S* in KFE coordinates, provably achieving ||G - G_EKFAC||_F <= ||G - G_KFAC||_F and enabling cheap per-iteration updates of S* without recomputing the eigendecomposition.
+aliases:
+- EKFAC
+- EKFAC-ra
+- Eigenvalue-Corrected K-FAC
+- Eigenvalue-Corrected Kronecker Factorization
+- Kronecker-Factored Eigenbasis Natural Gradient Descent
+definition_evidence:
+- source_id: r637-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r637-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r637-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: ekfac-kfe-projection-and-eigenvalue-correction-mechanism
+  kind: mechanism
+  statement: For each neural network layer l with input activation covariance A = E[h h^T] = U_A S_A U_A^T and backpropagated pre-activation gradient covariance B = E[delta delta^T] = U_B S_B U_B^T, EKFAC forms the orthogonal Kronecker-Factored Eigenbasis (KFE) U_A (x) U_B and defines the preconditioning matrix G_EKFAC = (U_A (x) U_B) S* (U_A (x) U_B)^T, where the diagonal entries S*_{ii} = s*_i = E[((U_A (x) U_B)^T grad_theta)_i^2] track the exact second moments of the gradient coordinates in the KFE basis, computing basis projections efficiently via (U_A (x) U_B)^T vec(C) = vec(U_B^T C U_A).
+  evidence:
+  - source_id: r637-primary-pdf
+    locator: Section 3.1-3.2, pages 3-5, and Algorithm 1 with Footnote 1, page 6
+    relation: supports
+- claim_id: ekfac-amortized-eigenbasis-partial-update-mechanism
+  kind: mechanism
+  statement: While recomputing the eigendecompositions of A and B is amortized every n mini-batches, EKFAC (and its exponential moving average variant EKFAC-ra) updates the diagonal scaling vector s* in the fixed KFE basis at every mini-batch, preventing the eigenspectrum of the curvature estimate from drifting away from the true empirical Fisher matrix between basis recomputations.
+  evidence:
+  - source_id: r637-primary-pdf
+    locator: Section 3.2 Figure 3, Algorithm 1, and Section 4.1 Figure 5, pages 4-8
+    relation: supports
+- claim_id: ekfac-frobenius-optimality-over-kfac-scope
+  kind: scope
+  statement: Lemma 1 and Theorems 2-3 prove that for any positive semi-definite matrix G = E[grad_theta grad_theta^T] and orthogonal KFE basis Q = U_A (x) U_B, the diagonal matrix D with entries D_{ii} = (Q^T G Q)_{ii} = E[(Q^T grad_theta)_i^2] uniquely minimizes ||G - Q D Q^T||_F over all diagonal matrices D, guaranteeing ||G - G_EKFAC||_F <= ||G - G_KFAC||_F everywhere.
+  evidence:
+  - source_id: r637-primary-pdf
+    locator: Section 3.2 page 4 and Appendix A.1 Lemma 1, Theorem 2, and Theorem 3, page 12
+    relation: supports
+- claim_id: ekfac-deep-autoencoder-and-cnn-optimization-application
+  kind: application
+  statement: Applied to training an 8-layer deep MNIST auto-encoder and VGG11 and ResNet-34 convolutional neural networks on CIFAR-10 (using Spatially Uncorrelated Activations for convolutional layers), EKFAC and EKFAC-ra achieve lower training loss per epoch and faster wall-clock convergence than amortized KFAC and batch-normalized SGD with momentum.
+  evidence:
+  - source_id: r637-primary-pdf
+    locator: Section 4.1-4.2 Figures 4-7, pages 7-9
+    relation: supports
+- claim_id: ekfac-damping-sensitivity-and-small-batch-overhead-limitation
+  kind: limitation
+  statement: EKFAC optimization performance is sensitive to the choice and initialization of the damping hyperparameter epsilon and learning rate eta, requires careful variance-preserving weight initialization when training deep residual networks without batch normalization, and shows diminished wall-clock speedup over KFAC at small mini-batch sizes on smaller networks.
+  evidence:
+  - source_id: r637-primary-pdf
+    locator: Section 4.1 Figure 4(d) page 7, Section 4.2 page 9, and Appendices B, C, and D.1, pages 13-14
+    relation: supports
+evidence_sources:
+- source_id: r637-primary-pdf
+  title: Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis
+  authors: &id001
+  - Thomas George
+  - "C\xE9sar Laurent"
+  - Xavier Bouthillier
+  - Nicolas Ballas
+  - Pascal Vincent
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1806.03884.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/GeorgeLBBV18
+  version: Advances in Neural Information Processing Systems 31 (NeurIPS 2018) (2018) (3035064 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:00:00Z'
+  sha256: 758ac97bf82c26396fa116bc4ccca2febca5b79352cf1f6a918828854fa008e6
+- source_id: r637-arxiv-abs
+  title: Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1806.03884
+  persistent_id: https://arxiv.org/abs/1806.03884
+  version: arXiv abstract page (7186 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:00:00Z'
+  sha256: 6ddb00bfd7cb26bd140b25b1229b4400bc41e4402804db71f1337cd10249051b
+- source_id: r637-metadata-cr
+  title: Fast Approximate Natural Gradient Descent in a Kronecker-factored Eigenbasis (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/GeorgeLBBV18
+  persistent_id: https://dblp.org/rec/conf/nips/GeorgeLBBV18
+  version: Crossref API work record (2026 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:00:00Z'
+  sha256: 7da35c4782cfcc6792b182971d59e64ebd356d40a374bcf3a529b943c2bcf60e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: EKFAC is a second-order approximate natural gradient preconditioning algorithm for training deep feedforward, convolutional, and residual neural networks.
+limitations:
+- Sensitive to the damping hyperparameter epsilon and learning rate eta, requiring factored eigenvalue damping initialization.
+- Training deep residual networks without batch normalization under EKFAC requires specialized variance-scaling initialization.
+- Per-iteration KFE projection overhead can offset optimization gains in wall-clock time when using small mini-batches on compact networks.
+curation:
+  created_at: '2026-10-19T12:00:00Z'
+  updated_at: '2026-10-19T12:00:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
