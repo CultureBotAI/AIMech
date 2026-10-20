@@ -1,0 +1,96 @@
+id: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+name: Divide-and-Conquer Spectral Byzantine-Robust Aggregation
+concept_kind: algorithm
+review_status: DRAFT
+definition: A Byzantine-robust gradient aggregation algorithm for federated learning that mitigates the curse of dimensionality and defeats optimization-based untargeted model poisoning attacks by repeatedly subsampling a random subset r of b <= d gradient coordinates, centering the subsampled client updates around their coordinate-wise mean mu, computing each client's squared projection outlier score s_i = <tilde_nabla_i - mu, v>^2 along the top right singular vector v of the centered matrix, retaining the n - c*m clients with the lowest outlier scores in each iteration, and averaging the full-dimensional gradients over the intersection I_final = cap I_good across niters random subsamples.
+identity_notes: Distinct from Euclidean distance-based filtering rules (Krum, Multi-Krum, Bulyan), coordinate-wise robust estimators (Coordinate-Wise Median, Coordinate-Wise Trimmed-Mean, Geometric Median / RFA), cosine-similarity server-root-dataset trust bootstrapping (FLTrust), and loss-based suspicion scoring (Zeno). Specifically denotes the Divide-and-Conquer (DnC) spectral aggregation rule of Shejwalkar & Houmansadr (NDSS 2021, Algorithm 2, Section VII-B) backed by epsilon-spectral separability guarantees (Definition 1, Lemma 1, and Appendix B Lemmas 2-3).
+aliases:
+- DnC
+- DnC AGR
+- Divide-and-Conquer Robust Aggregation
+- Divide-and-Conquer Byzantine-Robust Aggregation
+definition_evidence:
+- source_id: r521-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r521-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r521-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r521-random-subsampling-spectral-outlier-filtering
+  kind: mechanism
+  statement: To avoid the O(d^3) memory and computational cost of full-dimensional singular value decomposition on neural network gradients, DnC (Algorithm 2) samples a sorted set r of b <= d random coordinate indices in each of niters iterations, centers the n x b subsampled gradients nabla^c = tilde_nabla - mu, computes the top right singular vector v of nabla^c, scores each update via s_i = (<tilde_nabla_i - mu, v>)^2, retains the n - c*m indices with lowest scores, and averages the full gradients over the intersection I_final = cap I_good.
+  evidence:
+  - source_id: r521-primary-pdf
+    locator: Section VII-B, Algorithm 2, p. 13
+    relation: supports
+- claim_id: r521-epsilon-spectral-separability-lemma
+  kind: scope
+  statement: Under finite-covariance benign and malicious gradient distributions B and M with means mu_B, mu_M and covariances Sigma_B, Sigma_M <= sigma^2 I in the mixture U = (1 - epsilon)B + epsilon M (0 < epsilon < 0.5), Lemma 3 and Lemma 1 prove that whenever ||mu_B - mu_M||_2^2 >= 6*sigma^2 / epsilon, the top right singular vector v of U satisfies <mu_B - mu_M, v>^2 >= (2/3)||mu_B - mu_M||_2^2 >= 2*sigma^2 / epsilon, guaranteeing epsilon-spectral separability so that impactful mean-shifting attacks are filtered out.
+  evidence:
+  - source_id: r521-primary-pdf
+    locator: Section VII-B Definition 1 and Lemma 1, p. 14; Appendix B Lemmas 2-3, pp. 17-18
+    relation: supports
+- claim_id: r521-non-iid-full-knowledge-adaptive-limitation
+  kind: limitation
+  statement: When client training data are strongly non-i.i.d. and class-imbalanced (such as on FEMNIST), benign client gradients do not align along a single low-variance mean direction, allowing a worst-case adversary with full knowledge of benign client updates (agr-updates or updates-only) to evade DnC's spectral filter using Min-Sum or adaptive attacks (Eq. 8).
+  evidence:
+  - source_id: r521-primary-pdf
+    locator: Section VII-B Eq. 8, p. 14; Section VII-C2 and Table VI, pp. 15-16
+    relation: supports
+evidence_sources:
+- source_id: r521-primary-pdf
+  title: 'Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning'
+  authors: &id001
+  - Virat Shejwalkar
+  - Amir Houmansadr
+  source_type: primary_paper
+  url: https://www.ndss-symposium.org/wp-content/uploads/ndss2021_6C-3_24498_paper.pdf
+  persistent_id: https://dblp.org/rec/conf/ndss/ShejwalkarH21.json
+  version: 28th Annual Network and Distributed System Security Symposium (NDSS 2021) (2021) (727038 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:04:00Z'
+  sha256: e472d79bc5351a5481b6b8496e17281a8c8703417d9645f2a6eb7f8647b1230c
+- source_id: r521-arxiv-abs
+  title: 'Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/
+  persistent_id: https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/
+  version: arXiv abstract page (69387 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:04:00Z'
+  sha256: ce764137387b1f42c0dbdb716e47d1d785ba24ebcb5e557f633bef410970b3f0
+- source_id: r521-metadata-cr
+  title: 'Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/ndss/ShejwalkarH21.json
+  persistent_id: https://dblp.org/rec/conf/ndss/ShejwalkarH21.json
+  version: Crossref API work record (1191 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:04:00Z'
+  sha256: 058257434e13a76df85b190bdd4220b9c12312dcbd41f796e6073a351e3fc9be
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: DnC is a spectral Byzantine-robust server gradient aggregation rule within the federated learning paradigm.
+- target: AIO:PrincipalComponentAnalysis
+  relation: related_match
+  rationale: DnC projects centered subsampled client updates onto their top right singular vector (principal direction of maximum variance) to score outliers.
+limitations:
+- Requires an estimate or upper bound c*m on the number of malicious client updates to filter in each random coordinate subsample.
+- Vulnerable to worst-case full-knowledge (agr-updates and updates-only) Min-Sum and adaptive model poisoning attacks when benign client datasets are strongly non-i.i.d. (Table VI).
+curation:
+  created_at: '2026-10-19T10:04:00Z'
+  updated_at: '2026-10-19T10:04:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

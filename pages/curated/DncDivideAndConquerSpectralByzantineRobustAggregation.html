@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Divide-and-Conquer Spectral Byzantine-Robust Aggregation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Divide-and-Conquer Spectral Byzantine-Robust Aggregation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Divide-and-Conquer Spectral Byzantine-Robust Aggregation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> DnC, DnC AGR, Divide-and-Conquer Robust Aggregation, Divide-and-Conquer Byzantine-Robust Aggregation
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-robust gradient aggregation algorithm for federated learning that mitigates the curse of dimensionality and defeats optimization-based untargeted model poisoning attacks by repeatedly subsampling a random subset r of b &lt;= d gradient coordinates, centering the subsampled client updates around their coordinate-wise mean mu, computing each client&#39;s squared projection outlier score s_i = &lt;tilde_nabla_i - mu, v&gt;^2 along the top right singular vector v of the centered matrix, retaining the n - c*m clients with the lowest outlier scores in each iteration, and averaging the full-dimensional gradients over the intersection I_final = cap I_good across niters random subsamples.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Euclidean distance-based filtering rules (Krum, Multi-Krum, Bulyan), coordinate-wise robust estimators (Coordinate-Wise Median, Coordinate-Wise Trimmed-Mean, Geometric Median / RFA), cosine-similarity server-root-dataset trust bootstrapping (FLTrust), and loss-based suspicion scoring (Zeno). Specifically denotes the Divide-and-Conquer (DnC) spectral aggregation rule of Shejwalkar &amp; Houmansadr (NDSS 2021, Algorithm 2, Section VII-B) backed by epsilon-spectral separability guarantees (Definition 1, Lemma 1, and Appendix B Lemmas 2-3).
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r521-random-subsampling-spectral-outlier-filtering</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To avoid the O(d^3) memory and computational cost of full-dimensional singular value decomposition on neural network gradients, DnC (Algorithm 2) samples a sorted set r of b &lt;= d random coordinate indices in each of niters iterations, centers the n x b subsampled gradients nabla^c = tilde_nabla - mu, computes the top right singular vector v of nabla^c, scores each update via s_i = (&lt;tilde_nabla_i - mu, v&gt;)^2, retains the n - c*m indices with lowest scores, and averages the full gradients over the intersection I_final = cap I_good.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r521-primary-pdf">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section VII-B, Algorithm 2, p. 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r521-epsilon-spectral-separability-lemma</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under finite-covariance benign and malicious gradient distributions B and M with means mu_B, mu_M and covariances Sigma_B, Sigma_M &lt;= sigma^2 I in the mixture U = (1 - epsilon)B + epsilon M (0 &lt; epsilon &lt; 0.5), Lemma 3 and Lemma 1 prove that whenever ||mu_B - mu_M||_2^2 &gt;= 6*sigma^2 / epsilon, the top right singular vector v of U satisfies &lt;mu_B - mu_M, v&gt;^2 &gt;= (2/3)||mu_B - mu_M||_2^2 &gt;= 2*sigma^2 / epsilon, guaranteeing epsilon-spectral separability so that impactful mean-shifting attacks are filtered out.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r521-primary-pdf">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section VII-B Definition 1 and Lemma 1, p. 14; Appendix B Lemmas 2-3, pp. 17-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r521-non-iid-full-knowledge-adaptive-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When client training data are strongly non-i.i.d. and class-imbalanced (such as on FEMNIST), benign client gradients do not align along a single low-variance mean direction, allowing a worst-case adversary with full knowledge of benign client updates (agr-updates or updates-only) to evade DnC&#39;s spectral filter using Min-Sum or adaptive attacks (Eq. 8).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r521-primary-pdf">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section VII-B Eq. 8, p. 14; Section VII-C2 and Table VI, pp. 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires an estimate or upper bound c*m on the number of malicious client updates to filter in each random coordinate subsample.</li>
+      <li>Vulnerable to worst-case full-knowledge (agr-updates and updates-only) Min-Sum and adaptive model poisoning attacks when benign client datasets are strongly non-i.i.d. (Table VI).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DnC is a spectral Byzantine-robust server gradient aggregation rule within the federated learning paradigm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            DnC projects centered subsampled client updates onto their top right singular vector (principal direction of maximum variance) to score outliers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r521-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r521-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ndss-symposium.org/wp-content/uploads/ndss2021_6C-3_24498_paper.pdf" target="_blank" rel="noopener">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virat Shejwalkar, Amir Houmansadr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ndss/ShejwalkarH21.json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e472d79bc535…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r521-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r521-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/" target="_blank" rel="noopener">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virat Shejwalkar, Amir Houmansadr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ce764137387b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r521-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r521-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/ndss/ShejwalkarH21.json" target="_blank" rel="noopener">Manipulating the Byzantine: Optimizing Model Poisoning Attacks and Defenses for Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Virat Shejwalkar, Amir Houmansadr
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/ndss/ShejwalkarH21.json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:058257434e13…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:04:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:04:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

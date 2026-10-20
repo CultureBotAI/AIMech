@@ -1,0 +1,359 @@
+# Scientific author self-review of Divide-and-Conquer Spectral Byzantine-Robust Aggregation
+
+- Review: 20261019T100430Z-dnc-divide-and-conquer-spectral-byzantine-robust-aggregation
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T10:04:00Z
+- Finished UTC: 2026-10-19T10:04:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Divide-and-Conquer Spectral Byzantine-Robust Aggregation as a distinct DRAFT algorithm. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 5e30f5fd5c9b267a38d54b81495feefae778a01e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml | maintained | Divide-and-Conquer Spectral Byzantine-Robust Aggregation |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | Validated history sidecar files. |
+| python3 dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py | passed | True | AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation | [PASS] Round 521 DnC (Shejwalkar &amp; Houmansadr 2021): &lt;Delta,v&gt;^2=3.9054&gt;=2/3&#124;&#124;Delta&#124;&#124;^2=2.6133, malicious_kept=0, err_dnc=0.0000 &lt; err_trmean=0.1789 &lt; err_avg=0.4013 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation.
+
+Divide-and-Conquer Spectral Byzantine-Robust Aggregation is a distinct concept.
+
+Distinct from Euclidean distance-based filtering rules (Krum, Multi-Krum, Bulyan), coordinate-wise robust estimators (Coordinate-Wise Median, Coordinate-Wise Trimmed-Mean, Geometric Median / RFA), cosine-similarity server-root-dataset trust bootstrapping (FLTrust), and loss-based suspicion scoring (Zeno). Specifically denotes the Divide-and-Conquer (DnC) spectral aggregation rule of Shejwalkar &amp; Houmansadr (NDSS 2021, Algorithm 2, Section VII-B) backed by epsilon-spectral separability guarantees (Definition 1, Lemma 1, and Appendix B Lemmas 2-3).
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py passed with exit code 0: [PASS] Round 521 DnC (Shejwalkar &amp; Houmansadr 2021): &lt;Delta,v&gt;^2=3.9054&gt;=2/3&#124;&#124;Delta&#124;&#124;^2=2.6133, malicious_kept=0, err_dnc=0.0000 &lt; err_trmean=0.1789 &lt; err_avg=0.4013
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T100400Z-dnc-divide-and-conquer-spectral-byzantine-robust-aggregation.json | supports | No normalized identity match for AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py | supports | All constructed boundary assertions in dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py passed with exit code 0: [PASS] Round 521 DnC (Shejwalkar &amp; Houmansadr 2021): &lt;Delta,v&gt;^2=3.9054&gt;=2/3&#124;&#124;Delta&#124;&#124;^2=2.6133, malicious_kept=0, err_dnc=0.0000 &lt; err_trmean=0.1789 &lt; err_avg=0.4013 |
+| r521-primary-pdf | https://www.ndss-symposium.org/wp-content/uploads/ndss2021_6C-3_24498_paper.pdf; Full-text PDF | supports | Full-text PDF (28th Annual Network and Distributed System Security Symposium (NDSS 2021) (2021)) read and verified. |
+| r521-arxiv-abs | https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/; arXiv abstract | supports | arXiv abstract read and verified. |
+| r521-metadata-cr | https://dblp.org/rec/conf/ndss/ShejwalkarH21.json; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation in Round 521.
+- All pages of 28th Annual Network and Distributed System Security Symposium (NDSS 2021) (2021) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T100430Z-dnc-divide-and-conquer-spectral-byzantine-robust-aggregation
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Divide-and-Conquer Spectral Byzantine-Robust
+  Aggregation
+started_at: '2026-10-19T10:04:00Z'
+finished_at: '2026-10-19T10:04:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+    against existing AIMech and AIO records and verified all claims against 28th Annual
+    Network and Distributed System Security Symposium (NDSS 2021) (2021) and pure-Python
+    boundary checks. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Divide-and-Conquer Spectral Byzantine-Robust Aggregation as a distinct
+  DRAFT algorithm. All three claims are supported by full-text primary evidence and
+  pure-Python boundary verification.
+source:
+  git_revision: 5e30f5fd5c9b267a38d54b81495feefae778a01e
+  state: working_tree
+  inputs:
+  - path: data/aio/FederatedLearning.yaml
+    sha256: 024eec559a32c34b180c7d16af94b58c22315d797ddf629f3f13f7f167b99938
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml
+    sha256: 95367a54230d4032503b2b1307fe7a172f35466acd5696df497ac33e1a9b811b
+    role: target
+  - path: research/discovery/20261019T100400Z-dnc-divide-and-conquer-spectral-byzantine-robust-aggregation.json
+    sha256: 277211b6d1ddd55ae08a18a19997ee93d37ad59faf2f6f994167e6a1ebe8a1c7
+    role: context
+  - path: research/discovery/dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+    sha256: 563e48d83f6052ffddea052c1d9162110a899c472fc908e3d4b8c40525738de0
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  path: data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml
+  label: Divide-and-Conquer Spectral Byzantine-Robust Aggregation
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DncDivideAndConquerSpectralByzantineRobustAggregation.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+  command: python3 research/discovery/dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 521 DnC (Shejwalkar & Houmansadr 2021): <Delta,v>^2=3.9054>=2/3||Delta||^2=2.6133,
+    malicious_kept=0, err_dnc=0.0000 < err_trmean=0.1789 < err_avg=0.4013'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T100400Z-dnc-divide-and-conquer-spectral-byzantine-robust-aggregation.json
+  accessed_at: '2026-10-19T10:04:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T10:04:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+  accessed_at: '2026-10-19T10:04:00Z'
+  snapshot_sha256: 563e48d83f6052ffddea052c1d9162110a899c472fc908e3d4b8c40525738de0
+  support: supports
+  summary: 'All constructed boundary assertions in dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+    passed with exit code 0: [PASS] Round 521 DnC (Shejwalkar & Houmansadr 2021):
+    <Delta,v>^2=3.9054>=2/3||Delta||^2=2.6133, malicious_kept=0, err_dnc=0.0000 <
+    err_trmean=0.1789 < err_avg=0.4013'
+- evidence_id: r521-primary-pdf
+  kind: primary_source
+  reference: https://www.ndss-symposium.org/wp-content/uploads/ndss2021_6C-3_24498_paper.pdf
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T10:04:00Z'
+  snapshot_sha256: e472d79bc5351a5481b6b8496e17281a8c8703417d9645f2a6eb7f8647b1230c
+  support: supports
+  summary: Full-text PDF (28th Annual Network and Distributed System Security Symposium
+    (NDSS 2021) (2021)) read and verified.
+- evidence_id: r521-arxiv-abs
+  kind: primary_source
+  reference: https://www.ndss-symposium.org/ndss-paper/manipulating-the-byzantine-optimizing-model-poisoning-attacks-and-defenses-for-federated-learning/
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T10:04:00Z'
+  snapshot_sha256: ce764137387b1f42c0dbdb716e47d1d785ba24ebcb5e557f633bef410970b3f0
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r521-metadata-cr
+  kind: primary_source
+  reference: https://dblp.org/rec/conf/ndss/ShejwalkarH21.json
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T10:04:00Z'
+  snapshot_sha256: 058257434e13a76df85b190bdd4220b9c12312dcbd41f796e6073a351e3fc9be
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  evidence_ids:
+  - identity
+  - r521-primary-pdf
+  - r521-arxiv-abs
+  - r521-metadata-cr
+  summary: Divide-and-Conquer Spectral Byzantine-Robust Aggregation is a distinct
+    concept.
+  details: Distinct from Euclidean distance-based filtering rules (Krum, Multi-Krum,
+    Bulyan), coordinate-wise robust estimators (Coordinate-Wise Median, Coordinate-Wise
+    Trimmed-Mean, Geometric Median / RFA), cosine-similarity server-root-dataset trust
+    bootstrapping (FLTrust), and loss-based suspicion scoring (Zeno). Specifically
+    denotes the Divide-and-Conquer (DnC) spectral aggregation rule of Shejwalkar &
+    Houmansadr (NDSS 2021, Algorithm 2, Section VII-B) backed by epsilon-spectral
+    separability guarantees (Definition 1, Lemma 1, and Appendix B Lemmas 2-3).
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  evidence_ids:
+  - mapping
+  - r521-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  evidence_ids:
+  - r521-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in dnc-divide-and-conquer-spectral-byzantine-robust-aggregation-boundaries.py
+    passed with exit code 0: [PASS] Round 521 DnC (Shejwalkar & Houmansadr 2021):
+    <Delta,v>^2=3.9054>=2/3||Delta||^2=2.6133, malicious_kept=0, err_dnc=0.0000 <
+    err_trmean=0.1789 < err_avg=0.4013'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  evidence_ids:
+  - identity
+  - mapping
+  - r521-primary-pdf
+  - r521-arxiv-abs
+  - r521-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DncDivideAndConquerSpectralByzantineRobustAggregation
+  in Round 521.
+- All pages of 28th Annual Network and Distributed System Security Symposium (NDSS
+  2021) (2021) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
