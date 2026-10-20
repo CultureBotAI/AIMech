@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Architectures</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">51 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">52 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Structural blueprints and macro-designs for deep learning models.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">51</span> of <span id="totalCount">51</span>
+      Showing <span id="matchCount">52</span> of <span id="totalCount">52</span>
     </div>
   </div>
 </div>
@@ -617,6 +617,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:HyperFormerSharedHypernetworkAdapter</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="architecture"
+          data-branch=""
+          data-search="hypergrid (grid-wise decomposable hyper projections for multi-task transformers) hypergriddecomposablegridwisehyperprojection aimech:hypergriddecomposablegridwisehyperprojection architectures architecture a multi-task transformer projection architecture that pools the sequence task-prefix token into x in r^{d_m}, forms a d_r x d_c gating matrix via the sigmoid outer product of two decomposable vectors—either local-local (l_r x)(l_c x)^t, local-global (l_r x) g_c^t, or global-local g_r (l_c x)^t—tiles that gate across blocks of size (d_m / d_r) x (d_f / d_c) via a repeat operator psi(.), and applies residual element-wise weight gating y_i = h_i(x_{i-1}, w_i) + w_i(x_{i-1}) to the second position-wise feed-forward layer of each transformer block. introduced by yi tay, zhe zhao, dara bahri, donald metzler, and da-cheng juan (iclr 2021, arxiv:2007.05891). distinct from post-ffn adapter hypernetworks such as hyperformer (karimi mahabadi et al., acl 2021; aimech round 703) and self-attention prompt hypernetworks such as hyperprompt (he et al., icml 2022; aimech round 706), as well as post-relu output gating (section 7.3, eq. 7): hypergrid gates the pre-existing second ffn weight matrix w_i in r^{d_m x d_f} in 2d grid regions with negligible parameter overhead (d_m d_r + d_c in the lg variant). all four hypergrid composition variants (l, l^2, lg, and gl) are covered within this single record. hypergrid hypergrid transformer grid-wise decomposable hyper projections hypergrid-lg hypergrid-gl hypergrid-l2 given first-token (task-prefix) pooled representation x in r^{d_m} and the second positional ffn weight matrix w in r^{d_m x d_f}, hypergrid segments w into (d_m / d_r) x (d_f / d_c) blocks by computing a d_r x d_c gate via sigmoid outer products—local-local h_{l^2}(x) = psi(sigma((l_r x)(l_c x)^t)) odot w (eq. 3), local-global h_{lg}(x) = psi(sigma((l_r x) g_c^t)) odot w (eq. 4), or global-local h_{gl}(x) = psi(sigma(g_r (l_c x)^t)) odot w (eq. 5)—where psi(.) repeats the d_r x d_c matrix d_m / d_r times along rows and d_f / d_c times along columns, and combines the gated transformation with the pretrained ffn layer via residual addition y_i = h_i(x_{i-1}, w_i) + w_i(x_{i-1}) (eq. 6). at each transformer layer, hypergrid adds d_m d_r + d_c parameters in the lg setting, d_r + d_f d_c parameters in the gl setting, and d_m d_r + d_f d_c parameters in the l^2 setting (section 3.2, p. 5), and gating ffn weights prior to the residual output consistently outperforms post-relu output gating y = max(w x + b, 0) odot (sigma(u x) 1^t) (eq. 7), which suffers a net accuracy loss on superglue (-0.2% to -1.2% in table 3). co-trained as a single unified multi-task model across all 16 glue and superglue tasks, hypergrid improves t5-base superglue dev score from 73.55 to 75.30 (+2.7%) and t5-large superglue dev score from 80.04 to 81.56 (+1.9%), and on the official glue and superglue test servers a single t5-11b hypergrid (lg, 32 x 128) model achieves 89.4 on glue and 87.7 on superglue using 16x fewer total parameters (11b vs. 176b) than single-task fine-tuned t5-11b. hypergrid updates all backbone transformer parameters jointly with the hypergrid projections during multi-task fine-tuning (requiring 64 to 128 tpu v3 chips for large/3b/11b models) and exhibits sensitivity to the choice of fan-in d_r and fan-out d_c grid dimensions, with intermediate fan-out sizes around d_c = 64-128 underperforming both fine-grained (d_c = 32) and coarse (d_c = 256) grid partitions. hypergrid: efficient multi-task transformers with grid-wise decomposable hyper projections hypergrid: efficient multi-task transformers with grid-wise decomposable hyper projections (arxiv abstract) hypergrid: efficient multi-task transformers with grid-wise decomposable hyper projections (crossref metadata) yi tay zhe zhao dara bahri donald metzler da-cheng juan yi tay zhe zhao dara bahri donald metzler da-cheng juan yi tay zhe zhao dara bahri donald metzler da-cheng juan">
+        <td>
+          <a href="../curated/HyperGridDecomposableGridwiseHyperProjection.html" style="font-weight: 600; font-size: 1rem;">HyperGrid (Grid-wise Decomposable Hyper Projections for Multi-Task Transformers)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> HyperGrid, HyperGrid Transformer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A multi-task Transformer projection architecture that pools the sequence task-prefix token into X in R^{d_m}, forms a d_r x d_c gating matri…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/architecture.html" style="font-size: 0.85rem;">Architectures</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:HyperGridDecomposableGridwiseHyperProjection</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
