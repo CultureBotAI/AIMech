@@ -1,0 +1,100 @@
+id: AIMech:TongaTopmoumouteOnlineNaturalGradientOptimization
+name: TONGA Topmoumoute Online Natural Gradient Optimization
+concept_kind: algorithm
+review_status: DRAFT
+definition: TONGA (Topmoumoute Online Natural Gradient Algorithm) is an online natural gradient optimization algorithm that approximates the empirical gradient second-moment (uncentered covariance) matrix C_t in R^{p x p} using a low-rank factor X_t in R^{p x r} (r = k + b << p) updated via C_t = gamma * C_hat_{t-1} + g_t g_t^T = X_t X_t^T with X_t = [sqrt(gamma) X_{t-1}, g_t]. Using the Woodbury matrix identity and an incrementally updated r x r Gram matrix G_t = X_t^T X_t, TONGA computes the regularized natural gradient direction v_t = (X_t X_t^T + lambda I_p)^{-1} g_t = X_t (G_t + lambda I_r)^{-1} y_t (where y_t = [0, ..., 0, 1]^T) in O(p r + r^3) time, and every b steps compresses X_{t+b} back to rank k via the eigendecomposition G_t = V D V^T. In its neural network block-diagonal variant, TONGA applies this rank-k online update independently to each per-neuron weight block, achieving rank k * (number of blocks) at O(p b) per-update complexity.
+identity_notes: Distinct from exact Natural Gradient Descent (AIMech:NaturalGradientDescent), which requires O(p^2) covariance storage and O(n p^2 + p^3) inversion; distinct from Kronecker-factored natural gradient methods (AIMech:KFAC, AIMech:EKFACEigenvalueCorrectedKroneckerFactorizationNaturalGradient, AIMech:TensorNormalTrainingKroneckerNaturalGradientOptimization), which factorize layer curvature as Kronecker products of activations and pre-activation derivatives; and distinct from Frequent Directions sketching of AdaGrad/Shampoo preconditioners (AIMech:SketchyFrequentDirectionsAdaptiveRegularizationOptimization), which subtracts the l-th singular value squared sigma_l^2 I_r during streaming SVD updates.
+aliases:
+- TONGA
+- Topmoumoute Online Natural Gradient Algorithm
+- Block-Diagonal TONGA
+definition_evidence:
+- source_id: r648-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r648-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r648-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r648-bayesian-frequentist-generalization-optimality
+  kind: mechanism
+  statement: Modeling the empirical training gradient g = (1/n) sum_{i=1}^n g_i as Gaussian around the true generalization gradient g_tilde ~ N(g_tilde, C_tilde / n), both the Bayesian formulation (with isotropic Gaussian prior g_tilde ~ N(0, sigma^2 I)) and the frequentist linear-preconditioner formulation (v = M^T g) show that the descent direction minimizing the probability P(v^T g_tilde > 0) of increasing generalization error is the natural gradient direction v proportional to -C_tilde^{-1} g (Section 2.1-2.2, Eqs. 1-7).
+  evidence:
+  - source_id: r648-primary-pdf
+    locator: Section 2, Section 2.1-2.2, Eqs. 1-7, pp. 2-4
+    relation: supports
+- claim_id: r648-uncentered-covariance-collinearity-and-woodbury-gram
+  kind: mechanism
+  statement: Replacing the centered gradient covariance C with the uncentered second moment C + g g^T yields (C + g g^T)^{-1} g = v / (1 + g^T v) where v = C^{-1} g, preserving the exact natural gradient direction while bounding step norm by 1 / (||g|| cos(g, v)) (Eq. 8); moreover, using the Woodbury identity and incremental r x r Gram matrix G_t = X_t^T X_t (Eqs. 10-14), TONGA computes the regularized natural direction and rank-k eigenvector truncation in O(p b) time per step when k <= b and k + b << sqrt(p).
+  evidence:
+  - source_id: r648-primary-pdf
+    locator: Section 3.2.1-3.2.3, Eqs. 8-14, pp. 4-5
+    relation: supports
+- claim_id: r648-block-diagonal-neural-network-approximation
+  kind: application
+  statement: By partitioning multilayer perceptron parameters into per-neuron weight blocks (weights entering each hidden unit and weights entering each output unit) and retaining the top k eigenvectors per block, Block-Diagonal TONGA increases the effective covariance approximation rank from k to k * (number of blocks) at the same O(p b) cost and achieves faster CPU-time convergence and lower test negative log-likelihood and classification error than stochastic gradient descent on MNIST and the 900,000-example Rectangles-images benchmark.
+  evidence:
+  - source_id: r648-primary-pdf
+    locator: Section 4, Figures 1-2, pp. 6-7; Section 5.1-5.2, Figures 3-4, pp. 7-8
+    relation: supports
+- claim_id: r648-full-matrix-low-rank-sensitivity-limitation
+  kind: limitation
+  statement: When TONGA is applied as a single low-rank approximation to the full p x p covariance matrix with small rank k to keep computational overhead low, it captures a much smaller fraction of the Frobenius norm than the block-diagonal variant, performs only comparably to stochastic gradient descent, and is sensitive to hyperparameter choices including the damping schedule lambda.
+  evidence:
+  - source_id: r648-primary-pdf
+    locator: Section 4, Figure 2, p. 6; Section 5, p. 7
+    relation: supports
+evidence_sources:
+- source_id: r648-primary-pdf
+  title: Topmoumoute online natural gradient algorithm
+  authors: &id001
+  - Nicolas Le Roux
+  - Pierre-Antoine Manzagol
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2007/file/9f61408e3afb633e50cdf1b20de6f466-Paper.pdf
+  persistent_id: https://dblp.org/rec/conf/nips/RouxMB07
+  version: Advances in Neural Information Processing Systems 20 (NIPS 2007) (2007) (275316 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:11:00Z'
+  sha256: ca8e2b1ae303556e8c00729c9dae51e0d7880d18dc4ff4b70660650fd016991f
+- source_id: r648-arxiv-abs
+  title: Topmoumoute online natural gradient algorithm (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2007/hash/9f61408e3afb633e50cdf1b20de6f466-Abstract.html
+  persistent_id: https://proceedings.neurips.cc/paper/2007/hash/9f61408e3afb633e50cdf1b20de6f466-Abstract.html
+  version: arXiv abstract page (8939 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:11:00Z'
+  sha256: 602b57c5b391cdaaa0efc353e1cd0b8ce06da8d3341e19471369a898b3157e1d
+- source_id: r648-metadata-cr
+  title: Topmoumoute online natural gradient algorithm (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/nips/RouxMB07
+  persistent_id: https://dblp.org/rec/conf/nips/RouxMB07
+  version: Crossref API work record (1138 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:11:00Z'
+  sha256: 7c72183b49e8825de485cd52c6b2a5ddf2734baa2b384d1ffca3bef98249706e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: TONGA and its per-neuron block-diagonal variant are designed to accelerate training and reduce generalization error in multilayer neural networks.
+limitations:
+- Full-matrix low-rank TONGA with small rank k captures a much smaller fraction of gradient covariance Frobenius norm than block-diagonal TONGA, performs only on par with SGD, and is sensitive to hyperparameter selection (Section 4-5, pp. 6-7).
+- TONGA introduces additional hyperparameters (retained rank k, eigendecomposition interval b, discount factor gamma, and damping parameter lambda) and lacks an automatic tuning procedure for lambda (Section 5 & Conclusion, pp. 7-8).
+curation:
+  created_at: '2026-10-19T12:11:00Z'
+  updated_at: '2026-10-19T12:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
