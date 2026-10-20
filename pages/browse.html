@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1459</strong> artificial intelligence concepts, comprising <strong>1017</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1460</strong> artificial intelligence concepts, comprising <strong>1018</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1459)</option>
-        <option value="curated">Curated AIMech (1017)</option>
+        <option value="all">All Origins (1460)</option>
+        <option value="curated">Curated AIMech (1018)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (713)</option>
+          <option value="algorithm">Algorithms (714)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1459</span> of <span id="totalCount">1459</span>
+      Showing <span id="matchCount">1460</span> of <span id="totalCount">1460</span>
     </div>
   </div>
 </div>
@@ -1243,6 +1243,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:AdaShift</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="adasum adaptive summation for distributed training adasumadaptivesummationfordistributedtraining aimech:adasumadaptivesummationfordistributedtraining algorithms algorithm a hyperparameter-free distributed gradient and model-update reduction operator that replaces naive all-reduce summation across data-parallel workers by recursively combining pairs of layer-wise gradients or optimizer parameter deltas (g_1, g_2) via adasum(g_1, g_2) = (1 - (g_1^t g_2) / (2 ||g_1||_2^2)) g_1 + (1 - (g_1^t g_2) / (2 ||g_2||_2^2)) g_2, derived by averaging the first-order taylor sequential sgd emulations of executing minibatch b_1 before b_2 and b_2 before b_1 under a rank-one outer-product fisher hessian approximation h_i approx g_i g_i^t and locally optimal step size alpha = 1 / ||g_i||_2^2. distinct from standard synchronous allreduce summation/averaging, from delay-compensated asynchronous sgd (dc-asgd, which uses only diagonal g_i odot g_i and requires a tuned hyperparameter), and from per-layer norm trust-ratio optimizers (lars, lamb): adasum operates across workers via a two-phase recursive vector-halving collective (adasumrvh) after local optimizer steps, reducing to the exact sum g_1 + g_2 when g_1 and g_2 are orthogonal and to the exact average (g_1 + g_2)/2 when g_1 = g_2. adasum adaptive summation for distributed training adasumrvh approximating the second-step gradient g_2(w_0 - alpha g_1) by its first-order taylor expansion g_2 - alpha h_2 g_1 with fisher hessian h_2 approx g_2 g_2^t and optimal quadratic step alpha = 1 / ||g_2||_2^2 yields w_{1,2} = w_0 - alpha (g_1 + (1 - (g_2^t g_1)/||g_2||_2^2) g_2); averaging both minibatch execution orders (b_1, b_2) and (b_2, b_1) produces adasum(g_1, g_2), which equals g_1 + g_2 when g_1^t g_2 = 0 (orthogonal) and (g_1 + g_2)/2 when g_1 = g_2 (parallel). for independent gradient samples a, b ~ x with mean r = e[x], e[adasum(a, b)] = (2i - e[a a^t / ||a||_2^2]) r satisfies ||e[x]||_2 &lt;= ||e[adasum(a, b)]||_2 &lt;= 2 ||e[x]||_2 (lemma a.3) and forms an angle eta with e[x] satisfying cos(eta) &gt;= min_gamma (2 - cos^2(gamma)) / sqrt(4 - 3 cos^2(gamma)) = 2 sqrt(2) / 3 approx 0.9428 &gt; 0.942 (eta &lt;= 0.108 pi, lemma a.2), establishing pseudogradient convergence across binary-tree reductions (theorem a.4). implemented via a two-phase recursive vector-halving collective (adasumrvh, algorithm 1) applied per layer to post-optimizer parameter deltas with fp64 dot-product accumulation, adasum scales momentum-sgd on resnet-50 and adam on bert-large from 16k to 64k effective batch size and lamb on bert-large from 64k to 128k effective batch size while converging in up to 30% fewer steps at 64k. because adasum(a, b) requires global inner products a^t b and squared norms ||a||_2^2, ||b||_2^2 across full layer tensors before scaling, it cannot be executed as a single-pass elementwise mpi reduction and requires power-of-two recursive vector-halving with extra subgroup dot-product allreduces; moreover, if all n worker gradients are strictly parallel, its convergence rate reduces to 1/n of sequential sgd. scaling distributed training with adaptive summation scaling distributed training with adaptive summation (arxiv abstract) scaling distributed training with adaptive summation (crossref metadata) saeed maleki madan musuvathi todd mytkowicz olli saarikivi tianju xu vadim eksarevskiy jaliya ekanayake emad barsoum saeed maleki madan musuvathi todd mytkowicz olli saarikivi tianju xu vadim eksarevskiy jaliya ekanayake emad barsoum saeed maleki madan musuvathi todd mytkowicz olli saarikivi tianju xu vadim eksarevskiy jaliya ekanayake emad barsoum">
+        <td>
+          <a href="curated/AdaSumAdaptiveSummationForDistributedTraining.html" style="font-weight: 600; font-size: 1rem;">AdaSum Adaptive Summation for Distributed Training</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> AdaSum, Adaptive Summation for Distributed Training…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A hyperparameter-free distributed gradient and model-update reduction operator that replaces naive all-reduce summation across data-parallel…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:AdaSumAdaptiveSummationForDistributedTraining</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

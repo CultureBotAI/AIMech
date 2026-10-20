@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AdaSum Adaptive Summation for Distributed Training · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AdaSum Adaptive Summation for Distributed Training</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AdaSum Adaptive Summation for Distributed Training</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdaSumAdaptiveSummationForDistributedTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> AdaSum, Adaptive Summation for Distributed Training, ADASUMRVH
+    </div>
+
+  <div class="detail-desc">
+    A hyperparameter-free distributed gradient and model-update reduction operator that replaces naive all-reduce summation across data-parallel workers by recursively combining pairs of layer-wise gradients or optimizer parameter deltas (g_1, g_2) via Adasum(g_1, g_2) = (1 - (g_1^T g_2) / (2 ||g_1||_2^2)) g_1 + (1 - (g_1^T g_2) / (2 ||g_2||_2^2)) g_2, derived by averaging the first-order Taylor sequential SGD emulations of executing minibatch b_1 before b_2 and b_2 before b_1 under a rank-one outer-product Fisher Hessian approximation H_i approx g_i g_i^T and locally optimal step size alpha = 1 / ||g_i||_2^2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard synchronous AllReduce summation/averaging, from delay-compensated asynchronous SGD (DC-ASGD, which uses only diagonal g_i odot g_i and requires a tuned hyperparameter), and from per-layer norm trust-ratio optimizers (LARS, LAMB): AdaSum operates across workers via a two-phase recursive vector-halving collective (ADASUMRVH) after local optimizer steps, reducing to the exact sum g_1 + g_2 when g_1 and g_2 are orthogonal and to the exact average (g_1 + g_2)/2 when g_1 = g_2.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r623-sequential-emulation-and-orthogonality-interpolation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Approximating the second-step gradient g_2(w_0 - alpha g_1) by its first-order Taylor expansion g_2 - alpha H_2 g_1 with Fisher Hessian H_2 approx g_2 g_2^T and optimal quadratic step alpha = 1 / ||g_2||_2^2 yields w_{1,2} = w_0 - alpha (g_1 + (1 - (g_2^T g_1)/||g_2||_2^2) g_2); averaging both minibatch execution orders (b_1, b_2) and (b_2, b_1) produces Adasum(g_1, g_2), which equals g_1 + g_2 when g_1^T g_2 = 0 (orthogonal) and (g_1 + g_2)/2 when g_1 = g_2 (parallel).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r623-primary-pdf">Scaling Distributed Training with Adaptive Summation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.5, Eq. (1)-(5), p. 3-4; Appendix A.1-A.2, Eq. (6)-(10), p. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r623-pseudogradient-angle-and-norm-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For independent gradient samples a, b ~ X with mean r = E[X], E[Adasum(a, b)] = (2I - E[a a^T / ||a||_2^2]) r satisfies ||E[X]||_2 &lt;= ||E[Adasum(a, b)]||_2 &lt;= 2 ||E[X]||_2 (Lemma A.3) and forms an angle eta with E[X] satisfying cos(eta) &gt;= min_gamma (2 - cos^2(gamma)) / sqrt(4 - 3 cos^2(gamma)) = 2 sqrt(2) / 3 approx 0.9428 &gt; 0.942 (eta &lt;= 0.108 pi, Lemma A.2), establishing pseudogradient convergence across binary-tree reductions (Theorem A.4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r623-primary-pdf">Scaling Distributed Training with Adaptive Summation</a></span>
+        <span>· <strong>Locator:</strong> Appendix A.3 Lemma A.2, Lemma A.3, Theorem A.4, Eq. (11)-(12), p. 15-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r623-adasumrvh-and-large-batch-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Implemented via a two-phase recursive vector-halving collective (ADASUMRVH, Algorithm 1) applied per layer to post-optimizer parameter deltas with FP64 dot-product accumulation, AdaSum scales Momentum-SGD on ResNet-50 and Adam on BERT-Large from 16K to 64K effective batch size and LAMB on BERT-Large from 64K to 128K effective batch size while converging in up to 30% fewer steps at 64K.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r623-primary-pdf">Scaling Distributed Training with Adaptive Summation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.4 Algorithm 1 &amp; Figure 3, p. 5-8; Section 5.1-5.3 Tables 2-4, p. 8-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r623-non-streaming-dot-product-and-parallel-gradient-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because Adasum(a, b) requires global inner products a^T b and squared norms ||a||_2^2, ||b||_2^2 across full layer tensors before scaling, it cannot be executed as a single-pass elementwise MPI reduction and requires power-of-two recursive vector-halving with extra subgroup dot-product allreduces; moreover, if all N worker gradients are strictly parallel, its convergence rate reduces to 1/N of sequential SGD.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r623-primary-pdf">Scaling Distributed Training with Adaptive Summation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, p. 4; Section 4.2.1 Algorithm 1, p. 6; Appendix A.3-A.4, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Cannot be implemented as a streaming elementwise MPI AllReduce operator because each tree level requires a subgroup allreduce of partial dot products [a . b, a . a, b . b] across full layer slices before applying the scaling factors.</li>
+      <li>Requires double-precision (FP64) accumulation for inner products and squared norms plus dynamic loss scaling on effective gradients when training in FP16 to prevent numerical underflow/overflow.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AdaSum is a distributed gradient/model-update combination algorithm for scaling data-parallel deep neural network training to large effective batch sizes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r623-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r623-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2006.02924.pdf" target="_blank" rel="noopener">Scaling Distributed Training with Adaptive Summation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saeed Maleki, Madan Musuvathi, Todd Mytkowicz, Olli Saarikivi, Tianju Xu, Vadim Eksarevskiy, Jaliya Ekanayake, Emad Barsoum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:632cf2c1a00c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r623-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r623-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2006.02924" target="_blank" rel="noopener">Scaling Distributed Training with Adaptive Summation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saeed Maleki, Madan Musuvathi, Todd Mytkowicz, Olli Saarikivi, Tianju Xu, Vadim Eksarevskiy, Jaliya Ekanayake, Emad Barsoum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2006.02924</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4dcddcf412b1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r623-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r623-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21" target="_blank" rel="noopener">Scaling Distributed Training with Adaptive Summation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Saeed Maleki, Madan Musuvathi, Todd Mytkowicz, Olli Saarikivi, Tianju Xu, Vadim Eksarevskiy, Jaliya Ekanayake, Emad Barsoum
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/mlsys/MalekiMMSXEEB21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9fb0228fca12…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:46:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:46:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdaSumAdaptiveSummationForDistributedTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdaSumAdaptiveSummationForDistributedTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
