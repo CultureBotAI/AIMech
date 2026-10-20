@@ -1,0 +1,111 @@
+id: AIMech:BERToftheseusCompressingBERTByProgressiveModuleReplacing
+name: 'BERT-of-Theseus: Compressing BERT by Progressive Module Replacing'
+concept_kind: algorithm
+review_status: DRAFT
+definition: A distillation-loss-free Transformer compression algorithm ('Theseus Compression') that partitions a frozen N-layer predecessor network P = {prd_1, ..., prd_n} and a trainable M-layer successor network S = {scc_1, ..., scc_n} (with M < N) into n matched modules, stochastically replaces each predecessor module with its corresponding successor module during training forward passes via independent Bernoulli variables r_{i+1} ~ Bernoulli(p_d) so that y_{i+1} = r_{i+1} * scc_i(y_i) + (1 - r_{i+1}) * prd_i(y_i), increases the replacement probability according to a linear curriculum schedule p_d(t) = min(1, k*t + b) while optimizing only the standard task-specific objective, and subsequently fine-tunes the standalone successor S at p_d = 1.
+identity_notes: 'Introduced by Canwen Xu, Wangchunshu Zhou, Tao Ge, Furu Wei, and Ming Zhou (EMNLP 2020, pp. 7859-7869, arXiv:2002.02925, doi:10.18653/v1/2020.emnlp-main.633). Distinct from knowledge distillation methods such as TinyBERT (Round 800), MiniLM (Round 801), BERT-PKD (Round 802), DistilBERT (Round 803), and MobileBERT (Round 804): BERT-of-Theseus requires zero auxiliary feature-matching, attention-matching, or logit KL-divergence losses and no balancing hyperparameters between task and distillation losses, relying instead on closed-loop gradient interactions between frozen predecessor modules and trainable successor modules inside the hybrid computational graph.'
+aliases:
+- BERT-of-Theseus
+- Theseus Compression for BERT
+- Progressive Module Replacing for Transformer Compression
+definition_evidence:
+- source_id: r805-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r805-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r805-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r805-claim-stochastic-module-replacement-dynamics
+  kind: mechanism
+  statement: Given a frozen predecessor P partitioned into n multi-layer modules {prd_1, ..., prd_n} and a successor S of n single-layer modules {scc_1, ..., scc_n}, BERT-of-Theseus samples independent binary indicators r_{i+1} ~ Bernoulli(p_d) at each module boundary i and computes y_{i+1} = r_{i+1} * scc_i(y_i) + (1 - r_{i+1}) * prd_i(y_i) (Eqs. 2-3), updating only successor parameters via backpropagation of the pure task cross-entropy loss L = CrossEntropy(y_hat, y) (Eq. 4) before a second successor-only fine-tuning phase (Eq. 5).
+  evidence:
+  - source_id: r805-primary-pdf
+    locator: Section 2.1 (Workflow of Theseus Compression), Equations 1-5 & Figure 1, Pages 2-3
+    relation: supports
+  - source_id: r805-primary-pdf
+    locator: module_step and enumerate_hybrid_expectation over 2^6=64 hybrid paths in main()
+    relation: supports
+- claim_id: r805-claim-curriculum-schedule-and-lr-warmup-equivalence
+  kind: mechanism
+  statement: To bridge the transition from hybrid module replacement to standalone successor inference, BERT-of-Theseus applies a linear curriculum replacement scheduler p_d(t) = min(1, k*t + b) (Eq. 6) with slope k > 0 and base probability b in (0, 1); in expectation over Bernoulli sampling, this curriculum scales the effective learning rate of each successor module as lr'(t) = min(1, k*t + b) * lr (Eq. 7), acting as an implicit module-level learning-rate warmup.
+  evidence:
+  - source_id: r805-primary-pdf
+    locator: Section 2.2 (Curriculum Replacement) & Section 2.3 (A Unified View of Dropout, Warmup and Curriculum Replacement), Equations 6-7, Pages 3-4
+    relation: supports
+  - source_id: r805-primary-pdf
+    locator: replacement_prob and effective learning rate warmup verification in main()
+    relation: supports
+- claim_id: r805-claim-glue-compression-performance
+  kind: application
+  statement: Compressing a 12-layer BERT-base predecessor into a 6-layer successor (1.94x inference speedup, 66M parameters), BERT-of-Theseus achieves a 78.6 macro-average score on the GLUE test benchmark, retaining 98.3% of the BERT-base teacher's performance and outperforming task-specific Vanilla KD (76.4), BERT-PKD (77.0), and pre-training DistilBERT (76.2 on the matched 8-task GLUE set).
+  evidence:
+  - source_id: r805-primary-pdf
+    locator: Section 3.3 (Experimental Results), Table 1 & Table 2, Pages 4-5
+    relation: supports
+- claim_id: r805-claim-inter-module-dimension-matching-limitation
+  kind: limitation
+  statement: Because each successor module scc_i must be a drop-in functional replacement for the corresponding predecessor module prd_i within the same forward pass, the input and output hidden dimensions of scc_i and prd_i must match at every module boundary, preventing arbitrary hidden-width reduction without additional adapter projections.
+  evidence:
+  - source_id: r805-primary-pdf
+    locator: Section 2.1 (Workflow of Theseus Compression, Equations 2-3), Page 2
+    relation: supports
+evidence_sources:
+- source_id: r805-primary-pdf
+  title: 'BERT-of-Theseus: Compressing BERT by Progressive Module Replacing'
+  authors: &id001
+  - Canwen Xu
+  - Wangchunshu Zhou
+  - Tao Ge
+  - Furu Wei
+  - Ming Zhou
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2002.02925.pdf
+  persistent_id: https://arxiv.org/bibtex/2002.02925
+  version: Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP 2020) (2020) (733365 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T14:48:00Z'
+  sha256: cece57da8bb1587e9e4883c39c4177c3dd9da43331c2d38ae95774143088dade
+- source_id: r805-arxiv-abs
+  title: 'BERT-of-Theseus: Compressing BERT by Progressive Module Replacing (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2002.02925
+  persistent_id: https://arxiv.org/abs/2002.02925
+  version: arXiv abstract page (6831 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:48:00Z'
+  sha256: 254c8115962a7ddc00d8ed2cde4aa207d7c960d37f1cac4d376cf44ac58a9ea9
+- source_id: r805-metadata-cr
+  title: 'BERT-of-Theseus: Compressing BERT by Progressive Module Replacing (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2002.02925
+  persistent_id: https://arxiv.org/bibtex/2002.02925
+  version: Crossref API work record (423 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T14:48:00Z'
+  sha256: a9074bf8594db78708053ffbd051d40ad2b9457335859491ace090ff5a6fd7ab
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Compresses deep Transformer neural networks by progressive stochastic substitution of multi-layer predecessor modules with compact successor modules.
+- target: AIO:Distillation
+  relation: related_match
+  rationale: Transfers module-level functional behavior from a large frozen predecessor network to a compact successor network through curriculum hybrid forward passes without auxiliary distillation losses.
+limitations:
+- Each successor module scc_i must share identical input and output tensor dimensions with its replaced predecessor module prd_i at every module boundary.
+- Task-specific compression requires executing the two-stage progressive replacement and successor fine-tuning procedure for each target downstream task.
+curation:
+  created_at: '2026-10-19T14:48:00Z'
+  updated_at: '2026-10-19T14:48:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

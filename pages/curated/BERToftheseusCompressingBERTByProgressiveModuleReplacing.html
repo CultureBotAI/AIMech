@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BERT-of-Theseus: Compressing BERT by Progressive Module Replacing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BERToftheseusCompressingBERTByProgressiveModuleReplacing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BERT-of-Theseus, Theseus Compression for BERT, Progressive Module Replacing for Transformer Compression
+    </div>
+
+  <div class="detail-desc">
+    A distillation-loss-free Transformer compression algorithm (&#39;Theseus Compression&#39;) that partitions a frozen N-layer predecessor network P = {prd_1, ..., prd_n} and a trainable M-layer successor network S = {scc_1, ..., scc_n} (with M &lt; N) into n matched modules, stochastically replaces each predecessor module with its corresponding successor module during training forward passes via independent Bernoulli variables r_{i+1} ~ Bernoulli(p_d) so that y_{i+1} = r_{i+1} * scc_i(y_i) + (1 - r_{i+1}) * prd_i(y_i), increases the replacement probability according to a linear curriculum schedule p_d(t) = min(1, k*t + b) while optimizing only the standard task-specific objective, and subsequently fine-tunes the standalone successor S at p_d = 1.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Canwen Xu, Wangchunshu Zhou, Tao Ge, Furu Wei, and Ming Zhou (EMNLP 2020, pp. 7859-7869, arXiv:2002.02925, doi:10.18653/v1/2020.emnlp-main.633). Distinct from knowledge distillation methods such as TinyBERT (Round 800), MiniLM (Round 801), BERT-PKD (Round 802), DistilBERT (Round 803), and MobileBERT (Round 804): BERT-of-Theseus requires zero auxiliary feature-matching, attention-matching, or logit KL-divergence losses and no balancing hyperparameters between task and distillation losses, relying instead on closed-loop gradient interactions between frozen predecessor modules and trainable successor modules inside the hybrid computational graph.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r805-claim-stochastic-module-replacement-dynamics</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given a frozen predecessor P partitioned into n multi-layer modules {prd_1, ..., prd_n} and a successor S of n single-layer modules {scc_1, ..., scc_n}, BERT-of-Theseus samples independent binary indicators r_{i+1} ~ Bernoulli(p_d) at each module boundary i and computes y_{i+1} = r_{i+1} * scc_i(y_i) + (1 - r_{i+1}) * prd_i(y_i) (Eqs. 2-3), updating only successor parameters via backpropagation of the pure task cross-entropy loss L = CrossEntropy(y_hat, y) (Eq. 4) before a second successor-only fine-tuning phase (Eq. 5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 (Workflow of Theseus Compression), Equations 1-5 &amp; Figure 1, Pages 2-3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> module_step and enumerate_hybrid_expectation over 2^6=64 hybrid paths in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r805-claim-curriculum-schedule-and-lr-warmup-equivalence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To bridge the transition from hybrid module replacement to standalone successor inference, BERT-of-Theseus applies a linear curriculum replacement scheduler p_d(t) = min(1, k*t + b) (Eq. 6) with slope k &gt; 0 and base probability b in (0, 1); in expectation over Bernoulli sampling, this curriculum scales the effective learning rate of each successor module as lr&#39;(t) = min(1, k*t + b) * lr (Eq. 7), acting as an implicit module-level learning-rate warmup.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 (Curriculum Replacement) &amp; Section 2.3 (A Unified View of Dropout, Warmup and Curriculum Replacement), Equations 6-7, Pages 3-4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> replacement_prob and effective learning rate warmup verification in main()</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r805-claim-glue-compression-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Compressing a 12-layer BERT-base predecessor into a 6-layer successor (1.94x inference speedup, 66M parameters), BERT-of-Theseus achieves a 78.6 macro-average score on the GLUE test benchmark, retaining 98.3% of the BERT-base teacher&#39;s performance and outperforming task-specific Vanilla KD (76.4), BERT-PKD (77.0), and pre-training DistilBERT (76.2 on the matched 8-task GLUE set).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Experimental Results), Table 1 &amp; Table 2, Pages 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r805-claim-inter-module-dimension-matching-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because each successor module scc_i must be a drop-in functional replacement for the corresponding predecessor module prd_i within the same forward pass, the input and output hidden dimensions of scc_i and prd_i must match at every module boundary, preventing arbitrary hidden-width reduction without additional adapter projections.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r805-primary-pdf">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 (Workflow of Theseus Compression, Equations 2-3), Page 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Each successor module scc_i must share identical input and output tensor dimensions with its replaced predecessor module prd_i at every module boundary.</li>
+      <li>Task-specific compression requires executing the two-stage progressive replacement and successor fine-tuning procedure for each target downstream task.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Compresses deep Transformer neural networks by progressive stochastic substitution of multi-layer predecessor modules with compact successor modules.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Distillation.html" style="font-weight: 600;"><code>AIO:Distillation</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Distillation</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Transfers module-level functional behavior from a large frozen predecessor network to a compact successor network through curriculum hybrid forward passes without auxiliary distillation losses.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r805-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r805-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2002.02925.pdf" target="_blank" rel="noopener">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Wangchunshu Zhou, Tao Ge, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.02925</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:cece57da8bb1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r805-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r805-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2002.02925" target="_blank" rel="noopener">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Wangchunshu Zhou, Tao Ge, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2002.02925</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:254c8115962a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r805-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r805-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2002.02925" target="_blank" rel="noopener">BERT-of-Theseus: Compressing BERT by Progressive Module Replacing (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canwen Xu, Wangchunshu Zhou, Tao Ge, Furu Wei, Ming Zhou
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2002.02925</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a9074bf8594d…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T14:48:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T14:48:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BERToftheseusCompressingBERTByProgressiveModuleReplacing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BERToftheseusCompressingBERTByProgressiveModuleReplacing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
