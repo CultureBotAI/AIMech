@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Domain Conditional Pointwise Mutual Information (PMI_DC) Scoring · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/evaluation_method.html">Evaluation Methods</a>
+  <span>/</span>
+  <strong>Domain Conditional Pointwise Mutual Information (PMI_DC) Scoring</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Domain Conditional Pointwise Mutual Information (PMI_DC) Scoring</h1>
+    <span class="badge badge-curated">Evaluation Methods</span>
+    <span class="detail-id">AIMech:PMIDCDomainConditionalPointwiseMutualInformation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Domain Conditional Pointwise Mutual Information, PMI_DC, Domain Conditional PMI Scoring, Surface Form Competition PMI_DC Scoring
+    </div>
+
+  <div class="detail-desc">
+    A zero-shot and few-shot multiple-choice scoring method for generative language models that compensates for surface form competition—the rationing of finite probability mass across distinct strings representing the same concept—by selecting the candidate hypothesis y_i that maximizes Domain Conditional Pointwise Mutual Information: arg max_i PMI_DC(x, y_i, domain) = arg max_i log [P(y_i | x) / P(y_i | x_domain)], where P(y_i | x_domain) is the a priori probability of hypothesis y_i within the task domain estimated by conditioning on a short task-specific domain premise string x_domain (typically the trailing cue of the prompt template x, such as &#39;because&#39; or &#39;the answer is:&#39;).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard direct probability arg max_i P(y_i | x) and length-normalized average log-likelihood AVG = (1/l_i) sum_j log P(y_i^j | x, y_i^{&lt;j}), which do not factor out surface-form rarity, and from Contextual Calibration (Zhao et al., ICML 2021, AIMech:CalibrateBeforeUseContextualCalibration), which fits an affine matrix over a fixed closed label set using multiple content-free inputs rather than computing the symmetric log-probability difference log P(y_i | x) - log P(y_i | x_domain) for arbitrary open-set per-question answer options.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r730-claim-surface-form-competition-and-symmetry</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because generative LMs allocate probability mass across all valid surface paraphrases of a concept (e.g., &#39;Bathtub&#39; vs. &#39;Whirlpool bath&#39;, or &#39;it was 3 AM&#39; vs. &#39;it was 3:30AM&#39;), direct scoring P(y_i | x) penalizes rare surface forms; by Bayes&#39; rule symmetry arg max_i [P(y_i | x, domain) / P(y_i | domain)] = arg max_i P(x | y_i, domain), PMI_DC simulates scoring-by-premise without requiring the question and options to be manually inverted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r730-primary-pdf">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Section 3.2, and Section 5.1-5.2, Figures 1-3, Table 5, pp. 1-2, 4, 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r730-claim-copa-flipped-eradication-proof</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On &#39;COPA Flipped&#39;—where cause and effect clauses are swapped with inverted connectives (&#39;because&#39; &lt;-&gt; &#39;so&#39;) so that the LM scores a single fixed premise continuation given each candidate option as context—surface form competition is completely removed, causing uncalibrated LM and AVG scoring to jump to the exact same accuracy as PMI_DC across all 8 GPT-2 and GPT-3 model scales.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r730-primary-pdf">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1, Table 5, Figure 3, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r730-claim-zero-and-few-shot-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Across 16 splits of 13 open-set and closed-set multiple-choice benchmarks (COPA, StoryCloze, HellaSwag, RACE-M/H, ARC-E/C, OpenBookQA, CommonsenseQA, BoolQ, RTE, CB, SST-2, SST-5, AG&#39;s News, TREC) and 8 model sizes (GPT-2 125M-1.6B and GPT-3 2.7B-175B), PMI_DC wins or ties on 62.5% to 86.7% of datasets per model scale (outperforming LM, AVG, and Contextual Calibration by &gt;40 percentage points in win rate).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r730-primary-pdf">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3-4.5, Tables 1-4 and Table 6, pp. 5-7, 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r730-claim-internal-coherence-and-joint-option-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PMI_DC underperforms AVG on HellaSwag (where adversarial machine-generated distractors test internal continuation coherence rather than premise-hypothesis mutual information) and underperforms direct LM scoring on ARC Easy (which favors a priori likely stock textbook phrases), and PMI_DC still scores each option y_i independently rather than jointly reasoning over the entire set of candidate options (e.g., failing on meta-options like &#39;all of the above&#39;).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r730-primary-pdf">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right</a></span>
+        <span>· <strong>Locator:</strong> Section 6 &amp; Section 7, Table 1, pp. 6, 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Underperforms average log-likelihood (AVG) on benchmarks dominated by internal continuation fluency rather than premise conditioning (such as HellaSwag) and underperforms raw probability (LM) on retrieval-style questions with stock textbook answers (such as ARC Easy).</li>
+      <li>Scores each multiple-choice candidate option independently rather than jointly comparing all options in context, and doubles inference queries on open-set datasets where P(y_i | x_domain) cannot be cached across questions.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Domain Conditional PMI scores multiple-choice hypotheses generated by autoregressive neural language models by normalizing against domain-premise likelihoods.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r730-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r730-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2104.08315.pdf" target="_blank" rel="noopener">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ari Holtzman, Peter West, Vered Shwartz, Yejin Choi, Luke Zettlemoyer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:810c26ceec85…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r730-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r730-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2104.08315" target="_blank" rel="noopener">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ari Holtzman, Peter West, Vered Shwartz, Yejin Choi, Luke Zettlemoyer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2104.08315</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:158504202d26…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r730-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r730-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&amp;format=xml" target="_blank" rel="noopener">Surface Form Competition: Why the Highest Probability Answer Isn&#39;t Always Right (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Ari Holtzman, Peter West, Vered Shwartz, Yejin Choi, Luke Zettlemoyer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Surface+Form+Competition+Why+the+Highest+Probability+Answer+Holtzman&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c5e89a324d8f…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:33:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:33:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PMIDCDomainConditionalPointwiseMutualInformation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PMIDCDomainConditionalPointwiseMutualInformation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
