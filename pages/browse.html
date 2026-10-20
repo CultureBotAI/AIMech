@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1410</strong> artificial intelligence concepts, comprising <strong>968</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1411</strong> artificial intelligence concepts, comprising <strong>969</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1410)</option>
-        <option value="curated">Curated AIMech (968)</option>
+        <option value="all">All Origins (1411)</option>
+        <option value="curated">Curated AIMech (969)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (665)</option>
+          <option value="algorithm">Algorithms (666)</option>
           <option value="mathematical_method">Mathematical Methods (153)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1410</span> of <span id="totalCount">1410</span>
+      Showing <span id="matchCount">1411</span> of <span id="totalCount">1411</span>
     </div>
   </div>
 </div>
@@ -11857,6 +11857,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedMixApproximationOfMixupUnderMeanAugmentedFederatedLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fednl (federated newton learn) fednlfederatednewtonlearnwithcompressedhessianlearning aimech:fednlfederatednewtonlearnwithcompressedhessianlearning algorithms algorithm fednl (federated newton learn) is a family of communication-efficient second-order federated optimization algorithms for solving general finite-sum problems min_{x in r^d} f(x) = (1/n) sum_{i=1}^n f_i(x) that progressively learns the local optimal hessians grad^2 f_i(x^*) and their global average grad^2 f(x^*) via compressed matrix difference updates h_i^{k+1} = h_i^k + alpha * c_i^k(grad^2 f_i(x^k) - h_i^k) and h^{k+1} = (1/n) sum_{i=1}^n h_i^{k+1}. supporting both unbiased matrix compressors b(omega) and deterministic contractive compressors c(delta) (such as rank-r and top-k) without error feedback or raw data transmission, the server updates the global model either via cone projection x^{k+1} = x^k - [h^k]_mu^{-1} grad f(x^k) (option 1) or frobenius compression-error shift x^{k+1} = x^k - [h^k + l^k i]^{-1} grad f(x^k) with l_i^k = ||h_i^k - grad^2 f_i(x^k)||_f (option 2), with extensions to partial participation (fednl-pp), backtracking line search (fednl-ls), cubic regularization (fednl-cr), bidirectional model/gradient compression (fednl-bc), and initial-hessian newton zero (n0). distinct from newton learn (nl1/nl2, islamov et al., 2021), which is restricted to generalized linear models f_i(x) = (1/m) sum_{j=1}^m phi_{ij}(a_{ij}^t x), requires transmitting private training vectors a_{ij} to the server, only supports unbiased compressors, and has local convergence dependent on the number of data points m. also distinct from first-order compressed federated methods such as diana (round 389) and adiana (round 390), whose rates depend on the condition number kappa = l/mu. fednl federated newton learn fednl-pp fednl-ls fednl-cr fednl-bc newton zero under mu-strong convexity of f and (l_*, l_f, l_infinity)-lipschitz continuity of local hessians grad^2 f_i, fednl (algorithm 1) initialized in the local neighborhood ||x^0 - x^*|| &lt;= mu / sqrt(2*d) and h^k = (1/n) sum_{i=1}^n ||h_i^k - grad^2 f_i(x^*)||_f^2 &lt;= mu^2 / (4*c) achieves: (1) a universal local linear rate ||x^k - x^*||^2 &lt;= (1/2^k)||x^0 - x^*||^2 (also achieved by newton zero n0 with c_i^k = 0, alpha = 0, h_i^0 = grad^2 f_i(x^0)), (2) linear hessian-learning lyapunov contraction e[phi^k] &lt;= (1 - min{a, 1/3})^k phi^0, and (3) local superlinear convergence e[||x^{k+1} - x^*||^2 / ||x^k - x^*||^2] &lt;= (1 - min{a, 1/3})^k * (c + d/(12*b*l_f^2)) * phi^0 / mu^2, all independent of the condition number kappa and the number of local data points m. fednl extends to: (i) partial participation of tau out of n clients (fednl-pp, algorithm 2, theorem d.1) via hessian-corrected local gradients g_i^k = (h_i^k + l_i^k i)w_i^k - grad f_i(w_i^k) with rate e[w^k] &lt;= (1 - 3*tau/(4*n))^k w^0; (ii) global linear convergence via backtracking line search (fednl-ls, algorithm 3, theorem e.1); (iii) global o(1/k) convex and linear strongly convex convergence via cubic regularization (fednl-cr, algorithm 4, theorem f.1); and (iv) bidirectional contractive/unbiased model and bernoulli gradient compression (fednl-bc, algorithm 5, theorem g.4). applied to heterogeneous l2-regularized logistic regression on libsvm datasets (a1a, a9a, w7a, w8a, phishing, madelon) with rank-1, top-d, and powersgd hessian compressors at o(d) communication per round, fednl and fednl-ls reduce total communicated bits per node by orders of magnitude relative to adiana, diana, s-local-gd, dingo, dore, artemis, and nl1. fednl requires computing exact local gradients grad f_i(x^k) and d x d local hessians grad^2 f_i(x^k) on participating clients and solving a d x d linear system (or eigenvalue projection in option 1) on the server at each round, making per-iteration local and server computation o(d^2) to o(d^3); moreover, its theoretical guarantees cover convex and strongly convex objectives without stochastic local gradient/hessian oracles or formal differential privacy. fednl: making newton-type methods applicable to federated learning fednl: making newton-type methods applicable to federated learning (arxiv abstract) fednl: making newton-type methods applicable to federated learning (crossref metadata) mher safaryan rustem islamov xun qian peter richtarik mher safaryan rustem islamov xun qian peter richtarik mher safaryan rustem islamov xun qian peter richtarik">
+        <td>
+          <a href="curated/FedNlFederatedNewtonLearnWithCompressedHessianLearning.html" style="font-weight: 600; font-size: 1rem;">FedNL (Federated Newton Learn)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedNL, Federated Newton Learn…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            FedNL (Federated Newton Learn) is a family of communication-efficient second-order federated optimization algorithms for solving general fin…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedNlFederatedNewtonLearnWithCompressedHessianLearning</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
