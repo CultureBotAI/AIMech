@@ -1,0 +1,100 @@
+id: AIMech:FedEmaDivergenceAwareExponentialMovingAverageFederatedSelfSupervisedLearning
+name: FedEMA (Federated Divergence-Aware Exponential Moving Average Update for Self-Supervised Learning)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated self-supervised representation learning algorithm (Zhuang, Wen, & Zhang 2022, Sections 3.2 & 4, Equations 1-3, Algorithm 1) built on a generalized Siamese-network Federated Self-Supervised Learning (FedSSL) framework in which each client k in {1, ..., K} trains an online network W_k^o = (W_k, W_k^p) (online encoder W_k and MLP predictor W_k^p) and a momentum target encoder W_k^t updated per mini-batch via W_k^t <- m W_k^t + (1 - m) W_k on unlabeled private data D_k, while the server aggregates online encoders and predictors via W_g^{r+1} = sum_{k in S_t} (n_k/n) W_k^r and W_g^{p,r+1} = sum_{k in S_t} (n_k/n) W_k^{p,r}. Instead of overwriting client k's online network with the global network (FedBYOL), FedEMA retains local non-IID representation knowledge by updating client k's online encoder and predictor at round r via a divergence-aware exponential moving average W_k^r = mu W_k^{r-1} + (1 - mu) W_g^r (Equation 1) and W_k^{p,r} = mu W_k^{p,r-1} + (1 - mu) W_g^{p,r} (Equation 2), where the dynamic decay rate mu = min(lambda_k ||W_g^r - W_k^{r-1}||_2, 1) (Equation 3) scales with the L2 divergence between the global encoder W_g^r and client k's previous online encoder W_k^{r-1}, and the client-specific scaler lambda_k = tau / ||W_g^{r+1} - W_k^r||_2 with expected initial decay tau in [0.5, 1) is automatically calibrated once by an autoscaler at the earliest round r client k is sampled (Algorithm 1, line 10).
+identity_notes: Distinct from MOON (AIMech:MoonModelContrastiveFederatedLearning, Li et al. 2021), which adds a supervised model-contrastive representation loss between local and global encoders on labeled client data rather than performing unlabeled Siamese self-supervised learning with L2-divergence-scaled exponential moving average parameter interpolation; and distinct from APFL (AIMech:ApflAdaptivePersonalizedFederatedLearningViaConvexGlobalLocalModelInterpolation, Deng et al. 2020), which learns a gradient-updated mixing scalar alpha_i between separate global and local supervised models rather than dynamically setting the online-network EMA decay rate mu = min(lambda_k ||W_g^r - W_k^{r-1}||_2, 1) from encoder L2 divergence in Siamese self-supervised learning.
+aliases:
+- FedEMA
+- Federated Divergence-aware Exponential Moving Average
+- FedSSL and FedEMA Divergence-Aware Federated Self-Supervised Learning
+definition_evidence:
+- source_id: r490-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r490-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r490-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r490-claim-1
+  kind: mechanism
+  statement: FedEMA updates each client k's online encoder W_k^r and predictor W_k^{p,r} at the start of round r via W_k^r = mu W_k^{r-1} + (1 - mu) W_g^r and W_k^{p,r} = mu W_k^{p,r-1} + (1 - mu) W_g^{p,r} with dynamic decay rate mu = min(lambda_k ||W_g^r - W_k^{r-1}||_2, 1) (Equations 1-3) and one-shot autoscaler lambda_k = tau / ||W_g^{r+1} - W_k^r||_2 calibrated at client k's first sampled round, reducing exactly to FedBYOL when lambda_k = 0 (Algorithm 1).
+  evidence:
+  - source_id: r490-primary-pdf
+    locator: Section 4, pp. 6-7, Equations 1-3, Algorithm 1
+    relation: supports
+- claim_id: r490-claim-2
+  kind: mechanism
+  statement: Within the generalized Siamese FedSSL framework, empirical ablation shows that (1) the online MLP predictor W_k^p is essential to prevent local representation collapse, (2) stop-gradient is not strictly required in FedBYOL because periodic server aggregation already separates the online encoder W_k from the momentum target encoder W_k^t, and (3) retaining local non-IID knowledge in both the target encoder and the EMA-updated online network significantly improves non-IID linear-probe accuracy.
+  evidence:
+  - source_id: r490-primary-pdf
+    locator: Sections 3.4-3.5 & 5.2, pp. 4-6 & 9, Tables 1-2, Figures 2-3 & 5-7
+    relation: supports
+- claim_id: r490-claim-3
+  kind: limitation
+  statement: FedEMA requires stateful clients (or server-side client state caching) to retain previous round parameters W_k^{r-1} and W_k^{p,r-1} across rounds; in massive stateless cross-device federated settings where each client participates only once, FedEMA degrades to standard FedBYOL (full global overwrite).
+  evidence:
+  - source_id: r490-primary-pdf
+    locator: Appendix B.3 (Cross-silo FL vs Cross-device FL), p. 17; Section 5.2, p. 9
+    relation: supports
+- claim_id: r490-claim-4
+  kind: application
+  statement: Applied to decentralized unlabeled visual representation learning with ResNet-18 and ResNet-50 Siamese networks on IID and non-IID CIFAR-10 and CIFAR-100 benchmarks under linear evaluation and 1%/10%-label semi-supervised fine-tuning, outperforming FedSimCLR, FedMoCoV1/V2, FedSimSiam, FedBYOL, and FedCA.
+  evidence:
+  - source_id: r490-primary-pdf
+    locator: Section 5.1 & Appendix C.1, pp. 8 & 15-16, Tables 3-7
+    relation: supports
+evidence_sources:
+- source_id: r490-primary-pdf
+  title: Divergence-aware Federated Self-Supervised Learning
+  authors: &id001
+  - Weiming Zhuang
+  - Yonggang Wen
+  - Shuai Zhang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2204.04385.pdf
+  persistent_id: https://arxiv.org/abs/2204.04385
+  version: Conference Proceedings (2022) (968746 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:33:00Z'
+  sha256: 46131d93cfd5456decc00346a384caf34f3c3de066f89f9d8314aaf3e8b1a138
+- source_id: r490-arxiv-abs
+  title: Divergence-aware Federated Self-Supervised Learning (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.04385
+  persistent_id: https://arxiv.org/abs/2204.04385
+  version: arXiv abstract page (2069 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:33:00Z'
+  sha256: 81f386e9bac484158f83e38d21efa4d111b08ee016aa53b79300c2e9b535bff3
+- source_id: r490-metadata-cr
+  title: Divergence-aware Federated Self-Supervised Learning (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2204.04385
+  persistent_id: https://arxiv.org/abs/2204.04385
+  version: Crossref API work record (370 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:33:00Z'
+  sha256: 3fded22e663db75c6b2ab46b65cb1ad55493a86038de81f08ba802d7e81a6697
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedEMA is a federated self-supervised representation learning algorithm within the broader FederatedLearning category.
+limitations:
+- Requires stateful clients (or server-side state caching) to store previous online parameters W_k^{r-1} and W_k^{p,r-1}; degrades to FedBYOL when clients participate only once.
+- Setting manual scaler lambda > 1 saturates mu = 1 at early rounds so no global knowledge is incorporated, requiring autoscaler calibration with tau in [0.5, 1).
+curation:
+  created_at: '2026-10-19T09:33:00Z'
+  updated_at: '2026-10-19T09:33:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
