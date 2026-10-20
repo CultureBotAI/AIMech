@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polytropon (Latent Task-Skill Allocation for Modular Multitask Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Polytropon (Latent Task-Skill Allocation for Modular Multitask Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Polytropon (Latent Task-Skill Allocation for Modular Multitask Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PolytroponModularSkillAllocation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Polytropon, Skilled Latent-Skill Multitask Model, Gumbel-Sigmoid Task-Skill Allocation with Modular LoRA Skills
+    </div>
+
+  <div class="detail-desc">
+    A modular multitask learning algorithm that assumes each task T_i is associated with a variable-size subset of latent discrete skills from a shared inventory S (|S| &lt;&lt; |T|) and jointly learns, in an end-to-end fashion with a two-speed learning rate or Indian Buffet Process prior, a layer-specific Gumbel-sigmoid relaxed binary task-skill allocation matrix Z_hat in [0, 1]^{|T| x |S|} and a matrix Phi of skill-specific parameter-efficient adaptations (such as Low-Rank Adapters or Lottery-Ticket Sparse Fine-Tuning) superimposed onto a shared base parameterization theta_0 via row-normalized averaging theta_i = theta_0 + sum_{S_j} Phi_{j,*} (z_hat_{i,j} / sum_{S_k} z_hat_{i,k}).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Edoardo M. Ponti, Alessandro Sordoni, Yoshua Bengio, and Siva Reddy (2022/ICLR 2023, arXiv:2202.13914; official implementation github.com/McGill-NLP/polytropon, referred to as SKILLED / Polytropon). Distinct from MoE and MoLE (AIMech Round 686), which route tokens via competitive softmax/top-k gating conditioned on the input rather than learning a non-competitive variable-subset binary soft partition Z over skills conditioned on the task, and distinct from HyperFormer (AIMech Round 703), which entangles task knowledge inside a continuous hypernetwork rather than recombining discrete modular skill parameterizations.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#polytropon-gumbel-sigmoid-soft-partition-and-normalized-superposition-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To allow each task T_i to activate a variable-size hierarchy of skills without inter-skill softmax competition, Polytropon relaxes each binary task-skill cell z_{i,j} via a differentiable Gumbel-sigmoid sample z_hat_{i,j} = sigma((1/tau) log((sigma(z_{i,j}) u) / ((1 - sigma(z_{i,j}))(1 - u)))) with u ~ Uniform(0, 1) (Eq. 2), normalizes each task row prior to composition to stabilize parameter norms as theta_i = theta_0 + sum_{S_j} Phi_{j,*} (z_hat_{i,j} / sum_{S_k} z_hat_{i,k}) (Eq. 3), and implements skill-specific Transformer linear projections via rank-r LoRA tensors A in R^{|S| x o x r}, B in R^{|S| x r x i} as x&#39; = [W_0 + (z^T A B)] x + b_0 (Eq. 6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r707-primary-pdf">Combining Modular Skills in Multitask Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1 Soft Partitions, Eq. 2, p. 3; Section 2.2 Skill-specific Parameters, Eq. 3, pp. 3-4; Section 2.4 Low-rank Approximations, Eq. 6, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#polytropon-ibp-prior-and-two-speed-learning-rate-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent the task-skill allocation matrix Z_hat from collapsing into a high-entropy non-sparse state where all skills remain general-purpose, Polytropon regularizes Z either with an Indian Buffet Process (IBP) log-prior log p(Z | alpha) (Eq. 4) or a two-speed learning rate that updates Z at a higher learning rate ([10^{-1}, 10^{-2}]) than skill parameters Phi ({10^{-2}, 10^{-3}, 10^{-4}}), adding 4 l (2 h r + |T|) |S| parameters for LoRA across l layers (~0.78% of BART-Large parameters per skill at r = 16, l = 24, h = 1024).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r707-primary-pdf">Combining Modular Skills in Multitask Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 Inductive Biases, Eq. 4, p. 4; Section 4.2 Experimental Setup, pp. 7-8; Section 4.3 Eqs. 8-10 &amp; Figure 5, pp. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#polytropon-babyai-rl-and-crossfit-few-shot-nlp-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On 8 levels of the BabyAI grounded instruction-following RL benchmark, Polytropon (SKILLED) with 90%-sparse LT-SFT skills reaches &gt;0.99 success rate in 2,218,226 episodes (2,143,491 with IBP prior), outperforming Shared (3,544,294), Expert ground-truth skills (4,608,019), and Private (&gt;6,000,000); on few-shot adaptation across 20 held-out CrossFit NLP tasks with BART-Large, SKILLED achieves 56.9 average score, surpassing Shared (53.9), HyperFormer (52.7), Private (49.4), and Expert (43.0).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r707-primary-pdf">Combining Modular Skills in Multitask Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 Results, Figure 3, p. 6; Section 4.3 Results, Table 1, pp. 7-8; Appendix A-B Tables 3-4, p. 15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#polytropon-lt-sft-early-training-memory-and-hyperparameter-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When parameterized with architecture-agnostic Lottery-Ticket Sparse Fine-Tuning (LT-SFT, Eq. 5), Polytropon suffers from high space complexity during the initial dense magnitude-selection episodes before top-k pruning, and requires validation tuning of the discrete skill inventory size |S| and the two-speed learning rate ratio between Z and Phi.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r707-primary-pdf">Combining Modular Skills in Multitask Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.4 Sparse Approximations, Eq. 5, p. 4; Section 4.2 Experimental Setup, p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sparse LT-SFT skill parameterizations incur high memory overhead during the early dense training phase required to identify top-k magnitude changes.</li>
+      <li>Requires selecting the number of latent skills |S| and tuning separate learning rates for the allocation matrix Z and skill parameters Phi.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Polytropon instantiates task-specific neural network layers by superimposing a row-normalized Gumbel-sigmoid subset of modular LoRA or sparse skill adaptations onto a shared base network.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r707-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r707-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2202.13914.pdf" target="_blank" rel="noopener">Combining Modular Skills in Multitask Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edoardo M. Ponti, Alessandro Sordoni, Yoshua Bengio, Siva Reddy
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e7a018e118e2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r707-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r707-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2202.13914" target="_blank" rel="noopener">Combining Modular Skills in Multitask Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edoardo M. Ponti, Alessandro Sordoni, Yoshua Bengio, Siva Reddy
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2202.13914</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d51b97436eb6…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r707-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r707-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&amp;format=xml" target="_blank" rel="noopener">Combining Modular Skills in Multitask Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Edoardo M. Ponti, Alessandro Sordoni, Yoshua Bengio, Siva Reddy
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=Combining+Modular+Skills+in+Multitask+Learning&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d77f508f6474…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:10:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:10:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PolytroponModularSkillAllocation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PolytroponModularSkillAllocation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

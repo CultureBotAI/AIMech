@@ -32,7 +32,7 @@
 <div class="hero" style="margin-bottom: 2rem;">
   <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.5rem;">
     <h1 style="margin: 0; font-size: 1.85rem;">Algorithms</h1>
-    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">784 Concepts</span>
+    <span class="badge badge-curated" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">785 Concepts</span>
   </div>
   <p class="lead" style="margin-bottom: 0;">Defined computational procedures, solvers, optimizers, and search techniques.</p>
 </div>
@@ -44,7 +44,7 @@
   <div class="filter-row">
     <button type="button" id="resetFilters" class="btn">Clear</button>
     <div class="filter-count">
-      Showing <span id="matchCount">784</span> of <span id="totalCount">784</span>
+      Showing <span id="matchCount">785</span> of <span id="totalCount">785</span>
     </div>
   </div>
 </div>
@@ -14455,6 +14455,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:PolynomialCodesForStragglerResilientHighDimensionalCodedMatrixMultiplication</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="polytropon (latent task-skill allocation for modular multitask learning) polytroponmodularskillallocation aimech:polytroponmodularskillallocation algorithms algorithm a modular multitask learning algorithm that assumes each task t_i is associated with a variable-size subset of latent discrete skills from a shared inventory s (|s| &lt;&lt; |t|) and jointly learns, in an end-to-end fashion with a two-speed learning rate or indian buffet process prior, a layer-specific gumbel-sigmoid relaxed binary task-skill allocation matrix z_hat in [0, 1]^{|t| x |s|} and a matrix phi of skill-specific parameter-efficient adaptations (such as low-rank adapters or lottery-ticket sparse fine-tuning) superimposed onto a shared base parameterization theta_0 via row-normalized averaging theta_i = theta_0 + sum_{s_j} phi_{j,*} (z_hat_{i,j} / sum_{s_k} z_hat_{i,k}). introduced by edoardo m. ponti, alessandro sordoni, yoshua bengio, and siva reddy (2022/iclr 2023, arxiv:2202.13914; official implementation github.com/mcgill-nlp/polytropon, referred to as skilled / polytropon). distinct from moe and mole (aimech round 686), which route tokens via competitive softmax/top-k gating conditioned on the input rather than learning a non-competitive variable-subset binary soft partition z over skills conditioned on the task, and distinct from hyperformer (aimech round 703), which entangles task knowledge inside a continuous hypernetwork rather than recombining discrete modular skill parameterizations. polytropon skilled latent-skill multitask model gumbel-sigmoid task-skill allocation with modular lora skills to allow each task t_i to activate a variable-size hierarchy of skills without inter-skill softmax competition, polytropon relaxes each binary task-skill cell z_{i,j} via a differentiable gumbel-sigmoid sample z_hat_{i,j} = sigma((1/tau) log((sigma(z_{i,j}) u) / ((1 - sigma(z_{i,j}))(1 - u)))) with u ~ uniform(0, 1) (eq. 2), normalizes each task row prior to composition to stabilize parameter norms as theta_i = theta_0 + sum_{s_j} phi_{j,*} (z_hat_{i,j} / sum_{s_k} z_hat_{i,k}) (eq. 3), and implements skill-specific transformer linear projections via rank-r lora tensors a in r^{|s| x o x r}, b in r^{|s| x r x i} as x&#39; = [w_0 + (z^t a b)] x + b_0 (eq. 6). to prevent the task-skill allocation matrix z_hat from collapsing into a high-entropy non-sparse state where all skills remain general-purpose, polytropon regularizes z either with an indian buffet process (ibp) log-prior log p(z | alpha) (eq. 4) or a two-speed learning rate that updates z at a higher learning rate ([10^{-1}, 10^{-2}]) than skill parameters phi ({10^{-2}, 10^{-3}, 10^{-4}}), adding 4 l (2 h r + |t|) |s| parameters for lora across l layers (~0.78% of bart-large parameters per skill at r = 16, l = 24, h = 1024). on 8 levels of the babyai grounded instruction-following rl benchmark, polytropon (skilled) with 90%-sparse lt-sft skills reaches &gt;0.99 success rate in 2,218,226 episodes (2,143,491 with ibp prior), outperforming shared (3,544,294), expert ground-truth skills (4,608,019), and private (&gt;6,000,000); on few-shot adaptation across 20 held-out crossfit nlp tasks with bart-large, skilled achieves 56.9 average score, surpassing shared (53.9), hyperformer (52.7), private (49.4), and expert (43.0). when parameterized with architecture-agnostic lottery-ticket sparse fine-tuning (lt-sft, eq. 5), polytropon suffers from high space complexity during the initial dense magnitude-selection episodes before top-k pruning, and requires validation tuning of the discrete skill inventory size |s| and the two-speed learning rate ratio between z and phi. combining modular skills in multitask learning combining modular skills in multitask learning (arxiv abstract) combining modular skills in multitask learning (crossref metadata) edoardo m. ponti alessandro sordoni yoshua bengio siva reddy edoardo m. ponti alessandro sordoni yoshua bengio siva reddy edoardo m. ponti alessandro sordoni yoshua bengio siva reddy">
+        <td>
+          <a href="../curated/PolytroponModularSkillAllocation.html" style="font-weight: 600; font-size: 1rem;">Polytropon (Latent Task-Skill Allocation for Modular Multitask Learning)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Polytropon, Skilled Latent-Skill Multitask Model…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A modular multitask learning algorithm that assumes each task T_i is associated with a variable-size subset of latent discrete skills from a…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="../kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:PolytroponModularSkillAllocation</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
