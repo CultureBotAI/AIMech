@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADOPT (Adaptive Gradient Descent with Optimal Convergence) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ADOPT (Adaptive Gradient Descent with Optimal Convergence)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ADOPT (Adaptive Gradient Descent with Optimal Convergence)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AdoptModifiedAdamOptimalConvergenceAnyBeta2</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ADOPT Optimizer, Modified Adam with Optimal Convergence for Any Beta2, Clipped ADOPT
+    </div>
+
+  <div class="detail-desc">
+    An adaptive first-order stochastic optimization algorithm that modifies Adam in two structural ways so that it converges to first-order stationary points at the optimal rate O(1/sqrt(T)) for any second-moment decay parameter beta_2 in [0, 1) without bounded-gradient assumptions. Specifically, ADOPT initializes v_0 = g_0 circ g_0 and m_1 = g_1 / max(sqrt(v_0), eps), and for t &gt;= 2 updates the second moment v_{t-1} = beta_2 v_{t-2} + (1 - beta_2) g_{t-1} circ g_{t-1} using the previous gradient g_{t-1} (decorrelating the denominator from the current stochastic gradient g_t) and normalizes the current gradient before first-order momentum accumulation via m_t = beta_1 m_{t-1} + (1 - beta_1) g_t / max(sqrt(v_{t-1}), eps), followed by theta_t = theta_{t-1} - alpha_t m_t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adam, AMSGrad (Reddi et al. 2018), AdaBelief (AIMech:AdaBeliefAdaptiveStepSizesByGradientBelief), and LaProp: whereas Adam updates m_t = beta_1 m_{t-1} + (1 - beta_1) g_t and divides m_t by sqrt(v_t) (creating statistical correlation between numerator g_t and denominator v_t that causes divergence on Reddi et al.&#39;s counterexample when beta_2 is small), and whereas LaProp normalizes g_t by the contemporaneous sqrt(v_t) before momentum (failing the decorrelation requirement), ADOPT simultaneously lags the second moment by one step (v_{t-1}) and places coordinate-wise normalization inside the momentum recursion.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lagged-second-moment-decorrelation-and-pre-momentum-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ADOPT replaces Adam&#39;s contemporaneous normalization m_t / sqrt(v_t + eps^2) with pre-momentum normalization by the lagged second moment v_{t-1}: m_t = beta_1 m_{t-1} + (1 - beta_1) g_t / max(sqrt(v_{t-1}), eps), ensuring that v_{t-1} is measurable with respect to history g_{0:t-1} and conditionally independent of the current stochastic gradient noise in g_t while preventing past gradients in m_{t-1} from correlating with v_{t-1} (Section 3.3, Table 1 &amp; Figure 1, p. 6-7).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r603-primary-pdf">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.3, Algorithms 2-3, Table 1, and Figure 1, p. 4-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#virtual-iterate-lemmas-g7-g8-and-clipped-adopt</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the theoretical analysis via the virtual iterate phi_t = (1 / (1 - beta_1)) theta_t - (beta_1 / (1 - beta_1)) theta_{t-1} (Definition G.6, p. 24), Lemma G.7 establishes phi_t - phi_{t-1} = -(beta_1 / (1 - beta_1))(alpha_t - alpha_{t-1}) m_{t-1} - alpha_t g_t / sqrt(v_{t-1} + eps^2) and Lemma G.8 bounds ||phi_t - theta_t|| = (beta_1 / (1 - beta_1)) alpha_t ||m_t||; Clipped ADOPT (Algorithm 2) additionally clips normalized updates at c_t = c_0 t^{1/4} so that ||m_t|| &lt;= sqrt(D) c_t holds without assuming bounded gradients.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r603-primary-pdf">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Algorithm 2, p. 5; Appendix G.2, Definition G.6 and Lemmas G.7-G.8, p. 24-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#optimal-nonconvex-convergence-for-any-beta2-theorems-1-through-4</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under L-smooth nonconvex objectives with generalized affine-variance noise E||g_t||^2 &lt;= C_0 + C_1 ||nabla f(theta_t)||^2 (Assumptions 1-3), Theorems 1-2 (p. 5-6) prove that Clipped ADOPT converges for any beta_1, beta_2 in [0, 1) at the optimal rate min_{t&lt;=T} E[||nabla f(theta_t)||^2] = O(1/sqrt(T)) without bounded gradients, and Theorems 3-4 (p. 6-7) establish the same O(1/sqrt(T)) rate for unclipped ADOPT (Algorithm 3) under bounded gradients ||g_t|| &lt;= G.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r603-primary-pdf">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Theorems 1, 2, 3, and 4, p. 5-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#reddi-counterexample-resolution-and-deep-learning-benchmarks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On the convex stochastic counterexample of Reddi et al. (2018) where Adam converges to the suboptimal boundary +1 instead of the global optimum -1, ADOPT converges to -1 while ablations removing either decorrelation (v_{t-1}) or pre-momentum normalization fail; empirically, ADOPT outperforms Adam and AdamW on ImageNet Swin Transformer classification, NVAE generative modeling, LLaMA language model pretraining, and GPT-2 fine-tuning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r603-primary-pdf">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Figure 1, p. 7; Section 5, Figures 2-6 and Tables 2-3, p. 7-10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#first-step-initialization-and-unclipped-bounded-gradient-requirement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because ADOPT normalizes g_t using the previous step&#39;s second moment v_{t-1}, the initial step t = 0 cannot perform a normalized parameter update and must be used solely to initialize v_0 = g_0 circ g_0 (or m_1 = g_1 / max(sqrt(v_0), eps)); moreover, unclipped ADOPT (Algorithm 3) still requires a bounded-gradient assumption ||g_t|| &lt;= G for its theoretical O(1/sqrt(T)) guarantee unless paired with the time-growing clip threshold c_t = c_0 t^{1/4} of Algorithm 2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r603-primary-pdf">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Algorithms 2-3 and Assumption 4, p. 5-7; Section 6, p. 10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires dedicating the initial gradient evaluation g_0 to initializing the second-moment state v_0 = g_0 circ g_0 before normalized momentum updates begin at t = 1.</li>
+      <li>Unclipped ADOPT (Algorithm 3) relies on bounded stochastic gradients (Assumption 4) for worst-case theoretical guarantees unless augmented with the c_t = c_0 t^{1/4} clipping operator of Clipped ADOPT (Algorithm 2).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ADOPT is an adaptive stochastic gradient optimizer for training deep artificial neural networks with guaranteed convergence across arbitrary beta_2 values.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r603-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r603-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2411.02853" target="_blank" rel="noopener">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shohei Taniguchi, Keno Harada, Gouki Minegishi, Yuta Oshima, Seong Cheol Jeong, Go Nagahara, Tomoshi Iiyama, Masahiro Suzuki, Yusuke Iwasawa, Yutaka Matsuo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b93d4881ef5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r603-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r603-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2411.02853" target="_blank" rel="noopener">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shohei Taniguchi, Keno Harada, Gouki Minegishi, Yuta Oshima, Seong Cheol Jeong, Go Nagahara, Tomoshi Iiyama, Masahiro Suzuki, Yusuke Iwasawa, Yutaka Matsuo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2411.02853</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:daa472e65b23…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r603-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r603-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24" target="_blank" rel="noopener">ADOPT: Modified Adam Can Converge with Any beta_2 with the Optimal Rate (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Shohei Taniguchi, Keno Harada, Gouki Minegishi, Yuta Oshima, Seong Cheol Jeong, Go Nagahara, Tomoshi Iiyama, Masahiro Suzuki, Yusuke Iwasawa, Yutaka Matsuo
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/TaniguchiHMOJNI24</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:61f9a01e9bd6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:26:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:26:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AdoptModifiedAdamOptimalConvergenceAnyBeta2.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AdoptModifiedAdamOptimalConvergenceAnyBeta2.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
