@@ -1,0 +1,103 @@
+id: AIMech:SPoTSoftPromptTransfer
+name: SPoT (Soft Prompt Transfer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A parameter-efficient prompt-based transfer learning methodology for frozen pre-trained language models that introduces an intermediate source prompt tuning stage to learn a continuous soft prompt on one or more source tasks and uses it to initialize target prompt tuning, coupled with a prompt-library retrieval algorithm that interprets early-checkpoint task prompts as task embeddings and ranks candidate source tasks via token cosine similarity.
+identity_notes: Introduced by Tu Vu, Brian Lester, Noah Constant, Rami Al-Rfou, and Daniel Cer (ACL 2022, arXiv:2110.07904). Distinct from vanilla Prompt Tuning (Lester et al., EMNLP 2021; AIMech Round 675), which initializes soft prompts from sampled vocabulary or class-label tokens directly on each target task without cross-task prompt transfer or prompt-based task embedding retrieval. Both generic SPoT (transferring a single multi-task or single-task source prompt to all target tasks) and targeted SPoT (retrieving top-k source prompts from a prompt library via Average-Token or Per-Token Average Cosine Similarity of 10K-step prompt checkpoints using Best of Top-k, Top-k Weighted Average, or Top-k Multi-task Mixture) are lumping-cohesive variants within this single record.
+aliases:
+- Soft Prompt Transfer
+- SPoT Prompt Transfer
+- Targeted Soft Prompt Transfer with Prompt-Based Task Embeddings
+definition_evidence:
+- source_id: r698-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r698-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r698-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: spot-source-prompt-tuning-mechanism
+  kind: mechanism
+  statement: SPoT introduces source prompt tuning as an intermediate stage between pre-training and target prompt tuning that optimizes a shared continuous prompt matrix rho in R^{L x E} (L = 100 tokens) prepended to embedded inputs while keeping the base model frozen, using the learned source prompt to initialize target prompt tuning and achieving +10.1 and +2.4 point average SuperGLUE accuracy gains over vanilla Prompt Tuning on T5 Base (220M) and T5 XXL (11B), matching or exceeding full ModelTuning across all model scales while tuning 27,000x fewer task-specific parameters (410K vs. 11B).
+  evidence:
+  - source_id: r698-primary-pdf
+    locator: Section 2.1.4 Training details, p. 4; Section 2.2 Effect of SPoT, Table 1 & Figure 1, pp. 4-5; Appendix A Table 4 & Appendix D Table 5, pp. 16-17
+    relation: supports
+- claim_id: spot-task-embedding-similarity-mechanism
+  kind: mechanism
+  statement: To predict task transferability without brute-force search, SPoT defines a task's embedding e^t as its prompt checkpoint after 10,000 prompt-tuning steps and measures similarity between tasks t^1, t^2 via either Cosine Similarity of Average Tokens sim(t^1, t^2) = cos((1/L) sum_i e^1_i, (1/L) sum_j e^2_j) or Per-token Average Cosine Similarity sim(t^1, t^2) = (1/L^2) sum_i sum_j cos(e^1_i, e^2_j), exploiting the ranked source prompts via Best of Top-k, Top-k Weighted Average sum_{r=1}^k alpha_r rho^{s_r} with alpha_r = sim(e^{s_r}, e^t) / sum_{l=1}^k sim(e^{s_l}, e^t), or Top-k Multi-task Mixture to eliminate 69% of the candidate source space while retaining 90% of the oracle transfer quality gain.
+  evidence:
+  - source_id: r698-primary-pdf
+    locator: Section 3 Predicting task transferability, p. 5; Section 3.2 Defining task similarity through prompts, pp. 6-7; Section 3.3 Predicting transferability via similarity & Table 3, pp. 7-8
+    relation: supports
+- claim_id: spot-nlp-benchmark-application
+  kind: application
+  statement: Applied across GLUE, SuperGLUE, and a 26-task (160 source-target pair) transferability study spanning natural language inference, question answering, paraphrase/semantic similarity, sentiment analysis, and commonsense reasoning, where transferring MNLI -> CB reduces relative error by 58.9% (92.7 to 97.0) and Frozen T5 1.1 XXL + SPoT achieves 89.2 on the SuperGLUE test leaderboard.
+  evidence:
+  - source_id: r698-primary-pdf
+    locator: Section 3.1 Measuring transferability, Table 2 & Figure 3, pp. 5-6; Appendix D Table 5, p. 17; Appendix E Tables 6-7, p. 19
+    relation: supports
+- claim_id: spot-negative-transfer-and-similarity-limitation
+  kind: limitation
+  statement: Mixing all source datasets indiscriminately (C4 + 55 supervised tasks) underperforms selective source mixtures such as GLUE due to task interference and negative transfer, and prompt-based task embedding cosine similarity does not capture all transferability factors such as source dataset size or task difficulty (showing non-significant correlation on 6 of 10 target tasks such as BoolQ where MNLI yields a 19.0% relative error reduction despite 0.4 cosine similarity).
+  evidence:
+  - source_id: r698-primary-pdf
+    locator: Section 2.2 Effect of SPoT, p. 4; Section 3.3 Correlation between task similarity and task transferability, p. 8; Section 5 Limitations & Future work, p. 9; Appendix G Figure 8, p. 21
+    relation: supports
+evidence_sources:
+- source_id: r698-primary-pdf
+  title: 'SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer'
+  authors: &id001
+  - Tu Vu
+  - Brian Lester
+  - Noah Constant
+  - Rami Al-Rfou
+  - Daniel Cer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2110.07904.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&format=xml
+  version: Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics (ACL 2022) (2022) (1176892 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:01:00Z'
+  sha256: 3f5883a38122b162c89b7c82b23ac769982749f32599a816d7f79f4bc37ed458
+- source_id: r698-arxiv-abs
+  title: 'SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2110.07904
+  persistent_id: https://arxiv.org/abs/2110.07904
+  version: arXiv abstract page (6978 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:01:00Z'
+  sha256: 8e98e6708015d4226292f7a52305474c688c74e2197964197121afdfb1245a44
+- source_id: r698-metadata-cr
+  title: 'SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&format=xml
+  version: Crossref API work record (920 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:01:00Z'
+  sha256: 75581cad4e0531377d1fd65da01d7aa48154094a7935cdd4fc838e7a8f183a90
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SPoT adapts frozen pre-trained Transformer neural networks across downstream NLP tasks by transferring continuous soft prompt embeddings.
+limitations:
+- Indiscriminately mixing all available source tasks (e.g., C4 plus 55 supervised tasks) degrades downstream accuracy relative to focused source mixtures due to task interference and negative transfer.
+- Prompt-based task embedding cosine similarity does not account for non-semantic transfer factors such as source dataset size and task complexity, exhibiting weak correlation with relative error reduction on several target tasks.
+- Best of Top-k retrieval requires running target prompt tuning k separate times on the target task, whereas single-run Top-k Weighted Average sacrifices a portion of the top-k oracle gain.
+curation:
+  created_at: '2026-10-19T13:01:00Z'
+  updated_at: '2026-10-19T13:01:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

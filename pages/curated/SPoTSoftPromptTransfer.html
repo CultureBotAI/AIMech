@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPoT (Soft Prompt Transfer) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SPoT (Soft Prompt Transfer)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SPoT (Soft Prompt Transfer)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SPoTSoftPromptTransfer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Soft Prompt Transfer, SPoT Prompt Transfer, Targeted Soft Prompt Transfer with Prompt-Based Task Embeddings
+    </div>
+
+  <div class="detail-desc">
+    A parameter-efficient prompt-based transfer learning methodology for frozen pre-trained language models that introduces an intermediate source prompt tuning stage to learn a continuous soft prompt on one or more source tasks and uses it to initialize target prompt tuning, coupled with a prompt-library retrieval algorithm that interprets early-checkpoint task prompts as task embeddings and ranks candidate source tasks via token cosine similarity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Tu Vu, Brian Lester, Noah Constant, Rami Al-Rfou, and Daniel Cer (ACL 2022, arXiv:2110.07904). Distinct from vanilla Prompt Tuning (Lester et al., EMNLP 2021; AIMech Round 675), which initializes soft prompts from sampled vocabulary or class-label tokens directly on each target task without cross-task prompt transfer or prompt-based task embedding retrieval. Both generic SPoT (transferring a single multi-task or single-task source prompt to all target tasks) and targeted SPoT (retrieving top-k source prompts from a prompt library via Average-Token or Per-Token Average Cosine Similarity of 10K-step prompt checkpoints using Best of Top-k, Top-k Weighted Average, or Top-k Multi-task Mixture) are lumping-cohesive variants within this single record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#spot-source-prompt-tuning-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SPoT introduces source prompt tuning as an intermediate stage between pre-training and target prompt tuning that optimizes a shared continuous prompt matrix rho in R^{L x E} (L = 100 tokens) prepended to embedded inputs while keeping the base model frozen, using the learned source prompt to initialize target prompt tuning and achieving +10.1 and +2.4 point average SuperGLUE accuracy gains over vanilla Prompt Tuning on T5 Base (220M) and T5 XXL (11B), matching or exceeding full ModelTuning across all model scales while tuning 27,000x fewer task-specific parameters (410K vs. 11B).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r698-primary-pdf">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1.4 Training details, p. 4; Section 2.2 Effect of SPoT, Table 1 &amp; Figure 1, pp. 4-5; Appendix A Table 4 &amp; Appendix D Table 5, pp. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#spot-task-embedding-similarity-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To predict task transferability without brute-force search, SPoT defines a task&#39;s embedding e^t as its prompt checkpoint after 10,000 prompt-tuning steps and measures similarity between tasks t^1, t^2 via either Cosine Similarity of Average Tokens sim(t^1, t^2) = cos((1/L) sum_i e^1_i, (1/L) sum_j e^2_j) or Per-token Average Cosine Similarity sim(t^1, t^2) = (1/L^2) sum_i sum_j cos(e^1_i, e^2_j), exploiting the ranked source prompts via Best of Top-k, Top-k Weighted Average sum_{r=1}^k alpha_r rho^{s_r} with alpha_r = sim(e^{s_r}, e^t) / sum_{l=1}^k sim(e^{s_l}, e^t), or Top-k Multi-task Mixture to eliminate 69% of the candidate source space while retaining 90% of the oracle transfer quality gain.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r698-primary-pdf">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Predicting task transferability, p. 5; Section 3.2 Defining task similarity through prompts, pp. 6-7; Section 3.3 Predicting transferability via similarity &amp; Table 3, pp. 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#spot-nlp-benchmark-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied across GLUE, SuperGLUE, and a 26-task (160 source-target pair) transferability study spanning natural language inference, question answering, paraphrase/semantic similarity, sentiment analysis, and commonsense reasoning, where transferring MNLI -&gt; CB reduces relative error by 58.9% (92.7 to 97.0) and Frozen T5 1.1 XXL + SPoT achieves 89.2 on the SuperGLUE test leaderboard.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r698-primary-pdf">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Measuring transferability, Table 2 &amp; Figure 3, pp. 5-6; Appendix D Table 5, p. 17; Appendix E Tables 6-7, p. 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#spot-negative-transfer-and-similarity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Mixing all source datasets indiscriminately (C4 + 55 supervised tasks) underperforms selective source mixtures such as GLUE due to task interference and negative transfer, and prompt-based task embedding cosine similarity does not capture all transferability factors such as source dataset size or task difficulty (showing non-significant correlation on 6 of 10 target tasks such as BoolQ where MNLI yields a 19.0% relative error reduction despite 0.4 cosine similarity).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r698-primary-pdf">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2 Effect of SPoT, p. 4; Section 3.3 Correlation between task similarity and task transferability, p. 8; Section 5 Limitations &amp; Future work, p. 9; Appendix G Figure 8, p. 21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Indiscriminately mixing all available source tasks (e.g., C4 plus 55 supervised tasks) degrades downstream accuracy relative to focused source mixtures due to task interference and negative transfer.</li>
+      <li>Prompt-based task embedding cosine similarity does not account for non-semantic transfer factors such as source dataset size and task complexity, exhibiting weak correlation with relative error reduction on several target tasks.</li>
+      <li>Best of Top-k retrieval requires running target prompt tuning k separate times on the target task, whereas single-run Top-k Weighted Average sacrifices a portion of the top-k oracle gain.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SPoT adapts frozen pre-trained Transformer neural networks across downstream NLP tasks by transferring continuous soft prompt embeddings.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r698-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r698-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2110.07904.pdf" target="_blank" rel="noopener">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tu Vu, Brian Lester, Noah Constant, Rami Al-Rfou, Daniel Cer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3f5883a38122…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r698-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r698-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2110.07904" target="_blank" rel="noopener">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tu Vu, Brian Lester, Noah Constant, Rami Al-Rfou, Daniel Cer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2110.07904</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8e98e6708015…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r698-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r698-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&amp;format=xml" target="_blank" rel="noopener">SPoT: Better Frozen Model Adaptation through Soft Prompt Transfer (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tu Vu, Brian Lester, Noah Constant, Rami Al-Rfou, Daniel Cer
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=SPoT+Better+Frozen+Model+Adaptation+through+Soft+Prompt+Transfer&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:75581cad4e05…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:01:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:01:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SPoTSoftPromptTransfer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SPoTSoftPromptTransfer.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
