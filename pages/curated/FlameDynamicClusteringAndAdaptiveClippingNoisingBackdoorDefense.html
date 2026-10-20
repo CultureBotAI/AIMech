@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FLAME Dynamic Clustering and Adaptive Clipping-Noising Backdoor Defense · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FLAME Dynamic Clustering and Adaptive Clipping-Noising Backdoor Defense</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FLAME Dynamic Clustering and Adaptive Clipping-Noising Backdoor Defense</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FlameDynamicClusteringAndAdaptiveClippingNoisingBackdoorDefense</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FLAME Taming Backdoors in Federated Learning, FLAME Federated Backdoor Defense Framework, FLAME HDBSCAN Cosine Clustering and Adaptive Clipping-Noising
+    </div>
+
+  <div class="detail-desc">
+    A three-stage federated learning backdoor defense framework that (1) computes pairwise cosine distances c_ij = 1 - (W_i . W_j)/(||W_i||_2 ||W_j||_2) across all n client models and applies HDBSCAN density-based clustering with minimum cluster size floor(n/2) + 1 to admit the majority benign cluster while rejecting angularly deviating backdoor outliers, (2) clips admitted model updates W_bl^c = G_{t-1}^* + (W_bl - G_{t-1}^*) * min(1, S_t / e_bl) to the median Euclidean update norm S_t = MEDIAN(e_1, ..., e_n) across all n clients, and (3) injects adaptive Gaussian parameter noise N(0, sigma^2 I) with sigma = lambda * S_t and lambda = (1/varepsilon) * sqrt(2 ln(1.25/delta)) into the averaged model.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Nguyen et al. (USENIX Security 2022, pp. 1415-1432, arXiv:2101.02281). Distinct from fixed-two-cluster defenses such as Auror (Shen et al. 2016) and Krum, which fail when an attacker simultaneously injects multiple backdoors or honeypot outliers (pigeonhole principle), and from CRFL (AIMech:CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing), which clips and perturbs the aggregated global model for randomized parameter smoothing rather than combining HDBSCAN pairwise cosine filtering with median-update-norm adaptive clipping before noise injection.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c1-mechanism-hdbscan-pairwise-cosine-dynamic-clustering</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FLAME computes the n x n pairwise cosine distance matrix c_ij = 1 - (W_i . W_j)/(||W_i|| ||W_j||) (Eq. 2) and runs HDBSCAN with min_cluster_size = floor(n/2) + 1 and min_samples = 1 to extract the single dense majority cluster (b_1, ..., b_L) while labeling all remaining models as individual outliers, preventing scale-boosted updates from altering angular distances and defeating simultaneous multi-backdoor or honeypot clustering attacks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r530-primary-pdf">FLAME: Taming Backdoors in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Equation (2), Section 4.3.1, Algorithm 1 Lines 6-7, Figure 5, and Appendix E, pp. 4, 6, 19</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c2-mechanism-median-euclidean-clipping-and-adaptive-dp-noise</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FLAME computes Euclidean distances e_i = ||W_i - G_{t-1}^*||_2 across all n submitted models (including clustering-rejected models), sets the dynamic clipping bound S_t = MEDIAN(e_1, ..., e_n) so that S_t lies within the benign update norm range whenever k &lt; n/2, scales each admitted model via W_bl^c = G_{t-1}^* + (W_bl - G_{t-1}^*) * min(1, S_t / e_bl), and adds Gaussian noise N(0, sigma_G^2 I) with sigma_G = (S_t / varepsilon) * sqrt(2 ln(1.25 / delta)) to the averaged model G_t = (1/L) sum_{l=1}^L W_bl^c.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r530-primary-pdf">FLAME: Taming Backdoors in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.3.2, Algorithm 1 Lines 8-14, and Section 5.1 Theorem 1 &amp; Equations (5)-(7), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c3-application-backdoor-mitigation-and-stpc-private-aggregation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FLAME eliminates constrain-and-scale, Distributed Backdoor Attack (DBA), Edge-Case, and PGD backdoors across Reddit LSTM word prediction, CIFAR-10/MNIST/Tiny-ImageNet image classification, and DIoT GRU network intrusion detection with less than 0.4% main-task accuracy drop, and supports Secure Two-Party Computation (STPC) over arithmetic shares between two non-colluding servers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r530-primary-pdf">FLAME: Taming Backdoors in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 7.1 Tables 3-4 and Section 8 Figure 10, pp. 10-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c4-limitation-honest-majority-assumption-and-stpc-overhead</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FLAME requires a strict honest majority (Poisoned Model Rate PMR = k/n &lt; 50%) so that the HDBSCAN minimum cluster size floor(n/2) + 1 and the median clipping bound S_t are dominated by benign updates, and its cryptographic STPC realization incurs up to three orders of magnitude server runtime overhead compared to plaintext FLAME.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r530-primary-pdf">FLAME: Taming Backdoors in Federated Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 7.3 Figure 7 and Appendix G, pp. 12, 19-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Fails when the Poisoned Model Rate reaches or exceeds 50% (PMR &gt;= 50%), because the majority cluster and median clipping norm can be controlled by malicious clients.</li>
+      <li>Realizing FLAME privately over Secure Two-Party Computation (STPC) increases server-side computation time by up to three orders of magnitude.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FLAME is a backdoor-resilient federated learning aggregation framework combining dynamic cosine-distance clustering, median-norm clipping, and adaptive Gaussian noise injection.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Clustering.html" style="font-weight: 600;"><code>AIO:Clustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FLAME uses HDBSCAN density-based clustering on pairwise cosine distances of client weight vectors to filter out angularly deviating backdoor updates.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r530-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r530-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2101.02281.pdf" target="_blank" rel="noopener">FLAME: Taming Backdoors in Federated Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thien Duc Nguyen, Phillip Rieger, Huili Chen, Hossein Yalame, Helen Mollering, Hossein Fereidooni, Samuel Marchal, Markus Miettinen, Azalia Mirhoseini, Shaza Zeitouni, Farinaz Koushanfar, Ahmad-Reza Sadeghi, Thomas Schneider
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/uss/NguyenRCYMFMMMZ22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:196692594f1b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r530-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r530-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2101.02281" target="_blank" rel="noopener">FLAME: Taming Backdoors in Federated Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thien Duc Nguyen, Phillip Rieger, Huili Chen, Hossein Yalame, Helen Mollering, Hossein Fereidooni, Samuel Marchal, Markus Miettinen, Azalia Mirhoseini, Shaza Zeitouni, Farinaz Koushanfar, Ahmad-Reza Sadeghi, Thomas Schneider
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2101.02281</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0d3116299eda…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r530-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r530-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/uss/NguyenRCYMFMMMZ22" target="_blank" rel="noopener">FLAME: Taming Backdoors in Federated Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Thien Duc Nguyen, Phillip Rieger, Huili Chen, Hossein Yalame, Helen Mollering, Hossein Fereidooni, Samuel Marchal, Markus Miettinen, Azalia Mirhoseini, Shaza Zeitouni, Farinaz Koushanfar, Ahmad-Reza Sadeghi, Thomas Schneider
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/uss/NguyenRCYMFMMMZ22</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:dc5a533c8bd0…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:13:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:13:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FlameDynamicClusteringAndAdaptiveClippingNoisingBackdoorDefense.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FlameDynamicClusteringAndAdaptiveClippingNoisingBackdoorDefense.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
