@@ -1,0 +1,109 @@
+id: AIMech:IvonImprovedVariationalOnlineNewtonForLargeDeepNetworks
+name: Improved Variational Online Newton (IVON)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Improved Variational Online Newton (IVON) is a scalable variational Bayesian learning algorithm for deep neural networks that optimizes a diagonal Gaussian posterior q(theta) = N(m, diag(sigma^2)) over network weights with nearly identical computational and memory cost to Adam. Rather than computing expensive per-sample squared gradients or Gauss-Newton Hessian approximations, IVON estimates the diagonal expected Hessian h strictly from standard mini-batch stochastic gradients ghat evaluated at a single weight perturbation theta ~ q(theta) via Stein''s identity / the reparameterization trick: hhat = ghat * (theta - m) / sigma^2. It combines an exponential moving average of hhat with a strictly positive Riemannian natural-gradient update ensuring h + delta > 0 without coordinate clipping, and sets the effective preconditioner scale to sigma = 1 / sqrt(lambda * (h + delta)) where lambda is the effective sample size.'
+identity_notes: Must be distinguished from standard deterministic adaptive optimizers (Adam, AdamW, AdaHessian) which maintain point estimates m without sampling theta ~ N(m, diag(sigma^2)) and therefore neither optimize the variational free energy L(q) = lambda * E_q[ell_bar(theta)] + D_KL(q || p) nor yield posterior weight variances sigma^2 for Bayesian model averaging, weight pruning, or uncertainty calibration. Also distinct from Variational Online Newton (VON, Khan et al., 2018) and Variational Online Gauss-Newton (VOGN, Osawa et al., 2019), which require per-example gradient squares or explicit Hessian-vector products that incur prohibitive memory and runtime overhead on large language models such as GPT-2 and ResNet-50.
+aliases:
+- IVON
+- Improved Variational Online Newton
+- IVON Variational Deep Learning Optimizer
+- Reparameterized Variational Online Newton
+definition_evidence:
+- source_id: r650-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r650-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r650-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r650-claim-reparam-hessian-estimator
+  kind: mechanism
+  statement: Under a Gaussian variational posterior q(theta) = N(m, diag(sigma^2)), Stein's identity / the reparameterization trick yields E_q[nabla^2 ell_bar(theta)] = E_q[nabla ell_bar(theta) * (theta - m) / sigma^2], allowing IVON to obtain an unbiased single-sample stochastic diagonal Hessian estimator hhat = ghat * (theta - m) / sigma^2 using only the standard mini-batch gradient ghat at theta ~ q(theta) with zero extra backpropagation passes.
+  evidence:
+  - source_id: r650-primary-pdf
+    locator: Section 2.2, Equation (4) and Theorem 1 discussion, p. 3-4
+    relation: supports
+- claim_id: r650-claim-positive-riemannian-hessian-update
+  kind: mechanism
+  statement: To prevent negative diagonal Hessian estimates from invalidating the Gaussian variance sigma^2 = 1 / (lambda * (h + delta)), IVON incorporates a higher-order Riemannian correction term in the exponential moving average update h <- (1 - beta_2) * h + beta_2 * hhat + 0.5 * (1 - beta_2)^2 * (h - hhat)^2 / (h + delta), which guarantees h_t + delta > 0 whenever h_{t-1} + delta > 0 and hhat >= -(h_{t-1} + delta).
+  evidence:
+  - source_id: r650-primary-pdf
+    locator: Algorithm 1, Line 4 and Section 2.2 'Ensuring positivity of h', Equation (5), p. 2-4
+    relation: supports
+- claim_id: r650-claim-gpt2-llm-and-uncertainty-applications
+  kind: application
+  statement: "IVON trains large-scale foundation models from scratch\u2014including GPT-2 (125M to 773M parameters on OpenWebText) and ResNet-50 on ImageNet\u2014matching or improving upon AdamW's validation perplexity and accuracy while directly providing posterior weight variances for calibrated predictive uncertainty, out-of-distribution detection, sensitivity analysis, and model merging."
+  evidence:
+  - source_id: r650-primary-pdf
+    locator: Section 3.1 (GPT-2 Pretraining, Figure 1 & Table 1) and Section 3.2-3.4, p. 4-8
+    relation: supports
+- claim_id: r650-claim-effective-sample-size-tuning-limitation
+  kind: limitation
+  statement: IVON introduces an explicit effective sample size hyperparameter lambda and initial Hessian scale h_0 that govern the exploration noise sigma = 1 / sqrt(lambda * (h + delta)); mis-specifying lambda (too small) injects excessive weight perturbation noise that degrades optimization, whereas setting lambda too large collapses q(theta) toward a deterministic point estimate.
+  evidence:
+  - source_id: r650-primary-pdf
+    locator: Section 2.3 'Practical Choices & Hyperparameters', p. 4; Appendix C, p. 16-17
+    relation: supports
+evidence_sources:
+- source_id: r650-primary-pdf
+  title: Variational Learning is Effective for Large Deep Networks
+  authors: &id001
+  - Yuesong Shen
+  - Nico Daheim
+  - Bai Cong
+  - Peter Nickl
+  - Gian Maria Marconi
+  - Clement Bazan
+  - Rio Yokota
+  - Iryna Gurevych
+  - Daniel Cremers
+  - Mohammad Emtiyaz Khan
+  - "Thomas M\xF6llenhoff"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2402.17641.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html
+  version: Proceedings of the 41st International Conference on Machine Learning (ICML 2024), PMLR 235:44665-44686 (2024) (2348257 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:13:00Z'
+  sha256: f82c661abb25e0959eb02d51a4e87038f8ee6e779195a6dd8bc26054b4e96e1a
+- source_id: r650-arxiv-abs
+  title: Variational Learning is Effective for Large Deep Networks (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2402.17641
+  persistent_id: https://arxiv.org/abs/2402.17641
+  version: arXiv abstract page (6807 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:13:00Z'
+  sha256: be56c7f0aa3cbe0c9b7bad2dc6ddd5ebbbb374d99729e3fdc48768884ca71451
+- source_id: r650-metadata-cr
+  title: Variational Learning is Effective for Large Deep Networks (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html
+  persistent_id: https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html
+  version: Crossref API work record (2437 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:13:00Z'
+  sha256: 4e25e28d8788354b0bf40ba0a2803cf9186107500dc19f6132ff56cb25a58f3f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: IVON is a variational Bayesian optimization algorithm designed for training large deep artificial neural networks such as Transformers and residual convolutional networks.
+limitations:
+- Requires tuning the effective dataset size hyperparameter lambda and initial diagonal Hessian scale h_0 to balance weight-perturbation exploration noise against optimization stability.
+- Restricted to a mean-field (diagonal) Gaussian posterior approximation q(theta) = N(m, diag(sigma^2)), omitting off-diagonal weight correlations across parameters.
+curation:
+  created_at: '2026-10-19T12:13:00Z'
+  updated_at: '2026-10-19T12:13:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

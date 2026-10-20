@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Improved Variational Online Newton (IVON) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Improved Variational Online Newton (IVON)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Improved Variational Online Newton (IVON)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IvonImprovedVariationalOnlineNewtonForLargeDeepNetworks</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> IVON, Improved Variational Online Newton, IVON Variational Deep Learning Optimizer, Reparameterized Variational Online Newton
+    </div>
+
+  <div class="detail-desc">
+    Improved Variational Online Newton (IVON) is a scalable variational Bayesian learning algorithm for deep neural networks that optimizes a diagonal Gaussian posterior q(theta) = N(m, diag(sigma^2)) over network weights with nearly identical computational and memory cost to Adam. Rather than computing expensive per-sample squared gradients or Gauss-Newton Hessian approximations, IVON estimates the diagonal expected Hessian h strictly from standard mini-batch stochastic gradients ghat evaluated at a single weight perturbation theta ~ q(theta) via Stein&#39;s identity / the reparameterization trick: hhat = ghat * (theta - m) / sigma^2. It combines an exponential moving average of hhat with a strictly positive Riemannian natural-gradient update ensuring h + delta &gt; 0 without coordinate clipping, and sets the effective preconditioner scale to sigma = 1 / sqrt(lambda * (h + delta)) where lambda is the effective sample size.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Must be distinguished from standard deterministic adaptive optimizers (Adam, AdamW, AdaHessian) which maintain point estimates m without sampling theta ~ N(m, diag(sigma^2)) and therefore neither optimize the variational free energy L(q) = lambda * E_q[ell_bar(theta)] + D_KL(q || p) nor yield posterior weight variances sigma^2 for Bayesian model averaging, weight pruning, or uncertainty calibration. Also distinct from Variational Online Newton (VON, Khan et al., 2018) and Variational Online Gauss-Newton (VOGN, Osawa et al., 2019), which require per-example gradient squares or explicit Hessian-vector products that incur prohibitive memory and runtime overhead on large language models such as GPT-2 and ResNet-50.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r650-claim-reparam-hessian-estimator</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under a Gaussian variational posterior q(theta) = N(m, diag(sigma^2)), Stein&#39;s identity / the reparameterization trick yields E_q[nabla^2 ell_bar(theta)] = E_q[nabla ell_bar(theta) * (theta - m) / sigma^2], allowing IVON to obtain an unbiased single-sample stochastic diagonal Hessian estimator hhat = ghat * (theta - m) / sigma^2 using only the standard mini-batch gradient ghat at theta ~ q(theta) with zero extra backpropagation passes.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r650-primary-pdf">Variational Learning is Effective for Large Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equation (4) and Theorem 1 discussion, p. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r650-claim-positive-riemannian-hessian-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To prevent negative diagonal Hessian estimates from invalidating the Gaussian variance sigma^2 = 1 / (lambda * (h + delta)), IVON incorporates a higher-order Riemannian correction term in the exponential moving average update h &lt;- (1 - beta_2) * h + beta_2 * hhat + 0.5 * (1 - beta_2)^2 * (h - hhat)^2 / (h + delta), which guarantees h_t + delta &gt; 0 whenever h_{t-1} + delta &gt; 0 and hhat &gt;= -(h_{t-1} + delta).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r650-primary-pdf">Variational Learning is Effective for Large Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1, Line 4 and Section 2.2 &#39;Ensuring positivity of h&#39;, Equation (5), p. 2-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r650-claim-gpt2-llm-and-uncertainty-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    IVON trains large-scale foundation models from scratch—including GPT-2 (125M to 773M parameters on OpenWebText) and ResNet-50 on ImageNet—matching or improving upon AdamW&#39;s validation perplexity and accuracy while directly providing posterior weight variances for calibrated predictive uncertainty, out-of-distribution detection, sensitivity analysis, and model merging.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r650-primary-pdf">Variational Learning is Effective for Large Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 (GPT-2 Pretraining, Figure 1 &amp; Table 1) and Section 3.2-3.4, p. 4-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r650-claim-effective-sample-size-tuning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    IVON introduces an explicit effective sample size hyperparameter lambda and initial Hessian scale h_0 that govern the exploration noise sigma = 1 / sqrt(lambda * (h + delta)); mis-specifying lambda (too small) injects excessive weight perturbation noise that degrades optimization, whereas setting lambda too large collapses q(theta) toward a deterministic point estimate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r650-primary-pdf">Variational Learning is Effective for Large Deep Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3 &#39;Practical Choices &amp; Hyperparameters&#39;, p. 4; Appendix C, p. 16-17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires tuning the effective dataset size hyperparameter lambda and initial diagonal Hessian scale h_0 to balance weight-perturbation exploration noise against optimization stability.</li>
+      <li>Restricted to a mean-field (diagonal) Gaussian posterior approximation q(theta) = N(m, diag(sigma^2)), omitting off-diagonal weight correlations across parameters.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            IVON is a variational Bayesian optimization algorithm designed for training large deep artificial neural networks such as Transformers and residual convolutional networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r650-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r650-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2402.17641.pdf" target="_blank" rel="noopener">Variational Learning is Effective for Large Deep Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuesong Shen, Nico Daheim, Bai Cong, Peter Nickl, Gian Maria Marconi, Clement Bazan, Rio Yokota, Iryna Gurevych, Daniel Cremers, Mohammad Emtiyaz Khan, Thomas Möllenhoff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f82c661abb25…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r650-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r650-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2402.17641" target="_blank" rel="noopener">Variational Learning is Effective for Large Deep Networks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuesong Shen, Nico Daheim, Bai Cong, Peter Nickl, Gian Maria Marconi, Clement Bazan, Rio Yokota, Iryna Gurevych, Daniel Cremers, Mohammad Emtiyaz Khan, Thomas Möllenhoff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2402.17641</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:be56c7f0aa3c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r650-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r650-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html" target="_blank" rel="noopener">Variational Learning is Effective for Large Deep Networks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yuesong Shen, Nico Daheim, Bai Cong, Peter Nickl, Gian Maria Marconi, Clement Bazan, Rio Yokota, Iryna Gurevych, Daniel Cremers, Mohammad Emtiyaz Khan, Thomas Möllenhoff
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/ShenDCNMBYGCKM24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e25e28d8788…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:13:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:13:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IvonImprovedVariationalOnlineNewtonForLargeDeepNetworks.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IvonImprovedVariationalOnlineNewtonForLargeDeepNetworks.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
