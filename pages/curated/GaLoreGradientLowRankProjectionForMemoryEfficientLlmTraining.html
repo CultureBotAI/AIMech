@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GaLore (Gradient Low-Rank Projection) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>GaLore (Gradient Low-Rank Projection)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">GaLore (Gradient Low-Rank Projection)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> GaLore, Gradient Low-Rank Projection, 8-bit GaLore
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient full-parameter training strategy (Definitions 3.6 and Algorithm 2) for large language models and deep neural networks that projects each layer&#39;s full-rank weight gradient G_t = -nabla_W phi_t(W_t) in R^{m x n} (with m &lt;= n) into a compact low-rank representation R_t = P_t^T G_t Q_t in R^{r x r} (or one-sided R_t = P_t^T G_t in R^{r x n} with r &lt;&lt; m) using semi-orthogonal projection matrices P_t in R^{m x r}, Q_t in R^{n x r} obtained from the top-r singular vectors of G_t and refreshed every T iterations. GaLore tracks entry-wise stateful optimizer statistics (such as Adam&#39;s first and second moments M_t, V_t in R^{r x n}) exclusively on the projected gradient core R_t to form the normalized low-rank update N_t = rho_t(R_t) = hat{M}_t / (sqrt{hat{V}_t} + epsilon) and projects back to the original parameter space via tilde{G}_t = alpha P_t N_t Q_t^T (or alpha P_t N_t) to update the full-rank weight matrix W_t = W_{t-1} + eta tilde{G}_t, traversing a sequence of low-rank subspaces W_t = W_0 + Delta W_{T_1} + ... + Delta W_{T_k} to achieve full-rank learning with O(mn + mr + 2nr) memory.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Low-Rank Adaptation (LoRA, AIMech:LowRankAdaptation) and ReLoRA, which reparameterize the weight matrix itself as W = W_0 + B A (restricting updates within each phase to a bilinear product B A that alters gradient dynamics and requires mn + 3mr + 3nr memory). GaLore keeps W_t as a single full-rank m x n matrix, never introduces bilinear adaptor factors B A, and reduces optimizer-state memory by projecting the gradient G_t before applying stateful regularizers rho_t.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#exponential-decay-of-gradient-stable-rank-in-reversible-and-transformer-networks</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3.2 and Lemma 3.3 (Equations 6-9, Appendix B.1-B.2) prove that for chained reversible networks whose layer gradients follow the parametric form G_t = (1/N) sum_{i=1}^N (A_i - B_i W_t C_i) with positive semidefinite B_i, C_i and Kronecker operator S = (1/N) sum_{i=1}^N (C_i^T otimes B_i) having two smallest distinct eigenvalues lambda_1 &lt; lambda_2, the vectorized gradient satisfies g_t = (I - eta S) g_{t-1} and the stable rank sr(G_t) = ||G_t||_F^2 / ||G_t||_2^2 decays exponentially via sr(G_t) &lt;= sr(G_{t_0}^||) + ((1 - eta lambda_2)/(1 - eta lambda_1))^{2(t - t_0)} ||G_{t_0} - G_{t_0}^|| ||_F^2 / ||G_{t_0}^|| ||_2^2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r584-primary-pdf">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2, Theorem 3.2, Lemma 3.3, Corollaries 3.4-3.5, pp. 3-4; Appendix B.1-B.3, pp. 13-18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fixed-subspace-contraction-and-multi-subspace-full-rank-weight-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Theorem 3.8 (Equation 11, Appendix B.4) proves that under L_A, L_B, L_C Lipschitz continuity of A_i, B_i, C_i and bounded weights ||W_t||_F &lt;= D, projected gradient descent in a fixed subspace R_t = P^T G_t Q contracts at the linear rate ||R_t||_F &lt;= [1 - eta (kappa_{t-1} - L_A - 2 L_B L_C D^2)] ||R_{t-1}||_F where kappa_t = (1/N) sum_i lambda_min(P^T B_{it} P) lambda_min(Q^T C_{it} Q), while periodic SVD re-initialization every T steps (Equation 14) accumulates W_t = W_0 + sum_k Delta W_{T_k} across distinct rank-r subspaces to learn full-rank weights.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r584-primary-pdf">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Theorem 3.8, Equations (11)-(14), Figure 2, pp. 4-5; Appendix B.4, Equations (55)-(70), pp. 18-19</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r584-metadata-cr">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> Bibliographic record (ICML 2024, PMLR 235:61121-61143)</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#sublinear-optimizer-state-memory-and-8bit-per-layer-llm-pretraining</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an m x n weight matrix with m &lt;= n and rank r, one-sided GaLore (Algorithm 2, Table 1) stores W_t in R^{m x n}, P_t in R^{m x r}, and Adam moments M_t, V_t in R^{r x n} for a total of mn + mr + 2nr parameters (strictly smaller than LoRA&#39;s mn + 3mr + 3nr and full-rank Adam&#39;s 3mn), reducing optimizer state memory by up to 65.5% (BF16 GaLore) and 82.5% (8-bit GaLore) during LLaMA 1B and 7B pre-training on C4.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r584-primary-pdf">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.3, Algorithm 2, Table 1, p. 6; Section 5.1-5.5, Tables 2-4, Figures 1 and 4, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#periodic-svd-computation-and-subspace-switching-frequency-tradeoff</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    GaLore incurs periodic SVD computation overhead every T steps to update the projection matrix P_t (inducing ~8.8%-17% throughput overhead on LLaMA 1B), and switching subspaces either too frequently (which corrupts accumulated momentum/variance fidelity in M_t, V_t) or too infrequently (which stalls optimization in a stale rank-r subspace) degrades convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r584-primary-pdf">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, p. 5; Section 5.5 and Section 6, Figure 5, p. 9; Appendix E, Table 11, p. 23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires computing a truncated SVD on each projected layer&#39;s gradient matrix every T iterations.</li>
+      <li>Maintaining existing low-rank moments M_t, V_t across subspace switches introduces a tradeoff in the switching period T.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            GaLore is a memory-efficient full-parameter optimization strategy for pre-training and fine-tuning deep artificial neural networks and large language models.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Projects high-dimensional m x n weight gradient matrices into compact rank-r SVD subspaces to compress stateful optimizer statistics.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r584-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r584-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2403.03507" target="_blank" rel="noopener">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiawei Zhao, Zhenyu Zhang, Beidi Chen, Zhangyang Wang, Anima Anandkumar, Yuandong Tian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5179e9c9b083…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r584-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r584-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2403.03507" target="_blank" rel="noopener">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiawei Zhao, Zhenyu Zhang, Beidi Chen, Zhangyang Wang, Anima Anandkumar, Yuandong Tian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2403.03507</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:32f219e3e4f2…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r584-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r584-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&amp;format=json" target="_blank" rel="noopener">GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jiawei Zhao, Zhenyu Zhang, Beidi Chen, Zhangyang Wang, Anima Anandkumar, Yuandong Tian
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=GaLore+Memory-Efficient+LLM+Training+by+Gradient+Low-Rank+Projection&amp;format=json</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:08e124f3ed83…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:07:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:07:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

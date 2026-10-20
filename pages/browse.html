@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1420</strong> artificial intelligence concepts, comprising <strong>978</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1421</strong> artificial intelligence concepts, comprising <strong>979</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1420)</option>
-        <option value="curated">Curated AIMech (978)</option>
+        <option value="all">All Origins (1421)</option>
+        <option value="curated">Curated AIMech (979)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (674)</option>
+          <option value="algorithm">Algorithms (675)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1420</span> of <span id="totalCount">1420</span>
+      Showing <span id="matchCount">1421</span> of <span id="totalCount">1421</span>
     </div>
   </div>
 </div>
@@ -13417,6 +13417,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="galore (gradient low-rank projection) galoregradientlowrankprojectionformemoryefficientllmtraining aimech:galoregradientlowrankprojectionformemoryefficientllmtraining algorithms algorithm a memory-efficient full-parameter training strategy (definitions 3.6 and algorithm 2) for large language models and deep neural networks that projects each layer&#39;s full-rank weight gradient g_t = -nabla_w phi_t(w_t) in r^{m x n} (with m &lt;= n) into a compact low-rank representation r_t = p_t^t g_t q_t in r^{r x r} (or one-sided r_t = p_t^t g_t in r^{r x n} with r &lt;&lt; m) using semi-orthogonal projection matrices p_t in r^{m x r}, q_t in r^{n x r} obtained from the top-r singular vectors of g_t and refreshed every t iterations. galore tracks entry-wise stateful optimizer statistics (such as adam&#39;s first and second moments m_t, v_t in r^{r x n}) exclusively on the projected gradient core r_t to form the normalized low-rank update n_t = rho_t(r_t) = hat{m}_t / (sqrt{hat{v}_t} + epsilon) and projects back to the original parameter space via tilde{g}_t = alpha p_t n_t q_t^t (or alpha p_t n_t) to update the full-rank weight matrix w_t = w_{t-1} + eta tilde{g}_t, traversing a sequence of low-rank subspaces w_t = w_0 + delta w_{t_1} + ... + delta w_{t_k} to achieve full-rank learning with o(mn + mr + 2nr) memory. distinct from low-rank adaptation (lora, aimech:lowrankadaptation) and relora, which reparameterize the weight matrix itself as w = w_0 + b a (restricting updates within each phase to a bilinear product b a that alters gradient dynamics and requires mn + 3mr + 3nr memory). galore keeps w_t as a single full-rank m x n matrix, never introduces bilinear adaptor factors b a, and reduces optimizer-state memory by projecting the gradient g_t before applying stateful regularizers rho_t. galore gradient low-rank projection 8-bit galore theorem 3.2 and lemma 3.3 (equations 6-9, appendix b.1-b.2) prove that for chained reversible networks whose layer gradients follow the parametric form g_t = (1/n) sum_{i=1}^n (a_i - b_i w_t c_i) with positive semidefinite b_i, c_i and kronecker operator s = (1/n) sum_{i=1}^n (c_i^t otimes b_i) having two smallest distinct eigenvalues lambda_1 &lt; lambda_2, the vectorized gradient satisfies g_t = (i - eta s) g_{t-1} and the stable rank sr(g_t) = ||g_t||_f^2 / ||g_t||_2^2 decays exponentially via sr(g_t) &lt;= sr(g_{t_0}^||) + ((1 - eta lambda_2)/(1 - eta lambda_1))^{2(t - t_0)} ||g_{t_0} - g_{t_0}^|| ||_f^2 / ||g_{t_0}^|| ||_2^2. theorem 3.8 (equation 11, appendix b.4) proves that under l_a, l_b, l_c lipschitz continuity of a_i, b_i, c_i and bounded weights ||w_t||_f &lt;= d, projected gradient descent in a fixed subspace r_t = p^t g_t q contracts at the linear rate ||r_t||_f &lt;= [1 - eta (kappa_{t-1} - l_a - 2 l_b l_c d^2)] ||r_{t-1}||_f where kappa_t = (1/n) sum_i lambda_min(p^t b_{it} p) lambda_min(q^t c_{it} q), while periodic svd re-initialization every t steps (equation 14) accumulates w_t = w_0 + sum_k delta w_{t_k} across distinct rank-r subspaces to learn full-rank weights. for an m x n weight matrix with m &lt;= n and rank r, one-sided galore (algorithm 2, table 1) stores w_t in r^{m x n}, p_t in r^{m x r}, and adam moments m_t, v_t in r^{r x n} for a total of mn + mr + 2nr parameters (strictly smaller than lora&#39;s mn + 3mr + 3nr and full-rank adam&#39;s 3mn), reducing optimizer state memory by up to 65.5% (bf16 galore) and 82.5% (8-bit galore) during llama 1b and 7b pre-training on c4. galore incurs periodic svd computation overhead every t steps to update the projection matrix p_t (inducing ~8.8%-17% throughput overhead on llama 1b), and switching subspaces either too frequently (which corrupts accumulated momentum/variance fidelity in m_t, v_t) or too infrequently (which stalls optimization in a stale rank-r subspace) degrades convergence. galore: memory-efficient llm training by gradient low-rank projection galore: memory-efficient llm training by gradient low-rank projection (arxiv abstract) galore: memory-efficient llm training by gradient low-rank projection (crossref metadata) jiawei zhao zhenyu zhang beidi chen zhangyang wang anima anandkumar yuandong tian jiawei zhao zhenyu zhang beidi chen zhangyang wang anima anandkumar yuandong tian jiawei zhao zhenyu zhang beidi chen zhangyang wang anima anandkumar yuandong tian">
+        <td>
+          <a href="curated/GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining.html" style="font-weight: 600; font-size: 1rem;">GaLore (Gradient Low-Rank Projection)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> GaLore, Gradient Low-Rank Projection…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A memory-efficient full-parameter training strategy (Definitions 3.6 and Algorithm 2) for large language models and deep neural networks tha…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:GaLoreGradientLowRankProjectionForMemoryEfficientLlmTraining</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="aio"
