@@ -1,0 +1,103 @@
+id: AIMech:BBTBlackBoxTuningForLanguageModelAsAService
+name: Black-Box Tuning (BBT) for Language-Model-as-a-Service
+concept_kind: algorithm
+review_status: DRAFT
+definition: A derivative-free continuous prompt optimization method for Language-Model-as-a-Service (LMaaS) inference APIs that exploits the low intrinsic dimensionality of large pretrained language models by parameterizing a D-dimensional continuous prompt p in R^D as an increment p = A z + p_0 over initial vocabulary embeddings p_0 via a fixed uniform random projection matrix A in R^{D x d} from a low-dimensional subspace z in [-5, 5]^d (with d << D), and iteratively optimizes z* = arg min_{z in Z} L(f(A z + p_0; X_tilde), Y_tilde) using the Covariance Matrix Adaptation Evolution Strategy (CMA-ES) querying only forward-pass masked-token logits Y_hat = f(p; X_tilde).
+identity_notes: Distinct from gradient-based Prompt Tuning (Lester et al., EMNLP 2021, AIMech:PromptTuning) and P-Tuning v2 (AIMech:PTuningV2DeepContinuousPromptTuning), which require backward-pass gradient access to the language model, and from RLPrompt (Deng et al., EMNLP 2022, AIMech:RLPromptReinforcementLearningDiscretePromptOptimization), which optimizes discrete vocabulary tokens via a policy network and Soft Q-Learning rather than continuous prompt increments in a random linear subspace via CMA-ES.
+aliases:
+- Black-Box Tuning
+- BBT
+- BBT Derivative-Free Subspace Prompt Tuning
+- CMA-ES Intrinsic-Subspace Black-Box Prompt Tuning
+definition_evidence:
+- source_id: r727-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r727-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r727-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r727-claim-random-subspace-cma-es
+  kind: mechanism
+  statement: To make derivative-free optimization tractable for a continuous prompt of length L = 50 and dimension D = 50 x 1024 = 51,200, Black-Box Tuning optimizes z in [-5, 5]^d in a d = 500 dimensional subspace mapped by a He-uniform random matrix A in R^{D x d} around initial prompt p_0, sampling offspring z_i^(t+1) ~ m^(t) + sigma^(t) N(0, C^(t)) via CMA-ES (population size lambda = 20) to minimize multi-class cross-entropy or margin hinge loss L_Hinge(y_hat, y_tilde) = sum_{i != y_tilde} max(0, gamma + y_hat_i - y_hat_{y_tilde}) over API-returned masked logits.
+  evidence:
+  - source_id: r727-primary-pdf
+    locator: Section 3.2-3.3, Section 4.1, & Appendix A, Equations 1-4, Tables 2, Figure 4, pp. 3-5, 13
+    relation: supports
+- claim_id: r727-claim-decoupled-client-resource-overhead
+  kind: mechanism
+  statement: Because Black-Box Tuning updates only the d-dimensional CMA-ES distribution parameters on the user side, its client optimization cost is decoupled from the parameter count of the server-side PTM, requiring only 30 MB of user RAM (no client GPU needed), 6-22 KB upload and 0.25-1 KB download per query on SST-2 and AG's News (compared to 6,016-27,392 KB download for Feature-BiLSTM).
+  evidence:
+  - source_id: r727-primary-pdf
+    locator: Section 4.2 & Appendix C, Table 4, pp. 6-7, 14-15
+    relation: supports
+- claim_id: r727-claim-few-shot-accuracy-application
+  kind: application
+  statement: In the 16-shot per class setting with RoBERTa-large across 7 NLU benchmarks (SST-2, Yelp Polarity, AG's News, DBPedia, MRPC, SNLI, RTE), Black-Box Tuning (within an 8,000 API call budget and MNLI prompt pre-training for sentence-pair tasks) achieves 83.90% average score, outperforming gradient-free Manual Prompt (62.56%), In-Context Learning (59.36%), and Feature-BiLSTM (68.29%) as well as gradient-based Prompt Tuning (74.42%), P-Tuning v2 (70.47%), and full Model Tuning (78.88%).
+  evidence:
+  - source_id: r727-primary-pdf
+    locator: Section 3.4 & Section 4.2, Table 3, pp. 4, 6-7
+    relation: supports
+- claim_id: r727-claim-many-class-and-subspace-limitation
+  kind: limitation
+  statement: Black-Box Tuning trails full Model Tuning by 10.18 points on 14-class DBPedia (87.80% vs. 97.98%) where the number of classes is large, requires the server API to accept continuous prompt vector injections Az + p_0 alongside token IDs, and degrades if the random subspace dimension d is too small (e.g., d = 100 underfits) or too large (e.g., d = 1000 slows CMA-ES convergence and overfits).
+  evidence:
+  - source_id: r727-primary-pdf
+    locator: Section 4.2-4.3 & Section 5, Table 3, Figure 3, pp. 6-8
+    relation: supports
+evidence_sources:
+- source_id: r727-primary-pdf
+  title: Black-Box Tuning for Language-Model-as-a-Service
+  authors: &id001
+  - Tianxiang Sun
+  - Yunfan Shao
+  - Hong Qian
+  - Xuanjing Huang
+  - Xipeng Qiu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2201.03514.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Black-Box+Tuning+for+Language-Model-as-a-Service+Sun&format=xml
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022), PMLR 162:20841-20855 (2022) (1506659 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:30:00Z'
+  sha256: 80ed0da5bb267edf988a05bc405067cd4bbafde0ac9d081d88f21e2e8320b5ee
+- source_id: r727-arxiv-abs
+  title: Black-Box Tuning for Language-Model-as-a-Service (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2201.03514
+  persistent_id: https://arxiv.org/abs/2201.03514
+  version: arXiv abstract page (7084 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:30:00Z'
+  sha256: 124a78e4a886ef27b5904c0c8e374a0970aa52b5daca0bb35c9d40a14320b752
+- source_id: r727-metadata-cr
+  title: Black-Box Tuning for Language-Model-as-a-Service (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Black-Box+Tuning+for+Language-Model-as-a-Service+Sun&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Black-Box+Tuning+for+Language-Model-as-a-Service+Sun&format=xml
+  version: Crossref API work record (897 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:30:00Z'
+  sha256: 46245b92d18259daf598c1cf31ed5c28558892353a8ea27419fafd71c29dd896
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Black-Box Tuning adapts frozen pretrained Transformer neural language models deployed behind black-box inference APIs via derivative-free CMA-ES optimization in a low-dimensional random subspace.
+limitations:
+- Underperforms full-model fine-tuning on classification tasks with a large number of classes (such as 14-class DBPedia, 87.80% vs. 97.98%) and requires sentence-pair tasks (SNLI, RTE, MRPC) to be initialized from an MNLI pre-trained prompt embedding p_0 to match or beat full fine-tuning.
+- Requires the server-side inference API to accept continuous prompt embedding vectors p = A z + p_0 and return candidate label-word logits rather than strictly text-in/text-out strings.
+curation:
+  created_at: '2026-10-19T13:30:00Z'
+  updated_at: '2026-10-19T13:30:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
