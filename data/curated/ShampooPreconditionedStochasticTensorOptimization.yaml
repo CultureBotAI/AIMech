@@ -1,0 +1,100 @@
+id: AIMech:ShampooPreconditionedStochasticTensorOptimization
+name: Shampoo (Preconditioned Stochastic Tensor Optimization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: A structure-aware preconditioned stochastic optimization algorithm over order-k tensor parameter spaces R^{n_1 x ... x n_k} that maintains a separate positive-definite preconditioning matrix H_t^i in R^{n_i x n_i} for each tensor mode i in [k] by accumulating mode-i gradient contractions H_t^i = H_{t-1}^i + mat_i(G_t) mat_i(G_t)^T (with H_0^i = epsilon I_{n_i}) and updates parameters by multiplying the gradient tensor along every mode i by (H_t^i)^{-1/(2k)}, yielding W_{t+1} = W_t - eta L_t^{-1/4} G_t R_t^{-1/4} in the matrix case (k = 2).
+identity_notes: Distinct from diagonal AdaGrad and Adam in that Shampoo maintains full per-mode covariance matrices H_t^i rather than purely elementwise diagonal accumulators, and distinct from full-matrix AdaGrad in that it implicitly preconditions the vectorized gradient via the Kronecker product bigotimes_{i=1}^k (H_t^i)^{1/(2k)} with O(sum_i n_i^2) storage and O(sum_i n_i^3) inversion cost instead of O(prod_i n_i^2) and O(prod_i n_i^3). Distinct from K-FAC in that Shampoo is model-oblivious and relies solely on tensor-contracted outer products of observed gradients rather than architecture-specific activation/backpropagation Fisher factorizations.
+aliases:
+- Shampoo
+- Shampoo Optimizer
+- Preconditioned Stochastic Tensor Optimization
+definition_evidence:
+- source_id: r588-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r588-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r588-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c-r588-kronecker-preconditioning-equivalence
+  kind: mechanism
+  statement: By Lemma 4 and Lemma 12, preconditioning an order-k gradient tensor G_t along each mode i via the mode-i tensor-matrix product G_t x_1 (H_t^1)^{-1/(2k)} ... x_k (H_t^k)^{-1/(2k)} is algebraically equivalent on the vectorized parameter wt = vec(W_t) to a preconditioned gradient step wt+1 = wt - eta H_t^{-1} gt with Kronecker preconditioner H_t = bigotimes_{i=1}^k (H_t^i)^{1/(2k)}, reducing matrix-case memory from m^2 n^2 to m^2 + n^2 and SVD/inversion work from O(m^3 n^3) to O(m^3 + n^3).
+  evidence:
+  - source_id: r588-primary-pdf
+    locator: Section 1.1, p. 3; Lemma 4, p. 6; Section 4.2-4.3 & Lemma 12, pp. 11-12
+    relation: supports
+- claim_id: c-r588-loewner-dominance-and-regret-bound
+  kind: mechanism
+  statement: Under operator monotonicity of the geometric mean of commuting positive semidefinite matrices (Lemma 5, Lemma 8, Lemma 11), the Kronecker product of Shampoo's mode preconditioners upper-bounds the full-matrix AdaGrad covariance in Loewner order, epsilon I_n + sum_{t=1}^T g_t g_t^T <= r bigotimes_{i=1}^k (epsilon I_{n_i} + sum_{t=1}^T G_t^{(i)})^{1/k}, yielding an O(sqrt(T)) online convex optimization regret bound sum_{t=1}^T (f_t(W_t) - f_t(W^*)) <= sqrt(2r) D prod_{i=1}^k Tr((H_T^i)^{1/(2k)}) (Theorem 7 and Theorem 10).
+  evidence:
+  - source_id: r588-primary-pdf
+    locator: Lemma 5-6, p. 6; Theorem 7 & Lemma 8-9, pp. 6-8; Theorem 10 & Lemma 11, pp. 11-12
+    relation: supports
+- claim_id: c-r588-delayed-roots-and-diagonal-fallback
+  kind: application
+  statement: Recomputing the fractional matrix roots (H_t^i)^{-1/(2k)} via SVD once every 20 to 100 steps amortizes per-step runtime to be comparable to SGD, AdaGrad, and Adam on deep CNNs and Transformer attention models, while dimensions exceeding a size threshold (e.g. 1200) can independently fall back to diagonal preconditioning (Algorithm 3, Theorem 13).
+  evidence:
+  - source_id: r588-primary-pdf
+    locator: Section 5-6, pp. 12-14; Appendix A, Theorem 13, pp. 16-17
+    relation: supports
+- claim_id: c-r588-block-diagonal-and-large-dimension-limitation
+  kind: limitation
+  statement: Shampoo treats each parameter tensor independently as a block-diagonal preconditioner that ignores inter-tensor parameter correlations, and storing full n_i x n_i mode preconditioners or computing their SVDs becomes prohibitively expensive when individual tensor dimensions n_i are very large.
+  evidence:
+  - source_id: r588-primary-pdf
+    locator: Section 5, p. 12; Appendix A, p. 16
+    relation: supports
+evidence_sources:
+- source_id: r588-primary-pdf
+  title: 'Shampoo: Preconditioned Stochastic Tensor Optimization'
+  authors: &id001
+  - Vineet Gupta
+  - Tomer Koren
+  - Yoram Singer
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1802.09568.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/0001KS18
+  version: Proceedings of the 35th International Conference on Machine Learning (ICML 2018), PMLR 80:1842-1850 (2018) (330728 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T11:11:00Z'
+  sha256: dedd4fdb7f591342eb3bcee119d7d51f3b751d7070afc0b1ba59560ef2594d64
+- source_id: r588-arxiv-abs
+  title: 'Shampoo: Preconditioned Stochastic Tensor Optimization (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1802.09568
+  persistent_id: https://arxiv.org/abs/1802.09568
+  version: arXiv abstract page (6687 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:11:00Z'
+  sha256: f6dba65683c6e3cb69e5ac18ff1f5823cd90f19af24cf41a6e6c643789b6d356
+- source_id: r588-metadata-cr
+  title: 'Shampoo: Preconditioned Stochastic Tensor Optimization (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/0001KS18
+  persistent_id: https://dblp.org/rec/conf/icml/0001KS18
+  version: Crossref API work record (1751 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T11:11:00Z'
+  sha256: 3f2f5f53a0cd8e0848d09c4a00b2ae99bf1e2f69ef2e1be760ffb954e3753b68
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Shampoo is a Kronecker-factored tensor preconditioning optimizer for training artificial neural networks.
+limitations:
+- Captures only intra-tensor parameter correlations via block-diagonal per-tensor preconditioning and ignores correlations across distinct parameter tensors.
+- Requires O(sum_i n_i^2) memory and O(sum_i n_i^3) spectral decomposition work per tensor, necessitating diagonal fallback or delayed root updates when mode dimensions are large.
+curation:
+  created_at: '2026-10-19T11:11:00Z'
+  updated_at: '2026-10-19T11:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
