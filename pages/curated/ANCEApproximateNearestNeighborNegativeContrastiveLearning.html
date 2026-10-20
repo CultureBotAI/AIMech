@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANCE Approximate Nearest Neighbor Negative Contrastive Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>ANCE Approximate Nearest Neighbor Negative Contrastive Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">ANCE Approximate Nearest Neighbor Negative Contrastive Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ANCEApproximateNearestNeighborNegativeContrastiveLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> ANCE, Approximate Nearest Neighbor Negative Contrastive Estimation, ANCE Asynchronous ANN Hard-Negative Dense Retrieval, ANCE-FirstP and ANCE-MaxP
+    </div>
+
+  <div class="detail-desc">
+    A contrastive representation learning algorithm for dense text retrieval that resolves the diminishing gradient norms and high stochastic gradient variance of local in-batch and static BM25 negatives by globally sampling hard negative documents D^-_{ANCE} = ANN_{f(q,d)} \ D^+ from the top-retrieved candidates of the entire corpus under the being-optimized dual-encoder model f(q, d) = sim(g(q; theta), g(d; theta)), maintaining a parallel Inferencer process that periodically re-encodes the document corpus with recent model checkpoints f_k and asynchronously refreshes the Approximate Nearest Neighbor (ANN) index every m training batches while the Trainer optimizes θ* = argmin_θ sum_q sum_{d^+ in D^+} sum_{d^- in D^-_{ANCE}} l(f(q, d^+), f(q, d^-)).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Dense Passage Retrieval (Karpukhin et al., EMNLP 2020, AIMech:DensePassageRetrieval), which uses static BM25 negatives and local in-batch negatives; distinct from RocketQA (Qu et al., NAACL 2021, AIMech:RocketQADenoisedHardNegativeSampling), which uses cross-batch negatives and cross-encoder hard-negative denoising across discrete pipeline generations; and distinct from REALM (Guu et al., ICML 2020, AIMech:REALMRetrievalAugmentedLanguageModelPreTraining), which trains a masked language model jointly with a neural knowledge retriever using marginal log-likelihood over documents rather than variance-reducing global hard-negative contrastive estimation for first-stage ad-hoc and OpenQA dense retrieval.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r753-claim-variance-reduction-gradient-norm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under stochastic gradient descent with importance sampling θ_{t+1} = θ_t - η (1 / (N p_{d^-})) grad_{θ_t} l(d^+, d^-), convergence rate E[Δ^t] is maximized by the oracle distribution p*_{d^-} proportional to ||grad_{θ_t} l(d^+, d^-)||_2; because batch size b &lt;&lt; |C| and informative negatives |D^{-*}| &lt;&lt; |C|, a random mini-batch includes informative negatives with near-zero probability p = b|D^{-*}|/|C|^2 (empirically 0% overlap with top-100 DR negatives), whereas ANCE global negatives D^-_{ANCE} = ANN_{f(q,d)} \ D^+ achieve 63% to 100% overlap and increase per-sample gradient norms by orders of magnitude.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r753-primary-pdf">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Section 4, &amp; Section 6.2, Equations 4-13, Figures 3-4, pp. 3-4, 7-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r753-claim-asynchronous-ann-index-refresh</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To avoid halting stochastic training for corpus-wide inference, ANCE splits compute between a Trainer that samples hard negatives from the top-k (e.g., top-200) results of ANN_{f_{k-1}} and a parallel Inferencer that re-encodes the entire corpus with checkpoint f_k and rebuilds the Faiss IndexFlatIP index every m batches (e.g., every 10k batches with a 1:1 Trainer:Inferencer GPU split), supporting both 512-token FirstP truncation and 4-passage MaxP max-pooling for long documents.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r753-primary-pdf">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 4 &amp; Section 5, Figure 2, Appendix A.1 &amp; A.3, Figure 5, Table 7, pp. 4-5, 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r753-claim-web-search-openqa-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ANCE improves MS MARCO Passage Dev retrieval to 0.330 MRR@10 and 0.959 Recall@1k, raises TREC 2019 DL NDCG@10 to 0.648 on passages (ANCE-FirstP) and 0.628 on documents (ANCE-MaxP, vs. 0.519 for BM25 and 0.557 for DPR), increases Natural Questions Top-20/100 answer coverage to 81.9/87.5 (single-task) and 82.1/87.9 (multi-task) with 46.0/57.5 end-to-end Exact Match on NQ/TriviaQA when paired with RAG-Token/DPR readers, and delivers +14.2% to +18.4% gains in a commercial search engine over 250M to 8B documents at 11.6ms online latency (over 100x faster than 1.42s BM25 + BERT reranking).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r753-primary-pdf">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1, Tables 1-5, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r753-claim-corpus-reencoding-cost-and-async-gap-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ANCE training requires dedicated parallel GPU resources for continuous corpus re-encoding (10 hours per corpus pass on a 32GB V100 GPU at 4.5ms per document), and an overly large learning rate or infrequent ANN refresh interval (e.g., 20k batches with 8:4 GPU split or 1e-5 learning rate) introduces an asynchronous index staleness gap that causes training loss and test NDCG@10 fluctuations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r753-primary-pdf">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval</a></span>
+        <span>· <strong>Locator:</strong> Section 6.1, Table 5, &amp; Appendix A.3-A.4, Figure 5, Table 7, pp. 6-7, 13-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires substantial parallel GPU compute to repeatedly re-encode the entire document corpus and rebuild the ANN index every 5k-10k training batches (10 hours per corpus encoding pass on a single V100 GPU).</li>
+      <li>Sensitive to the asynchronous staleness gap between the Trainer and Inferencer checkpoints, where high learning rates or low index refresh rates cause optimization fluctuations, and can still make semantic false-positive errors on queries requiring domain-specific lexical disambiguation (such as geological vs. financial &#39;active margin&#39;).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            ANCE trains Siamese Transformer neural network encoders for dense text retrieval using global hard negatives mined from an asynchronously updated ANN index.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r753-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r753-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2007.00808.pdf" target="_blank" rel="noopener">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lee Xiong, Chenyan Xiong, Ye Li, Kwok-Fung Tang, Jialin Liu, Paul Bennett, Junaid Ahmed, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.00808</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3ffc05cd484c…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r753-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r753-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2007.00808" target="_blank" rel="noopener">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lee Xiong, Chenyan Xiong, Ye Li, Kwok-Fung Tang, Jialin Liu, Paul Bennett, Junaid Ahmed, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2007.00808</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a44d521174f0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r753-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r753-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/bibtex/2007.00808" target="_blank" rel="noopener">Approximate Nearest Neighbor Negative Contrastive Learning for Dense Text Retrieval (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Lee Xiong, Chenyan Xiong, Ye Li, Kwok-Fung Tang, Jialin Liu, Paul Bennett, Junaid Ahmed, Arnold Overwijk
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/bibtex/2007.00808</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b75aca0e1ccc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:56:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:56:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ANCEApproximateNearestNeighborNegativeContrastiveLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ANCEApproximateNearestNeighborNegativeContrastiveLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
