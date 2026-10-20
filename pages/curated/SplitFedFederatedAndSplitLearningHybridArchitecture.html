@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SplitFed Learning · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>SplitFed Learning</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">SplitFed Learning</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SplitFedFederatedAndSplitLearningHybridArchitecture</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SplitFed, SFL, SFLv1 and SFLv2, Split Federated Learning
+    </div>
+
+  <div class="detail-desc">
+    A hybrid distributed collaborative machine learning algorithm and dual-server split-network architecture (SplitFed / SFL; Thapa, Chamikara, Camtepe, and Sun, AAAI 2022) that partitions a full neural network W at a cut layer into a client-side sub-network W^C (of size beta |W|) and a server-side sub-network W^S while training all K clients in parallel rather than sequentially. In each global epoch, clients execute forward propagation on W_{k,t}^C in parallel (optionally injecting calibrated Laplacian PixelDP noise A_{k,i}^P = A_{k,i} + Lap(Delta I_{p,q}^A / eps&#39;) before the cut layer) and transmit cut-layer activations (&#39;smashed data&#39; A_{k,t}) to a Main Server; the Main Server computes server-side forward-backward passes (in parallel per client followed by sample-weighted server model averaging W_{t+1}^S = W_t^S - eta sum_{k=1}^K (n_k / n) nabla ell_k(W_t^S; A_t^S) in SFLv1, or sequentially across randomly ordered clients&#39; smashed data without server-model averaging in SFLv2), returns cut-layer gradients dA_{k,t} to each client for client-side backpropagation (with optional per-sample l2 clipping and Gaussian noise for (eps, delta)-DP), and a Fed Server aggregates client-side sub-networks via W_{t+1}^C = sum_{k=1}^K (n_k / n) W_{k,t}^C.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Federated Learning (AIMech:FederatedAveraging), where each client trains and communicates the entire un-split model W, and from sequential Split Learning (Gupta &amp; Raskar, 2018; Vepakomma et al., 2018), where clients train the client-side sub-network in a relay fashion one client at a time without parallel FedServer client-side aggregation. Distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning; He et al., NeurIPS 2020), which uses alternating bi-directional KL-divergence knowledge distillation between compact edge feature extractors and a server classifier rather than exact cut-layer activation/gradient backpropagation coupled with FedAvg of client-side sub-networks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#splitfed-parallel-smashed-data-and-dual-server-aggregation-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In SplitFed (Algorithms 1-2), each participating client k in S_t computes cut-layer activations A_{k,t} in parallel on its local sub-network W_{k,t}^C and sends A_{k,t} to the Main Server, which computes loss gradients dA_{k,t} = nabla ell_k(A_t^S; W_t^S) and returns them to client k; in SFLv1 the Main Server updates W_{t+1}^S by sample-weighted averaging of parallel client-specific server gradients, whereas in SFLv2 the Main Server updates W^S sequentially on each client&#39;s smashed data without server-side FedAvg, while in both variants the Fed Server aggregates the client-side sub-networks via W_{t+1}^C = sum_{k=1}^K (n_k / n) W_{k,t}^C.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r503-primary-pdf">SplitFed: When Federated Learning Meets Split Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1 Overall Structure, Algorithm 1, Algorithm 2, pp. 2-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#splitfed-communication-and-training-time-complexity-ordering-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For K clients, total dataset size p, cut-layer activation size q, full model size |W|, client-side model fraction beta = |W^C| / |W|, communication rate R, full forward-backward time T, and aggregation time T_fedavg, Table 2 establishes total communication per global epoch 2 p q + 2 beta K |W| for SL, SFLv1, and SFLv2 (compared to 2 K |W| for FL) and total training time T + 2 p q / (K R) + 2 beta |W| / R + T_fedavg for SFLv1 and T + 2 p q / (K R) + 2 beta |W| / R + T_fedavg / 2 for SFLv2 versus T + 2 p q / R + 2 beta (|W| / R) K for SL, yielding strict training-time ordering SFLv2 &lt; SFLv1 &lt; SL for K &gt; 1 while preserving (eps, delta)-DP on client gradients via l2 clipping at C&#39; and Gaussian noise N(0, sigma^2 C&#39;^2 I) and PixelDP robustness via Laplacian perturbation Lap(Delta I_{p,q}^A / eps&#39;).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r503-primary-pdf">SplitFed: When Federated Learning Meets Split Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 Privacy Protection, Eqs. (1)-(6), Lemma 1, pp. 4-6; Section 3.3 Total Cost Analysis, Table 2, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#splitfed-noncolluding-two-server-trust-and-dp-utility-degradation-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    SplitFed&#39;s unencrypted privacy model requires two non-colluding honest-but-curious servers (Main Server and Fed Server), degrades utility as the client-side DP and PixelDP privacy budgets eps + eps&#39; are tightened (dropping AlexNet MNIST test accuracy from 78% without PixelDP to 40% at eps = 0.5, eps&#39; = 0.5 in Figure 5), and inherits split learning&#39;s convergence sensitivity on deep architectures such as VGG16 on CIFAR-10 (Section 4.1, pp. 7-8; Section 4.3, p. 9; Appendix A, p. 11).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r503-primary-pdf">SplitFed: When Federated Learning Meets Split Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, pp. 7-8; Section 4.3, Fig. 5, p. 9; Appendix A Threat Model, p. 11; Appendix C.1-C.2, pp. 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#splitfed-dermatoscopic-and-visual-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to distributed collaborative image classification across resource-constrained clients on HAM10000 pigmented skin lesion dermatoscopic images, MNIST, Fashion-MNIST, and CIFAR-10 using LeNet, AlexNet, VGG16, and ResNet-18 split architectures.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r503-primary-pdf">SplitFed: When Federated Learning Meets Split Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4 Experiments, Tables 3-5, Figs. 2-9, pp. 7-9, 12-14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Without homomorphic encryption over client-side updates, SplitFed requires two non-colluding honest-but-curious servers (Main Server and Fed Server) to prevent full-model reconstruction (Section 3.1, p. 3; Appendix A, p. 11).</li>
+      <li>Per-batch communication of cut-layer smashed activations and gradients scales as 2 p q with total dataset size p and cut-layer dimension q, which can exceed full-model FL communication when p q is large relative to K |W| (Section 3.3 Table 2, p. 6; Appendix B.1, p. 11).</li>
+      <li>Strong client-side differential privacy and PixelDP noise (small eps and eps&#39;) substantially slow convergence and reduce test accuracy (Section 4.3, Fig. 5, p. 9).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            SplitFed is a hybrid distributed learning algorithm combining federated model aggregation with split-network training.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r503-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r503-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2004.12088.pdf" target="_blank" rel="noopener">SplitFed: When Federated Learning Meets Split Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Thapa, M. A. P. Chamikara, Seyit Camtepe, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v36i8.20825</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5fcec79934b9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r503-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r503-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2004.12088" target="_blank" rel="noopener">SplitFed: When Federated Learning Meets Split Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Thapa, M. A. P. Chamikara, Seyit Camtepe, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2004.12088</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f89e1c0b90ee…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r503-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r503-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://doi.org/10.1609/aaai.v36i8.20825" target="_blank" rel="noopener">SplitFed: When Federated Learning Meets Split Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chandra Thapa, M. A. P. Chamikara, Seyit Camtepe, Lichao Sun
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1609/aaai.v36i8.20825</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:88d9d569c2f7…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:46:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:46:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SplitFedFederatedAndSplitLearningHybridArchitecture.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SplitFedFederatedAndSplitLearningHybridArchitecture.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

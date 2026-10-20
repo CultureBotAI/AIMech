@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1339</strong> artificial intelligence concepts, comprising <strong>897</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1340</strong> artificial intelligence concepts, comprising <strong>898</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1339)</option>
-        <option value="curated">Curated AIMech (897)</option>
+        <option value="all">All Origins (1340)</option>
+        <option value="curated">Curated AIMech (898)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (595)</option>
+          <option value="algorithm">Algorithms (596)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1339</span> of <span id="totalCount">1339</span>
+      Showing <span id="matchCount">1340</span> of <span id="totalCount">1340</span>
     </div>
   </div>
 </div>
@@ -29313,6 +29313,32 @@
         </td>
         <td>
             <span class="badge badge-aio" title="Imported AIO class">Imported</span>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="splitfed learning splitfedfederatedandsplitlearninghybridarchitecture aimech:splitfedfederatedandsplitlearninghybridarchitecture algorithms algorithm a hybrid distributed collaborative machine learning algorithm and dual-server split-network architecture (splitfed / sfl; thapa, chamikara, camtepe, and sun, aaai 2022) that partitions a full neural network w at a cut layer into a client-side sub-network w^c (of size beta |w|) and a server-side sub-network w^s while training all k clients in parallel rather than sequentially. in each global epoch, clients execute forward propagation on w_{k,t}^c in parallel (optionally injecting calibrated laplacian pixeldp noise a_{k,i}^p = a_{k,i} + lap(delta i_{p,q}^a / eps&#39;) before the cut layer) and transmit cut-layer activations (&#39;smashed data&#39; a_{k,t}) to a main server; the main server computes server-side forward-backward passes (in parallel per client followed by sample-weighted server model averaging w_{t+1}^s = w_t^s - eta sum_{k=1}^k (n_k / n) nabla ell_k(w_t^s; a_t^s) in sflv1, or sequentially across randomly ordered clients&#39; smashed data without server-model averaging in sflv2), returns cut-layer gradients da_{k,t} to each client for client-side backpropagation (with optional per-sample l2 clipping and gaussian noise for (eps, delta)-dp), and a fed server aggregates client-side sub-networks via w_{t+1}^c = sum_{k=1}^k (n_k / n) w_{k,t}^c. distinct from standard federated learning (aimech:federatedaveraging), where each client trains and communicates the entire un-split model w, and from sequential split learning (gupta &amp; raskar, 2018; vepakomma et al., 2018), where clients train the client-side sub-network in a relay fashion one client at a time without parallel fedserver client-side aggregation. distinct from fedgkt (aimech:fedgktgroupknowledgetransferforedgefederatedlearning; he et al., neurips 2020), which uses alternating bi-directional kl-divergence knowledge distillation between compact edge feature extractors and a server classifier rather than exact cut-layer activation/gradient backpropagation coupled with fedavg of client-side sub-networks. splitfed sfl sflv1 and sflv2 split federated learning in splitfed (algorithms 1-2), each participating client k in s_t computes cut-layer activations a_{k,t} in parallel on its local sub-network w_{k,t}^c and sends a_{k,t} to the main server, which computes loss gradients da_{k,t} = nabla ell_k(a_t^s; w_t^s) and returns them to client k; in sflv1 the main server updates w_{t+1}^s by sample-weighted averaging of parallel client-specific server gradients, whereas in sflv2 the main server updates w^s sequentially on each client&#39;s smashed data without server-side fedavg, while in both variants the fed server aggregates the client-side sub-networks via w_{t+1}^c = sum_{k=1}^k (n_k / n) w_{k,t}^c. for k clients, total dataset size p, cut-layer activation size q, full model size |w|, client-side model fraction beta = |w^c| / |w|, communication rate r, full forward-backward time t, and aggregation time t_fedavg, table 2 establishes total communication per global epoch 2 p q + 2 beta k |w| for sl, sflv1, and sflv2 (compared to 2 k |w| for fl) and total training time t + 2 p q / (k r) + 2 beta |w| / r + t_fedavg for sflv1 and t + 2 p q / (k r) + 2 beta |w| / r + t_fedavg / 2 for sflv2 versus t + 2 p q / r + 2 beta (|w| / r) k for sl, yielding strict training-time ordering sflv2 &lt; sflv1 &lt; sl for k &gt; 1 while preserving (eps, delta)-dp on client gradients via l2 clipping at c&#39; and gaussian noise n(0, sigma^2 c&#39;^2 i) and pixeldp robustness via laplacian perturbation lap(delta i_{p,q}^a / eps&#39;). splitfed&#39;s unencrypted privacy model requires two non-colluding honest-but-curious servers (main server and fed server), degrades utility as the client-side dp and pixeldp privacy budgets eps + eps&#39; are tightened (dropping alexnet mnist test accuracy from 78% without pixeldp to 40% at eps = 0.5, eps&#39; = 0.5 in figure 5), and inherits split learning&#39;s convergence sensitivity on deep architectures such as vgg16 on cifar-10 (section 4.1, pp. 7-8; section 4.3, p. 9; appendix a, p. 11). applied to distributed collaborative image classification across resource-constrained clients on ham10000 pigmented skin lesion dermatoscopic images, mnist, fashion-mnist, and cifar-10 using lenet, alexnet, vgg16, and resnet-18 split architectures. splitfed: when federated learning meets split learning splitfed: when federated learning meets split learning (arxiv abstract) splitfed: when federated learning meets split learning (crossref metadata) chandra thapa m. a. p. chamikara seyit camtepe lichao sun chandra thapa m. a. p. chamikara seyit camtepe lichao sun chandra thapa m. a. p. chamikara seyit camtepe lichao sun">
+        <td>
+          <a href="curated/SplitFedFederatedAndSplitLearningHybridArchitecture.html" style="font-weight: 600; font-size: 1rem;">SplitFed Learning</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SplitFed, SFL…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A hybrid distributed collaborative machine learning algorithm and dual-server split-network architecture (SplitFed / SFL; Thapa, Chamikara,…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SplitFedFederatedAndSplitLearningHybridArchitecture</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"

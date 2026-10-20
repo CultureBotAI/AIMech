@@ -1,0 +1,103 @@
+id: AIMech:SplitFedFederatedAndSplitLearningHybridArchitecture
+name: SplitFed Learning
+concept_kind: algorithm
+review_status: DRAFT
+definition: A hybrid distributed collaborative machine learning algorithm and dual-server split-network architecture (SplitFed / SFL; Thapa, Chamikara, Camtepe, and Sun, AAAI 2022) that partitions a full neural network W at a cut layer into a client-side sub-network W^C (of size beta |W|) and a server-side sub-network W^S while training all K clients in parallel rather than sequentially. In each global epoch, clients execute forward propagation on W_{k,t}^C in parallel (optionally injecting calibrated Laplacian PixelDP noise A_{k,i}^P = A_{k,i} + Lap(Delta I_{p,q}^A / eps') before the cut layer) and transmit cut-layer activations ('smashed data' A_{k,t}) to a Main Server; the Main Server computes server-side forward-backward passes (in parallel per client followed by sample-weighted server model averaging W_{t+1}^S = W_t^S - eta sum_{k=1}^K (n_k / n) nabla ell_k(W_t^S; A_t^S) in SFLv1, or sequentially across randomly ordered clients' smashed data without server-model averaging in SFLv2), returns cut-layer gradients dA_{k,t} to each client for client-side backpropagation (with optional per-sample l2 clipping and Gaussian noise for (eps, delta)-DP), and a Fed Server aggregates client-side sub-networks via W_{t+1}^C = sum_{k=1}^K (n_k / n) W_{k,t}^C.
+identity_notes: Distinct from standard Federated Learning (AIMech:FederatedAveraging), where each client trains and communicates the entire un-split model W, and from sequential Split Learning (Gupta & Raskar, 2018; Vepakomma et al., 2018), where clients train the client-side sub-network in a relay fashion one client at a time without parallel FedServer client-side aggregation. Distinct from FedGKT (AIMech:FedGktGroupKnowledgeTransferForEdgeFederatedLearning; He et al., NeurIPS 2020), which uses alternating bi-directional KL-divergence knowledge distillation between compact edge feature extractors and a server classifier rather than exact cut-layer activation/gradient backpropagation coupled with FedAvg of client-side sub-networks.
+aliases:
+- SplitFed
+- SFL
+- SFLv1 and SFLv2
+- Split Federated Learning
+definition_evidence:
+- source_id: r503-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r503-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r503-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: splitfed-parallel-smashed-data-and-dual-server-aggregation-mechanism
+  kind: mechanism
+  statement: In SplitFed (Algorithms 1-2), each participating client k in S_t computes cut-layer activations A_{k,t} in parallel on its local sub-network W_{k,t}^C and sends A_{k,t} to the Main Server, which computes loss gradients dA_{k,t} = nabla ell_k(A_t^S; W_t^S) and returns them to client k; in SFLv1 the Main Server updates W_{t+1}^S by sample-weighted averaging of parallel client-specific server gradients, whereas in SFLv2 the Main Server updates W^S sequentially on each client's smashed data without server-side FedAvg, while in both variants the Fed Server aggregates the client-side sub-networks via W_{t+1}^C = sum_{k=1}^K (n_k / n) W_{k,t}^C.
+  evidence:
+  - source_id: r503-primary-pdf
+    locator: Section 3.1 Overall Structure, Algorithm 1, Algorithm 2, pp. 2-5
+    relation: supports
+- claim_id: splitfed-communication-and-training-time-complexity-ordering-scope
+  kind: scope
+  statement: For K clients, total dataset size p, cut-layer activation size q, full model size |W|, client-side model fraction beta = |W^C| / |W|, communication rate R, full forward-backward time T, and aggregation time T_fedavg, Table 2 establishes total communication per global epoch 2 p q + 2 beta K |W| for SL, SFLv1, and SFLv2 (compared to 2 K |W| for FL) and total training time T + 2 p q / (K R) + 2 beta |W| / R + T_fedavg for SFLv1 and T + 2 p q / (K R) + 2 beta |W| / R + T_fedavg / 2 for SFLv2 versus T + 2 p q / R + 2 beta (|W| / R) K for SL, yielding strict training-time ordering SFLv2 < SFLv1 < SL for K > 1 while preserving (eps, delta)-DP on client gradients via l2 clipping at C' and Gaussian noise N(0, sigma^2 C'^2 I) and PixelDP robustness via Laplacian perturbation Lap(Delta I_{p,q}^A / eps').
+  evidence:
+  - source_id: r503-primary-pdf
+    locator: Section 3.2 Privacy Protection, Eqs. (1)-(6), Lemma 1, pp. 4-6; Section 3.3 Total Cost Analysis, Table 2, p. 6
+    relation: supports
+- claim_id: splitfed-noncolluding-two-server-trust-and-dp-utility-degradation-limitation
+  kind: limitation
+  statement: SplitFed's unencrypted privacy model requires two non-colluding honest-but-curious servers (Main Server and Fed Server), degrades utility as the client-side DP and PixelDP privacy budgets eps + eps' are tightened (dropping AlexNet MNIST test accuracy from 78% without PixelDP to 40% at eps = 0.5, eps' = 0.5 in Figure 5), and inherits split learning's convergence sensitivity on deep architectures such as VGG16 on CIFAR-10 (Section 4.1, pp. 7-8; Section 4.3, p. 9; Appendix A, p. 11).
+  evidence:
+  - source_id: r503-primary-pdf
+    locator: Section 4.1, pp. 7-8; Section 4.3, Fig. 5, p. 9; Appendix A Threat Model, p. 11; Appendix C.1-C.2, pp. 12-14
+    relation: supports
+- claim_id: splitfed-dermatoscopic-and-visual-classification-application
+  kind: application
+  statement: Applied to distributed collaborative image classification across resource-constrained clients on HAM10000 pigmented skin lesion dermatoscopic images, MNIST, Fashion-MNIST, and CIFAR-10 using LeNet, AlexNet, VGG16, and ResNet-18 split architectures.
+  evidence:
+  - source_id: r503-primary-pdf
+    locator: Section 4 Experiments, Tables 3-5, Figs. 2-9, pp. 7-9, 12-14
+    relation: supports
+evidence_sources:
+- source_id: r503-primary-pdf
+  title: 'SplitFed: When Federated Learning Meets Split Learning'
+  authors: &id001
+  - Chandra Thapa
+  - M. A. P. Chamikara
+  - Seyit Camtepe
+  - Lichao Sun
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2004.12088.pdf
+  persistent_id: https://doi.org/10.1609/aaai.v36i8.20825
+  version: Proceedings of the AAAI Conference on Artificial Intelligence (AAAI 2022), Vol. 36, No. 8, pp. 8485-8493 (2022) (14482918 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:46:00Z'
+  sha256: 5fcec79934b93d5889d63bff6e5cdc6bf02f2647597d815ee0d5af50eb0bc2dc
+- source_id: r503-arxiv-abs
+  title: 'SplitFed: When Federated Learning Meets Split Learning (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2004.12088
+  persistent_id: https://arxiv.org/abs/2004.12088
+  version: arXiv abstract page (7112 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:46:00Z'
+  sha256: f89e1c0b90eed19c099901cca0cc0d3af6921fdc4c7db371d0b4e60a70ec9cf6
+- source_id: r503-metadata-cr
+  title: 'SplitFed: When Federated Learning Meets Split Learning (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://doi.org/10.1609/aaai.v36i8.20825
+  persistent_id: https://doi.org/10.1609/aaai.v36i8.20825
+  version: Crossref API work record (2295 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:46:00Z'
+  sha256: 88d9d569c2f7d0dc9c31cad1776c7b64184d6f92db1eafe441252d17b36afecd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: SplitFed is a hybrid distributed learning algorithm combining federated model aggregation with split-network training.
+limitations:
+- Without homomorphic encryption over client-side updates, SplitFed requires two non-colluding honest-but-curious servers (Main Server and Fed Server) to prevent full-model reconstruction (Section 3.1, p. 3; Appendix A, p. 11).
+- Per-batch communication of cut-layer smashed activations and gradients scales as 2 p q with total dataset size p and cut-layer dimension q, which can exceed full-model FL communication when p q is large relative to K |W| (Section 3.3 Table 2, p. 6; Appendix B.1, p. 11).
+- Strong client-side differential privacy and PixelDP noise (small eps and eps') substantially slow convergence and reduce test accuracy (Section 4.3, Fig. 5, p. 9).
+curation:
+  created_at: '2026-10-19T09:46:00Z'
+  updated_at: '2026-10-19T09:46:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
