@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1348</strong> artificial intelligence concepts, comprising <strong>906</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1349</strong> artificial intelligence concepts, comprising <strong>907</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1348)</option>
-        <option value="curated">Curated AIMech (906)</option>
+        <option value="all">All Origins (1349)</option>
+        <option value="curated">Curated AIMech (907)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (604)</option>
+          <option value="algorithm">Algorithms (605)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1348</span> of <span id="totalCount">1348</span>
+      Showing <span id="matchCount">1349</span> of <span id="totalCount">1349</span>
     </div>
   </div>
 </div>
@@ -11701,6 +11701,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="fedweit (federated weighted inter-client transfer) fedweitfederatedcontinuallearningwithweightedinterclienttransfer aimech:fedweitfederatedcontinuallearningwithweightedinterclienttransfer algorithms algorithm fedweit (federated weighted inter-client transfer) is a parameter-decomposed federated continual learning algorithm that enables distributed clients learning private task streams {t_c^{(1)}, ..., t_c^{(t)}} to transfer relevant cross-client task knowledge while suppressing inter-client interference and catastrophic forgetting by decomposing each client&#39;s task-t parameters across l layers as theta_c^{(t)} = b_c^{(t)} odot m_c^{(t)} + a_c^{(t)} + sum_{i in c \ {c}} sum_{j &lt; |t|} alpha_{i,j}^{(t)} a_i^{(j)}, where b_c^{(t)} is a dense local base parameter initialized from the non-zero entries of the server-aggregated parameter theta_g, m_c^{(t)} is a learned sparse channel-selection vector mask, a_c^{(t)} is a sparse local task-adaptive parameter, and alpha_{i,j}^{(t)} are learned attention weights over past task-adaptive parameters broadcast from the server knowledge base. introduced by jaehong yoon, wonyong jeong, giwoong lee, eunho yang, and sung ju hwang in &#39;federated continual learning with weighted inter-client transfer&#39; (icml 2021, pmlr 139:12073-12086; arxiv:2003.03196). distinct from single-machine additive parameter decomposition (apd, yoon et al. iclr 2020), which has no cross-client attention transfer term sum_{i != c} alpha_{i,j}^{(t)} a_i^{(j)} nor sparse masked base-parameter aggregation theta_g = (1/|c^{(r)}|) sum_c b_c^{(t,r)} odot m_c^{(t,r)}; distinct from fedcurv (shoham et al. 2019) and fedprox (li et al. 2018), which store all task knowledge in a single shared parameter vector theta_g without task-adaptive decomposition; and distinct from glfc (dong et al. cvpr 2022), which addresses class-incremental federated learning via gradient compensation and relation distillation rather than task-incremental parameter decomposition. fedweit federated weighted inter-client transfer federated continual learning with weighted inter-client transfer fedweit decomposes client c_c&#39;s neural network weights at task t across l layers into theta_c^{(t)} = b_c^{(t)} odot m_c^{(t)} + a_c^{(t)} + sum_{i in c \ {c}} sum_{j &lt; |t|} alpha_{i,j}^{(t)} a_i^{(j)} (equation 1), where b_c^{(t)} in {r^{i_l x o_l}}_{l=1}^l captures generic knowledge across tasks and is selectively filtered by the sparse vector mask m_c^{(t)} in {r^{o_l}}_{l=1}^l, a_c^{(t)} in {r^{i_l x o_l}}_{l=1}^l captures client-specific residual knowledge for task t, and alpha_{i,j}^{(t)} allocates learned attention weights over other clients&#39; sparse task-adaptive parameters a_i^{(j)} sampled from the server knowledge base kb. during local continual training on task t_c^{(t)}, fedweit minimizes l(theta_c^{(t)}; t_c^{(t)}) + lambda_1 omega({m_c^{(t)}, a_c^{(1:t)}}) + lambda_2 sum_{i=1}^{t-1} ||delta b_c^{(t)} odot m_c^{(i)} + delta a_c^{(i)}||_2^2 (equation 2), where omega(.) is an l1-norm sparsity regularizer on masks and task-adaptive parameters, and the lambda_2 retroactive-update penalty adjusts previous task-adaptive parameters delta a_c^{(i)} to compensate for drift delta b_c^{(t)} = b_c^{(t)} - b_c^{(t-1)} in the masked base parameter, preventing catastrophic forgetting of past tasks i &lt; t. at each communication round r, client c_c transmits only the sparsified base parameter b_hat_c^{(t)} = b_c^{(t)} odot m_c^{(t)} (~30% non-zero entries) and, once per task, the sparse task-adaptive parameter a_c^{(t)} (~2-3% non-zero entries), reducing client-to-server communication from |c| x r x |theta| (1.22 gb) to |c| x (r x |b_hat| + |a|) (0.37 gb) and achieving 84.11% average accuracy with 0.00 forgetting on noniid-50 across 8 benchmark datasets. fedweit assumes explicit task boundaries t = 1, 2, ... with task-specific mask and adapter allocation (m_c^{(t)}, a_c^{(t)}) per task, and server-to-client distribution scales with the number of sampled task-adaptive parameters in the knowledge base kb^{(t)}, requiring random subsampling of kb when the number of clients or tasks grows large. federated continual learning with weighted inter-client transfer federated continual learning with weighted inter-client transfer (arxiv abstract) federated continual learning with weighted inter-client transfer (crossref metadata) jaehong yoon wonyong jeong giwoong lee eunho yang sung ju hwang jaehong yoon wonyong jeong giwoong lee eunho yang sung ju hwang jaehong yoon wonyong jeong giwoong lee eunho yang sung ju hwang">
+        <td>
+          <a href="curated/FedWeitFederatedContinualLearningWithWeightedInterClientTransfer.html" style="font-weight: 600; font-size: 1rem;">FedWeIT (Federated Weighted Inter-Client Transfer)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> FedWeIT, Federated Weighted Inter-Client Transfer…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            FedWeIT (Federated Weighted Inter-Client Transfer) is a parameter-decomposed federated continual learning algorithm that enables distributed…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:FedWeitFederatedContinualLearningWithWeightedInterClientTransfer</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

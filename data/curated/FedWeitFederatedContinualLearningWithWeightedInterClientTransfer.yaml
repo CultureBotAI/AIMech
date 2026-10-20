@@ -1,0 +1,102 @@
+id: AIMech:FedWeitFederatedContinualLearningWithWeightedInterClientTransfer
+name: FedWeIT (Federated Weighted Inter-Client Transfer)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FedWeIT (Federated Weighted Inter-Client Transfer) is a parameter-decomposed federated continual learning algorithm that enables distributed clients learning private task streams {T_c^{(1)}, ..., T_c^{(t)}} to transfer relevant cross-client task knowledge while suppressing inter-client interference and catastrophic forgetting by decomposing each client's task-t parameters across L layers as theta_c^{(t)} = B_c^{(t)} odot m_c^{(t)} + A_c^{(t)} + sum_{i in C \ {c}} sum_{j < |t|} alpha_{i,j}^{(t)} A_i^{(j)}, where B_c^{(t)} is a dense local base parameter initialized from the non-zero entries of the server-aggregated parameter theta_G, m_c^{(t)} is a learned sparse channel-selection vector mask, A_c^{(t)} is a sparse local task-adaptive parameter, and alpha_{i,j}^{(t)} are learned attention weights over past task-adaptive parameters broadcast from the server knowledge base.
+identity_notes: Introduced by Jaehong Yoon, Wonyong Jeong, Giwoong Lee, Eunho Yang, and Sung Ju Hwang in 'Federated Continual Learning with Weighted Inter-client Transfer' (ICML 2021, PMLR 139:12073-12086; arXiv:2003.03196). Distinct from single-machine Additive Parameter Decomposition (APD, Yoon et al. ICLR 2020), which has no cross-client attention transfer term sum_{i != c} alpha_{i,j}^{(t)} A_i^{(j)} nor sparse masked base-parameter aggregation theta_G = (1/|C^{(r)}|) sum_c B_c^{(t,r)} odot m_c^{(t,r)}; distinct from FedCurv (Shoham et al. 2019) and FedProx (Li et al. 2018), which store all task knowledge in a single shared parameter vector theta_G without task-adaptive decomposition; and distinct from GLFC (Dong et al. CVPR 2022), which addresses class-incremental federated learning via gradient compensation and relation distillation rather than task-incremental parameter decomposition.
+aliases:
+- FedWeIT
+- Federated Weighted Inter-Client Transfer
+- Federated Continual Learning with Weighted Inter-Client Transfer
+definition_evidence:
+- source_id: r512-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r512-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r512-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedweit-three-way-parameter-decomposition-and-attention-transfer
+  kind: mechanism
+  statement: FedWeIT decomposes client c_c's neural network weights at task t across L layers into theta_c^{(t)} = B_c^{(t)} odot m_c^{(t)} + A_c^{(t)} + sum_{i in C \ {c}} sum_{j < |t|} alpha_{i,j}^{(t)} A_i^{(j)} (Equation 1), where B_c^{(t)} in {R^{I_l x O_l}}_{l=1}^L captures generic knowledge across tasks and is selectively filtered by the sparse vector mask m_c^{(t)} in {R^{O_l}}_{l=1}^L, A_c^{(t)} in {R^{I_l x O_l}}_{l=1}^L captures client-specific residual knowledge for task t, and alpha_{i,j}^{(t)} allocates learned attention weights over other clients' sparse task-adaptive parameters A_i^{(j)} sampled from the server knowledge base kb.
+  evidence:
+  - source_id: r512-primary-pdf
+    locator: Section 3.3, Equation (1) and Figure 3, pages 4-5
+    relation: supports
+- claim_id: fedweit-sparsity-and-retroactive-update-regularization
+  kind: mechanism
+  statement: During local continual training on task T_c^{(t)}, FedWeIT minimizes L(theta_c^{(t)}; T_c^{(t)}) + lambda_1 Omega({m_c^{(t)}, A_c^{(1:t)}}) + lambda_2 sum_{i=1}^{t-1} ||Delta B_c^{(t)} odot m_c^{(i)} + Delta A_c^{(i)}||_2^2 (Equation 2), where Omega(.) is an l1-norm sparsity regularizer on masks and task-adaptive parameters, and the lambda_2 retroactive-update penalty adjusts previous task-adaptive parameters Delta A_c^{(i)} to compensate for drift Delta B_c^{(t)} = B_c^{(t)} - B_c^{(t-1)} in the masked base parameter, preventing catastrophic forgetting of past tasks i < t.
+  evidence:
+  - source_id: r512-primary-pdf
+    locator: Section 3.3, Equation (2), page 5; Section B.3, Table B.8, page 13
+    relation: supports
+- claim_id: fedweit-sparse-masked-communication-complexity
+  kind: application
+  statement: At each communication round r, client c_c transmits only the sparsified base parameter B_hat_c^{(t)} = B_c^{(t)} odot m_c^{(t)} (~30% non-zero entries) and, once per task, the sparse task-adaptive parameter A_c^{(t)} (~2-3% non-zero entries), reducing client-to-server communication from |C| x R x |theta| (1.22 GB) to |C| x (R x |B_hat| + |A|) (0.37 GB) and achieving 84.11% average accuracy with 0.00 forgetting on NonIID-50 across 8 benchmark datasets.
+  evidence:
+  - source_id: r512-primary-pdf
+    locator: Section 3.4, Algorithm 1, page 5; Section 4.1, Tables 1-3, pages 6-8
+    relation: supports
+- claim_id: fedweit-task-boundary-and-knowledge-base-broadcast-limitation
+  kind: limitation
+  statement: FedWeIT assumes explicit task boundaries t = 1, 2, ... with task-specific mask and adapter allocation (m_c^{(t)}, A_c^{(t)}) per task, and server-to-client distribution scales with the number of sampled task-adaptive parameters in the knowledge base kb^{(t)}, requiring random subsampling of kb when the number of clients or tasks grows large.
+  evidence:
+  - source_id: r512-primary-pdf
+    locator: Section 3.1, page 3; Section 3.3-3.4, pages 4-5
+    relation: supports
+evidence_sources:
+- source_id: r512-primary-pdf
+  title: Federated Continual Learning with Weighted Inter-client Transfer
+  authors: &id001
+  - Jaehong Yoon
+  - Wonyong Jeong
+  - Giwoong Lee
+  - Eunho Yang
+  - Sung Ju Hwang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2003.03196.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/YoonJLYH21
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:12073-12086 (2021) (5286063 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:55:00Z'
+  sha256: 034cb25a7b8d725b21823545298d6577468c08bfcf0155715b5b6e796a0dc61c
+- source_id: r512-arxiv-abs
+  title: Federated Continual Learning with Weighted Inter-client Transfer (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2003.03196
+  persistent_id: https://arxiv.org/abs/2003.03196
+  version: arXiv abstract page (7458 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:55:00Z'
+  sha256: d21801f3e2b8009977672af41da1ed6849dff891d645f2a7b3849473a01ecc0b
+- source_id: r512-metadata-cr
+  title: Federated Continual Learning with Weighted Inter-client Transfer (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/YoonJLYH21
+  persistent_id: https://dblp.org/rec/conf/icml/YoonJLYH21
+  version: Crossref API work record (1230 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:55:00Z'
+  sha256: eb97ee5de7aa342ca81526f18d8b1541561d0ea914a62c85039519862a4a5956
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedWeIT is a specific federated continual learning algorithm that decomposes client parameters into masked global base weights, sparse task-adaptive weights, and attention-weighted inter-client knowledge transfer under AIO:FederatedLearning.
+limitations:
+- Requires known task boundaries t = 1, ..., T to instantiate per-task sparse masks m_c^{(t)}, task-adaptive weights A_c^{(t)}, and task-specific classification heads.
+- Without the l1-norm sparsity regularizer (lambda_1 = 0), memory footprint increases more than 5x (from 68.93 MB to 354.41 MB on NonIID-50), whereas omitting the lambda_2 retroactive-update term causes severe backward-transfer forgetting (BwT = -0.3203).
+curation:
+  created_at: '2026-10-19T09:55:00Z'
+  updated_at: '2026-10-19T09:55:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedWeIT (Federated Weighted Inter-Client Transfer) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedWeIT (Federated Weighted Inter-Client Transfer)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedWeIT (Federated Weighted Inter-Client Transfer)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedWeitFederatedContinualLearningWithWeightedInterClientTransfer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedWeIT, Federated Weighted Inter-Client Transfer, Federated Continual Learning with Weighted Inter-Client Transfer
+    </div>
+
+  <div class="detail-desc">
+    FedWeIT (Federated Weighted Inter-Client Transfer) is a parameter-decomposed federated continual learning algorithm that enables distributed clients learning private task streams {T_c^{(1)}, ..., T_c^{(t)}} to transfer relevant cross-client task knowledge while suppressing inter-client interference and catastrophic forgetting by decomposing each client&#39;s task-t parameters across L layers as theta_c^{(t)} = B_c^{(t)} odot m_c^{(t)} + A_c^{(t)} + sum_{i in C \ {c}} sum_{j &lt; |t|} alpha_{i,j}^{(t)} A_i^{(j)}, where B_c^{(t)} is a dense local base parameter initialized from the non-zero entries of the server-aggregated parameter theta_G, m_c^{(t)} is a learned sparse channel-selection vector mask, A_c^{(t)} is a sparse local task-adaptive parameter, and alpha_{i,j}^{(t)} are learned attention weights over past task-adaptive parameters broadcast from the server knowledge base.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Jaehong Yoon, Wonyong Jeong, Giwoong Lee, Eunho Yang, and Sung Ju Hwang in &#39;Federated Continual Learning with Weighted Inter-client Transfer&#39; (ICML 2021, PMLR 139:12073-12086; arXiv:2003.03196). Distinct from single-machine Additive Parameter Decomposition (APD, Yoon et al. ICLR 2020), which has no cross-client attention transfer term sum_{i != c} alpha_{i,j}^{(t)} A_i^{(j)} nor sparse masked base-parameter aggregation theta_G = (1/|C^{(r)}|) sum_c B_c^{(t,r)} odot m_c^{(t,r)}; distinct from FedCurv (Shoham et al. 2019) and FedProx (Li et al. 2018), which store all task knowledge in a single shared parameter vector theta_G without task-adaptive decomposition; and distinct from GLFC (Dong et al. CVPR 2022), which addresses class-incremental federated learning via gradient compensation and relation distillation rather than task-incremental parameter decomposition.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedweit-three-way-parameter-decomposition-and-attention-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedWeIT decomposes client c_c&#39;s neural network weights at task t across L layers into theta_c^{(t)} = B_c^{(t)} odot m_c^{(t)} + A_c^{(t)} + sum_{i in C \ {c}} sum_{j &lt; |t|} alpha_{i,j}^{(t)} A_i^{(j)} (Equation 1), where B_c^{(t)} in {R^{I_l x O_l}}_{l=1}^L captures generic knowledge across tasks and is selectively filtered by the sparse vector mask m_c^{(t)} in {R^{O_l}}_{l=1}^L, A_c^{(t)} in {R^{I_l x O_l}}_{l=1}^L captures client-specific residual knowledge for task t, and alpha_{i,j}^{(t)} allocates learned attention weights over other clients&#39; sparse task-adaptive parameters A_i^{(j)} sampled from the server knowledge base kb.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r512-primary-pdf">Federated Continual Learning with Weighted Inter-client Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Equation (1) and Figure 3, pages 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedweit-sparsity-and-retroactive-update-regularization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During local continual training on task T_c^{(t)}, FedWeIT minimizes L(theta_c^{(t)}; T_c^{(t)}) + lambda_1 Omega({m_c^{(t)}, A_c^{(1:t)}}) + lambda_2 sum_{i=1}^{t-1} ||Delta B_c^{(t)} odot m_c^{(i)} + Delta A_c^{(i)}||_2^2 (Equation 2), where Omega(.) is an l1-norm sparsity regularizer on masks and task-adaptive parameters, and the lambda_2 retroactive-update penalty adjusts previous task-adaptive parameters Delta A_c^{(i)} to compensate for drift Delta B_c^{(t)} = B_c^{(t)} - B_c^{(t-1)} in the masked base parameter, preventing catastrophic forgetting of past tasks i &lt; t.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r512-primary-pdf">Federated Continual Learning with Weighted Inter-client Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, Equation (2), page 5; Section B.3, Table B.8, page 13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedweit-sparse-masked-communication-complexity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each communication round r, client c_c transmits only the sparsified base parameter B_hat_c^{(t)} = B_c^{(t)} odot m_c^{(t)} (~30% non-zero entries) and, once per task, the sparse task-adaptive parameter A_c^{(t)} (~2-3% non-zero entries), reducing client-to-server communication from |C| x R x |theta| (1.22 GB) to |C| x (R x |B_hat| + |A|) (0.37 GB) and achieving 84.11% average accuracy with 0.00 forgetting on NonIID-50 across 8 benchmark datasets.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r512-primary-pdf">Federated Continual Learning with Weighted Inter-client Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, Algorithm 1, page 5; Section 4.1, Tables 1-3, pages 6-8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedweit-task-boundary-and-knowledge-base-broadcast-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    FedWeIT assumes explicit task boundaries t = 1, 2, ... with task-specific mask and adapter allocation (m_c^{(t)}, A_c^{(t)}) per task, and server-to-client distribution scales with the number of sampled task-adaptive parameters in the knowledge base kb^{(t)}, requiring random subsampling of kb when the number of clients or tasks grows large.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r512-primary-pdf">Federated Continual Learning with Weighted Inter-client Transfer</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, page 3; Section 3.3-3.4, pages 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires known task boundaries t = 1, ..., T to instantiate per-task sparse masks m_c^{(t)}, task-adaptive weights A_c^{(t)}, and task-specific classification heads.</li>
+      <li>Without the l1-norm sparsity regularizer (lambda_1 = 0), memory footprint increases more than 5x (from 68.93 MB to 354.41 MB on NonIID-50), whereas omitting the lambda_2 retroactive-update term causes severe backward-transfer forgetting (BwT = -0.3203).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedWeIT is a specific federated continual learning algorithm that decomposes client parameters into masked global base weights, sparse task-adaptive weights, and attention-weighted inter-client knowledge transfer under AIO:FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r512-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r512-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2003.03196.pdf" target="_blank" rel="noopener">Federated Continual Learning with Weighted Inter-client Transfer</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jaehong Yoon, Wonyong Jeong, Giwoong Lee, Eunho Yang, Sung Ju Hwang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/YoonJLYH21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:034cb25a7b8d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r512-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r512-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2003.03196" target="_blank" rel="noopener">Federated Continual Learning with Weighted Inter-client Transfer (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jaehong Yoon, Wonyong Jeong, Giwoong Lee, Eunho Yang, Sung Ju Hwang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2003.03196</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d21801f3e2b8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r512-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r512-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/YoonJLYH21" target="_blank" rel="noopener">Federated Continual Learning with Weighted Inter-client Transfer (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jaehong Yoon, Wonyong Jeong, Giwoong Lee, Eunho Yang, Sung Ju Hwang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/YoonJLYH21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:eb97ee5de7aa…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:55:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:55:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedWeitFederatedContinualLearningWithWeightedInterClientTransfer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedWeitFederatedContinualLearningWithWeightedInterClientTransfer.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
