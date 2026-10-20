@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vector-based Random Matrix Adaptation (VeRA) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Vector-based Random Matrix Adaptation (VeRA)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Vector-based Random Matrix Adaptation (VeRA)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:VeraVectorBasedRandomMatrixAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> VeRA, Vector-based Random Matrix Adaptation, VeRA PEFT, Shared Random Matrix Vector-Scaled Adaptation
+    </div>
+
+  <div class="detail-desc">
+    Vector-based Random Matrix Adaptation (VeRA) is a parameter-efficient fine-tuning (PEFT) method that reparameterizes the low-rank weight update as h = W_0 x + Delta W x = W_0 x + Lambda_b B Lambda_d A x, where B in R^{m x r} and A in R^{r x n} are frozen, Kaiming-initialized random matrices shared across all adapted layers and regenerated on-the-fly from a single random number generator (RNG) seed, while only the layer-specific diagonal scaling vectors b in R^{m} (with Lambda_b = diag(b), initialized to zero) and d in R^{r} (with Lambda_d = diag(d), initialized to a non-zero constant d_{init}) are trainable. Across L_{tuned} adapted layers of dimension d_{model}, VeRA reduces the trainable parameter count from LoRA&#39;s 2 L_{tuned} d_{model} r to L_{tuned} (d_{model} + r) while still allowing Delta W = Lambda_b B Lambda_d A to be merged directly into W_0 with zero inference latency.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which trains and stores separate full matrices B and A per layer (costing 2 L_{tuned} d_{model} r parameters) rather than freezing a single shared random pair (B, A) and training only scaling vectors (b, d). Also distinct from (IA)^3 (Liu et al., 2022) and RED (Wu et al., 2024), which apply learned element-wise scaling directly to activation vectors at every forward pass without frozen random basis projections B and A.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r653-claim-linear-rank-parameter-scaling-and-seed-storage</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the frozen Kaiming-initialized matrices B in R^{m x r} and A in R^{r x n} are shared across all adapted layers and reconstructed deterministically from a single RNG seed, VeRA&#39;s stored checkpoint footprint consists solely of the RNG seed and the trainable vectors b and d, totaling |Theta| = L_{tuned} (d_{model} + r) parameters—which grows by only L_{tuned} per unit increase in rank r compared to 2 L_{tuned} d_{model} for LoRA.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r653-primary-pdf">VeRA: Vector-based Random Matrix Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2 (Parameter Count), Table 1, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r653-claim-kaiming-and-scaling-vector-initialization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    VeRA initializes the shared frozen matrices A and B with Kaiming initialization so that the variance of B A remains invariant across ranks r without retuning the learning rate per rank, initializes b = 0 so the initial forward pass h = W_0 x is exact, and initializes d = d_{init} * 1 (e.g., d_{init} = 0.1) so that b receives non-zero gradients on the first backward pass and both scaling vectors jointly modulate rows and columns of B and A.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r653-primary-pdf">VeRA: Vector-based Random Matrix Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 (Initialization Strategies), p. 4; Section 4.6 (Ablation Study), Table 6, p. 8-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r653-claim-glue-e2e-llama-vit-applications</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    VeRA matches or exceeds LoRA&#39;s performance on GLUE (RoBERTa-base/large), E2E natural language generation (GPT-2 Medium/Large), Vision Transformer image classification (ViT-B/L on CIFAR-100, Food101, Flowers102, RESISC45), and LLaMA-1/2 7B and 13B instruction tuning on MT-Bench while using 10x to 100x fewer trainable parameters and 7.4% less GPU training memory.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r653-primary-pdf">VeRA: Vector-based Random Matrix Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.4, Tables 2-5, p. 5-8; Appendix C, Table 12, p. 16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r653-claim-higher-rank-and-d-init-sensitivity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because A and B are random and frozen, VeRA typically requires a much larger internal rank r (e.g., r = 256 or 1024 vs. r = 8 or 16 in LoRA) and a ~10x higher learning rate on the scaling vectors, and its downstream accuracy degrades sharply if the initial scaling constant d_{init} is set too large (e.g., d_{init} = 1.0 vs. 10^{-1} or 10^{-7}) or if either scaling vector b or d is omitted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r653-primary-pdf">VeRA: Vector-based Random Matrix Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section 4.6 (Ablation Study), Table 6(a)-(c), p. 8-9; Appendix A, Tables 8-11, p. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires a substantially higher bottleneck rank r (typically 256 to 1024) than LoRA during training to span a sufficiently expressive random subspace, slightly increasing forward-pass vector-matrix multiplication operations (~1.8% training time overhead).</li>
+      <li>Sensitive to the initialization magnitude d_{init} of the internal scaling vector d and requires separate learning-rate tuning for the scaling vectors.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            VeRA adapts linear projection layers in pretrained deep neural networks and Transformer language and vision models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r653-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r653-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2310.11454.pdf" target="_blank" rel="noopener">VeRA: Vector-based Random Matrix Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dawid Jan Kopiczko, Tijmen Blankevoort, Yuki M. Asano
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/KopiczkoBA24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b91f11fc716e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r653-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r653-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2310.11454" target="_blank" rel="noopener">VeRA: Vector-based Random Matrix Adaptation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dawid Jan Kopiczko, Tijmen Blankevoort, Yuki M. Asano
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2310.11454</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7f51cc7b35e8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r653-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r653-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/KopiczkoBA24.html" target="_blank" rel="noopener">VeRA: Vector-based Random Matrix Adaptation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Dawid Jan Kopiczko, Tijmen Blankevoort, Yuki M. Asano
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/KopiczkoBA24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5389188fb7c9…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:16:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:16:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/VeraVectorBasedRandomMatrixAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

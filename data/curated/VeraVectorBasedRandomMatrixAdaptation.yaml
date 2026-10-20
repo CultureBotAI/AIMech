@@ -1,0 +1,101 @@
+id: AIMech:VeraVectorBasedRandomMatrixAdaptation
+name: Vector-based Random Matrix Adaptation (VeRA)
+concept_kind: algorithm
+review_status: DRAFT
+definition: Vector-based Random Matrix Adaptation (VeRA) is a parameter-efficient fine-tuning (PEFT) method that reparameterizes the low-rank weight update as h = W_0 x + Delta W x = W_0 x + Lambda_b B Lambda_d A x, where B in R^{m x r} and A in R^{r x n} are frozen, Kaiming-initialized random matrices shared across all adapted layers and regenerated on-the-fly from a single random number generator (RNG) seed, while only the layer-specific diagonal scaling vectors b in R^{m} (with Lambda_b = diag(b), initialized to zero) and d in R^{r} (with Lambda_d = diag(d), initialized to a non-zero constant d_{init}) are trainable. Across L_{tuned} adapted layers of dimension d_{model}, VeRA reduces the trainable parameter count from LoRA's 2 L_{tuned} d_{model} r to L_{tuned} (d_{model} + r) while still allowing Delta W = Lambda_b B Lambda_d A to be merged directly into W_0 with zero inference latency.
+identity_notes: Distinct from standard Low-Rank Adaptation (LoRA, Hu et al., 2022), which trains and stores separate full matrices B and A per layer (costing 2 L_{tuned} d_{model} r parameters) rather than freezing a single shared random pair (B, A) and training only scaling vectors (b, d). Also distinct from (IA)^3 (Liu et al., 2022) and RED (Wu et al., 2024), which apply learned element-wise scaling directly to activation vectors at every forward pass without frozen random basis projections B and A.
+aliases:
+- VeRA
+- Vector-based Random Matrix Adaptation
+- VeRA PEFT
+- Shared Random Matrix Vector-Scaled Adaptation
+definition_evidence:
+- source_id: r653-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r653-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r653-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r653-claim-linear-rank-parameter-scaling-and-seed-storage
+  kind: mechanism
+  statement: "Because the frozen Kaiming-initialized matrices B in R^{m x r} and A in R^{r x n} are shared across all adapted layers and reconstructed deterministically from a single RNG seed, VeRA's stored checkpoint footprint consists solely of the RNG seed and the trainable vectors b and d, totaling |Theta| = L_{tuned} (d_{model} + r) parameters\u2014which grows by only L_{tuned} per unit increase in rank r compared to 2 L_{tuned} d_{model} for LoRA."
+  evidence:
+  - source_id: r653-primary-pdf
+    locator: Section 3.2 (Parameter Count), Table 1, p. 4
+    relation: supports
+- claim_id: r653-claim-kaiming-and-scaling-vector-initialization
+  kind: mechanism
+  statement: VeRA initializes the shared frozen matrices A and B with Kaiming initialization so that the variance of B A remains invariant across ranks r without retuning the learning rate per rank, initializes b = 0 so the initial forward pass h = W_0 x is exact, and initializes d = d_{init} * 1 (e.g., d_{init} = 0.1) so that b receives non-zero gradients on the first backward pass and both scaling vectors jointly modulate rows and columns of B and A.
+  evidence:
+  - source_id: r653-primary-pdf
+    locator: Section 3.3 (Initialization Strategies), p. 4; Section 4.6 (Ablation Study), Table 6, p. 8-9
+    relation: supports
+- claim_id: r653-claim-glue-e2e-llama-vit-applications
+  kind: application
+  statement: VeRA matches or exceeds LoRA's performance on GLUE (RoBERTa-base/large), E2E natural language generation (GPT-2 Medium/Large), Vision Transformer image classification (ViT-B/L on CIFAR-100, Food101, Flowers102, RESISC45), and LLaMA-1/2 7B and 13B instruction tuning on MT-Bench while using 10x to 100x fewer trainable parameters and 7.4% less GPU training memory.
+  evidence:
+  - source_id: r653-primary-pdf
+    locator: Section 4.1-4.4, Tables 2-5, p. 5-8; Appendix C, Table 12, p. 16
+    relation: supports
+- claim_id: r653-claim-higher-rank-and-d-init-sensitivity-limitation
+  kind: limitation
+  statement: Because A and B are random and frozen, VeRA typically requires a much larger internal rank r (e.g., r = 256 or 1024 vs. r = 8 or 16 in LoRA) and a ~10x higher learning rate on the scaling vectors, and its downstream accuracy degrades sharply if the initial scaling constant d_{init} is set too large (e.g., d_{init} = 1.0 vs. 10^{-1} or 10^{-7}) or if either scaling vector b or d is omitted.
+  evidence:
+  - source_id: r653-primary-pdf
+    locator: Section 4.6 (Ablation Study), Table 6(a)-(c), p. 8-9; Appendix A, Tables 8-11, p. 14-15
+    relation: supports
+evidence_sources:
+- source_id: r653-primary-pdf
+  title: 'VeRA: Vector-based Random Matrix Adaptation'
+  authors: &id001
+  - Dawid Jan Kopiczko
+  - Tijmen Blankevoort
+  - Yuki M. Asano
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2310.11454.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/KopiczkoBA24.html
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (526144 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:16:00Z'
+  sha256: b91f11fc716e3dae85ed7954e11a7e3c93cce93cbd4c7bde243735c44426c7ab
+- source_id: r653-arxiv-abs
+  title: 'VeRA: Vector-based Random Matrix Adaptation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2310.11454
+  persistent_id: https://arxiv.org/abs/2310.11454
+  version: arXiv abstract page (5998 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:16:00Z'
+  sha256: 7f51cc7b35e888b76f362e637ffc3608a4d9333ce5da373dbf17986cdb245420
+- source_id: r653-metadata-cr
+  title: 'VeRA: Vector-based Random Matrix Adaptation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/KopiczkoBA24.html
+  persistent_id: https://dblp.org/rec/conf/iclr/KopiczkoBA24.html
+  version: Crossref API work record (1674 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:16:00Z'
+  sha256: 5389188fb7c9e178ee17e695c9c6469b42a62b2f3274e8b41cdfbdbecf16a830
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: VeRA adapts linear projection layers in pretrained deep neural networks and Transformer language and vision models.
+limitations:
+- Requires a substantially higher bottleneck rank r (typically 256 to 1024) than LoRA during training to span a sufficiently expressive random subspace, slightly increasing forward-pass vector-matrix multiplication operations (~1.8% training time overhead).
+- Sensitive to the initialization magnitude d_{init} of the internal scaling vector d and requires separate learning-rate tuning for the scaling vectors.
+curation:
+  created_at: '2026-10-19T12:16:00Z'
+  updated_at: '2026-10-19T12:16:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
