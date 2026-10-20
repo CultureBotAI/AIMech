@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedU and dFedU (Laplacian-Regularized Federated Multi-Task Learning) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>FedU and dFedU (Laplacian-Regularized Federated Multi-Task Learning)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">FedU and dFedU (Laplacian-Regularized Federated Multi-Task Learning)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedU, dFedU, Laplacian-Regularized Federated Multi-Task Learning
+    </div>
+
+  <div class="detail-desc">
+    A communication-centralized (FedU, Algorithm 1) and decentralized (dFedU, Algorithm 2) federated multi-task learning framework (Dinh, Vu, Tran, Dao, &amp; Zhang 2022, Sections III-V, Equations 1-12, Algorithms 1-3, Theorems 1-2) that formulates client-relationship-aware learning over an undirected weighted entity graph G = (N, E, A) with graph Laplacian L = D - A (and Kronecker Laplacian L_cal = L otimes I_d) as min_{W = [w_1^T, ..., w_N^T]^T} { J(W) := sum_{k=1}^N F_k(w_k) + (eta / 2) sum_{k=1}^N sum_{l in N_k} a_{kl} ||w_k - w_l||^2 } (Equations 1-3): in each round t, active clients k in S^{(t)} perform R local stochastic gradient steps w_{k, r+1}^{(t)} = w_{k, r}^{(t)} - mu nabla F_tilde_k(w_{k, r}^{(t)}) toward their individual local optima, and the server (in FedU) or each client via direct neighbor exchange (in dFedU) applies the graph-Laplacian regularization update w_k^{(t+1)} = w_{k, R}^{(t)} - mu_tilde eta sum_{l in N_k} a_{kl} (w_{k, R}^{(t)} - w_{l, R}^{(t)}) with global step-size mu_tilde = mu R (Algorithms 1-3, Equation 45).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from pFedMe (AIMech:PFedMePersonalizedFederatedLearningWithMoreauEnvelopes, Dinh, Tran, &amp; Nguyen 2020), which is a star-graph special case of Equation 1 with a virtual central server model w_0 and no direct inter-client relational edges a_{kl} (Section III-B, Equation 5); and distinct from MOCHA (AIMech:MochaSystemsAwarePrimalDualFederatedMultiTaskLearning, Smith et al. 2017), which is restricted to convex loss functions solved via dual coordinate ascent and alternating task-matrix updates rather than primal multi-step local SGD with Laplacian regularization for both strongly convex and nonconvex deep networks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r486-local-sgd-and-graph-laplacian-server-or-neighbor-update-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In each communication round t, sampled clients k in S^{(t)} run R local mini-batch SGD steps w_{k, r+1}^{(t)} = w_{k, r}^{(t)} - mu nabla F_tilde_k(w_{k, r}^{(t)}) and then apply the Laplacian coupling step W^{(t+1)} = (I - mu_tilde eta S_tilde^{(t)} L_cal) W_R^{(t)}, i.e., w_k^{(t+1)} = w_{k, R}^{(t)} - mu_tilde eta sum_{l in N_k} a_{kl}(w_{k, R}^{(t)} - w_{l, R}^{(t)}) (centralized on the server in FedU Algorithm 1 or peer-to-peer among neighbors N_tilde_k in dFedU Algorithm 2), where the server-update matrix C = I - mu_tilde eta L_cal is normalized (||C||_2 = 1) if and only if mu_tilde eta rho &lt;= 2 with rho = ||L||_2 (Dinh et al. 2022, Section IV &amp; Appendix A/C, Equations 19-21 &amp; 43-45, pp. 4-5 &amp; 11-14).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r486-primary-pdf">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization</a></span>
+        <span>· <strong>Locator:</strong> Section IV (Algorithms 1-2), pp. 4-5, and Appendix A &amp; C (Equations 19-21, Algorithm 3, Equation 45), pp. 11 &amp; 14</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#r486-star-graph-unification-and-linear-speedup-convergence-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Section III-B proves that conventional consensus FL (FedAvg, Equation 4), Moreau-envelope personalized FL (pFedMe, Equation 5), and MAML-based Per-FedAvg (Equation 6) are exact or epigraph special cases of the Laplacian FMTL objective on a star graph with virtual server vertex 0; furthermore, when eta rho &gt; 2 beta (Lemma 1), Theorem 1 proves O_tilde(1/(alpha S) + sigma_1^2 / (alpha R S epsilon)) linear speedup for alpha-strongly convex objectives and Theorem 2 proves O(1/(S epsilon) + sigma_1^2 / (epsilon^2 R S)) sublinear speedup of order 1/2 for smooth nonconvex objectives without requiring bounded gradient dissimilarity at individual clients (Dinh et al. 2022, Section III-B &amp; Section V, Lemma 1, Theorems 1-2, pp. 3-6).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r486-primary-pdf">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization</a></span>
+        <span>· <strong>Locator:</strong> Section III-B (Equations 4-6), pp. 3-4, and Section V (Lemma 1, Theorems 1-2, Equations 7-12), pp. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#r486-non-iid-sensor-and-vision-multitask-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to strongly convex multinomial logistic regression and nonconvex deep neural network classification across heterogeneous tasks on Human Activity Recognition, Vehicle Sensor, MNIST, and CIFAR-10 benchmarks (Dinh et al. 2022, Section VI, Table I, Figures 3-5, pp. 6-9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r486-primary-pdf">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization</a></span>
+        <span>· <strong>Locator:</strong> Section VI (Experiments, Table I, Figures 3-5), pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r486-known-client-relationship-graph-requirement-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Assumes the inter-client relationship weights {a_{kl}} are known a priori (and that eta satisfies eta &gt; 2 beta / rho while mu_tilde eta rho &lt;= 2), and in centralized FedU requires the server to maintain all N client models {w_k} and the adjacency graph (Dinh et al. 2022, Section III-B &amp; Section IV-B, pp. 3-5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r486-primary-pdf">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization</a></span>
+        <span>· <strong>Locator:</strong> Section III-B, p. 3, and Section IV-B, pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires the client similarity adjacency matrix A = [a_{kl}] to be specified beforehand.</li>
+      <li>Centralized FedU stores all N client models and graph edges at the server, motivating decentralized dFedU when N is large.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedU and dFedU are graph-Laplacian-regularized federated multi-task learning algorithms within the broader FederatedLearning category.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r486-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r486-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2102.07148.pdf" target="_blank" rel="noopener">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canh T. Dinh, Tung T. Vu, Nguyen H. Tran, Minh N. Dao, Hongyu Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07148</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:24a1d078d730…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r486-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r486-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.07148" target="_blank" rel="noopener">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canh T. Dinh, Tung T. Vu, Nguyen H. Tran, Minh N. Dao, Hongyu Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07148</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4076f5b8b720…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r486-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r486-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2102.07148" target="_blank" rel="noopener">A New Look and Convergence Rate of Federated Multi-Task Learning with Laplacian Regularization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Canh T. Dinh, Tung T. Vu, Nguyen H. Tran, Minh N. Dao, Hongyu Zhang
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2102.07148</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8c4251a2ae52…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:29:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:29:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedUAndDFedULaplacianRegularizedFederatedMultiTaskLearning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
