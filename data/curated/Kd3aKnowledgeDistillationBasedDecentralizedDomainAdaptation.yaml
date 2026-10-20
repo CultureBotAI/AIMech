@@ -1,0 +1,105 @@
+id: AIMech:Kd3aKnowledgeDistillationBasedDecentralizedDomainAdaptation
+name: KD3A (Knowledge Distillation Based Decentralized Domain Adaptation)
+concept_kind: algorithm
+review_status: DRAFT
+definition: KD3A (Knowledge Distillation Based Decentralized Domain Adaptation) is an unsupervised multi-source decentralized domain adaptation algorithm that transfers knowledge from K private labeled source domains {D_S^k}_{k=1}^K to an unlabeled target domain D_T in one communication round per epoch without sharing source data by combining (1) Knowledge Vote, which filters source teacher predictions via a confidence gate g^{(t)}, selects a consensus class by summing confident predictions, and trains an extended student model h_S^{K+1} on support-weighted consensus distributions (p_i, n_{p_i}), (2) Consensus Focus, which weights each source model by its marginal contribution CF(D_S^k) = Q(S) - Q(S \ {D_S^k}) to total consensus quality Q(S) = sum_{X_i^T in D_T} n_{p_i}(S) max p_i(S), and (3) BatchNorm MMD, which aligns quadratic-kernel first and second feature moments across L BatchNorm layers using stored running-mean and running-variance parameters.
+identity_notes: 'Introduced by Hao-zhe Feng, Zhaoyang You, Minghao Chen, Tianye Zhang, Minfeng Zhu, Fei Wu, Chao Wu, and Wei Chen in ''KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation'' (ICML 2021, PMLR 139:3274-3283; arXiv:2011.09757). Distinct from FADA (Peng et al. ICLR 2020), which requires batch-level feature and gradient synchronization (100x higher communication cost) for adversarial domain alignment and K-means gap-statistics attention; and distinct from single-source hypothesis transfer SHOT (Liang et al. ICML 2020), which lacks multi-source Knowledge Vote, Consensus Focus marginal-contribution weighting, and BatchNorm MMD alignment.'
+aliases:
+- KD3A
+- Knowledge Distillation Based Decentralized Domain Adaptation
+- Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation
+definition_evidence:
+- source_id: r520-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r520-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r520-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: kd3a-knowledge-vote-three-step-consensus-distillation
+  kind: mechanism
+  statement: For each unlabeled target instance X_i^T in D_T, Knowledge Vote (1) eliminates source teacher predictions q_S^k(X_i^T) whose maximum class confidence falls below gate g^{(t)}, (2) sums the remaining confident distributions to identify the consensus class c^* and discards teachers whose argmax disagrees with c^*, and (3) averages the n_{p_i} supporting teacher distributions into p_i to train the extended model h_S^{K+1} on D_S^{K+1} = {(X_i^T, p_i, n_{p_i})}_{i=1}^{N_T} via L^{kv}(X_i^T, q) = n_{p_i} D_KL(p_i || q(X_i^T)) (Equation 5), which minimizes the extended task risk epsilon_{D_S^{K+1}}(h) by Pinsker's inequality (Appendix A, Equation 1).
+  evidence:
+  - source_id: r520-primary-pdf
+    locator: Section 3.1-3.2, Equations (3)-(5) and Figure 1(b), pages 3-4; Appendix A, page 9
+    relation: supports
+- claim_id: kd3a-consensus-focus-marginal-contribution-domain-weighting
+  kind: mechanism
+  statement: To suppress negative transfer from irrelevant or malicious source domains without accessing raw source data, Consensus Focus defines the consensus quality of any source coalition S' subseteq S as Q(S') = sum_{X_i^T in D_T} n_{p_i}(S') max p_i(S') (Equation 7), computes each source domain's marginal contribution CF(D_S^k) = Q(S) - Q(S \ {D_S^k}) (Equation 8), and assigns aggregation weights alpha_{K+1} = N_T / (sum_{k=1}^K N_k + N_T) and alpha_k^{CF} = (1 - alpha_{K+1}) (N_k CF(D_S^k)) / (sum_{j=1}^K N_j CF(D_S^j)) (Equation 9), achieving the tighter decentralized generalization bound of Theorem 2 and Proposition 2 (Equation 13).
+  evidence:
+  - source_id: r520-primary-pdf
+    locator: Section 3.3 and Section 4, Equations (7)-(9) and (13), Theorem 2 and Proposition 2, pages 4-6
+    relation: supports
+- claim_id: kd3a-batchnorm-mmd-decentralized-moment-alignment
+  kind: mechanism
+  statement: BatchNorm MMD optimizes the quadratic-kernel MMD distance d_MMD^kappa(D_S^k, D_T) = ||E(pi_l^k) - E(pi_l^T)||_2^2 + ||E[pi_l^k]^2 - E[pi_l^T]^2||_2^2 (Equation 11) across L BatchNorm layers without accessing source data by reading E(pi_l^k) and E[pi_l^k]^2 = Var(pi_l^k) + [E(pi_l^k)]^2 from each uploaded source model's BatchNorm running-mean and running-variance statistics and either minimizing the weighted layer-wise loss (Equation 12) or substituting the closed-form optimal moments mu_op(pi_l^T) = sum_{k=1}^{K+1} alpha_k E(pi_l^k) and mu_op[pi_l^T]^2 = sum_{k=1}^{K+1} alpha_k E[pi_l^k]^2 (Appendix E, Equation 18).
+  evidence:
+  - source_id: r520-primary-pdf
+    locator: Section 3.4, Equations (10)-(12), page 5; Appendix E, Equations (17)-(18), page 12
+    relation: supports
+- claim_id: kd3a-100x-communication-reduction-and-domainnet-benchmark-performance
+  kind: application
+  statement: Synchronizing models only once per epoch (r = 1), KD3A reduces communication rounds by 100x relative to FADA (r = 100) while improving average target accuracy from 41.5% (FADA*) and 48.7% (DAEL) to 51.1% on DomainNet (Table 1), from 80.8% (FADA*) to 92.0% on Digit-5 (Table 6), from 78.9% (FADA) to 83.1% on Amazon Review (Table 8), and from 87.1% (FADA) to 97.9% on Office-Caltech10 (Table 9).
+  evidence:
+  - source_id: r520-primary-pdf
+    locator: Section 5.1-5.3, Tables 1-3, pages 6-9; Appendix F, Tables 6-9, pages 12-13
+    relation: supports
+evidence_sources:
+- source_id: r520-primary-pdf
+  title: 'KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation'
+  authors: &id001
+  - Haozhe Feng
+  - Zhaoyang You
+  - Minghao Chen
+  - Tianye Zhang
+  - Minfeng Zhu
+  - Fei Wu
+  - Chao Wu
+  - Wei Chen
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2011.09757.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/FengYCZZWWC21
+  version: ICML 2021 (2021) (7332238 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:03:00Z'
+  sha256: 0927ad8f1ae98ebf3d9efa2cc47e91d256bde5121c348c7a05bb9f52307ce82a
+- source_id: r520-arxiv-abs
+  title: 'KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2011.09757
+  persistent_id: https://arxiv.org/abs/2011.09757
+  version: arXiv abstract page (8059 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:03:00Z'
+  sha256: 54fe1df85f28089d3946e977e3815841ad77e67136688c8bbaf18592e6691dd9
+- source_id: r520-metadata-cr
+  title: 'KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/FengYCZZWWC21
+  persistent_id: https://dblp.org/rec/conf/icml/FengYCZZWWC21
+  version: Crossref API work record (2222 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:03:00Z'
+  sha256: b74fcc15be1683eb5ecd6bb7516521ea9293ea40e238933cb6e87c6afa8bfe20
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: KD3A is a decentralized multi-source domain adaptation algorithm that aggregates locally trained source models and BatchNorm statistics without sharing raw data under AIO:FederatedLearning.
+limitations:
+- 'Sensitive to the confidence gate schedule g^{(t)}: if g^{(t)} is set too high early in training, almost all target samples are eliminated by the gate, whereas if set too low, noisy teacher predictions degrade consensus quality (Section 3.5).'
+- BatchNorm MMD requires neural network architectures containing BatchNorm layers to extract running first and second feature moments.
+curation:
+  created_at: '2026-10-19T10:03:00Z'
+  updated_at: '2026-10-19T10:03:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KD3A (Knowledge Distillation Based Decentralized Domain Adaptation) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>KD3A (Knowledge Distillation Based Decentralized Domain Adaptation)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">KD3A (Knowledge Distillation Based Decentralized Domain Adaptation)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:Kd3aKnowledgeDistillationBasedDecentralizedDomainAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> KD3A, Knowledge Distillation Based Decentralized Domain Adaptation, Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation
+    </div>
+
+  <div class="detail-desc">
+    KD3A (Knowledge Distillation Based Decentralized Domain Adaptation) is an unsupervised multi-source decentralized domain adaptation algorithm that transfers knowledge from K private labeled source domains {D_S^k}_{k=1}^K to an unlabeled target domain D_T in one communication round per epoch without sharing source data by combining (1) Knowledge Vote, which filters source teacher predictions via a confidence gate g^{(t)}, selects a consensus class by summing confident predictions, and trains an extended student model h_S^{K+1} on support-weighted consensus distributions (p_i, n_{p_i}), (2) Consensus Focus, which weights each source model by its marginal contribution CF(D_S^k) = Q(S) - Q(S \ {D_S^k}) to total consensus quality Q(S) = sum_{X_i^T in D_T} n_{p_i}(S) max p_i(S), and (3) BatchNorm MMD, which aligns quadratic-kernel first and second feature moments across L BatchNorm layers using stored running-mean and running-variance parameters.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Hao-zhe Feng, Zhaoyang You, Minghao Chen, Tianye Zhang, Minfeng Zhu, Fei Wu, Chao Wu, and Wei Chen in &#39;KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation&#39; (ICML 2021, PMLR 139:3274-3283; arXiv:2011.09757). Distinct from FADA (Peng et al. ICLR 2020), which requires batch-level feature and gradient synchronization (100x higher communication cost) for adversarial domain alignment and K-means gap-statistics attention; and distinct from single-source hypothesis transfer SHOT (Liang et al. ICML 2020), which lacks multi-source Knowledge Vote, Consensus Focus marginal-contribution weighting, and BatchNorm MMD alignment.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kd3a-knowledge-vote-three-step-consensus-distillation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each unlabeled target instance X_i^T in D_T, Knowledge Vote (1) eliminates source teacher predictions q_S^k(X_i^T) whose maximum class confidence falls below gate g^{(t)}, (2) sums the remaining confident distributions to identify the consensus class c^* and discards teachers whose argmax disagrees with c^*, and (3) averages the n_{p_i} supporting teacher distributions into p_i to train the extended model h_S^{K+1} on D_S^{K+1} = {(X_i^T, p_i, n_{p_i})}_{i=1}^{N_T} via L^{kv}(X_i^T, q) = n_{p_i} D_KL(p_i || q(X_i^T)) (Equation 5), which minimizes the extended task risk epsilon_{D_S^{K+1}}(h) by Pinsker&#39;s inequality (Appendix A, Equation 1).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r520-primary-pdf">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, Equations (3)-(5) and Figure 1(b), pages 3-4; Appendix A, page 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kd3a-consensus-focus-marginal-contribution-domain-weighting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To suppress negative transfer from irrelevant or malicious source domains without accessing raw source data, Consensus Focus defines the consensus quality of any source coalition S&#39; subseteq S as Q(S&#39;) = sum_{X_i^T in D_T} n_{p_i}(S&#39;) max p_i(S&#39;) (Equation 7), computes each source domain&#39;s marginal contribution CF(D_S^k) = Q(S) - Q(S \ {D_S^k}) (Equation 8), and assigns aggregation weights alpha_{K+1} = N_T / (sum_{k=1}^K N_k + N_T) and alpha_k^{CF} = (1 - alpha_{K+1}) (N_k CF(D_S^k)) / (sum_{j=1}^K N_j CF(D_S^j)) (Equation 9), achieving the tighter decentralized generalization bound of Theorem 2 and Proposition 2 (Equation 13).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r520-primary-pdf">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 and Section 4, Equations (7)-(9) and (13), Theorem 2 and Proposition 2, pages 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#kd3a-batchnorm-mmd-decentralized-moment-alignment</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    BatchNorm MMD optimizes the quadratic-kernel MMD distance d_MMD^kappa(D_S^k, D_T) = ||E(pi_l^k) - E(pi_l^T)||_2^2 + ||E[pi_l^k]^2 - E[pi_l^T]^2||_2^2 (Equation 11) across L BatchNorm layers without accessing source data by reading E(pi_l^k) and E[pi_l^k]^2 = Var(pi_l^k) + [E(pi_l^k)]^2 from each uploaded source model&#39;s BatchNorm running-mean and running-variance statistics and either minimizing the weighted layer-wise loss (Equation 12) or substituting the closed-form optimal moments mu_op(pi_l^T) = sum_{k=1}^{K+1} alpha_k E(pi_l^k) and mu_op[pi_l^T]^2 = sum_{k=1}^{K+1} alpha_k E[pi_l^k]^2 (Appendix E, Equation 18).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r520-primary-pdf">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 3.4, Equations (10)-(12), page 5; Appendix E, Equations (17)-(18), page 12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#kd3a-100x-communication-reduction-and-domainnet-benchmark-performance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Synchronizing models only once per epoch (r = 1), KD3A reduces communication rounds by 100x relative to FADA (r = 100) while improving average target accuracy from 41.5% (FADA*) and 48.7% (DAEL) to 51.1% on DomainNet (Table 1), from 80.8% (FADA*) to 92.0% on Digit-5 (Table 6), from 78.9% (FADA) to 83.1% on Amazon Review (Table 8), and from 87.1% (FADA) to 97.9% on Office-Caltech10 (Table 9).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r520-primary-pdf">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.3, Tables 1-3, pages 6-9; Appendix F, Tables 6-9, pages 12-13</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Sensitive to the confidence gate schedule g^{(t)}: if g^{(t)} is set too high early in training, almost all target samples are eliminated by the gate, whereas if set too low, noisy teacher predictions degrade consensus quality (Section 3.5).</li>
+      <li>BatchNorm MMD requires neural network architectures containing BatchNorm layers to extract running first and second feature moments.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            KD3A is a decentralized multi-source domain adaptation algorithm that aggregates locally trained source models and BatchNorm statistics without sharing raw data under AIO:FederatedLearning.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r520-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r520-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2011.09757.pdf" target="_blank" rel="noopener">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haozhe Feng, Zhaoyang You, Minghao Chen, Tianye Zhang, Minfeng Zhu, Fei Wu, Chao Wu, Wei Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/FengYCZZWWC21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0927ad8f1ae9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r520-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r520-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2011.09757" target="_blank" rel="noopener">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haozhe Feng, Zhaoyang You, Minghao Chen, Tianye Zhang, Minfeng Zhu, Fei Wu, Chao Wu, Wei Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2011.09757</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:54fe1df85f28…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r520-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r520-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/FengYCZZWWC21" target="_blank" rel="noopener">KD3A: Unsupervised Multi-Source Decentralized Domain Adaptation via Knowledge Distillation (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haozhe Feng, Zhaoyang You, Minghao Chen, Tianye Zhang, Minfeng Zhu, Fei Wu, Chao Wu, Wei Chen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/FengYCZZWWC21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b74fcc15be16…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:03:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:03:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/Kd3aKnowledgeDistillationBasedDecentralizedDomainAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/Kd3aKnowledgeDistillationBasedDecentralizedDomainAdaptation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
