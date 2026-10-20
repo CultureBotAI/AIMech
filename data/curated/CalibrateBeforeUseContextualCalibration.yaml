@@ -1,0 +1,103 @@
+id: AIMech:CalibrateBeforeUseContextualCalibration
+name: Calibrate Before Use Contextual Calibration
+concept_kind: algorithm
+review_status: DRAFT
+definition: A data-free output-probability calibration method for zero-shot and few-shot in-context language models that counteracts majority label bias, recency bias, and common token bias by feeding content-free test inputs (such as 'N/A', '[MASK]', and the empty string '') into the full few-shot prompt context to estimate the model's biased prior output distribution p_hat_cf, and applying an affine vector-scaling transformation q_hat = softmax(W p_hat + b) with W = diag(p_hat_cf)^{-1} and b = 0 (or b = -p_hat_cf, W = I for open-vocabulary generation) so that content-free inputs yield uniform scores across candidate answers.
+identity_notes: Distinct from statistical confidence calibration such as Temperature Scaling (Guo et al., ICML 2017, AIMech:TemperatureScaling), which requires a labeled validation set to align predicted confidence with empirical accuracy, and from Domain Conditional Pointwise Mutual Information (PMI_DC, Holtzman et al., EMNLP 2021, AIMech:PMIDCDomainConditionalPointwiseMutualInformation), which divides each open-ended hypothesis continuation by its unconditional probability under a short domain premise string rather than fitting a closed-set uniform affine transformation on content-free test inputs inside a few-shot prompt.
+aliases:
+- Calibrate Before Use
+- Contextual Calibration
+- Content-Free Input Contextual Calibration
+- Contextual Calibration for Few-Shot Language Models
+definition_evidence:
+- source_id: r728-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r728-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r728-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r728-claim-three-in-context-biases
+  kind: mechanism
+  statement: 'Few-shot in-context learning in autoregressive LMs (GPT-2 and GPT-3) suffers severe accuracy variance across prompt formats, training example selections, and permutations (e.g., 4-shot SST-2 accuracy varying from 54.3% to 93.4% across permutations of the same four examples) due to three systematic biases that shift the output distribution: majority label bias toward frequent prompt labels, recency bias toward labels near the end of the prompt, and common token bias toward label words frequent in pretraining data (r = 0.67 correlation on DBPedia).'
+  evidence:
+  - source_id: r728-primary-pdf
+    locator: Section 3 & Section 4, Figures 2-5, Table 2, pp. 3-5, 11
+    relation: supports
+- claim_id: r728-claim-content-free-uniform-scaling
+  kind: mechanism
+  statement: By averaging the model's output probability distribution p_hat_cf over an ensemble of content-free inputs ('N/A', '[MASK]', and '') slotted into the test placeholder of the exact few-shot prompt and setting W = diag(p_hat_cf)^{-1}, b = 0 for classification (or b = -p_hat_cf, W = I for first-token generation), Contextual Calibration forces content-free predictions to be uniform without requiring any labeled validation examples.
+  evidence:
+  - source_id: r728-primary-pdf
+    locator: Section 5 & Section 5.2, Equation 1, Figure 8, Table 3, pp. 5, 7-8, 11
+    relation: supports
+- claim_id: r728-claim-gpt2-gpt3-accuracy-application
+  kind: application
+  statement: Across text classification (AGNews, TREC, CB, RTE, SST-2, DBPedia), fact retrieval (LAMA), and slot-filling information extraction (MIT Movies, ATIS) on GPT-2 XL (1.5B) and GPT-3 (2.7B, 13B, 175B), Contextual Calibration improves mean and worst-case accuracy by up to 30.0% absolute, eliminates the 0-shot-to-1-shot accuracy drop on three of four datasets, and approaches validation-tuned oracle diagonal calibration.
+  evidence:
+  - source_id: r728-primary-pdf
+    locator: Section 5.1-5.2, Table 1, Figures 1, 6, 7, and 8, Table 4, pp. 2, 6-8, 12
+    relation: supports
+- claim_id: r728-claim-first-token-and-fixed-option-limitation
+  kind: limitation
+  statement: For generation tasks, Contextual Calibration only calibrates the probability distribution of the first generated output token and requires switching from multiplicative diagonal scaling W = diag(p_hat_cf)^{-1} to additive bias subtraction b = -p_hat_cf over the ~50,000-token vocabulary, and its accuracy remains sensitive to the choice of content-free input string (e.g., 'the' or 'abc' underperforming the 'N/A', '[MASK]', '' ensemble by up to 9.9 points).
+  evidence:
+  - source_id: r728-primary-pdf
+    locator: Section 5 (Footnotes 6-8) & Appendix A, Table 3, pp. 5, 11
+    relation: supports
+evidence_sources:
+- source_id: r728-primary-pdf
+  title: 'Calibrate Before Use: Improving Few-Shot Performance of Language Models'
+  authors: &id001
+  - Tony Z. Zhao
+  - Eric Wallace
+  - Shi Feng
+  - Dan Klein
+  - Sameer Singh
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2102.09690.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Calibrate+Before+Use+Improving+Few-Shot+Performance+of+Language+Models+Zhao&format=xml
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:12697-12706 (2021) (695668 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T13:31:00Z'
+  sha256: 479484d5dbd5d6d9bf40e79774efa05f4d349328d8db95d7b23bb87ed64caba2
+- source_id: r728-arxiv-abs
+  title: 'Calibrate Before Use: Improving Few-Shot Performance of Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2102.09690
+  persistent_id: https://arxiv.org/abs/2102.09690
+  version: arXiv abstract page (7020 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:31:00Z'
+  sha256: 0058f141ea2482f824bbe628e208b90cebf7fb5a48187456f5afd809ef4ca930
+- source_id: r728-metadata-cr
+  title: 'Calibrate Before Use: Improving Few-Shot Performance of Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Calibrate+Before+Use+Improving+Few-Shot+Performance+of+Language+Models+Zhao&format=xml
+  persistent_id: https://dblp.org/search/publ/api?q=Calibrate+Before+Use+Improving+Few-Shot+Performance+of+Language+Models+Zhao&format=xml
+  version: Crossref API work record (957 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:31:00Z'
+  sha256: 9e49c2340ea404a36ec6ec364091fb17fbbe678663831e6ab6dbe95b5baad114
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Contextual Calibration corrects prompt-induced output probability shifts in autoregressive neural language models without modifying model weights.
+limitations:
+- In generation tasks, only calibrates the first generated token and cannot directly calibrate multi-token open-ended free-form answers whose candidate set varies per question.
+- Performance varies with the choice of content-free probe string (e.g., 'the' achieves 69.1% vs. 79.0% for the {'N/A', '[MASK]', ''} ensemble on 1-shot SST-2) and incurs extra forward passes per distinct prompt context.
+curation:
+  created_at: '2026-10-19T13:31:00Z'
+  updated_at: '2026-10-19T13:31:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
