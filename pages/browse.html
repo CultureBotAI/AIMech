@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1592</strong> artificial intelligence concepts, comprising <strong>1150</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1593</strong> artificial intelligence concepts, comprising <strong>1151</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1592)</option>
-        <option value="curated">Curated AIMech (1150)</option>
+        <option value="all">All Origins (1593)</option>
+        <option value="curated">Curated AIMech (1151)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (824)</option>
+          <option value="algorithm">Algorithms (825)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (57)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1592</span> of <span id="totalCount">1592</span>
+      Showing <span id="matchCount">1593</span> of <span id="totalCount">1593</span>
     </div>
   </div>
 </div>
@@ -33797,6 +33797,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:SimesClosedTestingConcentrationShortcutAndDoubleAsymptoticFDPConsistency</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="simlm representation-bottleneck replaced language model pre-training simlmrepresentationbottleneckpretraining aimech:simlmrepresentationbottleneckpretraining algorithms algorithm a self-supervised pre-training algorithm and bottleneck architecture for dense passage retrieval that corrupts an input passage x twice using a frozen electra-style generator g with nested replacement probabilities p_enc = 30% and p_dec = 50% (x_enc = sample(g, mask(x, p_enc)), x_dec = sample(g, mask(x, p_dec)) such that every token replaced in x_enc is also replaced in x_dec), encodes x_enc with a deep transformer encoder into a single last-layer [cls] representation bottleneck vector h_cls without skip connections from earlier layers, feeds h_cls and x_dec into a shallow 2-layer bidirectional transformer decoder, and optimizes the sum of all-position token-level cross-entropy replaced language modeling losses l_pt = l_enc + l_dec where l_enc = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | x_enc) and l_dec = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | h_cls, x_dec) before discarding the decoder for multi-stage bi-encoder fine-tuning and kl cross-encoder distillation. distinct from condenser (aimech:condenserpretrainingarchitecturefordenseretrieval) and cocondenser (aimech:cocondenserunsupervisedcorpusawarelanguagemodelpretraining), which include a short-circuit skip connection from early encoder layers to the head and use [mask]-based mlm; distinct from retromae (aimech:retromaeretrievalorientedmaskedautoencoder), which uses [mask] tokens and specialized position-specific attention masks in a 1-layer decoder; and distinct from electra (aimech:electrareplacedtokendetection), which trains a binary replaced token detection (rtd) discriminator without a [cls] bottleneck decoder (and performs poorly on dense retrieval: 31.9 vs. 33.7 mrr@10 in table 1 and 36.2 vs. 38.0 in table 7). simlm similarity matching with language model pre-training simlm bottleneck replaced language modeling for dense retrieval to eliminate the input distribution mismatch of [mask] tokens and prevent the decoder from bypassing the [cls] representation via skip connections, simlm samples replaced tokens from a frozen electra_base generator at rate p_enc = 30% for the 12-layer encoder and nested rate p_dec = 50% for the 2-layer bidirectional decoder, optimizing original-token cross-entropy l_pt = l_enc + l_dec across all sequence positions 1..|x| rather than binary replaced-token detection (outperforming enc-dec rtd at 36.2, condenser at 36.9, and enc-dec mlm at 37.7 with 38.0 mrr@10 under bm25 negatives). after discarding the shallow decoder, simlm initializes bi-encoder retrievers in a standalone three-stage pipeline (retriever_1 on bm25 negatives, retriever_2 on retriever_1-mined hard negatives, and retriever_distill distilled from an electra_base cross-encoder reranker) using temperature-scaled cosine similarity phi(q, d) = exp((1/tau) cos(h_q, h_d)) (tau = 0.02) with both query-negative and passage-negative contrastive denominators sum_{n_i in n} (phi(q^+, n_i) + phi(d^+, n_i)) and kl divergence interpolation l = l_kl + alpha l_cont (alpha = 0.2). on ms-marco passage ranking dev, simlm progresses from 38.0 mrr@10 / 98.3 r@1k with bm25 negatives (retriever_1) to 39.1 mrr@10 / 98.6 r@1k with mined hard negatives (retriever_2) and 41.1 mrr@10 / 87.8 r@50 / 98.7 r@1k with distillation (retriever_distill), outperforming multi-vector colbertv2 (39.7 mrr@10, &gt;150gb two-stage index vs. simlm&#39;s 27gb single-stage index) while achieving 71.4 ndcg@10 on trec dl 2019, 69.7 ndcg@10 on trec dl 2020, and 85.2 r@20 / 89.7 r@100 on natural questions test. because simlm pre-training optimizes token-level replaced language modeling without any sequence-level contrastive objective, the pre-trained checkpoint cannot be used directly as a zero-shot dense retriever without supervised fine-tuning; furthermore, setting the decoder replacement rate to 100% removes all local context and degrades ms-marco dev mrr@10 from 38.0 to 36.6, and simlm underperforms electra_base when used to initialize a cross-encoder reranker (42.9 vs. 43.7 mrr@10). simlm: pre-training with representation bottleneck for dense passage retrieval simlm: pre-training with representation bottleneck for dense passage retrieval (arxiv abstract) simlm: pre-training with representation bottleneck for dense passage retrieval (crossref metadata) liang wang nan yang xiaolong huang binxing jiao linjun yang daxin jiang rangan majumder furu wei liang wang nan yang xiaolong huang binxing jiao linjun yang daxin jiang rangan majumder furu wei liang wang nan yang xiaolong huang binxing jiao linjun yang daxin jiang rangan majumder furu wei">
+        <td>
+          <a href="curated/SimLMRepresentationBottleneckPreTraining.html" style="font-weight: 600; font-size: 1rem;">SimLM Representation-Bottleneck Replaced Language Model Pre-Training</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> SimLM, Similarity Matching with Language Model Pre-Training…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A self-supervised pre-training algorithm and bottleneck architecture for dense passage retrieval that corrupts an input passage x twice usin…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:SimLMRepresentationBottleneckPreTraining</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>

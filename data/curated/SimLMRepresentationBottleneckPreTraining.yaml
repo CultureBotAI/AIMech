@@ -1,0 +1,105 @@
+id: AIMech:SimLMRepresentationBottleneckPreTraining
+name: SimLM Representation-Bottleneck Replaced Language Model Pre-Training
+concept_kind: algorithm
+review_status: DRAFT
+definition: A self-supervised pre-training algorithm and bottleneck architecture for dense passage retrieval that corrupts an input passage x twice using a frozen ELECTRA-style generator g with nested replacement probabilities p_enc = 30% and p_dec = 50% (x_enc = Sample(g, Mask(x, p_enc)), x_dec = Sample(g, Mask(x, p_dec)) such that every token replaced in x_enc is also replaced in x_dec), encodes x_enc with a deep Transformer encoder into a single last-layer [CLS] representation bottleneck vector h_cls without skip connections from earlier layers, feeds h_cls and x_dec into a shallow 2-layer bidirectional Transformer decoder, and optimizes the sum of all-position token-level cross-entropy replaced language modeling losses L_pt = L_enc + L_dec where L_enc = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | x_enc) and L_dec = -(1/|x|) sum_{i=1}^{|x|} log p(x[i] | h_cls, x_dec) before discarding the decoder for multi-stage bi-encoder fine-tuning and KL cross-encoder distillation.
+identity_notes: 'Distinct from Condenser (AIMech:CondenserPreTrainingArchitectureForDenseRetrieval) and coCondenser (AIMech:CoCondenserUnsupervisedCorpusAwareLanguageModelPreTraining), which include a short-circuit skip connection from early encoder layers to the head and use [MASK]-based MLM; distinct from RetroMAE (AIMech:RetroMAERetrievalOrientedMaskedAutoEncoder), which uses [MASK] tokens and specialized position-specific attention masks in a 1-layer decoder; and distinct from ELECTRA (AIMech:ELECTRAReplacedTokenDetection), which trains a binary Replaced Token Detection (RTD) discriminator without a [CLS] bottleneck decoder (and performs poorly on dense retrieval: 31.9 vs. 33.7 MRR@10 in Table 1 and 36.2 vs. 38.0 in Table 7).'
+aliases:
+- SimLM
+- Similarity Matching with Language Model Pre-Training
+- SimLM Bottleneck Replaced Language Modeling for Dense Retrieval
+definition_evidence:
+- source_id: r756-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r756-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r756-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r756-claim-skip-free-bottleneck-replaced-lm
+  kind: mechanism
+  statement: To eliminate the input distribution mismatch of [MASK] tokens and prevent the decoder from bypassing the [CLS] representation via skip connections, SimLM samples replaced tokens from a frozen ELECTRA_base generator at rate p_enc = 30% for the 12-layer encoder and nested rate p_dec = 50% for the 2-layer bidirectional decoder, optimizing original-token cross-entropy L_pt = L_enc + L_dec across all sequence positions 1..|x| rather than binary replaced-token detection (outperforming Enc-Dec RTD at 36.2, Condenser at 36.9, and Enc-Dec MLM at 37.7 with 38.0 MRR@10 under BM25 negatives).
+  evidence:
+  - source_id: r756-primary-pdf
+    locator: Section 1, Section 3.1, & Section 5.1-5.2, Equations 1-2, Figure 1, Tables 7-8, pp. 1-3, 6-7
+    relation: supports
+- claim_id: r756-claim-three-stage-finetuning-and-distillation
+  kind: mechanism
+  statement: After discarding the shallow decoder, SimLM initializes bi-encoder retrievers in a standalone three-stage pipeline (Retriever_1 on BM25 negatives, Retriever_2 on Retriever_1-mined hard negatives, and Retriever_distill distilled from an ELECTRA_base cross-encoder reranker) using temperature-scaled cosine similarity phi(q, d) = exp((1/tau) cos(h_q, h_d)) (tau = 0.02) with both query-negative and passage-negative contrastive denominators sum_{n_i in N} (phi(q^+, n_i) + phi(d^+, n_i)) and KL divergence interpolation L = L_kl + alpha L_cont (alpha = 0.2).
+  evidence:
+  - source_id: r756-primary-pdf
+    locator: Section 3.2 & Appendix B, Equations 3-5, Figure 2, Table 13, pp. 3-4, 12-13
+    relation: supports
+- claim_id: r756-claim-msmarco-trec-nq-application
+  kind: application
+  statement: On MS-MARCO Passage Ranking Dev, SimLM progresses from 38.0 MRR@10 / 98.3 R@1k with BM25 negatives (Retriever_1) to 39.1 MRR@10 / 98.6 R@1k with mined hard negatives (Retriever_2) and 41.1 MRR@10 / 87.8 R@50 / 98.7 R@1k with distillation (Retriever_distill), outperforming multi-vector ColBERTv2 (39.7 MRR@10, >150GB two-stage index vs. SimLM's 27GB single-stage index) while achieving 71.4 nDCG@10 on TREC DL 2019, 69.7 nDCG@10 on TREC DL 2020, and 85.2 R@20 / 89.7 R@100 on Natural Questions test.
+  evidence:
+  - source_id: r756-primary-pdf
+    locator: Section 4.2, Tables 2-4 and 6, pp. 5-6
+    relation: supports
+- claim_id: r756-claim-no-zero-shot-and-extreme-masking-limitation
+  kind: limitation
+  statement: Because SimLM pre-training optimizes token-level replaced language modeling without any sequence-level contrastive objective, the pre-trained checkpoint cannot be used directly as a zero-shot dense retriever without supervised fine-tuning; furthermore, setting the decoder replacement rate to 100% removes all local context and degrades MS-MARCO Dev MRR@10 from 38.0 to 36.6, and SimLM underperforms ELECTRA_base when used to initialize a cross-encoder reranker (42.9 vs. 43.7 MRR@10).
+  evidence:
+  - source_id: r756-primary-pdf
+    locator: Section 4.2 (Table 5), Section 5.2 (Table 8), & Limitations, pp. 6-7, 9
+    relation: supports
+evidence_sources:
+- source_id: r756-primary-pdf
+  title: 'SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval'
+  authors: &id001
+  - Liang Wang
+  - Nan Yang
+  - Xiaolong Huang
+  - Binxing Jiao
+  - Linjun Yang
+  - Daxin Jiang
+  - Rangan Majumder
+  - Furu Wei
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2207.02578.pdf
+  persistent_id: https://arxiv.org/bibtex/2207.02578
+  version: 'Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL 2023, Volume 1: Long Papers), pp. 2244-2258 (2023) (509160 bytes).'
+  access_level: full_text
+  accessed_at: '2026-10-19T13:59:00Z'
+  sha256: d5c5733b140714bd1e62d3cb21f7835b6574b505bac04877907ec3706ed54395
+- source_id: r756-arxiv-abs
+  title: 'SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2207.02578
+  persistent_id: https://arxiv.org/abs/2207.02578
+  version: arXiv abstract page (6673 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:59:00Z'
+  sha256: 98c0ae65bf938d65c1d80f4086d739b44c961392b3021040722c5f07d57fdea3
+- source_id: r756-metadata-cr
+  title: 'SimLM: Pre-training with Representation Bottleneck for Dense Passage Retrieval (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/bibtex/2207.02578
+  persistent_id: https://arxiv.org/bibtex/2207.02578
+  version: Crossref API work record (495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T13:59:00Z'
+  sha256: 2c915d088f97c21cb78fe19aa6af9c8a70960281022e2311287d23ef3b6e6439
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: SimLM pre-trains a deep Transformer encoder and shallow 2-layer Transformer decoder connected through a [CLS] vector bottleneck using replaced language modeling.
+limitations:
+- Cannot be used as an unsupervised zero-shot dense retriever directly after pre-training because its pre-training objective contains no sequence-level contrastive loss.
+- Less effective than ELECTRA_base as an initialization checkpoint for cross-encoder rerankers (42.9 vs. 43.7 MRR@10), and degrades when the decoder replacement rate reaches 100% (dropping from 38.0 to 36.6 MRR@10).
+curation:
+  created_at: '2026-10-19T13:59:00Z'
+  updated_at: '2026-10-19T13:59:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
