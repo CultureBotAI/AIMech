@@ -1,0 +1,105 @@
+id: AIMech:VrDianaAndSvrgDianaVarianceReducedQuantizedDistributedOptimization
+name: VR-DIANA and SVRG-DIANA (Variance-Reduced Distributed Learning with Gradient Quantization)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'VR-DIANA and SVRG-DIANA are doubly variance-reduced distributed optimization algorithms for solving min_{x in R^d} f(x) = (1/n) sum_{i=1}^n f_i(x) with local finite-sum structure f_i(x) = (1/m) sum_{j=1}^m f_{ij}(x) across n workers using arbitrary unbiased omega-quantization operators Q: R^d -> R^d (satisfying E_Q[Q(v)] = v and E_Q[||Q(v) - v||_2^2] <= omega ||v||_2^2). At each iteration k, each worker i computes a local variance-reduced stochastic gradient g_i^k = grad f_{i, j_i^k}(x^k) - grad f_{i, j_i^k}(w_{i, j_i^k}^k) + mu_i^k via L-SVRG (Variant 1), SAGA (Variant 2), or multi-epoch SVRG (Algorithm 3), quantizes only the shifted difference Delta_hat_i^k = Q(g_i^k - h_i^k) relative to a local state h_i^k, updates h_i^{k+1} = h_i^k + alpha * Delta_hat_i^k, and enables the master to take the global step x^{k+1} = x^k - gamma * (h^k + (1/n) sum_{i=1}^n Delta_hat_i^k) that eliminates both local sampling variance and quantization variance without ever transmitting uncompressed gradients.'
+identity_notes: Distinct from baseline DIANA (Mishchenko et al., 2019; Round 389), which does not incorporate local finite-sum variance reduction and only converges to an O(sigma^2 / (mu^2 * n)) neighborhood under stochastic gradients. Also distinct from ADIANA (Li et al., 2020; Round 390), which accelerates full-batch or L-SVRG DIANA via Nesterov momentum, and from QSVRG (Alistarh et al., 2017; Round 378), which requires broadcasting exact uncompressed full gradients at the start of every epoch.
+aliases:
+- VR-DIANA
+- Variance-Reduced DIANA
+- DIANA-LSVRG
+- DIANA-SAGA
+- SVRG-DIANA
+definition_evidence:
+- source_id: r573-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r573-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r573-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: vr-diana-strongly-convex-linear-convergence
+  kind: mechanism
+  statement: Under L-smoothness of each f_{ij}, convexity of f_{ij}, and mu-strong convexity of each f_i, VR-DIANA (Algorithm 2, L-SVRG and SAGA variants) and SVRG-DIANA (Algorithm 3) with alpha = 1/(omega + 1) and gamma = 1 / (L*(1 + 36*(omega + 1)/n)) contract the Lyapunov function psi^k = ||x^k - x^*||_2^2 + b*gamma^2*H^k + c*gamma^2*D^k at linear rate rho = min{mu / (L*(1 + 36*(omega + 1)/n)), alpha/2, 3/(8*m)}, reaching E[||x^k - x^*||_2^2] <= epsilon * psi^0 in O((kappa + kappa*omega/n + m + omega) log(1/epsilon)) iterations using only quantized uplink messages.
+  evidence:
+  - source_id: r573-primary-pdf
+    locator: Section 7.1 Theorem 2 and Corollary 2, p. 6; Appendix E.1 pp. 17-21; Appendix F.1 Theorem 6 and Corollary 5, p. 27
+    relation: supports
+- claim_id: vr-diana-convex-and-nonconvex-rates
+  kind: mechanism
+  statement: For general convex objectives (mu = 0), VR-DIANA achieves E[f(x^a) - f^*] <= epsilon in O(((1 + omega/n)*sqrt(m) + omega/sqrt(m)) / epsilon) iterations (Theorem 3, Corollary 3), and for smooth nonconvex objectives it achieves E[||grad f(x^a)||_2^2] <= epsilon in O((1 + omega/n)^{1/2} * (m^{2/3} + omega) / epsilon) iterations (Theorem 4, Corollary 4), matching unquantized variance-reduced rates whenever omega = O(min{n, m}) (convex) or omega = O(m^{2/3}) (nonconvex).
+  evidence:
+  - source_id: r573-primary-pdf
+    locator: Section 7.2 Theorem 3 and Corollary 3, Section 7.3 Theorem 4 and Corollary 4, Table 1, p. 7
+    relation: supports
+- claim_id: vr-diana-distributed-logistic-regression-application
+  kind: application
+  statement: Applied to distributed L2-regularized logistic regression on LIBSVM datasets (real-sim, Gisette, mushrooms, a5a) with l_infinity, l_2, and block random dithering, VR-DIANA (DIANA-SVRG, DIANA-SAGA, DIANA-LSVRG) converges linearly to machine precision (10^{-15}) while outperforming DIANA-SGD, QSVRG, and TernGrad-Adam in wall-clock time and data passes.
+  evidence:
+  - source_id: r573-primary-pdf
+    locator: Section 8 Experiments, Figures 1-3, pp. 8-9; Appendix A Figures 4-5, p. 12
+    relation: supports
+- claim_id: vr-diana-limitations
+  kind: limitation
+  statement: VR-DIANA requires unbiased omega-quantization operators (E_Q[Q(x)] = x) and maintains a d-dimensional shift vector h_i^k on each worker (plus an O(m*d) gradient table on each worker in the SAGA variant), and it assumes full worker participation and uncompressed downlink broadcasts of x^k from the central server.
+  evidence:
+  - source_id: r573-primary-pdf
+    locator: Section 4 Definition 4, p. 3; Section 6 Algorithm 2 and Section 6.2, pp. 5-6
+    relation: supports
+evidence_sources:
+- source_id: r573-primary-pdf
+  title: Stochastic Distributed Learning with Gradient Quantization and Variance Reduction
+  authors: &id001
+  - Samuel Horvath
+  - Dmitry Kovalev
+  - Konstantin Mishchenko
+  - Peter Richtarik
+  - Sebastian U. Stich
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1904.05115.pdf
+  persistent_id: https://dblp.org/search/publ/api?q=Stochastic+Distributed+Learning+with+Gradient+Quantization+and+Variance+Reduction+Horvath&format=json
+  version: Optimization Methods and Software 38(1):91-106 (arXiv:1904.05115) (2023) (1143459 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:56:00Z'
+  sha256: dbd2b5561a3a115525f33e94431639bb68d7ded58a7a5edcc88690123cba3418
+- source_id: r573-arxiv-abs
+  title: Stochastic Distributed Learning with Gradient Quantization and Variance Reduction (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1904.05115
+  persistent_id: https://arxiv.org/abs/1904.05115
+  version: arXiv abstract page (6232 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:56:00Z'
+  sha256: 4290579131e9785206ad6e67f97cfec893f0e1fc01bcdf06191249343cbaf68c
+- source_id: r573-metadata-cr
+  title: Stochastic Distributed Learning with Gradient Quantization and Variance Reduction (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/search/publ/api?q=Stochastic+Distributed+Learning+with+Gradient+Quantization+and+Variance+Reduction+Horvath&format=json
+  persistent_id: https://dblp.org/search/publ/api?q=Stochastic+Distributed+Learning+with+Gradient+Quantization+and+Variance+Reduction+Horvath&format=json
+  version: Crossref API work record (1495 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:56:00Z'
+  sha256: 47e95ce61d0df7ac3d1e84f99785ddb0407ae49c78de29d38fe1fbcc92f2b687
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: VR-DIANA is a communication-compressed distributed optimization algorithm for heterogeneous multi-node training.
+limitations:
+- Requires unbiased omega-quantization operators (E_Q[Q(x)] = x) and does not directly handle biased contractive compressors such as Top-K without error feedback.
+- Variant 2 (DIANA-SAGA) requires O(m*d) local memory per worker to store the component gradient table grad f_{ij}(w_{ij}^k).
+- Assumes synchronous full worker participation and uncompressed server-to-worker broadcasts.
+curation:
+  created_at: '2026-10-19T10:56:00Z'
+  updated_at: '2026-10-19T10:56:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

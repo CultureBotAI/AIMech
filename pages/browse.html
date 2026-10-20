@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1409</strong> artificial intelligence concepts, comprising <strong>967</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1410</strong> artificial intelligence concepts, comprising <strong>968</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1409)</option>
-        <option value="curated">Curated AIMech (967)</option>
+        <option value="all">All Origins (1410)</option>
+        <option value="curated">Curated AIMech (968)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (664)</option>
+          <option value="algorithm">Algorithms (665)</option>
           <option value="mathematical_method">Mathematical Methods (153)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1409</span> of <span id="totalCount">1409</span>
+      Showing <span id="matchCount">1410</span> of <span id="totalCount">1410</span>
     </div>
   </div>
 </div>
@@ -34534,6 +34534,32 @@
         <td>
             <span class="badge badge-mechanism" title="1 claims curated">1 claim</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">1 source</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="vr-diana and svrg-diana (variance-reduced distributed learning with gradient quantization) vrdianaandsvrgdianavariancereducedquantizeddistributedoptimization aimech:vrdianaandsvrgdianavariancereducedquantizeddistributedoptimization algorithms algorithm vr-diana and svrg-diana are doubly variance-reduced distributed optimization algorithms for solving min_{x in r^d} f(x) = (1/n) sum_{i=1}^n f_i(x) with local finite-sum structure f_i(x) = (1/m) sum_{j=1}^m f_{ij}(x) across n workers using arbitrary unbiased omega-quantization operators q: r^d -&gt; r^d (satisfying e_q[q(v)] = v and e_q[||q(v) - v||_2^2] &lt;= omega ||v||_2^2). at each iteration k, each worker i computes a local variance-reduced stochastic gradient g_i^k = grad f_{i, j_i^k}(x^k) - grad f_{i, j_i^k}(w_{i, j_i^k}^k) + mu_i^k via l-svrg (variant 1), saga (variant 2), or multi-epoch svrg (algorithm 3), quantizes only the shifted difference delta_hat_i^k = q(g_i^k - h_i^k) relative to a local state h_i^k, updates h_i^{k+1} = h_i^k + alpha * delta_hat_i^k, and enables the master to take the global step x^{k+1} = x^k - gamma * (h^k + (1/n) sum_{i=1}^n delta_hat_i^k) that eliminates both local sampling variance and quantization variance without ever transmitting uncompressed gradients. distinct from baseline diana (mishchenko et al., 2019; round 389), which does not incorporate local finite-sum variance reduction and only converges to an o(sigma^2 / (mu^2 * n)) neighborhood under stochastic gradients. also distinct from adiana (li et al., 2020; round 390), which accelerates full-batch or l-svrg diana via nesterov momentum, and from qsvrg (alistarh et al., 2017; round 378), which requires broadcasting exact uncompressed full gradients at the start of every epoch. vr-diana variance-reduced diana diana-lsvrg diana-saga svrg-diana under l-smoothness of each f_{ij}, convexity of f_{ij}, and mu-strong convexity of each f_i, vr-diana (algorithm 2, l-svrg and saga variants) and svrg-diana (algorithm 3) with alpha = 1/(omega + 1) and gamma = 1 / (l*(1 + 36*(omega + 1)/n)) contract the lyapunov function psi^k = ||x^k - x^*||_2^2 + b*gamma^2*h^k + c*gamma^2*d^k at linear rate rho = min{mu / (l*(1 + 36*(omega + 1)/n)), alpha/2, 3/(8*m)}, reaching e[||x^k - x^*||_2^2] &lt;= epsilon * psi^0 in o((kappa + kappa*omega/n + m + omega) log(1/epsilon)) iterations using only quantized uplink messages. for general convex objectives (mu = 0), vr-diana achieves e[f(x^a) - f^*] &lt;= epsilon in o(((1 + omega/n)*sqrt(m) + omega/sqrt(m)) / epsilon) iterations (theorem 3, corollary 3), and for smooth nonconvex objectives it achieves e[||grad f(x^a)||_2^2] &lt;= epsilon in o((1 + omega/n)^{1/2} * (m^{2/3} + omega) / epsilon) iterations (theorem 4, corollary 4), matching unquantized variance-reduced rates whenever omega = o(min{n, m}) (convex) or omega = o(m^{2/3}) (nonconvex). applied to distributed l2-regularized logistic regression on libsvm datasets (real-sim, gisette, mushrooms, a5a) with l_infinity, l_2, and block random dithering, vr-diana (diana-svrg, diana-saga, diana-lsvrg) converges linearly to machine precision (10^{-15}) while outperforming diana-sgd, qsvrg, and terngrad-adam in wall-clock time and data passes. vr-diana requires unbiased omega-quantization operators (e_q[q(x)] = x) and maintains a d-dimensional shift vector h_i^k on each worker (plus an o(m*d) gradient table on each worker in the saga variant), and it assumes full worker participation and uncompressed downlink broadcasts of x^k from the central server. stochastic distributed learning with gradient quantization and variance reduction stochastic distributed learning with gradient quantization and variance reduction (arxiv abstract) stochastic distributed learning with gradient quantization and variance reduction (crossref metadata) samuel horvath dmitry kovalev konstantin mishchenko peter richtarik sebastian u. stich samuel horvath dmitry kovalev konstantin mishchenko peter richtarik sebastian u. stich samuel horvath dmitry kovalev konstantin mishchenko peter richtarik sebastian u. stich">
+        <td>
+          <a href="curated/VrDianaAndSvrgDianaVarianceReducedQuantizedDistributedOptimization.html" style="font-weight: 600; font-size: 1rem;">VR-DIANA and SVRG-DIANA (Variance-Reduced Distributed Learning with Gradient Quantization)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> VR-DIANA, Variance-Reduced DIANA…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            VR-DIANA and SVRG-DIANA are doubly variance-reduced distributed optimization algorithms for solving min_{x in R^d} f(x) = (1/n) sum_{i=1}^n…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:VrDianaAndSvrgDianaVarianceReducedQuantizedDistributedOptimization</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
       <tr data-origin="curated"
