@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Election Coding for Byzantine-Robust SignSGD with Majority Vote · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Election Coding for Byzantine-Robust SignSGD with Majority Vote</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Election Coding for Byzantine-Robust SignSGD with Majority Vote</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ElectionCodingForByzantineRobustSignSgd</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Election Coding, Election-Coded SignSGD-MV, Bernoulli and Deterministic Election Codes for SignSGD
+    </div>
+
+  <div class="detail-desc">
+    A coding-theoretic hierarchical majority-voting framework proposed by Sohn, Han, Choi, and Moon (NeurIPS 2020) that protects 1-bit compressed SignSGD with Majority Vote against b Byzantine workers by redundantly allocating n training data partitions across n workers via a binary allocation matrix G in {0, 1}^{n x n}—constructed either randomly via i.i.d. Bernoulli(p) connections or deterministically via a three-block shifted matrix—so that each worker transmits the local majority bit c_i = maj({m_j}_{j in P_i}) of its assigned partition gradient signs and the master decodes the global majority vote hat{mu} = maj(y_1, ..., y_n).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from uncoded SignSGD with Majority Vote (AIMech:SignSgdCompressedOptimisationWithMajorityVote, which corresponds to G = I_n with redundancy r = 1 and fails whenever Byzantine flips exceed the margin of the majority vote), from DRACO (AIMech:DracoByzantineResilientDistributedTrainingViaRedundantGradients, which uses cyclic/fractional repetition codes over real-valued full-precision gradients with linear redundancy r = 2b + 1), and from DETOX (AIMech:DetoxRedundancyBasedHierarchicalByzantineRobustGradientAggregation, which combines group majority filtering with full-precision geometric median / Krum aggregation). Election Coding (Sohn et al., NeurIPS 2020 / arXiv:1910.06093, Section 2.2, pp. 3-7) preserves 1-bit worker-to-master and master-to-worker communication while providing two explicit code families: (1) Random Bernoulli Codes where G_{ij} ~ Bern(p) with p = Theta(sqrt(log(n)/n)), achieving vanishing global sign estimation error P(hat{mu} != sign(g)) &lt; 1/Delta (Lemma 1 &amp; Theorem 1) and O(1/sqrt(T)) non-convex convergence (Theorem 2); and (2) Deterministic Algebraic Codes (Algorithm 1, Lemma 2, &amp; Theorem 3) with block structure [I_s, 0; 0, A; 1_{(n-s-L) x n}] where s = (n-1)/2 - b and L = floor((n-(2b+1))/(2(b+1))) + 1, guaranteeing exact majority recovery P(hat{mu} != mu) = 0 under any b &lt; floor(n/2) Byzantine bit-flip attacks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#election-coding-hierarchical-majority-encoder-decoder-and-deterministic-allocation-matrix</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Given n data partitions with coordinate-wise gradient signs m_j = sign(tilde{g}_j) in {+1, -1} and a binary allocation matrix G in {0, 1}^{n x n}, each worker i computes the local majority bit c_i = E_i(m; G) = maj({m_j}_{j in P_i}) over its assigned partitions P_i = {j : G_{ij} = 1} and transmits y_i in {+1, -1} to the parameter server, which decodes hat{mu} = maj(y_1, ..., y_n) and updates w_{t+1} = w_t - gamma hat{mu}; Algorithm 1 constructs a deterministic matrix G with top-left identity I_s (s = (n-1)/2 - b), L shifted rows of weight 2b+1, and bottom all-ones rows.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r536-primary-pdf">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equation (1), p. 4; Section 4, Algorithm 1 and Figure 3, pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#election-coding-perfect-b-byzantine-tolerance-and-bernoulli-convergence-theorems</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Lemma 2 and Theorem 3 prove that the deterministic code in Algorithm 1 satisfies the necessary and sufficient condition sum_{v=1}^{floor(n/2)} |S_v(m)| &lt;= floor(n/2) - b for all weight-floor(n/2) vectors m, achieving perfect b-Byzantine tolerance P(hat{mu} != mu) = 0 for 0 &lt; b &lt; floor(n/2) with computational redundancy r = (n + 2b + 1)/2 - (L - 1/2)(n - (2b + 1))/n (Equation 5); for random Bernoulli codes with p = Theta(sqrt(log(n)/n)), Theorems 1 and 2 prove P(hat{mu} != sign(g)) &lt; 1/Delta and non-convex stationarity (1/T) sum_{t=0}^{T-1} E[||g(w_t)||_1] &lt;= O(1/sqrt(T)).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r536-primary-pdf">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1-3.2, Lemma 1 &amp; Theorems 1-2, pp. 5-6; Section 4, Lemma 2 &amp; Theorem 3, Equation (5), pp. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#election-coding-data-replication-and-computational-redundancy-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Election Coding requires replicating data partitions across multiple workers (preventing its direct use when raw local data cannot be shared across nodes) and incurs a computational redundancy factor r = ||G||_0 / n &gt; 1 proportional to the number of partitions assigned per worker.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r536-primary-pdf">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, p. 4; Section 4, Theorem 3, Equation (5), p. 7; Appendix A.4, pp. 10-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#election-coding-distributed-resnet-and-logistic-regression-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to Byzantine-resilient 1-bit distributed training of ResNet-18 and ResNet-50 on CIFAR-10 and high-dimensional logistic regression on the Amazon Employee Access dataset on Amazon EC2 clusters under reverse-sign and directional Byzantine attacks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r536-primary-pdf">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2, Figures 4-6, pp. 7-9; Appendix A, Table A.1 and Figures A.1-A.4, pp. 10-12</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires allocating and replicating multiple data partitions per worker node, which is applicable to shared-storage or cloud cluster training rather than privacy-siloed federated clients.</li>
+      <li>Deterministic codes require computational redundancy r = O(n) as n grows for fixed b/n, although random Bernoulli codes reduce required redundancy to O(sqrt(n log n)).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AIO:FederatedLearning is the closely related distributed learning paradigm; Election Coding provides coding-theoretic Byzantine protection for 1-bit compressed SignSGD with Majority Vote.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r536-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r536-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1910.06093.pdf" target="_blank" rel="noopener">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jy-yong Sohn, Dong-Jun Han, Beongjun Choi, Jaekyun Moon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/SohnHCM20.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5971a5710da9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r536-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r536-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1910.06093" target="_blank" rel="noopener">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jy-yong Sohn, Dong-Jun Han, Beongjun Choi, Jaekyun Moon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1910.06093</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:211071a3c7b9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r536-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r536-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/nips/SohnHCM20.xml" target="_blank" rel="noopener">Election Coding for Distributed Learning: Protecting SignSGD against Byzantine Attacks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jy-yong Sohn, Dong-Jun Han, Beongjun Choi, Jaekyun Moon
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/nips/SohnHCM20.xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8730c1b88042…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ElectionCodingForByzantineRobustSignSgd.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ElectionCodingForByzantineRobustSignSgd.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
