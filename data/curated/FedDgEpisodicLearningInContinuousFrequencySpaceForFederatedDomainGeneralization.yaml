@@ -1,0 +1,104 @@
+id: AIMech:FedDgEpisodicLearningInContinuousFrequencySpaceForFederatedDomainGeneralization
+name: FedDG Episodic Learning in Continuous Frequency Space for Federated Domain Generalization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated domain generalization algorithm (Liu, Chen, Qin, Dou, & Heng, 2021) that learns a shared prediction model from K decentralized source domains S = {S^1, ..., S^K} capable of generalizing directly to completely unseen target domains T without sharing raw images. Each client k decomposes local images x_i^k into Fourier amplitude spectra A_i^k (encoding low-level style distribution) and phase spectra P_i^k (encoding high-level structural semantics) via Eq. (1), shares only amplitude spectra in a distribution bank A = [A^1, ..., A^K], and synthesizes multi-source style-transferred images x_{i,lambda}^{k->n} = F^{-1}(A_{i,lambda}^{k->n}, P_i^k) via Continuous Frequency Space Interpolation (CFSI, Eqs. 2-3) with dynamically sampled interpolation ratio lambda in [0, 1] and low-frequency mask M. Local training then performs Boundary-oriented Episodic Learning (BEL, Eqs. 4-9), taking an inner-loop gradient step theta_hat^k = theta^k - beta nabla_{theta^k} L_seg(x_i^k; theta^k) on raw meta-train data and optimizing a meta-objective L_meta = L_seg(t_i^k; theta_hat^k) + gamma L_boundary(x_i^k, t_i^k; theta_hat^k) on frequency-transformed meta-test counterparts t_i^k using masked average pooling and an InfoNCE contrastive boundary loss over 2K boundary and background region-level features.
+identity_notes: Distinct from standard Federated Averaging (AIO:FederatedLearning), which optimizes average in-distribution risk over participating clients without cross-client frequency amplitude interpolation or episodic meta-updates, and distinct from FedSR (AIMech:FedSrSimpleAndEffectiveDomainGeneralizationForFederatedLearning), which enforces L2 representation norm and conditional mutual information regularizers locally without exchanging Fourier amplitude spectra or performing boundary-oriented episodic meta-learning.
+aliases:
+- FedDG
+- ELCFS
+- FedDG-ELCFS
+- Episodic Learning in Continuous Frequency Space
+- Federated Domain Generalization via Continuous Frequency Space Interpolation
+definition_evidence:
+- source_id: r497-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r497-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r497-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: cfsi-fourier-amplitude-interpolation-and-phase-retention
+  kind: mechanism
+  statement: Given local image x_i^k in R^{H x W x C} at client k, its 2D discrete Fourier transform F(x_i^k)(u,v,c) = sum_{h=0}^{H-1} sum_{w=0}^{W-1} x_i^k(h,w,c) exp(-j 2 pi (h u / H + w v / W)) (Eq. 1) is decomposed into amplitude spectrum A_i^k and phase spectrum P_i^k; sampling external amplitude A_j^n (n != k) from the shared distribution bank A and interpolating low-frequency components under centered binary mask M = 1_{(h,w) in [-alpha H:alpha H, -alpha W:alpha W]} with ratio lambda in [0, 1] (Eq. 2) followed by inverse Fourier reconstruction x_{i,lambda}^{k->n} = F^{-1}(A_{i,lambda}^{k->n}, P_i^k) (Eq. 3) transfers continuous multi-source appearance distributions while retaining local phase P_i^k and semantic labels y_i^k.
+  evidence:
+  - source_id: r497-primary-pdf
+    locator: Section 3.2, Eqs. (1)-(3), pp. 3-4; Figure 2, p. 4; Section 7.3, Figure 9, pp. 12-13
+    relation: supports
+- claim_id: boundary-oriented-episodic-meta-learning-and-infonce-loss
+  kind: mechanism
+  statement: In Boundary-oriented Episodic Learning (BEL), client k first performs an inner-loop meta-train update theta_hat^k = theta^k - beta nabla_{theta^k} L_seg(x_i^k; theta^k) (Eq. 4), extracts K boundary-related and K background-related region features h_{i bd}^k = (sum_{h,w} Z_i^k * y_{i bd}^k) / (sum_{h,w} y_{i bd}^k) and h_{i bg}^k = (sum_{h,w} Z_i^k * y_{i bg}^k) / (sum_{h,w} y_{i bg}^k) via masked average pooling (Eq. 5) across x_i^k and its K-1 transformed counterparts t_i^k, and optimizes theta^k on L_seg(x_i^k; theta^k) + L_seg(t_i^k; theta_hat^k) + gamma L_boundary(x_i^k, t_i^k; theta_hat^k) (Eqs. 6-9), where L_boundary averages the InfoNCE loss l(h_m, h_p) over all 2 * C(K, 2) intra-class positive pairs across the 2K region features.
+  evidence:
+  - source_id: r497-primary-pdf
+    locator: Section 3.3, Eqs. (4)-(9), pp. 4-5; Section 4.4, Figures 5 and 7, pp. 7-8
+    relation: supports
+- claim_id: medical-image-segmentation-unseen-domain-generalization-scope
+  kind: application
+  statement: On leave-one-domain-out federated evaluation across 4 retinal fundus imaging sites (Drishti-GS, RIM-ONE-r3, REFUGE) and 6 prostate T2-weighted MRI sites (NCI-ISBI13, I2CVB, PROMISE12), ELCFS improves average unseen-domain Dice over FedAvg from 85.01% to 87.03% (HD from 15.93 to 13.07) on optic disc/cup segmentation and from 85.57% to 87.39% (HD from 12.42 to 10.88) on prostate MRI segmentation (Tables 1-2, p. 7).
+  evidence:
+  - source_id: r497-primary-pdf
+    locator: Section 4.1-4.3, Tables 1-2, pp. 6-7; Section 7.1-7.2, Tables 3-5, p. 12
+    relation: supports
+- claim_id: shared-amplitude-bank-and-second-order-episodic-cost-limitation
+  kind: limitation
+  statement: ELCFS requires constructing and distributing a cross-client amplitude spectrum bank A = [A^1, ..., A^K] (which shares frequency-domain amplitude statistics across sites), generating K-1 inverse-FFT images per training sample, and differentiating the meta-objective L_meta(x_i^k, t_i^k; theta_hat^k) through the inner-loop update theta_hat^k with respect to theta^k, increasing local memory and computation per step relative to standard FedAvg.
+  evidence:
+  - source_id: r497-primary-pdf
+    locator: Section 3.2-3.3, Eqs. (2)-(4) and (8)-(9), pp. 3-5; Section 4.2, p. 6
+    relation: supports
+evidence_sources:
+- source_id: r497-primary-pdf
+  title: 'FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space'
+  authors: &id001
+  - Quande Liu
+  - Cheng Chen
+  - Jing Qin
+  - Qi Dou
+  - Pheng-Ann Heng
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2103.06030.pdf
+  persistent_id: https://api.crossref.org/works?query.title=FedDG+Federated+Domain+Generalization+on+Medical+Image+Segmentation+via+Episodic+Learning+in+Continuous+Frequency+Space&rows=2
+  version: 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), pp. 1013-1023 (2021) (5981441 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:40:00Z'
+  sha256: 1992cbfe7b8933458bd10edb89c688f8517ae06b285ccbf5cbeaf7ed86e65d5d
+- source_id: r497-arxiv-abs
+  title: 'FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2103.06030
+  persistent_id: https://arxiv.org/abs/2103.06030
+  version: arXiv abstract page (7140 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:40:00Z'
+  sha256: dddb251f00d2bbf63bfe4face5448332ab1afb08236a44cb38897f87293bec6d
+- source_id: r497-metadata-cr
+  title: 'FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://api.crossref.org/works?query.title=FedDG+Federated+Domain+Generalization+on+Medical+Image+Segmentation+via+Episodic+Learning+in+Continuous+Frequency+Space&rows=2
+  persistent_id: https://api.crossref.org/works?query.title=FedDG+Federated+Domain+Generalization+on+Medical+Image+Segmentation+via+Episodic+Learning+in+Continuous+Frequency+Space&rows=2
+  version: Crossref API work record (28809 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:40:00Z'
+  sha256: 22fa6758c4516ff4068a8b9c615b33877b70251c74ab5622b0cb64a34aeefe97
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedDG (ELCFS) is a specific federated domain generalization algorithm that augments decentralized federated training (AIO:FederatedLearning) with cross-client Fourier amplitude interpolation and boundary-oriented episodic meta-learning.
+limitations:
+- Requires sharing Fourier amplitude spectra across participating clients in a distribution bank A, which may be restricted under stricter federated privacy models that forbid sharing any input-derived spectra.
+- Computes K-1 frequency-interpolated images per local sample and backpropagates through an inner-loop gradient step theta_hat^k, increasing per-iteration compute and memory overhead.
+curation:
+  created_at: '2026-10-19T09:40:00Z'
+  updated_at: '2026-10-19T09:40:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
