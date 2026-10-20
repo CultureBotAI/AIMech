@@ -1,0 +1,103 @@
+id: AIMech:ThreePointCompressorsForCommunicationEfficientDistributedTraining
+name: 3PC Three Point Compressors for Communication-Efficient Distributed Training
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'A unified class of parameterized compression mechanisms C_{h,y}: R^d -> R^d (Three Point Compressors, 3PC) conditioned on two state vectors h, y in R^d that satisfy E[||C_{h,y}(x) - x||^2] <= (1 - A)||h - y||^2 + B||x - y||^2 for constants A in (0, 1] and B >= 0, together with the 3PC distributed gradient descent algorithm (x^(t+1) = x^t - gamma * g^t, g_i^(t+1) = C_{g_i^t, grad f_i(x^t)}(grad f_i(x^(t+1)))) that unifies and hybridizes contractive error feedback (EF21), Lazily Aggregated Gradients (LAG), Compressed Lazy Aggregation (CLAG), and probabilistic shifting (3PCv1-3PCv5).'
+identity_notes: Introduced by Peter Richtarik, Igor Sokolov, Ilyas Fatkhullin, Elnur Gasanov, Zhize Li, and Eduard Gorbunov (ICML 2022, PMLR Vol. 162, pp. 18596-18648; arXiv:2202.00998). Distinct from EF21 (Richtarik, Sokolov, & Fatkhullin, NeurIPS 2021; Round 380), which is a single special case of 3PC without lazy trigger thresholds; and distinct from standalone Lazily Aggregated Gradient (LAG, Chen et al., NeurIPS 2018), which uses a multi-step weighted history condition without contractive compression or the single-step 3PC Lyapunov inequality.
+aliases:
+- 3PC
+- Three Point Compressors
+- CLAG Compressed Lazy Aggregation
+definition_evidence:
+- source_id: r559-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r559-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r559-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: threepc-three-point-contraction-and-clag-hybridization-mechanism
+  kind: mechanism
+  statement: Given an alpha-contractive compressor C, 3PC instantiates EF21 via C_{h,y}^EF21(x) = h + C(x - h) with A = 1 - sqrt(1 - alpha) and B = (1 - alpha) / (1 - sqrt(1 - alpha)), instantiates single-step LAG via C_{h,y}^LAG(x) = x if ||x - h||^2 > zeta * ||x - y||^2 else h with A = 1 and B = zeta, and combines them into CLAG (Algorithm 4) via C_{h,y}^CLAG(x) = h + C(x - h) if ||x - h||^2 > zeta * ||x - y||^2 else h satisfying Definition 4.1 with A = 1 - sqrt(1 - alpha) and B = max{(1 - alpha)/(1 - sqrt(1 - alpha)), zeta}.
+  evidence:
+  - source_id: r559-primary-pdf
+    locator: Section 4.1-4.3 Equations (6)-(13), Table 1, & Appendix C Lemmas C.3, C.5, and C.8, pp. 4-6, 17-20
+    relation: supports
+- claim_id: threepc-nonconvex-o-1-over-t-and-pl-linear-convergence-scope
+  kind: scope
+  statement: For any 3PC compressor with parameters (A, B) applied to L_--smooth global and L_+-average-smooth local objectives with step size 0 < gamma <= 1 / (L_- + L_+ * sqrt(2*B/A)), Lemma 5.4 establishes the Distortion Lyapunov recursion E[G^(t+1)] <= (1 - A) E[G^t] + B * L_+^2 * E[||x^(t+1) - x^t||^2], Theorem 5.5 proves O(1/T) nonconvex stationarity without bounded gradient similarity, and Theorem 5.6 proves linear convergence under the Polyak-Lojasiewicz condition.
+  evidence:
+  - source_id: r559-primary-pdf
+    locator: Section 5 Assumptions 5.1-5.3, Lemma 5.4, Theorem 5.5, & Theorem 5.6, pp. 7-8
+    relation: supports
+- claim_id: threepc-worst-case-trigger-and-stochastic-minibatch-limitation
+  kind: limitation
+  statement: The deterministic worst-case iteration bound for LAG and CLAG depends on B = max{(1 - alpha)/(1 - sqrt(1 - alpha)), zeta}, which does not strictly improve the worst-case bound of EF21 when all workers trigger communication simultaneously, and stochastic extensions require either growing minibatches or PAGE/SPIDER variance reduction.
+  evidence:
+  - source_id: r559-primary-pdf
+    locator: Section 4.2-4.3 Remarks & Appendix G Stochastic Extensions, pp. 5-6, 37-45
+    relation: supports
+- claim_id: threepc-clag-nonconvex-logistic-regression-and-resnet18-cifar10-application
+  kind: application
+  statement: Applied to distributed nonconvex logistic regression across LIBSVM datasets (phishing, w8a, a9a, mushrooms) and distributed training of ResNet-18 on CIFAR-10, where CLAG and 3PCv1-3PCv5 reduce total communicated bits compared to standalone EF21 and LAG.
+  evidence:
+  - source_id: r559-primary-pdf
+    locator: Section 6 Experiments & Appendix B Additional Experiments, pp. 8-9, 13-16
+    relation: supports
+evidence_sources:
+- source_id: r559-primary-pdf
+  title: '3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation'
+  authors: &id001
+  - Peter Richtarik
+  - Igor Sokolov
+  - Ilyas Fatkhullin
+  - Elnur Gasanov
+  - Zhize Li
+  - Eduard Gorbunov
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2202.00998.pdf
+  persistent_id: https://openalex.org/W4221138265
+  version: Proceedings of the 39th International Conference on Machine Learning (ICML 2022), PMLR 162:18596-18648 (2022) (5286379 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:42:00Z'
+  sha256: 7e70b8c4886bc1763aa1de4940952d1f73e452ae3c59bdd1ef3205ee8b7beab0
+- source_id: r559-arxiv-abs
+  title: '3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2202.00998
+  persistent_id: https://arxiv.org/abs/2202.00998
+  version: arXiv abstract page (7046 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:42:00Z'
+  sha256: b83055098acc496c8faa9425a4187ccacd6300dd0d8ee7409c480795d51c4d2c
+- source_id: r559-metadata-cr
+  title: '3PC: Three Point Compressors for Communication-Efficient Distributed Training and a Better Theory for Lazy Aggregation (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://openalex.org/W4221138265
+  persistent_id: https://openalex.org/W4221138265
+  version: Crossref API work record (463094 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:42:00Z'
+  sha256: f61882478147181be68d2e354264dcc2bc7e777d5709846b9627aa4f3a762ce0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: related_match
+  rationale: AIO:FederatedLearning covers distributed model training across networked nodes, whereas 3PC is a parameterized three-point compression and lazy-aggregation framework for communication-efficient distributed optimization.
+limitations:
+- Requires each worker to store previous gradient and iterate states to evaluate the three-point operator.
+- Lazy upload skipping gains depend on inter-worker smoothness heterogeneity and the trigger parameter zeta.
+curation:
+  created_at: '2026-10-19T10:42:00Z'
+  updated_at: '2026-10-19T10:42:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
