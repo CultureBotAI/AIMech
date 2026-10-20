@@ -1,0 +1,105 @@
+id: AIMech:LongloraAndShiftedSparseAttention
+name: LongLoRA and Shifted Sparse Attention (S^2-Attn)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'LongLoRA is an efficient long-context fine-tuning framework for pretrained large language models that combines two core components: (1) Shifted Sparse Attention (S^2-Attn) during training, which splits projected queries, keys, and values along the head dimension H into two equal chunks, shifts the token sequence by half the group size (-G/2) along the sequence dimension N in the second half of the heads, reshapes the sequence of length N into N/G groups of length G folded into the batch dimension to compute standard self-attention within each group in O(N G) = O(N^2 / (N/G)) time, and shifts the second half of the head outputs back by +G/2 before head concatenation; and (2) an improved low-rank adaptation regime (LoRA^+) that makes the token embedding layer and all normalization layers trainable alongside low-rank attention weight adapters.'
+identity_notes: "Distinct from standard LoRA (Hu et al., 2022), which freezes embeddings and normalization layers and uses dense O(N^2) self-attention during training\u2014resulting in both high perplexity on extended context windows even at rank r = 256 and quadratic training memory/time growth. Also distinct from sparse-from-scratch Transformer architectures such as Longformer (Beltagy et al., 2020) and BigBird (Zaheer et al., 2020), which permanently alter the attention architecture, whereas S^2-Attn is used only during fine-tuning and preserves unmodified dense full self-attention at inference time."
+aliases:
+- LongLoRA
+- Shifted Sparse Attention
+- S^2-Attn
+- Long-Context Low-Rank Adaptation with Shifted Sparse Attention
+definition_evidence:
+- source_id: r660-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r660-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r660-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r660-claim-half-head-half-group-shift-information-flow
+  kind: mechanism
+  statement: Splitting a long sequence of length N into M = N/G isolated local groups of size G reduces self-attention FLOPs by M-fold (e.g., 4x for G = N/4) but causes perplexity to degrade sharply on long contexts because no information flows across group boundaries; shifting the group partition by G/2 tokens in half of the attention heads (S^2-Attn) restores cross-group information exchange with zero additional attention FLOPs and matches full-attention fine-tuning perplexity even when evaluated with standard dense full attention at test time.
+  evidence:
+  - source_id: r660-primary-pdf
+    locator: Section 3.2, Table 1 & Algorithm 1, p. 4-5; Section 4.3, Table 6, p. 9; Appendix B.2-B.5, Tables 7-8 & 11, p. 13-15
+    relation: supports
+- claim_id: r660-claim-trainable-embedding-and-normalization-necessity
+  kind: mechanism
+  statement: When extending LLaMA2-7B to a 32,768-token context window on RedPajama, increasing standard LoRA's rank from r = 8 to r = 256 fails to close the PG19 validation perplexity gap to full fine-tuning (11.44-11.98 vs. 8.08), whereas unfreezing the normalization layers (0.004% of parameters) and token embedding layers (<2% of parameters) alongside rank-8 LoRA reduces perplexity from 11.44 to 8.12.
+  evidence:
+  - source_id: r660-primary-pdf
+    locator: Section 1, Figure 2(c), p. 2; Section 3.3 (Improved LoRA for Long Context), Table 2, p. 5-6
+    relation: supports
+- claim_id: r660-claim-single-node-100k-context-extension-application
+  kind: application
+  statement: Combined with Position Interpolation and FlashAttention-2, LongLoRA extends LLaMA2-7B to 100k tokens, LLaMA2-13B to 65,536 tokens, and LLaMA2-70B to 32,768 tokens on a single 8x A100 machine with up to 1.8x lower GPU memory and 1.8x faster training speed than LoRA.
+  evidence:
+  - source_id: r660-primary-pdf
+    locator: Section 1, Figure 1, p. 1; Section 4.2, Tables 3-5 & Figure 4, p. 6-8; Appendix B.5, Tables 12-13, p. 15-16
+    relation: supports
+- claim_id: r660-claim-small-group-size-and-short-context-degradation-limitation
+  kind: limitation
+  statement: Reducing the S^2-Attn group size G below 1/4 of the target context length (e.g., 1/6 or 1/8) degrades validation perplexity relative to full attention, and models extended to extreme context lengths via Position Interpolation and LongLoRA exhibit slight perplexity degradation when evaluated on short contexts (e.g., 2048 tokens).
+  evidence:
+  - source_id: r660-primary-pdf
+    locator: Section 4.2 (Long-sequence Language Modeling), p. 7; Appendix B.2 (Ablation on Group Sizes), Table 7, p. 13
+    relation: supports
+evidence_sources:
+- source_id: r660-primary-pdf
+  title: 'LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models'
+  authors: &id001
+  - Yukang Chen
+  - Shengju Qian
+  - Haotian Tang
+  - Xin Lai
+  - Zhijian Liu
+  - Song Han
+  - Jiaya Jia
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2309.12307.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/ChenQTL0HJ24.html
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (1168784 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:23:00Z'
+  sha256: ebae0749edbed429e7c250fa337fb6f8846f352b024ee72b450bf19e804007fd
+- source_id: r660-arxiv-abs
+  title: 'LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2309.12307
+  persistent_id: https://arxiv.org/abs/2309.12307
+  version: arXiv abstract page (7268 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:23:00Z'
+  sha256: 9250ba630d5d347cb07b4111a2e40f07900c1e132d633af0d2436d45ac18f90d
+- source_id: r660-metadata-cr
+  title: 'LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/ChenQTL0HJ24.html
+  persistent_id: https://dblp.org/rec/conf/iclr/ChenQTL0HJ24.html
+  version: Crossref API work record (936 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:23:00Z'
+  sha256: d78a55b6e19e82c9a7f74e54cb75845ad2e3a770e377fb0eaa264bc874831f7c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: LongLoRA adapts multi-head self-attention, embedding, and normalization layers of pretrained Transformer language models to extended context windows.
+limitations:
+- Shrinking the local attention group size G below 1/4 of the target context length increases the approximation gap between S^2-Attn and dense self-attention.
+- Unfreezing token embeddings increases trainable parameters by ~1.94% of total model weights (compared to 0.12% for LoRA alone on LLaMA-7B), and Position Interpolation-based context extension slightly degrades perplexity on short sequences.
+curation:
+  created_at: '2026-10-19T12:23:00Z'
+  updated_at: '2026-10-19T12:23:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
