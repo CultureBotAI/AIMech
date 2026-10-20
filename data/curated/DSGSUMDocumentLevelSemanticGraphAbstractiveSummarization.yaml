@@ -1,0 +1,100 @@
+id: AIMech:DSGSUMDocumentLevelSemanticGraphAbstractiveSummarization
+name: DSGSUM Document-Level Semantic Graph Abstractive Summarization
+concept_kind: architecture
+review_status: DRAFT
+definition: A hybrid extractive-abstractive neural text summarization architecture that represents a source document as a sentence-level semantic graph weighted by log-length-normalized lexical overlap, computes damped random-walk TextRank authority scores to select salient sentences before encoding, and feeds the filtered sentence sequence into a pre-trained BERT encoder and multi-layer Transformer decoder to generate abstractive summaries within fixed token-length limits.
+identity_notes: No AIO class represents DSGSUM or document-level semantic graph TextRank-guided BERT summarization; ArtificialNeuralNetwork (AIO:ArtificialNeuralNetwork) is the closest broad match covering neural network architectures.
+aliases:
+- DSGSUM
+- Document-Level Semantic Graph Abstractive Summarization
+- DSGSUM Hybrid Extractive-Abstractive Summarizer
+definition_evidence:
+- source_id: r825-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r825-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r825-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: document-semantic-graph-textrank-centrality
+  kind: mechanism
+  statement: DSGSUM constructs a sentence-level graph with edge weights proportional to shared word counts divided by the sum of log sentence lengths and computes the stationary distribution of a damped random walk to score global sentence salience.
+  evidence:
+  - source_id: r825-primary-pdf
+    locator: Section 2.1, Equations 1-2, pp. 507-508
+    relation: supports
+- claim_id: salient-sentence-filtering-before-bert-transformer-decoding
+  kind: mechanism
+  statement: By selecting top-ranked sentences from the document-level semantic graph before applying BERT token/segment/position encoding and a 6-layer Transformer decoder, DSGSUM retains late-occurring salient content that standard 512-token truncation discards.
+  evidence:
+  - source_id: r825-primary-pdf
+    locator: Section 2.2, Algorithm 1, p. 509; Section 2.3, Figure 1, pp. 510-512
+    relation: supports
+- claim_id: news-and-long-document-abstractive-summarization-application
+  kind: application
+  statement: DSGSUM is applied to single-document abstractive summarization on news corpora such as CNN/DailyMail and New York Times, improving ROUGE-1, ROUGE-2, and ROUGE-L over lead-truncated BERT baselines.
+  evidence:
+  - source_id: r825-primary-pdf
+    locator: Section 3, Tables 2-3, pp. 512-515
+    relation: supports
+- claim_id: lexical-overlap-graph-synonym-insensitivity-limitation
+  kind: limitation
+  statement: Because the sentence similarity graph relies on exact surface word overlap normalized by log sentence length, sentences that express core document themes using synonyms without shared lexical tokens receive lower graph centrality scores.
+  evidence:
+  - source_id: r825-primary-pdf
+    locator: Section 2.1, Equation 1, p. 507; Section 4, p. 518
+    relation: supports
+evidence_sources:
+- source_id: r825-primary-pdf
+  title: 'DSGSUM: Abstractive Text Summarization Minting Document-level Semantic Graph'
+  authors: &id001
+  - Qiwei Bi
+  - Haoyuan Li
+  - Kun Lu
+  - Hanfang Yang
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2109.06046
+  persistent_id: https://arxiv.org/abs/2109.06046
+  version: Journal of Data Science 18(3):504-520 (2020) (708990 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:08:00Z'
+  sha256: 4c51a2ada050c6b2249036725731e90b3f09db67ba73c110678d9eab246c0821
+- source_id: r825-arxiv-abs
+  title: 'DSGSUM: Abstractive Text Summarization Minting Document-level Semantic Graph (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2109.06046
+  persistent_id: https://arxiv.org/abs/2109.06046
+  version: arXiv abstract page (926 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:08:00Z'
+  sha256: cc5c94fc9c399626d44ad6bb753be95decfd53203f0cf9c2a78b337f786d8256
+- source_id: r825-metadata-cr
+  title: 'DSGSUM: Abstractive Text Summarization Minting Document-level Semantic Graph (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2109.06046
+  persistent_id: https://arxiv.org/abs/2109.06046
+  version: Crossref API work record (301 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:08:00Z'
+  sha256: 61e503dbc030ea4ad2d8f445cf9e88b48d20bd53d4b05cec3f8245dd11729b03
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: DSGSUM is a neural text summarization architecture combining graph-based sentence centrality filtering with a BERT encoder and Transformer decoder.
+limitations:
+- Because the sentence similarity graph relies on exact surface word overlap normalized by log sentence length, sentences that express core document themes using synonyms without shared lexical tokens receive lower graph centrality scores.
+curation:
+  created_at: '2026-10-19T15:08:00Z'
+  updated_at: '2026-10-19T15:08:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
