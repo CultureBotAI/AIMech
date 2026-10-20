@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAME (Confidence-guided Adaptive Memory Efficient Optimization) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CAME (Confidence-guided Adaptive Memory Efficient Optimization)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CAME (Confidence-guided Adaptive Memory Efficient Optimization)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CAMEConfidenceGuidedAdaptiveMemoryEfficientOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CAME Optimizer, Confidence-guided Adaptive Memory-Efficient Optimizer, Confidence-Guided Adafactor (CAME)
+    </div>
+
+  <div class="detail-desc">
+    A memory-efficient adaptive optimization algorithm (Algorithm 2) that extends Adafactor by computing the elementwise squared residual instability matrix U_t = (u_hat_t - m_t)^2 between the RMS-clipped rank-1 second-moment update u_hat_t and its exponential moving average m_t = beta_1 m_{t-1} + (1 - beta_1) u_hat_t, factorizing U_t into row and column moving-average vectors R_t in R^n and C_t in R^m via generalized Kullback-Leibler rank-1 non-negative matrix factorization S_t = R_t C_t / (1_n^T R_t), and scaling the momentum step by the confidence factor 1 / sqrt(S_t) via theta_t = theta_{t-1} - (eta / sqrt(S_t)) m_t.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from Adafactor (Algorithm 1) in that Adafactor directly applies theta_t = theta_{t-1} - eta m_t without accounting for the deviation between m_t and u_hat_t caused by rank-1 second-moment NMF errors, whereas CAME divides m_t by sqrt(S_t) where S_t is a rank-1 NMF reconstruction of the instability matrix U_t = (u_hat_t - m_t)^2. Distinct from Adam and AdaBelief in that both the second moment v_t and the instability matrix S_t are stored as rank-1 vector factors (r_t, c_t, R_t, C_t) in O(n + m) auxiliary second-order memory rather than O(n m) full matrices.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c-r598-confidence-guided-instability-nmf-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By measuring the squared deviation U_t = (u_hat_t - m_t)^2 between the current clipped Adafactor update u_hat_t and its EMA m_t and factorizing U_t into rank-1 moving averages R_t = beta_3 R_{t-1} + (1 - beta_3)(U_t + epsilon_2 1_n 1_m^T) 1_m and C_t = beta_3 C_{t-1} + (1 - beta_3) 1_n^T (U_t + epsilon_2 1_n 1_m^T) with S_t = R_t C_t / (1_n^T R_t) (Algorithm 2), CAME suppresses steps when update error is large (low confidence 1 / sqrt(S_t)) and amplifies steps when u_hat_t closely matches m_t, requiring only O(n + m) additional memory over Adafactor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r598-primary-pdf">CAME: Confidence-guided Adaptive Memory Efficient Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 3.2-3.3, Figure 3, Equation (3), &amp; Algorithm 2, pp. 3-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#c-r598-bert-gpt2-t5-convergence-and-memory-reduction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    CAME reduces optimizer state memory by 47% on BERT-4B (from 30.6 GB for Adam to 16.3 GB, within 1% of Adafactor&#39;s 15.9 GB; Figure 7 &amp; Table 1), improves BERT-Large masked LM validation accuracy over Adafactor from 63.1% to 66.5% at batch size 8K and from 61.9% to 68.0% at batch size 32K (improving GLUE/SQuAD average by +0.7/+0.5 points, Table 2), and matches Adam validation perplexity on GPT-2 (50.1 vs Adafactor&#39;s 56.9) and T5-Base.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r598-primary-pdf">CAME: Confidence-guided Adaptive Memory Efficient Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2-4.5, Figures 5-11 &amp; Tables 1-2, pp. 6-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c-r598-extra-nmf-cost-and-missing-formal-proof-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    CAME incurs additional per-step computation for the second rank-1 non-negative matrix factorization over U_t compared with Adafactor, exhibits minor accuracy degradation on 32K-batch BERT-Large relative to full-matrix LAMB, and lacks a formal theoretical convergence rate proof.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r598-primary-pdf">CAME: Confidence-guided Adaptive Memory Efficient Optimization</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Limitations, p. 9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Still requires storing the first-moment buffer m_t of size O(n m), so total optimizer memory is O(n m + 2(n + m)) rather than sublinear.</li>
+      <li>Incurs extra elementwise and row/column reduction operations to factorize the instability matrix U_t at every step and lacks formal convergence rate guarantees (Section 6, p. 9).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CAME is a confidence-guided memory-efficient adaptive optimizer for pre-training and fine-tuning large language models and deep artificial neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r598-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r598-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2307.02047.pdf" target="_blank" rel="noopener">CAME: Confidence-guided Adaptive Memory Efficient Optimization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yang Luo, Xiaozhe Ren, Zangwei Zheng, Zhuo Jiang, Xin Jiang, Yang You
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/acl/LuoRZJ0023</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:342fee8af63f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r598-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r598-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2307.02047" target="_blank" rel="noopener">CAME: Confidence-guided Adaptive Memory Efficient Optimization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yang Luo, Xiaozhe Ren, Zangwei Zheng, Zhuo Jiang, Xin Jiang, Yang You
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2307.02047</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:58a597197a66…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r598-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r598-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/acl/LuoRZJ0023" target="_blank" rel="noopener">CAME: Confidence-guided Adaptive Memory Efficient Optimization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yang Luo, Xiaozhe Ren, Zangwei Zheng, Zhuo Jiang, Xin Jiang, Yang You
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/acl/LuoRZJ0023</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fdbd9433e995…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T11:21:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T11:21:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CAMEConfidenceGuidedAdaptiveMemoryEfficientOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CAMEConfidenceGuidedAdaptiveMemoryEfficientOptimization.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
