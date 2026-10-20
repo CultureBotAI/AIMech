@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projected Attention Layers · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/layer.html">Layers &amp; Modules</a>
+  <span>/</span>
+  <strong>Projected Attention Layers</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Projected Attention Layers</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:PALsProjectedAttentionLayers</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> PALs, BERT and PALs, Projected Attention Layer, Parallel Projected Multi-Head Attention Adapter
+    </div>
+
+  <div class="detail-desc">
+    A task-specific parallel multi-head attention adaptation layer for multi-task Transformer models that transforms each layer&#39;s hidden states via h^{l+1} = LN(h^l + SA(h^l) + TS(h^l)) with TS(h^l) = V^D g^l(V^E h^l), where task-specific encoder V^E in R^{d_s x d_m} and decoder V^D in R^{d_m x d_s} (d_s &lt; d_m) are shared across all Transformer layers for a given task while g^l(.) applies layer-specific low-dimensional multi-head self-attention in R^{d_s} (omitting the final output matrix W^o), trained jointly with annealed task-sampling exponent alpha(e) = 1 - 0.8 (e-1)/(E-1).
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Asa Cooper Stickland and Iain Murray (ICML 2019, PMLR 97:5986-5995, arXiv:1902.02671) as Projected Attention Layers (PALs). Distinct from Houlsby bottleneck adapters and AdapterFusion (AIMech:AdapterFusion), which insert serial feed-forward down/up-projection modules within each layer; from AdaptFormer (AIMech:AdaptFormer), which places parallel bottleneck MLP branches alongside FFN sublayers in Vision Transformers; and from HyperFormer (AIMech:HyperFormerSharedHypernetworkAdapter), which generates serial adapter weights via a shared task-conditioned hypernetwork.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pals-parallel-projected-multihead-attention-with-shared-encoder-decoder</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    PALs augment each L-layer BERT block in parallel as h^{l+1} = LN(h^l + SA(h^l) + V^D g^l(V^E h^l)), sharing task-specific encoder V^E in R^{d_s x d_m} and decoder V^D in R^{d_m x d_s} across all 12 layers while omitting the multi-head output matrix W^o inside g^l, so that each task requires 2 d_m d_s + 12 x 3 d_s^2 parameters (1.81M parameters per task at d_m=768, d_s=204 vs. d_s=84 when V^E and V^D are not shared across layers).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r712-primary-pdf">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3 &amp; Table 1, Equations (8), (11), pp. 4-5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pals-annealed-task-sampling-schedule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To balance large and small datasets during multi-task training without late-stage task interference, PALs sample a batch from task i with probability p_i propto N_i^alpha where the exponent alpha(e) = 1 - 0.8 (e - 1)/(E - 1) anneals linearly from 1.0 (dataset-proportional sampling) at epoch 1 to 0.2 at final epoch E.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r712-primary-pdf">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Equations (12)-(14), p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#pals-glue-multitask-parameter-efficiency-and-rte-transfer</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    On eight GLUE benchmark tasks with BERT-base, PALs (d_s=204) require only 1.13x total parameters (~7x fewer parameters than eight separately fine-tuned BERT-base models) while achieving a higher mean GLUE test score (80.4 vs. 79.6) and improving RTE test accuracy from 66.4% to 76.0%.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r712-primary-pdf">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 5, Tables 2-3, pp. 6-7</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r712-metadata-cr">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning (Crossref metadata)</a></span>
+        <span>· <strong>Locator:</strong> ICML 2019 bibliographic record</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#pals-shared-layer-computation-and-joint-training-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because PALs insert task-specific branches at every layer of BERT-base and jointly fine-tune the shared backbone across all tasks simultaneously, they require simultaneous access to all tasks at training time and cannot share forward-pass layer activations across tasks on the same input text unless PALs are restricted to the top layers.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r712-primary-pdf">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Section 5.2 &amp; Section 6, pp. 3, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Inserting PALs at every Transformer layer prevents sharing intermediate forward-pass computations across tasks evaluated on the same input sequence unless PALs are restricted to the final half of the network.</li>
+      <li>Joint multi-task training of the shared BERT backbone with PALs requires access to all tasks at training time and exhibits higher variance across random seeds under annealed sampling.</li>
+      <li>In extreme low-parameter regimes (e.g., d_s = 60, 1.5M total adaptation parameters), PALs offer no significant advantage over simple low-rank linear layers or a fully shared model.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            PALs are parallel low-dimensional multi-head attention layers added to multi-task Transformer neural networks.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r712-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r712-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.02671.pdf" target="_blank" rel="noopener">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Asa Cooper Stickland, Iain Murray
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=BERT+and+PALs+Projected+Attention+Layers+for+Efficient+Adaptation&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3f8e9009fea1…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r712-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r712-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.02671" target="_blank" rel="noopener">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Asa Cooper Stickland, Iain Murray
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.02671</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:34ba131cb13f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r712-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r712-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/search/publ/api?q=BERT+and+PALs+Projected+Attention+Layers+for+Efficient+Adaptation&amp;h=5&amp;format=xml" target="_blank" rel="noopener">BERT and PALs: Projected Attention Layers for Efficient Adaptation in Multi-Task Learning (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Asa Cooper Stickland, Iain Murray
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/search/publ/api?q=BERT+and+PALs+Projected+Attention+Layers+for+Efficient+Adaptation&amp;h=5&amp;format=xml</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:35cfbd22c742…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T13:15:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T13:15:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PALsProjectedAttentionLayers.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PALsProjectedAttentionLayers.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
