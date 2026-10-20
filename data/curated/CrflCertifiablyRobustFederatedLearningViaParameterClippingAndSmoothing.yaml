@@ -1,0 +1,101 @@
+id: AIMech:CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing
+name: CRFL Certifiably Robust Federated Learning via Parameter Clipping and Smoothing
+concept_kind: algorithm
+review_status: DRAFT
+definition: A certifiably backdoor-robust federated learning framework that clips the l2 norm of the server-aggregated global model parameters Clip_{rho_t}(w_t) = w_t / max(1, ||w_t||_2 / rho_t) and injects isotropic Gaussian parameter noise epsilon_t ~ N(0, sigma_t^2 I) at each training communication round t < T to contract the Markov-kernel KL divergence between clean and poisoned model distributions, and applies Monte Carlo randomized parameter smoothing w_tilde_T^k = Clip_{rho_T}(w_T) + epsilon_T^k at test time to certify sample-wise prediction invariance against bounded-magnitude backdoor triggers.
+identity_notes: Introduced by Xie, Chen, Chen, and Li (ICML 2021, PMLR 139:11372-11382, arXiv:2106.08283). Distinct from input-space randomized smoothing (Cohen et al. 2019), which perturbs test inputs rather than model parameters, and from centralized bagged backdoor certification RAB (Weber et al. 2020), which trains M separate models on M noise-corrupted datasets rather than a single federated model evaluated under M parameter-smoothed copies. Also distinct from heuristic norm-clipping and DP-FL defenses (Sun et al. 2019; Geyer et al. 2017), which lack test-time parameter smoothing and pointwise backdoor radius certificates.
+aliases:
+- CRFL
+- Certifiably Robust Federated Learning against Backdoor Attacks
+- CRFL Parameter Clipping and Randomized Parameter Smoothing
+definition_evidence:
+- source_id: r528-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r528-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r528-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: c1-mechanism-training-parameter-clipping-and-perturbation
+  kind: mechanism
+  statement: During federated training rounds t = 1, ..., T, the central server aggregates client model updates w_t <- w_tilde_{t-1} + sum_{i=1}^N p_i (w_{t*tau_i}^i - w_tilde_{t-1}), clips the global parameter vector via Clip_{rho_t}(w_t) = w_t / max(1, ||w_t||_2 / rho_t), and for t <= T - 1 adds isotropic Gaussian noise epsilon_t ~ N(0, sigma_t^2 I) to broadcast w_tilde_t = Clip_{rho_t}(w_t) + epsilon_t to clients, outputting M(D) = Clip_{rho_T}(w_T) at round T.
+  evidence:
+  - source_id: r528-primary-pdf
+    locator: Section 4.1, Algorithm 1, p. 3
+    relation: supports
+- claim_id: c2-mechanism-test-time-parameter-smoothing-and-kl-certificate
+  kind: mechanism
+  statement: At test time, CRFL constructs a parameter-smoothed classifier h_s(w; x_test) = argmax_{c in Y} P_{W ~ N(w, sigma_T^2 I)}[h(W; x_test) = c] estimated via M Monte Carlo parameter samples w_tilde_T^k = Clip_{rho_T}(w_T) + epsilon_T^k with Hoeffding confidence bounds p_A_under and p_B_over, guaranteeing h_s(w'; x_test) = h_s(w; x_test) for all w whose Gaussian parameter distribution satisfies D_KL(N(w, sigma_T^2 I) || N(w', sigma_T^2 I)) <= -log(1 - (sqrt(p_A_under) - sqrt(p_B_over))^2).
+  evidence:
+  - source_id: r528-primary-pdf
+    locator: Section 4.2 Algorithm 2 and Section 5.3 Theorem 3, pp. 3-4, 6
+    relation: supports
+- claim_id: c3-scope-markov-kernel-contraction-and-certified-radius
+  kind: scope
+  statement: Under beta-smooth convex losses with L_Z-data-Lipschitz gradients and local learning rate eta_i <= 1/beta, each post-attack federated round t > t_adv acts as a Markov kernel with total-variation contraction coefficient eta_TV(K_t) <= 2*Phi(rho_t / sigma_t) - 1, yielding certified prediction consistency against R coordinated model-replacement attackers for all backdoor patterns ||delta||_2 < RAD given in closed form by Theorem 1 and Corollary 1 Eq. (2).
+  evidence:
+  - source_id: r528-primary-pdf
+    locator: Section 5.1-5.2 Theorem 1, Corollary 1 Eq. (2), Theorem 2, and Appendix B.4 Lemma 10, pp. 5-6, 18
+    relation: supports
+- claim_id: c4-limitation-noise-utility-tradeoff-and-lipschitz-constant
+  kind: limitation
+  statement: Increasing training-time parameter noise sigma_t or decreasing the clipping norm rho_t expands the certified radius RAD but degrades clean base-classifier accuracy, and computing a tight closed-form data-Lipschitz gradient constant L_Z (derived in Lemma 1 for multi-class logistic regression) remains an open problem for deep multi-layer neural networks.
+  evidence:
+  - source_id: r528-primary-pdf
+    locator: Section 5.1 Remarks 1 and 5, Lemma 1, and Section 6.2 Figure 2, pp. 5-6, 8
+    relation: supports
+evidence_sources:
+- source_id: r528-primary-pdf
+  title: 'CRFL: Certifiably Robust Federated Learning against Backdoor Attacks'
+  authors: &id001
+  - Chulin Xie
+  - Minghao Chen
+  - Pin-Yu Chen
+  - Bo Li
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.08283.pdf
+  persistent_id: https://dblp.org/rec/conf/icml/Xie0CL21
+  version: Proceedings of the 38th International Conference on Machine Learning (ICML 2021), PMLR 139:11372-11382 (2021) (3267242 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:11:00Z'
+  sha256: da4a5561e134b07df73ec7da98c6492af2fde66bebb5dfdc5bd2e371e41b1bdc
+- source_id: r528-arxiv-abs
+  title: 'CRFL: Certifiably Robust Federated Learning against Backdoor Attacks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.08283
+  persistent_id: https://arxiv.org/abs/2106.08283
+  version: arXiv abstract page (6677 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:11:00Z'
+  sha256: 3b08fa3e41a559a9c93b62bd93db8d8cd728b200668e268c5df6bf4746d1e521
+- source_id: r528-metadata-cr
+  title: 'CRFL: Certifiably Robust Federated Learning against Backdoor Attacks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/icml/Xie0CL21
+  persistent_id: https://dblp.org/rec/conf/icml/Xie0CL21
+  version: Crossref API work record (1829 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:11:00Z'
+  sha256: 6c03ba45772ba8b565c73efe872c7b9319c15df10b8f98692ecc783598d277bf
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: CRFL is a certifiably backdoor-robust federated learning training and inference framework built on server-side parameter clipping, Gaussian perturbation, and randomized parameter smoothing.
+limitations:
+- Higher training-time Gaussian parameter noise sigma_t increases the certified backdoor radius at the expense of lower clean validation accuracy.
+- Closed-form analytical bounds on the data-Lipschitz gradient constant L_Z are established for convex models such as multi-class logistic regression but are difficult to compute tightly for deep non-convex networks.
+curation:
+  created_at: '2026-10-19T10:11:00Z'
+  updated_at: '2026-10-19T10:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

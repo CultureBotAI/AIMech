@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRFL Certifiably Robust Federated Learning via Parameter Clipping and Smoothing · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>CRFL Certifiably Robust Federated Learning via Parameter Clipping and Smoothing</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">CRFL Certifiably Robust Federated Learning via Parameter Clipping and Smoothing</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CRFL, Certifiably Robust Federated Learning against Backdoor Attacks, CRFL Parameter Clipping and Randomized Parameter Smoothing
+    </div>
+
+  <div class="detail-desc">
+    A certifiably backdoor-robust federated learning framework that clips the l2 norm of the server-aggregated global model parameters Clip_{rho_t}(w_t) = w_t / max(1, ||w_t||_2 / rho_t) and injects isotropic Gaussian parameter noise epsilon_t ~ N(0, sigma_t^2 I) at each training communication round t &lt; T to contract the Markov-kernel KL divergence between clean and poisoned model distributions, and applies Monte Carlo randomized parameter smoothing w_tilde_T^k = Clip_{rho_T}(w_T) + epsilon_T^k at test time to certify sample-wise prediction invariance against bounded-magnitude backdoor triggers.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Introduced by Xie, Chen, Chen, and Li (ICML 2021, PMLR 139:11372-11382, arXiv:2106.08283). Distinct from input-space randomized smoothing (Cohen et al. 2019), which perturbs test inputs rather than model parameters, and from centralized bagged backdoor certification RAB (Weber et al. 2020), which trains M separate models on M noise-corrupted datasets rather than a single federated model evaluated under M parameter-smoothed copies. Also distinct from heuristic norm-clipping and DP-FL defenses (Sun et al. 2019; Geyer et al. 2017), which lack test-time parameter smoothing and pointwise backdoor radius certificates.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c1-mechanism-training-parameter-clipping-and-perturbation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    During federated training rounds t = 1, ..., T, the central server aggregates client model updates w_t &lt;- w_tilde_{t-1} + sum_{i=1}^N p_i (w_{t*tau_i}^i - w_tilde_{t-1}), clips the global parameter vector via Clip_{rho_t}(w_t) = w_t / max(1, ||w_t||_2 / rho_t), and for t &lt;= T - 1 adds isotropic Gaussian noise epsilon_t ~ N(0, sigma_t^2 I) to broadcast w_tilde_t = Clip_{rho_t}(w_t) + epsilon_t to clients, outputting M(D) = Clip_{rho_T}(w_T) at round T.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r528-primary-pdf">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, Algorithm 1, p. 3</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#c2-mechanism-test-time-parameter-smoothing-and-kl-certificate</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At test time, CRFL constructs a parameter-smoothed classifier h_s(w; x_test) = argmax_{c in Y} P_{W ~ N(w, sigma_T^2 I)}[h(W; x_test) = c] estimated via M Monte Carlo parameter samples w_tilde_T^k = Clip_{rho_T}(w_T) + epsilon_T^k with Hoeffding confidence bounds p_A_under and p_B_over, guaranteeing h_s(w&#39;; x_test) = h_s(w; x_test) for all w whose Gaussian parameter distribution satisfies D_KL(N(w, sigma_T^2 I) || N(w&#39;, sigma_T^2 I)) &lt;= -log(1 - (sqrt(p_A_under) - sqrt(p_B_over))^2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r528-primary-pdf">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 Algorithm 2 and Section 5.3 Theorem 3, pp. 3-4, 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#c3-scope-markov-kernel-contraction-and-certified-radius</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Under beta-smooth convex losses with L_Z-data-Lipschitz gradients and local learning rate eta_i &lt;= 1/beta, each post-attack federated round t &gt; t_adv acts as a Markov kernel with total-variation contraction coefficient eta_TV(K_t) &lt;= 2*Phi(rho_t / sigma_t) - 1, yielding certified prediction consistency against R coordinated model-replacement attackers for all backdoor patterns ||delta||_2 &lt; RAD given in closed form by Theorem 1 and Corollary 1 Eq. (2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r528-primary-pdf">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1-5.2 Theorem 1, Corollary 1 Eq. (2), Theorem 2, and Appendix B.4 Lemma 10, pp. 5-6, 18</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#c4-limitation-noise-utility-tradeoff-and-lipschitz-constant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Increasing training-time parameter noise sigma_t or decreasing the clipping norm rho_t expands the certified radius RAD but degrades clean base-classifier accuracy, and computing a tight closed-form data-Lipschitz gradient constant L_Z (derived in Lemma 1 for multi-class logistic regression) remains an open problem for deep multi-layer neural networks.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r528-primary-pdf">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section 5.1 Remarks 1 and 5, Lemma 1, and Section 6.2 Figure 2, pp. 5-6, 8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Higher training-time Gaussian parameter noise sigma_t increases the certified backdoor radius at the expense of lower clean validation accuracy.</li>
+      <li>Closed-form analytical bounds on the data-Lipschitz gradient constant L_Z are established for convex models such as multi-class logistic regression but are difficult to compute tightly for deep non-convex networks.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            CRFL is a certifiably backdoor-robust federated learning training and inference framework built on server-side parameter clipping, Gaussian perturbation, and randomized parameter smoothing.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r528-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r528-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2106.08283.pdf" target="_blank" rel="noopener">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chulin Xie, Minghao Chen, Pin-Yu Chen, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Xie0CL21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:da4a5561e134…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r528-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r528-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2106.08283" target="_blank" rel="noopener">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chulin Xie, Minghao Chen, Pin-Yu Chen, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2106.08283</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3b08fa3e41a5…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r528-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r528-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/icml/Xie0CL21" target="_blank" rel="noopener">CRFL: Certifiably Robust Federated Learning against Backdoor Attacks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chulin Xie, Minghao Chen, Pin-Yu Chen, Bo Li
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/icml/Xie0CL21</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6c03ba45772b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:11:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:11:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CrflCertifiablyRobustFederatedLearningViaParameterClippingAndSmoothing.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
