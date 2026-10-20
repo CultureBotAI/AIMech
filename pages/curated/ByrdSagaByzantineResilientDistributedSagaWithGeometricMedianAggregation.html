@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Byrd-SAGA Byzantine-Resilient Distributed SAGA with Geometric Median Aggregation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Byrd-SAGA Byzantine-Resilient Distributed SAGA with Geometric Median Aggregation</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Byrd-SAGA Byzantine-Resilient Distributed SAGA with Geometric Median Aggregation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ByrdSagaByzantineResilientDistributedSagaWithGeometricMedianAggregation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Byrd-SAGA, Byzantine Attack Resilient Distributed SAGA, Federated Variance-Reduced Byrd-SAGA
+    </div>
+
+  <div class="detail-desc">
+    A Byzantine-resilient federated finite-sum optimization algorithm for minimizing f(x) = (1 / (W - B)) sum_{w notin B} (1 / J) sum_{j=1}^J f_{w,j}(x) across W workers Containing B &lt; W / 2 Byzantine attackers, in which each honest worker w maintains a local table of stored per-sample gradients {f&#39;_{w,j}(phi_{w,j}^k)}_{j=1}^J and their average g_bar_w^k = (1 / J) sum_{j=1}^J f&#39;_{w,j}(phi_{w,j}^k), samples a random local index i_w^k in {1, ..., J} at iteration k, and transmits the SAGA variance-reduced gradient m_w^k = f&#39;_{w,i_w^k}(x^k) - f&#39;_{w,i_w^k}(phi_{w,i_w^k}^k) + g_bar_w^k to the master node, which updates the global model via the geometric median x^{k+1} = x^k - gamma * geomed_{w in W} {m_w^k}.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from standard SAGA (AIMech:SagaStochasticAverageGradientAmeliore, which uses single-machine or fragile mean aggregation and fails under a single Byzantine worker) and from Byzantine-robust SGD aggregators such as Krum, Geometric Median SGD, Bulyan (AIMech:BulyanByzantineResilientGradientAggregation), RSA (AIMech:RsaByzantineRobustStochasticAggregationForHeterogeneousDatasets), and Bucketing (AIMech:BucketingForAgnosticByzantineRobustAggregationOnHeterogeneousDatasets): Byrd-SAGA (Wu, Ling, Chen, &amp; Giannakis, IEEE TSP 2020) couples per-worker SAGA finite-sum variance reduction with server-side geometric median aggregation so that the inner stochastic gradient variance sigma^2 vanishes along the optimization trajectory, removing the O(C_alpha^2 sigma^2 / mu^2) asymptotic error floor of Byzantine-resilient SGD.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#byrd-saga-variance-reduced-geomed-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each iteration k, honest worker w samples i_w^k uniformly from {1, ..., J}, computes the SAGA-corrected gradient m_w^k = f&#39;_{w,i_w^k}(x^k) - f&#39;_{w,i_w^k}(phi_{w,i_w^k}^k) + g_bar_w^k, and updates its local gradient table entry and running average in O(p) time, while the master aggregates all W worker messages using an epsilon-approximate geometric median x^{k+1} = x^k - gamma * geomed_{w in W} {m_w^k}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r544-primary-pdf">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section III-B p. 4 Eq. 8-11 &amp; Algorithm 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#byrd-saga-linear-convergence-without-inner-variance-floor</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For mu-strongly convex L-smooth objectives with bounded outer variation E_{w notin B} ||f&#39;_w(x) - f&#39;(x)||^2 &lt;= delta^2 and B &lt; W / 2 Byzantine workers (alpha = B / W &lt; 1/2, C_alpha = (2 - 2 alpha) / (1 - 2 alpha)), Byrd-SAGA with step size gamma &lt;= mu / (4 sqrt(5) J^2 C_alpha L^2) converges linearly as E||x^k - x*||^2 &lt;= (1 - gamma mu / 2)^k Delta_1 + Delta_2 where Delta_2 = (10 / mu^2)(C_alpha^2 delta^2 + epsilon^2 / (W - 2B)^2), completely eliminating the inner-variance term O(C_alpha^2 sigma^2 / mu^2) present in Byzantine-resilient SGD (Theorems 1-2, Eq. 20-25).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r544-primary-pdf">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A Lemma 1 p. 5 Eq. 13; Section IV-B Theorems 1-2 p. 5-6 Eq. 20-25</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#byrd-saga-memory-table-and-outer-heterogeneity-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Byrd-SAGA requires each honest worker to store a table of J gradient vectors of dimension p (O(J p) local memory, or O(J) scalars for linear models), and under non-i.i.d. outer gradient variation delta^2 &gt; 0 its asymptotic error floor Delta_2 = O(C_alpha^2 delta^2 / mu^2) remains non-zero and grows as the Byzantine fraction alpha = B / W approaches 1/2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r544-primary-pdf">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks</a></span>
+        <span>· <strong>Locator:</strong> Section III-A p. 3-4; Section IV-B Theorem 1 p. 6 Eq. 20-22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Requires each worker to store J historical gradients of dimension p in a local SAGA table (O(J p) memory per worker) and restricts the maximum step size by O(1 / J^2).</li>
+      <li>Retains an O(C_alpha^2 delta^2 / mu^2) asymptotic error neighborhood when honest workers have heterogeneous local data distributions (delta^2 &gt; 0) and requires B &lt; W / 2.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Byrd-SAGA is a Byzantine-robust variance-reduced optimization method for federated finite-sum learning across distributed worker nodes.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r544-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r544-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1912.12716.pdf" target="_blank" rel="noopener">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhaoxian Wu, Qing Ling, Tianyi Chen, Georgios B. Giannakis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1109/TSP.2020.3012952</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4e111043300d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r544-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r544-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1912.12716" target="_blank" rel="noopener">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhaoxian Wu, Qing Ling, Tianyi Chen, Georgios B. Giannakis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1912.12716</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3f0c5c267be7…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r544-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r544-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://api.crossref.org/works/10.1109/TSP.2020.3012952" target="_blank" rel="noopener">Federated Variance-Reduced Stochastic Gradient Descent With Robustness to Byzantine Attacks (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zhaoxian Wu, Qing Ling, Tianyi Chen, Georgios B. Giannakis
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://api.crossref.org/works/10.1109/TSP.2020.3012952</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3b9fc66b6c87…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T10:27:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T10:27:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ByrdSagaByzantineResilientDistributedSagaWithGeometricMedianAggregation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ByrdSagaByzantineResilientDistributedSagaWithGeometricMedianAggregation.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

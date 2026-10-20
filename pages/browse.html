@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1380</strong> artificial intelligence concepts, comprising <strong>938</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1381</strong> artificial intelligence concepts, comprising <strong>939</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1380)</option>
-        <option value="curated">Curated AIMech (938)</option>
+        <option value="all">All Origins (1381)</option>
+        <option value="curated">Curated AIMech (939)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (636)</option>
+          <option value="algorithm">Algorithms (637)</option>
           <option value="mathematical_method">Mathematical Methods (152)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1380</span> of <span id="totalCount">1380</span>
+      Showing <span id="matchCount">1381</span> of <span id="totalCount">1381</span>
     </div>
   </div>
 </div>
@@ -3983,6 +3983,32 @@
         </td>
         <td>
           <code style="font-size: 0.82rem;">AIMech:BurerMonteiroLowRankSemidefiniteProgrammingAndRiemannianStaircase</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="byrd-saga byzantine-resilient distributed saga with geometric median aggregation byrdsagabyzantineresilientdistributedsagawithgeometricmedianaggregation aimech:byrdsagabyzantineresilientdistributedsagawithgeometricmedianaggregation algorithms algorithm a byzantine-resilient federated finite-sum optimization algorithm for minimizing f(x) = (1 / (w - b)) sum_{w notin b} (1 / j) sum_{j=1}^j f_{w,j}(x) across w workers containing b &lt; w / 2 byzantine attackers, in which each honest worker w maintains a local table of stored per-sample gradients {f&#39;_{w,j}(phi_{w,j}^k)}_{j=1}^j and their average g_bar_w^k = (1 / j) sum_{j=1}^j f&#39;_{w,j}(phi_{w,j}^k), samples a random local index i_w^k in {1, ..., j} at iteration k, and transmits the saga variance-reduced gradient m_w^k = f&#39;_{w,i_w^k}(x^k) - f&#39;_{w,i_w^k}(phi_{w,i_w^k}^k) + g_bar_w^k to the master node, which updates the global model via the geometric median x^{k+1} = x^k - gamma * geomed_{w in w} {m_w^k}. distinct from standard saga (aimech:sagastochasticaveragegradientameliore, which uses single-machine or fragile mean aggregation and fails under a single byzantine worker) and from byzantine-robust sgd aggregators such as krum, geometric median sgd, bulyan (aimech:bulyanbyzantineresilientgradientaggregation), rsa (aimech:rsabyzantinerobuststochasticaggregationforheterogeneousdatasets), and bucketing (aimech:bucketingforagnosticbyzantinerobustaggregationonheterogeneousdatasets): byrd-saga (wu, ling, chen, &amp; giannakis, ieee tsp 2020) couples per-worker saga finite-sum variance reduction with server-side geometric median aggregation so that the inner stochastic gradient variance sigma^2 vanishes along the optimization trajectory, removing the o(c_alpha^2 sigma^2 / mu^2) asymptotic error floor of byzantine-resilient sgd. byrd-saga byzantine attack resilient distributed saga federated variance-reduced byrd-saga at each iteration k, honest worker w samples i_w^k uniformly from {1, ..., j}, computes the saga-corrected gradient m_w^k = f&#39;_{w,i_w^k}(x^k) - f&#39;_{w,i_w^k}(phi_{w,i_w^k}^k) + g_bar_w^k, and updates its local gradient table entry and running average in o(p) time, while the master aggregates all w worker messages using an epsilon-approximate geometric median x^{k+1} = x^k - gamma * geomed_{w in w} {m_w^k}. for mu-strongly convex l-smooth objectives with bounded outer variation e_{w notin b} ||f&#39;_w(x) - f&#39;(x)||^2 &lt;= delta^2 and b &lt; w / 2 byzantine workers (alpha = b / w &lt; 1/2, c_alpha = (2 - 2 alpha) / (1 - 2 alpha)), byrd-saga with step size gamma &lt;= mu / (4 sqrt(5) j^2 c_alpha l^2) converges linearly as e||x^k - x*||^2 &lt;= (1 - gamma mu / 2)^k delta_1 + delta_2 where delta_2 = (10 / mu^2)(c_alpha^2 delta^2 + epsilon^2 / (w - 2b)^2), completely eliminating the inner-variance term o(c_alpha^2 sigma^2 / mu^2) present in byzantine-resilient sgd (theorems 1-2, eq. 20-25). byrd-saga requires each honest worker to store a table of j gradient vectors of dimension p (o(j p) local memory, or o(j) scalars for linear models), and under non-i.i.d. outer gradient variation delta^2 &gt; 0 its asymptotic error floor delta_2 = o(c_alpha^2 delta^2 / mu^2) remains non-zero and grows as the byzantine fraction alpha = b / w approaches 1/2. federated variance-reduced stochastic gradient descent with robustness to byzantine attacks federated variance-reduced stochastic gradient descent with robustness to byzantine attacks (arxiv abstract) federated variance-reduced stochastic gradient descent with robustness to byzantine attacks (crossref metadata) zhaoxian wu qing ling tianyi chen georgios b. giannakis zhaoxian wu qing ling tianyi chen georgios b. giannakis zhaoxian wu qing ling tianyi chen georgios b. giannakis">
+        <td>
+          <a href="curated/ByrdSagaByzantineResilientDistributedSagaWithGeometricMedianAggregation.html" style="font-weight: 600; font-size: 1rem;">Byrd-SAGA Byzantine-Resilient Distributed SAGA with Geometric Median Aggregation</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> Byrd-SAGA, Byzantine Attack Resilient Distributed SAGA…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A Byzantine-resilient federated finite-sum optimization algorithm for minimizing f(x) = (1 / (W - B)) sum_{w notin B} (1 / J) sum_{j=1}^J f_…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:ByrdSagaByzantineResilientDistributedSagaWithGeometricMedianAggregation</code>
         </td>
         <td>
             <span class="badge badge-mechanism" title="3 claims curated">3 claims</span>
