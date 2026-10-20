@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 0; font-size: 1.85rem; letter-spacing: -0.02em;">Browse AI Concepts & Ontology Classes</h1>
 <p style="color: var(--meta); font-size: 1rem; max-width: 850px; margin-bottom: 1.5rem;">
-  Explore <strong>1468</strong> artificial intelligence concepts, comprising <strong>1026</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
+  Explore <strong>1469</strong> artificial intelligence concepts, comprising <strong>1027</strong> evidence-curated algorithms, architectures, and model families alongside <strong>442</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
 <div class="browser-controls">
@@ -40,8 +40,8 @@
     <div style="display: flex; align-items: center; gap: 0.4rem;">
       <label for="originSelect" class="filter-label">Origin:</label>
       <select id="originSelect" class="filter-select">
-        <option value="all">All Origins (1468)</option>
-        <option value="curated">Curated AIMech (1026)</option>
+        <option value="all">All Origins (1469)</option>
+        <option value="curated">Curated AIMech (1027)</option>
         <option value="aio">AIO Imported (442)</option>
       </select>
     </div>
@@ -50,7 +50,7 @@
       <label for="kindSelect" class="filter-label">Concept Kind:</label>
       <select id="kindSelect" class="filter-select">
         <option value="all">All Kinds</option>
-          <option value="algorithm">Algorithms (722)</option>
+          <option value="algorithm">Algorithms (723)</option>
           <option value="mathematical_method">Mathematical Methods (154)</option>
           <option value="model_family">Model Families (87)</option>
           <option value="architecture">Architectures (38)</option>
@@ -80,7 +80,7 @@
     <button type="button" id="resetFilters" class="btn">Reset</button>
 
     <div class="filter-count">
-      Showing <span id="matchCount">1468</span> of <span id="totalCount">1468</span>
+      Showing <span id="matchCount">1469</span> of <span id="totalCount">1469</span>
     </div>
   </div>
 </div>
@@ -7014,6 +7014,32 @@
         </td>
         <td>
             <span class="badge badge-mechanism" title="7 claims curated">7 claims</span>
+            <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
+        </td>
+      </tr>
+      <tr data-origin="curated"
+          data-kind="algorithm"
+          data-branch=""
+          data-search="cser (communication-efficient sgd with error reset) csercommunicationefficientsgdwitherrorreset aimech:csercommunicationefficientsgdwitherrorreset algorithms algorithm a communication-efficient distributed sgd algorithm (and nesterov momentum variant m-cser) that adapts a pair of delta-approximate compressors c_1 (with approximation factor delta_1 in (0, 1]) and c_2 (with factor delta_2 in [0, 1]) via a partial synchronization subroutine psync(v_i, c) that averages only the compressed component v_bar&#39; = (1/n) sum_{j=1}^n c(v_j) across workers and locally recombines the residual r_i = v_i - c(v_i) into v&#39;_i = v_bar&#39; + r_i, immediately applying both partially synchronized gradients g&#39;_{i,t} and local residuals r_{i,t} to bifurcated local models x_{i,t-1/2} = x_{i,t-1} - eta g&#39;_{i,t} at every step while periodically flushing and resetting the accumulated local residual error e_{i,t-1/2} every h iterations via (e&#39;_{i,t-1/2}, e_{i,t}) = psync(e_{i,t-1/2}, c_1) and x_{i,t} = x_{i,t-1/2} - e_{i,t-1/2} + e&#39;_{i,t-1/2}. distinct from error-feedback sgd / sparsified sgd with memory (aimech:sparsifiedsgdwithmemory, stich et al. 2018; karimireddy et al. 2019) and qsparse-local-sgd (basu et al. 2019), which keep local models fully synchronized after communication and set residual compression errors e_{i,t} aside from gradient evaluation for up to h local steps; cser immediately assimilates residuals into bifurcated local models x_{i,t} so that x_{i,t} - e_{i,t} = x_{j,t} - e_{j,t} holds for all workers (lemma 1) and the compression error vanishes when n = 1 (remark 2). cser communication-efficient sgd with error reset m-cser momentum cser cser optimizer by immediately applying uncommunicated gradient residuals r_{i,t} = g_{i,t} - c_2(g_{i,t}) to each worker&#39;s local model x_{i,t-1/2} = x_{i,t-1} - eta ((1/n) sum_k c_2(g_{k,t}) + r_{i,t}) and periodically resetting accumulated local errors e_{i,t-1/2} every h steps via psync(e_{i,t-1/2}, c_1), cser maintains the exact invariant x_{i,t} - e_{i,t} = x_{j,t} - e_{j,t} for all workers i, j in [n] and all iterations t (lemma 1), so that compression error arises solely from inter-worker residual variance (1/n) sum_{i=1}^n ||(1/n) sum_{j=1}^n e_{j,t} - e_{i,t}||^2 and vanishes identically when n = 1 (remark 2). for l-smooth non-convex objectives with bounded second moment e||g_{i,t}||^2 &lt;= v_2 and variance v_1, theorem 1 and lemma 3 prove that after every h steps cser resets local error to e||e_{i,t}||^2 &lt;= (1 - delta_2)(1 - delta_1) eta^2 h^2 v_2 / (1 - sqrt(1 - delta_1))^2 and achieves (1/t) sum_{t=1}^t e||grad f(x_bar_{t-1})||^2 &lt;= o(1 / (eta t)) + o(eta l v_1 / n) + 2 [4(1 - delta_1) / delta_1^2 + 1](1 - delta_2) eta^2 h^2 l^2 v_2, strictly improving upon qsparse-local-sgd&#39;s 8 [4(1 - delta_1^2) / delta_1^2 + 1] eta^2 h^2 l^2 v_2 term (reducing the factor from 832 to 576 at h = 8, delta_1 = 1/2, delta_2 = 0 in remark 1, and from 400 to &lt;236 at overall compression ratio r_c = 1 / (1/r_{c_2} + 1/(r_{c_1} h)) = 12 by shifting budget to h = 12, delta_1 = 7/8, delta_2 = 1/96). combined with the globally-randomized blockwise sparsifier (grbs, definition 2, which partitions tensors into b blocks and selects b / r_c blocks per round with a synchronized random seed so that local residual buffers e_{i,t} can be omitted in algorithm 13), m-cser scales to an overall compression ratio of r_c = 1024x where both ef-sgd and qsparse-local-sgd diverge (table 2), achieving 86.68% accuracy at 256x and 85.66% at 1024x on cifar-100 (wideresnet-40-8) with nearly 10x training speedup and 4.5x speedup on imagenet (resnet-50) across 8 v100 gpus. cser introduces three coupled compression hyperparameters (the error-reset interval h, model-reset compression ratio r_{c_1}, and gradient compression ratio r_{c_2} satisfying r_c = 1 / (1/r_{c_2} + 1/(r_{c_1} h))) that are non-unique for a given overall budget r_c and require grid tuning (table 3), and in m-cser (theorem 2) a larger momentum factor beta accelerates initial escape but amplifies the asymptotic variance terms by (1 - beta)^{-2} and (1 - beta)^{-4}. cser: communication-efficient sgd with error reset cser: communication-efficient sgd with error reset (arxiv abstract) cser: communication-efficient sgd with error reset (crossref metadata) cong xie shuai zheng oluwasanmi koyejo indranil gupta mu li haibin lin cong xie shuai zheng oluwasanmi koyejo indranil gupta mu li haibin lin cong xie shuai zheng oluwasanmi koyejo indranil gupta mu li haibin lin">
+        <td>
+          <a href="curated/CSERCommunicationEfficientSgdWithErrorReset.html" style="font-weight: 600; font-size: 1rem;">CSER (Communication-Efficient SGD with Error Reset)</a>
+            <div style="font-size: 0.8rem; color: var(--meta); margin-top: 2px;">
+              <em>aka</em> CSER, Communication-Efficient SGD with Error Reset…            </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 4px; line-height: 1.4;">
+            A communication-efficient distributed SGD algorithm (and Nesterov momentum variant M-CSER) that adapts a pair of delta-approximate compresso…
+          </div>
+        </td>
+        <td>
+            <span class="badge badge-curated">Curated</span>
+        </td>
+        <td>
+            <a href="kinds/algorithm.html" style="font-size: 0.85rem;">Algorithms</a>
+        </td>
+        <td>
+          <code style="font-size: 0.82rem;">AIMech:CSERCommunicationEfficientSgdWithErrorReset</code>
+        </td>
+        <td>
+            <span class="badge badge-mechanism" title="4 claims curated">4 claims</span>
             <div style="font-size: 0.75rem; color: var(--meta); margin-top: 2px;">3 sources</div>
         </td>
       </tr>
