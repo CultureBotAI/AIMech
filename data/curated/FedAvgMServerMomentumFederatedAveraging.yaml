@@ -1,0 +1,101 @@
+id: AIMech:FedAvgMServerMomentumFederatedAveraging
+name: Federated Averaging with Server Momentum
+concept_kind: algorithm
+review_status: DRAFT
+definition: A federated optimization algorithm (FedAvgM; Hsu, Qi, and Brown, 2019) that augments Federated Averaging with a Polyak heavy-ball momentum buffer v maintained at the central server over the sample-weighted aggregate client parameter update Delta w = sum_{k=1}^K (n_k / n) Delta w_k, updating the server velocity via v <- beta v + Delta w (with momentum factor beta in [0, 1)) and the global model via w <- w - v, coupled with a continuous Dirichlet client class-prior synthesis benchmark q ~ Dir(alpha p) parameterized by concentration alpha > 0 to evaluate and damp oscillations across non-identical client data distributions.
+identity_notes: Distinct from vanilla Federated Averaging (AIMech:FederatedAveraging; McMahan et al., 2017), which corresponds to the memoryless server update beta = 0 (w <- w - Delta w). Distinct from SlowMo (AIMech:SlowMoCommunicationEfficientDistributedSgdWithSlowMomentum; Wang et al., ICLR 2020), which formulates a two-level outer-step Nesterov/heavy-ball momentum framework with explicit outer learning rate alpha and inner base optimizer steps (covering local SGD and SGP), and from FedOpt / FedAdam / FedYogi / FedAdagrad (AIMech:AdaptiveFederatedOptimization; Reddi et al., ICLR 2021), which introduce second-moment adaptive preconditioners v_t at the server. Also distinct from Mime / MimeLite (Karimireddy et al., 2020) and FedCM (Xu et al., 2021), which apply server momentum or client-level momentum inside every local client gradient step.
+aliases:
+- FedAvgM
+- Server Momentum Federated Averaging
+- Federated Averaging with Server-Side Momentum
+definition_evidence:
+- source_id: r502-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r502-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r502-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fedavgm-server-velocity-and-effective-learning-rate-mechanism
+  kind: mechanism
+  statement: At the end of each communication round, participating clients k = 1, ..., K return local model displacements Delta w_k = w - w_k^{(E)} obtained after E local epochs of SGD with client learning rate eta, and the server forms the sample-weighted pseudo-gradient Delta w = sum_{k=1}^K (n_k / n) Delta w_k, updates its running momentum buffer v <- beta v + Delta w, and sets w <- w - v, inducing an effective learning rate eta_eff = eta / (1 - beta) that smooths conflicting update directions across rounds of partial client participation.
+  evidence:
+  - source_id: r502-primary-pdf
+    locator: Section 4.1 Vanilla Federated Averaging and Section 4.2 Momentum on the Server, pp. 3-4
+    relation: supports
+- claim_id: fedavgm-dirichlet-concentration-continuum-scope
+  kind: scope
+  statement: 'To evaluate federated algorithms across a continuous spectrum of label-distribution skew, each client''s class distribution q is drawn independently from a Dirichlet distribution q ~ Dir(alpha p) over prior class distribution p with concentration parameter alpha > 0: as alpha -> infinity all clients have identical class distributions matching the prior p, whereas as alpha -> 0 each client holds examples from only a single randomly chosen class; at beta = 0 FedAvgM reduces identically to vanilla FedAvg.'
+  evidence:
+  - source_id: r502-primary-pdf
+    locator: Section 3 Synthetic Non-Identical Client Data, Figure 1, pp. 2-3; Section 4.2, p. 4
+    relation: supports
+- claim_id: fedavgm-hyperparameter-scaling-sensitivity-and-extreme-skew-limitation
+  kind: limitation
+  statement: Because server momentum amplifies the effective step size by 1 / (1 - beta) (e.g., 10x at beta = 0.9), FedAvgM is sensitive to the joint tuning of client learning rate eta and beta and becomes unstable when eta_eff is too large or when local epoch count E is small (E = 1) with large reporting fraction C (Figure 4, p. 5); furthermore, under extreme single-class non-identical skew (alpha -> 0) with large local epochs, client drift still degrades accuracy relative to IID training.
+  evidence:
+  - source_id: r502-primary-pdf
+    locator: Section 4.2 hyperparameter analysis and Figure 4, pp. 4-6
+    relation: supports
+- claim_id: fedavgm-federated-visual-classification-application
+  kind: application
+  statement: Applied to federated visual classification across Dirichlet label-skewed partitions of CIFAR-10 (CNN) and ImageNet / CIFAR benchmarks under varying client participation fractions C, local epochs E, and concentration parameters alpha in [0, 100].
+  evidence:
+  - source_id: r502-primary-pdf
+    locator: Section 3-4 Experiments, Figures 1-5, Table 1, pp. 2-6
+    relation: supports
+evidence_sources:
+- source_id: r502-primary-pdf
+  title: Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification
+  authors: &id001
+  - Tzu-Ming Harry Hsu
+  - Hang Qi
+  - Matthew Brown
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1909.06335.pdf
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1909-06335
+  version: NeurIPS 2019 Workshop on Federated Learning for Data Privacy and Confidentiality / arXiv:1909.06335 (2019) (814903 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T09:45:00Z'
+  sha256: c1e068bbf4c34b1f2ec5c9b5128d5bcaf95a1c84b7a4c8813e4477251ef85260
+- source_id: r502-arxiv-abs
+  title: Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1909.06335
+  persistent_id: https://arxiv.org/abs/1909.06335
+  version: arXiv abstract page (6552 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:45:00Z'
+  sha256: 6fa3ea96de235e35b6c28f2183b2cf76bb871d65df084b1d25fb995b711e3823
+- source_id: r502-metadata-cr
+  title: Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/journals/corr/abs-1909-06335
+  persistent_id: https://dblp.org/rec/journals/corr/abs-1909-06335
+  version: Crossref API work record (1298 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T09:45:00Z'
+  sha256: 8b74a8e2c7460e2da2fc256c084802ea7ad693f84fcf22e822f5c765be6fc85e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FedAvgM is a server-momentum optimization algorithm for federated learning across non-identically distributed clients.
+limitations:
+- Server momentum rescales the effective step size by eta_eff = eta / (1 - beta), requiring explicit down-scaling of the client learning rate eta as beta approaches 1 to prevent divergence (Section 4.2, Figures 4-5, pp. 4-5).
+- Unlike variance-reduced control-variate methods (e.g., SCAFFOLD) or local momentum-tracking methods (e.g., Mime), FedAvgM applies momentum only at the server after E local epochs, so intra-round local client drift during large E on single-class clients (alpha -> 0) is not corrected during local steps (Section 4.2, Figure 4, pp. 4-5).
+- Maintaining the server velocity vector v requires additional server-side state of dimension d equal to the model parameter vector.
+curation:
+  created_at: '2026-10-19T09:45:00Z'
+  updated_at: '2026-10-19T09:45:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity

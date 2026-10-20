@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Federated Averaging with Server Momentum · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Federated Averaging with Server Momentum</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Federated Averaging with Server Momentum</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:FedAvgMServerMomentumFederatedAveraging</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> FedAvgM, Server Momentum Federated Averaging, Federated Averaging with Server-Side Momentum
+    </div>
+
+  <div class="detail-desc">
+    A federated optimization algorithm (FedAvgM; Hsu, Qi, and Brown, 2019) that augments Federated Averaging with a Polyak heavy-ball momentum buffer v maintained at the central server over the sample-weighted aggregate client parameter update Delta w = sum_{k=1}^K (n_k / n) Delta w_k, updating the server velocity via v &lt;- beta v + Delta w (with momentum factor beta in [0, 1)) and the global model via w &lt;- w - v, coupled with a continuous Dirichlet client class-prior synthesis benchmark q ~ Dir(alpha p) parameterized by concentration alpha &gt; 0 to evaluate and damp oscillations across non-identical client data distributions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from vanilla Federated Averaging (AIMech:FederatedAveraging; McMahan et al., 2017), which corresponds to the memoryless server update beta = 0 (w &lt;- w - Delta w). Distinct from SlowMo (AIMech:SlowMoCommunicationEfficientDistributedSgdWithSlowMomentum; Wang et al., ICLR 2020), which formulates a two-level outer-step Nesterov/heavy-ball momentum framework with explicit outer learning rate alpha and inner base optimizer steps (covering local SGD and SGP), and from FedOpt / FedAdam / FedYogi / FedAdagrad (AIMech:AdaptiveFederatedOptimization; Reddi et al., ICLR 2021), which introduce second-moment adaptive preconditioners v_t at the server. Also distinct from Mime / MimeLite (Karimireddy et al., 2020) and FedCM (Xu et al., 2021), which apply server momentum or client-level momentum inside every local client gradient step.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#fedavgm-server-velocity-and-effective-learning-rate-mechanism</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At the end of each communication round, participating clients k = 1, ..., K return local model displacements Delta w_k = w - w_k^{(E)} obtained after E local epochs of SGD with client learning rate eta, and the server forms the sample-weighted pseudo-gradient Delta w = sum_{k=1}^K (n_k / n) Delta w_k, updates its running momentum buffer v &lt;- beta v + Delta w, and sets w &lt;- w - v, inducing an effective learning rate eta_eff = eta / (1 - beta) that smooths conflicting update directions across rounds of partial client participation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r502-primary-pdf">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1 Vanilla Federated Averaging and Section 4.2 Momentum on the Server, pp. 3-4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fedavgm-dirichlet-concentration-continuum-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    To evaluate federated algorithms across a continuous spectrum of label-distribution skew, each client&#39;s class distribution q is drawn independently from a Dirichlet distribution q ~ Dir(alpha p) over prior class distribution p with concentration parameter alpha &gt; 0: as alpha -&gt; infinity all clients have identical class distributions matching the prior p, whereas as alpha -&gt; 0 each client holds examples from only a single randomly chosen class; at beta = 0 FedAvgM reduces identically to vanilla FedAvg.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r502-primary-pdf">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 3 Synthetic Non-Identical Client Data, Figure 1, pp. 2-3; Section 4.2, p. 4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fedavgm-hyperparameter-scaling-sensitivity-and-extreme-skew-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because server momentum amplifies the effective step size by 1 / (1 - beta) (e.g., 10x at beta = 0.9), FedAvgM is sensitive to the joint tuning of client learning rate eta and beta and becomes unstable when eta_eff is too large or when local epoch count E is small (E = 1) with large reporting fraction C (Figure 4, p. 5); furthermore, under extreme single-class non-identical skew (alpha -&gt; 0) with large local epochs, client drift still degrades accuracy relative to IID training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r502-primary-pdf">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 4.2 hyperparameter analysis and Figure 4, pp. 4-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#fedavgm-federated-visual-classification-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to federated visual classification across Dirichlet label-skewed partitions of CIFAR-10 (CNN) and ImageNet / CIFAR benchmarks under varying client participation fractions C, local epochs E, and concentration parameters alpha in [0, 100].
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r502-primary-pdf">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification</a></span>
+        <span>· <strong>Locator:</strong> Section 3-4 Experiments, Figures 1-5, Table 1, pp. 2-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Server momentum rescales the effective step size by eta_eff = eta / (1 - beta), requiring explicit down-scaling of the client learning rate eta as beta approaches 1 to prevent divergence (Section 4.2, Figures 4-5, pp. 4-5).</li>
+      <li>Unlike variance-reduced control-variate methods (e.g., SCAFFOLD) or local momentum-tracking methods (e.g., Mime), FedAvgM applies momentum only at the server after E local epochs, so intra-round local client drift during large E on single-class clients (alpha -&gt; 0) is not corrected during local steps (Section 4.2, Figure 4, pp. 4-5).</li>
+      <li>Maintaining the server velocity vector v requires additional server-side state of dimension d equal to the model parameter vector.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/FederatedLearning.html" style="font-weight: 600;"><code>AIO:FederatedLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Federated Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            FedAvgM is a server-momentum optimization algorithm for federated learning across non-identically distributed clients.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r502-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r502-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1909.06335.pdf" target="_blank" rel="noopener">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tzu-Ming Harry Hsu, Hang Qi, Matthew Brown
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1909-06335</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:c1e068bbf4c3…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r502-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r502-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1909.06335" target="_blank" rel="noopener">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tzu-Ming Harry Hsu, Hang Qi, Matthew Brown
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1909.06335</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:6fa3ea96de23…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r502-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r502-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/journals/corr/abs-1909-06335" target="_blank" rel="noopener">Measuring the Effects of Non-Identical Data Distribution for Federated Visual Classification (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tzu-Ming Harry Hsu, Hang Qi, Matthew Brown
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/journals/corr/abs-1909-06335</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:8b74a8e2c746…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T09:45:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T09:45:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/FedAvgMServerMomentumFederatedAveraging.yaml" target="_blank" rel="noopener">
+      <code>data/curated/FedAvgMServerMomentumFederatedAveraging.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
