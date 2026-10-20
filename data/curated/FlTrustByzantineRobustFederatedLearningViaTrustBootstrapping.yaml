@@ -1,0 +1,94 @@
+id: AIMech:FlTrustByzantineRobustFederatedLearningViaTrustBootstrapping
+name: FLTrust (Byzantine-Robust Federated Learning via Trust Bootstrapping)
+concept_kind: algorithm
+review_status: DRAFT
+definition: FLTrust (Byzantine-Robust Federated Learning via Trust Bootstrapping) is a server-bootstrapped Byzantine-robust federated learning algorithm in which the service provider maintains a small clean root dataset D_0 (e.g., 100 examples) and computes a server model update g_0 in each iteration, assigns each client update g_i a trust score equal to its ReLU-clipped cosine similarity TS_i = ReLU(<g_i, g_0> / (||g_i|| ||g_0||)), rescales each client update onto the server update's l2-hypersphere via bar_g_i = (||g_0|| / ||g_i||) g_i, and updates the global model using the trust-weighted average g = (1 / sum_{j=1}^n TS_j) sum_{i=1}^n TS_i bar_g_i.
+identity_notes: 'Introduced by Xiaoyu Cao, Minghong Fang, Jia Liu, and Neil Zhenqiang Gong in ''FLTrust: Byzantine-robust Federated Learning via Trust Bootstrapping'' (NDSS 2021, DOI:10.14722/ndss.2021.24434; arXiv:2012.13995). Distinct from client-only statistical outlier defenses (Krum, Blanchard et al. 2017; Coordinate-Wise Median and Trimmed Mean, Yin et al. 2018; Bulyan, El Mhamdi et al. 2018), which have no server root of trust and break down when malicious clients reach >= 50% (or >= 25% for Bulyan) or craft adaptive local model poisoning updates.'
+aliases:
+- FLTrust
+- Federated Learning via Trust Bootstrapping
+- Byzantine-Robust Federated Learning via Trust Bootstrapping
+definition_evidence:
+- source_id: r519-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r519-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r519-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: fltrust-relu-cosine-trust-score-and-hypersphere-normalization
+  kind: mechanism
+  statement: In each global iteration, FLTrust computes the cosine similarity c_i = <g_i, g_0> / (||g_i|| ||g_0||) between client i's update g_i and the server's root-dataset update g_0, clips negative cosine similarities via TS_i = ReLU(c_i) = max(0, c_i) (Equation 2) so updates pointing in the opposite hemisphere are excluded, projects each local update onto the l2-hypersphere of radius ||g_0|| via bar_g_i = (||g_0|| / ||g_i||) g_i (Equation 3) to cap large-norm scaling attacks while amplifying small-norm benign updates, and computes g = (1 / sum_{j=1}^n ReLU(c_j)) sum_{i=1}^n ReLU(c_i) (||g_0|| / ||g_i||) g_i (Equation 4).
+  evidence:
+  - source_id: r519-primary-pdf
+    locator: Section IV-B, Equations (2)-(5) and Figure 2, pages 5-6
+    relation: supports
+- claim_id: fltrust-convergence-bound-for-arbitrary-malicious-client-fraction
+  kind: mechanism
+  statement: Lemma 1 (Appendix A, Equations 13-24) proves that for an arbitrary number of malicious clients, positive cosine alignment <bar_g_i, g_0> > 0 for all i in S and norm equality ||bar_g_i|| = ||g_0|| guarantee ||g - nabla F(w)|| <= 3 ||g_0 - nabla F(w)|| + 2 ||nabla F(w)||, and Theorem 1 proves that under mu-strong convexity, L-smoothness, and sub-exponential gradients on root dataset D_0, ||w^t - w^*|| <= (1 - rho)^t ||w^0 - w^*|| + 12 alpha Delta_1 / rho with probability at least 1 - delta.
+  evidence:
+  - source_id: r519-primary-pdf
+    locator: Section IV-D, Theorem 1, page 7; Appendix A, Lemmas 1-4, pages 16-18
+    relation: supports
+- claim_id: fltrust-resilience-against-poisoning-and-adaptive-attacks-up-to-60-percent-malicious
+  kind: application
+  statement: Using a root dataset of only |D_0| = 100 examples across six datasets (MNIST-0.1, MNIST-0.5, Fashion-MNIST, CIFAR-10, HAR, and CH-MNIST), FLTrust maintains test error within 0.04 of unattacked FedAvg and backdoor Scaling attack success rate <= 0.03 under Label Flipping, Krum attack, Trim attack, Scaling attack, and zeroth-order adaptive attacks (Algorithm 3), tolerating 40%-60% colluding adaptive malicious clients and up to 90% malicious clients on MNIST-0.5 (Table III and Figures 6-7).
+  evidence:
+  - source_id: r519-primary-pdf
+    locator: Section VI-B, Tables III-IV and Figures 6-7, pages 11-14
+    relation: supports
+evidence_sources:
+- source_id: r519-primary-pdf
+  title: 'FLTrust: Byzantine-robust Federated Learning via Trust Bootstrapping'
+  authors: &id001
+  - Xiaoyu Cao
+  - Minghong Fang
+  - Jia Liu
+  - Neil Zhenqiang Gong
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2012.13995.pdf
+  persistent_id: https://dblp.org/rec/conf/ndss/CaoF0G21
+  version: NDSS 2021 (2021) (927214 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T10:02:00Z'
+  sha256: 5b4efd6b3ccdb5e9f97880f76291b5670bb7258b5fe7590914aea88397a93217
+- source_id: r519-arxiv-abs
+  title: 'FLTrust: Byzantine-robust Federated Learning via Trust Bootstrapping (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2012.13995
+  persistent_id: https://arxiv.org/abs/2012.13995
+  version: arXiv abstract page (7944 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:02:00Z'
+  sha256: 1a0da18c334553436244bac228bd3289d3e903a1f1dca50d4132bd48806c988a
+- source_id: r519-metadata-cr
+  title: 'FLTrust: Byzantine-robust Federated Learning via Trust Bootstrapping (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/ndss/CaoF0G21
+  persistent_id: https://dblp.org/rec/conf/ndss/CaoF0G21
+  version: Crossref API work record (1888 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T10:02:00Z'
+  sha256: bfbba2075d85fbd3df6b9fbb9d7b80939592edfb2b190987748f4346626521c3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:FederatedLearning
+  relation: broad_match
+  rationale: FLTrust is a Byzantine-robust federated learning aggregation and training protocol under AIO:FederatedLearning.
+limitations:
+- Requires the service provider to collect and maintain a clean root dataset D_0 free from poisoning; if D_0 is heavily biased toward a single class (e.g., bias probability >= 0.8 in Table V), test error degrades sharply under adaptive attacks.
+- Incurs additional server-side computation in each round to run R_l local SGD steps on D_0 to obtain the reference update g_0.
+curation:
+  created_at: '2026-10-19T10:02:00Z'
+  updated_at: '2026-10-19T10:02:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
