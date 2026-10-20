@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:BoftOrthogonalButterflyFinetuning</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> BOFT, Butterfly Orthogonal Fine-Tuning, Orthogonal Butterfly Finetuning
+    </div>
+
+  <div class="detail-desc">
+    Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) is a multiplicative parameter-efficient fine-tuning method that adapts a frozen pretrained weight matrix W^0 in R^{d x n} via the orthogonal transformation z = W^T x = (R(m, b) W^0)^T x, where the orthogonal matrix R(m, b) in O(d) is factored as a product of m sparse butterfly orthogonal components: R(m, b) = prod_{i=1}^m B~^b_{(d, i)}. Each butterfly factor B~^b_{(d, i)} is a permutation of a block-diagonal orthogonal matrix whose 2 x 2 block of (b/2) x (b/2) submatrices is constrained to be orthogonal via the Cayley transform R_block = (I + Q)(I - Q)^{-1} with skew-symmetric Q = -Q^T, initialized at Q = 0 so R(m, b) = I_d at step 0. With block size b &gt;= 2 and m &lt;= log_2(d/b) + 1 levels, BOFT uses (1/2)(b - 1) d m trainable parameters per layer, subsumes block-diagonal OFT at m = 1, and generates dense orthogonal matrices across the full d x d space when m = log_2(d/b) + 1.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Distinct from additive low-rank adapters such as LoRA (Hu et al., 2022) and DoRA (Liu et al., 2024), which add a low-rank update W_0 + B A that alters pairwise neuron angles (hyperspherical energy) rather than multiplying W^0 by an exact orthogonal matrix R^T R = I_d. Also distinct from single-stage block-diagonal Orthogonal Finetuning (OFT, Qiu et al., 2023), which corresponds to the degenerate m = 1 special case of BOFT and cannot mix coordinates across distinct b-dimensional blocks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r656-claim-butterfly-topology-expressivity-and-parameter-count</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Interpreting dense d x d orthogonal matrix parameterization as complete bipartite graph connectivity across d input and d output nodes, BOFT&#39;s block butterfly factorization with m = log_2(d/b) + 1 stages and block size b &gt;= 2 achieves dense all-to-all connectivity (and by Kaleidoscope matrix expressivity, full O(d) representation when stacked) using only (1/2)(b - 1) d log_2 d effective parameters instead of O(d^2) for full orthogonal or O(b d) for block-diagonal OFT.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r656-primary-pdf">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 2, Figure 1, p. 3-4; Section 3, Equations (5)-(6), Theorem 1 &amp; Remark 2, p. 5-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r656-claim-hyperspherical-energy-preservation-and-spectral-norm</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the product of orthogonal butterfly factors R(m, b) = prod_{i=1}^m B~^b_{(d, i)} remains strictly orthogonal (R(m, b)^T R(m, b) = I_d), multiplying a pretrained weight matrix W^0 by R(m, b) exactly preserves the pairwise cosine similarities (hyperspherical energy) among the columns (neurons) of W^0 as well as the singular value spectrum and spectral norm ||R(m, b) W^0||_2 = ||W^0||_2.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r656-primary-pdf">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 1, p. 1-2; Section 2, Equation (1), p. 3; Section 4 (Intriguing Insights &amp; Discussions), p. 6-7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#r656-claim-multiplicative-dropout-for-butterfly-factors</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because standard element-wise dropout destroys the orthogonality of Cayley-parameterized butterfly blocks, BOFT introduces multiplicative dropout, which randomly selects a fraction p_2 of the 2 x 2 block-orthogonal submatrices in each butterfly component B~^b_{(d, i)} and replaces them with the b x b identity matrix I_b, preserving exact orthogonality of R(m, b) throughout regularized training.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r656-primary-pdf">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Multiplicative Dropout for BOFT), p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#r656-claim-merging-zero-inference-overhead-and-training-cost-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Once training finishes, all m butterfly factors are multiplied into a single orthogonal matrix and folded into W = R(m, b) W^0 with zero inference latency overhead, but during training BOFT incurs sequential matrix multiplications and Cayley matrix inversions across m butterfly stages and requires dimensions d divisible by b * 2^{m-1}.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r656-primary-pdf">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</a></span>
+        <span>· <strong>Locator:</strong> Section 3 (Identity Initialization &amp; Inference Efficiency), p. 5; Appendix A &amp; F, p. 16-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Incurs training-time computational and memory overhead from sequential multiplication of m butterfly matrices and b x b Cayley matrix inversions at each forward pass, although inference overhead is zero after merging R(m, b) into W^0.</li>
+      <li>Standard Radix-2 block butterfly factorization requires the adapted weight dimension d to be divisible by b * 2^{m-1}.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ArtificialNeuralNetwork.html" style="font-weight: 600;"><code>AIO:ArtificialNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Artificial Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            BOFT adapts linear layers of pretrained deep neural networks, Vision Transformers, large language models, and text-to-image diffusion models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r656-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r656-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2311.06243.pdf" target="_blank" rel="noopener">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weiyang Liu, Zeju Qiu, Yao Feng, Yuliang Xiu, Yuxuan Xue, Longhui Yu, Haiwen Feng, Zhen Liu, Juyeon Heo, Songyou Peng, Yandong Wen, Michael J. Black, Adrian Weller, Bernhard Schölkopf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:12f41a8e5b2f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r656-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r656-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2311.06243" target="_blank" rel="noopener">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weiyang Liu, Zeju Qiu, Yao Feng, Yuliang Xiu, Yuxuan Xue, Longhui Yu, Haiwen Feng, Zhen Liu, Juyeon Heo, Songyou Peng, Yandong Wen, Michael J. Black, Adrian Weller, Bernhard Schölkopf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2311.06243</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:4fc2151a80b0…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r656-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r656-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html" target="_blank" rel="noopener">Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Weiyang Liu, Zeju Qiu, Yao Feng, Yuliang Xiu, Yuxuan Xue, Longhui Yu, Haiwen Feng, Zhen Liu, Juyeon Heo, Songyou Peng, Yandong Wen, Michael J. Black, Adrian Weller, Bernhard Schölkopf
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a0743813a622…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T12:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T12:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/BoftOrthogonalButterflyFinetuning.yaml" target="_blank" rel="noopener">
+      <code>data/curated/BoftOrthogonalButterflyFinetuning.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

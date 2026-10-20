@@ -1,0 +1,111 @@
+id: AIMech:BoftOrthogonalButterflyFinetuning
+name: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT)
+concept_kind: algorithm
+review_status: DRAFT
+definition: 'Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (BOFT) is a multiplicative parameter-efficient fine-tuning method that adapts a frozen pretrained weight matrix W^0 in R^{d x n} via the orthogonal transformation z = W^T x = (R(m, b) W^0)^T x, where the orthogonal matrix R(m, b) in O(d) is factored as a product of m sparse butterfly orthogonal components: R(m, b) = prod_{i=1}^m B~^b_{(d, i)}. Each butterfly factor B~^b_{(d, i)} is a permutation of a block-diagonal orthogonal matrix whose 2 x 2 block of (b/2) x (b/2) submatrices is constrained to be orthogonal via the Cayley transform R_block = (I + Q)(I - Q)^{-1} with skew-symmetric Q = -Q^T, initialized at Q = 0 so R(m, b) = I_d at step 0. With block size b >= 2 and m <= log_2(d/b) + 1 levels, BOFT uses (1/2)(b - 1) d m trainable parameters per layer, subsumes block-diagonal OFT at m = 1, and generates dense orthogonal matrices across the full d x d space when m = log_2(d/b) + 1.'
+identity_notes: Distinct from additive low-rank adapters such as LoRA (Hu et al., 2022) and DoRA (Liu et al., 2024), which add a low-rank update W_0 + B A that alters pairwise neuron angles (hyperspherical energy) rather than multiplying W^0 by an exact orthogonal matrix R^T R = I_d. Also distinct from single-stage block-diagonal Orthogonal Finetuning (OFT, Qiu et al., 2023), which corresponds to the degenerate m = 1 special case of BOFT and cannot mix coordinates across distinct b-dimensional blocks.
+aliases:
+- BOFT
+- Butterfly Orthogonal Fine-Tuning
+- Orthogonal Butterfly Finetuning
+definition_evidence:
+- source_id: r656-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r656-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r656-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: r656-claim-butterfly-topology-expressivity-and-parameter-count
+  kind: mechanism
+  statement: Interpreting dense d x d orthogonal matrix parameterization as complete bipartite graph connectivity across d input and d output nodes, BOFT's block butterfly factorization with m = log_2(d/b) + 1 stages and block size b >= 2 achieves dense all-to-all connectivity (and by Kaleidoscope matrix expressivity, full O(d) representation when stacked) using only (1/2)(b - 1) d log_2 d effective parameters instead of O(d^2) for full orthogonal or O(b d) for block-diagonal OFT.
+  evidence:
+  - source_id: r656-primary-pdf
+    locator: Section 2, Figure 1, p. 3-4; Section 3, Equations (5)-(6), Theorem 1 & Remark 2, p. 5-6
+    relation: supports
+- claim_id: r656-claim-hyperspherical-energy-preservation-and-spectral-norm
+  kind: mechanism
+  statement: Because the product of orthogonal butterfly factors R(m, b) = prod_{i=1}^m B~^b_{(d, i)} remains strictly orthogonal (R(m, b)^T R(m, b) = I_d), multiplying a pretrained weight matrix W^0 by R(m, b) exactly preserves the pairwise cosine similarities (hyperspherical energy) among the columns (neurons) of W^0 as well as the singular value spectrum and spectral norm ||R(m, b) W^0||_2 = ||W^0||_2.
+  evidence:
+  - source_id: r656-primary-pdf
+    locator: Section 1, p. 1-2; Section 2, Equation (1), p. 3; Section 4 (Intriguing Insights & Discussions), p. 6-7
+    relation: supports
+- claim_id: r656-claim-multiplicative-dropout-for-butterfly-factors
+  kind: mechanism
+  statement: Because standard element-wise dropout destroys the orthogonality of Cayley-parameterized butterfly blocks, BOFT introduces multiplicative dropout, which randomly selects a fraction p_2 of the 2 x 2 block-orthogonal submatrices in each butterfly component B~^b_{(d, i)} and replaces them with the b x b identity matrix I_b, preserving exact orthogonality of R(m, b) throughout regularized training.
+  evidence:
+  - source_id: r656-primary-pdf
+    locator: Section 3 (Multiplicative Dropout for BOFT), p. 6
+    relation: supports
+- claim_id: r656-claim-merging-zero-inference-overhead-and-training-cost-limitation
+  kind: limitation
+  statement: Once training finishes, all m butterfly factors are multiplied into a single orthogonal matrix and folded into W = R(m, b) W^0 with zero inference latency overhead, but during training BOFT incurs sequential matrix multiplications and Cayley matrix inversions across m butterfly stages and requires dimensions d divisible by b * 2^{m-1}.
+  evidence:
+  - source_id: r656-primary-pdf
+    locator: Section 3 (Identity Initialization & Inference Efficiency), p. 5; Appendix A & F, p. 16-21
+    relation: supports
+evidence_sources:
+- source_id: r656-primary-pdf
+  title: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization
+  authors: &id001
+  - Weiyang Liu
+  - Zeju Qiu
+  - Yao Feng
+  - Yuliang Xiu
+  - Yuxuan Xue
+  - Longhui Yu
+  - Haiwen Feng
+  - Zhen Liu
+  - Juyeon Heo
+  - Songyou Peng
+  - Yandong Wen
+  - Michael J. Black
+  - Adrian Weller
+  - "Bernhard Sch\xF6lkopf"
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2311.06243.pdf
+  persistent_id: https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html
+  version: The Twelfth International Conference on Learning Representations (ICLR 2024) (2024) (11654715 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T12:19:00Z'
+  sha256: 12f41a8e5b2ff1d5816f3bcad0606fc53a5d99101006ade5aa7b4c7efc9851ec
+- source_id: r656-arxiv-abs
+  title: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2311.06243
+  persistent_id: https://arxiv.org/abs/2311.06243
+  version: arXiv abstract page (7378 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:19:00Z'
+  sha256: 4fc2151a80b0e273c94c3334780847aa0e407186a2307f172e7427e883d064a0
+- source_id: r656-metadata-cr
+  title: Parameter-Efficient Orthogonal Finetuning via Butterfly Factorization (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html
+  persistent_id: https://dblp.org/rec/conf/iclr/LiuQFXXYF0HPWBW24.html
+  version: Crossref API work record (2694 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T12:19:00Z'
+  sha256: a0743813a62282113bcc2277f6ac702add8bc91e36b572e9a89f363b4a7344d8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: BOFT adapts linear layers of pretrained deep neural networks, Vision Transformers, large language models, and text-to-image diffusion models.
+limitations:
+- Incurs training-time computational and memory overhead from sequential multiplication of m butterfly matrices and b x b Cayley matrix inversions at each forward pass, although inference overhead is zero after merging R(m, b) into W^0.
+- Standard Radix-2 block butterfly factorization requires the adapted weight dimension d to be divisible by b * 2^{m-1}.
+curation:
+  created_at: '2026-10-19T12:19:00Z'
+  updated_at: '2026-10-19T12:19:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
