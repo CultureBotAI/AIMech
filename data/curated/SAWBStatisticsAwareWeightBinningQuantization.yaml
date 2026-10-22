@@ -1,0 +1,102 @@
+id: AIMech:SAWBStatisticsAwareWeightBinningQuantization
+name: SAWB Statistics-Aware Weight Binning Quantization
+concept_kind: algorithm
+review_status: DRAFT
+definition: A low-bitwidth neural network weight quantization algorithm that determines the symmetric clipping threshold alpha_w* minimizing weight quantization mean-squared error in closed form as a linear combination of the empirical second-moment root sqrt(E[w^2]) and first absolute moment E[|w|] using bitwidth-specific regression coefficients calibrated across canonical weight distributions.
+identity_notes: No AIO class represents Statistics-Aware Weight Binning (SAWB); ArtificialNeuralNetwork (AIO:ArtificialNeuralNetwork) is the closest broad match covering neural network weight quantization.
+aliases:
+- SAWB
+- Statistics-Aware Weight Binning
+- SAWB Weight Quantizer
+definition_evidence:
+- source_id: r828-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r828-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r828-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: two-moment-linear-regression-optimal-clipping-scale
+  kind: mechanism
+  statement: SAWB computes the optimal symmetric weight clipping threshold alpha_w* = c_1 sqrt(E[w^2]) - c_2 E[|w|] using bitwidth-specific constants (c_1, c_2) calibrated across Gaussian, uniform, Laplacian, gamma, Weibull, and logistic distributions, avoiding per-iteration grid search.
+  evidence:
+  - source_id: r828-primary-pdf
+    locator: Section 2.2, Equations 4-5, Figure 3, and Table 2, pp. 3-4
+    relation: supports
+- claim_id: outlier-resilient-uniform-weight-binning
+  kind: mechanism
+  statement: By clipping weights outside [-alpha_w*, +alpha_w*] before uniform 2^k-level binning and rescaling to [-alpha_w*, +alpha_w*], SAWB prevents extreme weight outliers from expanding the quantization step size across the bulk of the weight distribution.
+  evidence:
+  - source_id: r828-primary-pdf
+    locator: Section 2.2, Equation 4 and Figure 3(a), pp. 3-4
+    relation: supports
+- claim_id: ultra-low-bitwidth-cnn-and-rnn-weight-quantization-application
+  kind: application
+  statement: SAWB is combined with PACT activation clipping to quantize convolutional and recurrent neural network weights down to 2-bit and 4-bit precision with full-precision accuracy on ImageNet and Penn Treebank.
+  evidence:
+  - source_id: r828-primary-pdf
+    locator: Section 3, Figures 4-5 and Table 1, pp. 5-8
+    relation: supports
+- claim_id: symmetric-zero-mean-distribution-assumption-limitation
+  kind: limitation
+  statement: Because the SAWB regression coefficients (c_1, c_2) are calibrated on zero-mean symmetric distributions, strongly skewed or multimodal weight distributions can deviate from the predicted MSE-optimal clipping threshold.
+  evidence:
+  - source_id: r828-primary-pdf
+    locator: Section 2.2, Figure 3(b) and Table 2, p. 4
+    relation: supports
+evidence_sources:
+- source_id: r828-primary-pdf
+  title: 'PACT: Parameterized Clipping Activation for Quantized Neural Networks'
+  authors: &id001
+  - Jungwook Choi
+  - Zhuo Wang
+  - Swagath Venkataramani
+  - Pierce I-Jen Chuang
+  - Vijayalakshmi Srinivasan
+  - Kailash Gopalakrishnan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1805.06085
+  persistent_id: https://arxiv.org/abs/1805.06085
+  version: arXiv preprint arXiv:1805.06085v2 (2018) (1229285 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:11:00Z'
+  sha256: bd471647526e8f67b9dcfe60dafbb52879b8518dffda01fe4d17fae2556d806e
+- source_id: r828-arxiv-abs
+  title: 'PACT: Parameterized Clipping Activation for Quantized Neural Networks (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.06085
+  persistent_id: https://arxiv.org/abs/1805.06085
+  version: arXiv abstract page (762 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:11:00Z'
+  sha256: c38aa80e1e095a2c81e5e3f307963807db91d2afc58d3effd892e9f89e01483c
+- source_id: r828-metadata-cr
+  title: 'PACT: Parameterized Clipping Activation for Quantized Neural Networks (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1805.06085
+  persistent_id: https://arxiv.org/abs/1805.06085
+  version: Crossref API work record (317 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:11:00Z'
+  sha256: 9638e79904ba08a3bfd33abf23447c7cd9205316acbd5c92d8bc9effc610faea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: SAWB is a weight quantization algorithm used during low-bitwidth quantization-aware training of deep neural networks.
+limitations:
+- Because the SAWB regression coefficients (c_1, c_2) are calibrated on zero-mean symmetric distributions, strongly skewed or multimodal weight distributions can deviate from the predicted MSE-optimal clipping threshold.
+curation:
+  created_at: '2026-10-19T15:11:00Z'
+  updated_at: '2026-10-19T15:11:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
