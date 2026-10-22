@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Halko-Martinsson-Tropp Randomized Subspace Iteration and Low-Rank Matrix Decomposition · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>Halko-Martinsson-Tropp Randomized Subspace Iteration and Low-Rank Matrix Decomposition</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Halko-Martinsson-Tropp Randomized Subspace Iteration and Low-Rank Matrix Decomposition</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:HalkoMartinssonTroppRandomizedSubspaceIterationAndLowRankMatrixDecomposition</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Two-Stage Randomized SVD and QR-Stabilized Subspace Power Iteration, Halko-Martinsson-Tropp Randomized Range Finder and Matrix Approximation Framework
+    </div>
+
+  <div class="detail-desc">
+    A modular two-stage randomized matrix decomposition framework that in Stage A constructs an m x l orthonormal range basis Q (with l = k + p oversampling) via Gaussian random projection Y = A*Omega, adaptive a posteriori Gaussian residual stopping, QR-stabilized subspace power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.4), or O(m*n*log(l)) Subsampled Random Fourier Transform Omega = sqrt(n/l)*D*F*R (Algorithm 4.5), and in Stage B computes low-rank SVD, Interpolative Decomposition row extraction, PSD Nystrom Cholesky-SVD A approx (A*Q)*(Q^* A*Q)^{-1}*(A*Q)^*, or single-pass streaming decompositions, achieving the deterministic projector bound ||(I - P_Y)*A||^2 &lt;= ||Sigma_2||^2 + ||Sigma_2 * Omega_2 * Omega_1^dagger||^2.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No AIO class represents the Halko-Martinsson-Tropp two-stage randomized range finder and QR-stabilized subspace iteration framework; DimensionalityReduction (AIO:DimensionalityReduction) and PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) are the closest broad matches covering low-rank spectral and SVD dimensionality reduction.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-stage-range-finder-qr-stabilized-subspace-iteration-and-nystrom-postprocessing</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Stage A constructs an orthonormal range basis Q via Gaussian projection Y = A*Omega (Algorithm 4.1), adaptive a posteriori error estimation terminating when r consecutive projected Gaussian vectors satisfy ||(I - Q^{(j)}(Q^{(j)})^*)A*omega^{(i)}|| &lt;= eps / (10*sqrt(2/pi)) with failure probability at most min{m, n}*10^{-r} (Algorithm 4.2, Lemma 4.1), QR-stabilized subspace iteration Y_0 = A*Omega = Q_0*R_0, Y_tilde_j = A^* Q_{j-1} = Q_tilde_j*R_tilde_j, Y_j = A*Q_tilde_j = Q_j*R_j (Algorithm 4.4), or Subsampled Random Fourier Transform Omega = sqrt(n/l)*D*F*R in O(m*n*log(l) + l^2*n) flops (Algorithm 4.5); Stage B then extracts Direct SVD B = Q^* A = U_tilde*Sigma*V^*, U = Q*U_tilde preserving ||A - U*Sigma*V^*|| &lt;= eps (Algorithm 5.1) or PSD Nystrom Cholesky-SVD A approx (A*Q)*(Q^* A*Q)^{-1}*(A*Q)^* whose spectral error never exceeds ||A - Q*Q^* A|| (Algorithm 5.5).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r839-primary-pdf">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.6, Algorithms 4.1-4.5 and Lemma 4.1, pp. 21-28; Section 5.1-5.5, Algorithms 5.1-5.6 and Lemma 5.1, pp. 29-35</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#deterministic-projector-perturbation-and-gaussian-inverted-wishart-error-bounds</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Using the Loewner inverse perturbation I - (I + F^* F)^{-1} &lt;= F^* F (Proposition 8.2) on the flattened range matrix Z = [I; F] with F = Sigma_2*Omega_2*Omega_1^dagger*Sigma_1^{-1}, Theorem 9.1 proves |||(I - P_Y)A|||^2 &lt;= |||Sigma_2|||^2 + |||Sigma_2*Omega_2*Omega_1^dagger|||^2 in both spectral and Frobenius norms; combined with Proposition 8.6 (||P*M|| &lt;= ||P*(M*M^*)^q*M||^{1/(2q+1)}), Proposition 10.2 (E||Omega_1^dagger||_F^2 = k/(p - 1), E||Omega_1^dagger|| &lt;= e*sqrt(k + p)/p), and Gordon&#39;s inequality, this yields E||(I - P_Y)A||_F &lt;= sqrt(1 + k/(p - 1))*||Sigma_2||_F (Theorem 10.5), E||(I - P_Y)A|| &lt;= (1 + sqrt(k/(p - 1)))*sigma_{k+1} + (e*sqrt(k + p)/p)*||Sigma_2||_F (Theorem 10.6), and exponential power-iteration decay in (2q + 1) (Theorem 9.2, Corollary 10.10).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r839-primary-pdf">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 8-9, Propositions 8.2-8.6 and Theorems 9.1-9.3, pp. 48-55; Section 10, Propositions 10.1-10.4, Theorems 10.5-10.8, and Corollary 10.10, pp. 55-61; Appendix A, pp. 64-69</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#laplace-integral-operators-graph-laplacian-image-denoising-and-out-of-core-eigenfaces-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Applied to discretized single-layer Laplace contour operators and 140,000 x 140,000 lattice transfer matrices, nonlocal 9025 x 9025 patch-similarity graph Laplacians for image processing, and out-of-core 98,304 x 7,254 FERET eigenface matrices (5.4 GB uncompressed), the framework achieves machine-precision operator compression and 3-5 pass spectral convergence with multi-fold speedups over deterministic rank-revealing QR and LAPACK dgesdd.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r839-primary-pdf">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 7.1-7.4, Figures 7.1-7.8 and Table 7.1, pp. 38-47</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#unnormalized-power-iteration-roundoff-underflow-and-single-pass-ill-conditioning-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Executing unnormalized power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.3) in floating-point arithmetic with machine precision mu extinguishes all singular modes smaller than mu^{1/(2q+1)}*||A|| unless intermediate QR orthonormalizations are performed between matrix-vector products (Remark 4.3, Algorithm 4.4); additionally, single-pass streaming recovery B_approx*(Q^* Omega) approx Q^* Y (Algorithm 5.6) amplifies error by 1 / tau_min(Q^* Omega) when Q^* Omega is ill-conditioned (Remark 5.4), and SRFT matrices require O((k + log n)*log k) samples in worst-case coupon-collector decimation regimes with O(k^{-1}) failure probability (Remark 11.2, Theorem 11.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r839-primary-pdf">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions</a></span>
+        <span>· <strong>Locator:</strong> Section 4.5, Remark 4.3, p. 26; Section 5.5, Remark 5.4, pp. 34-35; Section 11.1-11.2, Remark 11.2 and Theorem 11.2, pp. 62-63</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Executing unnormalized power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.3) in floating-point arithmetic with machine precision mu extinguishes all singular modes smaller than mu^{1/(2q+1)}*||A|| unless intermediate QR orthonormalizations are performed between matrix-vector products (Remark 4.3, Algorithm 4.4); additionally, single-pass streaming recovery B_approx*(Q^* Omega) approx Q^* Y (Algorithm 5.6) amplifies error by 1 / tau_min(Q^* Omega) when Q^* Omega is ill-conditioned (Remark 5.4), and SRFT matrices require O((k + log n)*log k) samples in worst-case coupon-collector decimation regimes with O(k^{-1}) failure probability (Remark 11.2, Theorem 11.2).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The two-stage randomized framework projects high-dimensional matrices onto low-dimensional random subspaces to construct rank-k SVD and spectral approximations.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Randomized SVD with subspace power iteration (Algorithms 4.3-4.4 and 5.1) directly computes scalable Principal Component Analysis (PCA) and eigenfaces on large data matrices.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r839-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r839-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0909.4061" target="_blank" rel="noopener">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nathan Halko, Per-Gunnar Martinsson, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0909.4061</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d5d99d95b3d9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r839-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r839-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0909.4061" target="_blank" rel="noopener">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nathan Halko, Per-Gunnar Martinsson, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0909.4061</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5199da2a6cf9…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r839-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r839-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0909.4061" target="_blank" rel="noopener">Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nathan Halko, Per-Gunnar Martinsson, Joel A. Tropp
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0909.4061</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e5fef1195849…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:22:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:22:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/HalkoMartinssonTroppRandomizedSubspaceIterationAndLowRankMatrixDecomposition.yaml" target="_blank" rel="noopener">
+      <code>data/curated/HalkoMartinssonTroppRandomizedSubspaceIterationAndLowRankMatrixDecomposition.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

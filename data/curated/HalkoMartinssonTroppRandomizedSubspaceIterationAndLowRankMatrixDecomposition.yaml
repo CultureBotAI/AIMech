@@ -1,0 +1,101 @@
+id: AIMech:HalkoMartinssonTroppRandomizedSubspaceIterationAndLowRankMatrixDecomposition
+name: Halko-Martinsson-Tropp Randomized Subspace Iteration and Low-Rank Matrix Decomposition
+concept_kind: algorithm
+review_status: DRAFT
+definition: A modular two-stage randomized matrix decomposition framework that in Stage A constructs an m x l orthonormal range basis Q (with l = k + p oversampling) via Gaussian random projection Y = A*Omega, adaptive a posteriori Gaussian residual stopping, QR-stabilized subspace power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.4), or O(m*n*log(l)) Subsampled Random Fourier Transform Omega = sqrt(n/l)*D*F*R (Algorithm 4.5), and in Stage B computes low-rank SVD, Interpolative Decomposition row extraction, PSD Nystrom Cholesky-SVD A approx (A*Q)*(Q^* A*Q)^{-1}*(A*Q)^*, or single-pass streaming decompositions, achieving the deterministic projector bound ||(I - P_Y)*A||^2 <= ||Sigma_2||^2 + ||Sigma_2 * Omega_2 * Omega_1^dagger||^2.
+identity_notes: No AIO class represents the Halko-Martinsson-Tropp two-stage randomized range finder and QR-stabilized subspace iteration framework; DimensionalityReduction (AIO:DimensionalityReduction) and PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) are the closest broad matches covering low-rank spectral and SVD dimensionality reduction.
+aliases:
+- Two-Stage Randomized SVD and QR-Stabilized Subspace Power Iteration
+- Halko-Martinsson-Tropp Randomized Range Finder and Matrix Approximation Framework
+definition_evidence:
+- source_id: r839-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r839-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r839-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: two-stage-range-finder-qr-stabilized-subspace-iteration-and-nystrom-postprocessing
+  kind: mechanism
+  statement: Stage A constructs an orthonormal range basis Q via Gaussian projection Y = A*Omega (Algorithm 4.1), adaptive a posteriori error estimation terminating when r consecutive projected Gaussian vectors satisfy ||(I - Q^{(j)}(Q^{(j)})^*)A*omega^{(i)}|| <= eps / (10*sqrt(2/pi)) with failure probability at most min{m, n}*10^{-r} (Algorithm 4.2, Lemma 4.1), QR-stabilized subspace iteration Y_0 = A*Omega = Q_0*R_0, Y_tilde_j = A^* Q_{j-1} = Q_tilde_j*R_tilde_j, Y_j = A*Q_tilde_j = Q_j*R_j (Algorithm 4.4), or Subsampled Random Fourier Transform Omega = sqrt(n/l)*D*F*R in O(m*n*log(l) + l^2*n) flops (Algorithm 4.5); Stage B then extracts Direct SVD B = Q^* A = U_tilde*Sigma*V^*, U = Q*U_tilde preserving ||A - U*Sigma*V^*|| <= eps (Algorithm 5.1) or PSD Nystrom Cholesky-SVD A approx (A*Q)*(Q^* A*Q)^{-1}*(A*Q)^* whose spectral error never exceeds ||A - Q*Q^* A|| (Algorithm 5.5).
+  evidence:
+  - source_id: r839-primary-pdf
+    locator: Section 4.1-4.6, Algorithms 4.1-4.5 and Lemma 4.1, pp. 21-28; Section 5.1-5.5, Algorithms 5.1-5.6 and Lemma 5.1, pp. 29-35
+    relation: supports
+- claim_id: deterministic-projector-perturbation-and-gaussian-inverted-wishart-error-bounds
+  kind: mechanism
+  statement: Using the Loewner inverse perturbation I - (I + F^* F)^{-1} <= F^* F (Proposition 8.2) on the flattened range matrix Z = [I; F] with F = Sigma_2*Omega_2*Omega_1^dagger*Sigma_1^{-1}, Theorem 9.1 proves |||(I - P_Y)A|||^2 <= |||Sigma_2|||^2 + |||Sigma_2*Omega_2*Omega_1^dagger|||^2 in both spectral and Frobenius norms; combined with Proposition 8.6 (||P*M|| <= ||P*(M*M^*)^q*M||^{1/(2q+1)}), Proposition 10.2 (E||Omega_1^dagger||_F^2 = k/(p - 1), E||Omega_1^dagger|| <= e*sqrt(k + p)/p), and Gordon's inequality, this yields E||(I - P_Y)A||_F <= sqrt(1 + k/(p - 1))*||Sigma_2||_F (Theorem 10.5), E||(I - P_Y)A|| <= (1 + sqrt(k/(p - 1)))*sigma_{k+1} + (e*sqrt(k + p)/p)*||Sigma_2||_F (Theorem 10.6), and exponential power-iteration decay in (2q + 1) (Theorem 9.2, Corollary 10.10).
+  evidence:
+  - source_id: r839-primary-pdf
+    locator: Section 8-9, Propositions 8.2-8.6 and Theorems 9.1-9.3, pp. 48-55; Section 10, Propositions 10.1-10.4, Theorems 10.5-10.8, and Corollary 10.10, pp. 55-61; Appendix A, pp. 64-69
+    relation: supports
+- claim_id: laplace-integral-operators-graph-laplacian-image-denoising-and-out-of-core-eigenfaces-application
+  kind: application
+  statement: Applied to discretized single-layer Laplace contour operators and 140,000 x 140,000 lattice transfer matrices, nonlocal 9025 x 9025 patch-similarity graph Laplacians for image processing, and out-of-core 98,304 x 7,254 FERET eigenface matrices (5.4 GB uncompressed), the framework achieves machine-precision operator compression and 3-5 pass spectral convergence with multi-fold speedups over deterministic rank-revealing QR and LAPACK dgesdd.
+  evidence:
+  - source_id: r839-primary-pdf
+    locator: Section 7.1-7.4, Figures 7.1-7.8 and Table 7.1, pp. 38-47
+    relation: supports
+- claim_id: unnormalized-power-iteration-roundoff-underflow-and-single-pass-ill-conditioning-limitation
+  kind: limitation
+  statement: Executing unnormalized power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.3) in floating-point arithmetic with machine precision mu extinguishes all singular modes smaller than mu^{1/(2q+1)}*||A|| unless intermediate QR orthonormalizations are performed between matrix-vector products (Remark 4.3, Algorithm 4.4); additionally, single-pass streaming recovery B_approx*(Q^* Omega) approx Q^* Y (Algorithm 5.6) amplifies error by 1 / tau_min(Q^* Omega) when Q^* Omega is ill-conditioned (Remark 5.4), and SRFT matrices require O((k + log n)*log k) samples in worst-case coupon-collector decimation regimes with O(k^{-1}) failure probability (Remark 11.2, Theorem 11.2).
+  evidence:
+  - source_id: r839-primary-pdf
+    locator: Section 4.5, Remark 4.3, p. 26; Section 5.5, Remark 5.4, pp. 34-35; Section 11.1-11.2, Remark 11.2 and Theorem 11.2, pp. 62-63
+    relation: supports
+evidence_sources:
+- source_id: r839-primary-pdf
+  title: 'Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions'
+  authors: &id001
+  - Nathan Halko
+  - Per-Gunnar Martinsson
+  - Joel A. Tropp
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/0909.4061
+  persistent_id: https://arxiv.org/abs/0909.4061
+  version: SIAM Review 53(2):217-288 (arXiv:0909.4061v2) (2011) (1287227 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:22:00Z'
+  sha256: d5d99d95b3d9657de6413f4c26d635238103ef9cf1a28ff1b7fde531cf11f6be
+- source_id: r839-arxiv-abs
+  title: 'Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions (arXiv abstract)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0909.4061
+  persistent_id: https://arxiv.org/abs/0909.4061
+  version: arXiv abstract page (1628 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:22:00Z'
+  sha256: 5199da2a6cf96e962efb354b62b30d0b58fbe6aa84a0f10d8faa370786097d7b
+- source_id: r839-metadata-cr
+  title: 'Finding structure with randomness: Probabilistic algorithms for constructing approximate matrix decompositions (Crossref metadata)'
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/0909.4061
+  persistent_id: https://arxiv.org/abs/0909.4061
+  version: Crossref API work record (384 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:22:00Z'
+  sha256: e5fef1195849a9f05bca1331bd7da5b8685b77b25742ea67c4699b6ce8363b4c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DimensionalityReduction
+  relation: broad_match
+  rationale: The two-stage randomized framework projects high-dimensional matrices onto low-dimensional random subspaces to construct rank-k SVD and spectral approximations.
+- target: AIO:PrincipalComponentAnalysis
+  relation: broad_match
+  rationale: Randomized SVD with subspace power iteration (Algorithms 4.3-4.4 and 5.1) directly computes scalable Principal Component Analysis (PCA) and eigenfaces on large data matrices.
+limitations:
+- Executing unnormalized power iteration Y = (A*A^*)^q A*Omega (Algorithm 4.3) in floating-point arithmetic with machine precision mu extinguishes all singular modes smaller than mu^{1/(2q+1)}*||A|| unless intermediate QR orthonormalizations are performed between matrix-vector products (Remark 4.3, Algorithm 4.4); additionally, single-pass streaming recovery B_approx*(Q^* Omega) approx Q^* Y (Algorithm 5.6) amplifies error by 1 / tau_min(Q^* Omega) when Q^* Omega is ill-conditioned (Remark 5.4), and SRFT matrices require O((k + log n)*log k) samples in worst-case coupon-collector decimation regimes with O(k^{-1}) failure probability (Remark 11.2, Theorem 11.2).
+curation:
+  created_at: '2026-10-19T15:22:00Z'
+  updated_at: '2026-10-19T15:22:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
