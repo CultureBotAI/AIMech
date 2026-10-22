@@ -1,0 +1,97 @@
+id: AIMech:MABLEMaximumApproximateBernsteinLikelihoodProportionalHazardsIntervalCensoring
+name: MABLE Maximum Approximate Bernstein Likelihood Estimation in Proportional Hazards Model for Interval-Censored Data
+concept_kind: mathematical_method
+review_status: DRAFT
+definition: A semiparametric survival regression method for Cox's proportional hazards model under interval-censored data that parameterizes the baseline density on [0, tau_n] as a degree-m Bernstein polynomial mixture of Beta densities f_m(t|x_0; p) = tau_n^{-1} sum_{i=0}^m p_i beta_{mi}(t/tau_n) and maximizes the resulting full approximate log-likelihood ell_m(gamma, p) over regression coefficients gamma and simplex weights p in S_{m*} using an alternating Newton-Raphson and multiplicative fixed-point iteration anchored at the empirical baseline covariate x_hat_0(gamma) = argmin_{x_i} gamma^T x_i.
+identity_notes: No AIO class represents Maximum Approximate Bernstein Likelihood Estimation (MABLE) for interval-censored proportional hazards models; RegressionAnalysis (AIO:RegressionAnalysis) is the closest broad match covering semiparametric regression estimation.
+aliases:
+- MABLE Proportional Hazards Estimator
+- Maximum Approximate Bernstein Likelihood Estimator for Interval-Censored Data
+- Bernstein Polynomial Cox Proportional Hazards Estimator
+definition_evidence:
+- source_id: r834-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r834-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r834-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: empirical-baseline-concave-bernstein-loglikelihood-and-multiplicative-fixed-point
+  kind: mechanism
+  statement: Choosing the baseline covariate x_0 to satisfy gamma^T x_0 <= min_{1<=i<=n} gamma^T x_i ensures eta_i = exp(gamma^T (x_i - x_0)) >= 1 for all subjects, making all entries of the Hessian H(gamma, p) = d^2 ell_m(gamma, p) / (dp dp^T) nonpositive and H(gamma, p) negative semi-definite on the simplex S_{m*} (Lemma 1), so the multiplicative fixed-point iteration p_j^{[s+1]} = p_j^{[s]} Psi_bar_j(gamma, p^{[s]}) with lambda_n(gamma) = sum_{i=1}^n exp(gamma^T x_tilde_i) remains nonnegative and converges globally to the maximizer p_tilde(gamma) (Equations 10-13, Theorems 1-2).
+  evidence:
+  - source_id: r834-primary-pdf
+    locator: Section 2.2, Equations 10-13, Lemmas 1-2 and Theorems 1-2, pp. 6-7; Appendix 7.1, Equation 20, pp. 18-19
+    relation: supports
+- claim_id: changepoint-degree-selection-and-asymptotic-normality
+  kind: mechanism
+  statement: MABLE selects the optimal Bernstein polynomial degree m_hat by maximizing the change-point log-likelihood increment ratio statistic R(m_i) over candidate degrees {m_0, ..., m_k} (Section 2.3) and achieves almost-sure consistency ||gamma_hat - gamma_0||^2 <= C n^{-1+epsilon} and D_i^2(p_hat; x_hat_0) <= C n^{-1+epsilon} (Theorem 4) alongside root-n asymptotic normality sqrt(n)(gamma_tilde - gamma_0) -> N(0, I^{-1}) when m >= C n^{1/rho} (Theorem 5).
+  evidence:
+  - source_id: r834-primary-pdf
+    locator: Section 2.3, p. 8; Section 3.1-3.2, Theorems 4-5, pp. 9-11
+    relation: supports
+- claim_id: smooth-survival-and-hazard-estimation-under-interval-censoring-application
+  kind: application
+  statement: MABLE is applied to estimate smooth baseline survival curves, hazard rates, and covariate hazard ratios from interval-censored and right-censored clinical survival data (such as the Stanford Heart Transplant and Ovarian Cancer studies), avoiding the jagged step-function artifacts of Turnbull's NPMLE.
+  evidence:
+  - source_id: r834-primary-pdf
+    locator: Section 4-5, Table 1 and Figures 1-4, pp. 12-17
+    relation: supports
+- claim_id: right-tail-unidentifiability-and-high-degree-simplex-nonuniqueness-limitation
+  kind: limitation
+  statement: When the largest observed time tau_n is right-censored with F(tau_n|x_0) < 1, the baseline density on (tau_n, infinity) is nonparametrically unidentifiable and requires an external tail specification alpha(t - tau_n) (Section 2.1-2.2, Equations 4-5); moreover, if the Bernstein degree m exceeds the number of distinct Turnbull inspection endpoints, the maximizer p_hat on the simplex may not be unique even when the fitted survival curve at the endpoints is invariant (Theorem 1, Section 5.1).
+  evidence:
+  - source_id: r834-primary-pdf
+    locator: Section 2.1-2.2, pp. 4-6; Theorem 1, p. 6; Section 5.1, Figure 2, p. 14
+    relation: supports
+evidence_sources:
+- source_id: r834-primary-pdf
+  title: Maximum Approximate Bernstein Likelihood Estimation in Proportional Hazard Model for Interval-Censored Data
+  authors: &id001
+  - Zhong Guan
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1906.08882
+  persistent_id: https://arxiv.org/abs/1906.08882
+  version: arXiv preprint arXiv:1906.08882v3 (2019) (610985 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:17:00Z'
+  sha256: 6ec93d42d9c6295845a920315013a96d694ae649e62c9844709e63d2d0a633c0
+- source_id: r834-arxiv-abs
+  title: Maximum Approximate Bernstein Likelihood Estimation in Proportional Hazard Model for Interval-Censored Data (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1906.08882
+  persistent_id: https://arxiv.org/abs/1906.08882
+  version: arXiv abstract page (867 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:17:00Z'
+  sha256: d0c8dd675d2ef17818f988874d5aeb04cd113eb9241b3741ea5efbe4c72773e1
+- source_id: r834-metadata-cr
+  title: Maximum Approximate Bernstein Likelihood Estimation in Proportional Hazard Model for Interval-Censored Data (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1906.08882
+  persistent_id: https://arxiv.org/abs/1906.08882
+  version: Crossref API work record (344 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:17:00Z'
+  sha256: 85744c284115692349b164a703b2770d8ff6ecc65060587508cb8c8f15b916f3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RegressionAnalysis
+  relation: broad_match
+  rationale: MABLE estimates regression coefficients and smooth baseline survival/density functions in Cox proportional hazards regression models under interval censoring.
+limitations:
+- When the largest observed time tau_n is right-censored with F(tau_n|x_0) < 1, the baseline density on (tau_n, infinity) is nonparametrically unidentifiable and requires an external tail specification alpha(t - tau_n) (Section 2.1-2.2, Equations 4-5); moreover, if the Bernstein degree m exceeds the number of distinct Turnbull inspection endpoints, the maximizer p_hat on the simplex may not be unique even when the fitted survival curve at the endpoints is invariant (Theorem 1, Section 5.1).
+curation:
+  created_at: '2026-10-19T15:17:00Z'
+  updated_at: '2026-10-19T15:17:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
