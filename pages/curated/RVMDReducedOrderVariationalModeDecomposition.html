@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RVMD Reduced-Order Variational Mode Decomposition · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>RVMD Reduced-Order Variational Mode Decomposition</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">RVMD Reduced-Order Variational Mode Decomposition</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:RVMDReducedOrderVariationalModeDecomposition</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Reduced-Order Variational Mode Decomposition, RVMD Spatiotemporal Modal Decomposition, Wiener-Filtered Block Coordinate Descent Reduced-Order VMD
+    </div>
+
+  <div class="detail-desc">
+    A spatiotemporal modal decomposition and dimensionality reduction algorithm that represents a high-dimensional space-time field q(x, t) as a rank-K expansion sum_{k=1}^K phi_k(x) c_k(t) with unit-norm spatial modes ||phi_k||_x = 1 and minimizes the sum of the space-time reconstruction error and the analytic-signal spectral bandwidth penalty sum_{k=1}^K int_0^infty 2*alpha*(omega - omega_k)^2 |c_hat_k(omega)|^2 d_omega via Block Coordinate Descent alternating residual spatial projection, second-order Wiener filtering g_hat_k(omega) = 1 / [1 + 2*alpha*(omega - omega_k)^2], and power-spectrum center-of-gravity frequency updates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No AIO class represents Reduced-Order Variational Mode Decomposition (RVMD); DimensionalityReduction (AIO:DimensionalityReduction) and PrincipalComponentAnalysis (AIO:PrincipalComponentAnalysis) are the closest broad matches covering low-rank orthogonal/non-orthogonal modal reduction of high-dimensional data.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#block-coordinate-descent-wiener-filtered-spatiotemporal-alternating-updates</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    By applying Parseval&#39;s theorem to transform the time-domain analytic-signal Hilbert bandwidth penalty into the positive-frequency domain (Equations 9, 17-18), RVMD minimizes F({phi_k, c_hat_k^+, omega_k}) via Block Coordinate Descent over the residual R_hat_k^+ = Q_hat^+ - sum_{i != k} phi_i (c_hat_i^+)^T (Equation 36), alternately updating the normalized spatial mode phi_k^{n+1} = Re{R_hat_k^+ (c_hat_k^+)^*} / ||Re{R_hat_k^+ (c_hat_k^+)^*}|| (Equation 39), the second-order Wiener-filtered temporal spectrum c_hat_k^{+,n+1} = G_hat_k^+ (R_hat_k^+)^T phi_k with g_hat_i^+ = 1 / [1 + 2*alpha*(omega_i^+ - omega_k)^2] (Equations 38, 40), and the center-of-gravity central frequency omega_k^{n+1} = ((c_hat_k^+)^H W^+ c_hat_k^+) / ((c_hat_k^+)^H c_hat_k^+) (Equation 41).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r836-primary-pdf">Reduced-order variational mode decomposition</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, Equations 9-42 and Algorithm, pp. 5-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#filtered-two-point-correlation-eigenvalue-problem-and-pod-dft-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At BCD convergence, each RVMD spatial mode satisfies the Wiener-filtered two-point spatial correlation eigenvalue equation R_hat_k G_hat_k R_hat_k^H phi_k = lambda_k phi_k (Equation 47) with exact half-power filter bandwidth Delta = sqrt((2*sqrt(2) - 2)/alpha) (Equation 48), continuously bridging Proper Orthogonal Decomposition (POD, as alpha -&gt; 0 and G_hat_k -&gt; I, Equations 49-51) and single-frequency Discrete Fourier Transform modes (as alpha -&gt; infty and Delta -&gt; 0, Section 3.2).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r836-primary-pdf">Reduced-order variational mode decomposition</a></span>
+        <span>· <strong>Locator:</strong> Section 2.3-2.4, Equations 44-48, pp. 11-13; Section 3.1-3.2, Equations 49-51, pp. 14-15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#nonstationary-transient-wake-and-supersonic-screeching-jet-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Coupled with Hilbert spectral analysis (Equations 52-55), RVMD resolves non-stationary transient growth, shift-modes, and limit-cycle harmonics in a two-dimensional cylinder wake at Re = 100 and isolates intermittent screech-tone feedback modes in a three-dimensional turbulent supersonic rectangular jet at M_j = 1.55.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r836-primary-pdf">Reduced-order variational mode decomposition</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1-4.2, Equations 52-55 and Figures 2-15, pp. 16-28</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#nonconvex-initialization-sensitivity-and-nonorthogonal-mode-energy-sharing-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because the joint optimization over {phi_k, c_hat_k, omega_k} is non-convex and does not enforce strict spatial or temporal orthogonality across modes for general alpha &gt; 0, converged RVMD modes depend on the initial central-frequency distribution {omega_k^0} and penalty factor alpha and can share overlapping spectral energy when bandwidths intersect (Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r836-primary-pdf">Reduced-order variational mode decomposition</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because the joint optimization over {phi_k, c_hat_k, omega_k} is non-convex and does not enforce strict spatial or temporal orthogonality across modes for general alpha &gt; 0, converged RVMD modes depend on the initial central-frequency distribution {omega_k^0} and penalty factor alpha and can share overlapping spectral energy when bandwidths intersect (Section 2.2, p. 11; Section 3.1, p. 14; Appendix A, pp. 29-31).</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DimensionalityReduction.html" style="font-weight: 600;"><code>AIO:DimensionalityReduction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dimensionality Reduction</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            RVMD extracts a low-rank rank-K spatiotemporal representation from high-dimensional space-time datasets with tunable spectral bandwidth compression.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/PrincipalComponentAnalysis.html" style="font-weight: 600;"><code>AIO:PrincipalComponentAnalysis</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Principal Component Analysis</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            In the zero-penalty broadband limit alpha -&gt; 0 under spatial orthogonality, RVMD reduces exactly to Proper Orthogonal Decomposition (POD / PCA) on the two-point spatial correlation tensor.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r836-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r836-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/2209.12437" target="_blank" rel="noopener">Reduced-order variational mode decomposition</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zi-Mo Liao, Zhiye Zhao, Liang-Bing Chen, Zhen-Hua Wan, Nan-Sheng Liu, Xi-Yun Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2209.12437</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:87b55cfa0ecf…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r836-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r836-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2209.12437" target="_blank" rel="noopener">Reduced-order variational mode decomposition (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zi-Mo Liao, Zhiye Zhao, Liang-Bing Chen, Zhen-Hua Wan, Nan-Sheng Liu, Xi-Yun Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2209.12437</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:f51db16477ae…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r836-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r836-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/2209.12437" target="_blank" rel="noopener">Reduced-order variational mode decomposition (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Zi-Mo Liao, Zhiye Zhao, Liang-Bing Chen, Zhen-Hua Wan, Nan-Sheng Liu, Xi-Yun Lu
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/2209.12437</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:1102a9e39296…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:19:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:19:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/RVMDReducedOrderVariationalModeDecomposition.yaml" target="_blank" rel="noopener">
+      <code>data/curated/RVMDReducedOrderVariationalModeDecomposition.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
