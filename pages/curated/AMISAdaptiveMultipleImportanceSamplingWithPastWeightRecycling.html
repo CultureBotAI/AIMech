@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/algorithm.html">Algorithms</a>
+  <span>/</span>
+  <strong>AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">AMIS Adaptive Multiple Importance Sampling with Past-Weight Recycling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Adaptive Multiple Importance Sampling, AMIS Past-Weight Recycling Importance Sampler, Cornuet-Marin-Mira-Robert Adaptive Multiple Importance Sampling
+    </div>
+
+  <div class="detail-desc">
+    An adaptive importance sampling algorithm that iteratively updates parametric proposal distributions (such as multivariate Student-t densities fitted via weighted moment matching) while recycling all previously simulated particles at every iteration t by incrementally updating each past particle&#39;s Owen-Zhou deterministic multiple mixture denominator delta_i^l &lt;- delta_i^l + N_t q_t(x_i^l) and recomputing importance weights omega_i^l = pi(x_i^l) / (delta_i^l / sum_{j=0}^t N_j) across the entire pooled trajectory.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No AIO class represents Adaptive Multiple Importance Sampling (AMIS); MarkovChain (AIO:MarkovChain) is the closest broad match covering iterative stochastic simulation and Monte Carlo sampling processes.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#incremental-deterministic-mixture-past-weight-recycling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At each adaptation stage t = 1, ..., T, AMIS evaluates the new proposal density q_t(x; theta^{t-1}) on all previously generated particles x_i^l (0 &lt;= l &lt;= t-1) to incrementally update their unnormalized mixture denominators delta_i^l &lt;- delta_i^l + N_t q_t(x_i^l) and importance weights omega_i^l = pi(x_i^l) / [delta_i^l / sum_{j=0}^t N_j] (Algorithm 1, Equations 2-5), achieving exact deterministic-mixture pooling in (T+1) sum_{t=0}^T N_t density evaluations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r833-primary-pdf">Adaptive Multiple Importance Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 2-3, Equations 2-5 and Algorithm 1, pp. 3-6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#student-t-moment-matching-and-ess-scale-hierarchy-initialization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AMIS updates multivariate Student-t proposal parameters T_3(mu^t, Sigma^t) using the pooled deterministic-mixture importance weights across all stages 0 &lt;= l &lt;= t (Equation 6) and initializes the baseline covariance scale via a geometric hierarchy sigma_0 * 2^eta,eta in {-4,...,8}, selecting the scale that maximizes the Effective Sample Size (ESS) before launching sequential adaptation (Section 4).
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r833-primary-pdf">Adaptive Multiple Importance Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 3, Equation 6, pp. 6-7; Section 4, pp. 7-9</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#banana-shaped-posterior-and-population-genetics-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    AMIS is applied to Bayesian posterior integration, marginal likelihood estimation, and population genetics coalescent inference, substantially increasing Effective Sample Size and reducing estimator mean squared error on strongly twisted banana-shaped target distributions compared to unrecycled Population Monte Carlo.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r833-primary-pdf">Adaptive Multiple Importance Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 6, Figures 2-5, pp. 11-16</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#adaptive-proposal-dependence-bias-and-quadratic-stage-cost-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because adapted proposal parameters theta^t depend on earlier simulated particles, the retroactively reweighted terms for fixed stage sizes N_t are not strictly unbiased in finite samples (exhibiting bias when N_t = 1, Section 5) and require N_T -&gt; infinity for asymptotic consistency (Lemma 1), while evaluating every new proposal on all past draws incurs O(T sum_{t=0}^T N_t) proposal evaluations.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r833-primary-pdf">Adaptive Multiple Importance Sampling</a></span>
+        <span>· <strong>Locator:</strong> Section 3, p. 5; Section 5, Lemma 1 and Figure 1, pp. 9-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because adapted proposal parameters theta^t depend on earlier simulated particles, the retroactively reweighted terms for fixed stage sizes N_t are not strictly unbiased in finite samples (exhibiting bias when N_t = 1, Section 5) and require N_T -&gt; infinity for asymptotic consistency (Lemma 1), while evaluating every new proposal on all past draws incurs O(T sum_{t=0}^T N_t) proposal evaluations.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            AMIS is an iterative Monte Carlo sampling algorithm that adapts sequential proposal distributions across stages to approximate posterior and target expectations.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r833-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r833-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/0907.1254" target="_blank" rel="noopener">Adaptive Multiple Importance Sampling</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-Marie Cornuet, Jean-Michel Marin, Antonietta Mira, Christian P. Robert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0907.1254</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:013bb11954af…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r833-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r833-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0907.1254" target="_blank" rel="noopener">Adaptive Multiple Importance Sampling (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-Marie Cornuet, Jean-Michel Marin, Antonietta Mira, Christian P. Robert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0907.1254</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5b75957b67d8…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r833-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r833-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/0907.1254" target="_blank" rel="noopener">Adaptive Multiple Importance Sampling (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Jean-Marie Cornuet, Jean-Michel Marin, Antonietta Mira, Christian P. Robert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/0907.1254</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:117829116cb3…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:16:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:16:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/AMISAdaptiveMultipleImportanceSamplingWithPastWeightRecycling.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>
