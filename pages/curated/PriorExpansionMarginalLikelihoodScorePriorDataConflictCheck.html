@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="breadcrumbs">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../browse.html?origin=curated">Curated</a>
+  <span>/</span>
+  <a href="../kinds/evaluation_method.html">Evaluation Methods</a>
+  <span>/</span>
+  <strong>Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check</strong>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check</h1>
+    <span class="badge badge-curated">Evaluation Methods</span>
+    <span class="detail-id">AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Prior-Expansion Score Conflict Check, Marginal Likelihood Score Prior-Data Conflict Diagnostic, Prior Expansion Score Statistic for Prior-Data Conflict
+    </div>
+
+  <div class="detail-desc">
+    A Bayesian model criticism and prior-data conflict evaluation method that embeds a working prior p_0(theta) into a continuous expansion family p(theta | gamma) indexed by a hyperparameter gamma (with p(theta | gamma_0) = p_0(theta)) and evaluates the score of the log marginal likelihood S_gamma(y) = d/dgamma log p(y | gamma)|_{gamma_0} as a posterior expectation of the prior score, computing a prior-predictive tail probability on the variance-standardized score statistic to detect conflict between prior assumptions and observed data.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      No AIO class represents Bayesian prior-data conflict diagnostics; MachineLearningTask (AIO:MachineLearningTask) is the closest broad match covering model criticism and diagnostic evaluation tasks.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#posterior-expectation-identity-for-marginal-likelihood-score</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a smooth prior expansion p(theta | gamma) reducing to p_0(theta) at gamma = gamma_0, the gradient of the log marginal likelihood S_gamma(y) = grad_gamma log p(y | gamma)|_{gamma_0} equals the posterior expectation E[grad_gamma log p(theta | gamma)|_{gamma_0} | y, gamma_0], allowing the test statistic to be computed from baseline posterior MCMC samples without refitting expanded models.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r831-primary-pdf">Using prior expansions for prior-data conflict checking</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Equation 1.1, p. 2; Section 2.1, Equation 2.1, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#prior-predictive-quadratic-score-tail-calibration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Standardizing the score vector by its prior predictive covariance V_gamma = Cov_{Y ~ p(y|gamma_0)}(S_gamma(Y)) yields the quadratic discrepancy statistic Q(y) = S_gamma(y)^T V_gamma^{-1} S_gamma(y) and prior-predictive p-value p_S(y_obs) = P(Q(Y) &gt;= Q(y_obs)), which recovers the Evans-Moshonov minimal sufficient statistic check in exponential families and connects locally to relative belief ratios.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r831-primary-pdf">Using prior expansions for prior-data conflict checking</a></span>
+        <span>· <strong>Locator:</strong> Section 1, Equations 1.2-1.3, p. 3; Section 2.2, Equation 2.4, p. 7; Section 3, Equations 3.1-3.2, pp. 9-11</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-application">Application</span>
+      <code style="font-size: 0.8rem;">#hierarchical-and-regression-prior-sensitivity-application</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The prior-expansion score diagnostic is applied to detect componentwise prior-data conflict in Bayesian regression, generalized linear models, and hierarchical random-effects models using location, scale, and heavy-tailed Student-t prior expansions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r831-primary-pdf">Using prior expansions for prior-data conflict checking</a></span>
+        <span>· <strong>Locator:</strong> Section 4, Examples 4.1-4.3, pp. 13-20</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#local-first-order-expansion-direction-dependence-limitation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Because S_gamma(y) is a local first-order derivative evaluated at gamma = gamma_0, its sensitivity depends on the chosen parametric expansion family p(theta | gamma), and calibrating p_S(y_obs) requires simulating from the prior predictive distribution p(y | gamma_0) when analytical moments are unavailable.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-r831-primary-pdf">Using prior expansions for prior-data conflict checking</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1-2.2, pp. 5-8; Section 5 Discussion, pp. 20-21</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Because S_gamma(y) is a local first-order derivative evaluated at gamma = gamma_0, its sensitivity depends on the chosen parametric expansion family p(theta | gamma), and calibrating p_S(y_obs) requires simulating from the prior predictive distribution p(y | gamma_0) when analytical moments are unavailable.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html" style="font-weight: 600;"><code>AIO:MachineLearningTask</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Machine Learning Task</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Prior-expansion marginal likelihood score checking is a diagnostic evaluation method for Bayesian statistical and machine learning models.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">3 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-r831-primary-pdf">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r831-primary-pdf</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1902.10393" target="_blank" rel="noopener">Using prior expansions for prior-data conflict checking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David J. Nott, Micheal Seah, Luai Al-Labadi, Michael Evans, Hui Khoon Ng, Berthold-Georg Englert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.10393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:2d36e3af352a…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r831-arxiv-abs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r831-arxiv-abs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.10393" target="_blank" rel="noopener">Using prior expansions for prior-data conflict checking (arXiv abstract)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David J. Nott, Micheal Seah, Luai Al-Labadi, Michael Evans, Hui Khoon Ng, Berthold-Georg Englert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.10393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:e5970500f821…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-r831-metadata-cr">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">r831-metadata-cr</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/abs/1902.10393" target="_blank" rel="noopener">Using prior expansions for prior-data conflict checking (Crossref metadata)</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            David J. Nott, Micheal Seah, Luai Al-Labadi, Michael Evans, Hui Khoon Ng, Berthold-Georg Englert
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">abstract_only</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://arxiv.org/abs/1902.10393</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:fe7536d15e65…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Antigravity</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> Gemini</div>    <div><strong>Created:</strong> 2026-10-19T15:14:00Z</div>
+    <div><strong>Updated:</strong> 2026-10-19T15:14:00Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml</code>
+    </a>
+  </div>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding & Curated Claim Evidence · data: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code></p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

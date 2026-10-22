@@ -1,0 +1,350 @@
+# Scientific author self-review of Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check
+
+- Review: 20261019T151430Z-prior-expansion-marginal-likelihood-score-conflict-check
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T15:14:00Z
+- Finished UTC: 2026-10-19T15:14:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check as a distinct DRAFT evaluation_method. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 9107c8f30cda117bb14ba60b7242938e7195b64d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml | maintained | Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | Validated history sidecar files. |
+| python3 prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py | passed | True | AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck | [PASS] Round 831 Prior-Expansion Score Check verified: &#124;S_marg - E_post&#124;=0.0, Q=2.250-&gt;10.240, p_S=0.1336-&gt;0.00137 |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.
+
+Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check is a distinct concept.
+
+No AIO class represents Bayesian prior-data conflict diagnostics; MachineLearningTask (AIO:MachineLearningTask) is the closest broad match covering model criticism and diagnostic evaluation tasks.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py passed with exit code 0: [PASS] Round 831 Prior-Expansion Score Check verified: &#124;S_marg - E_post&#124;=0.0, Q=2.250-&gt;10.240, p_S=0.1336-&gt;0.00137
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T151400Z-prior-expansion-marginal-likelihood-score-conflict-check.json | supports | No normalized identity match for AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py | supports | All constructed boundary assertions in prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py passed with exit code 0: [PASS] Round 831 Prior-Expansion Score Check verified: &#124;S_marg - E_post&#124;=0.0, Q=2.250-&gt;10.240, p_S=0.1336-&gt;0.00137 |
+| r831-primary-pdf | https://arxiv.org/pdf/1902.10393; Full-text PDF | supports | Full-text PDF (Bayesian Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020)) read and verified. |
+| r831-arxiv-abs | https://arxiv.org/abs/1902.10393; arXiv abstract | supports | arXiv abstract read and verified. |
+| r831-metadata-cr | https://arxiv.org/abs/1902.10393; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck in Round 831.
+- All pages of Bayesian Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T151430Z-prior-expansion-marginal-likelihood-score-conflict-check
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Prior-Expansion Marginal Likelihood Score
+  Prior-Data Conflict Check
+started_at: '2026-10-19T15:14:00Z'
+finished_at: '2026-10-19T15:14:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+    against existing AIMech and AIO records and verified all claims against Bayesian
+    Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020) and pure-Python boundary checks.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check
+  as a distinct DRAFT evaluation_method. All three claims are supported by full-text
+  primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 9107c8f30cda117bb14ba60b7242938e7195b64d
+  state: working_tree
+  inputs:
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml
+    sha256: d8468a54868630caefd3ef73e38486f9433e0bb5f8223161e8afde8b7a7d9f45
+    role: target
+  - path: research/discovery/20261019T151400Z-prior-expansion-marginal-likelihood-score-conflict-check.json
+    sha256: 8a9fc65e259aff9e8b03151d803fb304bd6751ecc99050c6d52167319a51f6db
+    role: context
+  - path: research/discovery/prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+    sha256: 52ec006520e4efba337f4a679b0cac0995fe382b5ff607da2b39319481057c33
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  path: data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml
+  label: Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck.yaml
+    and its primary evidence.
+  selection: 'Exact maintained ID: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+  command: python3 research/discovery/prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '[PASS] Round 831 Prior-Expansion Score Check verified: |S_marg - E_post|=0.0,
+    Q=2.250->10.240, p_S=0.1336->0.00137'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T151400Z-prior-expansion-marginal-likelihood-score-conflict-check.json
+  accessed_at: '2026-10-19T15:14:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+    across AIO and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T15:14:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+  accessed_at: '2026-10-19T15:14:00Z'
+  snapshot_sha256: 52ec006520e4efba337f4a679b0cac0995fe382b5ff607da2b39319481057c33
+  support: supports
+  summary: 'All constructed boundary assertions in prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+    passed with exit code 0: [PASS] Round 831 Prior-Expansion Score Check verified:
+    |S_marg - E_post|=0.0, Q=2.250->10.240, p_S=0.1336->0.00137'
+- evidence_id: r831-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1902.10393
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T15:14:00Z'
+  snapshot_sha256: 2d36e3af352ac38b3811af3540aed3d115be5f4b4f6ecdadb4ec8fec74d07a99
+  support: supports
+  summary: Full-text PDF (Bayesian Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020))
+    read and verified.
+- evidence_id: r831-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/1902.10393
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T15:14:00Z'
+  snapshot_sha256: e5970500f821b654f1d19dc9daa3acee776fd95af538fc4648f744ce59abb06a
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r831-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/abs/1902.10393
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T15:14:00Z'
+  snapshot_sha256: fe7536d15e65290701bae986f97b7bebf029a25b47291250e38001bf1d81feec
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  evidence_ids:
+  - identity
+  - r831-primary-pdf
+  - r831-arxiv-abs
+  - r831-metadata-cr
+  summary: Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check is
+    a distinct concept.
+  details: No AIO class represents Bayesian prior-data conflict diagnostics; MachineLearningTask
+    (AIO:MachineLearningTask) is the closest broad match covering model criticism
+    and diagnostic evaluation tasks.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  evidence_ids:
+  - mapping
+  - r831-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  evidence_ids:
+  - r831-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in prior-expansion-marginal-likelihood-score-conflict-check-boundaries.py
+    passed with exit code 0: [PASS] Round 831 Prior-Expansion Score Check verified:
+    |S_marg - E_post|=0.0, Q=2.250->10.240, p_S=0.1336->0.00137'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  evidence_ids:
+  - identity
+  - mapping
+  - r831-primary-pdf
+  - r831-arxiv-abs
+  - r831-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+  in Round 831.
+- All pages of Bayesian Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020) were read
+  in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

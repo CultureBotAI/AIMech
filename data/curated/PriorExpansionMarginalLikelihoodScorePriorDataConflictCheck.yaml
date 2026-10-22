@@ -1,0 +1,102 @@
+id: AIMech:PriorExpansionMarginalLikelihoodScorePriorDataConflictCheck
+name: Prior-Expansion Marginal Likelihood Score Prior-Data Conflict Check
+concept_kind: evaluation_method
+review_status: DRAFT
+definition: A Bayesian model criticism and prior-data conflict evaluation method that embeds a working prior p_0(theta) into a continuous expansion family p(theta | gamma) indexed by a hyperparameter gamma (with p(theta | gamma_0) = p_0(theta)) and evaluates the score of the log marginal likelihood S_gamma(y) = d/dgamma log p(y | gamma)|_{gamma_0} as a posterior expectation of the prior score, computing a prior-predictive tail probability on the variance-standardized score statistic to detect conflict between prior assumptions and observed data.
+identity_notes: No AIO class represents Bayesian prior-data conflict diagnostics; MachineLearningTask (AIO:MachineLearningTask) is the closest broad match covering model criticism and diagnostic evaluation tasks.
+aliases:
+- Prior-Expansion Score Conflict Check
+- Marginal Likelihood Score Prior-Data Conflict Diagnostic
+- Prior Expansion Score Statistic for Prior-Data Conflict
+definition_evidence:
+- source_id: r831-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r831-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r831-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: posterior-expectation-identity-for-marginal-likelihood-score
+  kind: mechanism
+  statement: For a smooth prior expansion p(theta | gamma) reducing to p_0(theta) at gamma = gamma_0, the gradient of the log marginal likelihood S_gamma(y) = grad_gamma log p(y | gamma)|_{gamma_0} equals the posterior expectation E[grad_gamma log p(theta | gamma)|_{gamma_0} | y, gamma_0], allowing the test statistic to be computed from baseline posterior MCMC samples without refitting expanded models.
+  evidence:
+  - source_id: r831-primary-pdf
+    locator: Section 1, Equation 1.1, p. 2; Section 2.1, Equation 2.1, p. 5
+    relation: supports
+- claim_id: prior-predictive-quadratic-score-tail-calibration
+  kind: mechanism
+  statement: Standardizing the score vector by its prior predictive covariance V_gamma = Cov_{Y ~ p(y|gamma_0)}(S_gamma(Y)) yields the quadratic discrepancy statistic Q(y) = S_gamma(y)^T V_gamma^{-1} S_gamma(y) and prior-predictive p-value p_S(y_obs) = P(Q(Y) >= Q(y_obs)), which recovers the Evans-Moshonov minimal sufficient statistic check in exponential families and connects locally to relative belief ratios.
+  evidence:
+  - source_id: r831-primary-pdf
+    locator: Section 1, Equations 1.2-1.3, p. 3; Section 2.2, Equation 2.4, p. 7; Section 3, Equations 3.1-3.2, pp. 9-11
+    relation: supports
+- claim_id: hierarchical-and-regression-prior-sensitivity-application
+  kind: application
+  statement: The prior-expansion score diagnostic is applied to detect componentwise prior-data conflict in Bayesian regression, generalized linear models, and hierarchical random-effects models using location, scale, and heavy-tailed Student-t prior expansions.
+  evidence:
+  - source_id: r831-primary-pdf
+    locator: Section 4, Examples 4.1-4.3, pp. 13-20
+    relation: supports
+- claim_id: local-first-order-expansion-direction-dependence-limitation
+  kind: limitation
+  statement: Because S_gamma(y) is a local first-order derivative evaluated at gamma = gamma_0, its sensitivity depends on the chosen parametric expansion family p(theta | gamma), and calibrating p_S(y_obs) requires simulating from the prior predictive distribution p(y | gamma_0) when analytical moments are unavailable.
+  evidence:
+  - source_id: r831-primary-pdf
+    locator: Section 2.1-2.2, pp. 5-8; Section 5 Discussion, pp. 20-21
+    relation: supports
+evidence_sources:
+- source_id: r831-primary-pdf
+  title: Using prior expansions for prior-data conflict checking
+  authors: &id001
+  - David J. Nott
+  - Micheal Seah
+  - Luai Al-Labadi
+  - Michael Evans
+  - Hui Khoon Ng
+  - Berthold-Georg Englert
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1902.10393
+  persistent_id: https://arxiv.org/abs/1902.10393
+  version: Bayesian Analysis 15(1):239-265 (arXiv:1902.10393v2) (2020) (2279089 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:14:00Z'
+  sha256: 2d36e3af352ac38b3811af3540aed3d115be5f4b4f6ecdadb4ec8fec74d07a99
+- source_id: r831-arxiv-abs
+  title: Using prior expansions for prior-data conflict checking (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.10393
+  persistent_id: https://arxiv.org/abs/1902.10393
+  version: arXiv abstract page (1194 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:14:00Z'
+  sha256: e5970500f821b654f1d19dc9daa3acee776fd95af538fc4648f744ce59abb06a
+- source_id: r831-metadata-cr
+  title: Using prior expansions for prior-data conflict checking (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/1902.10393
+  persistent_id: https://arxiv.org/abs/1902.10393
+  version: Crossref API work record (385 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:14:00Z'
+  sha256: fe7536d15e65290701bae986f97b7bebf029a25b47291250e38001bf1d81feec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MachineLearningTask
+  relation: broad_match
+  rationale: Prior-expansion marginal likelihood score checking is a diagnostic evaluation method for Bayesian statistical and machine learning models.
+limitations:
+- Because S_gamma(y) is a local first-order derivative evaluated at gamma = gamma_0, its sensitivity depends on the chosen parametric expansion family p(theta | gamma), and calibrating p_S(y_obs) requires simulating from the prior predictive distribution p(y | gamma_0) when analytical moments are unavailable.
+curation:
+  created_at: '2026-10-19T15:14:00Z'
+  updated_at: '2026-10-19T15:14:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
