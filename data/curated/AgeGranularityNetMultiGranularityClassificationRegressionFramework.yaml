@@ -1,0 +1,99 @@
+id: AIMech:AgeGranularityNetMultiGranularityClassificationRegressionFramework
+name: Age-Granularity-Net Multi-Granularity Classification-Regression Framework
+concept_kind: architecture
+review_status: DRAFT
+definition: A multi-head neural network training architecture for continuous/ordinal visual estimation that attaches multiple parallel classification branches quantized at progressively coarser label granularities alongside a continuous mean-squared-error regression branch to a shared feature backbone during training, and prunes all auxiliary coarse and regression heads at inference time to predict from the finest-granularity branch alone.
+identity_notes: No AIO class represents Age-Granularity-Net or multi-granularity classification-regression auxiliary branch training; ArtificialNeuralNetwork (AIO:ArtificialNeuralNetwork) is the closest broad match covering neural network architectures.
+aliases:
+- Age-Granularity-Net
+- Multi-Granularity Classification-Regression Network
+- Age-Granularity-Net Multi-Task Age Estimator
+definition_evidence:
+- source_id: r829-primary-pdf
+  locator: Full-text primary paper (all sections and appendices verified)
+  relation: supports
+- source_id: r829-arxiv-abs
+  locator: arXiv abstract page
+  relation: supports
+- source_id: r829-metadata-cr
+  locator: Crossref DOI bibliographic metadata
+  relation: supports
+claims:
+- claim_id: hierarchical-multi-granularity-cross-entropy-and-mse-aggregation
+  kind: mechanism
+  statement: Age-Granularity-Net jointly optimizes a shared backbone under the sum of N-1 cross-entropy losses over progressively coarser target quantizations (1-year, 5-year, 10-year, and 20-year bins) and a lambda-weighted continuous mean-squared-error regression loss, rewarding near-miss predictions that fall within the same coarser interval.
+  evidence:
+  - source_id: r829-primary-pdf
+    locator: Section 3.1-3.2, Figures 1-2 and Equations 1-2, pp. 2-3, 5
+    relation: supports
+- claim_id: single-branch-inference-without-computational-overhead
+  kind: mechanism
+  statement: During inference, Age-Granularity-Net evaluates only the finest-granularity 100-class branch and discards the coarser classification and MSE regression branches, achieving multi-loss representation regularization with zero additional inference latency or parameters.
+  evidence:
+  - source_id: r829-primary-pdf
+    locator: Section 4.3, p. 3; Section 6, p. 4
+    relation: supports
+- claim_id: apparent-facial-age-estimation-under-label-ambiguity-application
+  kind: application
+  statement: Applied to apparent facial age estimation on the CVPR ChaLearn Looking at People dataset across AlexNet, MobileNet-V1, ResNet-50, DenseNet-121, and VGG-16-BN backbones, Age-Granularity-Net reduces test mean absolute error by 17% to 49% relative to single-loss 100-class training.
+  evidence:
+  - source_id: r829-primary-pdf
+    locator: Section 4.1-5, Table 1, pp. 3-4
+    relation: supports
+- claim_id: mse-loss-scale-sensitivity-and-learning-rate-instability-limitation
+  kind: limitation
+  statement: Combining unnormalized continuous MSE loss with multi-class cross-entropy losses introduces gradient magnitude disparities that require tuning the balancing weight lambda or lowering the initial learning rate by two orders of magnitude (from 10^-3 to 10^-5 on AlexNet) to prevent training divergence.
+  evidence:
+  - source_id: r829-primary-pdf
+    locator: Section 3.2, p. 3; Section 5, Table 1 footnote 1, p. 4
+    relation: supports
+evidence_sources:
+- source_id: r829-primary-pdf
+  title: Using Multiple Losses for Accurate Facial Age Estimation
+  authors: &id001
+  - Yi Zhou
+  - Heikki Huttunen
+  - Tapio Elomaa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2106.09393
+  persistent_id: https://arxiv.org/abs/2106.09393
+  version: arXiv preprint arXiv:2106.09393v1 (2021) (388518 bytes).
+  access_level: full_text
+  accessed_at: '2026-10-19T15:12:00Z'
+  sha256: 4abd94dff2f99422fe785e3d487a95f8390dda91c48ed8f754809582dd87b4cd
+- source_id: r829-arxiv-abs
+  title: Using Multiple Losses for Accurate Facial Age Estimation (arXiv abstract)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.09393
+  persistent_id: https://arxiv.org/abs/2106.09393
+  version: arXiv abstract page (952 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:12:00Z'
+  sha256: bc33c744772ce2285178dbc62add587e58700b9598ee417356e83dfbcbbc4972
+- source_id: r829-metadata-cr
+  title: Using Multiple Losses for Accurate Facial Age Estimation (Crossref metadata)
+  authors: *id001
+  source_type: primary_paper
+  url: https://arxiv.org/abs/2106.09393
+  persistent_id: https://arxiv.org/abs/2106.09393
+  version: Crossref API work record (213 bytes).
+  access_level: abstract_only
+  accessed_at: '2026-10-19T15:12:00Z'
+  sha256: 76d28bce5f8777a6887036da75204453aab7502ec476604accf28b32928cd71e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Age-Granularity-Net is a multi-branch neural network architecture that regularizes a shared convolutional backbone with multi-granularity classification and regression losses.
+limitations:
+- Combining unnormalized continuous MSE loss with multi-class cross-entropy losses introduces gradient magnitude disparities that require tuning the balancing weight lambda or lowering the initial learning rate by two orders of magnitude (from 10^-3 to 10^-5 on AlexNet) to prevent training divergence.
+curation:
+  created_at: '2026-10-19T15:12:00Z'
+  updated_at: '2026-10-19T15:12:00Z'
+  curator: Antigravity
+  method: ai_assisted
+  model: Gemini
+  agent_tool: Antigravity
