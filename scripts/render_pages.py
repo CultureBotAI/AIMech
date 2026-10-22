@@ -38,6 +38,9 @@ KIND_LABELS = {
     "evaluation_method": "Evaluation Methods",
     "learning_paradigm": "Learning Paradigms",
     "preprocessing_method": "Preprocessing Methods",
+    "task": "Tasks",
+    "bias": "Biases",
+    "risk": "Risks",
 }
 
 KIND_BLURBS = {
@@ -50,6 +53,9 @@ KIND_BLURBS = {
     "evaluation_method": "Empirical protocols and test methodologies for measuring AI system performance.",
     "learning_paradigm": "High-level training frameworks such as contrastive or self-supervised learning.",
     "preprocessing_method": "Feature engineering, data augmentation, and tokenization procedures.",
+    "task": "Formalized problem settings, learning objectives, and benchmark task definitions.",
+    "bias": "Systematic distortions in data collection, representation, evaluation, or model predictions.",
+    "risk": "Failure modes, privacy vulnerabilities, and operational hazards in AI systems.",
 }
 
 BRANCH_LABELS = {

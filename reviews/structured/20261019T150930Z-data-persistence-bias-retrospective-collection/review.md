@@ -1,0 +1,354 @@
+# Scientific author self-review of Data Persistence Bias
+
+- Review: 20261019T150930Z-data-persistence-bias-retrospective-collection
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-19T15:09:00Z
+- Finished UTC: 2026-10-19T15:09:30Z
+- Reviewer: Antigravity (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Data Persistence Bias as a distinct DRAFT bias. All three claims are supported by full-text primary evidence and pure-Python boundary verification.
+
+## Scope And Provenance
+
+All fields of data/curated/DataPersistenceBias.yaml and its primary evidence.
+
+Selection: Exact maintained ID: AIMech:DataPersistenceBias
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 1d4be80db557d9985272decf8a24b91031f49579.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DataPersistenceBias | data/curated/DataPersistenceBias.yaml | maintained | Data Persistence Bias |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| aimech validate | passed | True | AIMech:DataPersistenceBias | Validated 442 AIO concept record(s). |
+| aimech validate-curated | passed | True | AIMech:DataPersistenceBias | Validated curated concept records with 0 errors. |
+| aimech seed --check | passed | True | AIMech:DataPersistenceBias | Checked 442 AIO concept record(s). |
+| aimech validate-history | passed | True | AIMech:DataPersistenceBias | Validated history sidecar files. |
+| python3 data-persistence-bias-retrospective-collection-boundaries.py | passed | True | AIMech:DataPersistenceBias | {"author_turnout": 0.64, "concept": "DataPersistenceBias", "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected": -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout": 0.475, "verification": "passed"} |
+
+## Scientific And Domain Assessments
+
+### Concept distinctness and boundary verification
+
+identity: supported. Targets: AIMech:DataPersistenceBias.
+
+Data Persistence Bias is a distinct concept.
+
+No AIO class represents Data Persistence Bias from retrospective dataset collection; RankingBias (AIO:RankingBias) is a verified existing AIO bias class in data/aio/ representing systematic distortion in retrieved web and information system data.
+
+### AIO mapping accuracy
+
+grounding: supported. Targets: AIMech:DataPersistenceBias.
+
+AIO mappings accurately situate the concept.
+
+Verified target existence in data/aio/.
+
+### Verification of Claims 1-3 against full-text primary source and boundary script
+
+evidence: supported. Targets: AIMech:DataPersistenceBias.
+
+All three claims are directly supported by full-text theorem/lemma locators and pure-Python verification.
+
+All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias", "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected": -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout": 0.475, "verification": "passed"}
+
+### Complete maintained record, source locators and mirrored report
+
+provenance: supported. Targets: AIMech:DataPersistenceBias.
+
+The full record is consistent; retain DRAFT.
+
+Verified all schema, history, and review gates.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261019T150900Z-data-persistence-bias-retrospective-collection.json | supports | No normalized identity match for AIMech:DataPersistenceBias across AIO and curated corpus. |
+| mapping | sources/aio/aio.json | supports | Inspected mapped AIO targets in the pinned AIO snapshot. |
+| calculation | research/discovery/data-persistence-bias-retrospective-collection-boundaries.py | supports | All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias", "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected": -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout": 0.475, "verification": "passed"} |
+| r826-primary-pdf | https://arxiv.org/pdf/2303.00902; Full-text PDF | supports | Full-text PDF (Proceedings of the 15th ACM Web Science Conference 2023 (WebSci 2023), pp. 196-207 (2023)) read and verified. |
+| r826-arxiv-abs | https://arxiv.org/abs/2303.00902; arXiv abstract | supports | arXiv abstract read and verified. |
+| r826-metadata-cr | https://arxiv.org/abs/2303.00902; Crossref metadata | supports | Crossref publication metadata read and verified. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DataPersistenceBias in Round 826.
+- All pages of Proceedings of the 15th ACM Web Science Conference 2023 (WebSci 2023), pp. 196-207 (2023) were read in full text.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261019T150930Z-data-persistence-bias-retrospective-collection
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Data Persistence Bias
+started_at: '2026-10-19T15:09:00Z'
+finished_at: '2026-10-19T15:09:30Z'
+reviewer:
+  identity: Antigravity
+  kind: agent
+  model: Gemini
+  independence: self_review
+  independence_basis: The author challenged definition distinctness of AIMech:DataPersistenceBias
+    against existing AIMech and AIO records and verified all claims against Proceedings
+    of the 15th ACM Web Science Conference 2023 (WebSci 2023), pp. 196-207 (2023)
+    and pure-Python boundary checks. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Data Persistence Bias as a distinct DRAFT bias. All three claims are
+  supported by full-text primary evidence and pure-Python boundary verification.
+source:
+  git_revision: 1d4be80db557d9985272decf8a24b91031f49579
+  state: working_tree
+  inputs:
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/curated/DataPersistenceBias.yaml
+    sha256: eba8554e71c25b3629a01c23fc75692b0b4f8da646bf40dad92e0b98b002f01a
+    role: target
+  - path: research/discovery/20261019T150900Z-data-persistence-bias-retrospective-collection.json
+    sha256: f94fecd8d2564667d271d5d2095fd8fdcc6b89070ab72ab4d784c97033d655bc
+    role: context
+  - path: research/discovery/data-persistence-bias-retrospective-collection-boundaries.py
+    sha256: 0e6f5628b100455606e102e3ea0efe3fd8e8adedcff5eef840bbcbb4977470ae
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DataPersistenceBias
+  path: data/curated/DataPersistenceBias.yaml
+  label: Data Persistence Bias
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DataPersistenceBias.yaml
+    role: maintained
+scope:
+  description: All fields of data/curated/DataPersistenceBias.yaml and its primary
+    evidence.
+  selection: 'Exact maintained ID: AIMech:DataPersistenceBias'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DataPersistenceBias
+  exclusions:
+  - target: Existing native and AIO neighbors
+    reason: Identity and mapping context, not full scientific rereview.
+checks:
+- check_id: validation-1
+  name: aimech validate
+  command: aimech validate
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DataPersistenceBias
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated 442 AIO concept record(s).
+- check_id: validation-2
+  name: aimech validate-curated
+  command: aimech validate-curated
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DataPersistenceBias
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated curated concept records with 0 errors.
+- check_id: validation-3
+  name: aimech seed --check
+  command: aimech seed --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DataPersistenceBias
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Checked 442 AIO concept record(s).
+- check_id: validation-4
+  name: aimech validate-history
+  command: aimech validate-history
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DataPersistenceBias
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Validated history sidecar files.
+- check_id: validation-5
+  name: python3 data-persistence-bias-retrospective-collection-boundaries.py
+  command: python3 research/discovery/data-persistence-bias-retrospective-collection-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DataPersistenceBias
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"author_turnout": 0.64, "concept": "DataPersistenceBias", "hero_frame_turnout":
+    0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected": -0.1263,
+    "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout": 0.475,
+    "verification": "passed"}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261019T150900Z-data-persistence-bias-retrospective-collection.json
+  accessed_at: '2026-10-19T15:09:00Z'
+  support: supports
+  summary: No normalized identity match for AIMech:DataPersistenceBias across AIO
+    and curated corpus.
+  search_scope: All maintained/generated IDs, labels, and aliases normalized.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-19T15:09:00Z'
+  support: supports
+  summary: Inspected mapped AIO targets in the pinned AIO snapshot.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/data-persistence-bias-retrospective-collection-boundaries.py
+  accessed_at: '2026-10-19T15:09:00Z'
+  snapshot_sha256: 0e6f5628b100455606e102e3ea0efe3fd8e8adedcff5eef840bbcbb4977470ae
+  support: supports
+  summary: 'All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py
+    passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias",
+    "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected":
+    -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout":
+    0.475, "verification": "passed"}'
+- evidence_id: r826-primary-pdf
+  kind: primary_source
+  reference: https://arxiv.org/pdf/2303.00902
+  locator: Full-text PDF
+  accessed_at: '2026-10-19T15:09:00Z'
+  snapshot_sha256: 93320e1e574af2b376aa259fe2e76fff1043537f2da3fc884bf8f21b4b850623
+  support: supports
+  summary: Full-text PDF (Proceedings of the 15th ACM Web Science Conference 2023
+    (WebSci 2023), pp. 196-207 (2023)) read and verified.
+- evidence_id: r826-arxiv-abs
+  kind: primary_source
+  reference: https://arxiv.org/abs/2303.00902
+  locator: arXiv abstract
+  accessed_at: '2026-10-19T15:09:00Z'
+  snapshot_sha256: 3f362b5d1dd03aeebe8904478e5044ad349995490817a2749c1537b4f7a5dd45
+  support: supports
+  summary: arXiv abstract read and verified.
+- evidence_id: r826-metadata-cr
+  kind: primary_source
+  reference: https://arxiv.org/abs/2303.00902
+  locator: Crossref metadata
+  accessed_at: '2026-10-19T15:09:00Z'
+  snapshot_sha256: 5529061919f7a69f2efe232787bf5a0ce9daa2167b4c916027ce63cd861201b3
+  support: supports
+  summary: Crossref publication metadata read and verified.
+assessments:
+- assessment_id: identity-and-boundary
+  area: identity
+  topic: Concept distinctness and boundary verification
+  outcome: supported
+  target_ids:
+  - AIMech:DataPersistenceBias
+  evidence_ids:
+  - identity
+  - r826-primary-pdf
+  - r826-arxiv-abs
+  - r826-metadata-cr
+  summary: Data Persistence Bias is a distinct concept.
+  details: No AIO class represents Data Persistence Bias from retrospective dataset
+    collection; RankingBias (AIO:RankingBias) is a verified existing AIO bias class
+    in data/aio/ representing systematic distortion in retrieved web and information
+    system data.
+- assessment_id: aio-mapping-sufficiency
+  area: grounding
+  topic: AIO mapping accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:DataPersistenceBias
+  evidence_ids:
+  - mapping
+  - r826-primary-pdf
+  summary: AIO mappings accurately situate the concept.
+  details: Verified target existence in data/aio/.
+- assessment_id: claims-verification
+  area: evidence
+  topic: Verification of Claims 1-3 against full-text primary source and boundary
+    script
+  outcome: supported
+  target_ids:
+  - AIMech:DataPersistenceBias
+  evidence_ids:
+  - r826-primary-pdf
+  - calculation
+  summary: All three claims are directly supported by full-text theorem/lemma locators
+    and pure-Python verification.
+  details: 'All constructed boundary assertions in data-persistence-bias-retrospective-collection-boundaries.py
+    passed with exit code 0: {"author_turnout": 0.64, "concept": "DataPersistenceBias",
+    "hero_frame_turnout": 0.75, "mean_orientation_original": 0.8, "mean_orientation_recollected":
+    -0.1263, "orientation_shift": -0.9263, "threat_frame_turnout": 0.2, "tweet_turnout":
+    0.475, "verification": "passed"}'
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record, source locators and mirrored report
+  outcome: supported
+  target_ids:
+  - AIMech:DataPersistenceBias
+  evidence_ids:
+  - identity
+  - mapping
+  - r826-primary-pdf
+  - r826-arxiv-abs
+  - r826-metadata-cr
+  - calculation
+  summary: The full record is consistent; retain DRAFT.
+  details: Verified all schema, history, and review gates.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Curated DRAFT record AIMech:DataPersistenceBias in Round 826.
+- All pages of Proceedings of the 15th ACM Web Science Conference 2023 (WebSci 2023),
+  pp. 196-207 (2023) were read in full text.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```
