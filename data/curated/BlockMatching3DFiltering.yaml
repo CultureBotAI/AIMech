@@ -1,0 +1,228 @@
+id: AIMech:BlockMatching3DFiltering
+name: Block-matching and 3D filtering
+concept_kind: algorithm
+aliases:
+- BM3D
+definition: A grayscale image-denoising algorithm that stacks similar square patches into three-dimensional
+  groups, jointly shrinks their transform coefficients, and aggregates reconstructed overlapping patches.
+  A hard-thresholded basic estimate guides a second stage of grouping and empirical Wiener filtering of
+  the original noisy image.
+definition_evidence:
+- source_id: dabov2007
+  locator: Section III, PDF/printed p. 4, two-step algorithm and observation model; Figure 3, p. 5; Section
+    VI, p. 9, grayscale BM3D name.
+  relation: supports
+claims:
+- claim_id: two-stage-grayscale-denoising
+  kind: mechanism
+  statement: The original grayscale method uses two successive stages. First, group similar patches from
+    the noisy image, apply collaborative hard thresholding, return the reconstructed patches to their
+    image locations, and aggregate overlapping estimates into a basic image. Second, use that basic image
+    for grouping and as the pilot for collaborative Wiener filtering, then aggregate the resulting patch
+    estimates into the final image. The third group dimension indexes stacked 2D patches; it does not
+    denote a physical 3D scene.
+  evidence:
+  - source_id: dabov2007
+    locator: Section III, PDF/printed p. 4, Steps 1–2; Figure 3 and group notation, p. 5; Section VI,
+      p. 9, grayscale name.
+    relation: supports
+- claim_id: reference-matching-and-overlapping-groups
+  kind: mechanism
+  statement: For each reference square patch, select other patches by their distance from that reference
+    and stack the selected patches. In the basic stage, Equation 4 compares normalized 2D transform coefficients
+    after optional hard thresholding at lambda_2D sigma, using their squared Euclidean difference divided
+    by the number of pixels in a patch. Equation 5 includes distances at or below the matching threshold.
+    Positive thresholds retain the reference itself. Patches and groups can overlap; this grouping is
+    not a partition of the image or a guarantee that the underlying clean patches are identical.
+  evidence:
+  - source_id: dabov2007
+    locator: Section III.A.1, PDF/printed pp. 5–6, Equations 4–5 and stacking paragraph; Section IV.B,
+      pp. 8–9, disabled prefiltering and positive-threshold discussion.
+    relation: supports
+- claim_id: collaborative-transform-hard-thresholding
+  kind: mechanism
+  statement: Apply a normalized 3D transform to each basic-stage group, hard-threshold its coefficients
+    at lambda_3D sigma, and invert the transform. The result contains a potentially different estimate
+    for every patch in the group. The separable realization combines spatial transforms within patches
+    with a transform along the stacking dimension to exploit both within-patch and between-patch structure.
+    It does not require replacing all grouped patches by one common average.
+  evidence:
+  - source_id: dabov2007
+    locator: Section II.D, PDF/printed pp. 3–4; Section III.A.1, Equation 6, p. 6; Section IV, p. 7, separable-transform
+      realization; Section IV.B, pp. 8–9, DC-only comparison.
+    relation: supports
+- claim_id: pilot-guided-wiener-filtering
+  kind: mechanism
+  statement: The second stage matches patches by normalized squared Euclidean differences in the basic
+    estimate, using the strict threshold in Equation 7. At the selected coordinates, form corresponding
+    groups from the basic estimate and the original noisy image. For sigma>0 and each finite pilot transform
+    coefficient c, use the gain |c|^2/(|c|^2+sigma^2). Multiply the transformed original noisy group elementwise
+    by these gains and invert the transform. The basic estimate supplies an empirical pilot spectrum;
+    it is not substituted for the noisy group being filtered or assumed to be the unknown clean image.
+  evidence:
+  - source_id: dabov2007
+    locator: Section III.A.2, PDF/printed p. 6, Equations 7–9 and the two corresponding groups.
+    relation: supports
+- claim_id: weighted-overlap-aggregation
+  kind: mechanism
+  statement: Aggregate reconstructed patches at each covered pixel by a weighted sum divided by the sum
+    of their support weights. With sigma>0, the basic-stage group weight is 1/(sigma^2 N_har) when at
+    least one coefficient survives, and is 1 when none survives. For a nonzero Wiener gain vector W, the
+    final-stage group weight is 1/(sigma^2 ||W||_2^2). Equation 12 applies the corresponding weights in
+    each stage. The source treats these weights as approximate inverse-variance choices, acknowledging
+    biased and correlated patch estimates and neglected overlap covariances.
+  evidence:
+  - source_id: dabov2007
+    locator: Section III.B.1–2, PDF/printed pp. 6–7, Equations 10–12 and the explicit loose inverse-variance
+      qualification.
+    relation: supports
+- claim_id: bounded-search-and-fast-realization
+  kind: scope
+  statement: 'The practical realization restricts reference-patch stride, search neighborhoods and maximum
+    group size, reuses spatial transforms, and uses separable group transforms. It incorporates a Kaiser
+    window into aggregation weights to reduce patch-border effects. The stated Normal and Fast profiles
+    are parameter choices: Table I disables the matching prefilter in the low-noise Normal and Fast settings.
+    The source’s linear cost in image pixel count assumes all these parameters are fixed, rather than
+    unrestricted all-image matching or growing group sizes.'
+  evidence:
+  - source_id: dabov2007
+    locator: Section IV and IV.A, PDF/printed p. 7; Section IV.B and Table I, p. 8; Haar group-size convention,
+      p. 9.
+    relation: supports
+limitations:
+- The selected derivation assumes additive independent, zero-mean Gaussian noise with supplied variance.
+  The displayed Wiener gains and aggregation weights naturally require sigma>0; a zero-noise limit needs
+  separate conventions. This evidence does not establish the original formulas for arbitrary colored,
+  signal-dependent or non-Gaussian noise, nor an automatic noise-estimation procedure.
+- 'Equation 3 describes the noisy distance between fixed non-overlapping patch pairs. Selecting groups
+  by noisy distances, selecting threshold masks, estimating pilot gains and overlapping patches introduce
+  dependence. Even independent input coefficients do not make a data-selected threshold mask fixed: for
+  a centered Gaussian scalar, its thresholded second moment is not generally sigma^2 times the retention
+  probability. Thus Equations 10–11 must not be promoted to exact unconditional postselection variances,
+  minimum-risk weights or global optimality guarantees. The source itself explicitly qualifies its neglected
+  overlap covariances.'
+- Equation 10 gives a fallback when no hard-threshold coefficient remains, but Equation 11 is undefined
+  when every Wiener gain is zero. Equation 12 also needs finite weights and a positive coverage denominator
+  at each estimated pixel. These are boundaries of the displayed formulas; no undocumented safeguard is
+  assumed and no failure of author software is claimed.
+- The reported weak empirical sensitivity to within-group ordering does not establish universal permutation
+  invariance of a fixed structured transform followed by thresholding. A finite four-coordinate Haar example
+  can change the reconstruction after a permutation is undone. Noise can also produce poor matches or
+  unbalanced groups, and similarity to one reference does not make all clean patches mutually equivalent.
+- The chosen transforms, group caps, stride, search neighborhoods and Kaiser weights affect the realized
+  estimator and its cost. The displayed Haar realization reduces group size to the largest admissible
+  power of two; it is not a requirement of every conceivable group transform. Border coverage, tie ordering,
+  threshold equality and finite-precision safeguards need explicit implementation conventions. No implementation
+  or runtime was audited here.
+- This identity selects the 2007 grayscale method. The separately presented C-BM3D extension reuses luminance
+  grouping for chrominance channels and is not simply independent grayscale processing of every channel.
+  The 2006 precursor was inspected only as separately attributed research context; its formulas and configurations
+  are not silently imported. Later video, volumetric, learned-basis and other noise-model variants require
+  separate evidence.
+- The source’s finite image experiments, noise levels, parameter profiles and hardware do not establish
+  universal reconstruction quality or benchmark superiority. The inspected bytes are the 16-page author-hosted
+  accepted manuscript, with local printed pages 1–16; final journal pagination and publication metadata
+  are distinct. Final publisher byte equivalence remains unverified after a mirror access failure. No
+  author code, benchmark reproduction or modern software release was inspected or executed as part of
+  this research.
+aio_no_match:
+  search_scope: The pinned AIO snapshot is unchanged. All 442 generated AIO and 751 maintained native
+    identity rows were recollected at merged base09cd8b8d5cc8b6d4098c149cbdea12e797468811 on 2026-10-15,
+    with four ignored-inclusive and hidden-inclusive whole-word scans and complete mechanical accounting
+    of all909 main and393 nested frontier objects. Current normalized identity matches are context only;
+    root candidate/frontier readings and the attributed bounded context audit are recorded in the cohort339
+    decisions. The prior scientific research explicitly inspected fifteen candidate AIO definitions and
+    their113incident graph edges, with a supporting peer assessment. All fifteen target-specific rejection
+    rationales are retained unchanged; this is a source-qualified whole-algorithm no-match within the
+    pinned snapshot, not a claim that no future ontology mapping is possible.
+  rationale: No inspected target expresses the original non-neural BM3D algorithm or a comparably specific
+    required named component without changing its abstraction or adding optional ML/neural scope. Retain
+    explicit no-match rather than force a weak mapping.
+  examined_targets:
+  - target: AIO:ExponentialFunction
+    rejection_reason: Unlike NLM Gaussian patch weights, the defining BM3D grouping and shrinkage do not
+      require an exponential scalar kernel. Incidental window implementation choices do not identify the
+      complete algorithm.
+  - target: AIO:MathematicalFunction
+    rejection_reason: This generic mathematical-rule class does not distinguish the selected compound
+      grouping/filtering/aggregation algorithm; no specific named function correspondence is established.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: The pinned supervised relationship-estimation class is not the specific signal-restoration
+      algorithm; nonparametric-estimation language alone does not justify inheritance.
+  - target: AIO:KnearestNeighborRegressionAlgorithm
+    rejection_reason: BM3D transforms and reconstructs groups rather than assigning a k-neighbor average
+      as its defining estimator.
+  - target: AIO:KernelLayer
+    rejection_reason: Fixed transform dot products do not make the full non-neural denoiser a neural kernel
+      layer.
+  - target: AIO:DenoisingAutoEncoder
+    rejection_reason: No trained encoder-decoder reconstruction network is required.
+  - target: AIO:AutoEncoderNetwork
+    rejection_reason: Grouping/shrinkage/inverse transforms do not define an autoencoder training architecture.
+  - target: AIO:ImagePreprocessingLayer
+    rejection_reason: The original algorithm is not defined as a neural preprocessing layer.
+  - target: AIO:Preprocessing
+    rejection_reason: A restored image can be the final result; preparation before a machine-learning
+      model is not a defining requirement.
+  - target: AIO:DataPreparation
+    rejection_reason: The pinned machine-learning data-preparation scope is optional downstream use, not
+      inherent identity.
+  - target: AIO:UnsupervisedLearning
+    rejection_reason: The original method estimates a signal using fixed transforms; shared absence of
+      labels does not identify a learning task.
+  - target: AIO:AttentionLayer
+    rejection_reason: There is no required learned dot-product attention layer; the non-local matching
+      relationship is insufficient.
+  - target: AIO:Layer
+    rejection_reason: The source does not require a deep-network component.
+  - target: AIO:SparseLearning
+    rejection_reason: The pin identifies sparse representation elements within a representation-learning
+      network. Original BM3D fixes image-independent transforms and does not learn the dictionary elements.
+  - target: AIO:LinearFunction
+    rejection_reason: A compound nonlinear denoiser with multidimensional transforms is not the pinned
+      scalar affine activation/function; sharing linear suboperations is too weak.
+review_status: DRAFT
+identity_notes: At the actual merged cohort338 base 09cd8b8d5cc8b6d4098c149cbdea12e797468811, the 2026-10-15
+  current collection covers all 751 native and 442 AIO record identity fields and byte hashes, plus all
+  909 main and 393 nested frontier objects mechanically. Four ignored-inclusive, hidden-inclusive, case-insensitive
+  whole-word searches retain 13654 occurrences in 1679 exact content groups. Root read all 29 non-domain
+  candidate-bearing contents and all 19 selected current frontier objects; 1145 NLM-domain-only groups
+  were mechanically separated, not manually read as complete bodies. The 22 NLM catalog/namespace groups
+  refer to the National Library of Medicine, while seven candidate-bearing groups preserve existing source
+  leads or research notes. Same-team context audit reads 35 maintained-record matching strings, 13 current
+  definitions and matching windows in 55 long groups among the 505 context-only groups; its scope is attributed,
+  not exhaustive manual reading. No candidate normalized identity collision was found. This is bounded
+  current identity clearance, not ontology-wide semantic exhaustion. The two-stage BM3D procedure groups
+  similar image patches, applies collaborative transform-domain shrinkage and aggregates overlaps; the
+  pilot supplies second-stage grouping and Wiener gains while original noisy groups are filtered. It is
+  distinct from NLM pixel averaging, learned NonLocalBlock and fixed-prior IteratedWienerFilter. BM3D
+  remains an accepted alias. Resolve existing owner239 using Dabov et al. 2007; the 2018 neural-network
+  URL remains discovery provenance. Retain the individually assessed fifteen-target AIO no-match decision;
+  no exact, broad or related target is forced.
+evidence_sources:
+- source_id: dabov2007
+  title: Image denoising by sparse 3D transform-domain collaborative filtering
+  authors:
+  - Kostadin Dabov
+  - Alessandro Foi
+  - Vladimir Katkovnik
+  - Karen Egiazarian
+  source_type: primary_paper
+  url: https://webpages.tuni.fi/foi/GCF-BM3D/BM3D_TIP_2007.pdf
+  persistent_id: doi:10.1109/TIP.2007.901238
+  version: Author-hosted accepted manuscript, 16 PDF pages numbered 1–16, header accepted/to appear in
+    IEEE Transactions on Image Processing 16(8), August 2007. Journal metadata 2080–2095 is separately
+    verified; journal-byte equivalence was not established.
+  access_level: full_text
+  accessed_at: '2026-10-15T10:14:51Z'
+  sha256: c4002eb4bef308dc4cecb79dd276011f08a252c62ad72a3c7925eb68af59faa5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T11:08:12Z'
+  updated_at: '2026-10-15T11:08:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

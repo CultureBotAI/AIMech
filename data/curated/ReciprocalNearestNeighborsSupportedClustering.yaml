@@ -1,0 +1,152 @@
+id: AIMech:ReciprocalNearestNeighborsSupportedClustering
+name: Reciprocal-nearest-neighbors supported clustering
+aliases:
+- RS clustering
+concept_kind: algorithm
+definition: A hierarchical clustering algorithm that follows nearest-neighbor chains to construct sub-clustering
+  trees around reciprocal pairs, prunes overly deep nodes into singleton trees, and recursively clusters
+  representatives formed from the supporting pairs.
+identity_notes: 'Compared all 442 pinned AIO and 654 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 8, 0, 0 lines. All distinct match contents were
+  read, including pending discovery entries and source-reading observations. Recovery hits concern pending
+  RS discovery notes and primary-source context; none identifies an existing standalone RS record. Both
+  other checkouts returned no matches including ignored and hidden files. Semantic matching covered 26
+  AIO and 171 native definitions, all read; unchanged definitions were byte-compared with the preceding
+  full assessment. 9 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+  Retain the named RS construction: nearest-pointer sub-clustering trees, depth pruning and supporting-pair
+  representatives recursively clustered. It differs from batch merging of reciprocal pairs, linkage-preserving
+  NN-chain, a global cached-bound algorithm, Ward ESS and CURE’s multiple representatives. RS is qualified
+  as clustering; a bare acronym does not establish identity.'
+definition_evidence:
+- source_id: xie2019
+  locator: Algorithm, PDFpp2–4, Figures1–2
+  relation: supports
+claims:
+- claim_id: chain-subtrees
+  kind: mechanism
+  statement: Begin with the current nodes as candidates. Choose an initial candidate at random and follow
+    nearest-neighbor pointers until reaching a reciprocal pair or an existing sub-clustering tree. A reciprocal
+    pair supports a new artificial root; chains reaching an existing tree attach to it. Remove assigned
+    nodes from the candidate set and continue until all nodes have been assigned. The paper perturbs distances
+    by small random amounts to avoid tied nearest neighbors.
+  evidence:
+  - source_id: xie2019
+    locator: Algorithm, PDFp2; Figure1, PDFp3
+    relation: supports
+- claim_id: depth-pruning
+  kind: mechanism
+  statement: Define a node’s depth as one half of the sum of its path lengths to the two supporting nodes
+    plus one, treating the supporting pair as directly connected. For a tree C, prune nodes deeper than
+    ceil(log_alpha(|C|+1)) into separate singleton-root trees. The logarithmic threshold requires alpha>1;
+    the reported experiments use alpha 1.5 and the illustration uses 2.
+  evidence:
+  - source_id: xie2019
+    locator: Algorithm, Equations1–2 and Figure1, PDFpp2–3; Figure S1, PDFp12
+    relation: supports
+- claim_id: recursive-representatives
+  kind: mechanism
+  statement: Represent an ordinary sub-clustering tree by the midpoint of its two supporting nodes, and
+    a singleton tree by its unchanged point. Repeat the construction and pruning on these representatives
+    to build the hierarchy. A supporting-pair midpoint generally differs from the centroid of all tree
+    members; the procedure does not preserve a prescribed Ward, average or other standard agglomerative
+    linkage.
+  evidence:
+  - source_id: xie2019
+    locator: Algorithm, PDFpp3–4 and Figure2
+    relation: supports
+- claim_id: geometric-distance-updates
+  kind: scope
+  statement: For Euclidean point locations, midpoint-to-point and midpoint-to-midpoint squared distances
+    can be computed from the pairwise squared distances among their supporting endpoints. These are geometric
+    identities in that setting. The paper’s additional use with nonembedded dissimilarities requires separate
+    admissibility checks; it is not accepted here as an unrestricted identity for arbitrary distance matrices.
+  evidence:
+  - source_id: xie2019
+    locator: Algorithm, three distance-only cases, PDFp4
+    relation: supports
+- claim_id: reported-evaluation
+  kind: performance
+  statement: The source reports comparisons on eight UCI datasets and an Olivetti face dataset using unadjusted
+    Rand Index against group average, CURE, affinity propagation and density-peaks methods. Cluster counts
+    vary across methods and iterations; the affinity-propagation optdigits result lies outside the displayed
+    range. Supplementary CPU timings use generated data and a 3.4 GHz four-core Intel Core i5. The fitted
+    runtime exponent is an empirical summary, not an asymptotic complexity guarantee or universal accuracy
+    ranking.
+  evidence:
+  - source_id: xie2019
+    locator: Results, PDFpp4–6, Figures3–4; Materials and Methods, PDFpp8–9; FiguresS1–S3, PDFpp12–13
+    relation: supports
+  evaluation:
+    task: External clustering agreement and empirical runtime comparisons.
+    dataset_and_split: Eight UCI datasets and 400 Olivetti images from40 subjects; agreement measured
+      on clustered data, with no held-out alpha selection established. Separate generated data for CPU
+      timing.
+    model_and_version: RS as described in arXiv1907.04915v1, with alpha 1.5 in reported experiments; author
+      code and 2020 journal revision not compared.
+    metric_and_units: Unadjusted Rand Index; CPU time and fitted log-log runtime exponent.
+    result: The Olivetti example reports 39 clusters after two iterations and Rand Index 0.976. Supplementary
+      timing fits give RS exponent 1.65, an empirical fit rather than an asymptotic bound.
+    baseline: Group average,CURE,affinity propagation and density peaks; cluster counts vary and affinity-propagation
+      optdigits K=38 is outside the plotted range.
+    conditions: Timing on a 3.4 GHz four-core Intel Core i5. Figure S1 uses the best Rand Index over iterations
+      for each alpha; no independent held-out tuning claim is made.
+    uncertainty: Historical preprocessing, implementations and repetitions were not reproduced. Table1
+      iris/glass counts and the group-average citation have provenance ambiguities. Results do not establish
+      universal accuracy or runtime superiority.
+evidence_sources:
+- source_id: xie2019
+  title: Hierarchical Clustering Supported by Reciprocal Nearest Neighbors
+  authors:
+  - Wen-Bo Xie
+  - Yan-Li Lee
+  - Cong Wang
+  - Duan-Bing Chen
+  - Tao Zhou
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv1907.04915v1,9July2019. All13 PDF pages visually read, including five main figures, three
+    supplementary figures and two tables. The2020 journal version was not compared.
+  persistent_id: arXiv:1907.04915v1
+  url: https://arxiv.org/pdf/1907.04915v1
+  accessed_at: '2026-10-13T21:30:24Z'
+  sha256: 37adfb8416af4d05845efce1c481ee11b14a5e8c2ccb7423226dc9cc631994a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The procedure constructs a hierarchy by recursive representative grouping. The AIO target
+    denotes the task, not this algorithm or an equivalent class.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: Distances determine groups without class labels; labels are used only in the cited external
+    evaluation. This related task does not specify the pruning or representatives.
+limitations:
+- This record covers the main clustering construction, with Euclidean representative geometry. The paper’s
+  network extension adds pseudoinverse distances, infinite nonadjacent distances, stopping/attachment
+  rules and betweenness-based postprocessing; that extension is outside the maintained core claim scope.
+- The described random tie perturbation does not fully specify its distribution, seed, symmetric treatment
+  or zero-distance handling. No author implementation was inspected; no deterministic tie convention is
+  silently supplied.
+- Finite curator checks illustrate a seven-point chain, depth thresholds for alpha 2 and 1.5, a supporting
+  midpoint that differs from a retained-member centroid, and Euclidean midpoint identities. They are not
+  a complete RS implementation or benchmark replication.
+- A separate four-cycle metric makes the unrestricted midpoint-pair formula negative, but its chosen endpoint
+  pairs are not reciprocal in that input. This is only a counterexample to an unrestricted geometric identity,
+  not an actual RS-execution failure.
+- The evaluation descriptions contain provenance ambiguities, including the group-average baseline citing
+  Ward 1963 and unusual iris/glass table entries. The exact historical datasets, implementations, preprocessing,
+  repetitions and corresponding 2020 journal revision were not reproduced or equated with current versions.
+- All 13 pages of arXiv1907.04915v1 were visually read, including five main figures, three supplementary
+  figures and two tables. The record remains DRAFT; no author code, model fitting or performance experiment
+  was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T22:15:39Z'
+  updated_at: '2026-10-13T22:15:39Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

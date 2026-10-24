@@ -1,0 +1,145 @@
+id: AIMech:ClockworkRecurrentNeuralNetwork
+name: Clockwork recurrent neural network
+aliases:
+- CW-RNN
+- Clockwork RNN
+concept_kind: architecture
+definition: A recurrent architecture partitioning hidden units into modules with prescribed update periods,
+  copying inactive module states and restricting inter-module recurrence from slower modules to faster
+  modules while retaining recurrence within each module.
+identity_notes: 'Compared all 442 pinned AIO and 576 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 137, 90, 89 lines. All distinct match contents were
+  read: prior Clockwork RNN frontier entries, the new GF-RNN comparison and discovery/search context,
+  rather than an existing Clockwork record. Semantic matching inspected 63 AIO and145 native definitions,
+  with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated
+  contexts and four full native records were inspected. RecurrentNeuralNetwork is the broader architecture
+  mapping. LongShortTermMemory uses a different gated memory formulation; SimpleRNNLayer is a component-level,
+  fully connected recurrent layer rather than this modular clocked architecture; EchoStateNetwork describes
+  reservoir/training constraints not entailed by prescribed module clocks. Fixed clock periods and copied
+  inactive states differ from GF-RNN input-dependent pair gates, SCRN continuous decaying context, identity
+  initialization and Zoneout stochastic state preservation. Period schedules and proposed input-buffer/phase
+  variants do not establish separate supported concept identities here.'
+definition_evidence:
+- source_id: koutnik2014
+  locator: Section 3, Figures 1–2 and Equations 1–4, PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: scheduled-transition-and-topology
+  kind: mechanism
+  statement: 'For module i with period T_i, the baseline updates its hidden state when t modulo T_i equals
+    zero, using the current input and permitted previous hidden states; otherwise it retains the previous
+    module state. Modules are internally recurrent. With modules ordered by increasing period, the recurrent
+    matrix has an upper-triangular block structure: an active faster destination receives recurrent state
+    from slower source modules, and slower modules do not receive faster-module state. The paper uses
+    exponentially spaced periods in its experiments, while the general description allows other prescribed
+    period sets.'
+  evidence:
+  - source_id: koutnik2014
+    locator: Section 3 directed-connection text and Equations 1–4, PDF pp. 3–4; Figures 1–2, pp. 2–3
+    relation: supports
+- claim_id: inactive-carry-and-active-jacobian
+  kind: scope
+  statement: Inactive modules copy their prior activations, and the corresponding direct state derivative
+    is identity. The source backward-pass description copies their error contributions backward through
+    skipped updates. Zeroed computational blocks in Equation 4 indicate which transitions are evaluated;
+    they do not mean replacing inactive states by zero. At active steps learned recurrent matrices and
+    nonlinearities still affect the Jacobian, so copying between ticks does not guarantee permanent gradient
+    preservation, contraction or convergence for the complete network.
+  evidence:
+  - source_id: koutnik2014
+    locator: Equation 4, retained outputs and backward-pass paragraphs, PDF p. 4; curator derivative consequence
+    relation: supports
+- claim_id: sampling-and-input-boundaries
+  kind: limitation
+  statement: A slow module directly reads an input only on its update ticks and has no faster-to-slower
+    recurrent path in this baseline. Inputs arriving between its ticks can therefore fail to affect that
+    slow module. This does not mean the entire network ignores them, since faster modules can respond.
+    The authors propose phase offsets, input buffers or transformations as possible responses, and discuss
+    learning periods as future work. Those proposals are not assumed to be implemented baseline features
+    or a general anti-aliasing guarantee.
+  evidence:
+  - source_id: koutnik2014
+    locator: Future Work, PDF pp. 7–8; Section 3 connection restrictions, p. 3
+    relation: supports
+- claim_id: recurrent-parameter-count
+  kind: scope
+  statement: For g equally sized modules of k hidden units with the stated triangular connectivity, n=g*k
+    and the recurrent weight count is k^2*g*(g+1)/2, giving ratio (g+1)/(2*g) relative to a fully connected
+    n-by-n recurrence. The approximately one-half ratio is a large-g statement about recurrent weights,
+    not an exact halving of all parameters including input/output weights or biases. Unequal module sizes
+    require their own block counts.
+  evidence:
+  - source_id: koutnik2014
+    locator: Appendix parameter-count derivation, PDF p. 8; unequal-size discussion, p. 7
+    relation: supports
+- claim_id: average-operation-count-and-remainder
+  kind: limitation
+  statement: With periods 2^i for i=0,...,g-1 and equally sized modules, the mean recurrent matrix-product
+    count over a complete clock cycle is k^2*sum_i (g-i)/2^i. The exact finite sum equals k^2*(2*g-2+2^(1-g));
+    the positive final term is missing from the Appendix intermediate upper bound k^2*(2*g-2). The record
+    uses the exact sum and does not adopt that intermediate inequality. Per-step work varies with phase,
+    and common-multiple ticks activate every module. These recurrence counts exclude other network operations
+    and do not certify a hardware-independent wall-clock speedup.
+  evidence:
+  - source_id: koutnik2014
+    locator: Appendix operation-count derivation, PDF p. 8; curator finite-sum and schedule calculation
+    relation: supports
+- claim_id: conditional-evaluation-and-run-selection
+  kind: limitation
+  statement: 'The paper evaluates input-free memorization of selected audio sequences, a selected 25-word
+    TIMIT classification task and bidirectional CTC handwriting recognition with chosen capacities, clocks
+    and training settings. Handwriting results depend on network size: the reported small clockwork model
+    is worse than the simple RNN, the larger one improves on it, and LSTM is better at every reported
+    size. The first two experiments use many random initializations; the handwriting experiment uses three
+    runs and excludes premature poor local optima before reporting averages. These comparisons do not
+    establish universal superiority, a complete TIMIT recognizer or independently reproduced performance;
+    no numerical benchmark is curated here.'
+  evidence:
+  - source_id: koutnik2014
+    locator: Section 4, Tables 1–3 and Figures 3–5, PDF pp. 4–7; Discussion, p. 7
+    relation: supports
+evidence_sources:
+- source_id: koutnik2014
+  title: A Clockwork RNN
+  authors:
+  - Jan Koutník
+  - Klaus Greff
+  - Faustino Gomez
+  - Jürgen Schmidhuber
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/koutnik14.pdf
+  version: ICML2014, PMLR32(2):1863–1871. All nine conference PDF pages, Figures1–5, Tables1–3, Equations1–4,
+    Appendix and references visually inspected; locators use PDF page order.
+  access_level: full_text
+  accessed_at: '2026-10-13T05:20:58Z'
+  sha256: a991ba1c812d9c8f72fb71d8e8a5fbc3a47fc59a3bda92f5a0bf043310bf1b64
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: This is a recurrent sequence architecture with prescribed module clocks and constrained inter-module
+    connectivity; the target is the broader recurrent architecture category.
+limitations:
+- Prescribed clock periods and copied inactive states differ from input-dependent learned gates or stochastic
+  state-preservation regularizers.
+- Slow modules can miss inputs between ticks. Proposed offsets, buffering, transformations and learned
+  periods are not imported as tested baseline features.
+- Identity carry on inactive steps does not constrain every active-step Jacobian or certify whole-network
+  memory and gradient stability.
+- Recurrent parameter and cycle-average operation counts have explicit equal-size and exponential-period
+  assumptions. The finite remainder is retained instead of the Appendix intermediate bound.
+- Reported handwriting outcomes and excluded poor runs qualify the performance evidence; no universal
+  LSTM advantage, current ranking or independent benchmark is asserted.
+- All nine primary conference-paper pages were read, including the Appendix. No author implementation,
+  training, runtime audit or empirical replication was inspected.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:44:06Z'
+  updated_at: '2026-10-13T05:44:06Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,554 @@
+# Scientific author self-review of Dynamic Convolutional Layer
+
+- Review: 20261013T120014Z-dynamic-convolutional-layer
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T11:55:19Z
+- Finished UTC: 2026-10-13T12:00:14Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Dynamic Convolutional Layer as a DRAFT reusable layer with explicit generic versus weather-application scope. All claims and mapping assessments are supported within inspected evidence. No actionable defect found in the author self-review; no implementation, training or benchmark replication performed.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:DynamicConvolutionalLayer
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base a47e95eaebd33a90ea3911eb048b186b8b36d4bb.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DynamicConvolutionalLayer | data/curated/DynamicConvolutionalLayer.yaml | maintained | Dynamic Convolutional Layer |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DynamicConvolutionalLayer | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 121.49s (0:02:01)<br>Checked 442 record(s); 0 failed.<br>Checked 613 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 282 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 278,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DynamicConvolutionalLayer | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DynamicConvolutionalLayer | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DynamicConvolutionalLayer | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:DynamicConvolutionalLayer | {"feature_branch_derivative": 9.0, "full_derivative": 18.0, "generated_kernel": [[0.15, 0.1], [0.44999999999999996, 0.30000000000000004]], "kernel_branch_derivative": 9.0, "nonseparable_target_determinant": 0.25, "patch_cnn_minus_dynamic": [0.36599999999999966, 3.2590000000000003, 3.089999999999989], "separable_determinant": 6.938893903907228e-18, "whole_dynamic_minus_patch_cnn": [0.8599999999999994, 12.073999999999998, 16.522000000000006]} |
+
+## Scientific And Domain Assessments
+
+### Dynamic Convolutional Layer
+
+identity: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Retain this distinct DRAFT layer.
+
+Retain the reusable generated-filter layer of Klein et al.; a complete weather network, question-conditioned visual ABC-CNN, and CBAM feature gating are different abstractions. Names are bounded to this paper rather than all later dynamic-convolution variants.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+The declared AIO mapping is supported.
+
+Layer is the supported broader neural component. ConvolutionalLayer is related: the pinned text treats kernels as learned parameters, whereas here generator parameters are learned and applied kernels are sample-dependent activations. KernelLayer lacks conditioning; LocallyConnected2D uses unshared fixed parameters; DepthwiseConv2D and SeparableConvolution2D concern channel operations rather than horizontal/vertical spatial separability. DeepConvolutionalNetwork is a whole network. All seven annotated node/edge/generated contexts were read.
+
+### input-generated-convolution-kernels
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section 3.2 and Equation 5 explicitly use example-indexed filters from branch B and feature maps from branch A. Equation 7 sends filter gradients back into the generator; kernels are not independent persistent parameters updated for each test case. Spatial convolution shares the generated bank within that application.
+
+### gradient-and-generic-scope
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations 6–7 establish both derivative inputs. The scalar shared-input construction gives two equal contributions of 9, total 18, and quadratic scaling; it does not test convolution indexing or author implementation. The generic definition lacks the positivity/separability constraints introduced in the weather architecture.
+
+### normalized-separable-weather-filters
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Figures 4–5 and Section 4 show 41-entry horizontal/vertical outputs, individual softmax and vertical then horizontal convolution of the last frame. The normalized positive outer product has unit mass and zero determinant but spreads an impulse. A positive determinant target is not rank one. These elementary consequences bound the paper’s translation intuition without asserting a calibrated motion field.
+
+### whole-image-and-patch-configurations
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section 4 specifies four 250x250 frames and central 200x200 output with three convolution/pooling stages. Section 5 specifies four 70x70 patches, 10x10 centers, removal of C3/M3 and sliding application. Different patches can generate distinct filters; fixed dimensions belong to these experiments.
+
+### dataset-and-comparison-limits
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections 6.1–6.2 support disjoint year ranges and filtered/preprocessed radar sequences. Equation 8 is a sum over 200x200 pixels, with Table 1 means and standard errors. Patch dynamic means are lowest, whole dynamic means exceed patch CNN, and Section 6.5 preserves the Tel Aviv nonsignificance exception at 0.01. No arithmetic subtraction is treated as a significance test.
+
+### loss-capacity-and-runtime-limits
+
+evidence: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections 6.4–7 state validation architecture search, extra branch complexity, slower mean per epoch despite faster shown convergence and Euclidean-loss blur. Figure 7 is a selected overlay illustration. Suggested enhancement/detection applications are not reported evaluations; the record makes no causal motion or uncertainty calibration claim.
+
+### generated activations versus fixed parameters, both gradient paths, conditional linearity, separable filter scope and bounded weather comparisons
+
+consistency: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Constructed calculations support the stated distinctions.
+
+Chosen one-position convolution demonstrates both shared-input derivative paths and input-dependent nonlinearity. Positive separable kernels illustrate mixtures of shifts and a rank constraint. Table1 mean differences are arithmetic only, not significance tests or replication.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:DynamicConvolutionalLayer.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Entire maintained YAML read after capture. Rechecked Figure 3 and Equations 5–7 for the two-input operator; Figures 4–5 and Sections 4–5 for normalization, spatial order and dimensions; Table 1, Equation 8 and Section 6.5 for metric/significance; Figure 7 and Discussion for evaluation limits. The selected mapping YAMLs and constructed calculations were read after capture. Full semantic/native context was inspected before curation.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T115457Z-dynamic-convolutional-layer.json | supports | Compared all 442 pinned AIO and 612 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 55 AIO and 82 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. The layer of Klein and colleagues uses a learned input-to-filter branch alongside feature maps. It is not a complete visual ABC-CNN, whose question generates attention kernels, or CBAM channel/spatial feature gating. Generic sample-conditioned convolution and its constrained separable weather instantiations remain distinct scopes; kernel-method feature spaces and dynamic time-series models are different identities. |
+| mapping | sources/aio/aio.json | supports | Layer is the supported broader neural component. ConvolutionalLayer is related: the pinned text treats kernels as learned parameters, whereas here generator parameters are learned and applied kernels are sample-dependent activations. KernelLayer lacks conditioning; LocallyConnected2D uses unshared fixed parameters; DepthwiseConv2D and SeparableConvolution2D concern channel operations rather than horizontal/vertical spatial separability. DeepConvolutionalNetwork is a whole network. All seven annotated node/edge/generated contexts were read. |
+| klein2015 | https://openaccess.thecvf.com/content_cvpr_2015/papers/Klein_A_Dynamic_Convolutional_2015_CVPR_paper.pdf; All nine CVPR2015 PDF pages inspected. Author code/data, benchmark execution, hardware timing reproduction and other versions excluded. Public PDF retrieval succeeded although the CVF HTML request returned 403. | supports | CVPR2015 open-access proceedings PDF, printed4840–4848, nine PDF pages; all visually read. Locators provide PDF and proceedings page numbers. CVF HTML fetch returned403 through web, but the public PDF was retrieved and inspected. Author code and data not inspected. |
+| calculation | research/discovery/dynamic-convolution-boundaries.py | supports | Chosen one-position convolution demonstrates both shared-input derivative paths and input-dependent nonlinearity. Positive separable kernels illustrate mixtures of shifts and a rank constraint. Table1 mean differences are arithmetic only, not significance tests or replication. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 613 native and 442 unchanged generated records. The 797-entry main frontier retains 477 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All 9 PDF pages visually read, including equations, figures, tables and references. No author code, model fitting, other versions or benchmark replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T120014Z-dynamic-convolutional-layer
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Dynamic Convolutional Layer
+started_at: '2026-10-13T11:55:19Z'
+finished_at: '2026-10-13T12:00:14Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged generated activations versus fixed parameters,
+    both gradient paths, conditional linearity, separable filter scope and bounded
+    weather comparisons. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Dynamic Convolutional Layer as a DRAFT reusable layer with explicit
+  generic versus weather-application scope. All claims and mapping assessments are
+  supported within inspected evidence. No actionable defect found in the author self-review;
+  no implementation, training or benchmark replication performed.
+source:
+  git_revision: a47e95eaebd33a90ea3911eb048b186b8b36d4bb
+  state: working_tree
+  inputs:
+  - path: data/aio/ConvolutionalLayer.yaml
+    sha256: 3b87e9fe798141deee846b353fa6d8530c637135eeb7e9eb4fa9f6597d7a25fd
+    role: context
+  - path: data/aio/DeepConvolutionalNetwork.yaml
+    sha256: b2be73a895ae3890ca0ba464c1d0de55e41960f33ec53dcab4547abfe1159c62
+    role: context
+  - path: data/aio/DepthwiseConv2DLayer.yaml
+    sha256: a09c7f568a5bfa403cc31824cb1a664e9e921e9537d2a77d7aceea88c68c5f21
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/LocallyConnected2DLayer.yaml
+    sha256: c9889c8650c3a0b0af8aff4ea9c3ab36c54080cf6f2c579f5119dea780268ce9
+    role: context
+  - path: data/aio/SeparableConvolution2DLayer.yaml
+    sha256: 42d73f330c803da8f435b313d738bdc0029558d43c9b8c2025804d2f8ae5133e
+    role: context
+  - path: data/curated/AttentionBasedConfigurableConvolutionalNeuralNetwork.yaml
+    sha256: 9023f81f517d8ab9656429a53a74f9fc57d1c23c29fb3286b9662cb2e20a5f46
+    role: context
+  - path: data/curated/ConvolutionalBlockAttentionModule.yaml
+    sha256: ece8d0432112916c5f158b484b24e6f316a9c3edfe07233fefeae5b454a96b96
+    role: context
+  - path: data/curated/DynamicConvolutionalLayer.yaml
+    sha256: 5cd632daf0ae4a1d9420d6b6989ce7775be966820eb60b3a84c1c08ef6b62190
+    role: target
+  - path: research/discovery/20261013T115457Z-dynamic-convolutional-layer.json
+    sha256: 18947dbbd25ac2ecfbfebdaab252db23ab6dafef936c24ce3e9149bc5b6eeecc
+    role: context
+  - path: research/discovery/dynamic-convolution-boundaries.py
+    sha256: f532c49c4e8c98d2890cf0948204ee0603c464a84da3030f19605d7d4e2c8ffd
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:DynamicConvolutionalLayer
+  path: data/curated/DynamicConvolutionalLayer.yaml
+  label: Dynamic Convolutional Layer
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DynamicConvolutionalLayer.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:DynamicConvolutionalLayer'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All nine CVPR2015 PDF pages inspected. Author code/data, benchmark execution,
+      hardware timing reproduction and other versions excluded. Public PDF retrieval
+      succeeded although the CVF HTML request returned 403.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 121.49s (0:02:01)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 613 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 282 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 278,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/dynamic-convolution-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"feature_branch_derivative": 9.0, "full_derivative": 18.0, "generated_kernel":
+    [[0.15, 0.1], [0.44999999999999996, 0.30000000000000004]], "kernel_branch_derivative":
+    9.0, "nonseparable_target_determinant": 0.25, "patch_cnn_minus_dynamic": [0.36599999999999966,
+    3.2590000000000003, 3.089999999999989], "separable_determinant": 6.938893903907228e-18,
+    "whole_dynamic_minus_patch_cnn": [0.8599999999999994, 12.073999999999998, 16.522000000000006]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T115457Z-dynamic-convolutional-layer.json
+  accessed_at: '2026-10-13T11:55:19Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 612 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    3, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    55 AIO and 82 native definitions, with every matched definition read. 7 full annotated
+    AIO node/edge/generated contexts and 2 full native records were inspected. The
+    layer of Klein and colleagues uses a learned input-to-filter branch alongside
+    feature maps. It is not a complete visual ABC-CNN, whose question generates attention
+    kernels, or CBAM channel/spatial feature gating. Generic sample-conditioned convolution
+    and its constrained separable weather instantiations remain distinct scopes; kernel-method
+    feature spaces and dynamic time-series models are different identities.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T11:55:19Z'
+  support: supports
+  summary: 'Layer is the supported broader neural component. ConvolutionalLayer is
+    related: the pinned text treats kernels as learned parameters, whereas here generator
+    parameters are learned and applied kernels are sample-dependent activations. KernelLayer
+    lacks conditioning; LocallyConnected2D uses unshared fixed parameters; DepthwiseConv2D
+    and SeparableConvolution2D concern channel operations rather than horizontal/vertical
+    spatial separability. DeepConvolutionalNetwork is a whole network. All seven annotated
+    node/edge/generated contexts were read.'
+- evidence_id: klein2015
+  kind: primary_source
+  reference: https://openaccess.thecvf.com/content_cvpr_2015/papers/Klein_A_Dynamic_Convolutional_2015_CVPR_paper.pdf
+  locator: All nine CVPR2015 PDF pages inspected. Author code/data, benchmark execution,
+    hardware timing reproduction and other versions excluded. Public PDF retrieval
+    succeeded although the CVF HTML request returned 403.
+  accessed_at: '2026-10-13T11:30:06Z'
+  snapshot_sha256: 588910012bafc316a1d6d8defe82b6198c4d3d645b36dfb9599e4d1e25be9933
+  support: supports
+  summary: CVPR2015 open-access proceedings PDF, printed4840–4848, nine PDF pages;
+    all visually read. Locators provide PDF and proceedings page numbers. CVF HTML
+    fetch returned403 through web, but the public PDF was retrieved and inspected.
+    Author code and data not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/dynamic-convolution-boundaries.py
+  accessed_at: '2026-10-13T11:57:13Z'
+  snapshot_sha256: f532c49c4e8c98d2890cf0948204ee0603c464a84da3030f19605d7d4e2c8ffd
+  support: supports
+  summary: Chosen one-position convolution demonstrates both shared-input derivative
+    paths and input-dependent nonlinearity. Positive separable kernels illustrate
+    mixtures of shifts and a rank constraint. Table1 mean differences are arithmetic
+    only, not significance tests or replication.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Dynamic Convolutional Layer
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - identity
+  - klein2015
+  summary: Retain this distinct DRAFT layer.
+  details: Retain the reusable generated-filter layer of Klein et al.; a complete
+    weather network, question-conditioned visual ABC-CNN, and CBAM feature gating
+    are different abstractions. Names are bounded to this paper rather than all later
+    dynamic-convolution variants.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - mapping
+  - klein2015
+  summary: The declared AIO mapping is supported.
+  details: 'Layer is the supported broader neural component. ConvolutionalLayer is
+    related: the pinned text treats kernels as learned parameters, whereas here generator
+    parameters are learned and applied kernels are sample-dependent activations. KernelLayer
+    lacks conditioning; LocallyConnected2D uses unshared fixed parameters; DepthwiseConv2D
+    and SeparableConvolution2D concern channel operations rather than horizontal/vertical
+    spatial separability. DeepConvolutionalNetwork is a whole network. All seven annotated
+    node/edge/generated contexts were read.'
+- assessment_id: input-generated-convolution-kernels
+  area: evidence
+  topic: input-generated-convolution-kernels
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section 3.2 and Equation 5 explicitly use example-indexed filters from
+    branch B and feature maps from branch A. Equation 7 sends filter gradients back
+    into the generator; kernels are not independent persistent parameters updated
+    for each test case. Spatial convolution shares the generated bank within that
+    application.
+- assessment_id: gradient-and-generic-scope
+  area: evidence
+  topic: gradient-and-generic-scope
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations 6–7 establish both derivative inputs. The scalar shared-input
+    construction gives two equal contributions of 9, total 18, and quadratic scaling;
+    it does not test convolution indexing or author implementation. The generic definition
+    lacks the positivity/separability constraints introduced in the weather architecture.
+- assessment_id: normalized-separable-weather-filters
+  area: evidence
+  topic: normalized-separable-weather-filters
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Figures 4–5 and Section 4 show 41-entry horizontal/vertical outputs, individual
+    softmax and vertical then horizontal convolution of the last frame. The normalized
+    positive outer product has unit mass and zero determinant but spreads an impulse.
+    A positive determinant target is not rank one. These elementary consequences bound
+    the paper’s translation intuition without asserting a calibrated motion field.
+- assessment_id: whole-image-and-patch-configurations
+  area: evidence
+  topic: whole-image-and-patch-configurations
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section 4 specifies four 250x250 frames and central 200x200 output with
+    three convolution/pooling stages. Section 5 specifies four 70x70 patches, 10x10
+    centers, removal of C3/M3 and sliding application. Different patches can generate
+    distinct filters; fixed dimensions belong to these experiments.
+- assessment_id: dataset-and-comparison-limits
+  area: evidence
+  topic: dataset-and-comparison-limits
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections 6.1–6.2 support disjoint year ranges and filtered/preprocessed
+    radar sequences. Equation 8 is a sum over 200x200 pixels, with Table 1 means and
+    standard errors. Patch dynamic means are lowest, whole dynamic means exceed patch
+    CNN, and Section 6.5 preserves the Tel Aviv nonsignificance exception at 0.01.
+    No arithmetic subtraction is treated as a significance test.
+- assessment_id: loss-capacity-and-runtime-limits
+  area: evidence
+  topic: loss-capacity-and-runtime-limits
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections 6.4–7 state validation architecture search, extra branch complexity,
+    slower mean per epoch despite faster shown convergence and Euclidean-loss blur.
+    Figure 7 is a selected overlay illustration. Suggested enhancement/detection applications
+    are not reported evaluations; the record makes no causal motion or uncertainty
+    calibration claim.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: generated activations versus fixed parameters, both gradient paths, conditional
+    linearity, separable filter scope and bounded weather comparisons
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - klein2015
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Chosen one-position convolution demonstrates both shared-input derivative
+    paths and input-dependent nonlinearity. Positive separable kernels illustrate
+    mixtures of shifts and a rank constraint. Table1 mean differences are arithmetic
+    only, not significance tests or replication.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DynamicConvolutionalLayer
+  evidence_ids:
+  - identity
+  - mapping
+  - klein2015
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Entire maintained YAML read after capture. Rechecked
+    Figure 3 and Equations 5–7 for the two-input operator; Figures 4–5 and Sections
+    4–5 for normalization, spatial order and dimensions; Table 1, Equation 8 and Section
+    6.5 for metric/significance; Figure 7 and Discussion for evaluation limits. The
+    selected mapping YAMLs and constructed calculations were read after capture. Full
+    semantic/native context was inspected before curation.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 613 native and 442 unchanged generated records.
+  The 797-entry main frontier retains 477 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All 9 PDF pages visually read, including equations, figures, tables and references.
+  No author code, model fitting, other versions or benchmark replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

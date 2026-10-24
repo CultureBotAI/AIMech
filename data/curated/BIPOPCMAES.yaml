@@ -1,0 +1,193 @@
+id: AIMech:BIPOPCMAES
+name: BI-population CMA-ES
+concept_kind: algorithm
+aliases: []
+definition: The original 2009 multistart CMA-ES algorithm that interlaces increasing-population attempts
+  with randomized smaller population and initial-scale attempts according to spent function-evaluation
+  budgets, using its specified positive-weight covariance and cumulative step-size base.
+definition_evidence:
+- source_id: hansen2009bipop
+  locator: Section 2 and Section 2.1, PDF p. 1 / printed p. 2389; Table 1, PDF p. 2 / printed p. 2390.
+  relation: supports
+claims:
+- claim_id: fixed-positive-weight-cma-base
+  kind: mechanism
+  statement: The original whole algorithm uses the specified Gaussian CMA-ES base for minimizing an evaluated
+    objective in integer dimension D>=1. Each generation samples lambda independent offspring with mean
+    m and covariance sigma^2*C, ranks them by objective value, and recombines the best mu=floor(lambda/2)
+    with positive normalized weights. The author erratum specifies the weights actually used as w_i=(ln(mu+1/2)-ln(i))/sum_j(ln(mu+1/2)-ln(j)),
+    with i,j from 1 to mu. The covariance rule combines retained C, a rank-one evolution-path term and
+    a weighted second moment of selected displacements about the old mean. Its h_sigma gate suppresses
+    the new covariance-path increment when the step-size path is too long and adds the stated correction
+    to the old-C coefficient. Population-dependent weights, effective selection mass and learning rates
+    are recomputed for the population used by each attempt.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Section 2, PDF p. 1 / printed p. 2389, constants and recombination weights; Table 1, PDF
+      p. 2 / printed p. 2390, caption and Equations 1–5.
+    relation: supports
+  - source_id: bipop-author-erratum
+    locator: 'Minor erratum: the computation of w_i in Section 2 used ln(mu+1/2) rather than the printed
+      ln(mu+1).'
+    relation: supports
+- claim_id: inherited-cumulative-step-size-adaptation
+  kind: mechanism
+  statement: The fixed base accumulates the normalized mean displacement after whitening by the symmetric
+    inverse square root of the current positive-definite C into a separate path p_sigma. It updates the
+    positive scalar scale by sigma_new=sigma*exp((c_sigma/d_sigma)*(norm(p_sigma_new)/E_norm_standard_normal-1)),
+    where the expectation is the length of a D-dimensional standard-normal vector. This inherited scalar
+    exponential is distinct from the restart budget policy and population doubling. In exact real arithmetic,
+    finite exponents preserve a positive sigma; this does not establish objective improvement or finite-precision
+    stability.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Section 2, PDF p. 1 / printed p. 2389, inverse square root and step-size constants; Table
+      1, PDF p. 2 / printed p. 2390, Equations 3 and 6.
+    relation: supports
+- claim_id: spent-budget-restart-selection
+  kind: mechanism
+  statement: After one standalone run with lambda_def=4+floor(3 ln D), the procedure interlaces complete
+    attempts from two restart regimes. Each regime has an account of function evaluations already spent;
+    the initial standalone run is disregarded in the large-regime account. A small-regime attempt is selected
+    if and only if its current spent budget is smaller than the large-regime budget; otherwise the large
+    regime is selected, including ties. The first restart is therefore large. This is evaluation-cost
+    balancing between sequential attempts, not simultaneous evolution of two populations, fixed alternation,
+    equal numbers of attempts or exact equality of costs after every attempt.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Section 2.1, PDF p. 1 / printed p. 2389, initial run, budget accounting, first restart and
+      strict small-budget selection condition.
+    relation: supports
+- claim_id: increasing-population-regime
+  kind: mechanism
+  statement: In the original large-population regime, lambda doubles before each large restart, with initial
+    scale sigma_0=2. The configured sequence permits at most nine such restarts, so its largest population
+    is 2^9*lambda_def. These are large-regime restarts, not a bound of nine on all attempts including
+    the interlaced small regime. Doubling occurs between attempts rather than every generation. The source
+    describes a schedule whose final configured restart is large; stopping early on the objective target
+    can instead finish in a small attempt. The nine-restart setting is specific to this original configuration.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Section 2.1, PDF p. 1 / printed p. 2389, increasing population and first/last restart statements;
+      Section 2.2, PDF p. 2 / printed p. 2390, overall target or largest population stopping; Section
+      6 and Table 3, PDF p. 3 / printed p. 2391, final successful populations.
+    relation: supports
+- claim_id: randomized-small-population-and-scale
+  kind: mechanism
+  statement: Given the latest large-regime population lambda_l, the small regime uses independent uniform
+    draws U,V on [0,1] to set lambda_s=floor(lambda_def*(lambda_l/(2*lambda_def))^(U^2)) and sigma_0=2*10^(-2V).
+    Thus lambda_s lies between lambda_def and lambda_l/2, while the initial scale is log-uniform on [0.02,2].
+    At the first large population 2*lambda_def, the small population is simply lambda_def; later large
+    populations permit variation. The population rule is not a uniform draw over integers in that range.
+    The paper also enforces a small-run evaluation cap described as half the recent large budget; this
+    record preserves that wording without certifying a last-run versus cumulative implementation convention.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Section 2.1, PDF p. 1 / printed p. 2389, displayed lambda_s formula, independent-uniform
+      statement, sigma_0 formula and recent-large-budget cap. Range and first-large-population observations
+      follow directly from these formulas.
+    relation: supports
+- claim_id: original-configuration-and-stopping-boundary
+  kind: scope
+  statement: In the evaluated configuration, each run starts with a mean sampled uniformly in [-4,4]^D,
+    identity covariance and zero evolution paths. That box specifies initialization, not a claim that
+    every Gaussian offspring remains inside it. A local attempt ends on its target or the listed iteration,
+    function-range, stagnation, small-coordinate/path, no-effect or covariance-conditioning criteria.
+    Overall termination also depends on the target or largest configured final population. These controls
+    are not global-optimality certificates. This named positive-weight 2009 whole method is distinct from
+    the original increasing-population-only restart procedure, a covariance-update component or a generic
+    controller with an arbitrary inner optimizer.
+  evidence:
+  - source_id: hansen2009bipop
+    locator: Table 1 caption and Section 2.2, PDF p. 2 / printed p. 2390, initialization and termination;
+      Section 2.1, PDF p. 1 / printed p. 2389, the two different regimes; Section 3, PDF p. 2, configuration
+      qualifications.
+    relation: supports
+identity_notes: This record describes the original 2009 positive-weight whole BIPOP method with its specified
+  CMA base, spent-evaluation-budget interleaving and independent random small-population/initial-scale
+  rules. It is distinct from the existing 2005 IPOP algorithm, 2001 rank-one base, 2003 covariance component
+  and 2006 signed active component. Fresh postmerge collection at 1031c6b1f1f4492fbebec6eee1db5a6c68672d9e
+  checked all 737 native and 442 pinned AIO record identities and bytes. Four searches included ignored
+  and hidden files, yielding 1,463 occurrences grouped into 26 exact contents; root read all 26 complete
+  contents. No normalized ID, label, alias or scoped-synonym collision was found for the explicit probes.
+  The matches are carried active-covariance leads, unrelated Gaussian-process cross-covariance language,
+  and existing IPOP boundary context. This finding is bounded to the pinned inventory and inspected semantic
+  neighborhoods, not all AI literature. Existing owner 202 retains its IPOP record and prior resolution,
+  adds BIPOP, and keeps other restart residuals.
+evidence_sources:
+- source_id: hansen2009bipop
+  title: Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed
+  authors:
+  - Nikolaus Hansen
+  source_type: primary_paper
+  url: https://sci2s.ugr.es/sites/default/files/files/TematicWebSites/EAMHCO/contributionsGECCO09/p2389-hansen.pdf
+  persistent_id: https://doi.org/10.1145/1570256.1570333
+  version: GECCO 2009 Workshop Proceedings; seven-page typeset paper hosted in University of Granada BBOB
+    materials, printed pp. 2389–2395. Author bibliography and erratum agree with those printed pages;
+    an archive listing gives pp. 2389–2396. Byte identity to a publisher or HAL copy is not certified.
+    PDF creation/modification dates are file metadata, not separate publication events.
+  access_level: full_text
+  accessed_at: '2026-10-15T06:25:41Z'
+  sha256: bdeda80ecf49ae6379f06d3cb903630466deff4f8f9daf5a3761538846059108
+- source_id: bipop-author-erratum
+  title: Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed — author erratum
+  authors:
+  - Nikolaus Hansen
+  source_type: official_documentation
+  url: https://www.cmap.polytechnique.fr/~nikolaus.hansen/bipopcma2009.txt
+  version: Undated author-hosted erratum retained on 15 October 2026 for the 2009 workshop paper. Corrects
+    Section 2 recombination weights and Table 2 runtime labels; no date for each correction is inferred.
+  access_level: documentation
+  accessed_at: '2026-10-15T06:25:42Z'
+  sha256: d41ce85e51d0fe26608aee35eed5195d436af55537db2cacd1cdcad4710a1f5e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ExponentialFunction
+  relation: related_match
+  rationale: The specified base of the original whole algorithm requires the scalar exponential in cumulative
+    step-size adaptation, Table 1 Equation 6. This inherited component supports the related mapping; budget
+    balancing and population doubling are not its basis. The optimizer is neither equivalent to nor a
+    subclass of the scalar function, and no neural activation or elementwise matrix-exponential interpretation
+    is asserted.
+limitations:
+- This is the original 2009 positive-weight whole method, with the separately cited correction to its
+  recombination weights. The maintained 2001 rank-one base, original 2003 equal-weight rank-mu component,
+  2006 active signed-moment component and 2005 increasing-population-only procedure are different scopes.
+  Later active-BIPOP combinations, noisy-objective extensions, alternative restart controllers and current
+  software are not exact aliases of this record.
+- The paper defines cumulative spent-evaluation accounts but does not fully settle the executable meaning
+  of half the recent large budget, partial-generation cap enforcement or budget overshoot. Equal-budget
+  language does not guarantee finite exact equality. The configured first/last-large schedule is qualified
+  by possible early target stopping.
+- Section 2.2 prints the small-path test without explicit absolute-value syntax and does not completely
+  specify fitness-tie handling. No executable repair is asserted. The initialization box, scale choices,
+  finite thresholds and known-target benchmark conditions are configuration choices, not assumptions satisfied
+  by every black-box problem or proofs of invariance of the whole stopped run.
+- Table 1 gives the update equations, while Section 4, Equation 7 on PDF p. 3, describes delayed eigendecompositions
+  and slightly outdated factors in the evaluated implementation. Exact refreshed factors at every generation,
+  numerical conditioning, stable floating-point behavior and complete implementation fidelity are not
+  certified here.
+- Section 3 reports no thorough parameter study and describes the small-regime settings as ad hoc. The
+  reported evaluation totals and selected population/scale outcomes do not establish a universal hard
+  evaluation cap, optimal budget allocation, global convergence or superiority over every restart policy.
+  No performance number, speedup or author-code benchmark reproduction is curated.
+- The author erratum states that Table 2 RT_succ averages Nsucc arbitrary trials rather than necessarily
+  successful trials, and that its final unsuccessful-trial median entry can be up to 12 percent too small.
+  These corrections are retained without inventing repaired results or treating them as a failure of every
+  method equation.
+- The primary bytes are a seven-page university-hosted proceedings copy, with printed pages 2389–2395;
+  byte identity to a publisher or HAL copy is not certified. The author bibliography and erratum agree
+  with those pages, while an archive listing gives 2389–2396. File build dates are distinct from publication
+  metadata. Supporting research read all seven native-text pages and method/discussion visuals on pages
+  1–3, plus the complete author erratum. Empirical plots, unread bibliographic dependencies and the separate
+  noisy companion were not audited. No author implementation, calculator, optimizer or benchmark was run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T06:52:10Z'
+  updated_at: '2026-10-15T06:52:10Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

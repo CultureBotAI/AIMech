@@ -1,0 +1,212 @@
+id: AIMech:StructurallyConstrainedRecurrentNeuralNetwork
+name: Structurally constrained recurrent neural network
+aliases:
+- SCRN
+- SCRNN
+concept_kind: architecture
+definition: A recurrent sequence architecture coupling a nonlinear recurrent hidden state with a separate
+  linear context state whose recurrence is constrained to a scalar or diagonal decay, with context-to-hidden
+  connections and no hidden-to-context feedback.
+identity_notes: Compared all 442 pinned AIO and 572 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 7, 0, 0 lines. The current matches were inspected
+  as the preceding IRNN report’s SCRN source/lead notes and one semantic-search expression, not an existing
+  maintained record. The semantic search covers 47 AIO rows and 128 native definitions; preceding 44 AIO
+  and118 native rows were verified unchanged and the additional three activation-function rows plus ten
+  native definitions read. Sigmoid-based belief networks, diagonal state-space models and unrelated diagonal
+  clustering/representation objectives do not match this coupled recurrent architecture. Four full annotated
+  AIO node/edge/generated contexts and four full adjacent native records were inspected. RecurrentNeuralNetwork
+  is the broader architecture category and SigmoidFunction is a related component. SimpleRNNLayer lacks
+  this coupled context structure; EchoStateNetwork’s sparse recurrent/output-learning definition does
+  not establish equivalence or a superclass relation for jointly learned fast/input/context-output parameters.
+  Unlike IRNN initialization, SCRN retains structural zero and diagonal context blocks. Fixed and adaptive
+  per-unit decay configurations are preserved within the record, as are current-versus-lagged context
+  conventions.
+definition_evidence:
+- source_id: mikolov2015
+  locator: Section 2.2, Figure 1 and Equations 4–8, printed/PDF pp. 2–5
+  relation: supports
+claims:
+- claim_id: linear-context-and-fast-state
+  kind: mechanism
+  statement: For the fixed-decay paper formulation, s_t=(1-alpha)*B*x_t+alpha*s_(t-1), with 0<alpha<1;
+    its nonlinear state is h_t=sigma(P*s_t+A*x_t+R*h_(t-1)), and output probabilities are obtained from
+    softmax(U*h_t+V*s_t). The context update has no activation nonlinearity and no feedback from h. The
+    fast-state recurrent matrix R is learned without imposing the same diagonal decay constraint. These
+    are the paper equations; the pinned implementation uses a lagged context input to h.
+  evidence:
+  - source_id: mikolov2015
+    locator: Section 2.2, Equations 4–6, p. 4
+    relation: supports
+  - source_id: authorgraph
+    locator: mfactory.lua lines 150–221, especially 191–199
+    relation: supports
+- claim_id: persistent-structure-and-adaptive-variant
+  kind: scope
+  statement: The zero hidden-to-context block and diagonal context recurrence are structural restrictions,
+    rather than a dense matrix initialized near identity and then freely trained. The paper also proposes
+    Q=diag(sigmoid(beta_j)) in place of alpha*I, with s_t=(I-Q)*B*x_t+Q*s_(t-1). In ideal real arithmetic
+    finite beta gives per-unit decays in (0,1); these are learned parameters shared over time, not input-dependent
+    LSTM-style gates. The fixed and adaptive context forms remain configurations of this architecture.
+  evidence:
+  - source_id: mikolov2015
+    locator: Section 2.2, alternative interpretation and adaptive context, Equations 7–8, pp. 4–5
+    relation: supports
+- claim_id: trace-memory-and-boundaries
+  kind: mechanism
+  statement: For fixed scalar alpha, the linear context expands to alpha^t*s_0+(1-alpha)*sum from j=1
+    to t of alpha^(t-j)*B*x_j. Its direct carry derivative over k steps is alpha^k*I, which tends to zero
+    for 0<alpha<1; slower forgetting does not mean permanent gradient preservation. This is a recency-weighted
+    summary and is not generally invariant to permuting tokens. With uniformly bounded embedded inputs
+    the scalar-decay context stays bounded by the larger of the initial-state and input norm bounds, but
+    this does not bound the fast-state Jacobian or establish stability of the whole trained system.
+  evidence:
+  - source_id: mikolov2015
+    locator: Section 2.2, Equation 4 and exponential trace discussion, p. 4; finite memory limitation
+      in conclusion, pp. 7–8; curator expansion
+    relation: supports
+- claim_id: current-versus-lagged-context
+  kind: scope
+  statement: Equation 5 feeds current s_t to the fast state, but mfactory.lua feeds prev_hid_slow even
+    though its nearby comment describes current c_t. A simultaneous transition using the paper Equation
+    7 block [R,P;0,alpha*I] also feeds the previous context. Substituting Equation 4 into Equation 5 instead
+    gives the effective recurrent coupling alpha*P and effective input matrix A+(1-alpha)*P*B. These formulations
+    can be reparameterized for nonzero alpha, but are not identical with unchanged raw parameters, initialization
+    or optimization. The record preserves the paper and pinned-code conventions separately.
+  evidence:
+  - source_id: mikolov2015
+    locator: Equations 4–7 and alternative interpretation, p. 4
+    relation: supports
+  - source_id: authorgraph
+    locator: mfactory.lua comment lines 164–166 versus graph lines 191–199; curator substitution
+    relation: supports
+- claim_id: pinned-fixed-context-implementation
+  kind: mechanism
+  statement: In the inspected fresh code setup, util.initSCRNN initializes the slow recurrent matrix to
+    (1-semb_scale)*I with zero off-diagonal entries. The builder scales the slow input embedding by semb_scale,
+    and SCRNN.zeroSomeGradients zeroes the slow recurrent weight gradient before the parameter update.
+    The shown SGD or momentum update, starting with the zero momentum buffer created by SCRNN, therefore
+    preserves this slow matrix under that path. This static reading does not certify arbitrary loaded
+    optimizer state, external mutation, library behavior or an implementation of the paper adaptive-Q
+    variant.
+  evidence:
+  - source_id: authorgraph
+    locator: mfactory.lua lines 171–201
+    relation: supports
+  - source_id: authorinit
+    locator: util.lua orthInit and initSCRNN
+    relation: supports
+  - source_id: authortrain
+    locator: scrnn.lua lines 120–134 and 320–338
+    relation: supports
+  - source_id: authorupdate
+    locator: rnn.lua lines 247–255
+    relation: supports
+- claim_id: evaluation-and-finite-memory
+  kind: limitation
+  statement: The paper evaluates language modeling on Penn Treebank and Text8 under selected hidden/context
+    sizes, output parameterizations, backpropagation horizons and learning-rate choices. Text8 performance
+    uses the reported development split, and context-weight learning helps some capacity settings more
+    than others. The authors explicitly acknowledge limits of finite-capacity recurrent memory. These
+    comparisons do not establish universal superiority to LSTM, arbitrary-length exact storage, or equivalence
+    between the paper and historical code training runs. No numerical benchmark or independent reproduction
+    is asserted.
+  evidence:
+  - source_id: mikolov2015
+    locator: Section 3 and Tables 1–4, pp. 5–7; conclusion, pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: mikolov2015
+  title: Learning Longer Memory in Recurrent Neural Networks
+  authors: &id001
+  - Tomas Mikolov
+  - Armand Joulin
+  - Sumit Chopra
+  - Michael Mathieu
+  - Marc’Aurelio Ranzato
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1412.7753v2
+  persistent_id: arXiv:1412.7753v2
+  version: April16,2015 v2; accepted-as-ICLR2015-workshop header. All nine printed/PDF pages, including
+    Figure1, four tables, eight equations and references, visually inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T04:28:03Z'
+  sha256: 5326cbf36d998a17720bbe2801779352751b0d35fac61afdf6a81e26836efa50
+- source_id: authorgraph
+  title: 'Author SCRNNs implementation: mfactory.lua'
+  authors: *id001
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/mfactory.lua
+  version: Pinned author commit 75582d4371d72dc789929b7076777bd5b3e38f1b (2018-01-03T00:15:58Z). Complete
+    file read; SCRN graph at lines150–221. Static inspection only; no Torch/runtime execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:30:07Z'
+  sha256: ff3e00fddb9ff5bc07170e7f0dd5621d466351f45adf26378355d38cb4dd8d81
+- source_id: authorinit
+  title: 'Author SCRNNs implementation: util.lua'
+  authors: *id001
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/util.lua
+  version: Pinned author commit 75582d4371d72dc789929b7076777bd5b3e38f1b (2018-01-03T00:15:58Z). Complete
+    file read; orthInit and initSCRNN checked. Static inspection only; no Torch/runtime execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:31:22Z'
+  sha256: d578f925f7cac1396c2694d30f28d4758a1956b9bfadfd6fe64113cf48ff2cd4
+- source_id: authortrain
+  title: 'Author SCRNNs implementation: scrnn.lua'
+  authors: *id001
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/scrnn.lua
+  version: Pinned author commit 75582d4371d72dc789929b7076777bd5b3e38f1b (2018-01-03T00:15:58Z). Complete
+    file read; zero initial momentum, gradient suppression and call order checked. Static inspection only;
+    no Torch/runtime execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:30:07Z'
+  sha256: 41a366ac2291037eeea78be69ddce8765af9f4fd9a7db219ce416e615f9243ba
+- source_id: authorupdate
+  title: 'Author SCRNNs implementation: rnn.lua'
+  authors: *id001
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/rnn.lua
+  version: Pinned author commit 75582d4371d72dc789929b7076777bd5b3e38f1b (2018-01-03T00:15:58Z). Only
+    lines230–285 inspected; updateParams at247–255. Remaining file not read. Static inspection only; no
+    Torch/runtime execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:31:22Z'
+  sha256: 0974765546e116c887c263a9e267c61c36c4f8436022214d849c9af275275f6c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The architecture is a recurrent sequence network with a constrained linear context subsystem;
+    the target is the broader recurrent architecture category.
+- target: AIO:SigmoidFunction
+  relation: related_match
+  rationale: The paper names a sigmoid fast-state operation and the author graph uses nn.Sigmoid. The
+    architecture is related to its activation function, not a subclass of that mathematical function.
+limitations:
+- Paper current-context equations and pinned previous-context code are kept distinct. Their parameter
+  transformation does not imply identical initialization, optimization or empirical results.
+- The slow-context structural constraint does not constrain the learned fast recurrent matrix in the same
+  way. A decaying trace is not an unlimited exact memory or unconditional gradient guarantee.
+- The paper prints a sigmoid expression with a positive exponential sign while calling it sigmoid; the
+  author graph uses nn.Sigmoid. This record names the operation without importing a theorem from that
+  printed scalar formula.
+- The adaptive per-unit decay is a paper variant; the inspected fixed-context code path is not presented
+  as its implementation. Static preservation reasoning assumes the stated fresh initialization and update
+  path.
+- All nine paper pages and six selected author files were read completely; only lines 230–285 of rnn.lua
+  were read. No full repository/dependency audit, Torch execution, training or benchmark replication was
+  performed.
+- The source evaluations use specific capacities, splits and training choices. No current best performance,
+  unconditional LSTM advantage or independent scientific approval is asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:05:19Z'
+  updated_at: '2026-10-13T05:05:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

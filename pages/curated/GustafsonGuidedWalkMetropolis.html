@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gustafson guided-walk Metropolis sampler · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Gustafson guided-walk Metropolis sampler</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Gustafson guided-walk Metropolis sampler</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:GustafsonGuidedWalkMetropolis</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A continuous-state Metropolis sampler that augments a univariate state with a binary direction, proposes a half-normal displacement along that direction, retains direction after acceptance and reverses it after rejection.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Whole-corpus normalized checks cover every ID, name, alias and scoped synonym in 442 pinned AIO and 703 native records; four complete ignored-inclusive checkouts include the final author-qualified ID/label and broader source names. The named univariate continuous half-normal guided step retains sign on acceptance and flips on rejection. Finite DHN fixed-neighbor fibers with nondegenerate auxiliary sign randomization are a related variant, not the same complete kernel. Generic guided/lifted/nonreversible labels are not exact aliases. Existing Gustafson source-frontier reference is resolved in place. Related AIO:MarkovChain expresses process connection only; it does not import graph parents or neural-layer ancestry. Broad semantic and full native-context assessments remain explicitly attributed to their readers.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#direction-augmented-half-normal-proposal</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a proper univariate target with density pi, retain state (x,p), where p is either −1 or +1, with augmented target pi(x)/2. At a current point with positive target density, draw z from N(0,sigma²) for a fixed sigma&gt;0 and propose y=x+p*abs(z). The sign selects the proposal direction while the absolute Gaussian draw supplies its random magnitude; target derivatives are not used.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gustafson1998">A guided walk Metropolis algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 2 and Section 3, printed p. 358 / PDF p. 2, continuous univariate setting and displayed guided-walk proposal</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#acceptance-and-rejection-direction-rules</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Accept with probability min(1,pi(y)/pi(x)). On acceptance the new state is (y,p); on rejection it is (x,−p). Thus accepted moves retain direction, while rejection retains the position and reverses the direction for the next proposal. There is no additional random sign refresh in this displayed univariate kernel. An unknown common normalizing constant in the target density cancels from the ratio.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gustafson1998">A guided walk Metropolis algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 3, printed p. 358 / PDF p. 2, displayed guided-walk transition and immediately following explanation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#two-stage-invariance-construction</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The transition can be decomposed into a Metropolis–Hastings stage proposing (x+p*abs(z),−p), followed by unconditional negation of the resulting sign. The first proposal is symmetric on the augmented space and preserves the target under the Metropolis correction; the second operation preserves the uniform sign factor. Their composition therefore preserves pi(x)/2. This argument establishes invariance, not a general convergence rate or ergodicity theorem for every target and tuning choice.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gustafson1998">A guided walk Metropolis algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 3, printed p. 359 / PDF p. 3, first paragraph; introduction continuation, printed p. 358 / PDF p. 2</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#univariate-and-componentwise-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper applies univariate invariant updates in turn to full conditional distributions and studies componentwise guided walks for multivariate targets. This record’s operational kernel is the displayed univariate update. The separate simultaneous-vector variant mentioned in the discussion includes direction perturbation and is not specified by the same univariate formula alone; it is not asserted as an exact alias or complete implementation here.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gustafson1998">A guided walk Metropolis algorithm</a></span>
+        <span>· <strong>Locator:</strong> Introduction continuation, printed p. 358 / PDF p. 2; Examples 2–4, printed pp. 359–363 / PDF pp. 3–7; Section 5, printed p. 363 / PDF p. 7, simultaneous-vector discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evidence-and-performance-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates synthetic targets and distinguishes its continuous guided walk from related finite-state theory. Its reported convergence experiment uses entry into a selected target ellipsoid as a criterion, rather than a general proof of distributional convergence. The paper also assigns the best acceptance-rate labels inconsistently between Example 2 and Example 4. These observations support keeping the mechanism separate from claims of universal efficiency, convergence or an optimal acceptance rate.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-gustafson1998">A guided walk Metropolis algorithm</a></span>
+        <span>· <strong>Locator:</strong> Introduction continuation, printed p. 358 / PDF p. 2; Example 2, printed p. 361 / PDF p. 5; Example 4 and Figure 2, printed pp. 361–363 / PDF pp. 5–7; Section 5, printed p. 363 / PDF p. 7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The definition is restricted to the displayed continuous univariate half-normal proposal and fixed positive scale. Other displacement laws, adaptive scales and simultaneous vector proposals require their own evidence and validity conditions.</li>
+      <li>The current point must have positive target density and the acceptance calculation must be defined. If an outside-support proposal has zero target density, the displayed formula rejects it and flips the sign; it does not specify clipping, resampling or a reflected proposal. This is the formula’s support consequence, not a separate boundary theorem.</li>
+      <li>The paper gives no general target-regularity and ergodicity theorem for this continuous kernel. The finite positive-target, nonzero-sign-randomization conditions in the related DHN construction cannot be transferred automatically.</li>
+      <li>The method shares persistent-direction lifting with the DHN finite fiber sampler, but uses random continuous displacement and deterministic rejection reversal without its additional theta sign randomization. It is not an exact alias of the finite fiber construction, ordinary random-walk Metropolis or Hamiltonian Monte Carlo.</li>
+      <li>The inspected source is the 1998 journal-layout paper obtained through a public mirror. Exact byte equivalence to a publisher download or to the 1997 preprint cited by DHN was not established. No numerical performance or runtime claim is made.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The guided-walk procedure constructs a Markov chain on position and binary direction with a specified target marginal. AIO MarkovChain denotes a stochastic process/model. This is a method-to-process association, without equivalence, subclass status or inheritance of Network and hidden-layer assertions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-gustafson1998">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">gustafson1998</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://s1p.studyres.com/store/data/006398654.pdf?k=AwAAAaE8Dia1AAACWAmBLbNwqxCl67xnHM1Hyn5zBV8q" target="_blank" rel="noopener">A guided walk Metropolis algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul Gustafson
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1023/A:1008880707168</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:644d92ef3292…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AGustafsonGuidedWalkMetropolis">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Gustafson guided-walk Metropolis sampler" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:GustafsonGuidedWalkMetropolis</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Gustafson guided-walk...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:MarkovChain (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T21:02:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T21:02:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/GustafsonGuidedWalkMetropolis.yaml" target="_blank" rel="noopener">
+      <code>data/curated/GustafsonGuidedWalkMetropolis.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Gustafson%20guided-walk%20Metropolis%20sampler"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AGustafsonGuidedWalkMetropolis"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

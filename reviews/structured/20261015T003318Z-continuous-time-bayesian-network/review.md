@@ -1,0 +1,1319 @@
+# Scientific author self-review of Continuous-time Bayesian network
+
+- Review: 20261015T003318Z-continuous-time-bayesian-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T00:15:24.132686Z
+- Finished UTC: 2026-10-15T00:33:18.809777Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The finite homogeneous CTBN model identity is supported with separate initial-law and dynamics graphs, explicit zero-exit handling and finite-interval semantics. The initial-correlation counterexample bounds the source independence claim; DRAFT is retained.
+
+## Scope And Provenance
+
+All maintained fields of the selected record. Actual source scope: nodelman2002: Root postcapture reread PDF2–9 native text and visually inspected PDF5 (amalgamation/generative semantics/Theorem3.9). Earlier root all10nativepages and visuals2/3/4/5/8/9 remain historical; fresh reading is not restamped source acquisition.. Separate initial BN, possibly cyclic current-parent CIM dynamics and finite homogeneous single-coordinate joint generator are supported. Zero exits and parent enabling, row marginal versus joint law, positive finite-interval multiple transitions and full-support initial-correlation counterexample are correctly qualified. Product-state inference cost and marginalization limits remain separate from model identity. Unique stationary-law wording is correct; no denial of finite-state distribution convergence. Related MarkovChain does not import neural hidden-layer or DAG identity.
+
+Selection: Exact maintained ID: AIMech:ContinuousTimeBayesianNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 622c3bde9e3bc8ac08007afdd9f2db9306d0d719.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ContinuousTimeBayesianNetwork | data/curated/ContinuousTimeBayesianNetwork.yaml | maintained | Continuous-time Bayesian network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ContinuousTimeBayesianNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 516.37s (0:08:36)<br>Checked 442 record(s); 0 failed.<br>Checked 715 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 400 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 409,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ContinuousTimeBayesianNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| just render | passed | True | AIMech:ContinuousTimeBayesianNetwork | Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages<br>uv run --locked python scripts/render_pages.py<br> |
+| just render-check | passed | True | AIMech:ContinuousTimeBayesianNetwork | pages/ is current<br>uv run --locked python scripts/render_pages.py --check<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ContinuousTimeBayesianNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ContinuousTimeBayesianNetwork | Actual command exited zero without output. |
+| python3 research/discovery/ksvd-boundaries.py | passed | True | AIMech:ContinuousTimeBayesianNetwork | {<br>  "arbitrary_recoding_negative_control": {<br>    "Y": [<br>      [<br>        "1",<br>        "0",<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1",<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "feasible_recoding_X": [<br>      [<br>        "1",<br>        "1",<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "1",<br>        "1"<br>      ]<br>    ],<br>    "losses_old_recoded_swept": [<br>      "0",<br>      "4",<br>      "2"<br>    ],<br>    "old_D": [<br>      [<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "old_X": [<br>      [<br>        "1",<br>        "0",<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1",<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "post_sweep_D": [<br>      [<br>        "1",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "post_sweep_X": [<br>      [<br>        "1",<br>        "0",<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "1",<br>        "0"<br>      ]<br>    ],<br>    "scope": "Deliberately poor feasible coder, not a counterexample to a specified OMP implementation."<br>  },<br>  "centroid_vs_unit_atom": {<br>    "Y": [<br>      [<br>        "2"<br>      ],<br>      [<br>        "0"<br>      ]<br>    ],<br>    "free_coefficient": 2,<br>    "losses_centroid_fixed_one_unit_free_gain": [<br>      "0",<br>      "1",<br>      "0"<br>    ],<br>    "unconstrained_centroid": [<br>      "2",<br>      "0"<br>    ],<br>    "unit_atom": [<br>      "1",<br>      "0"<br>    ]<br>  },<br>  "domain": "Constructed finite real matrices; exact Fraction arithmetic; no numerical SVD or author implementation.",<br>  "empty_active_set": {<br>    "block_losses": [<br>      "0",<br>      "0",<br>      "0",<br>      "0",<br>      "0"<br>    ],<br>    "meaning": "No active column determines an atom; retaining or replacing it requires a policy.",<br>    "unit_atom_choices_tested": 5<br>  },<br>  "grid": {<br>    "certified_two_by_two_spectra": 250,<br>    "coverage": "Five rational rotations on each side; integer 0&lt;=t&lt;=s&lt;=3; 35 old feasible rank-one choices per case.",<br>    "old_feasible_comparisons": 8750,<br>    "positive_repeated_top_cases": 75,<br>    "zero_spectrum_cases": 25<br>  },<br>  "limits": [<br>    "No universal algorithm convergence or local-minimum theorem follows from these finite checks.",<br>    "Grid certificates supplement algebra; they do not validate an arbitrary floating-point SVD routine.",<br>    "No empirical recovery, uniqueness of a learned dictionary, runtime or benchmark assertion."<br>  ],<br>  "repeated_singular_value": {<br>    "E": [<br>      [<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "alternatives": [<br>      {<br>        "atom": [<br>          "1",<br>          "0"<br>        ],<br>        "reconstruction": [<br>          [<br>            "1",<br>            "0"<br>          ],<br>          [<br>            "0",<br>            "0"<br>          ]<br>        ],<br>        "row": [<br>          "1",<br>          "0"<br>        ]<br>      },<br>      {<br>        "atom": [<br>          "0",<br>          "1"<br>        ],<br>        "reconstruction": [<br>          [<br>            "0",<br>            "0"<br>          ],<br>          [<br>            "0",<br>            "1"<br>          ]<br>        ],<br>        "row": [<br>          "0",<br>          "1"<br>        ]<br>      },<br>      {<br>        "atom": [<br>          "3/5",<br>          "4/5"<br>        ],<br>        "reconstruction": [<br>          [<br>            "9/25",<br>            "12/25"<br>          ],<br>          [<br>            "12/25",<br>            "16/25"<br>          ]<br>        ],<br>        "row": [<br>          "3/5",<br>          "4/5"<br>        ]<br>      },<br>      {<br>        "atom": [<br>          "5/13",<br>          "12/13"<br>        ],<br>        "reconstruction": [<br>          [<br>            "25/169",<br>            "60/169"<br>          ],<br>          [<br>            "60/169",<br>            "144/169"<br>          ]<br>        ],<br>        "row": [<br>          "5/13",<br>          "12/13"<br>        ]<br>      },<br>      {<br>        "atom": [<br>          "-3/5",<br>          "4/5"<br>        ],<br>        "reconstruction": [<br>          [<br>            "9/25",<br>            "-12/25"<br>          ],<br>          [<br>            "-12/25",<br>            "16/25"<br>          ]<br>        ],<br>        "row": [<br>          "-3/5",<br>          "4/5"<br>        ]<br>      }<br>    ],<br>    "optimal_error": 1<br>  },<br>  "role": "Curator exact algebra; not independent scientific approval or model training.",<br>  "sequential_vs_parallel": {<br>    "Y": [<br>      [<br>        "3"<br>      ],<br>      [<br>        "5"<br>      ]<br>    ],<br>    "initial_D": [<br>      [<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "initial_X": [<br>      [<br>        "3"<br>      ],<br>      [<br>        "1"<br>      ]<br>    ],<br>    "losses_initial_sequential_parallel": [<br>      "16",<br>      "0",<br>      "16"<br>    ],<br>    "parallel_X": [<br>      [<br>        "5"<br>      ],<br>      [<br>        "5"<br>      ]<br>    ],<br>    "sequential_X": [<br>      [<br>        "5"<br>      ],<br>      [<br>        "1"<br>      ]<br>    ],<br>    "updated_D": [<br>      [<br>        "3/5",<br>        "0"<br>      ],<br>      [<br>        "4/5",<br>        "1"<br>      ]<br>    ]<br>  },<br>  "simultaneous_atom_row_sign_flip": {<br>    "verified": true<br>  },<br>  "source_equation_22_range": {<br>    "Figure_2_support": [<br>      3<br>    ],<br>    "K": 2,<br>    "N": 3,<br>    "coefficient_row": [<br>      "0",<br>      "0",<br>      "1"<br>    ],<br>    "literal_Equation_22_support": []<br>  },<br>  "support_restriction": {<br>    "E": [<br>      [<br>        "3",<br>        "100"<br>      ],<br>      [<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "Y": [<br>      [<br>        "3",<br>        "101"<br>      ],<br>      [<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "old_loss": "10010",<br>    "restricted_X": [<br>      [<br>        "3",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "restricted_loss": "10000",<br>    "sample_2_budget": 1,<br>    "unrestricted_X": [<br>      [<br>        "3",<br>        "100"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ]<br>  },<br>  "zero_residual_block": {<br>    "E": [<br>      [<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "losses": [<br>      "0",<br>      "0",<br>      "0",<br>      "0",<br>      "0"<br>    ],<br>    "meaning": "Zero coefficients are optimal and the unit atom is not identified.",<br>    "unit_atom_choices_tested": 5<br>  }<br>}<br> |
+| python3 research/discovery/ctbn-boundaries.py | passed | True | AIMech:ContinuousTimeBayesianNetwork | {<br>  "role": "original curator-written bounded mathematical evidence checks",<br>  "arithmetic": "Fractions throughout; transcendental values enclosed by rational intervals",<br>  "not_claimed": [<br>    "author-code replication",<br>    "training or benchmark execution",<br>    "general theorem proof",<br>    "independent scientific approval"<br>  ],<br>  "example_3_4": {<br>    "locator": "PDF pp4-5, Example3.4 and amalgamation formula",<br>    "state_order_Z_W": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "derived_joint_generator": [<br>      [<br>        "-6",<br>        "1",<br>        "5",<br>        "0"<br>      ],<br>      [<br>        "2",<br>        "-9",<br>        "0",<br>        "7"<br>      ],<br>      [<br>        "6",<br>        "0",<br>        "-9",<br>        "3"<br>      ],<br>      [<br>        "0",<br>        "8",<br>        "4",<br>        "-12"<br>      ]<br>    ],<br>    "matches_printed_example_and_pairwise_definition": true,<br>    "competing_event_distributions": [<br>      {<br>        "joint_exit_rate": "6",<br>        "status": "active_joint_state",<br>        "disabled_coordinates": [],<br>        "events": [<br>          {<br>            "coordinate": 0,<br>            "destination": 1,<br>            "rate": "5",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "5/6",<br>            "probability": "5/6"<br>          },<br>          {<br>            "coordinate": 1,<br>            "destination": 1,<br>            "rate": "1",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "1/6",<br>            "probability": "1/6"<br>          }<br>        ],<br>        "finite_next_event": true<br>      },<br>      {<br>        "joint_exit_rate": "9",<br>        "status": "active_joint_state",<br>        "disabled_coordinates": [],<br>        "events": [<br>          {<br>            "coordinate": 0,<br>            "destination": 1,<br>            "rate": "7",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "7/9",<br>            "probability": "7/9"<br>          },<br>          {<br>            "coordinate": 1,<br>            "destination": 0,<br>            "rate": "2",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "2/9",<br>            "probability": "2/9"<br>          }<br>        ],<br>        "finite_next_event": true<br>      },<br>      {<br>        "joint_exit_rate": "9",<br>        "status": "active_joint_state",<br>        "disabled_coordinates": [],<br>        "events": [<br>          {<br>            "coordinate": 0,<br>            "destination": 0,<br>            "rate": "6",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "2/3",<br>            "probability": "2/3"<br>          },<br>          {<br>            "coordinate": 1,<br>            "destination": 1,<br>            "rate": "3",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "1/3",<br>            "probability": "1/3"<br>          }<br>        ],<br>        "finite_next_event": true<br>      },<br>      {<br>        "joint_exit_rate": "12",<br>        "status": "active_joint_state",<br>        "disabled_coordinates": [],<br>        "events": [<br>          {<br>            "coordinate": 0,<br>            "destination": 0,<br>            "rate": "8",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "2/3",<br>            "probability": "2/3"<br>          },<br>          {<br>            "coordinate": 1,<br>            "destination": 0,<br>            "rate": "4",<br>            "conditional_destination_probability": "1",<br>            "component_selection_probability": "1/3",<br>            "probability": "1/3"<br>          }<br>        ],<br>        "finite_next_event": true<br>      }<br>    ]<br>  },<br>  "finite_interval_multiple_changes": {<br>    "state_order": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "generator": [<br>      [<br>        "-3",<br>        "2",<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "-1",<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "-2",<br>        "2"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "instantaneous_00_to_11_rate": "0",<br>    "Q_squared_00_to_11": "4",<br>    "quadratic_series_coefficient": "2",<br>    "time": "1/2",<br>    "uniformization_probability_bounds": [<br>      "526441873489446231709757665484800/2116604004705198983883813354639909",<br>      "415915559539120675884784848541975243080643449790028609007085/1672223626712236873661991653134877422830544233833478621998829"<br>    ],<br>    "closed_form": "(1-exp(-t))*(1-exp(-2*t))",<br>    "closed_form_bounds": [<br>      "6918336509989167076625714697932432274114521/27815756117346202281528947751102315328194521",<br>      "551008144003483216157599818837584732930225804111/2215374769663591342248171820394200999140865676111"<br>    ],<br>    "bounds_overlap": true,<br>    "calculation": {<br>      "nu": "3",<br>      "t": "1/2",<br>      "terms": 20,<br>      "tail_upper": "22619897064207/967811616234658886092278625807"<br>    },<br>    "interpretation": "A positive finite interval can contain sequential coordinate changes; a zero direct generator entry forbids only their single simultaneous jump."<br>  },<br>  "zero_exit_boundaries": {<br>    "state_order_U_X": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "generator": [<br>      [<br>        "-1",<br>        "0",<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "-1",<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "-2",<br>        "2"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "initially_disabled_child": {<br>      "joint_exit_rate": "1",<br>      "status": "active_joint_state",<br>      "disabled_coordinates": [<br>        1<br>      ],<br>      "events": [<br>        {<br>          "coordinate": 0,<br>          "destination": 1,<br>          "rate": "1",<br>          "conditional_destination_probability": "1",<br>          "component_selection_probability": "1",<br>          "probability": "1"<br>        }<br>      ],<br>      "finite_next_event": true<br>    },<br>    "after_parent_switch": {<br>      "joint_exit_rate": "2",<br>      "status": "active_joint_state",<br>      "disabled_coordinates": [<br>        0<br>      ],<br>      "events": [<br>        {<br>          "coordinate": 1,<br>          "destination": 1,<br>          "rate": "2",<br>          "conditional_destination_probability": "1",<br>          "component_selection_probability": "1",<br>          "probability": "1"<br>        }<br>      ],<br>      "finite_next_event": true<br>    },<br>    "absorbing_joint_state": {<br>      "joint_exit_rate": "0",<br>      "status": "absorbing_joint_state",<br>      "disabled_coordinates": [<br>        0,<br>        1<br>      ],<br>      "events": [],<br>      "finite_next_event": false<br>    },<br>    "finite_time_00_to_11_bounds": [<br>      "1782504537034626080373482544375/11513539351401283271255006150656",<br>      "3006289472343675802529148548875176644266542896418668941/19418201425234260156759677627448711190802965293978910720"<br>    ],<br>    "calculation": {<br>      "nu": "2",<br>      "t": "1/2",<br>      "terms": 20,<br>      "tail_upper": "2650217/351365336651650490455780217"<br>    },<br>    "all_zero_generator_transition": [<br>      [<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "all_zero_calculation": {<br>      "nu": "0",<br>      "t": "100",<br>      "terms": 0,<br>      "tail_upper": "0"<br>    },<br>    "interpretation": "Skip zero-rate local destination normalization; if the total joint exit rate is zero, stop rather than divide by zero or draw a finite exponential holding time. A local zero rate may change after a parent event."<br>  },<br>  "correlated_initial_law_counterexample": {<br>    "locator": "PDF p4 Definition3.2; p5 Definitions3.7-3.8 and Theorem3.9",<br>    "dynamics_graph": "two nodes, no edges",<br>    "state_order": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "generator": [<br>      [<br>        "-2",<br>        "1",<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "1",<br>        "-2",<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "1",<br>        "0",<br>        "-2",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "1",<br>        "1",<br>        "-2"<br>      ]<br>    ],<br>    "initial_distribution_full_support": [<br>      "3/8",<br>      "1/8",<br>      "1/8",<br>      "3/8"<br>    ],<br>    "time_zero_marginal_product_for_00": "1/4",<br>    "time_zero_joint_00": "3/8",<br>    "time_zero_covariance_of_zero_indicators": "1/8",<br>    "uniform_product_initial_law_stationary": [<br>      "1/4",<br>      "1/4",<br>      "1/4",<br>      "1/4"<br>    ],<br>    "centered_initial_law": [<br>      "1/8",<br>      "-1/8",<br>      "-1/8",<br>      "1/8"<br>    ],<br>    "centered_mode_left_eigenvalue": -4,<br>    "exact_solution": "p(t) = (1/4,1/4,1/4,1/4) + exp(-4*t)*(1/8,-1/8,-1/8,1/8)",<br>    "each_one_time_marginal": [<br>      "1/2",<br>      "1/2"<br>    ],<br>    "indicator_covariance_formula": "exp(-4*t)/8, strictly positive for every finite t&gt;=0",<br>    "time": "1/4",<br>    "analytic_covariance_bounds": [<br>      "134113723200737280000/2916471173788403280463",<br>      "304112751022080000/6613313319248080001"<br>    ],<br>    "uniformization_covariance_bounds": [<br>      "574990241705797979048853747291757/12503884204561159196170644044701772",<br>      "9868094079861473135490143726580257805497605954483543597355796105/214594086550493798007684047947229623211717230483043770348452998156"<br>    ],<br>    "bounds_overlap": true,<br>    "calculation": {<br>      "nu": "2",<br>      "t": "1/4",<br>      "terms": 20,<br>      "tail_upper": "18106643/3125971051140289799042661011175443"<br>    },<br>    "interpretation": "The p5 trajectory independence statement does not follow from the dynamics graph alone with the arbitrary initial BN allowed by Definition3.2. This example already violates independence at t=0, and also at positive time; it supplies no replacement general conditional-independence theorem."<br>  },<br>  "continuous_time_alone_does_not_exclude_joint_jumps": {<br>    "state_order": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "valid_finite_generator_outside_CTBN_single_coordinate_class": [<br>      [<br>        "-1",<br>        "0",<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "0"<br>      ]<br>    ],<br>    "interpretation": "The zero simultaneous-change rate is a CTBN structural restriction, not a consequence of continuous time alone."<br>  },<br>  "printed_background_inconsistencies": {<br>    "pdf2_example2_2": {<br>      "original_Q": [<br>        [<br>          "-21/100",<br>          "1/5",<br>          "1/100"<br>        ],<br>        [<br>          "1/20",<br>          "-1/10",<br>          "1/20"<br>        ],<br>        [<br>          "1/100",<br>          "1/5",<br>          "-21/100"<br>        ]<br>      ],<br>      "derived_embedded_chain": [<br>        [<br>          "0",<br>          "20/21",<br>          "1/21"<br>        ],<br>        [<br>          "1/2",<br>          "0",<br>          "1/2"<br>        ],<br>        [<br>          "1/21",<br>          "20/21",<br>          "0"<br>        ]<br>      ],<br>      "printed_embedded_chain": [<br>        [<br>          "0",<br>          "20/21",<br>          "1/21"<br>        ],<br>        [<br>          "1/2",<br>          "0",<br>          "1/2"<br>        ],<br>        [<br>          "20/21",<br>          "1/21",<br>          "0"<br>        ]<br>      ],<br>      "printed_expression_reconstructs": [<br>        [<br>          "-21/100",<br>          "1/5",<br>          "1/100"<br>        ],<br>        [<br>          "1/20",<br>          "-1/10",<br>          "1/20"<br>        ],<br>        [<br>          "1/5",<br>          "1/100",<br>          "-21/100"<br>        ]<br>      ],<br>      "mismatch_rows_zero_based": [<br>        2<br>      ]<br>    },<br>    "pdf3_two_time_joint": {<br>      "correct_row_convention_formula": "J_ij(s,t)=p_i(s)*[exp((t-s)*Q)]_ij",<br>      "printed_row_vector_product": "p(s)*exp((t-s)*Q) is the marginal p(t), not the two-time joint matrix"<br>    },<br>    "pdf9_example5_2": {<br>      "minus_subsystem_generator": [<br>        [<br>          "4",<br>          "-1"<br>        ],<br>        [<br>          "-2",<br>          "7"<br>        ]<br>      ],<br>      "statewise_mean_exit_times": [<br>        "4/13",<br>        "3/13"<br>      ],<br>      "initial_subsystem_distribution": [<br>        "1/2",<br>        "1/2"<br>      ],<br>      "mean_holding_time": "7/26",<br>      "reciprocal_holding_intensity": "26/7",<br>      "interpretation": "The displayed P0*(-U)^(-1)*1 is a time; the following example uses its reciprocal as an intensity. Singular/non-exitable subsystems require a separate treatment."<br>    }<br>  }<br>}<br> |
+
+## Scientific And Domain Assessments
+
+### Continuous-time Bayesian network
+
+identity: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Retain the narrow DRAFT identity within the documented search scope.
+
+The neighboring HMM, factorial/IO HMM, HSMM, pair/triplet-chain and linear-state-space identities use different hidden/emission, duration, input or state-space structures. Markov random fields factor static laws with undirected potentials; Topics over Time models timestamp densities; MDPs require controls/rewards. These can overlap in application without defining the same parent-conditioned finite jump representation. The existing CTBN owner is advanced in place; related source followups remain unassessed.
+
+### Definition and source scope
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+The maintained definition is supported within its stated method scope.
+
+Definition 3.2 and Section 3.3 identify a finite model family containing a separate initial BN and a possibly cyclic dynamics graph of local CIMs. The homogeneous joint generator results from single-coordinate rates evaluated at the current full state. A particular simulator, approximate inference method, learning procedure or hidden-emission model is not part of this definition. The author-hosted ten-page paper is labeled Corrected; no correction date or original/corrected byte equivalence is established. PDF p. 4 Definition 3.2, pp4–5 amalgamation and p5 semantics support the core. The printed Theorem3.9 independence assertion is explicitly qualified by the arbitrary initial BN. Root all-text and selective visual rereads, supporting all-text/visual scopes and original finite calculations are separately attributed.
+
+### Related AIO mapping: AIO:MarkovChain
+
+grounding: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+related_match expresses the scoped semantic association without equivalence or ontology inheritance.
+
+The complete CTBN defines a finite continuous-time Markov process, and the pinned MarkovChain CLASS includes the Markov Process synonym. related_match preserves that association without equating the specific factorization with the broad class or inheriting its ProbabilisticHiddenLayer relation. The initial-law BN is separate; the cyclic dynamics graph is not the pinned BayesianNetwork DAG. Eleven exact contexts and ten alternatives are retained in the CTBN-specific context.
+Alternatives:
+AIO:BayesianNetwork: The pinned definition explicitly requires a DAG. The CTBN’s separate initial-law BN is acyclic, but its rate-dependence graph may be cyclic. Component overlap is not equivalence of the whole model.
+AIO:ProbabilisticGraphicalModel: The pinned node is classified and defined as a machine-learning task. CTBN is a model representation with graphical rate factorization; do not force a model subclass of a task.
+AIO:CausalGraphicalModel: Its pinned DAG scope and causal language are not established by a possibly cyclic local-rate dependence graph alone.
+AIO:Model: The source calls this a model language, but this broad abstract-representation class is less informative than the explicitly qualified Markov-process association.
+AIO:Network: Generic interconnected-node scope does not define finite stochastic generators or the initial law.
+AIO:MathematicalFunction: A complete probabilistic model is not identified with one numerical mapping.
+AIO:HiddenLayer: Neural transformation layer scope is absent from CTBN.
+AIO:ProbabilisticHiddenLayer: A categorical neural hidden component is not the CTBN finite-state process; the target’s appearance in a MarkovChain has-part edge does not make it a CTBN requirement.
+AIO:MachineLearningTask: A representation does not itself define a data-driven learning task.
+AIO:UnsupervisedLearning: No learning protocol is required by the mathematical model definition.
+
+### initial-law-and-local-intensities
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+Definition 3.2 separates a possibly correlated initial BN from a possibly cyclic dynamics graph. Each fixed parent assignment selects a finite conservative local generator. Homogeneity of the full process concerns fixed functions of the current complete state; it does not mean the child rate remains unchanged after parent changes.
+
+### single-coordinate-amalgamation
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+Section 3.3 and Example 3.4 select the local rate for one changed coordinate, zero for multiple changed coordinates, and negative outgoing sums on the diagonal. The exact event-enumeration and pairwise-state implementations match the printed four-state generator. A separate valid finite CTMC with direct 00→11 rate 1 shows why exclusion of simultaneous coordinate jumps is the model restriction rather than a consequence of continuous time.
+
+### event-rates-and-zero-exits
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+While the full state is fixed, the total exit rate gives exponential next-event time and normalized destination rates. Exact event probabilities agree with variable-choice times local-destination probabilities. The original parent-enabling witness separates local zero from global absorption. Guards on zero rates are curator mathematical qualifications to the literal printed divisions; no source simulator implementation was executed.
+
+### finite-interval-transitions
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+Section 2.3 supports exp(delta Q) and row marginal propagation. The printed two-time joint display is corrected explicitly via per-row initial weighting. Independent irreversible binary switches have Q00,11=0, Q²00,11=4 and positive transition probability (1-exp(-t))(1-exp(-2t)). Independent rational enclosures from uniformization and closed form overlap; nonrational exponentials are bounded, not represented exactly as fractions.
+
+### initial-dependence-boundary
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+With empty dynamics graph, positive rate-one flips and full-support initial law (3/8,1/8,1/8,3/8), P00 already differs from the product of marginals. Exact left-eigenmode identities give p(t) = uniform+exp(-4t)*(1/8,-1/8,-1/8,1/8); covariance exp(-4t)/8 remains positive at finite positive time. This contradicts the unqualified trajectory statement under the allowed initial law without claiming a general replacement theorem.
+
+### representation-and-inference-scope
+
+evidence: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Supported within the stated assumptions and inspected passages.
+
+Sections 4–5 explain product-size joint state space and failure of homogeneous Markov closure under marginalization. Parent trajectories can matter beyond their one-time distribution. The clique-tree, linearization and subsystem methods are approximation choices outside model identity. Sparse direct intensities do not force every finite-interval dependency to be sparse, but no blanket fully-connected-DBN statement is adopted.
+
+### Finite homogeneous current-parent intensity model; arbitrary initial law, zero exits and single-coordinate generator jumps
+
+consistency: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Mechanism, parameter assumptions and identity boundaries remain qualified.
+
+Finite nonnegative conditional rates and finite variables define the scope. A locally disabled variable can be enabled by a parent; only zero total joint exit makes that state absorbing. Multiple sequential changes remain possible within a finite observation interval. The dynamics graph alone does not imply trajectory independence under a correlated initial BN. Irreducibility and convergence to one unique stationary law independent of the initial law are not guaranteed. Approximate-inference display errors, causal semantics, universal efficiency and clinical or benchmark claims are not adopted.
+
+### All captured maintained fields
+
+provenance: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Root reassessed the complete current record after canonical capture; DRAFT remains.
+
+Root read full actual maintained YAML and both complete review configurations after canonical capture. Historical full draft/source/mathematical/mapping assessments remain bound to unchanged bytes; fresh current identities, four complete hidden/ignored-inclusive scans and the actual319 neighbors were assessed before creation. Supporting actual twelve-claim audit f974333c755e9dade04ecddfe2f8fe20acf1172ae5f8a14d25f304d22d83467f was read and assessed with its separate source-reading timing and same-author scope. Records remain DRAFT; no independent scientific approval, benchmark replication or saturation is asserted. Separate initial BN, possibly cyclic current-parent CIM dynamics and finite homogeneous single-coordinate joint generator are supported. Zero exits and parent enabling, row marginal versus joint law, positive finite-interval multiple transitions and full-support initial-correlation counterexample are correctly qualified. Product-state inference cost and marginalization limits remain separate from model identity. Unique stationary-law wording is correct; no denial of finite-state distribution convergence. Related MarkovChain does not import neural hidden-layer or DAG identity. The retained original CTBN static-finding receipt was recorded at2026-10-14T22:08:34.995332Z after the22:07:59.649543Z wording correction. It references corrected aa77efcf bytes although its observed text describes preserved8152079f pre-correction bytes. The22:09:35.910546Z resolution binds both versions. This is a retrospective metadata/snapshot mismatch, not a pre-correction capture. The first actual integrity audit failed on an incorrect TEMP preimage assumption; the exact failure and corrected guard are retained, all seven created files stayed unchanged, and the successor actual integrity audit passed. The first postcapture vendored check failed because sandbox DNS could not resolve the pinned public source; its actual failed log is retained separately. The authorized network-enabled retry passed against22 governed artifacts. This is not an unavailable or skipped final check.  Rereads: Root postcapture reread PDF2–9 native text and visually inspected PDF5 (amalgamation/generative semantics/Theorem3.9). Earlier root all10nativepages and visuals2/3/4/5/8/9 remain historical; fresh reading is not restamped source acquisition.
+
+### Source caveats and original calculation history
+
+provenance: supported. Targets: AIMech:ContinuousTimeBayesianNetwork.
+
+Source interpretation, TEMP clarifications and actual calculation lineage remain distinct.
+
+Original curator-written checks retain exact code, first outputs and actual execution/reproduction receipts. K-SVD locator and CTBN metadata/wording clarifications preserve their originals without changing scientific calculation bytes. Raw source download precision is retained beside schema-compatible timestamps. Source caveats do not imply a defective maintained record or author-issued erratum; bounded calculations do not validate arbitrary numerical implementations or general theorems.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json; identity_search and identity_assessment | supports | Scoped to the finite homogeneous CTBN model of Nodelman, Shelton and Koller: an arbitrary separate initial BN and a possibly cyclic current-parent CIM dynamics graph. This is distinct from hidden/observed emission-model variants, discrete memory mixtures, undirected static potentials, timestamp-density topic models and continuous-state linear layers. The pinned BayesianNetwork DAG does not identify the dynamics graph; MarkovChain supplies a qualified process association. The source dossier read 127 selected definitions, 11 exact AIO node/incident/generated contexts and 11 full native neighbors; root and supporting reading scopes are separately retained. Before this creation all 442 AIO and 713 preceding native IDs, names, aliases and all scoped synonyms were refreshed and four complete checkouts searched including ignored and hidden files; no bounded identity collision was identified. The existing CTBN frontier owner is updated in place, without declaring inference/learning extensions exhausted. |
+| mapping | research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json; mapping_context per_record nodes/semantic/native contexts, actual319_neighbors and mapping_assessment | supports | The complete CTBN defines a finite continuous-time Markov process, and the pinned MarkovChain CLASS includes the Markov Process synonym. related_match preserves that association without equating the specific factorization with the broad class or inheriting its ProbabilisticHiddenLayer relation. The initial-law BN is separate; the cyclic dynamics graph is not the pinned BayesianNetwork DAG. Eleven exact contexts and ten alternatives are retained in the CTBN-specific context. |
+| actual-record-reading | data/curated/ContinuousTimeBayesianNetwork.yaml | supports | Root read full actual maintained YAML and both complete review configurations after canonical capture. Historical full draft/source/mathematical/mapping assessments remain bound to unchanged bytes; fresh current identities, four complete hidden/ignored-inclusive scans and the actual319 neighbors were assessed before creation. Supporting actual twelve-claim audit f974333c755e9dade04ecddfe2f8fe20acf1172ae5f8a14d25f304d22d83467f was read and assessed with its separate source-reading timing and same-author scope. Records remain DRAFT; no independent scientific approval, benchmark replication or saturation is asserted. Separate initial BN, possibly cyclic current-parent CIM dynamics and finite homogeneous single-coordinate joint generator are supported. Zero exits and parent enabling, row marginal versus joint law, positive finite-interval multiple transitions and full-support initial-correlation counterexample are correctly qualified. Product-state inference cost and marginalization limits remain separate from model identity. Unique stationary-law wording is correct; no denial of finite-state distribution convergence. Related MarkovChain does not import neural hidden-layer or DAG identity. The retained original CTBN static-finding receipt was recorded at2026-10-14T22:08:34.995332Z after the22:07:59.649543Z wording correction. It references corrected aa77efcf bytes although its observed text describes preserved8152079f pre-correction bytes. The22:09:35.910546Z resolution binds both versions. This is a retrospective metadata/snapshot mismatch, not a pre-correction capture. The first actual integrity audit failed on an incorrect TEMP preimage assumption; the exact failure and corrected guard are retained, all seven created files stayed unchanged, and the successor actual integrity audit passed. The first postcapture vendored check failed because sandbox DNS could not resolve the pinned public source; its actual failed log is retained separately. The authorized network-enabled retry passed against22 governed artifacts. This is not an unavailable or skipped final check.  Actual post-capture source reread: Root postcapture reread PDF2–9 native text and visually inspected PDF5 (amalgamation/generative semantics/Theorem3.9). Earlier root all10nativepages and visuals2/3/4/5/8/9 remain historical; fresh reading is not restamped source acquisition. |
+| nodelman2002 | https://ai.stanford.edu/~nodelman/papers/ctbn.pdf; Section 3.1, PDF pp. 3–4; Definition 3.2 and Section 3.3, p. 4; amalgamation formula and joint intensity matrix in Section 3.4, p. 5; Sections 2.1–2.2, PDF p. 2; Section 3.1 and Example 3.1, pp. 3–4; Definition 3.2, p. 4; Section 3.3 and Example 3.4, PDF pp. 4–5; Section 3.4, p. 5; original finite amalgamation and joint-jump boundary checks in research/discovery/ctbn-boundaries.py; Sections 2.1–2.2, PDF p. 2; Section 3.4 generative procedure, p. 5; original competing-event and parent-enabling checks in research/discovery/ctbn-boundaries.py; Section 2.3, PDF p. 3; Section 3.4, p. 5; Section 4.1, p. 6; original finite-interval calculation and rational exponential bounds in research/discovery/ctbn-boundaries.py; Definition 3.2, PDF p. 4; Definitions 3.7–3.8 and Theorem 3.9, p. 5, qualified by the original full-support correlated-initial counterexample in research/discovery/ctbn-boundaries.py; Sections 4.1–4.2, PDF pp. 6–7; Sections 5–5.2.2, pp. 7–9; Section 7, pp. 9–10 | supports | Author-hosted ten-page paper linked as Corrected; UAI 2002, pp.378–387. No correction date, original-proceedings comparison or arXiv PDF byte equivalence established. Locators use PDF pages. Actual root reading: Separate initial BN, possibly cyclic current-parent CIM dynamics and finite homogeneous single-coordinate joint generator are supported. Zero exits and parent enabling, row marginal versus joint law, positive finite-interval multiple transitions and full-support initial-correlation counterexample are correctly qualified. Product-state inference cost and marginalization limits remain separate from model identity. Unique stationary-law wording is correct; no denial of finite-state distribution convergence. Related MarkovChain does not import neural hidden-layer or DAG identity. |
+| calculation-ctbn | research/discovery/ctbn-boundaries.py; Saved report curator_calculations; arithmetic, example_3_4, finite_interval_multiple_changes, zero_exit_boundaries, correlated_initial_law_counterexample | supports | Original exact finite-generator algebra and rational enclosures of exponential probabilities; actual copied-script outputs checked against the full saved result. No author-code execution, model training, benchmark replication or universal proof. Selected results: {"arithmetic": "Fractions throughout; transcendental values enclosed by rational intervals", "example_3_4": {"locator": "PDF pp4-5, Example3.4 and amalgamation formula", "state_order_Z_W": [[0, 0], [0, 1], [1, 0], [1, 1]], "derived_joint_generator": [["-6", "1", "5", "0"], ["2", "-9", "0", "7"], ["6", "0", "-9", "3"], ["0", "8", "4", "-12"]], "matches_printed_example_and_pairwise_definition": true, "competing_event_distributions": [{"joint_exit_rate": "6", "status": "active_joint_state", "disabled_coordinates": [], "events": [{"coordinate": 0, "destination": 1, "rate": "5", "conditional_destination_probability": "1", "component_selection_probability": "5/6", "probability": "5/6"}, {"coordinate": 1, "destination": 1, "rate": "1", "conditional_destination_probability": "1", "component_selection_probability": "1/6", "probability": "1/6"}], "finite_next_event": true}, {"joint_exit_rate": "9", "status": "active_joint_state", "disabled_coordinates": [], "events": [{"coordinate": 0, "destination": 1, "rate": "7", "conditional_destination_probability": "1", "component_selection_probability": "7/9", "probability": "7/9"}, {"coordinate": 1, "destination": 0, "rate": "2", "conditional_destination_probability": "1", "component_selection_probability": "2/9", "probability": "2/9"}], "finite_next_event": true}, {"joint_exit_rate": "9", "status": "active_joint_state", "disabled_coordinates": [], "events": [{"coordinate": 0, "destination": 0, "rate": "6", "conditional_destination_probability": "1", "component_selection_probability": "2/3", "probability": "2/3"}, {"coordinate": 1, "destination": 1, "rate": "3", "conditional_destination_probability": "1", "component_selection_probability": "1/3", "probability": "1/3"}], "finite_next_event": true}, {"joint_exit_rate": "12", "status": "active_joint_state", "disabled_coordinates": [], "events": [{"coordinate": 0, "destination": 0, "rate": "8", "conditional_destination_probability": "1", "component_selection_probability": "2/3", "probability": "2/3"}, {"coordinate": 1, "destination": 0, "rate": "4", "conditional_destination_probability": "1", "component_selection_probability": "1/3", "probability": "1/3"}], "finite_next_event": true}]}, "finite_interval_multiple_changes": {"state_order": [[0, 0], [0, 1], [1, 0], [1, 1]], "generator": [["-3", "2", "1", "0"], ["0", "-1", "0", "1"], ["0", "0", "-2", "2"], ["0", "0", "0", "0"]], "instantaneous_00_to_11_rate": "0", "Q_squared_00_to_11": "4", "quadratic_series_coefficient": "2", "time": "1/2", "uniformization_probability_bounds": ["526441873489446231709757665484800/2116604004705198983883813354639909", "415915559539120675884784848541975243080643449790028609007085/1672223626712236873661991653134877422830544233833478621998829"], "closed_form": "(1-exp(-t))*(1-exp(-2*t))", "closed_form_bounds": ["6918336509989167076625714697932432274114521/27815756117346202281528947751102315328194521", "551008144003483216157599818837584732930225804111/2215374769663591342248171820394200999140865676111"], "bounds_overlap": true, "calculation": {"nu": "3", "t": "1/2", "terms": 20, "tail_upper": "22619897064207/967811616234658886092278625807"}, "interpretation": "A positive finite interval can contain sequential coordinate changes; a zero direct generator entry forbids only their single simultaneous jump."}, "zero_exit_boundaries": {"state_order_U_X": [[0, 0], [0, 1], [1, 0], [1, 1]], "generator": [["-1", "0", "1", "0"], ["0", "-1", "0", "1"], ["0", "0", "-2", "2"], ["0", "0", "0", "0"]], "initially_disabled_child": {"joint_exit_rate": "1", "status": "active_joint_state", "disabled_coordinates": [1], "events": [{"coordinate": 0, "destination": 1, "rate": "1", "conditional_destination_probability": "1", "component_selection_probability": "1", "probability": "1"}], "finite_next_event": true}, "after_parent_switch": {"joint_exit_rate": "2", "status": "active_joint_state", "disabled_coordinates": [0], "events": [{"coordinate": 1, "destination": 1, "rate": "2", "conditional_destination_probability": "1", "component_selection_probability": "1", "probability": "1"}], "finite_next_event": true}, "absorbing_joint_state": {"joint_exit_rate": "0", "status": "absorbing_joint_state", "disabled_coordinates": [0, 1], "events": [], "finite_next_event": false}, "finite_time_00_to_11_bounds": ["1782504537034626080373482544375/11513539351401283271255006150656", "3006289472343675802529148548875176644266542896418668941/19418201425234260156759677627448711190802965293978910720"], "calculation": {"nu": "2", "t": "1/2", "terms": 20, "tail_upper": "2650217/351365336651650490455780217"}, "all_zero_generator_transition": [["1", "0"], ["0", "1"]], "all_zero_calculation": {"nu": "0", "t": "100", "terms": 0, "tail_upper": "0"}, "interpretation": "Skip zero-rate local destination normalization; if the total joint exit rate is zero, stop rather than divide by zero or draw a finite exponential holding time. A local zero rate may change after a parent event."}, "correlated_initial_law_counterexample": {"locator": "PDF p4 Definition3.2; p5 Definitions3.7-3.8 and Theorem3.9", "dynamics_graph": "two nodes, no edges", "state_order": [[0, 0], [0, 1], [1, 0], [1, 1]], "generator": [["-2", "1", "1", "0"], ["1", "-2", "0", "1"], ["1", "0", "-2", "1"], ["0", "1", "1", "-2"]], "initial_distribution_full_support": ["3/8", "1/8", "1/8", "3/8"], "time_zero_marginal_product_for_00": "1/4", "time_zero_joint_00": "3/8", "time_zero_covariance_of_zero_indicators": "1/8", "uniform_product_initial_law_stationary": ["1/4", "1/4", "1/4", "1/4"], "centered_initial_law": ["1/8", "-1/8", "-1/8", "1/8"], "centered_mode_left_eigenvalue": -4, "exact_solution": "p(t) = (1/4,1/4,1/4,1/4) + exp(-4*t)*(1/8,-1/8,-1/8,1/8)", "each_one_time_marginal": ["1/2", "1/2"], "indicator_covariance_formula": "exp(-4*t)/8, strictly positive for every finite t&gt;=0", "time": "1/4", "analytic_covariance_bounds": ["134113723200737280000/2916471173788403280463", "304112751022080000/6613313319248080001"], "uniformization_covariance_bounds": ["574990241705797979048853747291757/12503884204561159196170644044701772", "9868094079861473135490143726580257805497605954483543597355796105/214594086550493798007684047947229623211717230483043770348452998156"], "bounds_overlap": true, "calculation": {"nu": "2", "t": "1/4", "terms": 20, "tail_upper": "18106643/3125971051140289799042661011175443"}, "interpretation": "The p5 trajectory independence statement does not follow from the dynamics graph alone with the arbitrary initial BN allowed by Definition3.2. This example already violates independence at t=0, and also at positive time; it supplies no replacement general conditional-independence theorem."}} |
+| source-math-provenance | research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json; source_analysis.handoffs, root_readings and writer_preparation_reading | supports | Root assessed the separately attributed selective source readings and bounded mathematical research. Supporting agents are in the same author workflow and provide no independent scientific approval. |
+| source-error-original-lineage | research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json; calculation_lineage.artifacts, curator_calculations, draft_wording_lineage, research_correction_lineage and source_analysis | supports | Original curator-written K-SVD and CTBN scripts, first outputs and actual root reproductions retain exact bytes. K-SVD locator corrections preserve original and successor dossiers. CTBN case-inventory metadata and convergence wording corrections preserve their preimages, exact changes and attributed assessments. Source formula caveats and raw acquisition precision remain explicit. These artifacts are not author-code execution, fabricated failed runs or canonical issue closures. |
+
+## Limits And Additional Notes
+
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- Finite nonnegative conditional rates and finite variables define the scope. A locally disabled variable can be enabled by a parent; only zero total joint exit makes that state absorbing. Multiple sequential changes remain possible within a finite observation interval. The dynamics graph alone does not imply trajectory independence under a correlated initial BN. Irreducibility and convergence to one unique stationary law independent of the initial law are not guaranteed. Approximate-inference display errors, causal semantics, universal efficiency and clinical or benchmark claims are not adopted.
+- Source, identity and mathematical agents belong to the same author workflow. This is qualified author self-review, not independent scientific approval.
+- Original curator-written calculators retain their actual first outputs and execution receipts. K-SVD uses finite supplied rational SVD certificates; CTBN uses exact generator algebra and rational bounds for nonrational exponential probabilities. Neither is author software, training, a benchmark or a universal theorem.
+- Historical 708-native research is attributed separately from the actual prewrite713-native inventory, all scoped synonyms, four ignored-inclusive searches and actual319 neighbor reading.
+- Source acquisition precision is retained beside whole-second UTC record metadata. Acquisition dates are not scientific reading dates.
+- Preserved TEMP wording and locator corrections are provenance, not invented canonical findings or issue closures.
+- Empty findings reflect actual root assessment of this selected captured record only; no unrelated finding closure or literature saturation is asserted.
+- Source caveats and preserved calculation or wording lineage remain distinct; no maintained-record finding or issue closure is invented from them.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T003318Z-continuous-time-bayesian-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Continuous-time Bayesian network
+started_at: '2026-10-15T00:15:24.132686Z'
+finished_at: '2026-10-15T00:33:18.809777Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author reassessment with supporting source, mathematical
+    and integrity agents in the same author workflow; no independent scientific approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The finite homogeneous CTBN model identity is supported with separate initial-law
+  and dynamics graphs, explicit zero-exit handling and finite-interval semantics.
+  The initial-correlation counterexample bounds the source independence claim; DRAFT
+  is retained.
+source:
+  git_revision: 622c3bde9e3bc8ac08007afdd9f2db9306d0d719
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DimensionalityReduction.yaml
+    sha256: 99eb0714b362a98a9e704e5ef2ac370cb7a900fbe97da43de790c3ec67ed812e
+    role: context
+  - path: data/aio/FeatureExtraction.yaml
+    sha256: d153b8bbe04e9abb7f1ec13e6219dbcd329235ac58bb9229d4a1f416216c07ef
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/LassoRegression.yaml
+    sha256: c62e7ffd00a16f5a82d514687b094aee5f6796d19a7d16200bdb10498c024949
+    role: context
+  - path: data/aio/LeastsquaresAnalysis.yaml
+    sha256: 666926bd17035ea825f0f521620b9c5538ff2a8695e7d37f96ab3b0cc8aa1d3c
+    role: context
+  - path: data/aio/LinearRegression.yaml
+    sha256: 9b6f1b2ea06d9a47e5f7cf94c66afeaa6d40c3e7d0fdb5037d2c25fabc6d8167
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/PrincipalComponentAnalysis.yaml
+    sha256: 7b45b5c558b7e984abb44e1610fb8d829409ae391a151ed0dc0e5cd95023e8d4
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RepresentationLearning.yaml
+    sha256: bc7af756440437f60210019e17ad1e2dd15cd1c7cbfbc96312520934b7a5c7ca
+    role: context
+  - path: data/aio/SparseAutoEncoder.yaml
+    sha256: 9bbb865ec227305e8ddbe8eab9546510048109d43ba3a733d25303e4780ec359
+    role: context
+  - path: data/aio/SparseLearning.yaml
+    sha256: 0e45f464899bee39df6c8af85e3e0fccba4062f39c73e35c8e884113f78ce3c5
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AdaptiveDeconvolutionalNetwork.yaml
+    sha256: ca2d67e06444f8ad2fd4028ecf96f746f9dc212db2d13e8f0abeb832a0127244
+    role: context
+  - path: data/curated/BasisPursuit.yaml
+    sha256: 962cb52fb514105bea0b9296ad29569b0857a9fe8ecf437894dc1c1426010730
+    role: context
+  - path: data/curated/CircularWeightShiftSampler.yaml
+    sha256: a2ee967fb51b3b61ddc17f4259d3f79bbe94db4f04df27c55f671684a8d96536
+    role: context
+  - path: data/curated/ContinuousTimeBayesianNetwork.yaml
+    sha256: 0d1266ecc3e05dcd8baaf1c76e9fd7f4a447b5353001f7438754514ebb1bd975
+    role: target
+  - path: data/curated/FactorialHiddenMarkovModel.yaml
+    sha256: f1474c3cbb78b2097ad6275f51c61291dfd1a11515df0e7ef56270c30ec4f68d
+    role: context
+  - path: data/curated/HiddenMarkovModel.yaml
+    sha256: 062a31bd525cb90e8077d4889c177f55cb7b29dea4e71c33be95bae9e72a5240
+    role: context
+  - path: data/curated/HiddenSemiMarkovModel.yaml
+    sha256: afd5727904ca4d1909f85700690ff469ab4f304e97f24cb21b042de7e8be2341
+    role: context
+  - path: data/curated/InputOutputHiddenMarkovModel.yaml
+    sha256: 0b0273f47026fed64472356d1610aa2384e8bf89eecfafa109d07f5e8bcd3acf
+    role: context
+  - path: data/curated/IteratedWienerFilter.yaml
+    sha256: 803905a00467ecfc963cbd5a24f5616013484c0d0ce57d205c386868346addac
+    role: context
+  - path: data/curated/KMeans.yaml
+    sha256: 50fc1d8d18403a8f314636f68b6812ffd15fec2dfaaf4c32aaad423dfa7ffa03
+    role: context
+  - path: data/curated/KSVD.yaml
+    sha256: 9614c37762bbcc13f22585eac13e6e9e9c4a4cc651a26c52bee80fa94be21aa9
+    role: context
+  - path: data/curated/LeastAngleRegression.yaml
+    sha256: 379431bca38c3bbac6653617a424e692fba98edc1cf7f8d25b388328e5fe7ab5
+    role: context
+  - path: data/curated/LeeSeungMultiplicativeUpdates.yaml
+    sha256: c94eb2299a6f71dea98ac6e47548358f1eea4905aa2708b5efa12f2874b15fb1
+    role: context
+  - path: data/curated/LinearStateSpaceLayer.yaml
+    sha256: 05d7d834a8c0db4c33613384cde4a250838290cce6960fda10e7209da318c151
+    role: context
+  - path: data/curated/MarkovDecisionProcess.yaml
+    sha256: 9db1ed4a4b01f70cffafe2bcabe7be214779adacf4d7b31c9348ed5f9f54b907
+    role: context
+  - path: data/curated/MarkovRandomField.yaml
+    sha256: 03b1f2a66b2183a5bf5943bee7ec0619b9e07947d6c9187263e279ee475f9149
+    role: context
+  - path: data/curated/MatchingPursuit.yaml
+    sha256: a24959ced5e8f39c3b861dd89fe7ab4407ac632f9187bc4bfa8f0cb1c30a5953
+    role: context
+  - path: data/curated/MixedMemoryMarkovModel.yaml
+    sha256: 3d85215830d8e12bae4b29ae645412aff678693cb56eb639dc93860d6baaed86
+    role: context
+  - path: data/curated/NonnegativeMatrixFactorization.yaml
+    sha256: 3b79c0f7568f3cdc86f5779be7e9c3e2341c547682223e214a6b94031016df7b
+    role: context
+  - path: data/curated/OrthogonalLeastSquaresForwardSelection.yaml
+    sha256: 909a5791745c4970ecf2897f8000df528a5d20275e64765b61165d2e73a63931
+    role: context
+  - path: data/curated/OrthogonalMatchingPursuit.yaml
+    sha256: 3b61cc7ec2356d4e8789480e10a8edb24ec303f5fa63df10db5652145b1d6d42
+    role: context
+  - path: data/curated/PairwiseMarkovChain.yaml
+    sha256: 87196baeddf19e49cb4c7e3804336980a1bbdaa222e70815040d53f1aa222a9e
+    role: context
+  - path: data/curated/TopicsOverTimeModel.yaml
+    sha256: 502679a2878af64111a8e70f974632aa99c5e2e05ccd06fa44fdccd1a4147ca8
+    role: context
+  - path: data/curated/TripletMarkovChain.yaml
+    sha256: 1b73a91285250e23b2d488d78e1dd79d4451e4943b8d0efc4dca33df619995ec
+    role: context
+  - path: data/curated/UpwardDownwardNestedAntitheticMixture.yaml
+    sha256: c7754a4aa39a4f1ce5703c13f225693604ab9cc760af3f45236b64137fc6e9e2
+    role: context
+  - path: data/curated/UpwardDownwardShiftedTowerMixture.yaml
+    sha256: edf53fd84732416ca0ea18919f055eee78aa7902b488ae6898141ce30a484ade
+    role: context
+  - path: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json
+    sha256: 4dc8a6297ee3d7b675d114f9b9a8fe54a5ae468f646be02bec3d4f1ddbfeda80
+    role: context
+  - path: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.md
+    sha256: 1e04ec3845ad074517eaf7f47eaa2b5943ca72abf53957d16876df64bb680d57
+    role: context
+  - path: research/discovery/ctbn-boundaries.py
+    sha256: b08d075203220445f6bd218a5dbc074ba1a774c4accab62eb4d47cf4d474c174
+    role: context
+  - path: research/discovery/ksvd-boundaries.py
+    sha256: 5d37b7378d5db1d063ead5cf1b65916c7f1c2b7a29655b38be037c383d0c1a5d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/history.py
+    sha256: 4ff83e818c7f50ea25bfc6b8f2cae7ab29c814310b8b361a6f7af8160055aa91
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:ContinuousTimeBayesianNetwork
+  path: data/curated/ContinuousTimeBayesianNetwork.yaml
+  label: Continuous-time Bayesian network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ContinuousTimeBayesianNetwork.yaml
+    role: maintained
+scope:
+  description: 'All maintained fields of the selected record. Actual source scope:
+    nodelman2002: Root postcapture reread PDF2–9 native text and visually inspected
+    PDF5 (amalgamation/generative semantics/Theorem3.9). Earlier root all10nativepages
+    and visuals2/3/4/5/8/9 remain historical; fresh reading is not restamped source
+    acquisition.. Separate initial BN, possibly cyclic current-parent CIM dynamics
+    and finite homogeneous single-coordinate joint generator are supported. Zero exits
+    and parent enabling, row marginal versus joint law, positive finite-interval multiple
+    transitions and full-support initial-correlation counterexample are correctly
+    qualified. Product-state inference cost and marginalization limits remain separate
+    from model identity. Unique stationary-law wording is correct; no denial of finite-state
+    distribution convergence. Related MarkovChain does not import neural hidden-layer
+    or DAG identity.'
+  selection: 'Exact maintained ID: AIMech:ContinuousTimeBayesianNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exclusions:
+  - target: Other batch entries and neighboring identities
+    reason: Read as identity/mapping context, not formal review targets.
+  - target: Uninspected source versions, general convergence and runtime claims
+    reason: Finite nonnegative conditional rates and finite variables define the scope.
+      A locally disabled variable can be enabled by a parent; only zero total joint
+      exit makes that state absorbing. Multiple sequential changes remain possible
+      within a finite observation interval. The dynamics graph alone does not imply
+      trajectory independence under a correlated initial BN. Irreducibility and convergence
+      to one unique stationary law independent of the initial law are not guaranteed.
+      Approximate-inference display errors, causal semantics, universal efficiency
+      and clinical or benchmark claims are not adopted.
+  - target: Author implementation and benchmark replication
+    reason: Only bounded original calculations and project checks were executed.
+checks:
+- check_id: gate-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 516.37s (0:08:36)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 715 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 400 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 409,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+  scope_note: Actual execution completed 2026-10-15T00:31:03.887454Z; this generator
+    executes no recorded commands.
+- check_id: vendor-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+  scope_note: Actual execution completed 2026-10-15T00:17:24.221961Z; this generator
+    executes no recorded commands.
+- check_id: render-2
+  name: just render
+  command: just render
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages
+
+    uv run --locked python scripts/render_pages.py
+
+    '
+  scope_note: Actual execution completed 2026-10-15T00:16:04.028219Z; this generator
+    executes no recorded commands.
+- check_id: render-3
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'pages/ is current
+
+    uv run --locked python scripts/render_pages.py --check
+
+    '
+  scope_note: Actual execution completed 2026-10-15T00:16:23.080583Z; this generator
+    executes no recorded commands.
+- check_id: additional-4
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+  scope_note: Actual execution completed 2026-10-15T00:16:39.365566Z; this generator
+    executes no recorded commands.
+- check_id: additional-5
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Actual command exited zero without output.
+  scope_note: Actual execution completed 2026-10-15T00:16:40.417611Z; this generator
+    executes no recorded commands.
+- check_id: calculation-6
+  name: python3 research/discovery/ksvd-boundaries.py
+  command: python3 research/discovery/ksvd-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"arbitrary_recoding_negative_control\": {\n    \"Y\": [\n      [\n\
+    \        \"1\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n   \
+    \   [\n        \"0\",\n        \"1\",\n        \"0\",\n        \"1\"\n      ]\n\
+    \    ],\n    \"feasible_recoding_X\": [\n      [\n        \"1\",\n        \"1\"\
+    ,\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"\
+    0\",\n        \"1\",\n        \"1\"\n      ]\n    ],\n    \"losses_old_recoded_swept\"\
+    : [\n      \"0\",\n      \"4\",\n      \"2\"\n    ],\n    \"old_D\": [\n     \
+    \ [\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n      \
+    \  \"1\"\n      ]\n    ],\n    \"old_X\": [\n      [\n        \"1\",\n       \
+    \ \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n \
+    \       \"1\",\n        \"0\",\n        \"1\"\n      ]\n    ],\n    \"post_sweep_D\"\
+    : [\n      [\n        \"1\",\n        \"1\"\n      ],\n      [\n        \"0\"\
+    ,\n        \"0\"\n      ]\n    ],\n    \"post_sweep_X\": [\n      [\n        \"\
+    1\",\n        \"0\",\n        \"0\",\n        \"0\"\n      ],\n      [\n     \
+    \   \"0\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ]\n    ],\n \
+    \   \"scope\": \"Deliberately poor feasible coder, not a counterexample to a specified\
+    \ OMP implementation.\"\n  },\n  \"centroid_vs_unit_atom\": {\n    \"Y\": [\n\
+    \      [\n        \"2\"\n      ],\n      [\n        \"0\"\n      ]\n    ],\n \
+    \   \"free_coefficient\": 2,\n    \"losses_centroid_fixed_one_unit_free_gain\"\
+    : [\n      \"0\",\n      \"1\",\n      \"0\"\n    ],\n    \"unconstrained_centroid\"\
+    : [\n      \"2\",\n      \"0\"\n    ],\n    \"unit_atom\": [\n      \"1\",\n \
+    \     \"0\"\n    ]\n  },\n  \"domain\": \"Constructed finite real matrices; exact\
+    \ Fraction arithmetic; no numerical SVD or author implementation.\",\n  \"empty_active_set\"\
+    : {\n    \"block_losses\": [\n      \"0\",\n      \"0\",\n      \"0\",\n     \
+    \ \"0\",\n      \"0\"\n    ],\n    \"meaning\": \"No active column determines\
+    \ an atom; retaining or replacing it requires a policy.\",\n    \"unit_atom_choices_tested\"\
+    : 5\n  },\n  \"grid\": {\n    \"certified_two_by_two_spectra\": 250,\n    \"coverage\"\
+    : \"Five rational rotations on each side; integer 0<=t<=s<=3; 35 old feasible\
+    \ rank-one choices per case.\",\n    \"old_feasible_comparisons\": 8750,\n   \
+    \ \"positive_repeated_top_cases\": 75,\n    \"zero_spectrum_cases\": 25\n  },\n\
+    \  \"limits\": [\n    \"No universal algorithm convergence or local-minimum theorem\
+    \ follows from these finite checks.\",\n    \"Grid certificates supplement algebra;\
+    \ they do not validate an arbitrary floating-point SVD routine.\",\n    \"No empirical\
+    \ recovery, uniqueness of a learned dictionary, runtime or benchmark assertion.\"\
+    \n  ],\n  \"repeated_singular_value\": {\n    \"E\": [\n      [\n        \"1\"\
+    ,\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\"\n      ]\n\
+    \    ],\n    \"alternatives\": [\n      {\n        \"atom\": [\n          \"1\"\
+    ,\n          \"0\"\n        ],\n        \"reconstruction\": [\n          [\n \
+    \           \"1\",\n            \"0\"\n          ],\n          [\n           \
+    \ \"0\",\n            \"0\"\n          ]\n        ],\n        \"row\": [\n   \
+    \       \"1\",\n          \"0\"\n        ]\n      },\n      {\n        \"atom\"\
+    : [\n          \"0\",\n          \"1\"\n        ],\n        \"reconstruction\"\
+    : [\n          [\n            \"0\",\n            \"0\"\n          ],\n      \
+    \    [\n            \"0\",\n            \"1\"\n          ]\n        ],\n     \
+    \   \"row\": [\n          \"0\",\n          \"1\"\n        ]\n      },\n     \
+    \ {\n        \"atom\": [\n          \"3/5\",\n          \"4/5\"\n        ],\n\
+    \        \"reconstruction\": [\n          [\n            \"9/25\",\n         \
+    \   \"12/25\"\n          ],\n          [\n            \"12/25\",\n           \
+    \ \"16/25\"\n          ]\n        ],\n        \"row\": [\n          \"3/5\",\n\
+    \          \"4/5\"\n        ]\n      },\n      {\n        \"atom\": [\n      \
+    \    \"5/13\",\n          \"12/13\"\n        ],\n        \"reconstruction\": [\n\
+    \          [\n            \"25/169\",\n            \"60/169\"\n          ],\n\
+    \          [\n            \"60/169\",\n            \"144/169\"\n          ]\n\
+    \        ],\n        \"row\": [\n          \"5/13\",\n          \"12/13\"\n  \
+    \      ]\n      },\n      {\n        \"atom\": [\n          \"-3/5\",\n      \
+    \    \"4/5\"\n        ],\n        \"reconstruction\": [\n          [\n       \
+    \     \"9/25\",\n            \"-12/25\"\n          ],\n          [\n         \
+    \   \"-12/25\",\n            \"16/25\"\n          ]\n        ],\n        \"row\"\
+    : [\n          \"-3/5\",\n          \"4/5\"\n        ]\n      }\n    ],\n    \"\
+    optimal_error\": 1\n  },\n  \"role\": \"Curator exact algebra; not independent\
+    \ scientific approval or model training.\",\n  \"sequential_vs_parallel\": {\n\
+    \    \"Y\": [\n      [\n        \"3\"\n      ],\n      [\n        \"5\"\n    \
+    \  ]\n    ],\n    \"initial_D\": [\n      [\n        \"1\",\n        \"0\"\n \
+    \     ],\n      [\n        \"0\",\n        \"1\"\n      ]\n    ],\n    \"initial_X\"\
+    : [\n      [\n        \"3\"\n      ],\n      [\n        \"1\"\n      ]\n    ],\n\
+    \    \"losses_initial_sequential_parallel\": [\n      \"16\",\n      \"0\",\n\
+    \      \"16\"\n    ],\n    \"parallel_X\": [\n      [\n        \"5\"\n      ],\n\
+    \      [\n        \"5\"\n      ]\n    ],\n    \"sequential_X\": [\n      [\n \
+    \       \"5\"\n      ],\n      [\n        \"1\"\n      ]\n    ],\n    \"updated_D\"\
+    : [\n      [\n        \"3/5\",\n        \"0\"\n      ],\n      [\n        \"4/5\"\
+    ,\n        \"1\"\n      ]\n    ]\n  },\n  \"simultaneous_atom_row_sign_flip\"\
+    : {\n    \"verified\": true\n  },\n  \"source_equation_22_range\": {\n    \"Figure_2_support\"\
+    : [\n      3\n    ],\n    \"K\": 2,\n    \"N\": 3,\n    \"coefficient_row\": [\n\
+    \      \"0\",\n      \"0\",\n      \"1\"\n    ],\n    \"literal_Equation_22_support\"\
+    : []\n  },\n  \"support_restriction\": {\n    \"E\": [\n      [\n        \"3\"\
+    ,\n        \"100\"\n      ],\n      [\n        \"0\",\n        \"0\"\n      ]\n\
+    \    ],\n    \"Y\": [\n      [\n        \"3\",\n        \"101\"\n      ],\n  \
+    \    [\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"old_loss\": \"10010\"\
+    ,\n    \"restricted_X\": [\n      [\n        \"3\",\n        \"0\"\n      ],\n\
+    \      [\n        \"0\",\n        \"1\"\n      ]\n    ],\n    \"restricted_loss\"\
+    : \"10000\",\n    \"sample_2_budget\": 1,\n    \"unrestricted_X\": [\n      [\n\
+    \        \"3\",\n        \"100\"\n      ],\n      [\n        \"0\",\n        \"\
+    1\"\n      ]\n    ]\n  },\n  \"zero_residual_block\": {\n    \"E\": [\n      [\n\
+    \        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"\
+    0\"\n      ]\n    ],\n    \"losses\": [\n      \"0\",\n      \"0\",\n      \"\
+    0\",\n      \"0\",\n      \"0\"\n    ],\n    \"meaning\": \"Zero coefficients\
+    \ are optimal and the unit atom is not identified.\",\n    \"unit_atom_choices_tested\"\
+    : 5\n  }\n}\n"
+  scope_note: Actual execution completed 2026-10-15T00:16:37.332164Z; this generator
+    executes no recorded commands.
+- check_id: calculation-7
+  name: python3 research/discovery/ctbn-boundaries.py
+  command: python3 research/discovery/ctbn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"role\": \"original curator-written bounded mathematical evidence\
+    \ checks\",\n  \"arithmetic\": \"Fractions throughout; transcendental values enclosed\
+    \ by rational intervals\",\n  \"not_claimed\": [\n    \"author-code replication\"\
+    ,\n    \"training or benchmark execution\",\n    \"general theorem proof\",\n\
+    \    \"independent scientific approval\"\n  ],\n  \"example_3_4\": {\n    \"locator\"\
+    : \"PDF pp4-5, Example3.4 and amalgamation formula\",\n    \"state_order_Z_W\"\
+    : [\n      [\n        0,\n        0\n      ],\n      [\n        0,\n        1\n\
+    \      ],\n      [\n        1,\n        0\n      ],\n      [\n        1,\n   \
+    \     1\n      ]\n    ],\n    \"derived_joint_generator\": [\n      [\n      \
+    \  \"-6\",\n        \"1\",\n        \"5\",\n        \"0\"\n      ],\n      [\n\
+    \        \"2\",\n        \"-9\",\n        \"0\",\n        \"7\"\n      ],\n  \
+    \    [\n        \"6\",\n        \"0\",\n        \"-9\",\n        \"3\"\n     \
+    \ ],\n      [\n        \"0\",\n        \"8\",\n        \"4\",\n        \"-12\"\
+    \n      ]\n    ],\n    \"matches_printed_example_and_pairwise_definition\": true,\n\
+    \    \"competing_event_distributions\": [\n      {\n        \"joint_exit_rate\"\
+    : \"6\",\n        \"status\": \"active_joint_state\",\n        \"disabled_coordinates\"\
+    : [],\n        \"events\": [\n          {\n            \"coordinate\": 0,\n  \
+    \          \"destination\": 1,\n            \"rate\": \"5\",\n            \"conditional_destination_probability\"\
+    : \"1\",\n            \"component_selection_probability\": \"5/6\",\n        \
+    \    \"probability\": \"5/6\"\n          },\n          {\n            \"coordinate\"\
+    : 1,\n            \"destination\": 1,\n            \"rate\": \"1\",\n        \
+    \    \"conditional_destination_probability\": \"1\",\n            \"component_selection_probability\"\
+    : \"1/6\",\n            \"probability\": \"1/6\"\n          }\n        ],\n  \
+    \      \"finite_next_event\": true\n      },\n      {\n        \"joint_exit_rate\"\
+    : \"9\",\n        \"status\": \"active_joint_state\",\n        \"disabled_coordinates\"\
+    : [],\n        \"events\": [\n          {\n            \"coordinate\": 0,\n  \
+    \          \"destination\": 1,\n            \"rate\": \"7\",\n            \"conditional_destination_probability\"\
+    : \"1\",\n            \"component_selection_probability\": \"7/9\",\n        \
+    \    \"probability\": \"7/9\"\n          },\n          {\n            \"coordinate\"\
+    : 1,\n            \"destination\": 0,\n            \"rate\": \"2\",\n        \
+    \    \"conditional_destination_probability\": \"1\",\n            \"component_selection_probability\"\
+    : \"2/9\",\n            \"probability\": \"2/9\"\n          }\n        ],\n  \
+    \      \"finite_next_event\": true\n      },\n      {\n        \"joint_exit_rate\"\
+    : \"9\",\n        \"status\": \"active_joint_state\",\n        \"disabled_coordinates\"\
+    : [],\n        \"events\": [\n          {\n            \"coordinate\": 0,\n  \
+    \          \"destination\": 0,\n            \"rate\": \"6\",\n            \"conditional_destination_probability\"\
+    : \"1\",\n            \"component_selection_probability\": \"2/3\",\n        \
+    \    \"probability\": \"2/3\"\n          },\n          {\n            \"coordinate\"\
+    : 1,\n            \"destination\": 1,\n            \"rate\": \"3\",\n        \
+    \    \"conditional_destination_probability\": \"1\",\n            \"component_selection_probability\"\
+    : \"1/3\",\n            \"probability\": \"1/3\"\n          }\n        ],\n  \
+    \      \"finite_next_event\": true\n      },\n      {\n        \"joint_exit_rate\"\
+    : \"12\",\n        \"status\": \"active_joint_state\",\n        \"disabled_coordinates\"\
+    : [],\n        \"events\": [\n          {\n            \"coordinate\": 0,\n  \
+    \          \"destination\": 0,\n            \"rate\": \"8\",\n            \"conditional_destination_probability\"\
+    : \"1\",\n            \"component_selection_probability\": \"2/3\",\n        \
+    \    \"probability\": \"2/3\"\n          },\n          {\n            \"coordinate\"\
+    : 1,\n            \"destination\": 0,\n            \"rate\": \"4\",\n        \
+    \    \"conditional_destination_probability\": \"1\",\n            \"component_selection_probability\"\
+    : \"1/3\",\n            \"probability\": \"1/3\"\n          }\n        ],\n  \
+    \      \"finite_next_event\": true\n      }\n    ]\n  },\n  \"finite_interval_multiple_changes\"\
+    : {\n    \"state_order\": [\n      [\n        0,\n        0\n      ],\n      [\n\
+    \        0,\n        1\n      ],\n      [\n        1,\n        0\n      ],\n \
+    \     [\n        1,\n        1\n      ]\n    ],\n    \"generator\": [\n      [\n\
+    \        \"-3\",\n        \"2\",\n        \"1\",\n        \"0\"\n      ],\n  \
+    \    [\n        \"0\",\n        \"-1\",\n        \"0\",\n        \"1\"\n     \
+    \ ],\n      [\n        \"0\",\n        \"0\",\n        \"-2\",\n        \"2\"\n\
+    \      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"\
+    0\"\n      ]\n    ],\n    \"instantaneous_00_to_11_rate\": \"0\",\n    \"Q_squared_00_to_11\"\
+    : \"4\",\n    \"quadratic_series_coefficient\": \"2\",\n    \"time\": \"1/2\"\
+    ,\n    \"uniformization_probability_bounds\": [\n      \"526441873489446231709757665484800/2116604004705198983883813354639909\"\
+    ,\n      \"415915559539120675884784848541975243080643449790028609007085/1672223626712236873661991653134877422830544233833478621998829\"\
+    \n    ],\n    \"closed_form\": \"(1-exp(-t))*(1-exp(-2*t))\",\n    \"closed_form_bounds\"\
+    : [\n      \"6918336509989167076625714697932432274114521/27815756117346202281528947751102315328194521\"\
+    ,\n      \"551008144003483216157599818837584732930225804111/2215374769663591342248171820394200999140865676111\"\
+    \n    ],\n    \"bounds_overlap\": true,\n    \"calculation\": {\n      \"nu\"\
+    : \"3\",\n      \"t\": \"1/2\",\n      \"terms\": 20,\n      \"tail_upper\": \"\
+    22619897064207/967811616234658886092278625807\"\n    },\n    \"interpretation\"\
+    : \"A positive finite interval can contain sequential coordinate changes; a zero\
+    \ direct generator entry forbids only their single simultaneous jump.\"\n  },\n\
+    \  \"zero_exit_boundaries\": {\n    \"state_order_U_X\": [\n      [\n        0,\n\
+    \        0\n      ],\n      [\n        0,\n        1\n      ],\n      [\n    \
+    \    1,\n        0\n      ],\n      [\n        1,\n        1\n      ]\n    ],\n\
+    \    \"generator\": [\n      [\n        \"-1\",\n        \"0\",\n        \"1\"\
+    ,\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"-1\",\n       \
+    \ \"0\",\n        \"1\"\n      ],\n      [\n        \"0\",\n        \"0\",\n \
+    \       \"-2\",\n        \"2\"\n      ],\n      [\n        \"0\",\n        \"\
+    0\",\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"initially_disabled_child\"\
+    : {\n      \"joint_exit_rate\": \"1\",\n      \"status\": \"active_joint_state\"\
+    ,\n      \"disabled_coordinates\": [\n        1\n      ],\n      \"events\": [\n\
+    \        {\n          \"coordinate\": 0,\n          \"destination\": 1,\n    \
+    \      \"rate\": \"1\",\n          \"conditional_destination_probability\": \"\
+    1\",\n          \"component_selection_probability\": \"1\",\n          \"probability\"\
+    : \"1\"\n        }\n      ],\n      \"finite_next_event\": true\n    },\n    \"\
+    after_parent_switch\": {\n      \"joint_exit_rate\": \"2\",\n      \"status\"\
+    : \"active_joint_state\",\n      \"disabled_coordinates\": [\n        0\n    \
+    \  ],\n      \"events\": [\n        {\n          \"coordinate\": 1,\n        \
+    \  \"destination\": 1,\n          \"rate\": \"2\",\n          \"conditional_destination_probability\"\
+    : \"1\",\n          \"component_selection_probability\": \"1\",\n          \"\
+    probability\": \"1\"\n        }\n      ],\n      \"finite_next_event\": true\n\
+    \    },\n    \"absorbing_joint_state\": {\n      \"joint_exit_rate\": \"0\",\n\
+    \      \"status\": \"absorbing_joint_state\",\n      \"disabled_coordinates\"\
+    : [\n        0,\n        1\n      ],\n      \"events\": [],\n      \"finite_next_event\"\
+    : false\n    },\n    \"finite_time_00_to_11_bounds\": [\n      \"1782504537034626080373482544375/11513539351401283271255006150656\"\
+    ,\n      \"3006289472343675802529148548875176644266542896418668941/19418201425234260156759677627448711190802965293978910720\"\
+    \n    ],\n    \"calculation\": {\n      \"nu\": \"2\",\n      \"t\": \"1/2\",\n\
+    \      \"terms\": 20,\n      \"tail_upper\": \"2650217/351365336651650490455780217\"\
+    \n    },\n    \"all_zero_generator_transition\": [\n      [\n        \"1\",\n\
+    \        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\"\n      ]\n  \
+    \  ],\n    \"all_zero_calculation\": {\n      \"nu\": \"0\",\n      \"t\": \"\
+    100\",\n      \"terms\": 0,\n      \"tail_upper\": \"0\"\n    },\n    \"interpretation\"\
+    : \"Skip zero-rate local destination normalization; if the total joint exit rate\
+    \ is zero, stop rather than divide by zero or draw a finite exponential holding\
+    \ time. A local zero rate may change after a parent event.\"\n  },\n  \"correlated_initial_law_counterexample\"\
+    : {\n    \"locator\": \"PDF p4 Definition3.2; p5 Definitions3.7-3.8 and Theorem3.9\"\
+    ,\n    \"dynamics_graph\": \"two nodes, no edges\",\n    \"state_order\": [\n\
+    \      [\n        0,\n        0\n      ],\n      [\n        0,\n        1\n  \
+    \    ],\n      [\n        1,\n        0\n      ],\n      [\n        1,\n     \
+    \   1\n      ]\n    ],\n    \"generator\": [\n      [\n        \"-2\",\n     \
+    \   \"1\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"1\",\n\
+    \        \"-2\",\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"\
+    1\",\n        \"0\",\n        \"-2\",\n        \"1\"\n      ],\n      [\n    \
+    \    \"0\",\n        \"1\",\n        \"1\",\n        \"-2\"\n      ]\n    ],\n\
+    \    \"initial_distribution_full_support\": [\n      \"3/8\",\n      \"1/8\",\n\
+    \      \"1/8\",\n      \"3/8\"\n    ],\n    \"time_zero_marginal_product_for_00\"\
+    : \"1/4\",\n    \"time_zero_joint_00\": \"3/8\",\n    \"time_zero_covariance_of_zero_indicators\"\
+    : \"1/8\",\n    \"uniform_product_initial_law_stationary\": [\n      \"1/4\",\n\
+    \      \"1/4\",\n      \"1/4\",\n      \"1/4\"\n    ],\n    \"centered_initial_law\"\
+    : [\n      \"1/8\",\n      \"-1/8\",\n      \"-1/8\",\n      \"1/8\"\n    ],\n\
+    \    \"centered_mode_left_eigenvalue\": -4,\n    \"exact_solution\": \"p(t) =\
+    \ (1/4,1/4,1/4,1/4) + exp(-4*t)*(1/8,-1/8,-1/8,1/8)\",\n    \"each_one_time_marginal\"\
+    : [\n      \"1/2\",\n      \"1/2\"\n    ],\n    \"indicator_covariance_formula\"\
+    : \"exp(-4*t)/8, strictly positive for every finite t>=0\",\n    \"time\": \"\
+    1/4\",\n    \"analytic_covariance_bounds\": [\n      \"134113723200737280000/2916471173788403280463\"\
+    ,\n      \"304112751022080000/6613313319248080001\"\n    ],\n    \"uniformization_covariance_bounds\"\
+    : [\n      \"574990241705797979048853747291757/12503884204561159196170644044701772\"\
+    ,\n      \"9868094079861473135490143726580257805497605954483543597355796105/214594086550493798007684047947229623211717230483043770348452998156\"\
+    \n    ],\n    \"bounds_overlap\": true,\n    \"calculation\": {\n      \"nu\"\
+    : \"2\",\n      \"t\": \"1/4\",\n      \"terms\": 20,\n      \"tail_upper\": \"\
+    18106643/3125971051140289799042661011175443\"\n    },\n    \"interpretation\"\
+    : \"The p5 trajectory independence statement does not follow from the dynamics\
+    \ graph alone with the arbitrary initial BN allowed by Definition3.2. This example\
+    \ already violates independence at t=0, and also at positive time; it supplies\
+    \ no replacement general conditional-independence theorem.\"\n  },\n  \"continuous_time_alone_does_not_exclude_joint_jumps\"\
+    : {\n    \"state_order\": [\n      [\n        0,\n        0\n      ],\n      [\n\
+    \        0,\n        1\n      ],\n      [\n        1,\n        0\n      ],\n \
+    \     [\n        1,\n        1\n      ]\n    ],\n    \"valid_finite_generator_outside_CTBN_single_coordinate_class\"\
+    : [\n      [\n        \"-1\",\n        \"0\",\n        \"0\",\n        \"1\"\n\
+    \      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"\
+    0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n     \
+    \   \"0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n\
+    \        \"0\"\n      ]\n    ],\n    \"interpretation\": \"The zero simultaneous-change\
+    \ rate is a CTBN structural restriction, not a consequence of continuous time\
+    \ alone.\"\n  },\n  \"printed_background_inconsistencies\": {\n    \"pdf2_example2_2\"\
+    : {\n      \"original_Q\": [\n        [\n          \"-21/100\",\n          \"\
+    1/5\",\n          \"1/100\"\n        ],\n        [\n          \"1/20\",\n    \
+    \      \"-1/10\",\n          \"1/20\"\n        ],\n        [\n          \"1/100\"\
+    ,\n          \"1/5\",\n          \"-21/100\"\n        ]\n      ],\n      \"derived_embedded_chain\"\
+    : [\n        [\n          \"0\",\n          \"20/21\",\n          \"1/21\"\n \
+    \       ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\"\
+    \n        ],\n        [\n          \"1/21\",\n          \"20/21\",\n         \
+    \ \"0\"\n        ]\n      ],\n      \"printed_embedded_chain\": [\n        [\n\
+    \          \"0\",\n          \"20/21\",\n          \"1/21\"\n        ],\n    \
+    \    [\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n\
+    \        [\n          \"20/21\",\n          \"1/21\",\n          \"0\"\n     \
+    \   ]\n      ],\n      \"printed_expression_reconstructs\": [\n        [\n   \
+    \       \"-21/100\",\n          \"1/5\",\n          \"1/100\"\n        ],\n  \
+    \      [\n          \"1/20\",\n          \"-1/10\",\n          \"1/20\"\n    \
+    \    ],\n        [\n          \"1/5\",\n          \"1/100\",\n          \"-21/100\"\
+    \n        ]\n      ],\n      \"mismatch_rows_zero_based\": [\n        2\n    \
+    \  ]\n    },\n    \"pdf3_two_time_joint\": {\n      \"correct_row_convention_formula\"\
+    : \"J_ij(s,t)=p_i(s)*[exp((t-s)*Q)]_ij\",\n      \"printed_row_vector_product\"\
+    : \"p(s)*exp((t-s)*Q) is the marginal p(t), not the two-time joint matrix\"\n\
+    \    },\n    \"pdf9_example5_2\": {\n      \"minus_subsystem_generator\": [\n\
+    \        [\n          \"4\",\n          \"-1\"\n        ],\n        [\n      \
+    \    \"-2\",\n          \"7\"\n        ]\n      ],\n      \"statewise_mean_exit_times\"\
+    : [\n        \"4/13\",\n        \"3/13\"\n      ],\n      \"initial_subsystem_distribution\"\
+    : [\n        \"1/2\",\n        \"1/2\"\n      ],\n      \"mean_holding_time\"\
+    : \"7/26\",\n      \"reciprocal_holding_intensity\": \"26/7\",\n      \"interpretation\"\
+    : \"The displayed P0*(-U)^(-1)*1 is a time; the following example uses its reciprocal\
+    \ as an intensity. Singular/non-exitable subsystems require a separate treatment.\"\
+    \n    }\n  }\n}\n"
+  scope_note: Actual execution completed 2026-10-15T00:16:37.487410Z; this generator
+    executes no recorded commands.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json
+  locator: identity_search and identity_assessment
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: 4dc8a6297ee3d7b675d114f9b9a8fe54a5ae468f646be02bec3d4f1ddbfeda80
+  support: supports
+  summary: 'Scoped to the finite homogeneous CTBN model of Nodelman, Shelton and Koller:
+    an arbitrary separate initial BN and a possibly cyclic current-parent CIM dynamics
+    graph. This is distinct from hidden/observed emission-model variants, discrete
+    memory mixtures, undirected static potentials, timestamp-density topic models
+    and continuous-state linear layers. The pinned BayesianNetwork DAG does not identify
+    the dynamics graph; MarkovChain supplies a qualified process association. The
+    source dossier read 127 selected definitions, 11 exact AIO node/incident/generated
+    contexts and 11 full native neighbors; root and supporting reading scopes are
+    separately retained. Before this creation all 442 AIO and 713 preceding native
+    IDs, names, aliases and all scoped synonyms were refreshed and four complete checkouts
+    searched including ignored and hidden files; no bounded identity collision was
+    identified. The existing CTBN frontier owner is updated in place, without declaring
+    inference/learning extensions exhausted.'
+  search_scope: Canonical ID/name/alias/all-scoped-synonym checks and retained four
+    complete-checkout searches include ignored and hidden files. Bounded corpus scope,
+    not universal absence.
+- evidence_id: mapping
+  kind: record_content
+  reference: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json
+  locator: mapping_context per_record nodes/semantic/native contexts, actual319_neighbors
+    and mapping_assessment
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: 4dc8a6297ee3d7b675d114f9b9a8fe54a5ae468f646be02bec3d4f1ddbfeda80
+  support: supports
+  summary: The complete CTBN defines a finite continuous-time Markov process, and
+    the pinned MarkovChain CLASS includes the Markov Process synonym. related_match
+    preserves that association without equating the specific factorization with the
+    broad class or inheriting its ProbabilisticHiddenLayer relation. The initial-law
+    BN is separate; the cyclic dynamics graph is not the pinned BayesianNetwork DAG.
+    Eleven exact contexts and ten alternatives are retained in the CTBN-specific context.
+- evidence_id: actual-record-reading
+  kind: record_content
+  reference: data/curated/ContinuousTimeBayesianNetwork.yaml
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: 0d1266ecc3e05dcd8baaf1c76e9fd7f4a447b5353001f7438754514ebb1bd975
+  support: supports
+  summary: 'Root read full actual maintained YAML and both complete review configurations
+    after canonical capture. Historical full draft/source/mathematical/mapping assessments
+    remain bound to unchanged bytes; fresh current identities, four complete hidden/ignored-inclusive
+    scans and the actual319 neighbors were assessed before creation. Supporting actual
+    twelve-claim audit f974333c755e9dade04ecddfe2f8fe20acf1172ae5f8a14d25f304d22d83467f
+    was read and assessed with its separate source-reading timing and same-author
+    scope. Records remain DRAFT; no independent scientific approval, benchmark replication
+    or saturation is asserted. Separate initial BN, possibly cyclic current-parent
+    CIM dynamics and finite homogeneous single-coordinate joint generator are supported.
+    Zero exits and parent enabling, row marginal versus joint law, positive finite-interval
+    multiple transitions and full-support initial-correlation counterexample are correctly
+    qualified. Product-state inference cost and marginalization limits remain separate
+    from model identity. Unique stationary-law wording is correct; no denial of finite-state
+    distribution convergence. Related MarkovChain does not import neural hidden-layer
+    or DAG identity. The retained original CTBN static-finding receipt was recorded
+    at2026-10-14T22:08:34.995332Z after the22:07:59.649543Z wording correction. It
+    references corrected aa77efcf bytes although its observed text describes preserved8152079f
+    pre-correction bytes. The22:09:35.910546Z resolution binds both versions. This
+    is a retrospective metadata/snapshot mismatch, not a pre-correction capture. The
+    first actual integrity audit failed on an incorrect TEMP preimage assumption;
+    the exact failure and corrected guard are retained, all seven created files stayed
+    unchanged, and the successor actual integrity audit passed. The first postcapture
+    vendored check failed because sandbox DNS could not resolve the pinned public
+    source; its actual failed log is retained separately. The authorized network-enabled
+    retry passed against22 governed artifacts. This is not an unavailable or skipped
+    final check.  Actual post-capture source reread: Root postcapture reread PDF2–9
+    native text and visually inspected PDF5 (amalgamation/generative semantics/Theorem3.9).
+    Earlier root all10nativepages and visuals2/3/4/5/8/9 remain historical; fresh
+    reading is not restamped source acquisition.'
+- evidence_id: nodelman2002
+  kind: primary_source
+  reference: https://ai.stanford.edu/~nodelman/papers/ctbn.pdf
+  locator: Section 3.1, PDF pp. 3–4; Definition 3.2 and Section 3.3, p. 4; amalgamation
+    formula and joint intensity matrix in Section 3.4, p. 5; Sections 2.1–2.2, PDF
+    p. 2; Section 3.1 and Example 3.1, pp. 3–4; Definition 3.2, p. 4; Section 3.3
+    and Example 3.4, PDF pp. 4–5; Section 3.4, p. 5; original finite amalgamation
+    and joint-jump boundary checks in research/discovery/ctbn-boundaries.py; Sections
+    2.1–2.2, PDF p. 2; Section 3.4 generative procedure, p. 5; original competing-event
+    and parent-enabling checks in research/discovery/ctbn-boundaries.py; Section 2.3,
+    PDF p. 3; Section 3.4, p. 5; Section 4.1, p. 6; original finite-interval calculation
+    and rational exponential bounds in research/discovery/ctbn-boundaries.py; Definition
+    3.2, PDF p. 4; Definitions 3.7–3.8 and Theorem 3.9, p. 5, qualified by the original
+    full-support correlated-initial counterexample in research/discovery/ctbn-boundaries.py;
+    Sections 4.1–4.2, PDF pp. 6–7; Sections 5–5.2.2, pp. 7–9; Section 7, pp. 9–10
+  accessed_at: '2026-10-14T21:42:09Z'
+  snapshot_sha256: 27c0afd16350169ac473d7317681c21d08b0f504f2fe3ce5fe587ec9b04f62f7
+  support: supports
+  summary: 'Author-hosted ten-page paper linked as Corrected; UAI 2002, pp.378–387.
+    No correction date, original-proceedings comparison or arXiv PDF byte equivalence
+    established. Locators use PDF pages. Actual root reading: Separate initial BN,
+    possibly cyclic current-parent CIM dynamics and finite homogeneous single-coordinate
+    joint generator are supported. Zero exits and parent enabling, row marginal versus
+    joint law, positive finite-interval multiple transitions and full-support initial-correlation
+    counterexample are correctly qualified. Product-state inference cost and marginalization
+    limits remain separate from model identity. Unique stationary-law wording is correct;
+    no denial of finite-state distribution convergence. Related MarkovChain does not
+    import neural hidden-layer or DAG identity.'
+- evidence_id: calculation-ctbn
+  kind: record_content
+  reference: research/discovery/ctbn-boundaries.py
+  locator: Saved report curator_calculations; arithmetic, example_3_4, finite_interval_multiple_changes,
+    zero_exit_boundaries, correlated_initial_law_counterexample
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: b08d075203220445f6bd218a5dbc074ba1a774c4accab62eb4d47cf4d474c174
+  support: supports
+  summary: 'Original exact finite-generator algebra and rational enclosures of exponential
+    probabilities; actual copied-script outputs checked against the full saved result.
+    No author-code execution, model training, benchmark replication or universal proof.
+    Selected results: {"arithmetic": "Fractions throughout; transcendental values
+    enclosed by rational intervals", "example_3_4": {"locator": "PDF pp4-5, Example3.4
+    and amalgamation formula", "state_order_Z_W": [[0, 0], [0, 1], [1, 0], [1, 1]],
+    "derived_joint_generator": [["-6", "1", "5", "0"], ["2", "-9", "0", "7"], ["6",
+    "0", "-9", "3"], ["0", "8", "4", "-12"]], "matches_printed_example_and_pairwise_definition":
+    true, "competing_event_distributions": [{"joint_exit_rate": "6", "status": "active_joint_state",
+    "disabled_coordinates": [], "events": [{"coordinate": 0, "destination": 1, "rate":
+    "5", "conditional_destination_probability": "1", "component_selection_probability":
+    "5/6", "probability": "5/6"}, {"coordinate": 1, "destination": 1, "rate": "1",
+    "conditional_destination_probability": "1", "component_selection_probability":
+    "1/6", "probability": "1/6"}], "finite_next_event": true}, {"joint_exit_rate":
+    "9", "status": "active_joint_state", "disabled_coordinates": [], "events": [{"coordinate":
+    0, "destination": 1, "rate": "7", "conditional_destination_probability": "1",
+    "component_selection_probability": "7/9", "probability": "7/9"}, {"coordinate":
+    1, "destination": 0, "rate": "2", "conditional_destination_probability": "1",
+    "component_selection_probability": "2/9", "probability": "2/9"}], "finite_next_event":
+    true}, {"joint_exit_rate": "9", "status": "active_joint_state", "disabled_coordinates":
+    [], "events": [{"coordinate": 0, "destination": 0, "rate": "6", "conditional_destination_probability":
+    "1", "component_selection_probability": "2/3", "probability": "2/3"}, {"coordinate":
+    1, "destination": 1, "rate": "3", "conditional_destination_probability": "1",
+    "component_selection_probability": "1/3", "probability": "1/3"}], "finite_next_event":
+    true}, {"joint_exit_rate": "12", "status": "active_joint_state", "disabled_coordinates":
+    [], "events": [{"coordinate": 0, "destination": 0, "rate": "8", "conditional_destination_probability":
+    "1", "component_selection_probability": "2/3", "probability": "2/3"}, {"coordinate":
+    1, "destination": 0, "rate": "4", "conditional_destination_probability": "1",
+    "component_selection_probability": "1/3", "probability": "1/3"}], "finite_next_event":
+    true}]}, "finite_interval_multiple_changes": {"state_order": [[0, 0], [0, 1],
+    [1, 0], [1, 1]], "generator": [["-3", "2", "1", "0"], ["0", "-1", "0", "1"], ["0",
+    "0", "-2", "2"], ["0", "0", "0", "0"]], "instantaneous_00_to_11_rate": "0", "Q_squared_00_to_11":
+    "4", "quadratic_series_coefficient": "2", "time": "1/2", "uniformization_probability_bounds":
+    ["526441873489446231709757665484800/2116604004705198983883813354639909", "415915559539120675884784848541975243080643449790028609007085/1672223626712236873661991653134877422830544233833478621998829"],
+    "closed_form": "(1-exp(-t))*(1-exp(-2*t))", "closed_form_bounds": ["6918336509989167076625714697932432274114521/27815756117346202281528947751102315328194521",
+    "551008144003483216157599818837584732930225804111/2215374769663591342248171820394200999140865676111"],
+    "bounds_overlap": true, "calculation": {"nu": "3", "t": "1/2", "terms": 20, "tail_upper":
+    "22619897064207/967811616234658886092278625807"}, "interpretation": "A positive
+    finite interval can contain sequential coordinate changes; a zero direct generator
+    entry forbids only their single simultaneous jump."}, "zero_exit_boundaries":
+    {"state_order_U_X": [[0, 0], [0, 1], [1, 0], [1, 1]], "generator": [["-1", "0",
+    "1", "0"], ["0", "-1", "0", "1"], ["0", "0", "-2", "2"], ["0", "0", "0", "0"]],
+    "initially_disabled_child": {"joint_exit_rate": "1", "status": "active_joint_state",
+    "disabled_coordinates": [1], "events": [{"coordinate": 0, "destination": 1, "rate":
+    "1", "conditional_destination_probability": "1", "component_selection_probability":
+    "1", "probability": "1"}], "finite_next_event": true}, "after_parent_switch":
+    {"joint_exit_rate": "2", "status": "active_joint_state", "disabled_coordinates":
+    [0], "events": [{"coordinate": 1, "destination": 1, "rate": "2", "conditional_destination_probability":
+    "1", "component_selection_probability": "1", "probability": "1"}], "finite_next_event":
+    true}, "absorbing_joint_state": {"joint_exit_rate": "0", "status": "absorbing_joint_state",
+    "disabled_coordinates": [0, 1], "events": [], "finite_next_event": false}, "finite_time_00_to_11_bounds":
+    ["1782504537034626080373482544375/11513539351401283271255006150656", "3006289472343675802529148548875176644266542896418668941/19418201425234260156759677627448711190802965293978910720"],
+    "calculation": {"nu": "2", "t": "1/2", "terms": 20, "tail_upper": "2650217/351365336651650490455780217"},
+    "all_zero_generator_transition": [["1", "0"], ["0", "1"]], "all_zero_calculation":
+    {"nu": "0", "t": "100", "terms": 0, "tail_upper": "0"}, "interpretation": "Skip
+    zero-rate local destination normalization; if the total joint exit rate is zero,
+    stop rather than divide by zero or draw a finite exponential holding time. A local
+    zero rate may change after a parent event."}, "correlated_initial_law_counterexample":
+    {"locator": "PDF p4 Definition3.2; p5 Definitions3.7-3.8 and Theorem3.9", "dynamics_graph":
+    "two nodes, no edges", "state_order": [[0, 0], [0, 1], [1, 0], [1, 1]], "generator":
+    [["-2", "1", "1", "0"], ["1", "-2", "0", "1"], ["1", "0", "-2", "1"], ["0", "1",
+    "1", "-2"]], "initial_distribution_full_support": ["3/8", "1/8", "1/8", "3/8"],
+    "time_zero_marginal_product_for_00": "1/4", "time_zero_joint_00": "3/8", "time_zero_covariance_of_zero_indicators":
+    "1/8", "uniform_product_initial_law_stationary": ["1/4", "1/4", "1/4", "1/4"],
+    "centered_initial_law": ["1/8", "-1/8", "-1/8", "1/8"], "centered_mode_left_eigenvalue":
+    -4, "exact_solution": "p(t) = (1/4,1/4,1/4,1/4) + exp(-4*t)*(1/8,-1/8,-1/8,1/8)",
+    "each_one_time_marginal": ["1/2", "1/2"], "indicator_covariance_formula": "exp(-4*t)/8,
+    strictly positive for every finite t>=0", "time": "1/4", "analytic_covariance_bounds":
+    ["134113723200737280000/2916471173788403280463", "304112751022080000/6613313319248080001"],
+    "uniformization_covariance_bounds": ["574990241705797979048853747291757/12503884204561159196170644044701772",
+    "9868094079861473135490143726580257805497605954483543597355796105/214594086550493798007684047947229623211717230483043770348452998156"],
+    "bounds_overlap": true, "calculation": {"nu": "2", "t": "1/4", "terms": 20, "tail_upper":
+    "18106643/3125971051140289799042661011175443"}, "interpretation": "The p5 trajectory
+    independence statement does not follow from the dynamics graph alone with the
+    arbitrary initial BN allowed by Definition3.2. This example already violates independence
+    at t=0, and also at positive time; it supplies no replacement general conditional-independence
+    theorem."}}'
+- evidence_id: source-math-provenance
+  kind: record_content
+  reference: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json
+  locator: source_analysis.handoffs, root_readings and writer_preparation_reading
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: 4dc8a6297ee3d7b675d114f9b9a8fe54a5ae468f646be02bec3d4f1ddbfeda80
+  support: supports
+  summary: Root assessed the separately attributed selective source readings and bounded
+    mathematical research. Supporting agents are in the same author workflow and provide
+    no independent scientific approval.
+- evidence_id: source-error-original-lineage
+  kind: record_content
+  reference: research/discovery/20261015T001124Z-ksvd-and-continuous-time-bayesian-networks.json
+  locator: calculation_lineage.artifacts, curator_calculations, draft_wording_lineage,
+    research_correction_lineage and source_analysis
+  accessed_at: '2026-10-15T00:18:20.168796Z'
+  snapshot_sha256: 4dc8a6297ee3d7b675d114f9b9a8fe54a5ae468f646be02bec3d4f1ddbfeda80
+  support: supports
+  summary: Original curator-written K-SVD and CTBN scripts, first outputs and actual
+    root reproductions retain exact bytes. K-SVD locator corrections preserve original
+    and successor dossiers. CTBN case-inventory metadata and convergence wording corrections
+    preserve their preimages, exact changes and attributed assessments. Source formula
+    caveats and raw acquisition precision remain explicit. These artifacts are not
+    author-code execution, fabricated failed runs or canonical issue closures.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Continuous-time Bayesian network
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - identity
+  - nodelman2002
+  summary: Retain the narrow DRAFT identity within the documented search scope.
+  details: The neighboring HMM, factorial/IO HMM, HSMM, pair/triplet-chain and linear-state-space
+    identities use different hidden/emission, duration, input or state-space structures.
+    Markov random fields factor static laws with undirected potentials; Topics over
+    Time models timestamp densities; MDPs require controls/rewards. These can overlap
+    in application without defining the same parent-conditioned finite jump representation.
+    The existing CTBN owner is advanced in place; related source followups remain
+    unassessed.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and source scope
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - actual-record-reading
+  summary: The maintained definition is supported within its stated method scope.
+  details: Definition 3.2 and Section 3.3 identify a finite model family containing
+    a separate initial BN and a possibly cyclic dynamics graph of local CIMs. The
+    homogeneous joint generator results from single-coordinate rates evaluated at
+    the current full state. A particular simulator, approximate inference method,
+    learning procedure or hidden-emission model is not part of this definition. The
+    author-hosted ten-page paper is labeled Corrected; no correction date or original/corrected
+    byte equivalence is established. PDF p. 4 Definition 3.2, pp4–5 amalgamation and
+    p5 semantics support the core. The printed Theorem3.9 independence assertion is
+    explicitly qualified by the arbitrary initial BN. Root all-text and selective
+    visual rereads, supporting all-text/visual scopes and original finite calculations
+    are separately attributed.
+- assessment_id: mapping
+  area: grounding
+  topic: 'Related AIO mapping: AIO:MarkovChain'
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - mapping
+  - nodelman2002
+  summary: related_match expresses the scoped semantic association without equivalence
+    or ontology inheritance.
+  details: 'The complete CTBN defines a finite continuous-time Markov process, and
+    the pinned MarkovChain CLASS includes the Markov Process synonym. related_match
+    preserves that association without equating the specific factorization with the
+    broad class or inheriting its ProbabilisticHiddenLayer relation. The initial-law
+    BN is separate; the cyclic dynamics graph is not the pinned BayesianNetwork DAG.
+    Eleven exact contexts and ten alternatives are retained in the CTBN-specific context.
+
+    Alternatives:
+
+    AIO:BayesianNetwork: The pinned definition explicitly requires a DAG. The CTBN’s
+    separate initial-law BN is acyclic, but its rate-dependence graph may be cyclic.
+    Component overlap is not equivalence of the whole model.
+
+    AIO:ProbabilisticGraphicalModel: The pinned node is classified and defined as
+    a machine-learning task. CTBN is a model representation with graphical rate factorization;
+    do not force a model subclass of a task.
+
+    AIO:CausalGraphicalModel: Its pinned DAG scope and causal language are not established
+    by a possibly cyclic local-rate dependence graph alone.
+
+    AIO:Model: The source calls this a model language, but this broad abstract-representation
+    class is less informative than the explicitly qualified Markov-process association.
+
+    AIO:Network: Generic interconnected-node scope does not define finite stochastic
+    generators or the initial law.
+
+    AIO:MathematicalFunction: A complete probabilistic model is not identified with
+    one numerical mapping.
+
+    AIO:HiddenLayer: Neural transformation layer scope is absent from CTBN.
+
+    AIO:ProbabilisticHiddenLayer: A categorical neural hidden component is not the
+    CTBN finite-state process; the target’s appearance in a MarkovChain has-part edge
+    does not make it a CTBN requirement.
+
+    AIO:MachineLearningTask: A representation does not itself define a data-driven
+    learning task.
+
+    AIO:UnsupervisedLearning: No learning protocol is required by the mathematical
+    model definition.'
+- assessment_id: initial-law-and-local-intensities
+  area: evidence
+  topic: initial-law-and-local-intensities
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Definition 3.2 separates a possibly correlated initial BN from a possibly
+    cyclic dynamics graph. Each fixed parent assignment selects a finite conservative
+    local generator. Homogeneity of the full process concerns fixed functions of the
+    current complete state; it does not mean the child rate remains unchanged after
+    parent changes.
+- assessment_id: single-coordinate-amalgamation
+  area: evidence
+  topic: single-coordinate-amalgamation
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - calculation-ctbn
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Section 3.3 and Example 3.4 select the local rate for one changed coordinate,
+    zero for multiple changed coordinates, and negative outgoing sums on the diagonal.
+    The exact event-enumeration and pairwise-state implementations match the printed
+    four-state generator. A separate valid finite CTMC with direct 00→11 rate 1 shows
+    why exclusion of simultaneous coordinate jumps is the model restriction rather
+    than a consequence of continuous time.
+- assessment_id: event-rates-and-zero-exits
+  area: evidence
+  topic: event-rates-and-zero-exits
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - calculation-ctbn
+  summary: Supported within the stated assumptions and inspected passages.
+  details: While the full state is fixed, the total exit rate gives exponential next-event
+    time and normalized destination rates. Exact event probabilities agree with variable-choice
+    times local-destination probabilities. The original parent-enabling witness separates
+    local zero from global absorption. Guards on zero rates are curator mathematical
+    qualifications to the literal printed divisions; no source simulator implementation
+    was executed.
+- assessment_id: finite-interval-transitions
+  area: evidence
+  topic: finite-interval-transitions
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - calculation-ctbn
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Section 2.3 supports exp(delta Q) and row marginal propagation. The printed
+    two-time joint display is corrected explicitly via per-row initial weighting.
+    Independent irreversible binary switches have Q00,11=0, Q²00,11=4 and positive
+    transition probability (1-exp(-t))(1-exp(-2t)). Independent rational enclosures
+    from uniformization and closed form overlap; nonrational exponentials are bounded,
+    not represented exactly as fractions.
+- assessment_id: initial-dependence-boundary
+  area: evidence
+  topic: initial-dependence-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - calculation-ctbn
+  summary: Supported within the stated assumptions and inspected passages.
+  details: With empty dynamics graph, positive rate-one flips and full-support initial
+    law (3/8,1/8,1/8,3/8), P00 already differs from the product of marginals. Exact
+    left-eigenmode identities give p(t) = uniform+exp(-4t)*(1/8,-1/8,-1/8,1/8); covariance
+    exp(-4t)/8 remains positive at finite positive time. This contradicts the unqualified
+    trajectory statement under the allowed initial law without claiming a general
+    replacement theorem.
+- assessment_id: representation-and-inference-scope
+  area: evidence
+  topic: representation-and-inference-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Sections 4–5 explain product-size joint state space and failure of homogeneous
+    Markov closure under marginalization. Parent trajectories can matter beyond their
+    one-time distribution. The clique-tree, linearization and subsystem methods are
+    approximation choices outside model identity. Sparse direct intensities do not
+    force every finite-interval dependency to be sparse, but no blanket fully-connected-DBN
+    statement is adopted.
+- assessment_id: scope-and-boundaries
+  area: consistency
+  topic: Finite homogeneous current-parent intensity model; arbitrary initial law,
+    zero exits and single-coordinate generator jumps
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - nodelman2002
+  - calculation-ctbn
+  - source-math-provenance
+  summary: Mechanism, parameter assumptions and identity boundaries remain qualified.
+  details: Finite nonnegative conditional rates and finite variables define the scope.
+    A locally disabled variable can be enabled by a parent; only zero total joint
+    exit makes that state absorbing. Multiple sequential changes remain possible within
+    a finite observation interval. The dynamics graph alone does not imply trajectory
+    independence under a correlated initial BN. Irreducibility and convergence to
+    one unique stationary law independent of the initial law are not guaranteed. Approximate-inference
+    display errors, causal semantics, universal efficiency and clinical or benchmark
+    claims are not adopted.
+- assessment_id: actual-maintained-fields
+  area: provenance
+  topic: All captured maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - actual-record-reading
+  - identity
+  - mapping
+  - nodelman2002
+  summary: Root reassessed the complete current record after canonical capture; DRAFT
+    remains.
+  details: 'Root read full actual maintained YAML and both complete review configurations
+    after canonical capture. Historical full draft/source/mathematical/mapping assessments
+    remain bound to unchanged bytes; fresh current identities, four complete hidden/ignored-inclusive
+    scans and the actual319 neighbors were assessed before creation. Supporting actual
+    twelve-claim audit f974333c755e9dade04ecddfe2f8fe20acf1172ae5f8a14d25f304d22d83467f
+    was read and assessed with its separate source-reading timing and same-author
+    scope. Records remain DRAFT; no independent scientific approval, benchmark replication
+    or saturation is asserted. Separate initial BN, possibly cyclic current-parent
+    CIM dynamics and finite homogeneous single-coordinate joint generator are supported.
+    Zero exits and parent enabling, row marginal versus joint law, positive finite-interval
+    multiple transitions and full-support initial-correlation counterexample are correctly
+    qualified. Product-state inference cost and marginalization limits remain separate
+    from model identity. Unique stationary-law wording is correct; no denial of finite-state
+    distribution convergence. Related MarkovChain does not import neural hidden-layer
+    or DAG identity. The retained original CTBN static-finding receipt was recorded
+    at2026-10-14T22:08:34.995332Z after the22:07:59.649543Z wording correction. It
+    references corrected aa77efcf bytes although its observed text describes preserved8152079f
+    pre-correction bytes. The22:09:35.910546Z resolution binds both versions. This
+    is a retrospective metadata/snapshot mismatch, not a pre-correction capture. The
+    first actual integrity audit failed on an incorrect TEMP preimage assumption;
+    the exact failure and corrected guard are retained, all seven created files stayed
+    unchanged, and the successor actual integrity audit passed. The first postcapture
+    vendored check failed because sandbox DNS could not resolve the pinned public
+    source; its actual failed log is retained separately. The authorized network-enabled
+    retry passed against22 governed artifacts. This is not an unavailable or skipped
+    final check.  Rereads: Root postcapture reread PDF2–9 native text and visually
+    inspected PDF5 (amalgamation/generative semantics/Theorem3.9). Earlier root all10nativepages
+    and visuals2/3/4/5/8/9 remain historical; fresh reading is not restamped source
+    acquisition.'
+- assessment_id: source-error-and-original-lineage
+  area: provenance
+  topic: Source caveats and original calculation history
+  outcome: supported
+  target_ids:
+  - AIMech:ContinuousTimeBayesianNetwork
+  evidence_ids:
+  - source-error-original-lineage
+  summary: Source interpretation, TEMP clarifications and actual calculation lineage
+    remain distinct.
+  details: Original curator-written checks retain exact code, first outputs and actual
+    execution/reproduction receipts. K-SVD locator and CTBN metadata/wording clarifications
+    preserve their originals without changing scientific calculation bytes. Raw source
+    download precision is retained beside schema-compatible timestamps. Source caveats
+    do not imply a defective maintained record or author-issued erratum; bounded calculations
+    do not validate arbitrary numerical implementations or general theorems.
+findings: []
+actions: []
+limitations:
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- Finite nonnegative conditional rates and finite variables define the scope. A locally
+  disabled variable can be enabled by a parent; only zero total joint exit makes that
+  state absorbing. Multiple sequential changes remain possible within a finite observation
+  interval. The dynamics graph alone does not imply trajectory independence under
+  a correlated initial BN. Irreducibility and convergence to one unique stationary
+  law independent of the initial law are not guaranteed. Approximate-inference display
+  errors, causal semantics, universal efficiency and clinical or benchmark claims
+  are not adopted.
+- Source, identity and mathematical agents belong to the same author workflow. This
+  is qualified author self-review, not independent scientific approval.
+- Original curator-written calculators retain their actual first outputs and execution
+  receipts. K-SVD uses finite supplied rational SVD certificates; CTBN uses exact
+  generator algebra and rational bounds for nonrational exponential probabilities.
+  Neither is author software, training, a benchmark or a universal theorem.
+- Historical 708-native research is attributed separately from the actual prewrite713-native
+  inventory, all scoped synonyms, four ignored-inclusive searches and actual319 neighbor
+  reading.
+- Source acquisition precision is retained beside whole-second UTC record metadata.
+  Acquisition dates are not scientific reading dates.
+- Preserved TEMP wording and locator corrections are provenance, not invented canonical
+  findings or issue closures.
+notes:
+- Empty findings reflect actual root assessment of this selected captured record only;
+  no unrelated finding closure or literature saturation is asserted.
+- Source caveats and preserved calculation or wording lineage remain distinct; no
+  maintained-record finding or issue closure is invented from them.
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+- continuous-time
+- graphical-models
+```

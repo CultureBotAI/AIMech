@@ -1,0 +1,200 @@
+id: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+name: Predictive entropy search for multi-objective Bayesian optimization
+concept_kind: algorithm
+definition: A Bayesian multi-objective optimization algorithm that selects evaluations using an approximate
+  information gain about the Pareto set, computed from sampled finite Pareto-set approximations and objective-factorized
+  Gaussian expectation-propagation approximations to conditional predictions.
+definition_evidence:
+- source_id: hernandez2016-pesmo
+  locator: Sections2–2.1, PDFpp.2–4, Eqs1–8 and sampling/EP descriptions.
+  relation: supports
+identity_notes: This is the original PESMO procedure for information about a Pareto set under the stated
+  independent objective models, finite sampled Pareto-set representation and EP approximations. Scalar
+  PES targets one optimizer location; PESC adds feasibility to a scalar objective. Neither defines the
+  multi-objective dominance factors or approximate objective-wise information allocation of PESMO. The
+  proposed PESMOC, PPESMOC and PPES records preserve their different constrained or joint-batch targets.
+claims:
+- claim_id: pareto-set-information-target
+  kind: mechanism
+  statement: PESMO targets information about the Pareto set in input space for several objectives, using
+    minimization conventions. A point dominates another when it is no worse in every objective and strictly
+    better in at least one; the Pareto set contains the nondominated points. Assume a well-defined posterior
+    over nonempty Pareto sets and finite mutual information. At fixed surrogate hyperparameters, the ideal
+    acquisition is I(X_star; y(x) | D), equivalently the predictive entropy of the objective observations
+    minus their expected conditional entropy given the Pareto set. This is a target for approximation;
+    it is not information about only a scalar optimum value or a chosen scalarization.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section1, PDFp.1 dominance definition; Section2, PDFpp.2–3, Eqs1–2. The later quantified
+      characterization and Eq4 have the separate caveats retained below.
+    relation: supports
+- claim_id: independent-objective-surrogates
+  kind: mechanism
+  statement: The model assigns independent Gaussian-process priors to the objectives and independent zero-mean
+    Gaussian observation noise. At fixed independent model hyperparameters, the ordinary predictive distribution
+    at a candidate factorizes across objectives. The reported experiments average acquisition values over
+    sampled surrogate hyperparameters; such conditional averaging does not by itself compute the entropy
+    of a hyperparameter mixture. Conditioning on a shared Pareto set need not preserve objective independence.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section2, PDFpp.2–3, assumptions before Eq1 and Eq3; Section4, PDFpp.5–6, acquisition averaging
+      over hyperparameter samples.
+    relation: supports
+  - source_id: hernandez2016-pesmo-supplement
+    locator: Section1, PDFp.1, stated independence approximation; Section1.3, PDFp.4, tilted distribution
+      and objective-factorized Gaussian projection.
+    relation: supports
+- claim_id: approximate-pareto-set-samples
+  kind: mechanism
+  statement: To approximate the expectation over Pareto sets, sample finite random-feature linear approximations
+    to each objective posterior, solve the resulting multi-objective problem approximately, and retain
+    a finite representative set of nondominated locations. The paper describes a grid search and NSGA-II
+    for higher-dimensional problems. Its choices of ten draws and fifty retained locations are reported
+    numerical settings, not exact posterior sampling or fixed mathematical requirements of the algorithm.
+    Finite search and set compression can omit parts of the true Pareto set.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section2, PDFp.3, random kernel features, grid/NSGA-II search and representative subset;
+      Section2.1, PDFp.4, Monte Carlo average.
+    relation: supports
+- claim_id: finite-domain-ep-projection
+  kind: mechanism
+  statement: For each retained Pareto-set sample, replace the continuous-domain conditioning calculation
+    by a finite set containing previous evaluation locations, the sampled Pareto locations and the candidate.
+    Approximate each non-Gaussian comparison factor by a product of objective-specific bivariate Gaussian
+    factors, fitted through expectation propagation. Reuse the factors independent of the candidate, while
+    the paper updates candidate-dependent factors once. The Gaussian projection matches the retained within-objective
+    moments and discards cross-objective dependence; it does not reproduce all moments of the joint tilted
+    distribution or certify exact whole-domain Pareto-set conditioning.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section2.1, PDFpp.3–4, finite restriction, Eq6 Gaussian projection and candidate-factor reuse/update
+      paragraph; printed comparison signs are qualified below.
+    relation: supports
+  - source_id: hernandez2016-pesmo-supplement
+    locator: Sections1.1 and1.3–1.4, PDFpp.2 and4–5, self exclusion, cavity/tilted distributions, objective-factorized
+      moment projection and damping.
+    relation: supports
+- claim_id: noisy-gaussian-variance-acquisition
+  kind: mechanism
+  statement: Within the factorized Gaussian approximation, the contribution of objective k is one half
+    of the difference between log(v_k(x)+sigma_k_squared) and the sample average of log(v_k_conditional(x;
+    X_star_sample)+sigma_k_squared). Here v denotes latent predictive variance and sigma_k_squared is
+    the observation-noise variance; the entire log-variance difference is multiplied by one half. Summing
+    these contributions yields the coupled acquisition. All logarithm arguments must be positive. This
+    additive score follows the Gaussian factorization and finite sample approximation, and is not generally
+    an exact additive decomposition of joint Pareto-set mutual information.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section2, PDFp.3, Eq3; Section2.1, PDFp.4, Eqs7–8 and paragraph adding observation-noise
+      variance.
+    relation: supports
+  - source_id: hernandez2016-pesmo-supplement
+    locator: Section1.2, PDFp.3, final paragraph adding Gaussian observation-noise variance.
+    relation: supports
+  - source_id: pesmo-implementation
+    locator: 'Pinned author implementation at commit 9525e612b94a3b76d5510a816d94eb2801219782, evaluate_acquisition_function_given_EP_solution,
+      lines2994–2995 and3014–3026: supports observation-noise addition and the pre-clipping half-log variance
+      terms only. Clipping before averaging is a separate version-specific choice retained in limitations,
+      not asserted equivalence to the paper acquisition.'
+    relation: supports
+- claim_id: coupled-and-decoupled-selection
+  kind: mechanism
+  statement: In the coupled setting, maximize the sum of the objective contributions to choose a location
+    for evaluating all objectives. If objectives can be evaluated separately, maximize each objective
+    contribution over location and select the objective/location pair with the largest resulting score.
+    The same sampled Pareto sets link the objective-specific approximations. The displayed decoupled rule
+    compares information scores and does not include a cost divisor; unequal evaluation costs do not turn
+    it into a guaranteed optimal scheduler. Coupled and decoupled use are modes of this record, not separate
+    concept identities.
+  evidence:
+  - source_id: hernandez2016-pesmo
+    locator: Section2.1, PDFp.4, Eqs7–8 and objective selection following Eq8; Section4.3, PDFp.8, separate
+      evaluation counts and unequal training costs.
+    relation: supports
+limitations:
+- The ideal target assumes a well-defined joint posterior over objectives and Pareto sets. A bounded domain
+  alone does not establish existence or regularity. Tied objective vectors, repeated input locations and
+  degenerate covariance matrices require explicit handling; no general tie policy or empty-set fallback
+  is invented here.
+- Main PDFp.1 gives a correct weak-plus-one-strict dominance definition, but its subsequent strict quantified
+  characterization includes self comparisons. Main PDFp.3 Eq4 includes self pairs with Theta(0)=1 and
+  reverses the minimization comparison direction; Eq6 on p.4 and supplement Eq8 on p.3 repeat that orientation.
+  Supplement Eq3 on p.2 excludes self pairs. Even correctly oriented nondominated-membership factors do
+  not require a supplied subset to equal the entire Pareto set. These printed products are not certified
+  normalized densities or exact set-equality events.
+- 'The supplement has additional literal Gaussian-parameter inconsistencies: PDFp.1 Eq2 cross-term scaling
+  differs from the symmetric precision entries in p.2 Eq4; Eq4 includes an M+M endpoint where the observed
+  block has N+M variables; p.3 Eq7 mixes covariance and precision entries and does not in general construct
+  the precision of the required marginal. The high-level Gaussian projection is curated without certifying
+  these expressions as executable formulas.'
+- Selective static inspection of the separately pinned July2016 author implementation supports minimization
+  sign reversal, self-site removal and covariance block inversion. That version also rescales candidate
+  covariances, uses a damped single candidate pass and clips each sampled contribution below zero before
+  averaging. These are version-specific implementation choices, not an official erratum or proof of equivalence
+  to the proceedings equations. Conditioning reduces entropy in expectation, so per-realization clipping
+  is an additional approximation. No author code was executed.
+- Finite random features, approximate multi-objective optimization, finite Pareto representatives, EP
+  factorization, limited candidate updates and hyperparameter averaging all introduce approximation. The
+  original bounded checks in research/discovery/pesmo-boundaries.py illustrate selected source and information
+  boundaries only; they do not validate full PESMO inference or its empirical accuracy.
+- The paper gives linear dependence on the number of objectives only for specified EP/variance linear-algebra
+  operations with other sizes and iteration/sample budgets held fixed. Pareto-set size, input dimension,
+  posterior sampling and acquisition maximization can dominate cost. No universal runtime improvement,
+  convergence guarantee or benchmark reproduction is asserted.
+evidence_sources:
+- source_id: hernandez2016-pesmo
+  title: Predictive Entropy Search for Multi-objective Bayesian Optimization
+  authors:
+  - Daniel Hernández-Lobato
+  - José Miguel Hernández-Lobato
+  - Amar Shah
+  - Ryan P. Adams
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/hernandez-lobatoa16.pdf
+  version: ICML2016, PMLR48:1492–1501; official ten-page proceedings PDF, embedded build2016-05-25
+  access_level: full_text
+  accessed_at: '2026-10-14T22:59:56Z'
+  sha256: e85486acb4a5f78c72fb132616b64ee7f1adb50eaf5145014f2040b22dd49c12
+- source_id: hernandez2016-pesmo-supplement
+  title: 'Supplementary Material for: Predictive Entropy Search for Multi-objective Bayesian Optimization'
+  authors:
+  - Daniel Hernández-Lobato
+  - José Miguel Hernández-Lobato
+  - Amar Shah
+  - Ryan P. Adams
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v48/hernandez-lobatoa16-supp.pdf
+  version: Official nine-page PMLR48 supplement, embedded build2016-05-24
+  access_level: full_text
+  accessed_at: '2026-10-14T22:59:56Z'
+  sha256: 2932a6f431f827474c795ac5386a4fd6bee6541eaffe82b6e16163edf2b75fa8
+- source_id: pesmo-implementation
+  title: 'PESM author implementation: predictive_entropy_search_multiobjective.py'
+  authors:
+  - Daniel Hernández-Lobato and HIPS/Spearmint contributors
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/HIPS/Spearmint/9525e612b94a3b76d5510a816d94eb2801219782/spearmint/acquisition_functions/predictive_entropy_search_multiobjective.py
+  version: HIPS/Spearmint PESM commit9525e612b94a3b76d5510a816d94eb2801219782,2016-07-26; selective static
+    inspection only
+  access_level: documentation
+  accessed_at: '2026-10-14T23:02:04Z'
+  sha256: 613bec578f01083a7ea91ef42c4c5de35993b275994372747b2292ca9f97788d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: PESMO adaptively chooses informative objective evaluations. This resembles the pinned task
+    of querying an information source, but multi-objective optimization and Pareto-set inference are not
+    identical to labeling data for predictive learning. The mapping is a qualified curator relation, not
+    an exact match or an upstream subclass assertion.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

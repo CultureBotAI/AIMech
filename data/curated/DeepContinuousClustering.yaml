@@ -1,0 +1,267 @@
+id: AIMech:DeepContinuousClustering
+name: Deep continuous clustering
+concept_kind: algorithm
+definition: A clustering algorithm that jointly learns a nonlinear autoencoder and one latent representative
+  per observation by combining reconstruction with robust observation-to-representative and graph-pair
+  losses, then extracts groups from representative distances without a supplied cluster count.
+identity_notes: Compared all 442 pinned AIO and 659 native IDs, names, aliases and scoped synonyms for
+  the full concept name and local ID; no normalized full-name or local-ID match. The shared DCC acronym
+  was separately inspected and disambiguated as documented below. Ignored- and hidden-inclusive fixed-string
+  searches of the recovery, older discovery and original Documents checkouts returned 22, 0, 0 lines.
+  All distinct match contents were read, including pending discovery entries and source-reading observations.
+  Recovery hits concern pending Deep Continuous Clustering discovery notes and primary-source context;
+  none identifies an existing standalone Deep Continuous Clustering record. Both other checkouts returned
+  no matches including ignored and hidden files. Semantic matching covered 39 AIO and 219 native definitions,
+  all read; unchanged definitions were byte-compared with the preceding full assessment. 9 full annotated
+  AIO node/edge/generated contexts and 4 full native records were inspected. Retain joint nonlinear autoencoder
+  and robust per-observation representative optimization, distinct from RCC fixed-feature optimization,
+  RCC-DR sparse linear representation, DEC refreshed Student-t targets, DeepCluster pseudo-label classification
+  and JULE agglomeration. The paper acronym DCC separately matches AIO:DynamicConditionalCorrelation,
+  whose exact node describes a time-series covariance model. That acronym is not a native alias and does
+  not establish identity.
+definition_evidence:
+- source_id: dcc2018
+  locator: Sections 2–3, PDF pp. 2–4
+  relation: supports
+claims:
+- claim_id: joint-continuous-objective
+  kind: mechanism
+  statement: DCC jointly optimizes a nonlinear autoencoder and one free latent representative z_i per
+    observation. With encoder outputs y_i, input dimension D and latent dimension d, Equation 3 combines
+    reconstruction squared error divided by D with a robust data term and a weighted graph-pair term,
+    both divided by d. The two robust penalties use rho(r;mu)=mu*r²/(mu+r²). Reconstruction remains active
+    during clustering. A supplied number of clusters is not required; this does not make the method parameter-free.
+  evidence:
+  - source_id: dcc2018
+    locator: Sections 2–3.1, Equations 1–5, PDF pp. 2–3
+    relation: supports
+  - source_id: dcc-loss
+    locator: DCCWeightedELoss.forward and DCCLoss.forward, complete 53-line file
+    relation: supports
+- claim_id: fixed-input-graph
+  kind: mechanism
+  statement: The paper constructs a fixed graph on original input observations using mutual nearest neighbors
+    augmented with a minimum spanning tree of the k-nearest-neighbor graph. Edge weights are average graph
+    degree divided by the square root of the endpoint degree product. An MST within a disconnected kNN
+    graph cannot itself connect separate components. The paper initializes lambda from the spectral norm
+    of the latent data divided by that of the weighted Laplacian and keeps it fixed. The pinned compute_lambda
+    instead includes the identity contribution in the spectral denominator; its formula is not identical
+    to the paper ratio.
+  evidence:
+  - source_id: dcc2018
+    locator: Section 3.1, Equation 5 and lambda paragraph, PDF p. 3
+    relation: supports
+  - source_id: dcc-computation
+    locator: makeDCCinp and compute_lambda
+    relation: supports
+- claim_id: edge-minibatch-optimization
+  kind: mechanism
+  statement: Minibatches sample graph edges and contain their incident observations. The node weight is
+    within-batch degree divided by full-graph degree, compensating for repeated node appearances. Adam
+    updates network parameters and the free representatives. The pinned loss divides reconstruction by
+    batch vertex count times input dimension and both robust terms by batch vertex count times latent
+    dimension. Because the vertex count can vary across edge batches, these normalizations are not asserted
+    to yield an unbiased gradient of one fixed global objective.
+  evidence:
+  - source_id: dcc2018
+    locator: Section 3.2, Equation 6, PDF pp. 3–4
+    relation: supports
+  - source_id: dcc-data
+    locator: DCCFT_data.__getitem__ and DCCSampler
+    relation: supports
+  - source_id: dcc-loss
+    locator: Both forward methods and size_average normalization
+    relation: supports
+  - source_id: dcc-driver
+    locator: Optimizer construction and train
+    relation: supports
+- claim_id: formula-and-gradient-boundaries
+  kind: scope
+  statement: The printed minibatch Equation 6 omits the pairwise 1/d factor present in Equation 3. The
+    robust terms in displayed gradients 7–8 also omit the factor 2 obtained by differentiating the displayed
+    Geman–McClure penalty. The pinned implementation applies the 1/d factor to both robust terms and invokes
+    automatic differentiation of its loss. The record therefore distinguishes those printed expressions
+    from the inspected implementation instead of asserting literal formula-to-code equivalence.
+  evidence:
+  - source_id: dcc2018
+    locator: Equations 3–4 and 6–8, PDF pp. 3–4
+    relation: supports
+  - source_id: dcc-loss
+    locator: DCCLoss.forward
+    relation: supports
+  - source_id: dcc-driver
+    locator: 'train: loss.backward and optimizer.step'
+    relation: supports
+- claim_id: initialization-and-continuation
+  kind: scope
+  statement: Layerwise denoising-autoencoder pretraining followed by reconstruction fine-tuning initializes
+    the network. The paper initializes representatives to encoded observations and decreases robust parameters
+    toward the printed delta_i/2 floors. Its delta_1 is a mean unsquared centered latent distance and
+    delta_2 a mean of the shortest initial graph-edge distances. The pinned code perturbs representative
+    initialization by small Gaussian noise, uses mean squared centered distance for the data floor, filters
+    edge lengths, and caps the sample used for the pair floor. These are distinct conventions; small samples,
+    zero-size slices and filtering edge cases are not certified by this record.
+  evidence:
+  - source_id: dcc2018
+    locator: Section 3.3 and Algorithm 1, PDF p. 4
+    relation: supports
+  - source_id: dcc-loss
+    locator: DCCLoss.__init__
+    relation: supports
+  - source_id: dcc-computation
+    locator: computeHyperParams
+    relation: supports
+  - source_id: dcc-config
+    locator: RCC constants
+    relation: supports
+- claim_id: extraction-and-stopping-boundaries
+  kind: scope
+  statement: The paper extracts connected components by thresholding representative distances and, after
+    continuation, stops when fewer than 0.1% of original graph edges change between intra- and intercluster
+    status. The pinned computeObj thresholds only supplied original edges. Its driver begins monitoring
+    when the pair continuation reaches its floor; it increments a flag on more-than-threshold changes
+    and stops at flag 4, without resetting the flag after a below-threshold observation. Starting at flag
+    1, that means three above-threshold observations rather than the paper convergence condition. The
+    finite default epoch cap is separate. These are static source observations, not measured convergence
+    or quality failures.
+  evidence:
+  - source_id: dcc2018
+    locator: Section 3.3 stopping criterion and Algorithm 1, PDF p. 4
+    relation: supports
+  - source_id: dcc-computation
+    locator: computeObj
+    relation: supports
+  - source_id: dcc-driver
+    locator: 'main: stopping_threshold, flag updates, continuation and nepoch default'
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The paper evaluates image and document clustering with architecture, feature, hyperparameter
+    and metric choices specific to each experiment. The author README describes a pretraining training/validation
+    split and subsequent joint clustering of all data, and notes that its default adjusted-mutual-information
+    definition differs from the paper. Empirical tables do not establish universal superiority, held-out
+    generalization or portable runtime ratios. The later pinned code snapshot is not assumed to reproduce
+    the 2018 experiments.
+  evidence:
+  - source_id: dcc2018
+    locator: Sections 4–5, PDF pp. 4–6; Appendices A–C, pp. 10–11
+    relation: supports
+  - source_id: dcc-readme
+    locator: Pretraining SDAE, DCC Fine-tuning and evaluation notes
+    relation: supports
+  - source_id: dcc-computation
+    locator: benchmarking and AMI TODO
+    relation: supports
+evidence_sources:
+- source_id: dcc2018
+  title: Deep Continuous Clustering
+  authors:
+  - Sohil Atul Shah
+  - Vladlen Koltun
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv 1803.01449v1, 5 March 2018; 11-page technical report, including references and Appendices
+    A–C. Other versions not compared.
+  persistent_id: arXiv:1803.01449v1
+  url: https://arxiv.org/pdf/1803.01449v1
+  accessed_at: '2026-10-13T22:33:32Z'
+  sha256: 8c2da1731647a2f4403efac0fdc018cf3e7987a248349c7a292cac6528bf3f8b
+- source_id: dcc-driver
+  title: 'DCC author implementation: pytorch/DCC.py'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCC.py
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: f9cd9d9fd7da954f954196b87e47852036cf81d205119423f988f93fb5aa1af2
+- source_id: dcc-computation
+  title: 'DCC author implementation: pytorch/DCCComputation.py'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCCComputation.py
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: 8a3d881411a5dbbc881dcd6d5b62244fb1ce3104e10ea6aa5f9c5d1d409b6f27
+- source_id: dcc-loss
+  title: 'DCC author implementation: pytorch/DCCLoss.py'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/DCCLoss.py
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: 17aa4b4bd064bc07da006e45d62e6a5e38784d188f9ce86550b2a55740bbede3
+- source_id: dcc-data
+  title: 'DCC author implementation: pytorch/custom_data.py'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/custom_data.py
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: 659da86ffe3814e8a26277b1e5d2083572cb0a6a23b4f68f6e8f1cff236fa0e5
+- source_id: dcc-config
+  title: 'DCC author implementation: pytorch/config.py'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/pytorch/config.py
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: 7504891bd2cccfd3d25b99f3b61b98d7e64c04103fe4f54eb0a93a0aa453f1a2
+- source_id: dcc-readme
+  title: 'DCC author implementation: README.md'
+  authors:
+  - DCC repository contributors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit 775e07e17547df2804fd9eead3f1b128d303b577, 14 July 2021. Complete cited
+    file statically read; not executed or assumed identical to the 2018 experiment code.
+  url: https://raw.githubusercontent.com/shahsohil/DCC/775e07e17547df2804fd9eead3f1b128d303b577/README.md
+  accessed_at: '2026-10-13T22:42:55Z'
+  sha256: f643b3d9c7fbbc300e8b8f9af5897fbc20112426855878b5805e01780169b751
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: DCC learns groups from unlabeled observations. The AIO target is the task, while this local
+    record specifies the joint representation-and-clustering algorithm; no equivalence or subclass assertion
+    is made.
+- target: AIO:DimensionalityReduction
+  relation: related_match
+  rationale: Learning a lower-dimensional nonlinear representation is an explicit jointly optimized part
+    of DCC. The AIO target describes that task, not this particular algorithm or an assertion that its
+    learned representation always preserves semantics.
+limitations:
+- The nonconvex network and robust objective provide no general global-optimum or semantic-cluster-recovery
+  guarantee. Graph, architecture, initialization, continuation and extraction choices affect results.
+- Not requiring K does not establish correct recovery of the true cluster count. Reconstruction discourages
+  some representation distortions without certifying semantic fidelity.
+- Printed equations, continuation, threshold-graph scope and stopping rules differ from the pinned implementation.
+  Static differences and standalone scalar checks are not end-to-end execution results.
+- All 11 versioned primary pages and the complete cited files were read. Other source revisions, graph-building
+  code, complete architecture/feature-extraction code, datasets and checkpoints were not audited or executed.
+- No model fitting, author-code execution, empirical replication or formal convergence certification was
+  performed. The record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T23:46:01Z'
+  updated_at: '2026-10-13T23:46:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,204 @@
+id: AIMech:TrueOnlineTDLambda
+name: True online TD(lambda)
+concept_kind: algorithm
+aliases: []
+definition: A linear temporal-difference policy-evaluation algorithm that combines a Dutch eligibility
+  trace with a correction for changing predictions, reproducing the weight sequence of a specified online
+  lambda-return forward view at each finite horizon.
+definition_evidence:
+- source_id: vanseijen2014
+  locator: Sections 3–4.1, PDF pp. 4–5, truncated lambda-return forward view and Equations 8–12.
+  relation: supports
+- source_id: vanseijen2016
+  locator: Sections 3.1 and 4.1, PDF pp. 7–8 and 11–12, Equations 6–7 and 10–12; Appendix B, pp. 31–34,
+    the linear forward-to-backward derivation.
+  relation: supports
+claims:
+- claim_id: linear-online-forward-targets
+  kind: mechanism
+  statement: For lambda in [0,1] and prediction under a fixed policy, represent the state value by V(s)=theta^T
+    phi(s), with terminal features zero. At horizon h, the interim lambda-return for an earlier time k
+    combines the available n-step returns with weights (1-lambda)*lambda^(n-1) for n=1,...,h-k-1 and remaining
+    weight lambda^(h-k-1) on the last available return. The n-step return is G_k^(n)=sum_(i=1..n) gamma^(i-1)*R_(k+i)
+    +gamma^n*theta_(k+n-1)^T phi_(k+n). The conceptual forward algorithm starts from the episode’s initial
+    weights at each horizon and sequentially updates every earlier feature using its revised interim return,
+    without using rewards beyond that horizon.
+  evidence:
+  - source_id: vanseijen2014
+    locator: Sections 2.1–2.2 and 3, PDF pp. 2 and 4–5, Equations 8–9.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Sections 2.1–2.2 and 3.1, PDF pp. 3–4 and 6–8, n-step return and Equations 6–7.
+    relation: supports
+- claim_id: dutch-trace-and-prediction-correction
+  kind: mechanism
+  statement: In the constant-step-size convention, let V=theta^T phi and V_next=theta^T phi_next be computed
+    before the weight update, and set delta=R+gamma*V_next-V. From zero trace at the start of each episode,
+    update e=gamma*lambda*e_old+phi-alpha*gamma*lambda*(e_old^T phi)*phi. Then update theta_new=theta+alpha*delta*e+alpha*(V-V_old)*(e-phi).
+    The Dutch trace and the additional prediction correction jointly define the backward update; substituting
+    only the trace into ordinary TD does not generally produce true online TD(lambda).
+  evidence:
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, Equations 10–12 and Algorithm 2; Appendix B, pp. 33–34, Equations
+      27–28.
+    relation: supports
+- claim_id: stored-pre-update-prediction
+  kind: mechanism
+  statement: After each weight update, store the already computed V_next as V_old for the next transition.
+    Thus V_old is the preceding weights’ prediction for the now-current feature, not a fresh evaluation
+    with the current weights. The 2016 pseudocode initializes V_old=0, whereas the 2014 pseudocode initializes
+    the actual initial prediction. With zero initial trace, the first updated unscaled trace is e=phi,
+    so the correction’s dependence on the initial stored value cancels; this initialization comparison
+    is a direct consequence of the displayed recurrences.
+  evidence:
+  - source_id: vanseijen2014
+    locator: Section 4.1, PDF p. 5, Algorithm 2 initialization and stored successor prediction.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, Algorithm 2 initialization, update ordering and final V_old assignment;
+      first-step cancellation follows from Equations 11–12.
+    relation: supports
+- claim_id: scaled-trace-step-size-convention
+  kind: mechanism
+  statement: The 2014 trace includes the step size; for constant alpha it equals alpha times the unscaled
+    trace in the 2016 main algorithm. For time-varying alpha_t, the specified scaled trace is E=gamma*lambda*E_old+alpha_t*phi-alpha_t*gamma*lambda*(E_old^T
+    phi)*phi, initialized to zero. Using delta_prime=R+gamma*V_next-V_old, its weight update is theta_new=theta+delta_prime*E-alpha_t*(V-V_old)*phi.
+    This matched scaled form, not a naive substitution of alpha_t into the unscaled constant-alpha pair,
+    implements the stated varying-step-size forward view.
+  evidence:
+  - source_id: vanseijen2014
+    locator: Section 2.3, PDF p. 3, footnote 1; Section 4.1, p. 5, Equations 10–12.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, footnote 3; Section 6.1, pp. 22–23, Equations 15–17 and Algorithm
+      4.
+    relation: supports
+- claim_id: finite-time-correspondence-and-endpoints
+  kind: scope
+  statement: For linear features, matched initial weights, step sizes and bootstrap timing, the backward
+    recurrence produces the same weights as the specified online lambda-return forward sequence at each
+    finite horizon. This is algebraic correspondence rather than a convergence theorem. At lambda=0 the
+    update reduces to linear TD(0). At lambda=1, once an episode terminates with zero terminal bootstrap,
+    the final forward sequence uses full returns and gives the corresponding sequential step-size Monte
+    Carlo updates; before termination the interim targets still bootstrap.
+  evidence:
+  - source_id: vanseijen2014
+    locator: Section 3, PDF p. 5, lambda endpoints; Section 4.2, pp. 6–7, Theorem 1, with the printed-proof
+      qualifications retained in the limitations.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 3.1, PDF pp. 7–8, forward sequence and lambda-one note; Section 4.2, p. 13, Proposition
+      1; Appendix B, pp. 31–34, derivation of the linear backward recurrence.
+    relation: supports
+- claim_id: linear-feature-cost
+  kind: scope
+  statement: 'With n linear features, the backward update retains O(n) vector state and requires O(n)
+    arithmetic per transition, independent of elapsed prediction span. Tabular, binary and nonbinary linear
+    features are covered. This avoids replaying the growing conceptual forward sequence but does not make
+    computation identical to ordinary TD: the extra trace and prediction-correction terms add work, with
+    the source describing larger constant overhead in some cases and smaller overhead for sparse features.'
+  evidence:
+  - source_id: vanseijen2016
+    locator: Section 4, PDF pp. 11–13, Algorithm 2 and cost discussion; Section 6.3, p. 25, tabular specialization;
+      Section 8, p. 28, cost and representation summary.
+    relation: supports
+limitations:
+- This identity is linear on-policy state-value prediction, not the entire TD family, a Dutch eligibility
+  trace in isolation, nonlinear neural TD or a complete control method. True online Sarsa, true online
+  Watkins/GTD and other trace extensions are distinct constructions. The prediction recurrence itself
+  supplies no action-selection or exploration policy.
+- Finite-time forward/backward equality does not establish convergence, stability, unbiasedness at every
+  intermediate step, optimal step sizes or universal empirical superiority. The correspondence requires
+  the stated initialization, feature sequence and prediction timing. The fixed-time small-alpha comparison
+  in the 2016 paper does not alone justify exchanging time and step-size limits. Continuing returns require
+  appropriate process and discount assumptions; an arbitrary continuing undiscounted process is not justified
+  by the update equations.
+- The unscaled 2016 main algorithm uses constant alpha. The varying-step-size form retains earlier scaled
+  eligibility, so an isolated alpha_t=0 does not necessarily stop weight changes due to earlier nonzero
+  step sizes. Constant alpha=0 with zero initial trace does freeze the weights. Trace normalization must
+  not divide by alpha at zero or silently replace the matched scaled recurrence.
+- The efficient exact backward derivation relies on linear dependence of the value estimate on the learned
+  weights. The 2014 footnote about extending the forward approach to nonlinear approximation does not
+  establish an exact nonlinear version of the displayed backward algorithm. A parameter-dependent feature
+  generator or generic nonlinear network does not automatically inherit this equivalence.
+- In the one-hot tabular case, the active Dutch trace can be written algebraically as (1-alpha) times
+  accumulating plus alpha times replacing; this is a convex mixture only when alpha is in [0,1]. It is
+  not a general coordinatewise replacing rule for overlapping real-valued features, and Dutch traces need
+  not remain nonnegative or bounded by one. The 2014 exploratory nonzero-feature replacing convention
+  and the 2016 binary-feature comparator are separate source conventions.
+- 'The 2014 printed proof has visible inconsistencies: on PDF p. 6 an induction substitution ends in theta_k
+  where its preceding bracket is the trace e_k, and the initial-step calculation writes alpha_k rather
+  than alpha_0; on p. 7 the first substitution omits gamma from the next-state bootstrap. The main recurrences
+  and the 2016 Appendix B derivation provide the mutually consistent method presentation used here. These
+  are source-display qualifications, not observed failures of author software, an official erratum or
+  certification of every proof step.'
+- 'Equal asymptotic vector cost does not guarantee equal wall-clock time or cost proportional only to
+  the current feature vector’s nonzero entries: a retained trace may be dense, and feature-construction
+  cost is additional. Reported performance comparisons remain tied to the papers’ tasks, representations,
+  parameter searches and metrics. The two publication versions were inspected in recorded text and selected
+  visual scopes, without author-code execution, numerical benchmark replication or a complete 40-page
+  journal-paper proof and experiment audit.'
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The method estimates a fixed policy’s state values from reward transitions and supplies prediction
+    machinery used within reinforcement learning. The pinned target is a broader learning task involving
+    exploration and performance optimization; this related association asserts neither exact identity
+    nor that the prediction algorithm itself chooses actions, optimizes a policy or guarantees convergence.
+review_status: DRAFT
+identity_notes: This record selects the linear on-policy prediction algorithm combining Dutch traces with
+  prediction correction. The original TD family, replacing component, MCQ-L/Peng control and original
+  Watkins hard-cut construction remain distinct. The Greek source spelling is included in collision detection
+  without adding a native alias or globally rewriting lambda. Existing owner 264 retains both prior record
+  IDs and its cohort 343 resolution, with other control/trace variants unresolved. Fresh collection on
+  15 October 2026 at 15:21:24–15:22:28 UTC used actual merged base 342606efadd8c2896facca6e6fa2f78e216f0a8b
+  and compared all 766 native and 442 pinned AIO records (4,816 identity-field occurrences including local
+  IDs; 3,680 normalized values). No canonical or explicit Greek-lambda candidate collision was found;
+  18 context-only fields span eight neighboring records. Four ignored- and hidden-inclusive checkout searches
+  retained 1,353/1,360/3,385/4,292 occurrences, 10,390 total, in 557 exact contents. Root read all 41
+  candidate-specific decoded semantic contents, all 18 contextual identity fields/eight definitions and
+  nine full relevant frontier objects; repeated identical HTML wrapper text was not counted as a separate
+  scientific reading. Supporting source-agent assessment read all 445 decoded contexts and reconstructed
+  all raw groups/ordered occurrences. All909main and393nested objects were queried mechanically. Historical
+  source/AIO readings retain their separately documented scopes. These results are bounded to the dated
+  corpus, four roots and semantic neighborhood, not global absence or saturation.
+evidence_sources:
+- source_id: vanseijen2014
+  title: True Online TD(lambda)
+  authors:
+  - Harm van Seijen
+  - Richard S. Sutton
+  version: Official PMLR nine-page ICML 2014 paper, Proceedings of Machine Learning Research 32(1):692–700.
+    PDF heading prints lambda as a Greek symbol; the publisher metadata uses the text lambda.
+  persistent_id: https://proceedings.mlr.press/v32/seijen14.html
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/seijen14.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T14:43:24Z'
+  sha256: c8f93a80ad4231c9e4ee6c3a0bcbfa60470784e4b1de7eba8c9835402fce0d51
+- source_id: vanseijen2016
+  title: True Online Temporal-Difference Learning
+  authors:
+  - Harm van Seijen
+  - A. Rupam Mahmood
+  - Patrick M. Pilarski
+  - Marlos C. Machado
+  - Richard S. Sutton
+  version: Official JMLR 17(145):1–40 (2016), 40-page article. Cover states Submitted 11/15; Revised 7/16;
+    Published 8/16.
+  persistent_id: https://www.jmlr.org/papers/v17/15-599.html
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume17/15-599/15-599.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T14:43:25Z'
+  sha256: 905d228fcd5e7de3eace656665b6adcba322496f037c94130e14a44084c713fd
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T15:40:28Z'
+  updated_at: '2026-10-15T15:40:28Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

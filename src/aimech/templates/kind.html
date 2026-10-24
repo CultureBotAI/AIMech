@@ -19,19 +19,51 @@
   <p class="lead" style="margin-bottom: 0;">{{ kind.blurb }}</p>
 </div>
 
-<div class="browser-controls">
-  <div class="search-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="Filter {{ kind.label }} by name, definition, or keyword...">
-  </div>
-  <div class="filter-row">
-    <button type="button" id="resetFilters" class="btn">Clear</button>
-    <div class="filter-count">
-      Showing <span id="matchCount">{{ records | length }}</span> of <span id="totalCount">{{ records | length }}</span>
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Concept kind filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter {{ kind.label }}</h2>
+    <div class="browser-controls">
+      <div class="facet-group">
+        <label for="searchInput" class="facet-label">Search {{ kind.label }}</label>
+        <input type="search" id="searchInput" name="q" class="search-input" placeholder="Filter by name, definition, or keyword…">
+      </div>
+      <div class="facet-group">
+        <label for="sortSelect" class="facet-label">Sort by</label>
+        <select id="sortSelect" name="sort" class="filter-select">
+          <option value="name-asc">Concept name (A–Z)</option>
+          <option value="name-desc">Concept name (Z–A)</option>
+          <option value="claims-desc">Curated claims (high–low)</option>
+          <option value="sources-desc">Evidence sources (high–low)</option>
+          <option value="id-asc">Identifier (A–Z)</option>
+        </select>
+      </div>
+      <div class="facet-actions">
+        <div class="filter-count">
+          Showing <span id="matchCount">{{ records | length }}</span> of <span id="totalCount">{{ records | length }}</span>
+        </div>
+        <button type="button" id="resetFilters" class="btn">Clear</button>
+      </div>
     </div>
+
+    {% if kinds_meta %}
+    <div class="facet-group">
+      <div class="facet-label">Concept Kinds</div>
+      <div class="facet-list">
+        {% for k in kinds_meta %}
+        <a class="facet-link {% if k.id == kind.id %}active{% endif %}" href="{{ root }}{{ k.page }}">
+          <span>{{ k.label }}</span>
+          <small>{{ k.count }}</small>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </aside>
+
+  <div class="browse-main">
+    {% include "record_table.html" %}
   </div>
 </div>
-
-{% include "record_table.html" %}
 
 <script src="{{ root }}record-browser.js"></script>
 {% endblock %}

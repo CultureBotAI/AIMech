@@ -1,0 +1,154 @@
+id: AIMech:RealTimeRecurrentLearning
+name: Real-time recurrent learning
+aliases:
+- RTRL
+concept_kind: algorithm
+definition: A recurrent-network training algorithm that propagates state sensitivities to adjustable weights
+  forward in time and contracts those sensitivities with current supervised output errors to form weight
+  updates.
+identity_notes: Compared all 442 pinned AIO and 579 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 11, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 64 AIO and 155 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 4 full native records
+  were inspected. Matches concern prior RTRL discovery leads and NNPDA derivative context, not an exact
+  record. RTRL propagates full recurrent state sensitivities; generic SGD describes sampled-gradient parameter
+  updates, Rprop controls sign-based step sizes, and pseudo-linear regression substitutes a raw regressor
+  for a total sensitivity. NNPDA is a recurrent controller architecture whose augmented stack-read derivative
+  is approximate. TrainingStrategy is related because its preprocessing definition does not supply an
+  algorithm superclass. RecurrentNeuralNetwork is a training subject, DifferentiableLLM is an LLM architecture
+  and SupervisedLearning a task category. None establishes exact identity. Fixed-weight accumulated and
+  online-update forms, including the teacher-forced configuration, remain within this source-defined algorithm
+  family.
+definition_evidence:
+- source_id: williams1989
+  locator: Sections 2.1–2.2, Equations 10–15, PDF pp. 4–5
+  relation: supports
+claims:
+- claim_id: forward-state-sensitivities
+  kind: mechanism
+  statement: For the inspected synchronous network y_k(t+1)=f_k(sum_l w_kl*z_l(t)), z concatenates recurrent
+    outputs and external inputs, including a constant bias input when needed. The sensitivity p_ij^k(t+1)=f_k'(s_k(t))*(sum_l
+    w_kl*p_ij^l(t)+delta_ik*z_j(t)) propagates through every recurrent unit. Initial sensitivities are
+    zero when the initial state is independent of the weights. Weight-dependent initialization or externally
+    supplied signals require their additional derivatives; zero initialization is not universally valid.
+  evidence:
+  - source_id: williams1989
+    locator: Section 2.1, Equations 1–3 and 10–14, PDF pp. 2–4
+    relation: supports
+- claim_id: fixed-trajectory-gradient
+  kind: mechanism
+  statement: With fixed weights and parameter-independent inputs, targets and initial state, contracting
+    p with target-minus-output discrepancies gives the negative gradient of the current half-squared error.
+    Summing these negative-gradient contributions gives the negative trajectory-loss gradient without
+    storing the entire trajectory. Units lacking a target at a time contribute zero direct error, yet
+    their sensitivities must generally still be propagated. Forward sensitivity propagation and reverse
+    backpropagation through time agree for the same differentiable fixed-weight objective; they organize
+    the derivative computation differently.
+  evidence:
+  - source_id: williams1989
+    locator: Sections 1 and 2.1, Equations 4–15, PDF pp. 2–4; Section 2.4, p. 6; curator fixed-trajectory
+      forward/reverse and finite-difference checks
+    relation: supports
+- claim_id: online-weight-drift
+  kind: limitation
+  statement: The real-time variant applies each update while the recurrent network continues running,
+    avoiding a required epoch boundary. The source explicitly states that this no longer follows the exact
+    negative gradient of the total error along a fixed-weight trajectory. Weight changes also change the
+    generated trajectory; a sufficiently slow learning timescale is a heuristic control, not a general
+    convergence guarantee. In a constructed linear recurrence with initial state 1 and successive weights
+    1/2 and 3/5, the propagated sensitivity is 11/10, whereas rerunning both steps at the current fixed
+    weight gives derivative 6/5. Exactness of the fixed-parameter recursion must not be transferred unqualified
+    to changing weights.
+  evidence:
+  - source_id: williams1989
+    locator: Section 2.2, PDF pp. 4–5; curator two-step changing-weight calculation
+    relation: supports
+- claim_id: teacher-forced-variant
+  kind: mechanism
+  statement: Teacher forcing replaces a unit’s output by its supplied target in subsequent state computation
+    whenever that target exists. Assuming those targets are independent of the weights, the sensitivity
+    recurrence omits propagation through the forced outputs. Their sensitivities still contribute to the
+    current weight update before being treated as zero for future propagation. This changes the training
+    dynamics and derivative paths; it is an optional RTRL configuration, not the definition of all RTRL
+    or an assurance of autonomous free-running performance.
+  evidence:
+  - source_id: williams1989
+    locator: Section 2.3, Equations 17–19 and implementation explanation, PDF pp. 5–6
+    relation: supports
+- claim_id: storage-and-nonlocality
+  kind: limitation
+  statement: For n recurrent units and r adjustable weights the direct method retains n*r sensitivities,
+    including sensitivities of units without immediate targets. A fully connected n-unit network with
+    m external inputs has r=n*(n+m), hence n^2*(n+m) sensitivity values. Directly evaluating the displayed
+    recurrent sums takes order n^2*r arithmetic per time step, or order n^3*(n+m) for that dense parameterization.
+    Storage does not grow with elapsed sequence length at fixed network size; this is not constant cost
+    in network size or a guaranteed wall-clock deadline. The method needs nonlocal weight and error information
+    and is not established as a biologically local learning rule.
+  evidence:
+  - source_id: williams1989
+    locator: Section 2.4, PDF p. 6; Discussion, p. 8; direct count from Equation 12, p. 4
+    relation: supports
+- claim_id: experimental-scope
+  kind: scope
+  statement: Reported demonstrations use small fully interconnected networks on delayed XOR, sequence
+    recognition, delayed nonmatch, finite-state-controller imitation and oscillation tasks. The Turing-machine
+    example is described as imitation of finite-state-controller actions; it does not demonstrate that
+    a finite recurrent state alone supplies an unbounded tape or arbitrary-program learning. The oscillation
+    section reports that teacher forcing was needed for general success in the tested setting and discusses
+    near-zero gradients around initially settling dynamics. These selected demonstrations do not establish
+    universal convergence, arbitrary memory fidelity, computational efficiency or success without teacher
+    forcing.
+  evidence:
+  - source_id: williams1989
+    locator: Sections 3.1–3.5 and Discussion, PDF pp. 6–8
+    relation: supports
+evidence_sources:
+- source_id: williams1989
+  title: A Learning Algorithm for Continually Running Fully Recurrent Neural Networks
+  authors:
+  - Ronald J. Williams
+  - David Zipser
+  persistent_id: https://doi.org/10.1162/neco.1989.1.2.270
+  version: Ten-page manuscript copy openly hosted by Gwern, identifying the Neural Computation1:270–280
+    publication (1989). All ten PDF pages, Equations1–19, experiments and references visually read. PDF
+    page numbers are used; final publisher layout was not inspected.
+  source_type: primary_paper
+  url: https://gwern.net/doc/ai/nn/rnn/1989-williams-2.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:06:26Z'
+  sha256: 348ca1d75163d1fa2412f4fc2c3d73531051ba14ce9bdc51a098da19f869fc2a
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: RTRL computes sensitivities and parameter updates for recurrent-network training. The pinned
+    TrainingStrategy definition uses a preprocessing genus and does not identify this derivative algorithm;
+    a contextual training relationship is supported, without equivalence or a subclass assertion.
+limitations:
+- The mechanism is scoped to the inspected ten-page manuscript copy of Williams and Zipser (1989). It
+  acknowledges earlier related work; no sole-inventor or historical-priority claim is made. Final publisher
+  layout and later implementations were not inspected.
+- Fixed-weight derivative exactness assumes the stated differentiable dynamics and parameter-independent
+  supplied signals and initialization. The source’s online weight updates are approximate with respect
+  to the fixed-trajectory gradient; numerical floating-point exactness is not asserted.
+- The complete sensitivity tensor can be expensive even though its dimensions do not grow with sequence
+  length. Restricted, approximate, sparse or low-rank algorithms require their own evidence and identity
+  assessment.
+- Teacher forcing changes state evolution and cuts specified derivative paths. Reported training success
+  does not establish matching free-running behavior or biologically local learning.
+- The small task demonstrations and qualitative results are source reports, not a reproduced benchmark
+  or a guarantee of arbitrary-duration memory and convergence.
+- All ten manuscript PDF pages and references were read. Constructed differentiation and algebra checks
+  use fixed small examples without fitting; no author code, model training, hardware benchmark or empirical
+  replication was run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T06:19:04Z'
+  updated_at: '2026-10-13T06:19:04Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

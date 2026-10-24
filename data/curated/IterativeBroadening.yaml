@@ -1,0 +1,147 @@
+id: AIMech:IterativeBroadening
+name: Iterative broadening
+aliases: []
+concept_kind: algorithm
+definition: A tree-search strategy that repeats depth-first search with increasing limits on the number
+  of ordered successors considered at each parent, widening the allowed search tree after an unsuccessful
+  pass.
+identity_notes: Compared all 442 pinned AIO and 644 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 232, 122, 121 lines. All distinct match contents
+  were inspected. Semantic matching covered 72 AIO and 129 native definitions, with every matched definition
+  read. 9 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain
+  repeated depth-first passes with an increasing per-parent successor cutoff. A global depth-layer or
+  frontier beam, repeated depth cutoffs and discrepancy-budget backtracking restrict different portions
+  of the search tree. The1990 conference formulation starts with cutoff2; no alias to every width-adaptive
+  search is asserted.
+definition_evidence:
+- source_id: ginsberg1990broadening
+  locator: Section1, PDF pp.1–2 / printed pp.216–217; Figure1
+  relation: supports
+claims:
+- claim_id: per-parent-breadth-passes
+  kind: mechanism
+  statement: The inspected conference formulation first searches with a successor cutoff of two, then
+    three and so on until a goal is found. Each parent contributes at most that many ordered children
+    during a pass. This bounds local branching rather than the total width of a depth layer or the entire
+    open frontier, and earlier search work may be repeated.
+  evidence:
+  - source_id: ginsberg1990broadening
+    locator: Section1, PDF pp.1–2 / printed pp.216–217; Figure1
+    relation: supports
+- claim_id: coverage-and-solution-boundaries
+  kind: limitation
+  statement: Coverage requires each restricted depth-first pass to finish and the cutoff eventually to
+    admit a path to a goal. A finite tree permits this as the cutoff reaches its necessary branching width;
+    a depth-unbounded infinite branch can prevent widening. A first-found goal is not guaranteed minimum
+    path cost. Combining breadth growth with depth limits requires an adequate terminating schedule.
+  evidence:
+  - source_id: ginsberg1990broadening
+    locator: Section1, PDF pp.1–2 / printed pp.216–217; Section5, PDF p.5 / printed p.220
+    relation: supports
+- claim_id: special-random-tree-model
+  kind: scope
+  statement: The analysis uses a uniform branching factor b and depth d, with exactly s successful children
+    at each successful node, randomly positioned among its b children; the basic derivation takes integer
+    s greater than one. Failure at the next level averages the previous failure probability raised to
+    the number of selected successful children, using a hypergeometric distribution. This correlated family
+    is not an arbitrary tree or a uniform placement of a fixed number of fringe goals.
+  evidence:
+  - source_id: ginsberg1990broadening
+    locator: Section2, PDF pp.2–3 / printed pp.217–218; Equation1
+    relation: supports
+- claim_id: approximation-and-printed-boundary
+  kind: limitation
+  statement: The conditional failure ratio for wider after narrower unsuccessful passes requires nested
+    retained child sets and a nonzero conditioning probability. The authors explicitly approximate successful-pass
+    work as unchanged by earlier failure, so the resulting total expected-time calculation is qualified.
+    A cutoff b−s+1 retains a successful child at every successful node in the stated model; later prose
+    prints b+s−1 despite using b−(s−1) in its ensuing sum. The large-depth performance proposition is
+    not asserted here as a universal deterministic speedup.
+  evidence:
+  - source_id: ginsberg1990broadening
+    locator: Sections2–3, PDF pp.3–4 / printed pp.218–219; Equations5–6, large-depth discussion and Proposition3.1
+    relation: supports
+- claim_id: finite-empirical-boundaries
+  kind: limitation
+  statement: The random-tree comparisons use finite configured samples and include cases where iterative
+    broadening is slower than ordinary depth-first search. Heuristic ordering changes performance, while
+    the crossword examples combine broadening with other inference and search choices. Those experiments
+    do not isolate a universal runtime improvement, and a binary tree is already fully admitted by the
+    stated initial cutoff of two.
+  evidence:
+  - source_id: ginsberg1990broadening
+    locator: Sections3–4, PDF pp.4–5 / printed pp.219–220; Figures4–5 and crossword discussion
+    relation: supports
+evidence_sources:
+- source_id: ginsberg1990broadening
+  title: Iterative Broadening
+  authors:
+  - Matthew L. Ginsberg
+  - William D. Harvey
+  persistent_id: https://cdn.aaai.org/AAAI/1990/AAAI90-033.pdf
+  version: 'Official AAAI1990 proceedings PDF, five pages, printed216–220. All pages visually inspected:
+    Sections1–6, Equations1–6 and unnumbered expressions, Proposition3.1, Figures1–5 including table cells,
+    acknowledgments and four references. The later1992 journal article, author software and replication
+    were not inspected.'
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1990/AAAI90-033.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T18:35:24Z'
+  sha256: d671cd081aea5dbf73dc7455dae971aee16df34b350f3aae325d35ad3f02122c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 644 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 232, 122, 121 lines. All distinct match contents
+    were inspected. Semantic matching covered 72 AIO and 129 native definitions, with every matched definition
+    read. 9 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+    Retain repeated depth-first passes with an increasing per-parent successor cutoff. A global depth-layer
+    or frontier beam, repeated depth cutoffs and discrepancy-budget backtracking restrict different portions
+    of the search tree. The1990 conference formulation starts with cutoff2; no alias to every width-adaptive
+    search is asserted.
+  rationale: No suitable counterpart for the per-parent breadth-widening search policy was established
+    in the inspected AIO pin. Search-tree traversal, learning tasks, learned architectures and computational-bias
+    phenomena have distinct identities.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A general tree-search policy need not be a learned graph language model.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Search ordering does not identify a language-model reasoning architecture.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: No neural-symbolic language-model architecture is required.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The method searches a specified tree and need not learn from data.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Cost and heuristic functions may be evaluated, but the maintained identity is the
+      repeated traversal policy.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The search policy does not require reward-based policy learning or the learning-task
+      identity.
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned classification task is not a traversal of an implicit search tree.
+  - target: AIO:ComputationalBias
+    rejection_reason: A deliberate restriction of admissible successor choices is not the computational-bias
+      phenomenon denoted by the pinned class.
+  - target: AIO:ModelSelectionBias
+    rejection_reason: Selecting a search cutoff is not the statistical model-selection bias defined by
+      this class.
+limitations:
+- This is the1990 conference method; the1992 journal full text is not assumed identical.
+- The cutoff is per parent. It is neither a global beam width nor a bound on all program memory.
+- Completeness statements require terminating passes and eventual inclusion of an adequate search path.
+  No shortest-path or arbitrary infinite-tree guarantee is asserted.
+- The random-tree analysis has specific distributional assumptions and an explicit approximation. Changing
+  child order invalidates its nested-event argument unless nesting is otherwise preserved.
+- All five conference pages were visually inspected. Author software and empirical replication were not
+  executed. Constructed examples assess mathematical boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T19:26:51Z'
+  updated_at: '2026-10-13T19:26:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

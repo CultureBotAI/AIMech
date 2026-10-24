@@ -1,0 +1,212 @@
+id: AIMech:GRINCHClustering
+name: GRINCH clustering
+aliases:
+- Grinch algorithm
+concept_kind: algorithm
+definition: An incremental hierarchical clustering algorithm that uses set-wise linkage scores to revise
+  a binary cluster tree through local rotations, nonlocal subtree grafting and restructuring.
+identity_notes: Compared all 442 pinned AIO and 658 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 31, 0, 0 lines. All distinct match contents were
+  read, including pending discovery entries and source-reading observations. Recovery hits concern pending
+  GRINCH discovery notes and primary-source context; none identifies an existing standalone GRINCH record.
+  Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered
+  26 AIO and 175 native definitions, all read; unchanged definitions were byte-compared with the preceding
+  full assessment. 9 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+  Retain incremental set-wise-linkage tree grafting and restructuring. PERCH uses geometric masking/balance
+  tests; BIRCH compresses feature summaries; NN chains and Genie choose agglomerative merges; RCC optimizes
+  representatives. These mechanisms do not identify GRINCH.
+definition_evidence:
+- source_id: grinch2019
+  locator: Sections2–3, PDF pp.2–8
+  relation: supports
+claims:
+- claim_id: incremental-tree-revision
+  kind: mechanism
+  statement: GRINCH builds a binary cluster hierarchy incrementally under a set-wise linkage function.
+    It places a new observation near a nearest leaf, applies local rotations, and attempts nonlocal grafts
+    followed by restructuring. Earlier groupings can therefore change as observations arrive.
+  evidence:
+  - source_id: grinch2019
+    locator: Sections2–3, PDF pp.2–8; Algorithms1–3
+    relation: supports
+  - source_id: grinch-scala
+    locator: Grinch.insert, rotate and graft
+    relation: supports
+- claim_id: model-based-separation
+  kind: scope
+  statement: 'The paper defines separation using a latent graph: for a common set, a partner producing
+    a connected union must score higher than one producing a disconnected union. Under that assumption,
+    Theorem1 states that the intended exact construction contains the graph connected components as a
+    tree-consistent partition for any arrival order. This is a conditional result about cluster recovery,
+    not identical trees across orders or an unconditional guarantee for approximate implementations.'
+  evidence:
+  - source_id: grinch2019
+    locator: Definition1, PDF p.3; Theorem1, p.7; AppendixA, pp.19–23
+    relation: supports
+- claim_id: grafting-and-tie-boundary
+  kind: mechanism
+  statement: A graft searches outside the current subtree and requires a candidate pair to prefer one
+    another over their current siblings. Candidate ancestors are considered when a sibling is preferred.
+    The printed Algorithm1 uses strict inequalities that leave certain tied non-sibling states unchanged;
+    the inspected Scala implementation treats equality as rejection and advances a candidate. Its behavior
+    is not inferred from a literal transcription of that pseudocode.
+  evidence:
+  - source_id: grinch2019
+    locator: Section3.2, Equation2 and Algorithm1, PDF pp.6–7
+    relation: supports
+  - source_id: grinch-scala
+    locator: Grinch.graft, i_like_you/you_like_me and candidate-parent updates
+    relation: supports
+- claim_id: restructuring-and-source-scope
+  kind: scope
+  statement: 'The intended restructuring operation compares a subtree with siblings of its ancestors below
+    a specified common ancestor, swapping when that improves the linkage. Strong connectivity requires
+    every descendant subtree of a connected node to be connected; this differs from merely containing
+    a complete cluster. The inspected Scala routine differs from Algorithm2: it scores with the original
+    z as curr advances, does not use its computed r_ancs set to restrict candidates, and its node swap
+    changes pointers without updating cached summaries. These static differences preclude assuming exact
+    paper-to-code equivalence.'
+  evidence:
+  - source_id: grinch2019
+    locator: Section3.3, Algorithm2, PDF pp.6–8; Definitions3–4 and Lemma4, pp.19,22–23
+    relation: supports
+  - source_id: grinch-scala
+    locator: Grinch.restructure
+    relation: supports
+  - source_id: grinch-node
+    locator: GrinchNode.swap, score and updatedFromChildren
+    relation: supports
+- claim_id: approximation-and-control-flow
+  kind: scope
+  statement: The paper considers capped operations, single-elimination grafting, reuse of an insertion-time
+    neighbor search, and approximate navigable-small-world search. Such approximations do not automatically
+    inherit the exact separation theorem. The pinned Scala caps use subtree point counts, whereas the
+    paper describes height caps. Its graft_attempts variable stays zero and its positive-beam exit predicate
+    is graft_attempts < graft_beam, causing exit after a completed outer iteration with the default positive
+    beam. This is a static control-flow observation, not a measured clustering failure.
+  evidence:
+  - source_id: grinch2019
+    locator: Section4.2, PDF pp.9–11
+    relation: supports
+  - source_id: grinch-scala
+    locator: Grinch.graft, rotate, restructure and graft_cknn_search
+    relation: supports
+  - source_id: grinch-config
+    locator: GrinchConfigOpts and Config, graft_beam and size-cap defaults
+    relation: supports
+- claim_id: implementation-and-evaluation-boundaries
+  kind: scope
+  statement: The paper distinguishes dendrogram purity from pairwise F1 after flat-cluster extraction
+    and evaluates both fixed and learned linkage functions. Its approximations and data-order experiments
+    are empirical comparisons, not universal quality or speed rankings. The pinned author repository provides
+    Scala implementations and experiment scripts, but that later source snapshot is not assumed to reproduce
+    every historical result. The inspected average-link implementation averages negative squared Euclidean
+    distances over stored points; its name alone does not establish an average of unsquared distances.
+  evidence:
+  - source_id: grinch2019
+    locator: Sections4.1–4.6, PDF pp.8–14; Tables1–4
+    relation: supports
+  - source_id: grinch-scala
+    locator: AvgLinkGrinch.e_score and minusNorm
+    relation: supports
+  - source_id: grinch-readme
+    locator: Run and Notes sections
+    relation: supports
+evidence_sources:
+- source_id: grinch2019
+  title: Scalable Hierarchical Clustering with Tree Grafting
+  authors:
+  - Nicholas Monath
+  - Ari Kobren
+  - Akshay Krishnamurthy
+  - Michael Glass
+  - Andrew McCallum
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv2001.00076v1,31December2019; PDF dated3January2020. All23 pages read, including AppendixA.
+    Related KDD2019 typeset proceedings not compared.
+  persistent_id: arXiv:2001.00076v1
+  url: https://arxiv.org/pdf/2001.00076v1
+  accessed_at: '2026-10-13T22:33:33Z'
+  sha256: eb0a381b33e3eeeca19d5bd0da5d60169c5a8ba4309602037941bad086f82aae
+- source_id: grinch-scala
+  title: 'GRINCH author implementation: src/scala/grinch/core/Grinch.scala'
+  authors:
+  - GRINCH authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit80685bf636086744f0a922729f72b190deeebed9,29June2021. Complete cited
+    file statically read; not executed or assumed identical to2019 benchmark code.
+  url: https://raw.githubusercontent.com/iesl/grinch/80685bf636086744f0a922729f72b190deeebed9/src/scala/grinch/core/Grinch.scala
+  accessed_at: '2026-10-13T22:37:41Z'
+  sha256: 9b1d415e15c9e44c69c0ed5288be89be2b3ff9c6004ae54c0fe5743d56ab4c92
+- source_id: grinch-node
+  title: 'GRINCH author implementation: src/scala/grinch/core/GrinchNode.scala'
+  authors:
+  - GRINCH authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit80685bf636086744f0a922729f72b190deeebed9,29June2021. Complete cited
+    file statically read; not executed or assumed identical to2019 benchmark code.
+  url: https://raw.githubusercontent.com/iesl/grinch/80685bf636086744f0a922729f72b190deeebed9/src/scala/grinch/core/GrinchNode.scala
+  accessed_at: '2026-10-13T22:37:41Z'
+  sha256: f4aac5f280ff8e05433a1998ec4d7b54c1f41621beb31986e2226a572cad0814
+- source_id: grinch-config
+  title: 'GRINCH author implementation: src/scala/grinch/core/Config.scala'
+  authors:
+  - GRINCH authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit80685bf636086744f0a922729f72b190deeebed9,29June2021. Complete cited
+    file statically read; not executed or assumed identical to2019 benchmark code.
+  url: https://raw.githubusercontent.com/iesl/grinch/80685bf636086744f0a922729f72b190deeebed9/src/scala/grinch/core/Config.scala
+  accessed_at: '2026-10-13T22:37:41Z'
+  sha256: d1a497ec0a91f102ec26ee57376f10caa478eb4a05ea424c2e92e34f2be6977f
+- source_id: grinch-readme
+  title: 'GRINCH author implementation: README.md'
+  authors:
+  - GRINCH authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit80685bf636086744f0a922729f72b190deeebed9,29June2021. Complete cited
+    file statically read; not executed or assumed identical to2019 benchmark code.
+  url: https://raw.githubusercontent.com/iesl/grinch/80685bf636086744f0a922729f72b190deeebed9/README.md
+  accessed_at: '2026-10-13T22:37:41Z'
+  sha256: 08660d0b0179b2e2c1868990d9e77ebc584e3b6e068eacb5b2ef6613f52b0dcc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: GRINCH constructs a hierarchy through insertions and reversible subtree placement. The AIO
+    target denotes the task, not this algorithm or an equivalent implementation.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The construction groups observations using supplied linkage scores. Reference labels assess
+    quality; learning a linkage in a separate supervised application does not make the generic grouping
+    algorithm a classifier.
+limitations:
+- The exact recovery statement assumes model-based separation and intended exact operations. Arbitrary
+  linkage scores, approximate searches and caps do not establish those conditions.
+- The printed Algorithm3 does not show an update to p in its final loop; Algorithm1 also leaves certain
+  ties without progress. The record describes the intended method and preserves these source limitations.
+- Equation1 and Algorithm3 use different node roles for rotation. The insertion implementation ascends
+  a candidate sibling before attaching the new leaf; variable names are not silently identified across
+  descriptions.
+- The finite tied-score example is a standalone tree state, not an established insertion history or author
+  execution. It does not refute the intended theorem or quantify clustering quality.
+- The pinned Scala source has explicit control-flow and restructuring differences. No full reachable counterexample
+  or correctness certification of that implementation is claimed.
+- The 23-page arXiv version and complete cited files were read. The separate Python implementation, NSW
+  and Ent internals, other revisions, datasets and historical benchmark runs were not audited or executed.
+- The record remains DRAFT. No model fitting, paid service, data upload or benchmark replication was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T23:45:33Z'
+  updated_at: '2026-10-13T23:45:33Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

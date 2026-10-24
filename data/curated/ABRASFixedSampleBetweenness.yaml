@@ -1,0 +1,177 @@
+id: AIMech:ABRASFixedSampleBetweenness
+name: ABRA-s-fix fixed-sample betweenness approximation
+aliases:
+- ABRA-s-fix
+- ABRA fixed-sample betweenness approximation
+concept_kind: algorithm
+definition: A fixed-sample static-graph betweenness algorithm that averages shortest-path fractions over
+  a user-specified number of uniform endpoint pairs and returns both the estimates and a simultaneous
+  Rademacher-based additive error bound, regardless of the size of that bound.
+definition_evidence:
+- source_id: riondatoupfal2018
+  locator: Section 4.4 and Theorem 4.10, PDF p. 24; shared static estimator in Sections 4.1–4.1.1, pp.
+    10–16
+  relation: supports
+claims:
+- claim_id: domain-and-sample-contract
+  kind: scope
+  statement: The maintained domain is a finite simple directed or undirected static graph with n>=3, unweighted
+    edges or strictly positive edge lengths, and exact shortest-path counts. The user supplies a positive
+    integer S fixed independently of the samples and a failure budget delta in (0,1). The algorithm takes
+    exactly S independent uniform ordered pairs of distinct vertices, with replacement. Epsilon is not
+    an input stopping threshold.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Section 4.4, PDF p. 24; Section 4.1 input domain, p. 10; the strict-positive-weight restriction
+      is maintained to avoid unresolved zero-weight path conventions
+    relation: supports
+- claim_id: ordered-pair-fraction-estimator
+  kind: mechanism
+  statement: For every sampled pair (u,v), an internal vertex w contributes f_w(u,v)=sigma_uv(w)/sigma_uv.
+    Source, target and unreachable-pair contributions are zero; unreachable pairs remain part of the n(n-1)
+    population. Return bhat(w)=S^(-1) sum_j f_w(u_j,v_j). Shared shortest-path predecessor and backward
+    suffix-count computations obtain these fractions without choosing just one path or substituting raw
+    path counts.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Definition 3.1, PDF p. 5; Equation 11 and Algorithms 1–2, pp. 10–13; Section 4.4, p. 24
+    relation: supports
+- claim_id: fixed-sample-error-bound
+  kind: mechanism
+  statement: Retain the distinct node sample vectors V_S and bound their conditional Rademacher average
+    by omega=inf over r>0 of log(sum_{v in V_S} exp(r^2 ||v||_2^2/(2S^2)))/r. For a one-shot failure allocation
+    eta, let L=ln(3/eta) and xi=2omega+[L+sqrt(L(L+4S omega))]/S+sqrt(L/(2S)). Retaining Algorithm 1’s
+    first-stage allocation uses eta=delta/2 and gives an at-least-1-delta guarantee conservatively. A
+    direct one-shot use of Theorem 3.3 may instead use eta=delta; these two bound conventions are explicitly
+    distinguished. Numerical evaluation must conservatively bound omega, and equal vector norms alone
+    do not identify vectors.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Theorems 3.3–3.4 and Equations 4–6, PDF p. 7; Algorithm 1 lines 19–21, p. 12; Section 4.4
+      and Theorem 4.10, p. 24; one-shot allocation distinction is explicit curator interpretation
+    relation: supports
+- claim_id: output-and-guarantee
+  kind: limitation
+  statement: After exactly S samples, return the full node estimates and xi even when xi is large. With
+    the stated sampling and conservative-bound assumptions, all absolute errors are simultaneously at
+    most xi with probability at least 1-delta. The achieved tolerance is determined by the sample; it
+    is not guaranteed to meet a user-selected epsilon or preserve ranks. A returned xi greater than one
+    is possible and supplies a vacuous bound for these [0,1] scores. This fixed-size method has no data-dependent
+    termination or stage-wise union requirement.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Section 4.4 and Theorem 4.10, PDF p. 24; range in Definition 3.1, p. 5; explicit bound examples
+      in research/discovery/abra-fixed-boundaries.py
+    relation: supports
+- claim_id: fixed-expectation-boundaries
+  kind: limitation
+  statement: For the fixed independent sample count, each estimate is unbiased for the n(n-1)-normalized
+    target and has variance Var(f_w)/S, at most 1/(4S); these are explicit curator consequences of the
+    sampling law. On an undirected three-node path, the middle contribution is Bernoulli with mean 1/3.
+    At S=2 the estimate is zero with probability 4/9 despite true score 1/3, and its variance is 1/9.
+    Finite exact enumeration verifies S=1,2,4. Unbiasedness does not imply exact values in one run or
+    carry over automatically to a stopped progressive estimate.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Equation 11 and independent uniform sampling, PDF pp. 10–11; Section 4.4, p. 24; explicit
+      curator arithmetic in research/discovery/abra-fixed-boundaries.py
+    relation: supports
+- claim_id: version-and-evaluation-scope
+  kind: limitation
+  statement: The identity follows Section 4.4 of the inspected 37-page author manuscript labeled April
+    2018. It differs from progressive ABRA-s, the pseudodimension-based forced-stop variant and relative
+    top-k or dynamic variants. Section 6.4 and Figure 4/Table 10 compare the fixed method with RK under
+    the manuscript’s historical implementation and datasets; no universal advantage, replicated timing,
+    causal influence or learned prediction is asserted. Earlier arXiv text is version-comparison context
+    rather than a replacement for the revised method.
+  evidence:
+  - source_id: riondatoupfal2018
+    locator: Sections 4.2.1, 4.4–5, PDF pp. 17 and 24–28; Sections 6 and 6.4, pp. 28–34; Figure 4 and
+      Table 10, p. 34
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 692 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 170,0,1 lines, read as the progressive
+  ABRA record/report, existing source leads, reading notes, query strings or an unrelated translation.
+  Semantic assessment covered 154 AIO and 536 native definitions: all 154 AIO and 535 prior native rows
+  verified unchanged and one newly selected native row read. Ten complete AIO contexts and five full native
+  neighbors were assessed. ABRA-s-fix takes a fixed independent positive sample count and returns its
+  achieved bound unconditionally. It is distinct from ABRA-s’s confidence-based progressive stopping,
+  the forced-stop pseudodimension variant and source-pivot or current-flow sampling.'
+evidence_sources:
+- source_id: riondatoupfal2018
+  title: 'ABRA: Approximating Betweenness Centrality in Static and Dynamic Graphs with Rademacher Averages'
+  authors:
+  - Matteo Riondato
+  - Eli Upfal
+  source_type: primary_paper
+  access_level: full_text
+  version: Thirty-seven-page author-hosted ACM-style manuscript labeled April 2018, retaining placeholder
+    journal header and DOI fields. Author catalog and BibTeX identify ACM Transactions on Knowledge Discovery
+    from Data 12(5), article 61 (2018). All text and 53 references read; four figures, Tables 3–10 and
+    selected equations/algorithms visually inspected. Tables 1–2 were read as text; not every proof equation
+    was visually checked. The 27-page arXiv v1 was read for the earlier-version comparison, without publisher-byte
+    equivalence. No author software or raw benchmark data inspected.
+  url: https://www.rionda.to/papers/RiondatoUpfal-BetweennessRademacherAverages-TKDD.pdf
+  accessed_at: '2026-10-14T05:26:24Z'
+  sha256: d703b83aff52e25b8018e49ebd5f0778242bad441db0430d35af8f332a409d8b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 692 preceding native identities with ignored- and hidden-inclusive
+    checkout searches. Semantic context covers 154 AIO and 536 native definitions, with prior rows verified
+    unchanged and the new progressive ABRA-s definition and full record read. Ten complete AIO contexts
+    and five full native neighbors were assessed.
+  rationale: No examined AIO target denotes this fixed-sample shortest-path fraction estimator and its
+    returned concentration bound. Statistical-learning tools and shared graph or sampling terminology
+    do not establish an identity with clustering, language modeling, preprocessing or bias concepts.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: A centrality vector assigns scores without grouping vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Absence of labels does not turn structural score computation into clustering.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity is a particular fixed-sample shortest-path fraction estimator and error-bound
+      computation, not solely an input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: Computing network prominence is the defined result; incidental downstream feature
+      use does not establish a preprocessing identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The static graph sampling and concentration method has no language-model objective
+      or training mechanism.
+  - target: AIO:RankingBias
+    rejection_reason: A structural graph score is not the belief that high-ranked information is necessarily
+      relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Uniform pair sampling and its confidence bound define an algorithm, not selection
+      or sampling bias.
+  - target: AIO:RepresentationBias
+    rejection_reason: A graph centrality computation is not subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Neither labels nor a deep neural network are acquired or fitted.
+  - target: AIO:DataDredgingBias
+    rejection_reason: Returning a one-shot concentration bound does not make the algorithm itself a data-dredging
+      bias concept.
+limitations:
+- Fixed positive S is independent of sampled values. Adaptive selection of the final count requires a
+  different validity argument.
+- Unreachable pairs contribute zero without being removed from the population; endpoints do not contribute,
+  but the denominator remains n(n-1).
+- Strict positive edge lengths or unweighted graphs and exact path counts are maintained. Zero-weight
+  cycles, approximate distances/counts and numerical ties need separate conventions.
+- The first-stage delta/2 allocation and one-shot delta allocation are distinguished. Any numerical Rademacher
+  upper bound must remain conservative. No preselected accuracy, rank preservation or generally useful
+  bound at small S is promised.
+- The author manuscript retains placeholder journal fields; no publisher-byte identity is asserted. Full
+  text, selected mathematical pages and all figures were inspected, but not every proof equation visually
+  checked. No author software or benchmark was executed.
+- The finite calculations test selected mathematical boundaries. The record remains DRAFT after author
+  self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T06:14:57Z'
+  updated_at: '2026-10-14T06:14:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

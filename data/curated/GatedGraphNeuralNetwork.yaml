@@ -1,0 +1,142 @@
+id: AIMech:GatedGraphNeuralNetwork
+name: Gated Graph Neural Network
+aliases:
+- GG-NN
+- Gated Graph Neural Networks
+concept_kind: architecture
+definition: A graph neural architecture that initializes node states from annotations, repeatedly combines
+  edge-type- and direction-specific neighbor messages with shared gated recurrent updates for a fixed
+  propagation depth, and reads out node or graph predictions.
+identity_notes: Compared all 442 pinned AIO and 599 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 4, 1, 1 lines. All distinct match contents were
+  inspected. Semantic matching covered 49 AIO and 106 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. The
+  named Section3 GG-NN combines typed directed graph propagation with fixed-depth gated recurrence and
+  node/graph readouts. It is distinct from the Section4 GGS-NN extension, contraction-based original GNN,
+  generic GRU units, CommNet, Interaction Network and GAT. An earlier discovery lead exists but no curated
+  identity does; recover its addressed disposition explicitly.
+definition_evidence:
+- source_id: li2016
+  locator: Section 3, PDF pp. 3–4, Equations 1–7 and Figure 1
+  relation: supports
+claims:
+- claim_id: typed-directed-gated-propagation
+  kind: mechanism
+  statement: Initialize each node hidden vector by placing its supplied annotation in a prefix and padding
+    the remaining coordinates with zero. At each of a fixed number of propagation steps, sum transformed
+    neighboring hidden states using learned matrices shared by edge type and direction, concatenate incoming
+    and outgoing aggregates, and update each node through a shared gated recurrent unit. Opposite directions
+    may use different matrices; the graph and edge types are supplied inputs.
+  evidence:
+  - source_id: li2016
+    locator: Section 3 and Equations 1–6, PDF pp. 3–4; Figure 1, p. 4
+    relation: supports
+- claim_id: gate-and-reset-conventions
+  kind: scope
+  statement: The displayed update is h_new=(1-z)*h_previous+z*h_candidate, so z weights the candidate
+    in this paper. The candidate uses U*(r*h_previous), applying the reset vector before the recurrent
+    matrix. Applying reset after projection, (r*(U*h_previous)), is generally different for a nondiagonal
+    matrix. These source-specific conventions are not a claim that every software GRU API has identical
+    parameterization or semantics.
+  evidence:
+  - source_id: li2016
+    locator: Section 3.2, Equations 3–6, PDF p. 3; direct constructed gate and matrix examples
+    relation: supports
+- claim_id: node-and-graph-readouts
+  kind: mechanism
+  statement: After propagation, a node-selection head scores each node from its final hidden state and
+    original annotation, then normalizes scores across nodes. A separate whole-graph head sums elementwise
+    products of sigmoid gates and transformed node states before an outer tanh; the paper permits replacing
+    that outer tanh by the identity. Its sigmoid gates are not a softmax distribution over nodes. Shared
+    functions and commutative sums give equivariant node representations and invariant graph readouts
+    under consistent relabeling, rather than an unchanged ordered array of node outputs.
+  evidence:
+  - source_id: li2016
+    locator: Section 3.3, Equation 7, PDF p. 4; direct constructed permutation and gate-weight examples
+    relation: supports
+- claim_id: finite-propagation-boundaries
+  kind: limitation
+  statement: A propagation update exchanges information across adjacent graph nodes, with incoming and
+    outgoing channels both available. With local annotations and fixed propagation depth, a node cannot
+    depend through this propagation path on arbitrarily distant annotations; a final global readout can
+    separately aggregate all nodes. Sum pooling can map different message multisets to the same aggregate.
+    The paper does not establish universal graph discrimination, guaranteed long-range gradient preservation
+    or convergence merely from using gates.
+  evidence:
+  - source_id: li2016
+    locator: Section 3.2, Equations 2–6 and Figure 1, PDF pp. 3–4; Section 3.3, p. 4; direct locality
+      and sum consequences
+    relation: supports
+- claim_id: unrolled-training-not-fixed-point
+  kind: scope
+  statement: GG-NN unrolls a fixed number of gated propagation steps and trains by backpropagation through
+    time. This differs from the prior fixed-point GNN training discussed in Section 2, which relies on
+    contraction for convergence. Removing that requirement permits different learned dynamics but does
+    not certify that repeated GG-NN updates converge. The named Gated Graph Sequence Neural Network extension
+    adds output-sequence and annotation-update machinery beyond this base architecture.
+  evidence:
+  - source_id: li2016
+    locator: Sections 2–4, PDF pp. 2–5; Appendix A, pp. 17–18
+    relation: supports
+- claim_id: symbolic-task-evidence
+  kind: limitation
+  statement: The bAbI experiments use the symbolic data format to construct entity/relation graphs and
+    mark question arguments; they do not establish end-to-end natural-language parsing. Separate question-type
+    models and task-specific dimensions are used, with five propagation steps and varying training-set
+    sizes. Table 1 reports results on selected tasks, including four separate models for task 4. Graph
+    conversion loses temporal order and does not represent arbitrary higher-arity facts. Sequence path
+    and program-verification results use the additional GGS-NN machinery and are not attributed to the
+    base GG-NN alone.
+  evidence:
+  - source_id: li2016
+    locator: Section 5.1, PDF pp. 5–8, Tables 1–3; Discussion, pp. 12–13; Appendix B, pp. 18–19
+    relation: supports
+evidence_sources:
+- source_id: li2016
+  title: Gated Graph Sequence Neural Networks
+  authors:
+  - Yujia Li
+  - Daniel Tarlow
+  - Marc Brockschmidt
+  - Richard Zemel
+  persistent_id: arXiv:1511.05493v4
+  version: arXiv1511.05493v4,22September2017, with ICLR2016 publication header. All20PDFpages visually
+    read, including AppendicesA–C. Author names verified against primary arXiv metadata; PDF groups the
+    same authors by affiliation. Locators use PDF/printed page order. Other versions and author code not
+    inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.05493v4
+  access_level: full_text
+  accessed_at: '2026-10-13T09:21:48Z'
+  sha256: 7053a744926ad065e516d7cbd0d135cb0301fde01276e52fbe53c1d8e4158d0b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Learned graph message transformations, gated hidden updates and neural readouts form a particular
+    artificial neural architecture; this target is broader.
+- target: AIO:GatedRecurrentUnit
+  relation: related_match
+  rationale: GRU-style updates are components of the graph architecture, not an equivalent whole-model
+    identity. The mapping does not adopt the pinned target’s LSTM parentage as a scientific assertion
+    or equate framework-specific GRU variants.
+limitations:
+- The base GG-NN is distinct from the same paper’s GGS-NN sequence extension, the prior contraction-based
+  GNN, named GCN, and generic GRU components.
+- The supplied graph may be static while its hidden-state computation is recurrent; this does not require
+  an observed temporal input sequence.
+- The inspected version is arXiv1511.05493v4, dated 22September2017, bearing an ICLR2016 header. All20pages,
+  including appendices, were read. Author code and other versions were not inspected.
+- Tiny chosen calculations inspect algebraic boundaries only. No model training, benchmark reproduction,
+  convergence proof or empirical performance certification was performed. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T09:44:22Z'
+  updated_at: '2026-10-13T09:53:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

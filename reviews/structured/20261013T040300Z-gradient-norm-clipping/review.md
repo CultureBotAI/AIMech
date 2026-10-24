@@ -1,0 +1,626 @@
+# Scientific author self-review of gradient norm clipping
+
+- Review: 20261013T040300Z-gradient-norm-clipping
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T03:57:58Z
+- Finished UTC: 2026-10-13T04:03:00Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain gradient norm clipping as a distinct DRAFT algorithm related to AIO TrainingStrategy. All seven claims and fields have support with explicit joint-vector, finite-input, aggregation, optimizer-state and historical rescue boundaries. No actionable record defect found; no framework execution or training occurred.
+
+## Scope And Provenance
+
+All fields of the maintained gradient norm clipping record, the complete primary main paper, supplementary pages2–4 and complete pinned author RNN.py/README.
+
+Selection: Exact maintained ID: AIMech:GradientNormClipping
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 6c3205413c9601c5258e4a4eb9211eacde7b0e67.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GradientNormClipping | data/curated/GradientNormClipping.yaml | maintained | Gradient norm clipping |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GradientNormClipping | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 126.55s (0:02:06)<br>Checked 442 record(s); 0 failed.<br>Checked 569 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 223 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 223,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GradientNormClipping | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GradientNormClipping | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GradientNormClipping | Exited 0 without output. |
+| Constructed joint gradient clipping boundaries | passed | True | AIMech:GradientNormClipping | {"joint_clip": [1.2, 1.6], "coordinate_clip": [2.0, 2.0], "per_tensor_clip": [2.0, 2.0], "sgd_step_norm": 0.2, "raw_mean": 2.3333333333333335, "clip_of_mean": 1.0, "mean_of_clipped": -0.3333333333333333, "momentum_step_norm": 0.19, "fresh_sgd_cap": 0.1, "ideal_adam_step": [0.1, 0.1], "ideal_adam_comparison_cap": 0.001, "historical_rescue_gradient_norm": 2.0} |
+
+## Scientific And Domain Assessments
+
+### Joint Euclidean gradient transformation
+
+identity: supported. Targets: AIMech:GradientNormClipping.
+
+Retain gradient norm clipping as a distinct DRAFT algorithm.
+
+Algorithm1 and joint author-code norm identify a uniform scaling of one selected gradient vector. This differs from coordinate-value clipping, separate tensor clipping, parameter-relative LARC/LARS and moment-based methods. All seven ignored-inclusive matches are preceding LARC report queries/leads. A clipped Metropolis proposal law is semantically unrelated. The generic phrase Gradient clipping remains broader than the asserted identity and is not an exact alias.
+
+### Qualified direct training context
+
+grounding: supported. Targets: AIMech:GradientNormClipping.
+
+Related TrainingStrategy mapping is supported.
+
+The algorithm transforms gradients used during model training. TrainingStrategy has a preprocessing genus, so contextual relatedness avoids asserting a gradient algorithm subclass or equivalence. Neither a regularization layer nor a supervised task defines the clipping map.
+
+### finite-gradient-rule
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+Algorithm1 scales the full vector only above threshold, with equality leaving the same vector for positive threshold. Zero is retained. The norm and direction conclusions follow in exact algebra; nonfinite gradients and overflow require separate policies, as the code and supplement illustrate.
+
+### joint-norm-versus-value-clipping
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+RNN.py forms one square root of summed squares over three weight matrices and two biases and uses one multiplier. Coordinate and per-tensor clipping can differ in direction and total norm. The main paper distinguishes earlier temporal-component value clipping, so it is not silently merged.
+
+### projection-and-update-bound
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+The radial map is the Euclidean projection of a gradient onto a ball. The claim explicitly marks that interpretation as curator algebra rather than a source-asserted parameter constraint. Direct SGD gives alpha*tau; accumulated momentum and adaptive coordinate normalization need not inherit that cap.
+
+### aggregation-and-stochastic-bias
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+A three-point scalar example has a positive mean but negative mean after clipping. SupplementSection2.1 explicitly discusses changing the expected direction and dependence on loss aggregation. The record makes a possibility claim, not a claim that every distribution is biased by clipping.
+
+### author-code-order-and-rescue
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+The optional recurrent-weight regularizer contribution precedes joint norm calculation. A separate new_cond branch substitutes .02W_hh and zeros the other groups for nonfinite, negative or extremely large norms. The supplement describes this rescue choice. It may exceed the ordinary cutoff, so the record does not treat it as direction-preserving norm clipping.
+
+### exploding-versus-vanishing-gradient
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+The main paper separates clipping from the Section3.3 soft regularizer. Its geometric argument is conditional on error-surface structure; neither method name proves universal convergence or long-term dependency learning.
+
+### threshold-and-evaluation-scope
+
+evidence: supported. Targets: AIMech:GradientNormClipping.
+
+Supported with explicit mathematical and source boundaries.
+
+The threshold is a tunable hyperparameter. Main and supplementary discussion tie its effects to gradient scale, task, reduction and learning rate. No numerical benchmark, universal threshold or framework reproduction is asserted.
+
+### Grouping, expectation and stateful displacement
+
+consistency: supported. Targets: AIMech:GradientNormClipping.
+
+Constructed examples confirm the distinctions.
+
+For g=[3,4] and tau=2, joint clipping yields [1.2,1.6], while coordinate or one-coordinate tensor clipping yields [2,2] with norm greater than two. Clipping samples9,-1,-1 at one gives mean -1/3, while clipping their positive mean gives1. A momentum step has norm .19 despite a .1 fresh bound; ideal first Adam also violates the SGD-specific comparison bound. Historical .02W replacement can have norm two when the ordinary cutoff is one. These are algebraic examples, not training or Theano execution.
+
+### Complete maintained record and bounded source access
+
+provenance: supported. Targets: AIMech:GradientNormClipping.
+
+All fields were inspected; DRAFT remains.
+
+Read ID, label/alias, kind, definition/citations, complete identity context, seven claims/locators, three source versions/access times/hashes, AIO pin and mapping, six limitations and actual UTC curation. Full main-paper coverage is distinct from supplementary pages2–4 and unaudited dependencies/task generators. Exact report mirror, capture and source hashes agree. No actionable record defect identified.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T035756Z-gradient-norm-clipping.json | supports | Compared all 442 pinned AIO and 568 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 7, 0, 0 lines. All seven recovery matching lines were read and identify the preceding LARC report query and pending lead, not a maintained clipping record. The semantic search covered ten AIO rows and 93 native definitions: ten AIO and 91 native rows were verified unchanged, and the new LARC and rejection-driven independence Metropolis definitions were read. The latter uses a clipped proposal distribution rather than clipping a training gradient. Three complete AIO node/edge/generated contexts were verified unchanged from earlier full reading; ten full native optimization context records were read or verified unchanged. Joint Euclidean gradient clipping has a fixed chosen gradient-norm threshold, unlike parameter-relative LARC/LARS, CLARS mean-individual-gradient normalization, LAMB normalized adaptive directions and NovoGrad scalar second moments. Element-wise value clipping and separate per-tensor clipping are distinct transformations, so the generic phrase Gradient clipping is not asserted as an exact alias. |
+| mapping | sources/aio/aio.json | supports | Ten AIO and 93 native semantic rows were read or verified against previous readings. Three complete annotated AIO node/edge/generated contexts and ten full native optimizer context records were read or hash-verified unchanged. LARC and rejection-driven Metropolis definitions were specifically distinguished. TrainingStrategy YAML reread after capture; related training context does not make clipping a preprocessing subclass. |
+| pascanu2013 | https://proceedings.mlr.press/v28/pascanu13.pdf; Complete nine-page main proceedings paper visually read; Section3.2 Algorithm1 and Section3.3 on PDFp6 reread after capture | supports | ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually inspected; supplementary pages 2–4 are separately sourced. PDF page locators used because printed page numbers are not visible. |
+| authorcode | https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py; Complete RNN.py and README read statically; RNN.py lines207–258 reread after capture | supports | Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z); complete RNN.py and README read statically. Other task files and Theano dependencies not audited or executed. |
+| supplement | https://proceedings.mlr.press/v28/pascanu13-supp.pdf; Printed/PDF pages2–4 of10 visually read; Section2.1 on p3 reread after capture. Other supplementary pages not visually read. | supports | ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually inspected, covering clipping thresholds, stochastic direction, numerical rescue and regularization details. Other supplementary pages not visually read. |
+| calculation | research/discovery/gradient-norm-clipping-boundaries.py | supports | Constructed vectors distinguish joint/coordinate/per-tensor clipping, gradient projection and fresh SGD bounds, aggregation and stochastic expectation, stateful updates and historical emergency replacement. These are algebraic checks, not Theano execution or training. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- One new DRAFT concept, yielding 569 native and 442 unchanged generated records. The 754-entry main frontier retains 483 pending and 57 partly addressed cohorts; discovery is incomplete.
+- No training, benchmark reproduction, current framework compatibility or independent scientific approval is claimed; constructed calculations check explicit algebraic boundaries only.
+- All nine proceedings pages and complete pinned author RNN.py/README were read. Supplementary printed/PDF pages 2–4 of ten were also read; other supplementary pages, task files and Theano dependencies were not inspected; no code execution, training or empirical replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T040300Z-gradient-norm-clipping
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of gradient norm clipping
+started_at: '2026-10-13T03:57:58Z'
+finished_at: '2026-10-13T04:03:00Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged joint versus coordinate clipping, identity
+    and mapping, projection and finite-vector conditions, stochastic aggregation,
+    optimizer displacement and historical rescue boundaries. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain gradient norm clipping as a distinct DRAFT algorithm related to AIO
+  TrainingStrategy. All seven claims and fields have support with explicit joint-vector,
+  finite-input, aggregation, optimizer-state and historical rescue boundaries. No
+  actionable record defect found; no framework execution or training occurred.
+source:
+  git_revision: 6c3205413c9601c5258e4a4eb9211eacde7b0e67
+  state: working_tree
+  inputs:
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AMSGrad.yaml
+    sha256: cea17d1eed28932058c4a0c194673d3500cff0344cc3ca4ee4b282386bce4d95
+    role: context
+  - path: data/curated/Adam.yaml
+    sha256: b28d5f93f73b80005b3ef7b98d306b5b548f3d2aa77362592c497404e0ea944a
+    role: context
+  - path: data/curated/AdamW.yaml
+    sha256: 5a851955d9435629b76cb28e95d84ab6c1db16aa35df9b485254c9c76c025948
+    role: context
+  - path: data/curated/CompleteLayerWiseAdaptiveRateScaling.yaml
+    sha256: d0d787a30b38bcf874ccd4f1cd3f4a7df9dab9169ff7b195bd705977529f92ed
+    role: context
+  - path: data/curated/GradientNormClipping.yaml
+    sha256: f17c409240f4de8a4fc3a19847cb9eadd18bfc99113bfa2f39d976f01603654a
+    role: target
+  - path: data/curated/LayerWiseAdaptiveMoments.yaml
+    sha256: 276830afda084c3fecd2b3c2628c22b07a32421ae2ee66aae75f8637ff6586e3
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateControl.yaml
+    sha256: d570107412be98e998c95ef4556f57af9fe21c6b92291a574ac01b427d581add
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: context
+  - path: data/curated/NovoGrad.yaml
+    sha256: fab7b24fc418d1044fae44ddf7dcc028c0b3a2088f286b31deec7b9927f9783f
+    role: context
+  - path: data/curated/RMSprop.yaml
+    sha256: 25fe81add637f0323634a0860a706a201a5927826afd6783738aca2c80a7c49d
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: research/discovery/20261013T035756Z-gradient-norm-clipping.json
+    sha256: c20d604eaaacd863297f70c8fe051a181ecc2e17df8fd0f18317adfdb19db214
+    role: context
+  - path: research/discovery/gradient-norm-clipping-boundaries.py
+    sha256: 1cb5ed4b611b181ba46536bceb8913f09679dcc693a625c48b3ff4199ea6343f
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GradientNormClipping
+  path: data/curated/GradientNormClipping.yaml
+  label: Gradient norm clipping
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GradientNormClipping.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained gradient norm clipping record, the complete
+    primary main paper, supplementary pages2–4 and complete pinned author RNN.py/README.
+  selection: 'Exact maintained ID: AIMech:GradientNormClipping'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GradientNormClipping
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Other supplementary pages, task generators and framework runtime
+    reason: The complete main paper and declared supplementary pages and author files
+      were read; no full supplementary, task-generator or dependency/runtime audit.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GradientNormClipping
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 126.55s (0:02:06)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 569 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 223 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 223,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GradientNormClipping
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GradientNormClipping
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GradientNormClipping
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed joint gradient clipping boundaries
+  command: python3 research/discovery/gradient-norm-clipping-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GradientNormClipping
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"joint_clip": [1.2, 1.6], "coordinate_clip": [2.0, 2.0], "per_tensor_clip":
+    [2.0, 2.0], "sgd_step_norm": 0.2, "raw_mean": 2.3333333333333335, "clip_of_mean":
+    1.0, "mean_of_clipped": -0.3333333333333333, "momentum_step_norm": 0.19, "fresh_sgd_cap":
+    0.1, "ideal_adam_step": [0.1, 0.1], "ideal_adam_comparison_cap": 0.001, "historical_rescue_gradient_norm":
+    2.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T035756Z-gradient-norm-clipping.json
+  accessed_at: '2026-10-13T03:57:58Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 568 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    7, 0, 0 lines. All seven recovery matching lines were read and identify the preceding
+    LARC report query and pending lead, not a maintained clipping record. The semantic
+    search covered ten AIO rows and 93 native definitions: ten AIO and 91 native rows
+    were verified unchanged, and the new LARC and rejection-driven independence Metropolis
+    definitions were read. The latter uses a clipped proposal distribution rather
+    than clipping a training gradient. Three complete AIO node/edge/generated contexts
+    were verified unchanged from earlier full reading; ten full native optimization
+    context records were read or verified unchanged. Joint Euclidean gradient clipping
+    has a fixed chosen gradient-norm threshold, unlike parameter-relative LARC/LARS,
+    CLARS mean-individual-gradient normalization, LAMB normalized adaptive directions
+    and NovoGrad scalar second moments. Element-wise value clipping and separate per-tensor
+    clipping are distinct transformations, so the generic phrase Gradient clipping
+    is not asserted as an exact alias.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T03:57:58Z'
+  support: supports
+  summary: Ten AIO and 93 native semantic rows were read or verified against previous
+    readings. Three complete annotated AIO node/edge/generated contexts and ten full
+    native optimizer context records were read or hash-verified unchanged. LARC and
+    rejection-driven Metropolis definitions were specifically distinguished. TrainingStrategy
+    YAML reread after capture; related training context does not make clipping a preprocessing
+    subclass.
+- evidence_id: pascanu2013
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/pascanu13.pdf
+  locator: Complete nine-page main proceedings paper visually read; Section3.2 Algorithm1
+    and Section3.3 on PDFp6 reread after capture
+  accessed_at: '2026-10-13T03:34:10Z'
+  snapshot_sha256: d786c18c0e1ed58aee30ce78b5163a9f771978c3146b68737528e1cda6ac1e74
+  support: supports
+  summary: ICML 2013 proceedings, PMLR 28(3):1310–1318. All nine main PDF pages visually
+    inspected; supplementary pages 2–4 are separately sourced. PDF page locators used
+    because printed page numbers are not visible.
+- evidence_id: authorcode
+  kind: primary_source
+  reference: https://github.com/pascanur/trainingRNNs/blob/3f5df3ffddccc42059cf9599dc75389f116aff85/RNN.py
+  locator: Complete RNN.py and README read statically; RNN.py lines207–258 reread
+    after capture
+  accessed_at: '2026-10-13T03:44:15Z'
+  snapshot_sha256: c47f98e0c31796fc39862e4c3fea467bef380e77c1d067b639eda45837f2723c
+  support: supports
+  summary: Git commit 3f5df3ffddccc42059cf9599dc75389f116aff85 (2013-06-21T19:16:51Z);
+    complete RNN.py and README read statically. Other task files and Theano dependencies
+    not audited or executed.
+- evidence_id: supplement
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v28/pascanu13-supp.pdf
+  locator: Printed/PDF pages2–4 of10 visually read; Section2.1 on p3 reread after
+    capture. Other supplementary pages not visually read.
+  accessed_at: '2026-10-13T03:53:21Z'
+  snapshot_sha256: 487c8a0b490d3c32e63e020a73de585c950c2dbfd5c529bc579d240993133fef
+  support: supports
+  summary: ICML 2013 proceedings supplementary PDF; printed/PDF pages 2–4 of 10 visually
+    inspected, covering clipping thresholds, stochastic direction, numerical rescue
+    and regularization details. Other supplementary pages not visually read.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/gradient-norm-clipping-boundaries.py
+  accessed_at: '2026-10-13T03:59:56Z'
+  snapshot_sha256: 1cb5ed4b611b181ba46536bceb8913f09679dcc693a625c48b3ff4199ea6343f
+  support: supports
+  summary: Constructed vectors distinguish joint/coordinate/per-tensor clipping, gradient
+    projection and fresh SGD bounds, aggregation and stochastic expectation, stateful
+    updates and historical emergency replacement. These are algebraic checks, not
+    Theano execution or training.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Joint Euclidean gradient transformation
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - identity
+  - pascanu2013
+  - authorcode
+  - calculation
+  summary: Retain gradient norm clipping as a distinct DRAFT algorithm.
+  details: Algorithm1 and joint author-code norm identify a uniform scaling of one
+    selected gradient vector. This differs from coordinate-value clipping, separate
+    tensor clipping, parameter-relative LARC/LARS and moment-based methods. All seven
+    ignored-inclusive matches are preceding LARC report queries/leads. A clipped Metropolis
+    proposal law is semantically unrelated. The generic phrase Gradient clipping remains
+    broader than the asserted identity and is not an exact alias.
+- assessment_id: mapping
+  area: grounding
+  topic: Qualified direct training context
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - mapping
+  - pascanu2013
+  summary: Related TrainingStrategy mapping is supported.
+  details: The algorithm transforms gradients used during model training. TrainingStrategy
+    has a preprocessing genus, so contextual relatedness avoids asserting a gradient
+    algorithm subclass or equivalence. Neither a regularization layer nor a supervised
+    task defines the clipping map.
+- assessment_id: finite-gradient-rule
+  area: evidence
+  topic: finite-gradient-rule
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: Algorithm1 scales the full vector only above threshold, with equality leaving
+    the same vector for positive threshold. Zero is retained. The norm and direction
+    conclusions follow in exact algebra; nonfinite gradients and overflow require
+    separate policies, as the code and supplement illustrate.
+- assessment_id: joint-norm-versus-value-clipping
+  area: evidence
+  topic: joint-norm-versus-value-clipping
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - authorcode
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: RNN.py forms one square root of summed squares over three weight matrices
+    and two biases and uses one multiplier. Coordinate and per-tensor clipping can
+    differ in direction and total norm. The main paper distinguishes earlier temporal-component
+    value clipping, so it is not silently merged.
+- assessment_id: projection-and-update-bound
+  area: evidence
+  topic: projection-and-update-bound
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - authorcode
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The radial map is the Euclidean projection of a gradient onto a ball. The
+    claim explicitly marks that interpretation as curator algebra rather than a source-asserted
+    parameter constraint. Direct SGD gives alpha*tau; accumulated momentum and adaptive
+    coordinate normalization need not inherit that cap.
+- assessment_id: aggregation-and-stochastic-bias
+  area: evidence
+  topic: aggregation-and-stochastic-bias
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - supplement
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: A three-point scalar example has a positive mean but negative mean after
+    clipping. SupplementSection2.1 explicitly discusses changing the expected direction
+    and dependence on loss aggregation. The record makes a possibility claim, not
+    a claim that every distribution is biased by clipping.
+- assessment_id: author-code-order-and-rescue
+  area: evidence
+  topic: author-code-order-and-rescue
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - authorcode
+  - supplement
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The optional recurrent-weight regularizer contribution precedes joint norm
+    calculation. A separate new_cond branch substitutes .02W_hh and zeros the other
+    groups for nonfinite, negative or extremely large norms. The supplement describes
+    this rescue choice. It may exceed the ordinary cutoff, so the record does not
+    treat it as direction-preserving norm clipping.
+- assessment_id: exploding-versus-vanishing-gradient
+  area: evidence
+  topic: exploding-versus-vanishing-gradient
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The main paper separates clipping from the Section3.3 soft regularizer.
+    Its geometric argument is conditional on error-surface structure; neither method
+    name proves universal convergence or long-term dependency learning.
+- assessment_id: threshold-and-evaluation-scope
+  area: evidence
+  topic: threshold-and-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - supplement
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The threshold is a tunable hyperparameter. Main and supplementary discussion
+    tie its effects to gradient scale, task, reduction and learning rate. No numerical
+    benchmark, universal threshold or framework reproduction is asserted.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Grouping, expectation and stateful displacement
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - pascanu2013
+  - authorcode
+  - supplement
+  - calculation
+  summary: Constructed examples confirm the distinctions.
+  details: For g=[3,4] and tau=2, joint clipping yields [1.2,1.6], while coordinate
+    or one-coordinate tensor clipping yields [2,2] with norm greater than two. Clipping
+    samples9,-1,-1 at one gives mean -1/3, while clipping their positive mean gives1.
+    A momentum step has norm .19 despite a .1 fresh bound; ideal first Adam also violates
+    the SGD-specific comparison bound. Historical .02W replacement can have norm two
+    when the ordinary cutoff is one. These are algebraic examples, not training or
+    Theano execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and bounded source access
+  outcome: supported
+  target_ids:
+  - AIMech:GradientNormClipping
+  evidence_ids:
+  - identity
+  - mapping
+  - pascanu2013
+  - authorcode
+  - supplement
+  - calculation
+  summary: All fields were inspected; DRAFT remains.
+  details: Read ID, label/alias, kind, definition/citations, complete identity context,
+    seven claims/locators, three source versions/access times/hashes, AIO pin and
+    mapping, six limitations and actual UTC curation. Full main-paper coverage is
+    distinct from supplementary pages2–4 and unaudited dependencies/task generators.
+    Exact report mirror, capture and source hashes agree. No actionable record defect
+    identified.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- One new DRAFT concept, yielding 569 native and 442 unchanged generated records.
+  The 754-entry main frontier retains 483 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- No training, benchmark reproduction, current framework compatibility or independent
+  scientific approval is claimed; constructed calculations check explicit algebraic
+  boundaries only.
+- All nine proceedings pages and complete pinned author RNN.py/README were read. Supplementary
+  printed/PDF pages 2–4 of ten were also read; other supplementary pages, task files
+  and Theano dependencies were not inspected; no code execution, training or empirical
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- gradient-clipping
+- self-review
+- discovery-ongoing
+```

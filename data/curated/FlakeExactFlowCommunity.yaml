@@ -1,0 +1,163 @@
+id: AIMech:FlakeExactFlowCommunity
+name: Flake exact-flow community identification
+aliases:
+- EXACT-FLOW-COMMUNITY
+- Flake exact-flow community algorithm
+concept_kind: algorithm
+definition: A seeded web-graph grouping procedure that adds infinite-capacity source arcs to seed vertices,
+  makes original hyperlink connections bidirectional with a common capacity, connects nonseed vertices
+  to an artificial sink with unit capacity, and extracts source-reachable original vertices from the residual
+  graph after maximum flow.
+definition_evidence:
+- source_id: flake2002
+  locator: Augmenting the Web Graph and Figure 2a, printed p. 68 / PDF p. 3
+  relation: supports
+claims:
+- claim_id: augmentation-convention
+  kind: mechanism
+  statement: 'The prose specifies three distinct arc classes: infinite source-to-seed arcs, bidirectional
+    original-graph arcs of capacity k, and unit nonseed-to-sink arcs. This record follows that prose convention.
+    Figure 2a instead prints an all-E rescaling loop after adding source arcs; a literal interpretation
+    that also rescales those new arcs would remove seed forcing. The distinction concerns the inspected
+    presentation, not an audited author implementation.'
+  evidence:
+  - source_id: flake2002
+    locator: Augmenting the Web Graph, Figure 2a and its caption, printed p. 68 / PDF p. 3; curator calculation
+      in research/discovery/flow-community-boundaries.py
+    relation: supports
+- claim_id: cut-objective
+  kind: mechanism
+  statement: For the simple undirected graph induced by the bidirectional original connections, a finite
+    cut whose original-vertex source side C contains all seeds S has capacity k times the number of original
+    edges crossing C plus the number of included nonseed vertices. The latter term comes from the unit
+    sink arcs. Thus this is an augmented minimum-cut objective with seed constraints, not modularity maximization
+    or a dendrogram construction.
+  evidence:
+  - source_id: flake2002
+    locator: Augmenting the Web Graph and Figure 2a, printed p. 68 / PDF p. 3; curator cut-capacity calculation
+      in research/discovery/flow-community-boundaries.py
+    relation: supports
+- claim_id: seed-guarantee-boundary
+  kind: limitation
+  statement: The one-vertex cut-improvement argument applies to removable nonseed vertices and does not
+    automatically certify a forced seed’s internal-over-external degree inequality. For a four-vertex
+    star with its center forced as the sole seed and k = 1, the finite reference finds eight minimum cuts
+    of value three, including the seed alone with zero internal and three external neighbors. Exact cut
+    optimality therefore does not establish the stated community inequality for every supplied seed under
+    arbitrary input choices.
+  evidence:
+  - source_id: flake2002
+    locator: Web Communities, printed p. 66 / PDF p. 1; exact-flow guarantee discussion and Figure 2a,
+      printed p. 68 / PDF p. 3; curator calculation in research/discovery/flow-community-boundaries.py
+    relation: supports
+- claim_id: preselected-community-boundary
+  kind: limitation
+  statement: The earlier KDD paper’s source/sink degree conditions do not by themselves ensure recovery
+    of any preselected qualifying community. In the finite reference, two four-cliques joined by one edge
+    form a qualifying eight-vertex group with two edges to a third four-clique; source and sink internal
+    degrees are three, exceeding that boundary of two. Yet the unique minimum source-side cut selects
+    the first four-clique at cost one. This is a counterexample to the broad exact-recovery reading, not
+    a failure of maximum-flow optimization.
+  evidence:
+  - source_id: flake2000
+    locator: Section 3.1, Definitions 1–2 and Theorem 1, printed p. 152 / PDF p. 3; curator calculation
+      in research/discovery/flow-community-boundaries.py
+    relation: supports
+- claim_id: version-and-input-scope
+  kind: scope
+  statement: The 2002 procedure operates on a supplied graph and positive seed set. Its guarantee discussion
+    assumes access to the full Web graph, while experiments use the separate approximate crawling wrapper.
+    The 2000 paper uses a non-strict internal-degree definition in Definition 1 and describes different
+    practical boundary wiring; those versions must not be treated as identical executable procedures or
+    unconditional claims about today’s Web.
+  evidence:
+  - source_id: flake2000
+    locator: Sections 3.1–3.3, printed pp. 152–154 / PDF pp. 3–5
+    relation: supports
+  - source_id: flake2002
+    locator: Figure 2 and exact-flow versus approximate-flow discussion, printed p. 68 / PDF p. 3
+    relation: supports
+- claim_id: evaluation-boundary
+  kind: limitation
+  statement: The inspected 2002 experiments evaluate approximate-flow crawling from three scientist seed
+    pages, followed by link-score ranking and text-based characterization. They do not independently benchmark
+    this exact core on the complete Web or prove universal semantic relevance, absence of bias or recovery
+    of one uniquely correct community.
+  evidence:
+  - source_id: flake2002
+    locator: Experimental Results and Table 1 discussion, printed pp. 69–70 / PDF pp. 4–5
+    relation: supports
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: The procedure groups graph vertices using link topology and supplied positive seeds. This
+    relates the named algorithm to the general clustering task without asserting equivalence, hierarchy
+    or purely unsupervised operation.
+limitations:
+- The maintained scope is the 2002 prose augmentation and residual extraction. The all-E pseudocode ambiguity
+  is retained; no author software was inspected to resolve it.
+- Constructed cut calculations use explicit simple undirected graph conventions and exact finite enumeration.
+  They are not author-code conformance tests, historical web crawls or universal theorem certification.
+- The record separates optimality of an augmented cut from seed quality, complete input coverage, unique
+  community identity and semantic interpretation.
+- Positive seeds are supplied by the caller. The algorithm does not learn a general classifier or perform
+  statistical expectation maximization.
+- Both complete primary papers and their displayed methods were read. Historical datasets, implementation
+  details beyond those papers and modern crawling services remain uninspected. No training, paid services
+  or benchmark replication was performed; DRAFT remains.
+identity_notes: 'Compared all 442 pinned AIO and 677 native IDs, names, aliases and scoped synonyms before
+  either cohort write; no normalized identity match. Ignored- and hidden-inclusive searches of all three
+  checkouts returned 20,0,0 lines, all read: prior source-deduplication logs and the Flake source lead,
+  not either maintained concept. Semantic search covered 70 AIO and 318 native definitions; 64 AIO and
+  290 native rows match prior inspected context, and all six newly selected AIO and 28 native definitions
+  were read. Eleven complete AIO node/edge/generated contexts were assessed, five verified unchanged and
+  six newly read. The full EM record and previously inspected GN/Radicchi records provide native identity
+  context. Both drafts were compared for a fixed-graph exact core versus a versioned crawl/reseed family.
+  The maintained target is the2002 exact augmented-graph procedure, using the prose convention that only
+  original graph edges are rescaled. The2000 theorem discussion is context with explicit limits, not an
+  asserted universal exact-recovery guarantee. This core solves one supplied graph and is distinct from
+  repeated crawl/reseed acquisition.'
+evidence_sources:
+- source_id: flake2002
+  title: Self-Organization and Identification of Web Communities
+  authors:
+  - Gary William Flake
+  - Steve Lawrence
+  - C. Lee Giles
+  - Frans M. Coetzee
+  source_type: primary_paper
+  access_level: full_text
+  version: IEEE Computer 35(3):66–71, March2002; DOI10.1109/2.989932; author-hosted publisher PDF. All
+    six pages and renders read, including three figures, two algorithms, one table, ten main references
+    and nine sidebar references. Author code and historical web data uninspected.
+  persistent_id: doi:10.1109/2.989932
+  url: https://clgiles.ist.psu.edu/papers/Computer-2002-web-communities.pdf
+  accessed_at: '2026-10-14T02:04:10Z'
+  sha256: 104f1461e3005c47850c380fd2f9a55434d9851bdae5d1a3cd5e1d2fdf5b2d68
+- source_id: flake2000
+  title: Efficient Identification of Web Communities
+  authors:
+  - Gary William Flake
+  - Steve Lawrence
+  - C. Lee Giles
+  source_type: primary_paper
+  access_level: full_text
+  version: ACM KDD2000, pp150–160; DOI10.1145/347090.347121; author-hosted proceedings PDF. Complete eleven-page
+    text and25references read. Rendered pages3–6,8–10 cover all figures, definitions, theorem conditions
+    and five tables, including both algorithms; rotated result tables were rendered upright. Author code
+    and historical data uninspected.
+  persistent_id: doi:10.1145/347090.347121
+  url: https://clgiles.ist.psu.edu/papers/KDD-2000-web-communities.pdf
+  accessed_at: '2026-10-14T02:06:18Z'
+  sha256: 016ffe67913e080e9f86ef536667353a9cd4410c389db5d8373079a63fadb7dc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T02:24:50Z'
+  updated_at: '2026-10-14T02:24:50Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,241 @@
+definition: A bounded-suboptimal recursive best-first search variant that divides
+  a quality budget w between a heuristic factor w^((k-1)/k) and a competitive-threshold
+  factor w^(1/k), using the baseline recursive regeneration and backup organization
+  under the source’s qualified frontier and cost assumptions.
+definition_evidence:
+- source_id: hatem2015
+  locator: Author PDF p.3 / official p.1153, kth-root paragraph and Theorem 1; baseline
+    Figure 1 on author p.2 / official p.1152
+  relation: supports
+concept_kind: algorithm
+claims:
+- claim_id: split-weight-and-threshold
+  kind: mechanism
+  statement: 'For a finite quality budget w>=1 and positive integer split choice k,
+    the described variant uses f_prime(n)=g(n)+w^((k-1)/k)*h(n) and relaxes the competitive
+    comparison to F(best)<=w^(1/k)*B. For k=2 the two factors are both sqrt(w): part
+    of the budget weights the heuristic and part relaxes the competitive threshold.'
+  evidence:
+  - source_id: hatem2015
+    locator: Author PDF p.3 / official p.1153, second variant paragraph and displayed
+      generalization
+    relation: supports
+- claim_id: baseline-structure-with-modified-evaluation
+  kind: mechanism
+  statement: The proposal changes the baseline evaluation and the upper-bound comparison,
+    while retaining the RBFS organization of conditional backed-up-value inheritance,
+    best-child recursion and return-value backup using the modified evaluation. It
+    does not instruct an implementation to multiply every recursive bound assignment
+    repeatedly; the baseline finite-F and empty-successor conditions remain part of
+    the scoped interpretation.
+  evidence:
+  - source_id: hatem2015
+    locator: Author PDF p.2 / official p.1152, Figure 1; author p.3 / official p.1153,
+      kth-root paragraph identifying line 9
+    relation: supports
+- claim_id: source-stated-quality-bound
+  kind: scope
+  statement: Theorem 1 states that the goal expanded by RBFS-kth-root is w-admissible
+    with an admissible heuristic. Under the explicit nonnegative-path-cost, goal-normalization
+    and optimal-path frontier premises used in its algebra, the two factors combine
+    to bound the returned cost by w times optimal cost. This is a qualified report
+    of the source theorem, without an independent implementation-correctness certification.
+  evidence:
+  - source_id: hatem2015
+    locator: Author PDF p.3 / official p.1153, Theorem 1 and proof
+    relation: supports
+- claim_id: parameter-and-optimal-endpoint
+  kind: scope
+  statement: For its stated w-quality guarantee, the source presents kth-root splitting
+    without a separate epsilon or the additive variant’s post-first-goal branch-and-bound
+    requirement. The choices w and k remain parameters. At w=1 both factors equal
+    1, so the additional weighting and threshold relaxation disappear algebraically;
+    the source’s emphasis on suboptimal search does not make that endpoint undefined.
+  evidence:
+  - source_id: hatem2015
+    locator: Author PDF p.3 / official p.1153, paragraph before Theorem 1; algebraic
+      specialization of the displayed factors
+    relation: supports
+limitations:
+- The printed theorem explicitly states heuristic admissibility; the complete algebra
+  also uses a finite w>=1, positive integer k, nonnegative accumulated path costs,
+  h(goal)=0 and a suitable optimal-path frontier witness. These are explicit interpretive
+  premises here, not a claim that every one is printed in the theorem statement. Arbitrary
+  negative-cost or incorrectly normalized-goal cases are outside the reported guarantee.
+- The crucial comparison to an unresolved optimal-path frontier value is part of the
+  source proof. Its preservation through all duplicate-handling, cycle, regeneration
+  and tie cases is not independently certified by this draft. A bounded algebra check
+  is not a full correctness, completeness or termination proof for arbitrary graphs.
+- The method is described through changes to Figure 1 rather than its own complete
+  listing. Root initialization, finite/infinite arithmetic, dead ends, tie handling
+  and the propagation of uninflated competitive bounds require explicit conventions.
+  Repeatedly multiplying every recursive bound assignment is not specified by the
+  published line-9 modification.
+- 'The method is not parameter-free: w and the split choice k remain. Its w=1 and
+  k=1 algebraic specializations do not establish a global alias or a monotonic performance
+  law; the source’s k=5 experimental choice is not a universal default or an automatic
+  selection rule.'
+- No O(N) regeneration-overhead theorem is attached to this variant. The histogram-controlled
+  method’s extra values, distribution/count assumptions and Theorem 2 are a separate
+  construction. Fewer backtracks or a better time/quality tradeoff on every domain
+  is not guaranteed by the split formula.
+- Depth-linear path/sibling storage assumes bounded branching and per-node data. Duplicate
+  paths, cycles, heuristic/state storage and optional transposition tables need separate
+  analysis; the Dockyard study’s unlimited table does not demonstrate a path-only
+  total-memory bound.
+- The unit-cost and square-root-cost puzzle and Dockyard observations use particular
+  heuristics, k values and historical implementations. They do not establish universal
+  or current-hardware speedups, and the paper’s anytime RBFS-versus-RBFS_CR figure
+  is not a kth-root result. No algorithm or benchmark has been executed for this draft.
+- The two 2015 PDF artifacts represent the same work despite byte and pagination differences.
+  The 2024 ILBFS epsilon/RBFS_CR terminology, prior RBFS versions and exact code/experimental
+  reproduction remain separate source questions; neither shared terminology nor endpoint
+  coincidences justify merging kth-root with the additive or histogram variants.
+evidence_sources:
+- source_id: hatem2015
+  title: Recursive Best-First Search with Bounded Overhead
+  authors:
+  - Matthew Hatem
+  - Scott Kiesel
+  - Wheeler Ruml
+  source_type: primary_paper
+  url: https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf
+  version: Author-hosted seven-page version of the 2015 AAAI paper, 29(1), printed
+    publication pp.1151–1157. The selected hash identifies author PDF bytes. A separately
+    acquired official PDF has different bytes and publisher pagination but matching
+    normalized page bodies; it is the same work, not an independent study.
+  access_level: full_text
+  accessed_at: '2026-10-16T05:24:12Z'
+  sha256: 71550d1c85a5d46cf8d6ecfff34fd5102378dfb53b446b2ea65c19e36aeac3d6
+  persistent_id: doi:10.1609/aaai.v29i1.9352
+id: AIMech:RBFSKthRoot
+name: RBFS-kth-root
+aliases:
+- RBFSkthrt
+identity_notes: 'This record denotes the 2015 variant coupling heuristic factor w^((k-1)/k)
+  to competitive-threshold factor w^(1/k). It is distinct from additive epsilon, histogram-controlled
+  re-expansion, ordinary weighted A* and baseline RBFS as parameterized procedures.
+  The source-local RBFSkthrt label is retained; endpoint coincidences and a shared
+  w-quality bound do not establish aliases or identical visits. Nonnegative path cost,
+  goal normalization, admissible heuristic and optimal-path frontier qualifications
+  remain explicit, along with finite w>=1 and positive integer k. The formula modifies
+  the continuation comparison rather than repeatedly scaling every recursive bound
+  assignment. Current insertion context was reconciled at merged commit c222454fe2e2ce2b9be5fd78a01d47e9961d1f26:
+  807 native and 442 pinned AIO records, 4,946 identity-field occurrences and 3,781
+  normalized values. Four ignored- and hidden-inclusive roots returned 165 matching
+  contents / 1,085 occurrences, all byte-identical to the bound prior readings; no
+  candidate exact normalized identity collision was found. All 1,249 native and generated
+  record files match that evidence. Earlier full 25-node / 92-edge AIO and native-neighbor
+  readings are reused with attribution, not claimed as fresh whole-ontology review.
+  Source tracking uses existing main 912 while preserving prior IE, main 6/7/822/911
+  responsibilities and every historical source question.'
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Prospective snapshot collected at HEAD bcf1e846fe3d3dbb6d0651d32db6b7045fd28cae
+    on goal/discover-ai-concepts-round361: 804 native and 442 AIO records, 4,937 ID/local-ID/name/alias/scoped-synonym
+    occurrences and 3,774 normalized values. Four roots searched including ignored
+    and hidden files (excluding .git internals), 142 complete distinct matching contents/977
+    occurrences freshly read. All inventory identities were screened and normalized
+    exact probes compared. Full 25 selected pinned AIO CLASS nodes and all 92 incident
+    edge occurrences were freshly read. Four closest native records were read in full;
+    definition, identity and claim statements of 18 other selected neighbors were
+    freshly read. This is bounded historical prospective evidence, not future insertion
+    clearance or all-ontology semantic absence.'
+  rationale: RBFS-kth-root is a source-defined search-control procedure. No inspected
+    target denotes its identity or a justified hierarchy, and the source establishes
+    no sufficiently specific positive related mapping to these learning/model/layer
+    classes.
+  examined_targets:
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The algorithms traverse search nodes and maintain cost bounds;
+      their defining mechanisms do not use artificial neurons or learned connection
+      weights.
+  - target: AIO:AvailabilityHeuristicBias
+    rejection_reason: Heuristic cost estimates and additive tolerance are algorithmic
+      control quantities, not the human availability bias of overweighting easily
+      recalled information.
+  - target: AIO:DecisionTree
+    rejection_reason: A search tree of possible paths is not the classification/decision-support
+      model defined by this node and its Classification parent.
+  - target: AIO:GraphConvolutionalNetwork
+    rejection_reason: No graph convolution or neural-layer architecture is part of
+      the source-defined procedures.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: The procedures do not learn a graph-generating policy using
+      rewards and adversarial loss; a planning application alone is insufficient.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The node concerns graph-structured language modeling, not search-tree
+      generation and bound-based traversal.
+  - target: AIO:LinearFunction
+    rejection_reason: Linear storage in depth does not mean an affine activation.
+      Weighted g/h evaluation is a scalar component, not the identity of the complete
+      search algorithm.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The inspected mechanisms search with supplied evaluations and
+      per-search backups. They do not by themselves build a method that learns from
+      data; no specific training relationship is established.
+  - target: AIO:MathematicalFunction
+    rejection_reason: Each algorithm evaluates mathematical quantities but also selects,
+      stores, regenerates and terminates search. Mere arithmetic use is not an exact,
+      hierarchical or sufficiently specific related mapping.
+  - target: AIO:MaximumLayer
+    rejection_reason: Conditional max inheritance is a scalar search-bound rule, not
+      a tensor-merging neural layer.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: Stored branch alternatives or OPEN/TREE are search memory, not
+      an external memory component of an LLM.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: Retained search-node values are not cells or weights of a neural-network
+      layer.
+  - target: AIO:MinimumLayer
+    rejection_reason: Minimum alternatives and backups in a search controller do not
+      identify an element-wise tensor-merging layer.
+  - target: AIO:Model
+    rejection_reason: The algorithm operates on a problem representation; it is not
+      the abstract system representation itself.
+  - target: AIO:Network
+    rejection_reason: An interconnected state graph can be input to a search procedure.
+      That input structure does not make the traversal procedure a network entity.
+  - target: AIO:NeuralTuringMachineNetwork
+    rejection_reason: No feedforward neural architecture, learned pattern matching
+      or neural memory controller is required by these procedures.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: Symbolic search without a neural language model is not a neuro-symbolic
+      LLM.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: Search-tree branches and backed-up costs do not encode conditional
+      dependencies among random variables.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Goal-directed heuristic search is not, by itself, deductive
+      inference during language tasks in a large language model.
+  - target: AIO:RecursiveLLM
+    rejection_reason: The definition requires recursive neural language architecture
+      such as TreeLSTM; program recursion or iterative emulation does not establish
+      it.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Its DeepNeuralNetwork and input/memory/output-layer relations
+      concern learned syntactic composition, not recursive bounded search.
+  - target: AIO:RecursiveNeuralNetwork
+    rejection_reason: RBFS recursion and its iterative emulation apply search control,
+      not shared learned weights over structured input.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Exploring alternative search branches with given costs is not
+      evidence for a learning process balancing exploration and exploitation over
+      trials.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The sources define search-control procedures, not preprocessing
+      or model-training strategies; optional use inside training would require separate
+      evidence.
+  - target: AIO:WeightedLayer
+    rejection_reason: The kth-root variant weights a heuristic scalar; this does not
+      define values applied to neurons or a layer in a network.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T06:52:12Z'
+  updated_at: '2026-10-16T06:52:12Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

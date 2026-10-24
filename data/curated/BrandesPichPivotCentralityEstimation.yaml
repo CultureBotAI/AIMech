@@ -1,0 +1,189 @@
+id: AIMech:BrandesPichPivotCentralityEstimation
+name: Brandes–Pich pivot-based centrality estimation
+aliases:
+- Brandes-Pich centrality estimation
+concept_kind: algorithm
+definition: A network-analysis procedure that estimates shortest-path closeness and betweenness from single-source
+  computations at a selected subset of pivot vertices, aggregating distances or source dependencies and
+  comparing the resulting relative centrality scores.
+definition_evidence:
+- source_id: brandespich2006
+  locator: Sections 2.2–3.2, PDF/printed pp. 5–8; Section 4, pp. 9–10; Section 5.2, p. 13
+  relation: supports
+claims:
+- claim_id: domain-and-contributions
+  kind: scope
+  statement: The explicit formulation here uses a connected simple undirected unweighted graph. A pivot
+    contributes shortest-path distances for closeness, and one-sided dependencies for betweenness. A dependency
+    sums, over targets, the fraction of shortest paths on which a vertex is internal; the source and target
+    do not receive endpoint contributions. This is a structural statistic, not a learned prediction or
+    causal measure.
+  evidence:
+  - source_id: brandespich2006
+    locator: Sections 2.1–3.2, PDF/printed pp. 3–8, Equations 1–5
+    relation: supports
+- claim_id: relative-score-formulation
+  kind: mechanism
+  statement: 'For a nonempty set P of distinct pivots, let D_P(v)=sum over p in P of d(p,v), and B_P(v)=sum
+    over p in P of delta(p|v), with delta(v|v)=0. In the adopted sum-to-one comparison convention, closeness
+    is [1/D_P(v)] divided by the sum of these reciprocals, and betweenness is B_P(v) divided by the sum
+    of B_P over vertices. These are curator algebraic restatements of the paper’s contribution aggregation
+    and experimental normalization: common positive extrapolation factors cancel. They do not assert that
+    raw totals, unbiased estimators and normalized vectors are interchangeable.'
+  evidence:
+  - source_id: brandespich2006
+    locator: Sections 3.1–3.2, PDF/printed pp. 7–8, Equations 4–5; Section 5.2, p. 13; curator algebra
+      and finite checks in research/discovery/pivot-centrality-boundaries.py
+    relation: supports
+- claim_id: pivot-selection
+  kind: mechanism
+  statement: Random selects distinct pivots uniformly; RanDeg selects with probability proportional to
+    degree. The distance-based strategies begin with a uniformly random first pivot, then choose an unselected
+    vertex maximizing its minimum distance to previous pivots (MaxMin), maximizing its summed distance
+    (MaxSum), or minimizing its summed distance (MinSum). Tie policies must be specified by an implementation.
+    The manuscript’s Mixed strategy is not fixed here because its prose and Table 1 disagree about which
+    sum-based strategy participates.
+  evidence:
+  - source_id: brandespich2006
+    locator: Section 4, PDF/printed pp. 9–10, Equations 6–7; Table 1, PDF p. 20
+    relation: supports
+- claim_id: computation-and-exact-limit
+  kind: scope
+  statement: Only k selected sources require single-source shortest-path work, rather than all n sources.
+    Breadth-first distances and dependency accumulation on the stated unweighted domain give O(k(n+m))
+    traversal work, with pivot-selection overhead accounted for separately. Choosing every vertex recovers
+    the relative exact centrality vectors whenever their denominators are defined. For a proper subset,
+    neither the exact vector nor its ranking is guaranteed.
+  evidence:
+  - source_id: brandespich2006
+    locator: Sections 2.2–3, PDF/printed pp. 5–8; Section 4, pp. 9–10; Section 5.2, p. 13; finite all-pivot
+      check in research/discovery/pivot-centrality-boundaries.py
+    relation: supports
+- claim_id: normalization-and-degeneracy
+  kind: limitation
+  statement: The relative-score convention requires positive denominators. Two or more distinct pivots
+    make every sampled distance sum positive on a connected graph, whereas a single pivot has zero sampled
+    distance at itself. A complete graph has zero internal-vertex betweenness, so its all-zero vector
+    cannot be scaled to sum one. No undocumented fallback is inferred. On the constructed path 0–1–2–3,
+    all pivots yield relative betweenness (0,1/2,1/2,0); pivots {0,2} yield (0,3/4,1/4,0).
+  evidence:
+  - source_id: brandespich2006
+    locator: Definitions and aggregation, Sections 2–3, PDF/printed pp. 3–8; sum-to-one comparison, Section
+      5.2, p. 13; explicit curator consequences in research/discovery/pivot-centrality-boundaries.py
+    relation: supports
+- claim_id: sampling-and-source-limits
+  kind: limitation
+  statement: The manuscript motivates sampling with an iid concentration display, while its experiments
+    select distinct pivots. Random draws without replacement are not independent, and nonuniform or deterministic
+    selection does not inherit an iid uniform-sampling guarantee. The maintained record therefore does
+    not adopt that display as a certified accuracy bound. The printed n/(n-1) per-pivot factors and the
+    prose describing a total-distance estimate also require distinguishing normalized mean quantities
+    from raw totals; the selected relative-score formulation avoids equating those scales.
+  evidence:
+  - source_id: brandespich2006
+    locator: Section 3, PDF/printed pp. 7–8, Equations 3–5 and following prose; Section 4, p. 9; curator
+      finite and scalar checks in research/discovery/pivot-centrality-boundaries.py
+    relation: supports
+- claim_id: evaluation-and-application-scope
+  kind: limitation
+  statement: The study compares six pivot strategies on three generated graph families and protein-interaction,
+    needle-exchange and ticker-text networks, using repeated progressively enlarged pivot sets and exact
+    centrality as the comparator. The score vectors are scaled to sum one. Prose describes Euclidean and
+    inversion distances, while plots label the latter weighted inversion number. Observed-network sizes
+    differ between Table 2 and figure labels, and the text-network betweenness experiment permits multiple
+    edges despite the simple-graph core. No unified numeric benchmark denominator, unreported weighting
+    rule, universal strategy superiority or biological-function prediction is asserted.
+  evidence:
+  - source_id: brandespich2006
+    locator: Sections 5–6, PDF/printed pp. 11–16; Tables 1–2, PDF pp. 20–21; Figures 1–9, PDF pp. 22–30
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 685 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 13,0,0 lines, all read as prior query
+  strings or the pending Brandes–Pich lead. Semantic assessment covered 147 AIO and 518 native definitions:
+  128/470 prior rows were verified unchanged and 19/48 newly selected rows read. Nine complete AIO contexts
+  and the full Brandes, CURE, PageRank and HITS records were assessed. The identity is the Brandes–Pich
+  network-centrality estimation procedure, not the underlying closeness or betweenness measure, exact
+  all-source Brandes computation, pivot selection in isolation, or a general sampling algorithm. The maintained
+  formulation specifies relative score vectors used in the paper’s comparisons. It includes the supported
+  pivot choices as parameterized strategies rather than separate duplicate identities. Eppstein–Wang closeness
+  approximation remains a distinct source lead requiring its original method and assumptions. Text-network
+  analysis supplies relevant graph/text-analysis context; no learned predictor or general claim that every
+  graph algorithm is AI is implied.'
+evidence_sources:
+- source_id: brandespich2006
+  title: Centrality Estimation in Large Networks
+  authors:
+  - Ulrik Brandes
+  - Christian Pich
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: doi:10.1142/S0218127407018403
+  version: 'Author manuscript dated August 18, 2006, 30 PDF pages: printed pages 1–19 followed by two
+    tables and nine figures. All prose, references, tables and figures read; mathematical and method pages
+    visually inspected. Author catalog associates the work with International Journal of Bifurcation and
+    Chaos 17(7):2303–2318 (2007). No separate journal-layout copy, implementation or dataset was inspected.'
+  url: https://kim246.wwwdns.kim.uni-konstanz.de/publications/bp-celn-06.pdf
+  accessed_at: '2026-10-14T03:57:27Z'
+  sha256: 42eba6e6ed12bd8e4f9b45cc517f26cc9ba5b5b755ea0058069526f5fff31d8b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Compared all 442 pinned AIO and 685 preceding native identities and searched three full
+    checkouts including ignored and hidden files. Semantic assessment covered 147 AIO and 518 native definition
+    rows: 128/470 prior rows verified unchanged and 19/48 newly selected rows read. Nine complete AIO
+    contexts and four full native neighbors were assessed.'
+  rationale: No examined AIO target denotes this pivot-based structural centrality estimation procedure.
+    Sampling, ranking and possible feature use do not by themselves establish identity with a bias, clustering,
+    preprocessing or neural-learning concept.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: Scores estimate vertex centrality without assigning groups or clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Selecting pivot sources is not an unlabeled-object grouping task.
+  - target: AIO:MathematicalFunction
+    rejection_reason: This identity is a traversal, source-selection and aggregation procedure, rather
+      than solely a mathematical function or activation.
+  - target: AIO:DataPreparation
+    rejection_reason: The defined objective is estimating structural centrality, not cleaning or organizing
+      machine-learning data. Incidental feature use does not establish a mapping.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: Graph distances and dependencies do not define language modeling.
+  - target: AIO:RankingBias
+    rejection_reason: Estimating a ranking does not identify the belief that highly ranked information
+      is most relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Selection effects are a limitation to analyze, not the identity of the estimation
+      algorithm; uniform and nonuniform strategies are distinguished.
+  - target: AIO:RepresentationBias
+    rejection_reason: This is an estimation procedure, not the bias concept concerning nonrepresentative
+      subgroups and generalization.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Choosing graph traversal sources does not query training labels or fit a deep neural
+      network.
+limitations:
+- The detailed maintained formulation is bounded to connected simple undirected unweighted graphs and
+  relative score vectors. Other graph domains, raw-score normalization and implementation conventions
+  need separate evidence.
+- The inspected source is the August 18, 2006 manuscript associated with the 2007 publication. No claim
+  of exact agreement with an unseen journal-layout copy, author implementation or raw experimental data
+  is made.
+- 'Mixed is unresolved: prose on page 10 names Random, MaxMin and MinSum, whereas Table 1 names MaxMin,
+  MaxSum and Random. No one composition is asserted as the tested code.'
+- 'The manuscript’s page 7 absolute-tail display lacks the factor needed for a general two-sided iid bound:
+  a single equally likely 0/1 variable at deviation 1/2 has event probability one, greater than its printed
+  exp(-1/2) bound. This is an elementary curator counterexample to the inspected display, not an audit
+  of a later version or author code. No replacement finite-sample guarantee for this procedure is claimed.'
+- Table and figure graph sizes and inversion-metric terminology differ in the inspected copy. The discovery
+  report preserves both readings rather than inferring an undocumented preprocessing rule.
+- Finite exact examples are illustrations, not model training, benchmark replication, empirical confidence
+  intervals or proof of unbiasedness for nonlinear normalized outputs. No author software, paid service
+  or data upload was used. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T04:13:21Z'
+  updated_at: '2026-10-14T04:13:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

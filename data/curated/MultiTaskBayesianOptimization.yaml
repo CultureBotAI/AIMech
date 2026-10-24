@@ -1,0 +1,177 @@
+id: AIMech:MultiTaskBayesianOptimization
+name: Multi-task Bayesian optimization
+concept_kind: algorithm
+definition: The original Swersky–Snoek–Adams 2013 family of Bayesian optimization procedures that uses
+  a Gaussian process with separable finite-task and configuration covariance to transfer evaluation information
+  across related tasks, with distinct target-only transfer, average-task expected-improvement and cost-sensitive
+  primary-task entropy-search configurations.
+aliases: []
+definition_evidence:
+- source_id: swersky2013
+  locator: Sections 2.2–3.3, PDF pp. 2–5, task covariance and three query configurations; Section 5, PDF
+    p. 8, original family scope.
+  relation: supports
+claims:
+- claim_id: finite-task-correlated-surrogate
+  kind: mechanism
+  statement: Represent related objective functions over a common configuration domain as finitely indexed
+    tasks of a Gaussian process. The separable pair covariance is B[t,t_prime]*kx(x,x_prime), where B
+    is a task covariance matrix and kx is an input covariance. The source uses a Matern 5/2 input kernel
+    and samples covariance parameters by slice sampling. It parameterizes B through a Cholesky factor
+    with positive free entries to favor positive task correlations. This is a restricted task-covariance
+    fit, not an arbitrary signed task relation or necessarily a unit-diagonal correlation matrix. A literal
+    full Kronecker observed Gram matrix requires a complete Cartesian task/input design; general observed
+    pairs use the corresponding covariance entries.
+  evidence:
+  - source_id: swersky2013
+    locator: Sections 2.1–2.2, PDF pp. 2–3, Equation 3 and covariance-parameter sampling description;
+      Figure 1 on p. 4 is a broader illustrative task process.
+    relation: supports
+- claim_id: target-only-transfer-policy
+  kind: mechanism
+  statement: In the transfer configuration, condition the multi-task surrogate on observations from previous
+    related-task optimizations and on the target task. Restrict future evaluations to the target task
+    and continue its Bayesian optimization, illustrated with expected improvement. Learning a useful task
+    relationship requires target observations; previous tasks supply surrogate information rather than
+    a rule that copies their best configuration as the target optimum. This configuration does not dynamically
+    select cheaper auxiliary tasks for future evaluation.
+  evidence:
+  - source_id: swersky2013
+    locator: Section 3.1, PDF p. 3; Figure 1, PDF p. 4; Section 2.3, PDF p. 3, Equations 4–5; Section
+      4.1, PDF p. 6, direct-transfer comparator.
+    relation: supports
+- claim_id: average-task-two-step-ei-policy
+  kind: mechanism
+  statement: A separate configuration minimizes the average objective over k tasks. Its predictive mean
+    is the average of task means and its variance is the sum of every posterior task-pair covariance divided
+    by k squared. The proposed two-step heuristic imputes missing observations using predictive means,
+    chooses a configuration by expected improvement for the estimated average function, and then selects
+    the task with highest single-task expected improvement at that configuration. It spends one task evaluation
+    per selected query. This is an average-task objective and an explicit heuristic, not the cost-sensitive
+    primary-task entropy policy.
+  evidence:
+  - source_id: swersky2013
+    locator: Section 3.2, PDF p. 4, Equation 8 and the two-step heuristic; Section 4.2, PDF pp. 6–7, cross-validation
+      interpretation.
+    relation: supports
+- claim_id: finite-primary-minimizer-information
+  kind: mechanism
+  statement: For the entropy configuration, represent the primary task minimum by a distribution over
+    a finite candidate set. In the usual no-tie Gaussian setting, the event that a candidate minimizes
+    the represented function is the conjunction of comparisons with all other represented values. The
+    ideal one-step score is the expected reduction in entropy of that primary-task minimizer after a prospective
+    noisy observation, including an observation of a correlated auxiliary task. Its target is not the
+    auxiliary task minimizer or the identity of the best task. The source describes Monte Carlo approximation
+    to this information calculation; finite representation and sampling do not make the continuous-domain
+    minimizer law exact.
+  evidence:
+  - source_id: swersky2013
+    locator: Section 2.3, PDF p. 3, Equations 6–7 and Monte Carlo discussion; Section 3.3, PDF pp. 4–5,
+      primary-task target.
+    relation: supports
+- claim_id: dynamic-information-per-cost-policy
+  kind: mechanism
+  statement: The dynamic configuration compares configuration/task queries by approximate expected reduction
+    of primary-task minimizer entropy per positive evaluation cost. Equation 9 divides by c_t(x); the
+    source models log evaluation cost with multi-task Gaussian-process machinery when costs are unknown.
+    It computes this acquisition on a finite candidate subset selected by high expected improvement on
+    the primary task, then obtains evaluations from the selected task as the optimization proceeds. Task
+    relationships and costs can be learned during the search. The inspected description does not uniquely
+    specify how posterior uncertainty in cost is integrated into the denominator.
+  evidence:
+  - source_id: swersky2013
+    locator: Section 3.3, PDF p. 5, Equation 9, log-cost model and fixed candidate subset; Section 4.3,
+      PDF p. 7, dynamic estimation of tasks, correlation and costs.
+    relation: supports
+- claim_id: three-configurations-and-common-domain
+  kind: scope
+  statement: The original method family shares a task-correlated surrogate but distinguishes target-only
+    transfer, average-task optimization and dynamic cost-sensitive primary-task optimization. These policies
+    need not choose the same inputs or tasks and do not all use an entropy acquisition or cost normalization.
+    Tasks share a configuration domain in the described model; extending the framework across different
+    model architectures is listed as future work rather than supplied as a general construction.
+  evidence:
+  - source_id: swersky2013
+    locator: Section 1, PDF p. 2; Sections 3.1–3.3, PDF pp. 3–5; Section 5, PDF p. 8, summary of configurations
+      and multiple-architecture future work.
+    relation: supports
+identity_notes: 'This record scopes the original 2013 finite-task multi-task Bayesian optimization construction
+  and its three differentiated policies: target-only transfer, average-task two-step expected-improvement
+  selection, and dynamic primary-minimizer information per positive cost. It is not generic multi-task
+  learning. FABOLAS instead models a continuous dataset-size input with special covariance and cost structure;
+  PESC/PESC-F resource scheduling concerns objective/constraint tasks and acquisition-update costs, not
+  this task-transfer identity.'
+limitations:
+- This identity is scoped to the original 2013 finite-task family, not every later method called multi-task
+  Bayesian optimization. It is neither the multi-task GP model alone nor a synonym for one acquisition
+  formula. FABOLAS uses a continuous dataset-size coordinate and size-specific surrogate assumptions;
+  PESC and its scheduling variants target constrained optimization with different inference and task semantics.
+  Shared information-per-cost language does not establish identity.
+- The positive free-Cholesky fit in Section 2.2, PDF p. 2, restricts the representable task covariances.
+  The anticorrelated process in Figure 1 on p. 4 illustrates a broader multi-task GP and does not establish
+  arbitrary signed correlation support for that fit. Kernel fit and task similarity can be inadequate;
+  no guaranteed beneficial transfer follows.
+- Section 3.3, PDF p. 5, states that a realized entropy decrease is positive and that an auxiliary query
+  at the same input can never be more informative than a primary query. Neither is a general consequence
+  of the stated noisy model. Coherent expected entropy reduction is nonnegative, but individual posterior
+  entropies can increase. A fixed-hyperparameter two-input Gaussian construction with input correlation
+  1/2, task covariance [[1,2],[2,5]] and observation-noise variance 1 makes the rescaled auxiliary a less
+  noisy channel for a nonconstant primary-minimizer event than the direct primary query. This bounded
+  analytic counterexample qualifies the prose; it is not a general dominance claim, numerical experiment
+  or author-issued erratum.
+- 'The perfect-correlation redundancy example after Equation 8, PDF p. 4, needs an observation qualification:
+  independently noisy evaluations can remain informative even for perfectly correlated latent tasks. The
+  average-task variance includes cross-task covariances and must not be replaced by a sum of marginal
+  variances alone.'
+- Positive cost division and modeling log cost do not choose a unique posterior cost convention. Expected
+  information divided by expected cost, expected information per random cost, and division by an exponentiated
+  mean log cost are generally different. No later implementation or paper convention is silently substituted
+  for Equation 9. Candidate-set construction, Monte Carlo estimates and hyperparameter treatment also
+  affect the practical score.
+- The displayed general GP mean on PDF p. 2 omits an explicit additive test mean, and the displayed prediction
+  formulas do not explicitly include the observation-noise term introduced on p. 3. These expressions
+  are not adopted as complete noisy, nonzero-mean prediction formulas. Singular covariance matrices, degenerate
+  optimizer distributions and tied candidate values require explicit treatment beyond the usual no-tie
+  Gaussian calculation.
+- The inspected main paper supports the mechanism and its stated settings. The two-page experimental supplement
+  is dossier context rather than an additional mechanism evidence source. No author implementation, full
+  optimizer, benchmark replication, convergence theorem, regret bound, universal speedup or globally optimal
+  task-allocation policy is established by this record or the separate symbolic boundary assessment.
+evidence_sources:
+- source_id: swersky2013
+  title: Multi-Task Bayesian Optimization
+  authors:
+  - Kevin Swersky
+  - Jasper Snoek
+  - Ryan P. Adams
+  source_type: primary_paper
+  url: https://papers.nips.cc/paper_files/paper/2013/file/f33ba15effa5c10e873bf3842afb46a6-Paper.pdf
+  version: Official Advances in Neural Information Processing Systems26 (2013), book pages2004–2012; nine-page
+    proceedings PDF numbered1–9. Embedded modification November25,2014 identifies the downloaded build,
+    not a new publication date.
+  access_level: full_text
+  accessed_at: '2026-10-15T03:07:45Z'
+  sha256: 294123432b98a2fa5dc3eed6a2e3a6f5c3df03473f0f5350aa046640cb0acb57
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TransferLearning
+  relation: related_match
+  rationale: The method reuses observations from related optimization tasks through a shared surrogate.
+    This relates it to the pinned machine-learning task of transferring information from learned tasks,
+    without equating an optimization algorithm with that task or asserting neural weight transfer or a
+    subclass.
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: The procedures choose informative input/task evaluations and obtain outputs from an information
+    source. This query-learning association does not equate objective optimization with classification
+    labeling or assert exact or subclass identity with the broad pinned task.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,217 @@
+id: AIMech:PERCHClustering
+name: PERCH clustering
+aliases:
+- Purity Enhancing Rotations for Cluster Hierarchies
+concept_kind: algorithm
+definition: An online hierarchical clustering algorithm that inserts observations near existing leaves
+  of a binary cluster tree and uses masking and balance rotations to revise subtree placement.
+identity_notes: Compared all 442 pinned AIO and 657 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 18, 0, 0 lines. All distinct match contents were
+  read, including pending discovery entries and source-reading observations. Recovery hits concern pending
+  PERCH discovery notes and primary-source context; none identifies an existing standalone PERCH record.
+  Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered
+  26 AIO and 174 native definitions, all read; unchanged definitions were byte-compared with the preceding
+  full assessment. 9 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+  Retain online nearest-leaf insertion with masking and balance rotations. It differs from immutable linkage
+  chains, BIRCH feature compression, CURE representatives, RS pruning and Genie inequality-based merging.
+  PERCH-C/B/BC name modes with additional assumptions, not unconditional exact-theory aliases.
+definition_evidence:
+- source_id: perch2017
+  locator: Sections3–5, PDF pp.3–9; Algorithm1, p.8
+  relation: supports
+claims:
+- claim_id: online-insertion-and-rotation
+  kind: mechanism
+  statement: Insert each arriving observation by locating a nearest leaf and creating a new parent whose
+    children are that leaf and the new observation. A subtree is masked when some point in it is farther
+    from a point in its sibling subtree than from a point in its aunt subtree. A masking rotation swaps
+    the sibling and aunt, changing earlier grouping decisions while retaining a binary hierarchy.
+  evidence:
+  - source_id: perch2017
+    locator: Sections3.2–3.3, masking definition and rotations, PDF pp.4–5; Algorithm1, p.8
+    relation: supports
+  - source_id: perch-python
+    locator: PNode._split_down, _rotate and recursive_rotate_if_masked
+    relation: supports
+- claim_id: conditional-purity-theory
+  kind: scope
+  statement: 'The paper’s exact construction has dendrogram purity one for arbitrary arrival order under
+    strict separation: the largest within-class distance is smaller than the smallest between-class distance.
+    This theorem concerns the stated exact conditions; it is not an unrestricted guarantee for nonseparable
+    data, approximate beam search, arbitrary leaf caps or every implementation of a distance summary.'
+  evidence:
+  - source_id: perch2017
+    locator: Section3.1, Assumption1, PDF p.4; Section3.3, Theorem1 and proof, pp.5–6; Sections4–5, pp.6–9
+    relation: supports
+- claim_id: balancing-and-search
+  kind: mechanism
+  statement: Balance rotations use subtree point counts together with a distance-compatibility test. Practical
+    search uses bounding-box distance information, with a finite beam as an approximate alternative. Balancing
+    aims to reduce traversal cost, but it does not establish logarithmic tree height or insertion cost
+    on all inputs; the paper explicitly acknowledges quadratic worst-case total work in the number of
+    observations.
+  evidence:
+  - source_id: perch2017
+    locator: Section4, balance rotations; Sections5–6.4
+    relation: supports
+  - source_id: perch-python
+    locator: PNode.recursive_rotate_if_unbalanced, can_rotate_for_balance, a_star_exact and a_star_beam
+    relation: supports
+- claim_id: implementation-boundary-of-geometric-summaries
+  kind: scope
+  statement: The inspected Python implementation caches sibling-distance summaries by evaluating all-minimum
+    and all-maximum coordinate corners in both directions. These expressions are not universal lower and
+    upper bounds on the corresponding point-set distances. Standalone explicit point sets show a cached
+    lower distance of 4 when the true minimum is 1, and a cached maximum squared distance of 202 when
+    the true maximum squared distance is 221. These expression-level counterexamples do not establish
+    a reachable full-PERCH execution or a measured purity failure.
+  evidence:
+  - source_id: perch-python
+    locator: PNode._update_children_min_d, _update_children_max_d, min_distance and max_distance
+    relation: supports
+- claim_id: collapsed-mode-and-storage
+  kind: scope
+  statement: Collapsed variants limit the number of active tree leaves by replacing eligible sibling leaves
+    with a summarized leaf, without later re-expanding that collapsed cluster. The paper’s exact collapse
+    result additionally requires strict separation and a leaf limit L greater than the true cluster count
+    K. Its storage discussion retains point IDs. The inspected Python collapse routine instead retains
+    original leaf objects and their point arrays, so deletion of all collapsed feature vectors is not
+    attributed to that implementation.
+  evidence:
+  - source_id: perch2017
+    locator: Section4.2, collapsed mode and Fact4, PDF p.7
+    relation: supports
+  - source_id: perch-python
+    locator: PNode.collapse, leaves and true_leaves
+    relation: supports
+- claim_id: flat-extraction-and-pruning-cost
+  kind: scope
+  statement: 'Flat clustering is a subsequent tree-pruning operation with a requested cluster count. The
+    paper’s diagonal-length-times-count expression and the inspected Python half-child-distance-times-count
+    heuristic are not general upper bounds on squared-error k-means cost: for points 0 and 10 they give
+    20 and 10 respectively, while squared error to the mean is 50. The inspected Scala entrypoint records
+    insertion time before flat extraction and serialization; that timing excludes those later steps.'
+  evidence:
+  - source_id: perch2017
+    locator: Section6.3, extracting flat clusterings
+    relation: supports
+  - source_id: perch-pruning
+    locator: pick_k_approx_km_cost
+    relation: supports
+  - source_id: perch-entry
+    locator: RunPerch.main, start/end timing and subsequent serialization/extraction
+    relation: supports
+- claim_id: reported-evaluation
+  kind: performance
+  statement: The paper compares hierarchy quality by dendrogram purity and flat partitions by pairwise
+    F1 on nine datasets. It reports results across random arrival permutations and selected hyperparameters,
+    with beam, collapse and parallel settings depending on the experiment. These historical comparisons
+    do not establish a universal quality or speed ranking.
+  evidence:
+  - source_id: perch2017
+    locator: Section6, Figures3–5 and experimental settings
+    relation: supports
+  evaluation:
+    task: Online hierarchical clustering and subsequent flat partition extraction.
+    dataset_and_split: Nine datasets described in the paper; five random-order repetitions for the two
+      largest and ten for the others. No held-out hyperparameter selection established.
+    model_and_version: PERCH and collapsed/beam variants in arXiv1704.01858v1. The pinned2019 implementation
+      is inspected as implementation evidence, not assumed identical to every2017 benchmark run.
+    metric_and_units: Dendrogram purity and pairwise F1; experiment-specific runtime and normalized insertion-time
+      plots.
+    result: Source tables report dataset-specific quality/runtime tradeoffs; some batch methods exceed
+      PERCH on smaller datasets. No single aggregate superiority figure is curated.
+    baseline: Reported hierarchical agglomerative, BIRCH, stream/flat clustering and k-means baselines.
+      The adversarial-arrival experiment modifies online minibatch k-means and is not equated with its
+      standard setting.
+    conditions: Best average hyperparameter results; flat extraction uses true K for methods other than
+      DBSCAN. Beam width5 per thread and24 threads, with leaf cap50000 on large ImageNet cohorts; a runtime
+      tradeoff experiment uses28 cores at2.40GHz.
+    uncertainty: No author code or benchmark executed. Figure3 missing entries include low results as
+      well as inability to run. Figure5 plots insertion time divided by log2(n), not raw insertion time.
+      Implementation geometry and variant boundaries remain explicit.
+evidence_sources:
+- source_id: perch2017
+  title: An Online Hierarchical Algorithm for Extreme Clustering
+  authors:
+  - Ari Kobren
+  - Nicholas Monath
+  - Akshay Krishnamurthy
+  - Andrew McCallum
+  source_type: primary_paper
+  access_level: full_text
+  version: arXiv1704.01858v1,6April2017;PDF dated7April2017. All20 pages visually read. Conference typeset
+    version not compared.
+  persistent_id: arXiv:1704.01858v1
+  url: https://arxiv.org/pdf/1704.01858v1
+  accessed_at: '2026-10-13T21:57:12Z'
+  sha256: 28b8a3c5566bc8d4fd7d394a1c4eca375a022cd89b91f1adbb6a880fa020fb8f
+- source_id: perch-python
+  title: 'PERCH author implementation: src/python/xcluster/models/PNode.py'
+  authors:
+  - xcluster authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit16eab0012f570878017c3f96343ac5b858a35de9,20August2019. Complete cited
+    file statically read, not executed; not asserted identical to the2017 benchmark implementation.
+  url: https://raw.githubusercontent.com/iesl/xcluster/16eab0012f570878017c3f96343ac5b858a35de9/src/python/xcluster/models/PNode.py
+  accessed_at: '2026-10-13T22:10:29Z'
+  sha256: dcc14168ac855173fbc4eb805773dab81690129fb8d2e1d5b36b9c8c75b07d11
+- source_id: perch-pruning
+  title: 'PERCH author implementation: src/python/xcluster/models/pruning_heuristics.py'
+  authors:
+  - xcluster authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit16eab0012f570878017c3f96343ac5b858a35de9,20August2019. Complete cited
+    file statically read, not executed; not asserted identical to the2017 benchmark implementation.
+  url: https://raw.githubusercontent.com/iesl/xcluster/16eab0012f570878017c3f96343ac5b858a35de9/src/python/xcluster/models/pruning_heuristics.py
+  accessed_at: '2026-10-13T22:10:29Z'
+  sha256: 9cc682a6566db277b5b96a464748ce1556346d30ab49e18d4d2d68be8b376b9a
+- source_id: perch-entry
+  title: 'PERCH author implementation: src/scala/xcluster/eval/RunPerch.scala'
+  authors:
+  - xcluster authors
+  source_type: official_documentation
+  access_level: documentation
+  version: Author repository commit16eab0012f570878017c3f96343ac5b858a35de9,20August2019. Complete cited
+    file statically read, not executed; not asserted identical to the2017 benchmark implementation.
+  url: https://raw.githubusercontent.com/iesl/xcluster/16eab0012f570878017c3f96343ac5b858a35de9/src/scala/xcluster/eval/RunPerch.scala
+  accessed_at: '2026-10-13T22:10:29Z'
+  sha256: aae079842b58c9614b5c6798deb14703311f5389ad49c598cfa46d860c68f88b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: PERCH constructs a hierarchy through online insertions and rotations. The AIO target denotes
+    the task, not this algorithm or an equivalent implementation.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The merge and rotation construction uses observations and distances without class labels;
+    reference labels enter the reported external quality evaluation.
+limitations:
+- Exact separation theorems, practical geometric summaries, beam search and collapsed representations
+  have distinct conditions. No unconditional purity, order-invariance or logarithmic-runtime guarantee
+  is asserted.
+- Geometric checks evaluate standalone scalar expressions on explicit point sets. They do not construct
+  an insertion history, establish reachability, execute PERCH or measure clustering quality.
+- The Python implementation retains leaf objects and features after collapse; paper storage claims are
+  not silently assigned to that version. Retaining all point IDs also has a cost that grows with the observation
+  count.
+- The pruning-cost checks distinguish linear-distance heuristics from squared error. No exact optimal
+  k-means pruning or universally valid SSE upper bound is inferred.
+- The2017 arXivv1 and pinned2019 author implementation were inspected. The conference typeset version
+  and complete Scala core were not compared; only the cited Scala entrypoint was fully read.
+- All20 paper pages and all cited implementation files were read. Static inspection and curator arithmetic
+  only; no author code, model training, data upload or benchmark replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T23:01:39Z'
+  updated_at: '2026-10-13T23:08:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

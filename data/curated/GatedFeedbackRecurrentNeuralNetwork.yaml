@@ -1,0 +1,142 @@
+id: AIMech:GatedFeedbackRecurrentNeuralNetwork
+name: Gated-feedback recurrent neural network
+aliases:
+- GF-RNN
+concept_kind: architecture
+definition: A layered recurrent architecture in which learned input-dependent scalar gates modulate recurrent
+  projections from every previous layer state to each destination layer, including delayed top-down feedback,
+  alongside the current bottom-up computation.
+identity_notes: Compared all 442 pinned AIO and 575 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 4, 0, 0 lines. All matches were read and classified
+  before curation. Semantic matching inspected 63 AIO and140 native definitions, with unchanged preceding
+  rows verified and new matches read. Seven full annotated AIO node/edge/generated contexts and four full
+  native records were inspected. The complete architecture is distinct from unit-wise GRU/LSTM gates,
+  a generic RNN-cell stack, initialized identity recurrence and fixed decaying SCRN context. Full nodes
+  for FeedbackNetwork, GRUCellLayer, LSTMCellLayer, LongShortTermMemory, GatedRecurrentUnit and StackedRNNCellsLayer
+  do not supply exact identity. LSTM/GRU targets describe possible configurations or components, not the
+  entire tanh/GRU/LSTM feedback family. Generic iterative-feedback wording alone does not resolve the
+  required inter-layer temporal/gate scope; RecurrentNeuralNetwork is the selected broader architecture
+  target. Top-down generative/recognition Helmholtz models and feedback-based augmentation/diagnostic
+  procedures are different concepts. Unit-type variants remain within GF-RNN.
+definition_evidence:
+- source_id: chung2015
+  locator: Section 3 and Figure 1, PDF pp. 3–4
+  relation: supports
+claims:
+- claim_id: global-layer-pair-gate
+  kind: mechanism
+  statement: The displayed gate for source layer i and destination j is g_t^(i->j)=sigmoid(w_g^(i->j)*h_t^(j-1)+u_g^(i->j)*h*_(t-1)),
+    where h* concatenates all previous layer states and the current input x_t replaces h_t^(j-1) at the
+    first layer. Each gate is a scalar controlling a whole source-to-destination recurrent projection,
+    rather than a separate gate for each coordinate of the destination state. The tanh form adds sum_i
+    g_t^(i->j)*U^(i->j)*h_(t-1)^i to the current bottom-up input before applying tanh.
+  evidence:
+  - source_id: chung2015
+    locator: Section 3 global reset gate and Section 3.1 tanh update, PDF p. 4
+    relation: supports
+- claim_id: delayed-feedback-and-order
+  kind: scope
+  statement: The top-down recurrent signals in the displayed architecture come from time t-1, while bottom-up
+    input uses the already computed current lower-layer state. Thus the displayed update can be evaluated
+    bottom-to-top within a timestep; it does not require solving an implicit same-timestep top-down cycle.
+    The fully connected recurrent layer-pair form has L-squared possible projections for L layers. The
+    paper figure omits skip connections for clarity, so the illustration is not treated as an exhaustive
+    implementation specification.
+  evidence:
+  - source_id: chung2015
+    locator: Section 3 and Figure 1 caption, PDF pp. 3–4; curator dependency/count consequence
+    relation: supports
+- claim_id: placement-in-lstm-and-gru
+  kind: mechanism
+  statement: For LSTM and GRU versions, the source applies global layer-pair gates when computing candidate
+    new content. It explicitly leaves the ordinary LSTM input, forget and output gate equations and GRU
+    reset and update gate equations unmodified. In its displayed GRU convention, the destination reset
+    vector multiplies the sum of globally gated recurrent projections after projection and aggregation.
+    Global pair gates therefore do not replace unit-wise gates or directly gate every cell-state carry
+    path.
+  evidence:
+  - source_id: chung2015
+    locator: Section 3.1 Long Short-Term Memory and Gated Recurrent Unit, PDF p. 4; referenced background
+      Equations 2–10, pp. 2–3
+    relation: supports
+- claim_id: soft-connectivity-and-gradient-limits
+  kind: limitation
+  statement: Finite real sigmoid logits give independent pair weights strictly between zero and one; their
+    weights need not sum to one and need not be exactly zero. This is adaptive weighting of recurrent
+    signals, not a guaranteed discrete routing or clock schedule. Unlike the cited clockwork design, the
+    proposed model does not assign explicit fixed rates to its modules. Gates bounded by one do not bound
+    learned projection matrices or the full transition Jacobian, which also includes derivatives through
+    the gates and current lower layers; no automatic contraction or permanent gradient preservation follows.
+  evidence:
+  - source_id: chung2015
+    locator: Section 3, PDF pp. 3–4; curator gate and derivative consequences
+    relation: supports
+- claim_id: unit-dependent-language-evidence
+  kind: limitation
+  statement: The reported character-language experiments improve the selected GRU and LSTM comparisons
+    but deteriorate with tanh units. Experiments distinguish roughly matched parameter counts from larger
+    variants matched by hidden-unit counts; these are different capacity comparisons. A fixed-global-gate
+    ablation, validation learning-time curves and a larger language model provide conditional evidence
+    rather than universal superiority or lower computational complexity. The paper explicitly notes that
+    one earlier large-model comparator uses a different vocabulary and is not directly comparable.
+  evidence:
+  - source_id: chung2015
+    locator: Sections 4.2 and 5.1, Tables 1–4 and Figure 2, PDF pp. 5–7; conclusion, p. 8
+    relation: supports
+- claim_id: program-task-and-metric
+  kind: limitation
+  statement: The program experiment trains an encoder-decoder on generated Python-script input/output
+    sequences with specified nesting, output lengths, curriculum and capacities. Its stated accuracy is
+    next-symbol prediction conditioned on correct preceding output symbols, rather than a guarantee of
+    exact autonomous program execution. Figure 3 mostly favors gated feedback but includes a GRU test
+    setting with lower accuracy. The record preserves those selected-task and metric boundaries and makes
+    no numerical benchmark or independent reproduction claim.
+  evidence:
+  - source_id: chung2015
+    locator: Section 4.1.2, PDF p. 5; Section 4.2.2, p. 6; Section 5.2 and Figure 3, pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: chung2015
+  title: Gated Feedback Recurrent Neural Networks
+  authors:
+  - Junyoung Chung
+  - Caglar Gulcehre
+  - Kyunghyun Cho
+  - Yoshua Bengio
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v37/chung15.pdf
+  version: ICML2015, PMLR37:2067–2075. All nine conference PDF pages, Figures1–3, Tables1–4, background
+    Equations1–10 and defining unnumbered equations on p4 visually inspected; locators use PDF page order.
+  access_level: full_text
+  accessed_at: '2026-10-13T05:11:09Z'
+  sha256: fd5e0a4f6f3b862e83a93942c459f8df39c2d524effbc670b6cd4778a3fb5c46
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: This is a recurrent sequence architecture with gated inter-layer temporal connections; the
+    target is the broader recurrent architecture category.
+limitations:
+- Global layer-pair scalar gates and ordinary unit-wise LSTM/GRU gates have distinct placement and scope
+  in the displayed formulation.
+- Data-dependent soft weighting does not imply hard routing, normalized attention, a fixed module clock,
+  sparse execution or guaranteed separation of timescales.
+- Learned matrices and gate derivatives prevent a contraction or gradient-preservation guarantee based
+  solely on gate values.
+- Tanh deterioration and the negative GRU program-test comparison are retained alongside the reported
+  improvements; capacities, metrics and vocabulary affect comparisons.
+- All nine primary conference-paper pages were read. No author implementation, supplement, training, runtime
+  audit or empirical replication was inspected.
+- Displayed equations and a figure that omits skip connections do not certify every implementation detail.
+  Constructed scalar checks are not trained-model evidence.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:42:33Z'
+  updated_at: '2026-10-13T05:42:33Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

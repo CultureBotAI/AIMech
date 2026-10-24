@@ -1,0 +1,158 @@
+id: AIMech:CliXO
+name: Clique extracted ontology
+aliases:
+- CliXO
+concept_kind: algorithm
+definition: An overlapping hierarchical clustering heuristic that constructs a directed acyclic hierarchy
+  from pairwise dissimilarities by selecting informative threshold-graph maximal cliques, with persistence-based
+  noise filtering and optional completion of inferred missing edges.
+identity_notes: 'Compared all 442 pinned AIO and 665 native IDs, names, aliases and scoped synonyms for
+  CliXO, its expanded name and publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 14,
+  0, 0 lines. All matches were read: only discovery and history notes, with no existing standalone identity.
+  A semantic search including clustering, clique, poset, hierarchy, ontology and community terms covered
+  41 AIO and 228 native definitions. The 41 AIO and 225 previously read native definitions were unchanged;
+  all three new PoClustering/OHC records were read in full. Eleven complete annotated AIO node/edge/generated
+  contexts and four full native records were assessed. Retain the 2014 informative-clique filtering, persistence
+  and missing-edge-completion heuristic, distinct from exact PoClustering enumeration, greedy edge-cover
+  pruning, OHC density-tolerance expansion and Llama nearest-neighbor unions. Its DAG describes syntactic
+  set hierarchy rather than biological relation meanings. Later code releases remain version-assessment
+  leads.'
+definition_evidence:
+- source_id: clixo2014
+  locator: Sections 2.1–2.2.3 and Figure 1, PDF pp. 3–4 (printed i36–i37)
+  relation: supports
+claims:
+- claim_id: informative-clique-filter
+  kind: mechanism
+  statement: Process dissimilarity thresholds in increasing order and maintain maximal cliques of the
+    resulting graph. The described filter retains a clique when it contains an unexplained pair not covered
+    by previously accepted cliques and a pair unique to that clique among the current clique pool. This
+    differs from retaining every maximal clique or merely pruning an edge-clique cover.
+  evidence:
+  - source_id: clixo2014
+    locator: Section 2.2, displayed CLIXO algorithm and informative-clique definitions, PDF p. 4 (i37)
+    relation: supports
+- claim_id: persistence-noise
+  kind: mechanism
+  statement: A noise parameter delays acceptance until an informative clique persists across a sufficient
+    dissimilarity gap. The paper relates a useful parameter range to separation between true ontology
+    levels and within-term measurement noise; those quantities depend on an unknown target structure,
+    so this is not a universal parameter-selection rule or unconditional recovery guarantee.
+  evidence:
+  - source_id: clixo2014
+    locator: Section 2.2.1, persistence inequality and signal/noise conditions, PDF p. 4 (i37); Section
+      3.2 and Figure 3, pp. 5–6
+    relation: supports
+- claim_id: missing-edge-completion
+  kind: mechanism
+  statement: A second parameter controls a minimum normalized vertex-degree condition over unions of overlapping
+    cliques. When the condition is met, the method can lower pairwise dissimilarities to fill inferred
+    missing edges and update the clique pool. The input distance matrix is therefore edited; the parameter
+    is not a learned probability or a guarantee of preserving every original pairwise distance.
+  evidence:
+  - source_id: clixo2014
+    locator: Sections 2.2.2–2.2.3, degree condition and matrix update, PDF p. 4 (i37)
+    relation: supports
+- claim_id: ontology-structure-scope
+  kind: scope
+  statement: The output captures syntactic term sets, their hierarchical relations and assignments of
+    terminal objects to terms, allowing multiple parents and overlapping groups. It does not itself assign
+    biological is-a, part-of or regulates meanings to those relations. Redundant or indistinguishable
+    terms can be invisible in pairwise similarity data, preventing general recovery of an arbitrary original
+    ontology.
+  evidence:
+  - source_id: clixo2014
+    locator: Introduction, PDF pp. 1–2; Sections 2.1–2.2, pp. 3–4; Section 3.1, information-loss examples,
+      p. 5
+    relation: supports
+- claim_id: printed-specification-boundaries
+  kind: limitation
+  statement: The printed stack routine leaves next-item lookahead, exhaustion and terminal handling implicit;
+    the strict persistence test also needs a policy for cliques appearing at the last threshold. The imperfect-case
+    height equation uses a different scaling from the perfect-case distance equality; because the imperfect
+    formulation permits enlarged pair distances, this difference alone does not establish a contradiction.
+    Applied simultaneously to a full current pool, the necessary-clique predicate can reject every clique
+    in a complete three-partite graph with two vertices per part. These are specification boundaries,
+    not claims about an uninspected implementation or a general theorem refutation.
+  evidence:
+  - source_id: clixo2014
+    locator: Section 2.1.2 condition 4, PDF p. 3; Section 2.2 pseudocode and informative predicate and
+      Section 2.2.1 strict inequality, p. 4
+    relation: supports
+- claim_id: evaluation-design
+  kind: scope
+  statement: The paper separates reconstruction from GO-derived Resnik similarities from experiments using
+    genetic-interaction correlations, gene-expression correlations and YeastNet v3. It acknowledges that
+    YeastNet source weights were trained with GO co-membership. Reported precision and recall use one-to-one
+    ontology alignment with structural constraints and size-binned permutation thresholds; aligned terms
+    are not necessarily identical terms or independently validated biological mechanisms.
+  evidence:
+  - source_id: clixo2014
+    locator: Sections 2.3–3.3 and Figures 2–4, PDF pp. 4–8 (i37–i41)
+    relation: supports
+- claim_id: complexity-and-stability
+  kind: scope
+  statement: The stated complexity is output-sensitive and depends on the intended dynamic clique-update
+    procedure; it does not guarantee a small output on all graphs. The stability comparison divides aligned
+    or identical term counts by the smaller ontology size, which can score complete containment despite
+    additional terms in the larger ontology. Parameter-robustness observations are specific to the evaluated
+    networks and settings.
+  evidence:
+  - source_id: clixo2014
+    locator: Section 2.2 complexity discussion, PDF p. 4; Section 3.3 and Figure 5, pp. 7–8
+    relation: supports
+evidence_sources:
+- source_id: clixo2014
+  title: Inferring gene ontologies from pairwise similarity data
+  authors:
+  - Michael Kramer
+  - Janusz Dutkowski
+  - Michael Yu
+  - Vineet Bafna
+  - Trey Ideker
+  source_type: primary_paper
+  access_level: full_text
+  version: Bioinformatics 30(12), i34–i42, 2014; all nine author-hosted PDF pages, 27 references, algorithm,
+    equations and all six figures read. PubMed confirms bibliographic metadata. Later software releases
+    were not audited.
+  persistent_id: doi:10.1093/bioinformatics/btu282
+  url: https://idekerlab.ucsd.edu/wp-content/uploads/publications/kramer_Bioinformatics2014.pdf
+  accessed_at: '2026-10-14T00:19:09Z'
+  sha256: 82c7c90990c159f0b84395587611e74627df18ee2a4a2612ba53f3a06d31c509
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: CliXO constructs an overlapping hierarchy of object sets. The AIO target denotes the related
+    task, not equivalence to a strict tree or an algorithm/task is-a assertion.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The algorithm groups objects from supplied pairwise relationships. GO-based evaluation and
+    optional domain-informed parameter tuning do not make its generic construction a supervised classifier.
+limitations:
+- This record describes the 2014 Kramer et al. CliXO method. Later software releases and extensions require
+  separate version and mechanism assessment; the author version-0.3 landing page was read only as provenance
+  context.
+- The paper supplies a heuristic with noise and missing-edge assumptions, not a certified reconstruction
+  of arbitrary ontologies or a semantic ontology reasoner. Distance editing and invisible terms limit
+  lossless interpretations.
+- The static necessary-clique example does not establish how an implementation orders or removes the current
+  pool. Terminal flushing, tie processing and the distance-scaling conventions remain unverified implementation
+  questions.
+- The missing-edge example in Section 2.2.2 says k+1, while Section 3.2 correctly gives two k−1 cliques
+  sharing k−2 vertices. Figure 3 legend and prose also differ about the no-completion parameter setting;
+  no disputed numeric result is adopted here.
+- All nine primary PDF pages, references, equations, algorithm and figures were read. No author source
+  code, experimental datasets, supplementary material or alternative paper version was audited or executed.
+  Constructed predicate checks are not benchmark replication. This record remains DRAFT.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T00:40:04Z'
+  updated_at: '2026-10-14T00:44:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree-size estimation by partial backtracking · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Tree-size estimation by partial backtracking</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Tree-size estimation by partial backtracking</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:PartialBacktrackingTreeEstimation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> Purdom partial-backtracking estimator
+    </div>
+
+  <div class="detail-desc">
+    A randomized backtracking-tree estimator that explores a uniformly selected subset of successors at each visited branching point and uses inverse inclusion weights to estimate the total cost of candidate examinations in the corresponding complete fixed search.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 643 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 347 native definitions, with every matched definition read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain the basic and modified partial-backtracking estimators as one algorithm identity with distinct candidate-testing order. Sampling several successors without replacement extends single-path tree probing without Chen-style stratum merging. Conditional-model extrapolation, search-threshold control and score-based beam pruning have different mechanisms.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#basic-subset-weighting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The basic variant chooses m of a candidate values without replacement, with 1 &lt;= m &lt;= a when a is positive. Its sequential remaining-count selection produces a uniform subset. Each selected candidate receives its parent weight multiplied by a/m, contributes its examination cost and is tested for feasibility before recursion. For a finite fixed tree under the stated conditional sampling rule, the weighted estimate preserves the expected complete examination cost. A branch with no candidates terminates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-purdom1977tr60">Tree Size by Partial Backtracking</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 5–6, B1–B6 and expectation discussion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#modified-pretesting</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The modified variant first tests every candidate at a visited parent and charges these tests using the parent weight. It then forms the feasible set, samples m of its a members uniformly without replacement and propagates weight a/m into their descendants. Testing all candidates can avoid choosing a failed branch, but adds work even when only a few feasible children are followed. Basic and modified variants have different sampling populations and cost-accounting order.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-purdom1977tr60">Tree Size by Partial Backtracking</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 6–7, M1–M5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#count-target-and-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The target cost may include failed feasibility tests, so it need not equal the number of feasible expanded nodes. The displayed algorithm initializes the accumulated cost to zero and omits a root test, while the later theoretical singleton-tree convention counts a root. Count conventions must therefore be specified. Sampling multiple branches retains omitted-branch uncertainty: a finite partial traversal does not certify that no solution or deep subtree exists, and node-test counts are not universal wall-clock costs.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-purdom1977tr60">Tree Size by Partial Backtracking</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–3, PDF pp. 3–9; Section 4, PDF pp. 14–15</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#efficiency-and-variance-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The report studies a finite random binary-tree family and a policy that sometimes explores both successors instead of one. Its efficiency measure combines expected work with expected sampling variance conditional on a tree. This is distinct from variance of true tree sizes across the random family. Full traversal can remove sampling variance while remaining costly; the report’s depth-scheduling advice and historical experiments do not establish a universally optimal sampling policy or finite-sample accuracy guarantee.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-purdom1977tr60">Tree Size by Partial Backtracking</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 8–13; Section 4 and Tables 1–2, PDF pp. 14–18; Figures 2–4, pp. 21–23</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#printed-analysis-and-version</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The inspected February 1977 report contains printed analysis inconsistencies. Its displayed tree-size variance recurrence fails the two-level binary-tree case, and the work-distribution recurrence’s literal bracketing loses branching probability mass when both successors are always selected. Displayed policy expressions also conflict with the stated balance equation. These are qualifications on this scanned report, not findings about uninspected implementation code or the later journal version; the record does not certify those formulas or an optimal schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-purdom1977tr60">Tree Size by Partial Backtracking</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 9–11; report cover, PDF p. 1</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record retains basic and modified variants together; neither is score-threshold beam pruning, conditional-model CDP prediction, IDA* threshold control or Chen-style weighted-stratum representative merging.</li>
+      <li>The sampling subset must have the stated conditional inclusion probabilities, and weights must match the actual sample size. Uniform weighting is not valid for arbitrary adaptive or preferential selection.</li>
+      <li>Candidate-test counts, feasible-tree counts, root conventions and variable examination costs must not be interchanged. Tree path occurrences are not automatically deduplicated graph states.</li>
+      <li>Historical matrix-multiplication results include a nine-node discrepancy between prose and an exhaustive table count; the larger problem has no exact comparison count. No numerical benchmark replication or universal performance claim is made.</li>
+      <li>All 23 pages of the February 1977 TR60 scan were visually inspected. Institutional metadata lists 1978-11, but equivalence to the later journal text is unverified. Author software was not inspected or executed; constructed finite examples test boundaries only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No suitable pinned AIO counterpart was established for this subset-weighted backtracking-tree estimator. The inspected classification, bias, learning-task and probabilistic-network identities have different scopes; the no-match assessment is bounded to the inspected snapshot.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Compared all 442 pinned AIO and 643 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 347 native definitions, with every matched definition read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain the basic and modified partial-backtracking estimators as one algorithm identity with distinct candidate-testing order. Sampling several successors without replacement extends single-path tree probing without Chen-style stratum merging. Conditional-model extrapolation, search-threshold control and score-based beam pruning have different mechanisms.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/DecisionTree.html"><code>AIO:DecisionTree</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned class is a classification task. This method estimates additive properties of a backtracking search tree rather than fitting a classifier.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Random subset selection does not identify the complete fixed-tree additive-cost estimator with a generic stochastic-network class. No appropriate counterpart was established.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SelectionAndSamplingBias.html"><code>AIO:SelectionAndSamplingBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The record is a sampling algorithm with an expectation claim, not the computational bias phenomenon defined by this class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The additive tree functional is an input; the maintained identity is the randomized estimation procedure.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm samples an existing implicit tree and need not learn a model or perform a machine-learning task.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RegressionAnalysis.html"><code>AIO:RegressionAnalysis</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No response-surface regression is required for the weighted tree estimate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Sampling tree nodes to estimate a sum does not learn a reward-maximizing policy or define exploration–exploitation control.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The search tree is not asserted to factor a joint distribution of random variables; no graphical-model learning task is required.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An implicit rooted search tree is not by itself a Bayesian-network factorization or a sampler from its joint law.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/GraphLanguageModel.html"><code>AIO:GraphLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No graph-based language model is required.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReasoningLLM.html"><code>AIO:ReasoningLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure is not a language-model reasoning architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RecursiveLanguageModel.html"><code>AIO:RecursiveLanguageModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Tree-structured neural language composition is distinct from randomized additive tree-functional estimation.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ComputationalBias.html"><code>AIO:ComputationalBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Statistical bias is a property discussed when assessing estimators, not the identity of this sampling procedure.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-purdom1977tr60">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">purdom1977tr60</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://scholarworks.iu.edu/dspace/bitstreams/b3d3d0c0-d1d5-4ffb-952f-fac4efd0b012/download" target="_blank" rel="noopener">Tree Size by Partial Backtracking</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Paul W. Purdom
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://scholarworks.iu.edu/dspace/items/5e00ff20-ab58-41fc-a866-d45b2988521c</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9e6ad24e9ec6…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3APartialBacktrackingTreeEstimation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Tree-size estimation by partial backtracking" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:PartialBacktrackingTreeEstimation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Tree-size estimation...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">No-match assessed</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T19:22:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T19:22:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/PartialBacktrackingTreeEstimation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/PartialBacktrackingTreeEstimation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Tree-size%20estimation%20by%20partial%20backtracking"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3APartialBacktrackingTreeEstimation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

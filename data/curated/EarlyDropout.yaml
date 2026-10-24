@@ -1,0 +1,133 @@
+id: AIMech:EarlyDropout
+name: Early Dropout
+aliases: []
+concept_kind: algorithm
+definition: A neural-network training procedure that applies dropout during an initial portion of optimization
+  and disables it for the remaining training steps, with the initial-phase rate following a selected schedule.
+identity_notes: Compared all 442 pinned AIO and 635 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 22, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 13 AIO and 24 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  Early Dropout as the named training schedule with an initial dropout phase followed by continued training
+  without dropout. It encompasses the paper’s linear, constant and cosine initial rates. The generic dropout
+  operation, original depth-dependent stochastic-depth method, moment-based fast dropout and gradually
+  increasing curriculum-dropout rate have different scopes. Annealed dropout can share decreasing schedules
+  but its original full method remains inaccessible and its abstract describes decay over training; do
+  not assert universal disjointness from every annealed variant. Late dropout reverses the phase ordering
+  and is a separate pending identity.
+definition_evidence:
+- source_id: liu2023earlylate
+  locator: Section 4, PDF p. 5; Section 5.2, pp. 6–8; Appendix D, p. 15
+  relation: supports
+claims:
+- claim_id: initial-phase-cutoff
+  kind: mechanism
+  statement: The procedure selects a cutoff within the training run, uses dropout before that cutoff and
+    continues fitting without dropout afterwards. It changes when the stochastic mask is applied; it does
+    not stop model training at the cutoff, permanently prune units or use test-time mask sampling. The
+    source chooses the procedure for settings in which its no-dropout baseline generalizes better than
+    the standard-dropout baseline, a comparison dependent on the model, data and training recipe.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Figure 2, PDF p. 2; Section 4, p. 5
+    relation: supports
+- claim_id: initial-rate-schedules
+  kind: mechanism
+  statement: The main experiments decrease the drop probability linearly during the initial phase, with
+    a default cutoff at 50 epochs. The source also studies constant and cosine schedules before the cutoff;
+    early dropout is therefore not restricted to an abrupt constant-to-zero switch. The constant variant
+    in Appendix D uses 20 initial epochs rather than 50. Drop probability and cutoff remain choices to
+    assess for the intended setting, not universal constants.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 5.2 and Table 3b, PDF pp. 6–8; Appendix A, p. 13; Appendix D, p. 15
+    relation: supports
+- claim_id: mask-scope-and-depth
+  kind: scope
+  statement: The source applies the timing rule separately to neuron dropout and to stochastic depth that
+    drops residual transformations. These are different mask structures. For its stochastic-depth experiments
+    the reported rate is the maximum across layers, whereas the neuron-dropout setting uses the same rate
+    across its dropout layers. The temporal cutoff does not imply that all layers have equal survival
+    probabilities or that the original stochastic-depth inference convention is used by every later implementation.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 2, PDF p. 3; Section 5.1, pp. 5–6; Section 5.2, p. 6
+    relation: supports
+- claim_id: empirical-gradient-explanation
+  kind: limitation
+  statement: The authors investigate gradient directions in configured vision-model runs and compare minibatch
+    gradients with an inference-mode full-dataset gradient. Their observations support a possible explanation
+    of early-training behavior, not a theorem that dropout always reduces gradient variance or leaves
+    the expected gradient unchanged. A constructed identical-example squared-loss case instead has zero
+    batch-sampling variance without dropout and positive mask-induced variance with dropout. Cosine-based
+    gradient comparisons also require nonzero vectors.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 3, PDF pp. 3–5; Appendix G, p. 16; separate curator calculation
+    relation: supports
+- claim_id: evaluation-boundaries
+  kind: limitation
+  statement: The evaluated settings are supervised visual recognition with specified architectures, rate
+    searches, training durations and augmentations. The source reports regimes and parameter choices with
+    little or no benefit, including a larger ViT case and large-batch training, and says the explanation
+    of the higher loss during the early phase remains incomplete. It does not establish universal accuracy
+    gains, faster convergence, flatter solutions or benefits for natural-language and self-supervised
+    training. Downstream fine-tuning of the resulting visual representations is evaluated without itself
+    using early or late dropout.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 5.2, PDF pp. 7–8; Section 6, pp. 8–9; Appendices C–H, pp. 14–16
+    relation: supports
+evidence_sources:
+- source_id: liu2023earlylate
+  title: Dropout Reduces Underfitting
+  authors:
+  - Zhuang Liu
+  - Zhiqiu Xu
+  - Joseph Jin
+  - Zhiqiang Shen
+  - Trevor Darrell
+  persistent_id: https://proceedings.mlr.press/v202/liu23aq.html
+  version: PMLR volume 202, ICML 2023 proceedings PDF, sixteen pages numbered 1–16, with proceedings metadata
+    pages 22233–22248. All pages visually inspected, including unnumbered gradient and flatness equations,
+    Figures 1–17, Tables 1–13, references and Appendices A–H. Actual PDF author spelling agrees with primary
+    metadata; a search excerpt omitted a letter. Alternate full-text versions and author implementation
+    were not inspected.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/liu23aq/liu23aq.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:21:27Z'
+  sha256: 39b2c447a19edf6288681bd6073de84d159259bee0958981b2c949ed67e3f33f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DropoutLayer
+  relation: related_match
+  rationale: The procedure schedules dropout during training. The target denotes a layer operation, not
+    its temporal schedule or the stochastic-depth variant, so it is related rather than an equivalent
+    identity or algorithm superclass.
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: The procedure changes the training-time application of stochastic masks. The pinned target
+    uses a preprocessing genus and broad learning-paradigm examples, so a clean subclass claim is avoided.
+limitations:
+- Early Dropout denotes a temporal training procedure, not a trained vision model, the generic dropout
+  layer or early stopping. Its short initial schedule is distinct in scope from schedules maintained throughout
+  nearly all training.
+- The source studies linear, constant and cosine initial schedules; neither a particular cutoff nor a
+  fixed rate defines every valid configuration. Keeping dropout active for all training steps is outside
+  this local definition.
+- Empirical gradient-direction observations do not guarantee reduction of gradient variance. Constructed
+  calculations are counterexamples to universal extensions, not replication of the reported vision experiments.
+- All sixteen PMLR paper pages were visually inspected, including Appendices A–H. The author implementation,
+  alternate full-text versions, training and hardware measurements were not inspected or executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T17:34:34Z'
+  updated_at: '2026-10-13T17:34:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

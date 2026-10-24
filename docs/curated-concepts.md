@@ -33,6 +33,30 @@ its scope. Satisfying a formal criterion does not by itself establish overall
 fairness, usefulness or legal compliance. Evidence and AIO mapping requirements
 apply as for other native concepts.
 
+Use `concept_kind: coordination_mechanism` for a source-defined computational
+coordination design. State the participating actions or agents, the mediating
+state or information pathway, and how it affects subsequent activity. Distinguish
+the mechanism from its implementing algorithms, complete architectures, learning
+objectives and application domains. A shared metaphor or the word "coordination"
+is insufficient: inspected primary methods must support the mediating relationship
+and its computational relevance. Qualify any scheduling, response or convergence
+conditions; the kind itself establishes no performance guarantee or AIO relation.
+A biological observation or a broad field such as swarm intelligence does not
+qualify solely by sharing the terminology. Existing evidence, identity, mapping,
+review and history requirements apply unchanged.
+
+Use `concept_kind: computational_paradigm` for a source-defined approach to
+organizing computation or computational problem solving. State the organizing
+principles, the roles of constituent entities and their information or interaction
+relationships, and the boundary from specific implementing algorithms, architectures
+and learning objectives. A field name, biological metaphor or application domain
+alone is insufficient; inspected primary text must explain the computational
+design principles. Do not use this kind to avoid stating an available common
+algorithmic procedure, or to reclassify existing algorithms automatically. Distinguish
+a broad organizing approach from a particular coordination mechanism. The kind
+establishes neither a performance guarantee nor an AIO relation; all existing
+evidence, identity, mapping, review and history requirements still apply.
+
 Evidence records distinguish abstracts, full text and versioned implementation
 documentation. Definitions and asserted claims require inspected full text or
 documentation. Abstracts are useful for discovery and can be retained as
@@ -41,6 +65,17 @@ a source and a precise page/section/equation/table locator; each source names
 its version and actual UTC access time. Preserve supporting and contradictory
 evidence with their scope. SHA-256 values identify the bytes actually inspected
 when a source was downloaded; a hash alone is not an assessment of its meaning.
+
+Use `source_type: primary_monograph` for a scholarly book or monograph that is
+direct evidence for its authors' definitions, methods or analyses. Record the
+edition or version and the exact acquired artifact. When only an excerpt or
+preview was inspected, state its page/section extent in `version`, use precise
+citation locators, and preserve material access limits. `access_level: full_text`
+then refers to the inspected text artifact, not access to the complete book.
+An abstract remains `abstract_only` and cannot support a definition or asserted
+claim by itself. A book's bibliography does not establish inspection of its cited
+sources. This source type does not turn secondary summaries into original methods
+or relax the evidence, identity or review requirements.
 
 Performance claims additionally require task, dataset/split, model/version,
 metric/units, result, baseline, conditions and uncertainty. Write `not reported`

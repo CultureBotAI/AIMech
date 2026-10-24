@@ -1,0 +1,149 @@
+id: AIMech:LateDropout
+name: Late Dropout
+aliases: []
+concept_kind: algorithm
+definition: A neural-network training procedure that begins without dropout, activates it after a selected
+  training cutoff and continues optimization with dropout for the remaining steps.
+identity_notes: Compared all 442 pinned AIO and 636 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 96, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 13 AIO and 25 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+  one delayed-onset dropout procedure, accounting for the 2017 Switch-Curriculum neuron-mask configuration
+  and the 2023 Late Dropout/stochastic-depth study. The sources share the no-dropout-then-dropout phase
+  ordering but differ in masks, models, tasks and results; no claim of later invention or identical experimental
+  protocols is made. Early dropout, gradual Curriculum Dropout and generic stochastic depth have distinct
+  scheduling scopes.
+definition_evidence:
+- source_id: liu2023earlylate
+  locator: Section 4, PDF p. 5; Section 5.3, p. 8
+  relation: supports
+- source_id: morerio2017curriculum
+  locator: Section 3, PDF p. 4/printed 3547; Section 5, p. 8/printed 3551
+  relation: supports
+claims:
+- claim_id: delayed-onset-rule
+  kind: mechanism
+  statement: The schedule leaves dropout inactive during the initial training phase and introduces it
+    at a selected cutoff while model fitting continues. The 2023 study uses a constant late-phase stochastic-depth
+    rate after the onset. The 2017 paper’s Switch-Curriculum comparison already describes the same no-dropout-then-dropout
+    phase ordering for neuron masking; it is retained here as a precursor configuration rather than a
+    duplicate concept with a separate ID.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Figure 2, PDF p. 2; Section 4, p. 5; Section 5.3, p. 8
+    relation: supports
+  - source_id: morerio2017curriculum
+    locator: Section 3, PDF p. 4/printed 3547; Section 5, p. 8/printed 3551
+    relation: supports
+- claim_id: onset-versus-smooth-curriculum
+  kind: scope
+  statement: A delayed step from no suppression to a selected dropout rate differs from Curriculum Dropout’s
+    gradual increase in suppression. In the 2017 Switch-Curriculum experiment, dropout starts at one of
+    three selected epochs on Double MNIST. Its abrupt insertion can change the objective and transient
+    behavior; that source’s adverse observations do not establish that every delayed schedule is inferior
+    under other architectures and training recipes.
+  evidence:
+  - source_id: morerio2017curriculum
+    locator: Section 3, PDF p. 4/printed 3547; Figure 4, p. 7/printed 3550; Section 5, p. 8/printed 3551
+    relation: supports
+- claim_id: timing-and-mask-granularity
+  kind: scope
+  statement: The 2023 paper uses dropout as a term that can include stochastic depth. Its principal late
+    experiments disable stochastic depth for the first 50 epochs, then use a constant rate selected from
+    the standard stochastic-depth baseline. This temporal rule does not make residual-block masking identical
+    to neuron masking, prescribe identical rates across depth or establish an inference-scaling convention
+    for all implementations.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 2, PDF p. 3; Section 5.3, p. 8; Appendix A, p. 13
+    relation: supports
+- claim_id: phase-order-boundary
+  kind: limitation
+  statement: 'Early and late dropout reverse which phase contains stochastic masks. Equal numbers of masked
+    and unmasked steps do not guarantee equal optimization trajectories: even simple expected-gradient
+    update maps can fail to commute when their order is reversed. This boundary is independent of any
+    claim that one schedule has universally better accuracy.'
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Figure 2, PDF p. 2; Section 4, p. 5; separate curator affine-map calculation
+    relation: supports
+- claim_id: finite-vision-evidence
+  kind: limitation
+  statement: The 2023 late-schedule study evaluates configured supervised vision models and reports dependence
+    on onset, rate and architecture. It did not find a significantly improved setting for ConvNeXt-B or
+    Swin-B in the reported search, and some tested rates or onset times worsened the result. Its results
+    and the earlier Switch-Curriculum comparisons therefore do not establish universal generalization
+    gains, a universally optimal cutoff or superiority over smooth schedules.
+  evidence:
+  - source_id: liu2023earlylate
+    locator: Section 5.3, PDF p. 8; Appendix B and Figures 15–16, p. 14; Appendix G, p. 16
+    relation: supports
+evidence_sources:
+- source_id: liu2023earlylate
+  title: Dropout Reduces Underfitting
+  authors:
+  - Zhuang Liu
+  - Zhiqiu Xu
+  - Joseph Jin
+  - Zhiqiang Shen
+  - Trevor Darrell
+  persistent_id: https://proceedings.mlr.press/v202/liu23aq.html
+  version: PMLR volume 202, ICML 2023 proceedings PDF, sixteen pages numbered 1–16, with proceedings metadata
+    pages 22233–22248. All pages visually inspected, including unnumbered gradient and flatness equations,
+    Figures 1–17, Tables 1–13, references and Appendices A–H. Actual PDF author spelling agrees with primary
+    metadata; a search excerpt omitted a letter. Alternate full-text versions and author implementation
+    were not inspected.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v202/liu23aq/liu23aq.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:21:27Z'
+  sha256: 39b2c447a19edf6288681bd6073de84d159259bee0958981b2c949ed67e3f33f
+- source_id: morerio2017curriculum
+  title: Curriculum Dropout
+  authors:
+  - Pietro Morerio
+  - Jacopo Cavazza
+  - Riccardo Volpi
+  - René Vidal
+  - Vittorio Murino
+  persistent_id: CVF:Morerio_Curriculum_Dropout_ICCV_2017
+  version: ICCV 2017 CVF open-access proceedings PDF, nine pages printed 3544–3552. All pages visually
+    inspected, including Equations 1–9, Figures 1–4, Table 1, footnotes and 34 references. Other versions
+    and author implementation not inspected.
+  source_type: primary_paper
+  url: https://openaccess.thecvf.com/content_ICCV_2017/papers/Morerio_Curriculum_Dropout_ICCV_2017_paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T16:01:45Z'
+  sha256: b1bc92e4b045330a5d67f8664a6d2b5c1ca4d1192a3de6259a880466ea9ff79d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DropoutLayer
+  relation: related_match
+  rationale: This algorithm schedules when dropout is applied; the target is a layer operation rather
+    than its delayed-onset training procedure or stochastic-depth variant.
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: Delayed mask activation modifies training. The pinned strategy target uses a preprocessing
+    genus, so the association is related rather than a forced subclass assertion.
+limitations:
+- The stable local identity covers the delayed-onset schedule described as late dropout in 2023 and the
+  neuron-masking Switch-Curriculum configuration described in 2017. It does not claim priority for the
+  later name or identical masks and experimental protocols across sources.
+- Generic dropout, smooth Curriculum Dropout, Early Dropout and the original depth-dependent stochastic-depth
+  procedure have distinct scopes. Layer-depth probability schedules and temporal onset are separate choices.
+- The onset does not terminate training or permanently prune units. Reversing the order of equally many
+  masked and unmasked steps does not preserve optimization in general.
+- All sixteen PMLR pages and nine primary ICCV pages were visually inspected. Author implementations and
+  alternate full-text versions were not inspected. No model fitting, hardware measurements or empirical
+  replication were executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T17:52:09Z'
+  updated_at: '2026-10-13T17:52:09Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

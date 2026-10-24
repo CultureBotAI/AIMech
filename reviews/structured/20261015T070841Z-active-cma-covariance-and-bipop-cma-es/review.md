@@ -1,0 +1,1466 @@
+# Scientific self-review of the active CMA covariance component and original BIPOP-CMA-ES
+
+- Review: 20261015T070841Z-active-cma-covariance-and-bipop-cma-es
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T06:55:15.901501Z
+- Finished UTC: 2026-10-15T07:08:41.950955Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The exact two-target cohort was assessed through all 12 source-linked claims, definitions, source versions and access, qualified mappings and 13 limitations. Retain the original 2006 signed covariance component separately from the original 2009 whole BIPOP algorithm with its specified positive-weight base. No new concrete findings were identified within the declared scope. Actual capture and required completed checks are bound. Both records remain DRAFT; no optimizer, benchmark or global-convergence certification is implied.
+
+## Scope And Provenance
+
+Complete exact two-target CMA component and whole-algorithm cohort, without population sampling or extrapolation to the rest of the repository.
+
+Selection: Exact maintained IDs AIMech:ActiveCMACovarianceUpdate and AIMech:BIPOPCMAES from actual cohort334 creation.
+Coverage: full; 2 reviewed / 2 in the declared population.
+Source: working_tree at Git base 1031c6b1f1f4492fbebec6eee1db5a6c68672d9e.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ActiveCMACovarianceUpdate | data/curated/ActiveCMACovarianceUpdate.yaml | maintained | Active CMA covariance update |
+| AIMech:BIPOPCMAES | data/curated/BIPOPCMAES.yaml | maintained | BI-population CMA-ES |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+| just vendored-check | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+| uv run --locked aimech check-source | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+| just render | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+| just render-check | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+| git diff --check | passed | True | AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES | Actual command completed with exit 0; exact output is retained in its evidence receipt. |
+
+## Scientific And Domain Assessments
+
+### Claim signed-old-mean-mutation-moments
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported by Section II PDF2 steps 1–4 and Section III PDF3 Eq5. Rewriting BD z as normalized displacement is exact with the OLD sampling mean and scale. The two outer-product averages each carry 1/mu, with opposite signs; the lambda=4mu convention leaves the middle ranks unused. The explicit distinction from centered covariance and negative mean recombination avoids conflating the active matrix component with a weighted host mean rule.
+
+### Claim active-path-and-population-update
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported by PDF2 step5 and PDF3 Eq6. The selected mean in mutation coordinates is BD times z(avg), so the stated path coefficient sqrt(mu*c_C*(2-c_C)) is correct. Eq6 really gives coefficient c_cov on the updated path and separate beta on the signed population moment. It replaces the prior alpha blend; carrying its old (1-alpha) coefficient would give a different rule.
+
+### Claim source-rates-and-empirical-beta
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported by PDF3 following Eq6 and PDF4 Eq7 and fitting prose. The exact active c_cov=2/(n+sqrt(2))^2 and beta=(4mu-2)/((n+12)^2+4mu) match the visual formulas. The dimension/population grid, conservative factor0.6 and integer rounding match the source. Empirical selection is correctly separated from an optimum or universal stability theorem.
+
+### Claim signed-moment-and-definiteness-boundary
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported as explicitly attributed curator algebra from Eqs5–7. Each of 2mu outer products has rank at most1, giving rank at most min(n,2mu); symmetry does not imply positivity. For the supplied sphere-ranked generation, selected mean and path vanish, Z=diag(-36,1/4), c_cov=3-2sqrt(2), beta=1/34. Hence the first diagonal is (1-c_cov)-36beta=2sqrt(2)-52/17&lt;0 since 2&lt;676/289. The second diagonal is positive. This verifies a supplied-input counterexample to universal SPD, not the probability of observing an exact continuous sample or a benchmark failure rate. Group membership is unchanged by within-pair ties.
+
+### Claim neutral-selection-and-zero-path-scope
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported as a carefully bounded frozen-law consequence, not the source stationarity statement without qualification. Under independent random permutation of iid steps, each selected group has covariance C and the selected average has covariance C/mu. At p_old=0 this yields E[p_new p_new^T]=c_C(2-c_C)C. The best and worst moment expectations cancel, and Eq6 gives [1-c_cov(1-c_C)^2]C. No independence of the path and Z is needed for this expectation because Eq6 is additive. Fitness ranking, adaptive-state conditioning and a stationary path require separate analysis.
+
+### Claim original-component-and-host-boundary
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Supported by PDF2–3 baseline description and Section V PDF7–8. The equal-weight host and separate scalar-exponential sigma rule are present, while Eq5–6 is specifically a covariance-valued component. The future weighted-recombination statement is explicit on PDF8. Neither later unequal-weight negative updates nor whole host/restart mechanisms are aliases of the selected component.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The definition names the covariance-valued component, its retained C/path term and equal-weight signed second moment. It neither asserts SPD output nor aliases the full optimizer; Section II/III locators are correct.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+Qualified related_match to MathematicalFunction is supported by the explicit Eq5–6 matrix-valued rule under specified ranks and rates. The exact pinned CLASS definition permits mathematical rules with dependent values; the relation is not equivalence/is_a or scalar-activation semantics. ExponentialFunction is correctly excluded for this component even though the host sigma update uses exp. No language-model/network/task/query-labeling identity is implied by the name active.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+One cited original2006 primary paper, eight-page archived CiteSeer PDF. Native metadata keeps actual archive retrieval URL and DOI separately, whole-second access projection with fractional original retained, build date distinct from publication, and unresolved external pagination. Every claim cites jastrebski2006. Access availability does not imply full scientific reading by every agent. Acquisition failures/non-PDF response are historical provenance, not a current scientific defect.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The original equal-weight component boundary is necessary and supported; a broad whole Active-CMA-ES alias would overstate the selected identity. PDF4 explicitly permits loss of positive definiteness and offers no executable repair. The retained limitation correctly avoids silently importing modern safeguards or promising finite-precision stability. The source ranks offspring but supplies no complete general tie policy. The witness has strict separation between selected/middle/worst groups; ties within each symmetric pair do not alter the relevant moments. No sampled-frequency claim follows. The first-step neutral expectation is correctly conditioned on a frozen C and independent random ranking. The unread thesis argument and full adaptive stationary law are excluded; no formal author erratum is asserted. The beta fit and positive benchmark observations do not imply stability for all supplied generations, improvement on every objective or global convergence. Empirical plots were not remeasured and no implementation was run. The archived eight-page source is identified by exact bytes and PDF locators; publisher-byte equality and external proceedings pagination remain unresolved. The broader eight-page source-agent reading is explicitly historical, distinct from this supporting agent’s narrower fresh method reading.
+
+### Concept boundary and current owner
+
+identity: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The actual maintained identity retains its accepted mathematical_method scope, no aliases, and original owner 201. Fresh identity notes are bound to actual root decisions. This assessment reads retained historical735-native/442-AIO identity conclusions and candidate/neighbor distinctions, not fresh current search results. Rank-mu and IPOP are now canonical cohort333 additions; future creation must refresh inventory/frontier and preserve existing owner201 with unresolved later variants. No new absence, owner resolution, frontier write or global saturation is claimed.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The scope is the original equal-weight best/worst moment and combined covariance rule. The whole Active-CMA-ES optimizer, later unequal-weight negative updates, the distinct (1+1) active method, restart policies and modern implementations are not exact aliases of this component.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+A positive-definite input matrix does not ensure a positive-definite output. The source says a detected loss can be fixed but does not specify an executable repair. Eigenvalue clipping, step normalization, negative-weight rescaling or exponential covariance updates are not silently added. Good conditioning and stable finite-precision eigendecomposition are separate concerns.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+A rank or tie policy is required to define the selected groups in general. The source does not fully specify a tie convention. In the hand example, objective ties occur only within pairs whose order does not alter the top or bottom group. This example is not a sampled failure rate or a benchmark replication.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The neutral-selection expectation and zero-path calculation use explicitly fixed pre-update covariance and independent random ranking. They do not certify martingale behavior or stationarity throughout an adaptive run. The calculation is curator hand algebra, not an author erratum or an audit of the separate 2005 thesis argument cited by the paper.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The beta fit and reported comparisons concern the source’s specified tests. Neither the empirical absence of covariance failure in those runs nor the selected rates establish universal stability, speedup, objective improvement or global convergence. No optimizer, author code or benchmark was run, and numerical plot results are not curated here.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:ActiveCMACovarianceUpdate.
+
+The primary bytes are an eight-page archived CiteSeer copy, not certified as identical to an author-hosted or publisher copy. Locators use PDF pages; the file’s build date is not the publication date, and differing external proceedings pagination is not resolved by the PDF labels. All eight native-text pages and the defining pages 1–4 visually were inspected in supporting research. The cited thesis and later active-method papers were not fully inspected.
+
+### Claim fixed-positive-weight-cma-base
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by Section 2 on PDF 1 and Table 1 caption/Eqs. 1–5 on PDF 2, with the separate author erratum required for the actual weights. For ranks 1..mu, ln(mu+1/2)-ln(i) is positive and normalizing gives unit sum; the preview does not silently endorse the printed mu+1 offset. Table 1Eq. 4 gates only the incoming covariance-path increment, while Eq. 5 adds (1-h_sigma)*c1*c_c*(2-c_c) to the old-C coefficient. The prose correctly distinguishes this gated rank-one plus positive weighted old-mean second moment from a signed active update. Recomputing defaults follows the displayed dependence on population, selected-parent count and effective mass. No complete covariance stability theorem or implementation certification is claimed.
+
+### Claim inherited-cumulative-step-size-adaptation
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by Section 2 inverse-square-root convention and Table 1Eqs. 3,6. The preview uses the symmetric inverse square root of positive-definite C, not an arbitrary unsymmetrized factor; the mean displacement is normalized by the old scalar scale. Its exponential and standard-normal-length denominator agree with Eq. 6. Positive scale preservation is elementary exact-real algebra conditional on a finite exponent, correctly separated from objective improvement and floating-point behavior. Limitation 4 explicitly prevents this displayed equation from certifying a freshly recomputed eigendecomposition at every actual implementation step.
+
+### Claim spent-budget-restart-selection
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by the complete Section 2.1 account. The paper introduces accounts for evaluations already performed, disregards the initial default-population run in the large account, and states small is selected iff its account is smaller. The preview therefore assigns ties to large and correctly locates the first large restart after the standalone attempt, subject to overall termination. This is a scheduling decision between complete runs, not a paired-population generation. Its explicit denial of finite exact budget equality is necessary because completing one attempt can overshoot the other account; the abstract equal-budget phrase is not treated as a conservation identity.
+
+### Claim increasing-population-regime
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by Section 2.1 and the overall termination paragraph in Section 2.2. The maximum configured 512lambda_def follows from nine large-regime doublings, excluding the standalone attempt and interlaced small attempts from that count. The preview does not extend this number to every BIPOP variant or to a global evaluation bound. Its early-target exception to the first/last-large prose is supported by Section 2.2 and Section 6/Table 3: successful final populations include sizes outside the large doubling sequence. It does not turn those empirical observations into a population-performance claim.
+
+### Claim randomized-small-population-and-scale
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by both displayed Section 2.1 formulas and the independent-uniform statement. The power is U squared, not U or a uniformly sampled integer population. Because the latest large population is at least 2lambda_def, the base of the power is at least1; the integer endpoints retain the displayed range, and the first-large-population case collapses to lambda_def. The logarithm of sigma0 is an affine function of the independent V, which justifies the stated log-uniform scale range. These are direct formula interpretations, not numerical tests. The preview retains half the recent large budget without pretending that the exact last-run/cumulative implementation or partial-generation enforcement was read from author code.
+
+### Claim original-configuration-and-stopping-boundary
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+Supported by Table 1 initialization, Section 2.2 and Section 3. Uniform mean initialization is distinct from a bounded-support Gaussian search law, so the preview properly avoids asserting that all offspring remain in [-4,4]^D. The listed stopping categories occur in the source; their exact executable TolX/tie details remain qualified in limitation3 rather than silently repaired. Local attempt stopping is separated from overall target/largest-population stopping. The two-regime identity includes a specified base and is meaningfully different from the maintained increasing-population-only method and isolated covariance components; a generic host-independent wrapper is not substituted.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:BIPOPCMAES.
+
+The definition identifies the specified original 2009 whole algorithm, two distinct restart regimes and spent-evaluation scheduling. Section 2/2.1 and Table 1 support every defining element. It does not assert a generic optimizer, simultaneous population interaction or a replacement identity for original IPOP.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:BIPOPCMAES.
+
+Qualified related_match to ExponentialFunction is substantively supported by mandatory scalar exp in Table 1Eq. 6 of the fixed whole-method base. It is not justified by doubling or budget scheduling and does not imply an exact match, subclass, neural activation or matrix elementwise exponential. This assessment retains the prior exact pinned-node context rather than changing the older CMA record assessment.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:BIPOPCMAES.
+
+Native metadata match the actual university-copy PDF hash and acquired URL, correct noiseless-paper DOI, seven-page printed pagination and appropriately bounded version claim. Whole-second accessed_at reflects retained successful acquisition completion. Full_text access is appropriate; this does not assert publisher/HAL byte identity or a full benchmark audit. The actual retained author text is separately hashed and formally cited by the weight claim. Official_documentation/documentation describe its access correctly. Its undated status is retained; no later correction date is fabricated. The second runtime correction remains a limitation, not a new empirical result.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+Limitation 1 correctly keeps original positive-weight 2009 whole-method identity separate from the maintained 2001 host, 2003 equal-weight component, 2006 active signed component and 2005 IPOP. Unread later active/noisy/software variants are not assigned aliases. Limitation 2 preserves the source budget-cap interpretation and finite-enforcement gaps, distinguishes balancing from exact equality, and qualifies the terminal-large statement with early target stopping. Limitation 3 correctly notes literal small-path absolute-value syntax and unspecified tie policy. Initialization and finite thresholds restrict whole-protocol invariance; no executable repair or universal problem setup is invented. Limitation 4 is directly supported by Section 4Eq. 7 on PDF 3: delayed decompositions use slightly outdated factors. It appropriately qualifies the displayed update and separates numerical stability from exact algebra. Limitation 5 is supported by Section 3: no thorough parameter study and ad hoc small-regime settings. It avoids treating empirical evaluation totals as a universal cap or claiming optimal cost allocation, performance or convergence. Limitation 6 accurately retains both author Table 2 corrections, including arbitrary rather than necessarily successful trials and the possible 12 percent underestimate of the last median entry. No repaired values are invented. Limitation 7 matches actual seven-page university-hosted bytes and printed 2389–2395, preserves alternate listing and file-version uncertainties, and distinguishes the full historical text scope from unperformed empirical/code audits.
+
+### Concept boundary and current owner
+
+identity: supported. Targets: AIMech:BIPOPCMAES.
+
+The actual maintained identity retains its accepted algorithm scope, no aliases, and original owner 202. Fresh identity notes are bound to actual root decisions. Original2009 BIPOP whole method remains separate from the original 2006 active covariance component and maintained 2005 IPOP. No active signed moment is added to its positive-weight base. Owner 202 already contains IPOP and explicit BIPOP residual; any future in-place update must preserve that record ID and resolution. Historical 737/442 research scope is explicit in the preview; later fresh collection/creation decisions are separate and not attested here.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+This is the original 2009 positive-weight whole method, with the separately cited correction to its recombination weights. The maintained 2001 rank-one base, original 2003 equal-weight rank-mu component, 2006 active signed-moment component and 2005 increasing-population-only procedure are different scopes. Later active-BIPOP combinations, noisy-objective extensions, alternative restart controllers and current software are not exact aliases of this record.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+The paper defines cumulative spent-evaluation accounts but does not fully settle the executable meaning of half the recent large budget, partial-generation cap enforcement or budget overshoot. Equal-budget language does not guarantee finite exact equality. The configured first/last-large schedule is qualified by possible early target stopping.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+Section 2.2 prints the small-path test without explicit absolute-value syntax and does not completely specify fitness-tie handling. No executable repair is asserted. The initialization box, scale choices, finite thresholds and known-target benchmark conditions are configuration choices, not assumptions satisfied by every black-box problem or proofs of invariance of the whole stopped run.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+Table 1 gives the update equations, while Section 4, Equation 7 on PDF p. 3, describes delayed eigendecompositions and slightly outdated factors in the evaluated implementation. Exact refreshed factors at every generation, numerical conditioning, stable floating-point behavior and complete implementation fidelity are not certified here.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+Section 3 reports no thorough parameter study and describes the small-regime settings as ad hoc. The reported evaluation totals and selected population/scale outcomes do not establish a universal hard evaluation cap, optimal budget allocation, global convergence or superiority over every restart policy. No performance number, speedup or author-code benchmark reproduction is curated.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+The author erratum states that Table 2 RT_succ averages Nsucc arbitrary trials rather than necessarily successful trials, and that its final unsuccessful-trial median entry can be up to 12 percent too small. These corrections are retained without inventing repaired results or treating them as a failure of every method equation.
+
+### Retained limitation 7
+
+scope: supported. Targets: AIMech:BIPOPCMAES.
+
+The primary bytes are a seven-page university-hosted proceedings copy, with printed pages 2389–2395; byte identity to a publisher or HAL copy is not certified. The author bibliography and erratum agree with those pages, while an archive listing gives 2389–2396. File build dates are distinct from publication metadata. Supporting research read all seven native-text pages and method/discussion visuals on pages 1–3, plus the complete author erratum. Empirical plots, unread bibliographic dependencies and the separate noisy companion were not audited. No author implementation, calculator, optimizer or benchmark was run.
+
+### Captured bytes, report mirror, frontier and DRAFT status
+
+consistency: supported. Targets: AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES.
+
+Both captured records equal the actual write payloads and report entries. Exact support hashes cover all 12 claims, mappings and declared individual limitations. Only owners 201/202 changed; all 906 other main and 393 nested values remain exact, with no new leaves. Six required project/publication checks passed; saving and checking this new review remain separate.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:ActiveCMACovarianceUpdate, AIMech:BIPOPCMAES. The active record is the original equal-weight signed covariance-valued component; BIPOP is the original sequential two-regime restart algorithm with its specified positive-weight covariance and scalar CSA base. Their shared CMA family does not establish identity, aliasing or a lump. BIPOP does not import the active signed update. Preserve both IDs and their qualified related mappings, and retain the prior IPOP resolution within owner202.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| captured-inputs | /private/tmp/aimech-cma-cohort334-capture.json | context_only | Actual canonical inspect output; every captured input hash rechecked. Inspection alone is not scientific approval. |
+| postcapture-reading | /private/tmp/aimech-cma-cohort334-root-reading.json | context_only | Actual root full-target and evidence assessment after capture and completed checks; source scopes are separately stated. |
+| scientific-support | /private/tmp/aimech-cma-cohort334-review-preparation-20261015/scientific-support.final.json | context_only | Same-author supporting assessment of all 12 accepted claims, definitions, mappings and declared individual limitations, with exact selective primary readings. This preparation was not itself a canonical capture. |
+| actual-write | /private/tmp/aimech-cma-cohort334-write.json | context_only | Actual creation receipt binds two records, report pair and history; no review or gate was claimed at creation. |
+| discovery-report | research/discovery/20261015T065210Z-active-cma-covariance-and-bipop-cma-es.json | context_only | Exact report entry payloads equal maintained YAML. Only owners 201/202 changed; all 906 other main and 393 nested objects are exact. Historical correction and source scopes remain preserved. |
+| creation-history | history/reports/active-cma-covariance-and-bipop-cma-es/2026-10-15T065241Z-codex-d0e9a5.yaml | context_only | Actual append-only CREATE sidecar; review completion and publication were later tasks. |
+| pinned-aio | sources/aio/aio.json; AIO:MathematicalFunction and AIO:ExponentialFunction; retained candidate-specific alternatives and edges are in scientific support. | context_only | Exact pinned CLASS contexts support qualified related mappings, not upstream subclass or equivalence claims. |
+| identity-assessment | /private/tmp/aimech-cohort334-current-identity-20261015/root-decisions-readable.json | context_only | Actual root assessment binds the fresh four-checkout ignored/hidden-inclusive identity scans and owner201/202 decisions; this generator does not claim to have manually reread all search hits. |
+| record-active-cma | data/curated/ActiveCMACovarianceUpdate.yaml | supports | Complete maintained DRAFT record read by root after capture; all claim and evidence bytes matched the accepted scientific support. |
+| src-jastrebski2006 | https://web.archive.org/web/20240415103246if_/https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=8f7ccc273a844f585289159793e00dbce0365207; Attributed supporting reading: native PDF1–4 and SectionV prose on PDF7–8, visuals2–4; retained earlier source-agent reading covers all8 native pages and defining visuals1–4. Equations1–7 and original component/host boundary were assessed; empirical plots and cited thesis were not fully audited. | supports | IEEE Congress on Evolutionary Computation, 2006; eight-page archived CiteSeer copy. Not asserted byte-identical to an author-hosted or publisher copy. Use PDF-page locators; differing CEC/WCCI proceedings pagination remains unresolved. PDF metadata build date 2006-04-12 is not a publication date. Acquisition timestamp is access metadata, not a full-reading claim. One cited original2006 primary paper, eight-page archived CiteSeer PDF. Native metadata keeps actual archive retrieval URL and DOI separately, whole-second access projection with fractional original retained, build date distinct from publication, and unresolved external pagination. Every claim cites jastrebski2006. Access availability does not imply full scientific reading by every agent. Acquisition failures/non-PDF response are historical provenance, not a current scientific defect. |
+| record-bipop | data/curated/BIPOPCMAES.yaml | supports | Complete maintained DRAFT record read by root after capture; all claim and evidence bytes matched the accepted scientific support. |
+| src-hansen2009bipop | https://sci2s.ugr.es/sites/default/files/files/TematicWebSites/EAMHCO/contributionsGECCO09/p2389-hansen.pdf; Attributed supporting reading: fresh visuals PDF1–2 and native PDF3; retained historical all7 native pages and visuals1–3. Section2/2.1, Table1 Equations1–6, Section2.2/3/4 Equation7 and Section6/Table3 are relevant. No empirical replication or author-code audit. | supports | GECCO 2009 Workshop Proceedings; seven-page typeset paper hosted in University of Granada BBOB materials, printed pp. 2389–2395. Author bibliography and erratum agree with those printed pages; an archive listing gives pp. 2389–2396. Byte identity to a publisher or HAL copy is not certified. PDF creation/modification dates are file metadata, not separate publication events. Acquisition timestamp is access metadata, not a full-reading claim. Native metadata match the actual university-copy PDF hash and acquired URL, correct noiseless-paper DOI, seven-page printed pagination and appropriately bounded version claim. Whole-second accessed_at reflects retained successful acquisition completion. Full_text access is appropriate; this does not assert publisher/HAL byte identity or a full benchmark audit. The actual retained author text is separately hashed and formally cited by the weight claim. Official_documentation/documentation describe its access correctly. Its undated status is retained; no later correction date is fabricated. The second runtime correction remains a limitation, not a new empirical result. |
+| src-bipop-author-erratum | https://www.cmap.polytechnique.fr/~nikolaus.hansen/bipopcma2009.txt; Complete retained 688-byte author erratum freshly read by the BIPOP supporting agent. Section2 weight correction is structured claim evidence; Table2 runtime-label corrections are retained limitations, without invented corrected measurements. | supports | Undated author-hosted erratum retained on 15 October 2026 for the 2009 workshop paper. Corrects Section 2 recombination weights and Table 2 runtime labels; no date for each correction is inferred. Acquisition timestamp is access metadata, not a full-reading claim. Native metadata match the actual university-copy PDF hash and acquired URL, correct noiseless-paper DOI, seven-page printed pagination and appropriately bounded version claim. Whole-second accessed_at reflects retained successful acquisition completion. Full_text access is appropriate; this does not assert publisher/HAL byte identity or a full benchmark audit. The actual retained author text is separately hashed and formally cited by the weight claim. Official_documentation/documentation describe its access correctly. Its undated status is retained; no later correction date is fabricated. The second runtime correction remains a limitation, not a new empirical result. |
+| check-gate | /private/tmp/aimech-cma-cohort334-check-gate.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+| check-vendor | /private/tmp/aimech-cma-cohort334-check-vendor.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+| check-check-source | /private/tmp/aimech-cma-cohort334-check-check-source.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+| check-render | /private/tmp/aimech-cma-cohort334-check-render.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+| check-render-check | /private/tmp/aimech-cma-cohort334-check-render-check.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+| check-diff | /private/tmp/aimech-cma-cohort334-check-diff.json | context_only | Actual completed command and retained output; this evidence predates saving the new review. |
+
+## Limits And Additional Notes
+
+- Review is author self-review with attributed supporting agents, not independent approval. Full_text describes source access, not an assertion that every agent read every page. Source-reading scopes and times are retained separately.
+- The active component retains possible indefinite output, the empirical beta fit and explicitly frozen-law zero-path algebra. Its hand counterexample is neither an observed failure frequency nor author-code replication; full adaptive-process stationarity and unspecified repairs are outside scope.
+- BIPOP retains its positive-weight original base, separate author erratum, sequential spent-budget selection, randomized small regime, early-target exception, delayed eigendecomposition and unresolved budget-enforcement and stopping details. The scalar-exponential mapping is justified by inherited CSA, not population doubling or budget scheduling.
+- The source copies retain archive, pagination and version qualifications. Historical access failures and native preview runs are provenance; they are not current maintained-record findings or proof of full source coverage. No author optimizer, benchmark or calculator was run for this review.
+- The supporting active assessment used native PDF1–4 and SectionV prose on PDF7–8, plus visuals2–4; its broader earlier source-agent reading is retained separately. The supporting BIPOP assessment freshly read visuals1–2, native PDF3 and the complete author erratum, retaining earlier all7 native pages and visuals1–3. The root postcapture reading below is separate.
+- Root owns the actual postcapture scientific judgment and fresh identity assessment. Hash and frontier equality checks do not themselves establish scientific truth, worldwide absence or family exhaustion.
+- Required checks reflect actual retained completed logs for these bytes. Canonical validation, save and the saved-review collection check for this review remain later actions. This assessment does not promote DRAFT status or change the ontology.
+- Root read both complete canonical records, all 12 claim-support assessments, all 13 limitations, source metadata, mappings, report and history after the canonical capture, and read all six completed check logs before this receipt. Primary reading preceded capture: active-CMA PDF native pages 1–4 and Section V on 7–8, with visual pages 2–4; BIPOP PDF native pages 1–3 through Section 7 and reference opening, visual pages 1–2, and the complete author erratum. Agent readings are attributed separately. No complete empirical-plot, later-paper, reference-code or benchmark audit is claimed. Root hand calculations are analytical illustrations, not executed numerical tests or evidence of empirical failure rates.
+- The original equal-weight signed active covariance component is distinct from its host and later active variants. The formula, rank bound, explicit indefinite-matrix example and neutral first-step expectation were hand checked with their assumptions. BIPOP retains the corrected log(mu+0.5) weights from the author erratum, sequential budget comparison with ties selecting the large regime, separate randomized population and initial-scale rules, and unresolved stopping/accounting implementation details. Qualified AIO related mappings are supported without equivalence or subclass assertions. Fresh ignored-file-inclusive identity assessments and exact frontier accounting support these two additions; prior IPOP resolution is preserved. All six required checks passed. No new actionable finding was identified; this remains a scientific self-review and both records remain DRAFT.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+title: Scientific self-review of the active CMA covariance component and original
+  BIPOP-CMA-ES
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author supporting
+    source and mathematical agents. No external or independent scientific approval
+    is asserted.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: The exact two-target cohort was assessed through all 12 source-linked claims,
+  definitions, source versions and access, qualified mappings and 13 limitations.
+  Retain the original 2006 signed covariance component separately from the original
+  2009 whole BIPOP algorithm with its specified positive-weight base. No new concrete
+  findings were identified within the declared scope. Actual capture and required
+  completed checks are bound. Both records remain DRAFT; no optimizer, benchmark or
+  global-convergence certification is implied.
+scope:
+  description: Complete exact two-target CMA component and whole-algorithm cohort,
+    without population sampling or extrapolation to the rest of the repository.
+  selection: Exact maintained IDs AIMech:ActiveCMACovarianceUpdate and AIMech:BIPOPCMAES
+    from actual cohort334 creation.
+  coverage: full
+  population_size: 2
+  reviewed_target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  exclusions:
+  - target: Other CMA, NES, IGO and later active or restart variants
+    reason: Context only; this review does not resolve their distinct method or implementation
+      leads.
+  - target: Author implementations, full benchmark analyses and referenced theoretical
+      dependencies
+    reason: Outside the declared primary-reading and bounded hand-algebra scope.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  rationale: The active record is the original equal-weight signed covariance-valued
+    component; BIPOP is the original sequential two-regime restart algorithm with
+    its specified positive-weight covariance and scalar CSA base. Their shared CMA
+    family does not establish identity, aliasing or a lump. BIPOP does not import
+    the active signed update. Preserve both IDs and their qualified related mappings,
+    and retain the prior IPOP resolution within owner202.
+  evidence_ids:
+  - record-active-cma
+  - record-bipop
+  - src-jastrebski2006
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+  - pinned-aio
+limitations:
+- Review is author self-review with attributed supporting agents, not independent
+  approval. Full_text describes source access, not an assertion that every agent read
+  every page. Source-reading scopes and times are retained separately.
+- The active component retains possible indefinite output, the empirical beta fit
+  and explicitly frozen-law zero-path algebra. Its hand counterexample is neither
+  an observed failure frequency nor author-code replication; full adaptive-process
+  stationarity and unspecified repairs are outside scope.
+- BIPOP retains its positive-weight original base, separate author erratum, sequential
+  spent-budget selection, randomized small regime, early-target exception, delayed
+  eigendecomposition and unresolved budget-enforcement and stopping details. The scalar-exponential
+  mapping is justified by inherited CSA, not population doubling or budget scheduling.
+- The source copies retain archive, pagination and version qualifications. Historical
+  access failures and native preview runs are provenance; they are not current maintained-record
+  findings or proof of full source coverage. No author optimizer, benchmark or calculator
+  was run for this review.
+- The supporting active assessment used native PDF1–4 and SectionV prose on PDF7–8,
+  plus visuals2–4; its broader earlier source-agent reading is retained separately.
+  The supporting BIPOP assessment freshly read visuals1–2, native PDF3 and the complete
+  author erratum, retaining earlier all7 native pages and visuals1–3. The root postcapture
+  reading below is separate.
+- Root owns the actual postcapture scientific judgment and fresh identity assessment.
+  Hash and frontier equality checks do not themselves establish scientific truth,
+  worldwide absence or family exhaustion.
+- Required checks reflect actual retained completed logs for these bytes. Canonical
+  validation, save and the saved-review collection check for this review remain later
+  actions. This assessment does not promote DRAFT status or change the ontology.
+- 'Root read both complete canonical records, all 12 claim-support assessments, all
+  13 limitations, source metadata, mappings, report and history after the canonical
+  capture, and read all six completed check logs before this receipt. Primary reading
+  preceded capture: active-CMA PDF native pages 1–4 and Section V on 7–8, with visual
+  pages 2–4; BIPOP PDF native pages 1–3 through Section 7 and reference opening, visual
+  pages 1–2, and the complete author erratum. Agent readings are attributed separately.
+  No complete empirical-plot, later-paper, reference-code or benchmark audit is claimed.
+  Root hand calculations are analytical illustrations, not executed numerical tests
+  or evidence of empirical failure rates.'
+tags:
+- scientific-review
+- self-review
+- cma
+- source-scoped
+schema_version: 1.0.0
+review_id: 20261015T070841Z-active-cma-covariance-and-bipop-cma-es
+kind: category
+repository: CultureBotAI/AIMech
+started_at: '2026-10-15T06:55:15.901501Z'
+finished_at: '2026-10-15T07:08:41.950955Z'
+source:
+  git_revision: 1031c6b1f1f4492fbebec6eee1db5a6c68672d9e
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/ExponentialFunction.yaml
+    sha256: a9e6fe9954dee5c61f799631c1892a99a891468e81e725e584d1a3dc06d84239
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/curated/ActiveCMACovarianceUpdate.yaml
+    sha256: ab52aecef5fae003ff1d8c64eb9645edc49f89b852235bacd5d8f5f87802d9aa
+    role: target
+  - path: data/curated/AdaptationSampling.yaml
+    sha256: 675a122fec61acc7b625d037a53d784420be2559e0aef6405dac91e50b762b27
+    role: context
+  - path: data/curated/BIPOPCMAES.yaml
+    sha256: 33372482851228633be39ef7ab5c37c035db3213b6849f692d8232bd1d361aa4
+    role: target
+  - path: data/curated/CMARankMuCovarianceUpdate.yaml
+    sha256: 67339de3e4309eac07d9e6e9c0f281b65e0e308e40508affdcd4859f6e1be7d3
+    role: context
+  - path: data/curated/CovarianceMatrixAdaptationEvolutionStrategy.yaml
+    sha256: 7018c9916e78f34ba32a3a9d46e694d2a78c17a6e7222d9050d305eedf96ed06
+    role: context
+  - path: data/curated/CrossEntropyOptimization.yaml
+    sha256: b2d993224f56b48738bbecc23df28fe0bc1e16e54c658979fdd28fc1924ba269
+    role: context
+  - path: data/curated/ExponentialNaturalEvolutionStrategies.yaml
+    sha256: 8230e120126387ffb32405d2072fa5604e8cf39598972afcf5401c53730088b6
+    role: context
+  - path: data/curated/IPOPCMAES.yaml
+    sha256: 7c70b1c160acfeec27d7d1603597c84eaf5db525ce96761512f4f575c9dd8752
+    role: context
+  - path: data/curated/InformationGeometricOptimization.yaml
+    sha256: ef55808962485da0302293b2110ff61ed153c76b6e5da5c570f189dafc66282f
+    role: context
+  - path: data/curated/NaturalEvolutionStrategies.yaml
+    sha256: b11c8d02da55175afcf5d5c11cf91a864418d7396b726f423f865d95cfe76a4c
+    role: context
+  - path: data/curated/NaturalGradient.yaml
+    sha256: d082d3f17e9428d1765b8041ae6abecd604161b9d6d12082ef17b4d45255ce2b
+    role: context
+  - path: data/curated/PopulationBasedIncrementalLearning.yaml
+    sha256: fb2500f70c8a0cf57639b33f7f89acf9f141adf75a238aa248e784afc09866d2
+    role: context
+  - path: data/curated/SeparableNaturalEvolutionStrategies.yaml
+    sha256: f39df297c75087d405a46904176b11e86d23759c95d8d0b5a16535f267983ae4
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 1a3db0915791b0e90b02cd1f83c35850bfc3c97b18edfd8b946c91030578ccb8
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/active-cma-covariance-and-bipop-cma-es/2026-10-15T065241Z-codex-d0e9a5.yaml
+    sha256: 879e17429f088769564344d5b70abc666fc0fb5a6cdecc9365c59881ae53637c
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T065210Z-active-cma-covariance-and-bipop-cma-es.json
+    sha256: 7518c172340e2964cd4395db6c5c0e67fcb78ad6ecdde1d8d4990090d3e49e97
+    role: context
+  - path: research/discovery/20261015T065210Z-active-cma-covariance-and-bipop-cma-es.md
+    sha256: 4d09d072d815088665bdd3d79efcd852ffd09ae88d34e5d87518816d2d90d18b
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/check.py
+    sha256: ff3a90be3a48a66f380d49c41de04cd8603bc0744feceeb907604b97c81f0629
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/aimech.yaml
+    sha256: 5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:ActiveCMACovarianceUpdate
+  path: data/curated/ActiveCMACovarianceUpdate.yaml
+  label: Active CMA covariance update
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ActiveCMACovarianceUpdate.yaml
+    role: maintained native concept record
+- target_id: AIMech:BIPOPCMAES
+  path: data/curated/BIPOPCMAES.yaml
+  label: BI-population CMA-ES
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BIPOPCMAES.yaml
+    role: maintained native concept record
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual command completed with exit 0; exact output is retained in its evidence
+    receipt.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+evidence:
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-cma-cohort334-capture.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Actual canonical inspect output; every captured input hash rechecked. Inspection
+    alone is not scientific approval.
+  snapshot_sha256: 85c6df1c490ca7f751c24d31a40d8d7295550b94e72a852e2b35cc070c4af6c2
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cma-cohort334-root-reading.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Actual root full-target and evidence assessment after capture and completed
+    checks; source scopes are separately stated.
+  snapshot_sha256: ce5ce96f30d06277e24c929d5a3ee0d9ff2b71da79c2b59faed327914cb93b24
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-cma-cohort334-review-preparation-20261015/scientific-support.final.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Same-author supporting assessment of all 12 accepted claims, definitions,
+    mappings and declared individual limitations, with exact selective primary readings.
+    This preparation was not itself a canonical capture.
+  snapshot_sha256: 9ed6e16bce1e44f43ee14c447e2865b40384a436b19e3684e3a4c27801be52d6
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-cma-cohort334-write.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Actual creation receipt binds two records, report pair and history; no
+    review or gate was claimed at creation.
+  snapshot_sha256: a76cc3ef57b03d4d7ce46cd3ec50a0686dd9ecdfd483142bd8cded0cc2876721
+- evidence_id: discovery-report
+  kind: record_content
+  reference: research/discovery/20261015T065210Z-active-cma-covariance-and-bipop-cma-es.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Exact report entry payloads equal maintained YAML. Only owners 201/202
+    changed; all 906 other main and 393 nested objects are exact. Historical correction
+    and source scopes remain preserved.
+  snapshot_sha256: 7518c172340e2964cd4395db6c5c0e67fcb78ad6ecdde1d8d4990090d3e49e97
+- evidence_id: creation-history
+  kind: record_content
+  reference: history/reports/active-cma-covariance-and-bipop-cma-es/2026-10-15T065241Z-codex-d0e9a5.yaml
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Actual append-only CREATE sidecar; review completion and publication were
+    later tasks.
+  snapshot_sha256: 879e17429f088769564344d5b70abc666fc0fb5a6cdecc9365c59881ae53637c
+- evidence_id: pinned-aio
+  kind: database
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Exact pinned CLASS contexts support qualified related mappings, not upstream
+    subclass or equivalence claims.
+  locator: AIO:MathematicalFunction and AIO:ExponentialFunction; retained candidate-specific
+    alternatives and edges are in scientific support.
+  snapshot_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+- evidence_id: identity-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort334-current-identity-20261015/root-decisions-readable.json
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: context_only
+  summary: Actual root assessment binds the fresh four-checkout ignored/hidden-inclusive
+    identity scans and owner201/202 decisions; this generator does not claim to have
+    manually reread all search hits.
+  snapshot_sha256: 7912709ec8a94b9e74edf67b09c26c62923de649c26091036f60619c68bf1e6d
+  search_scope: Bounded four retained checkouts using rg --no-ignore --hidden --fixed-strings
+    --word-regexp; exact current inventory and carried frontier. No global absence
+    or saturation claim.
+- evidence_id: record-active-cma
+  kind: record_content
+  reference: data/curated/ActiveCMACovarianceUpdate.yaml
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: supports
+  summary: Complete maintained DRAFT record read by root after capture; all claim
+    and evidence bytes matched the accepted scientific support.
+  snapshot_sha256: ab52aecef5fae003ff1d8c64eb9645edc49f89b852235bacd5d8f5f87802d9aa
+- evidence_id: src-jastrebski2006
+  kind: primary_source
+  reference: https://web.archive.org/web/20240415103246if_/https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=8f7ccc273a844f585289159793e00dbce0365207
+  accessed_at: '2026-10-15T05:58:56Z'
+  support: supports
+  summary: IEEE Congress on Evolutionary Computation, 2006; eight-page archived CiteSeer
+    copy. Not asserted byte-identical to an author-hosted or publisher copy. Use PDF-page
+    locators; differing CEC/WCCI proceedings pagination remains unresolved. PDF metadata
+    build date 2006-04-12 is not a publication date. Acquisition timestamp is access
+    metadata, not a full-reading claim. One cited original2006 primary paper, eight-page
+    archived CiteSeer PDF. Native metadata keeps actual archive retrieval URL and
+    DOI separately, whole-second access projection with fractional original retained,
+    build date distinct from publication, and unresolved external pagination. Every
+    claim cites jastrebski2006. Access availability does not imply full scientific
+    reading by every agent. Acquisition failures/non-PDF response are historical provenance,
+    not a current scientific defect.
+  locator: 'Attributed supporting reading: native PDF1–4 and SectionV prose on PDF7–8,
+    visuals2–4; retained earlier source-agent reading covers all8 native pages and
+    defining visuals1–4. Equations1–7 and original component/host boundary were assessed;
+    empirical plots and cited thesis were not fully audited.'
+  snapshot_sha256: 12328a58db10213cdf23f1b2846a286442371499ffecde408716cad8e4e5ccea
+- evidence_id: record-bipop
+  kind: record_content
+  reference: data/curated/BIPOPCMAES.yaml
+  accessed_at: '2026-10-15T07:08:40.749780Z'
+  support: supports
+  summary: Complete maintained DRAFT record read by root after capture; all claim
+    and evidence bytes matched the accepted scientific support.
+  snapshot_sha256: 33372482851228633be39ef7ab5c37c035db3213b6849f692d8232bd1d361aa4
+- evidence_id: src-hansen2009bipop
+  kind: primary_source
+  reference: https://sci2s.ugr.es/sites/default/files/files/TematicWebSites/EAMHCO/contributionsGECCO09/p2389-hansen.pdf
+  accessed_at: '2026-10-15T06:25:41Z'
+  support: supports
+  summary: GECCO 2009 Workshop Proceedings; seven-page typeset paper hosted in University
+    of Granada BBOB materials, printed pp. 2389–2395. Author bibliography and erratum
+    agree with those printed pages; an archive listing gives pp. 2389–2396. Byte identity
+    to a publisher or HAL copy is not certified. PDF creation/modification dates are
+    file metadata, not separate publication events. Acquisition timestamp is access
+    metadata, not a full-reading claim. Native metadata match the actual university-copy
+    PDF hash and acquired URL, correct noiseless-paper DOI, seven-page printed pagination
+    and appropriately bounded version claim. Whole-second accessed_at reflects retained
+    successful acquisition completion. Full_text access is appropriate; this does
+    not assert publisher/HAL byte identity or a full benchmark audit. The actual retained
+    author text is separately hashed and formally cited by the weight claim. Official_documentation/documentation
+    describe its access correctly. Its undated status is retained; no later correction
+    date is fabricated. The second runtime correction remains a limitation, not a
+    new empirical result.
+  locator: 'Attributed supporting reading: fresh visuals PDF1–2 and native PDF3; retained
+    historical all7 native pages and visuals1–3. Section2/2.1, Table1 Equations1–6,
+    Section2.2/3/4 Equation7 and Section6/Table3 are relevant. No empirical replication
+    or author-code audit.'
+  snapshot_sha256: bdeda80ecf49ae6379f06d3cb903630466deff4f8f9daf5a3761538846059108
+- evidence_id: src-bipop-author-erratum
+  kind: authority
+  reference: https://www.cmap.polytechnique.fr/~nikolaus.hansen/bipopcma2009.txt
+  accessed_at: '2026-10-15T06:25:42Z'
+  support: supports
+  summary: Undated author-hosted erratum retained on 15 October 2026 for the 2009
+    workshop paper. Corrects Section 2 recombination weights and Table 2 runtime labels;
+    no date for each correction is inferred. Acquisition timestamp is access metadata,
+    not a full-reading claim. Native metadata match the actual university-copy PDF
+    hash and acquired URL, correct noiseless-paper DOI, seven-page printed pagination
+    and appropriately bounded version claim. Whole-second accessed_at reflects retained
+    successful acquisition completion. Full_text access is appropriate; this does
+    not assert publisher/HAL byte identity or a full benchmark audit. The actual retained
+    author text is separately hashed and formally cited by the weight claim. Official_documentation/documentation
+    describe its access correctly. Its undated status is retained; no later correction
+    date is fabricated. The second runtime correction remains a limitation, not a
+    new empirical result.
+  locator: Complete retained 688-byte author erratum freshly read by the BIPOP supporting
+    agent. Section2 weight correction is structured claim evidence; Table2 runtime-label
+    corrections are retained limitations, without invented corrected measurements.
+  snapshot_sha256: d41ce85e51d0fe26608aee35eed5195d436af55537db2cacd1cdcad4710a1f5e
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-gate.json
+  accessed_at: '2026-10-15T07:07:18.240760Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: e2f3c84f25a3c848be73247c2c60c94ea4f6c6ad4e97e4886ebf6cf5ecd026d8
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-vendor.json
+  accessed_at: '2026-10-15T06:53:55.289191Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: 0727339590e1151e8c750e5f8f1408af5a40561f172f1480a9c300e833cc1c65
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-check-source.json
+  accessed_at: '2026-10-15T06:53:49.916360Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: b91a5256ed6910e2b7c6db7e19ded666f14ebb1cd17526eec8aa2c61e868f7f1
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-render.json
+  accessed_at: '2026-10-15T06:53:31.842811Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: 5b7d8e599c425202c2bebbcd82921d405e4c412348d422b6d5747154652a0490
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-render-check.json
+  accessed_at: '2026-10-15T06:54:12.836837Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: ae8ac64a4b38a0b88228fcc022cd3e2ed69fc2d0b0e5a1e69100450552612f08
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-cma-cohort334-check-diff.json
+  accessed_at: '2026-10-15T06:53:47.040195Z'
+  support: context_only
+  summary: Actual completed command and retained output; this evidence predates saving
+    the new review.
+  snapshot_sha256: 61093472433c695dd9013fea92ee7145682773c3b9392fe49ae2734f8089602e
+assessments:
+- assessment_id: active-cma-signed-old-mean-mutation-moments
+  area: evidence
+  topic: Claim signed-old-mean-mutation-moments
+  outcome: supported
+  summary: Supported by Section II PDF2 steps 1–4 and Section III PDF3 Eq5. Rewriting
+    BD z as normalized displacement is exact with the OLD sampling mean and scale.
+    The two outer-product averages each carry 1/mu, with opposite signs; the lambda=4mu
+    convention leaves the middle ranks unused. The explicit distinction from centered
+    covariance and negative mean recombination avoids conflating the active matrix
+    component with a weighted host mean rule.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-active-path-and-population-update
+  area: evidence
+  topic: Claim active-path-and-population-update
+  outcome: supported
+  summary: Supported by PDF2 step5 and PDF3 Eq6. The selected mean in mutation coordinates
+    is BD times z(avg), so the stated path coefficient sqrt(mu*c_C*(2-c_C)) is correct.
+    Eq6 really gives coefficient c_cov on the updated path and separate beta on the
+    signed population moment. It replaces the prior alpha blend; carrying its old
+    (1-alpha) coefficient would give a different rule.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-source-rates-and-empirical-beta
+  area: evidence
+  topic: Claim source-rates-and-empirical-beta
+  outcome: supported
+  summary: Supported by PDF3 following Eq6 and PDF4 Eq7 and fitting prose. The exact
+    active c_cov=2/(n+sqrt(2))^2 and beta=(4mu-2)/((n+12)^2+4mu) match the visual
+    formulas. The dimension/population grid, conservative factor0.6 and integer rounding
+    match the source. Empirical selection is correctly separated from an optimum or
+    universal stability theorem.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-signed-moment-and-definiteness-boundary
+  area: evidence
+  topic: Claim signed-moment-and-definiteness-boundary
+  outcome: supported
+  summary: Supported as explicitly attributed curator algebra from Eqs5–7. Each of
+    2mu outer products has rank at most1, giving rank at most min(n,2mu); symmetry
+    does not imply positivity. For the supplied sphere-ranked generation, selected
+    mean and path vanish, Z=diag(-36,1/4), c_cov=3-2sqrt(2), beta=1/34. Hence the
+    first diagonal is (1-c_cov)-36beta=2sqrt(2)-52/17<0 since 2<676/289. The second
+    diagonal is positive. This verifies a supplied-input counterexample to universal
+    SPD, not the probability of observing an exact continuous sample or a benchmark
+    failure rate. Group membership is unchanged by within-pair ties.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-neutral-selection-and-zero-path-scope
+  area: evidence
+  topic: Claim neutral-selection-and-zero-path-scope
+  outcome: supported
+  summary: Supported as a carefully bounded frozen-law consequence, not the source
+    stationarity statement without qualification. Under independent random permutation
+    of iid steps, each selected group has covariance C and the selected average has
+    covariance C/mu. At p_old=0 this yields E[p_new p_new^T]=c_C(2-c_C)C. The best
+    and worst moment expectations cancel, and Eq6 gives [1-c_cov(1-c_C)^2]C. No independence
+    of the path and Z is needed for this expectation because Eq6 is additive. Fitness
+    ranking, adaptive-state conditioning and a stationary path require separate analysis.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-original-component-and-host-boundary
+  area: evidence
+  topic: Claim original-component-and-host-boundary
+  outcome: supported
+  summary: Supported by PDF2–3 baseline description and Section V PDF7–8. The equal-weight
+    host and separate scalar-exponential sigma rule are present, while Eq5–6 is specifically
+    a covariance-valued component. The future weighted-recombination statement is
+    explicit on PDF8. Neither later unequal-weight negative updates nor whole host/restart
+    mechanisms are aliases of the selected component.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The definition names the covariance-valued component, its retained C/path
+    term and equal-weight signed second moment. It neither asserts SPD output nor
+    aliases the full optimizer; Section II/III locators are correct.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: Qualified related_match to MathematicalFunction is supported by the explicit
+    Eq5–6 matrix-valued rule under specified ranks and rates. The exact pinned CLASS
+    definition permits mathematical rules with dependent values; the relation is not
+    equivalence/is_a or scalar-activation semantics. ExponentialFunction is correctly
+    excluded for this component even though the host sigma update uses exp. No language-model/network/task/query-labeling
+    identity is implied by the name active.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - pinned-aio
+- assessment_id: active-cma-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: One cited original2006 primary paper, eight-page archived CiteSeer PDF.
+    Native metadata keeps actual archive retrieval URL and DOI separately, whole-second
+    access projection with fractional original retained, build date distinct from
+    publication, and unresolved external pagination. Every claim cites jastrebski2006.
+    Access availability does not imply full scientific reading by every agent. Acquisition
+    failures/non-PDF response are historical provenance, not a current scientific
+    defect.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: The original equal-weight component boundary is necessary and supported;
+    a broad whole Active-CMA-ES alias would overstate the selected identity. PDF4
+    explicitly permits loss of positive definiteness and offers no executable repair.
+    The retained limitation correctly avoids silently importing modern safeguards
+    or promising finite-precision stability. The source ranks offspring but supplies
+    no complete general tie policy. The witness has strict separation between selected/middle/worst
+    groups; ties within each symmetric pair do not alter the relevant moments. No
+    sampled-frequency claim follows. The first-step neutral expectation is correctly
+    conditioned on a frozen C and independent random ranking. The unread thesis argument
+    and full adaptive stationary law are excluded; no formal author erratum is asserted.
+    The beta fit and positive benchmark observations do not imply stability for all
+    supplied generations, improvement on every objective or global convergence. Empirical
+    plots were not remeasured and no implementation was run. The archived eight-page
+    source is identified by exact bytes and PDF locators; publisher-byte equality
+    and external proceedings pagination remain unresolved. The broader eight-page
+    source-agent reading is explicitly historical, distinct from this supporting agent’s
+    narrower fresh method reading.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-identity
+  area: identity
+  topic: Concept boundary and current owner
+  outcome: supported
+  summary: The actual maintained identity retains its accepted mathematical_method
+    scope, no aliases, and original owner 201. Fresh identity notes are bound to actual
+    root decisions. This assessment reads retained historical735-native/442-AIO identity
+    conclusions and candidate/neighbor distinctions, not fresh current search results.
+    Rank-mu and IPOP are now canonical cohort333 additions; future creation must refresh
+    inventory/frontier and preserve existing owner201 with unresolved later variants.
+    No new absence, owner resolution, frontier write or global saturation is claimed.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: active-cma-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The scope is the original equal-weight best/worst moment and combined covariance
+    rule. The whole Active-CMA-ES optimizer, later unequal-weight negative updates,
+    the distinct (1+1) active method, restart policies and modern implementations
+    are not exact aliases of this component.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: A positive-definite input matrix does not ensure a positive-definite output.
+    The source says a detected loss can be fixed but does not specify an executable
+    repair. Eigenvalue clipping, step normalization, negative-weight rescaling or
+    exponential covariance updates are not silently added. Good conditioning and stable
+    finite-precision eigendecomposition are separate concerns.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: A rank or tie policy is required to define the selected groups in general.
+    The source does not fully specify a tie convention. In the hand example, objective
+    ties occur only within pairs whose order does not alter the top or bottom group.
+    This example is not a sampled failure rate or a benchmark replication.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The neutral-selection expectation and zero-path calculation use explicitly
+    fixed pre-update covariance and independent random ranking. They do not certify
+    martingale behavior or stationarity throughout an adaptive run. The calculation
+    is curator hand algebra, not an author erratum or an audit of the separate 2005
+    thesis argument cited by the paper.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The beta fit and reported comparisons concern the source’s specified tests.
+    Neither the empirical absence of covariance failure in those runs nor the selected
+    rates establish universal stability, speedup, objective improvement or global
+    convergence. No optimizer, author code or benchmark was run, and numerical plot
+    results are not curated here.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: active-cma-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The primary bytes are an eight-page archived CiteSeer copy, not certified
+    as identical to an author-hosted or publisher copy. Locators use PDF pages; the
+    file’s build date is not the publication date, and differing external proceedings
+    pagination is not resolved by the PDF labels. All eight native-text pages and
+    the defining pages 1–4 visually were inspected in supporting research. The cited
+    thesis and later active-method papers were not fully inspected.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  evidence_ids:
+  - record-active-cma
+  - scientific-support
+  - src-jastrebski2006
+- assessment_id: bipop-fixed-positive-weight-cma-base
+  area: evidence
+  topic: Claim fixed-positive-weight-cma-base
+  outcome: supported
+  summary: Supported by Section 2 on PDF 1 and Table 1 caption/Eqs. 1–5 on PDF 2,
+    with the separate author erratum required for the actual weights. For ranks 1..mu,
+    ln(mu+1/2)-ln(i) is positive and normalizing gives unit sum; the preview does
+    not silently endorse the printed mu+1 offset. Table 1Eq. 4 gates only the incoming
+    covariance-path increment, while Eq. 5 adds (1-h_sigma)*c1*c_c*(2-c_c) to the
+    old-C coefficient. The prose correctly distinguishes this gated rank-one plus
+    positive weighted old-mean second moment from a signed active update. Recomputing
+    defaults follows the displayed dependence on population, selected-parent count
+    and effective mass. No complete covariance stability theorem or implementation
+    certification is claimed.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-inherited-cumulative-step-size-adaptation
+  area: evidence
+  topic: Claim inherited-cumulative-step-size-adaptation
+  outcome: supported
+  summary: Supported by Section 2 inverse-square-root convention and Table 1Eqs. 3,6.
+    The preview uses the symmetric inverse square root of positive-definite C, not
+    an arbitrary unsymmetrized factor; the mean displacement is normalized by the
+    old scalar scale. Its exponential and standard-normal-length denominator agree
+    with Eq. 6. Positive scale preservation is elementary exact-real algebra conditional
+    on a finite exponent, correctly separated from objective improvement and floating-point
+    behavior. Limitation 4 explicitly prevents this displayed equation from certifying
+    a freshly recomputed eigendecomposition at every actual implementation step.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+- assessment_id: bipop-spent-budget-restart-selection
+  area: evidence
+  topic: Claim spent-budget-restart-selection
+  outcome: supported
+  summary: Supported by the complete Section 2.1 account. The paper introduces accounts
+    for evaluations already performed, disregards the initial default-population run
+    in the large account, and states small is selected iff its account is smaller.
+    The preview therefore assigns ties to large and correctly locates the first large
+    restart after the standalone attempt, subject to overall termination. This is
+    a scheduling decision between complete runs, not a paired-population generation.
+    Its explicit denial of finite exact budget equality is necessary because completing
+    one attempt can overshoot the other account; the abstract equal-budget phrase
+    is not treated as a conservation identity.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+- assessment_id: bipop-increasing-population-regime
+  area: evidence
+  topic: Claim increasing-population-regime
+  outcome: supported
+  summary: 'Supported by Section 2.1 and the overall termination paragraph in Section
+    2.2. The maximum configured 512lambda_def follows from nine large-regime doublings,
+    excluding the standalone attempt and interlaced small attempts from that count.
+    The preview does not extend this number to every BIPOP variant or to a global
+    evaluation bound. Its early-target exception to the first/last-large prose is
+    supported by Section 2.2 and Section 6/Table 3: successful final populations include
+    sizes outside the large doubling sequence. It does not turn those empirical observations
+    into a population-performance claim.'
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+- assessment_id: bipop-randomized-small-population-and-scale
+  area: evidence
+  topic: Claim randomized-small-population-and-scale
+  outcome: supported
+  summary: Supported by both displayed Section 2.1 formulas and the independent-uniform
+    statement. The power is U squared, not U or a uniformly sampled integer population.
+    Because the latest large population is at least 2lambda_def, the base of the power
+    is at least1; the integer endpoints retain the displayed range, and the first-large-population
+    case collapses to lambda_def. The logarithm of sigma0 is an affine function of
+    the independent V, which justifies the stated log-uniform scale range. These are
+    direct formula interpretations, not numerical tests. The preview retains half
+    the recent large budget without pretending that the exact last-run/cumulative
+    implementation or partial-generation enforcement was read from author code.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+- assessment_id: bipop-original-configuration-and-stopping-boundary
+  area: evidence
+  topic: Claim original-configuration-and-stopping-boundary
+  outcome: supported
+  summary: Supported by Table 1 initialization, Section 2.2 and Section 3. Uniform
+    mean initialization is distinct from a bounded-support Gaussian search law, so
+    the preview properly avoids asserting that all offspring remain in [-4,4]^D. The
+    listed stopping categories occur in the source; their exact executable TolX/tie
+    details remain qualified in limitation3 rather than silently repaired. Local attempt
+    stopping is separated from overall target/largest-population stopping. The two-regime
+    identity includes a specified base and is meaningfully different from the maintained
+    increasing-population-only method and isolated covariance components; a generic
+    host-independent wrapper is not substituted.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+- assessment_id: bipop-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The definition identifies the specified original 2009 whole algorithm,
+    two distinct restart regimes and spent-evaluation scheduling. Section 2/2.1 and
+    Table 1 support every defining element. It does not assert a generic optimizer,
+    simultaneous population interaction or a replacement identity for original IPOP.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: Qualified related_match to ExponentialFunction is substantively supported
+    by mandatory scalar exp in Table 1Eq. 6 of the fixed whole-method base. It is
+    not justified by doubling or budget scheduling and does not imply an exact match,
+    subclass, neural activation or matrix elementwise exponential. This assessment
+    retains the prior exact pinned-node context rather than changing the older CMA
+    record assessment.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - pinned-aio
+- assessment_id: bipop-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: Native metadata match the actual university-copy PDF hash and acquired
+    URL, correct noiseless-paper DOI, seven-page printed pagination and appropriately
+    bounded version claim. Whole-second accessed_at reflects retained successful acquisition
+    completion. Full_text access is appropriate; this does not assert publisher/HAL
+    byte identity or a full benchmark audit. The actual retained author text is separately
+    hashed and formally cited by the weight claim. Official_documentation/documentation
+    describe its access correctly. Its undated status is retained; no later correction
+    date is fabricated. The second runtime correction remains a limitation, not a
+    new empirical result.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: 'Limitation 1 correctly keeps original positive-weight 2009 whole-method
+    identity separate from the maintained 2001 host, 2003 equal-weight component,
+    2006 active signed component and 2005 IPOP. Unread later active/noisy/software
+    variants are not assigned aliases. Limitation 2 preserves the source budget-cap
+    interpretation and finite-enforcement gaps, distinguishes balancing from exact
+    equality, and qualifies the terminal-large statement with early target stopping.
+    Limitation 3 correctly notes literal small-path absolute-value syntax and unspecified
+    tie policy. Initialization and finite thresholds restrict whole-protocol invariance;
+    no executable repair or universal problem setup is invented. Limitation 4 is directly
+    supported by Section 4Eq. 7 on PDF 3: delayed decompositions use slightly outdated
+    factors. It appropriately qualifies the displayed update and separates numerical
+    stability from exact algebra. Limitation 5 is supported by Section 3: no thorough
+    parameter study and ad hoc small-regime settings. It avoids treating empirical
+    evaluation totals as a universal cap or claiming optimal cost allocation, performance
+    or convergence. Limitation 6 accurately retains both author Table 2 corrections,
+    including arbitrary rather than necessarily successful trials and the possible
+    12 percent underestimate of the last median entry. No repaired values are invented.
+    Limitation 7 matches actual seven-page university-hosted bytes and printed 2389–2395,
+    preserves alternate listing and file-version uncertainties, and distinguishes
+    the full historical text scope from unperformed empirical/code audits.'
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-identity
+  area: identity
+  topic: Concept boundary and current owner
+  outcome: supported
+  summary: The actual maintained identity retains its accepted algorithm scope, no
+    aliases, and original owner 202. Fresh identity notes are bound to actual root
+    decisions. Original2009 BIPOP whole method remains separate from the original
+    2006 active covariance component and maintained 2005 IPOP. No active signed moment
+    is added to its positive-weight base. Owner 202 already contains IPOP and explicit
+    BIPOP residual; any future in-place update must preserve that record ID and resolution.
+    Historical 737/442 research scope is explicit in the preview; later fresh collection/creation
+    decisions are separate and not attested here.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: bipop-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: This is the original 2009 positive-weight whole method, with the separately
+    cited correction to its recombination weights. The maintained 2001 rank-one base,
+    original 2003 equal-weight rank-mu component, 2006 active signed-moment component
+    and 2005 increasing-population-only procedure are different scopes. Later active-BIPOP
+    combinations, noisy-objective extensions, alternative restart controllers and
+    current software are not exact aliases of this record.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The paper defines cumulative spent-evaluation accounts but does not fully
+    settle the executable meaning of half the recent large budget, partial-generation
+    cap enforcement or budget overshoot. Equal-budget language does not guarantee
+    finite exact equality. The configured first/last-large schedule is qualified by
+    possible early target stopping.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: Section 2.2 prints the small-path test without explicit absolute-value
+    syntax and does not completely specify fitness-tie handling. No executable repair
+    is asserted. The initialization box, scale choices, finite thresholds and known-target
+    benchmark conditions are configuration choices, not assumptions satisfied by every
+    black-box problem or proofs of invariance of the whole stopped run.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: Table 1 gives the update equations, while Section 4, Equation 7 on PDF
+    p. 3, describes delayed eigendecompositions and slightly outdated factors in the
+    evaluated implementation. Exact refreshed factors at every generation, numerical
+    conditioning, stable floating-point behavior and complete implementation fidelity
+    are not certified here.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: Section 3 reports no thorough parameter study and describes the small-regime
+    settings as ad hoc. The reported evaluation totals and selected population/scale
+    outcomes do not establish a universal hard evaluation cap, optimal budget allocation,
+    global convergence or superiority over every restart policy. No performance number,
+    speedup or author-code benchmark reproduction is curated.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The author erratum states that Table 2 RT_succ averages Nsucc arbitrary
+    trials rather than necessarily successful trials, and that its final unsuccessful-trial
+    median entry can be up to 12 percent too small. These corrections are retained
+    without inventing repaired results or treating them as a failure of every method
+    equation.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: bipop-limitation-7
+  area: scope
+  topic: Retained limitation 7
+  outcome: supported
+  summary: The primary bytes are a seven-page university-hosted proceedings copy,
+    with printed pages 2389–2395; byte identity to a publisher or HAL copy is not
+    certified. The author bibliography and erratum agree with those pages, while an
+    archive listing gives 2389–2396. File build dates are distinct from publication
+    metadata. Supporting research read all seven native-text pages and method/discussion
+    visuals on pages 1–3, plus the complete author erratum. Empirical plots, unread
+    bibliographic dependencies and the separate noisy companion were not audited.
+    No author implementation, calculator, optimizer or benchmark was run.
+  target_ids:
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - record-bipop
+  - scientific-support
+  - src-hansen2009bipop
+  - src-bipop-author-erratum
+- assessment_id: actual-correspondence
+  area: consistency
+  topic: Captured bytes, report mirror, frontier and DRAFT status
+  outcome: supported
+  summary: Both captured records equal the actual write payloads and report entries.
+    Exact support hashes cover all 12 claims, mappings and declared individual limitations.
+    Only owners 201/202 changed; all 906 other main and 393 nested values remain exact,
+    with no new leaves. Six required project/publication checks passed; saving and
+    checking this new review remain separate.
+  target_ids:
+  - AIMech:ActiveCMACovarianceUpdate
+  - AIMech:BIPOPCMAES
+  evidence_ids:
+  - captured-inputs
+  - postcapture-reading
+  - discovery-report
+  - creation-history
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+notes:
+- The original equal-weight signed active covariance component is distinct from its
+  host and later active variants. The formula, rank bound, explicit indefinite-matrix
+  example and neutral first-step expectation were hand checked with their assumptions.
+  BIPOP retains the corrected log(mu+0.5) weights from the author erratum, sequential
+  budget comparison with ties selecting the large regime, separate randomized population
+  and initial-scale rules, and unresolved stopping/accounting implementation details.
+  Qualified AIO related mappings are supported without equivalence or subclass assertions.
+  Fresh ignored-file-inclusive identity assessments and exact frontier accounting
+  support these two additions; prior IPOP resolution is preserved. All six required
+  checks passed. No new actionable finding was identified; this remains a scientific
+  self-review and both records remain DRAFT.
+```

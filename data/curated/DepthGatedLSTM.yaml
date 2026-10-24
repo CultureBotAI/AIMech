@@ -1,0 +1,143 @@
+id: AIMech:DepthGatedLSTM
+name: Depth-Gated LSTM
+aliases:
+- DGLSTM
+- Depth-gated long short-term memory
+concept_kind: architecture
+definition: A stacked LSTM architecture that adds a learned, elementwise gated contribution from the current
+  lower-layer memory cell to the upper-layer cell update alongside its temporal memory and input paths.
+identity_notes: Compared all 442 pinned AIO and 611 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 6, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 24 AIO and 51 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. DGLSTM
+  adds gated current lower-cell memory directly to the upper cell. It is not an alias for ordinary hidden-state
+  stacking, Grid LSTM separate dimensional memory flows, or GF-RNN delayed globally gated hidden projections.
+  Its first-layer observation carry and task-specific attention/reranking configurations remain explicitly
+  scoped.
+definition_evidence:
+- source_id: yao2015
+  locator: Section 3, PDF p. 3, Figure 2 and Equations 7–8
+  relation: supports
+claims:
+- claim_id: adjacent-cell-depth-carry
+  kind: mechanism
+  statement: The depth gate depends on the current upper-layer input, the previous upper-layer memory
+    and the current lower-layer memory. The upper cell adds the depth-gated lower cell to its usual forget-gated
+    previous cell and input-gated candidate. This direct cell connection supplements the ordinary lower-hidden-to-upper-input
+    connection; it does not merely gate the lower hidden output. Lower-layer cells are computed before
+    the corresponding upper-layer update at the same time step.
+  evidence:
+  - source_id: yao2015
+    locator: Sections 2.2–3, PDF pp. 2–3, Figure 2 and Equations 7–8
+    relation: supports
+- claim_id: coupled-gates-and-gradient-boundary
+  kind: scope
+  statement: The described application couples the ordinary forget and input gates as f=1-i, while the
+    extra depth gate is computed separately. The full cell update therefore need not be a convex combination
+    of its memory and candidate inputs. Holding gates fixed exposes a linear direct cell path, but the
+    gate also depends on cell values and the upper input can depend on the lower state. The full derivative
+    is not just the gate value, and sigmoid gates alone do not guarantee contraction, nonvanishing gradients
+    or successful optimization.
+  evidence:
+  - source_id: yao2015
+    locator: Section 2.1, PDF p. 2, Equations 2–6 and coupled-gate paragraph; Section 3, p. 3, Equations
+      7–8; constructed scalar derivative examples
+    relation: supports
+- claim_id: first-layer-and-width-scope
+  kind: scope
+  statement: The paper also proposes a gated projection of observations into the first-layer cell, a distinct
+    boundary construction from carrying a lower LSTM cell. It says the lower-cell weight in the gate should
+    become a matrix when adjacent cell widths differ. That change defines the gate input transform; the
+    displayed elementwise lower-cell addition still needs compatible dimensions or a further specified
+    carry transform. This record does not invent that transform or infer implementation behavior from
+    the uninspected linked code.
+  evidence:
+  - source_id: yao2015
+    locator: Section 3, PDF p. 3, Equations 7–10 and implementation footnote
+    relation: supports
+- claim_id: translation-depth-comparisons
+  kind: limitation
+  statement: The BTEC Chinese-to-English translation comparison uses an attention-based system with learned
+    source word embeddings and recurrent decoding; it does not use a recurrent source encoder in this
+    experiment. With two-hundred-dimensional hidden layers, DGLSTM scores above the listed LSTM and GRU
+    comparators at depths three, five and ten, but its own BLEU score decreases as depth increases. The
+    source reports 44,016 training, 1,006 validation and 506 test sentence pairs. These selected settings
+    do not establish monotonic depth benefit or universal superiority.
+  evidence:
+  - source_id: yao2015
+    locator: Sections 4–4.1, PDF p. 4, Table 1
+    relation: supports
+- claim_id: reranking-protocol-and-arithmetic
+  kind: limitation
+  statement: The reranking experiment uses scores from two attention DGLSTM models with three and five
+    layers of fifty hidden units, fits a reranker on development data, and evaluates reranked one-hundred-best
+    lists with one reference, averaging ten repetitions. It is separate from the two-hundred-hidden-unit
+    comparison. Table 2 gives test BLEU 43.08 versus 40.63, a difference of 2.45 points; the prose instead
+    says three points. The record retains the table arithmetic without treating that prose value as an
+    exact measured difference.
+  evidence:
+  - source_id: yao2015
+    locator: Section 4.1, PDF p. 4, Table 2 and reranking paragraph; constructed subtraction
+    relation: supports
+- claim_id: language-model-evidence-scope
+  kind: limitation
+  statement: The Penn Treebank experiment uses a two-layer model with two hundred hidden units per layer
+    and reports test perplexity 96 against the listed comparison values 123, 117, 110 and 108. These are
+    the short note’s selected reported results, not a current ranking or a controlled replication of every
+    comparator. The note does not fully specify an executable training and evaluation protocol, and the
+    finite language-model and translation experiments do not prove broad optimization or generalization
+    guarantees.
+  evidence:
+  - source_id: yao2015
+    locator: Sections 4 and 4.2, PDF p. 4; Table 3 and Conclusions, p. 5
+    relation: supports
+evidence_sources:
+- source_id: yao2015
+  title: Depth-Gated LSTM
+  authors:
+  - Kaisheng Yao
+  - Trevor Cohn
+  - Katerina Vylomova
+  - Kevin Duh
+  - Chris Dyer
+  persistent_id: arXiv:1508.03790v4
+  version: arXiv1508.03790v4,25 August2015, six PDF pages. All pages visually read. Presented at Jelinek
+    Summer Workshop14August2015; no separate journal acceptance inferred. Locators use PDF/printed page
+    order; author code and other versions not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1508.03790v4
+  access_level: full_text
+  accessed_at: '2026-10-13T11:30:05Z'
+  sha256: c10d8c5d69e2672aa1eba77a7a1f4cdd24d0a47a65e2b1740b8ff3c61e9051ad
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:LongShortTermMemory
+  relation: broad_match
+  rationale: The named architecture is a recurrent LSTM sequence network with an additional gated inter-layer
+    cell path; the pinned generic LSTM network is broader.
+- target: AIO:LSTMCellLayer
+  relation: related_match
+  rationale: The modified cell update operates at a sequence step within the stacked architecture; a cell
+    layer is a component rather than an equivalent complete network.
+limitations:
+- Direct lower-cell carry, ordinary hidden-state stacking and delayed gated feedback are different mechanisms;
+  related Grid and highway descriptions do not make them interchangeable aliases.
+- Coupled ordinary gates do not normalize the additional depth contribution. Input-dependent gates and
+  other paths affect the full Jacobian.
+- Unequal-width carry details and the linked implementation were not verified. First-layer projected-input
+  gating is an explicitly scoped extension.
+- Translation depth comparisons, reranking and language modeling use different protocols. The table-derived
+  reranking gain differs from the prose.
+- All six pages of arXiv1508.03790v4 visually read, including equations, tables, figures and references.
+  No author code, other versions, training or benchmark replication; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T11:54:25Z'
+  updated_at: '2026-10-13T11:54:25Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

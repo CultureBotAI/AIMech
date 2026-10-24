@@ -1,0 +1,189 @@
+id: AIMech:EnforcedHillClimbing
+name: Enforced hill climbing
+concept_kind: algorithm
+aliases: []
+definition: A forward state-space search controller that repeatedly uses breadth-first search to find
+  a state with a strictly smaller heuristic value, commits the intervening action path, and continues
+  from that state until a zero-valued goal is reached or no improvement is reachable.
+definition_evidence:
+- source_id: hoffmann-nebel2001
+  locator: Section 5.1, Figure 3 and the complete FIFO escape-search description, PDF pp. 12–13 / printed
+    pp. 264–265.
+  relation: supports
+claims:
+- claim_id: strict-macro-improvement
+  kind: mechanism
+  statement: Start with an empty plan and the initial state. While the current state has nonzero heuristic
+    value, perform breadth-first search from it for a state with strictly smaller heuristic value. If
+    the search succeeds, append the actions on that path to the plan and make its endpoint current; if
+    no such state can be reached, report failure. A zero-valued current state ends the procedure.
+  evidence:
+  - source_id: hoffmann-nebel2001
+    locator: Section 5.1, Figure 3 and following description, PDF pp.12–13 / printed264–265.
+    relation: supports
+- claim_id: breadth-first-escape
+  kind: mechanism
+  statement: The described escape search uses a FIFO queue and a hash table of visited states. It evaluates
+    the state removed from the front, accepts the first strict improvement over the episode’s starting
+    value, and otherwise enqueues its successors. Exhausting reachable new states yields failure. With
+    complete successor generation, breadth-first ordering makes the accepted improvement nearest by number
+    of actions, subject to successor ordering among equal-depth alternatives.
+  evidence:
+  - source_id: hoffmann-nebel2001
+    locator: Section 5.1, PDF p.13 / printed265, queue implementation and closest-better-successor description.
+      The equal-depth qualification is a curator inference from FIFO ordering.
+    relation: supports
+- claim_id: commitment-and-intermediate-states
+  kind: mechanism
+  statement: The algorithm retains the chosen action prefix and does not undo a commitment merely to try
+    a different improvement from an earlier episode. Strict improvement constrains the successive accepted
+    episode endpoints; the intermediate states on an escape path need not improve at each action. This
+    permits traversal of plateaus and initially worsening paths that a strict neighbor-improvement procedure
+    would reject.
+  evidence:
+  - source_id: hoffmann-nebel2001
+    locator: Section 5.1, PDF pp.12–13 / printed264–265, local minima/plateaus and Figure 3; Section 5.2,
+      PDF p.13 / printed265, irreversible prefix commitment.
+    relation: supports
+- claim_id: conditional-completeness
+  kind: scope
+  statement: For the finite propositional planning setting and the unpruned complete breadth-first escape
+    search, Proposition 4 establishes solution finding on dead-end-free tasks. The paper states the condition
+    that the heuristic maps states to nonnegative integers and is zero exactly at goal states. Any non-goal
+    committed state then has a reachable goal with smaller value, and accepted values decrease. This is
+    a conditional result for the core controller, not a guarantee for FF’s additional pruning rules.
+  evidence:
+  - source_id: hoffmann-nebel2001
+    locator: Section 5.2, Proposition 4 and qualification immediately after its proof, PDF pp.13–14 /
+      printed265–266; Sections 6.1.1–6.1.2, PDF pp.18–19 / printed270–271.
+    relation: supports
+- claim_id: controller-versus-full-ff
+  kind: scope
+  statement: The controller consumes a heuristic and state-transition model. In FF it is combined with
+    a relaxed-GRAPHPLAN heuristic and optional search restrictions. FF’s complete fallback discards the
+    failed attempt and starts greedy best-first search from the original task, with helpful-actions and
+    added-goal-deletion pruning disabled. That fallback composition is distinct from the enforced hill-climbing
+    controller itself.
+  evidence:
+  - source_id: hoffmann-nebel2001
+    locator: Section 2 and Figure 1, PDF p.3 / printed255; Section 5.2, PDF p.15 / printed267; Section
+      6 introduction and integration passages, PDF pp.16,19–21 / printed268,271–273.
+    relation: supports
+limitations:
+- The controller can commit to a reachable dead end on a solvable task. Failure from that committed state
+  does not establish that the original initial state has no solution, and the mere presence of some dead
+  ends does not imply every run fails.
+- Helpful-actions pruning can remove every solution even on a dead-end-free task; added-goal-deletion
+  pruning has a separate such counterexample. Therefore the core dead-end-free completeness statement
+  cannot be transferred to these restricted FF search variants. Their empirical usefulness is not a completeness
+  proof.
+- The nearest strict improvement is measured in number of actions in the breadth-first episode. It need
+  not be the improvement with best heuristic value, the minimum weighted-cost escape, or a prefix of a
+  globally shortest plan. Successor order can select different equal-depth improvements.
+- Each escape search can retain a substantial queue and visited-state table and may inspect all states
+  reachable from its current start. No fixed lookahead budget, real-time bound, polynomial runtime, or
+  completeness for arbitrary infinite spaces follows from the controller. A resource cutoff is an additional
+  stopping rule.
+- The zero-heuristic stopping rule requires zero to identify exactly the goal states. The cited theorem
+  is stated for nonnegative integer values and complete unpruned search; it is not asserted for arbitrary
+  approximate goal tests, changing heuristic tables or restricted successor generation. Admissibility
+  is not a premise of that theorem.
+- This record scope is the base search controller, not the full FF planner, the relaxed-plan heuristic,
+  helpful-actions pruning, added-goal deletion, goal-agenda planning, or the 1971 STRIPS means–ends procedure.
+  It does not perform LRTA*’s learned heuristic backups. The inspected planning formulation assumes a
+  known deterministic transition model and fully specified states; no stochastic or partially observed
+  extension is established here.
+- Assessment uses the 2001 author-hosted JAIR method, OCR with critical visual checks, and selected later
+  sections of the same 2001 paper. The cited ISMIS-2000 predecessor, FF source implementation, and PDF
+  pages26–38 were not inspected. No invention-priority, benchmark ranking, empirical speedup, or implementation-conformance
+  claim is made.
+aio_no_match:
+  search_scope: 'The identity is the unpruned Figure 3 enforced hill-climbing controller in Hoffmann and
+    Nebel 2001: complete FIFO escape to a strict heuristic improvement, with irreversible prefix commitment.
+    It differs from strict immediate-neighbor hill climbing, its BFS subroutine, global best-first selection,
+    stochastic-local-search families, STRIPS means–ends planning, learned RTA*/LRTA* backups, ILS and
+    GLS. Full FF and its relaxed-plan heuristic, pruning and fallback composition are not aliases. Fresh16
+    October 2026 collection at merged base917e850123890bd00e671353652fe53101f83bfb compared 790 native
+    and 442 pinned AIO records, 4,888 identity fields/3,732 normalized values with zero candidate collisions.
+    Four ignored/hidden-inclusive searches returned 128/119/297/636 occurrences, grouped into78 exact
+    contents and read in full as unique contents by root, with independent supporting readings separately
+    recorded. All 913 main/394nested objects were recursively queried; the 3 matching objects and 12 neighbor
+    identity/definition projections were read. Eleven exact AIO CLASS contexts with 51incident edges were
+    inspected. This bounded search is not all-literature coverage. Eight examined AIO targets are rejected
+    for the stated reasons; the other three inspected contexts help assess the separate learned LSS method.
+    No suitable EHC mapping was established in the pinned snapshot. Supplied heuristic guidance alone
+    is not a learning task, neural architecture, LLM or cognitive bias.'
+  rationale: No informative exact, broader, narrower or related AIO target was established for the complete
+    heuristic search controller among the inspected pinned contexts. An action-state graph is not by itself
+    a network architecture or decision-tree classifier; supplied heuristic guidance is not reward learning,
+    an LLM, meta-learning or a human cognitive bias. The assessment is bounded to the pinned 442-class
+    snapshot and the examined targets, not every ontology.
+  examined_targets:
+  - target: AIO:DecisionTree
+    rejection_reason: The target is a classification/decision model. A queue traversal over a planning
+      state graph is not that classifier.
+  - target: AIO:Network
+    rejection_reason: The target denotes an interconnected system. The candidate is a control procedure
+      on states; use of a graph/queue does not establish algorithm identity or a useful broad/related
+      match.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The target is a learning task balancing exploration/exploitation. The candidate
+      performs deterministic model-based search with a supplied heuristic; there is no reward-driven policy/value
+      learning requirement.
+  - target: AIO:AvailabilityHeuristicBias
+    rejection_reason: The target is a human judgment bias from easy recall, despite the exact synonym
+      Availability Heuristic. This is unrelated to the specified escape-search procedure.
+  - target: AIO:StreetlightEffectBias
+    rejection_reason: The target is a human search bias toward easy locations. Lexical search overlap
+      does not define the algorithm.
+  - target: AIO:CognitiveBias
+    rejection_reason: The target describes deviations from rational human judgment and mentions mental
+      heuristics. It is not a computational search controller.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is an LLM with explicit reasoning during language tasks. Symbolic planning
+      search need not contain any language model.
+  - target: AIO:MetaLearning
+    rejection_reason: The target learns from experiment metadata. No such learning mechanism occurs in
+      this controller.
+review_status: DRAFT
+identity_notes: 'The identity is the unpruned Figure 3 enforced hill-climbing controller in Hoffmann and
+  Nebel 2001: complete FIFO escape to a strict heuristic improvement, with irreversible prefix commitment.
+  It differs from strict immediate-neighbor hill climbing, its BFS subroutine, global best-first selection,
+  stochastic-local-search families, STRIPS means–ends planning, learned RTA*/LRTA* backups, ILS and GLS.
+  Full FF and its relaxed-plan heuristic, pruning and fallback composition are not aliases. Fresh16 October
+  2026 collection at merged base917e850123890bd00e671353652fe53101f83bfb compared 790 native and 442 pinned
+  AIO records, 4,888 identity fields/3,732 normalized values with zero candidate collisions. Four ignored/hidden-inclusive
+  searches returned 128/119/297/636 occurrences, grouped into78 exact contents and read in full as unique
+  contents by root, with independent supporting readings separately recorded. All 913 main/394nested objects
+  were recursively queried; the 3 matching objects and 12 neighbor identity/definition projections were
+  read. Eleven exact AIO CLASS contexts with 51incident edges were inspected. This bounded search is not
+  all-literature coverage. Main 910 becomes partial while retaining seven explicit source/component questions;
+  main 8/nested 393 owns the separate LSS method. Historical pointers/access statements remain provenance.'
+evidence_sources:
+- source_id: hoffmann-nebel2001
+  title: 'The FF Planning System: Fast Plan Generation Through Heuristic Search'
+  authors:
+  - Jörg Hoffmann
+  - Bernhard Nebel
+  source_type: primary_paper
+  url: https://fai.cs.uni-saarland.de/hoffmann/papers/jair01.pdf
+  persistent_id: doi:10.1613/jair.855
+  version: Journal of Artificial Intelligence Research 14 (2001), 253–302; 50-page author-hosted journal
+    PDF. Published May 1, 2001 according to the publisher landing page. Exact author-hosted bytes identified
+    by SHA-256; byte identity with the publisher download was not tested. Method reading covers PDF pp.
+    1–24, with selected later sections of the same paper; PDF pp. 26–38 were not inspected. Native text
+    is encoded poorly, so retained OCR and critical rendered-page checks support the reading. No FF implementation
+    or benchmark reproduction was inspected.
+  access_level: full_text
+  accessed_at: '2026-10-15T22:11:47Z'
+  sha256: d7965e902894652a75787bd1a0e92f6f6588e5e751af70efb9472ffbb8702f2e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T01:07:36Z'
+  updated_at: '2026-10-16T01:07:36Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

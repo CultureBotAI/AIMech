@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curriculum Dropout · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Curriculum Dropout</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Curriculum Dropout</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CurriculumDropout</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A neural-network training procedure that starts without unit suppression and gradually increases Bernoulli dropout by decreasing the probability of retaining each unit toward a specified layer-dependent limit.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 634 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 16, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 13 AIO and 21 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the explicit increasing-suppression curriculum schedule. Its time-dependent Bernoulli mask distribution differs from Gaussian fast-dropout approximation, geometric-ensemble dropout boosting and confidence-filtered training-signal annealing. The opposite annealed-dropout direction remains a separate source-access lead, not another asserted record.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#retention-schedule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The demonstrated schedule is theta(t)=(1-theta_bar)*exp(-gamma*t)+theta_bar, where theta is retention probability, t counts gradient updates and gamma is positive. It starts at one and approaches theta_bar; suppression probability is 1-theta(t). The paper uses terminal retention values between 0.5 and 0.9. Its heuristic gamma=10/T depends on an anticipated training length T and approaches, rather than exactly reaches, the limit at finite T.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017">Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 3, main PDF pp.3–4, Equations 1–2; direct schedule calculation</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#mask-and-scaling-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Independent Bernoulli masks suppress individual units during training; D units have expected retained count D*theta(t). This schedules noise rather than sorting the observed examples or learning a separate data-dependent gate. The paper’s mathematical analysis uses unscaled binary masks, with prediction scaling described separately. An inverted-dropout implementation rescales retained values during training and requires reconciling the convention before transferring the formulas.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017">Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Sections 1–3, main PDF pp.1–4; Section 4, pp.5–6</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017supp">Supplementary Material to Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, supplemental PDF pp.2–4</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#linear-loss-regularization-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a linear predictor with squared loss and independent unscaled Bernoulli masks, the exact expected loss equals the squared loss of the theta-scaled mean prediction plus theta*(1-theta)*sum_j(w_j^2*sum_i X_ij^2). Thus the data-fit term also changes. The scalar factor grows along the stated retention path above one half; this identity does not establish a fixed additive penalty for every nonlinear deep network or guarantee better generalization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017">Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 3, main PDF pp.4–5, Equation 3</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017supp">Supplementary Material to Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 1.1, supplemental PDF pp.2–4, Theorem 1 and Equations 3–19; direct finite-mask enumeration</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#curriculum-proof-caveats</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source’s formal curriculum argument needs qualifications. Its binomial coefficient aggregates masks with the same zero count, rather than giving the probability of a specific corrupted image. The supplement multiplies entropies for an independent product distribution, whose joint entropy instead adds. Its proposed ratio Q_lambda/P can exceed the stated unit bound, and zero-valued inputs can make different masks yield the same image. These direct counterexamples prevent adopting a general bounded-weight or strictly increasing observed-image-entropy theorem; they do not invalidate the explicitly defined dropout schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017">Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 4, main PDF pp.5–6, Equations 4–9</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017supp">Supplementary Material to Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 1.2, supplemental PDF pp.4–6, Equations 20–27; constructed probability, ratio and entropy counterexamples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-and-protocol-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The reported evaluation uses selected image-classification datasets, architectures and subsets. Results summarize each run’s ten highest observed accuracies and then aggregate ten runs, so they are selected trajectory summaries rather than fixed final-checkpoint estimates. Universal improvement is not established. The supplement specifies a different CIFAR learning rate from the main text’s fixed-rate description; exact reproduction must resolve that discrepancy. Recurrent-network and connection-drop extensions remain future work in the inspected paper.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017">Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Section 5 and conclusions, main PDF pp.6–8, Figure 3 and Table 1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-morerio2017supp">Supplementary Material to Curriculum Dropout</a></span>
+        <span>· <strong>Locator:</strong> Sections 2.1–2.3, supplemental PDF pp.6–7, Tables 1–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The local identity is the increasing-suppression curriculum procedure, distinct from decreasing-suppression annealed dropout, an abrupt switch schedule, Gaussian fast dropout, ensemble-objective dropout boosting and confidence-based training-signal annealing.</li>
+      <li>The source’s schedule is retained while probability, entropy and curriculum-weight proof problems are explicit. No universal optimization, calibration or generalization guarantee is asserted.</li>
+      <li>Finite endpoint, retention-versus-suppression and mask-rescaling conventions must be distinguished. The planning horizon T is an input to the demonstrated rate heuristic.</li>
+      <li>All nine primary and eight supplementary pages were visually inspected. Author code, other versions, training and empirical replication were not inspected or executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/CurriculumLearning.html" style="font-weight: 600;"><code>AIO:CurriculumLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Curriculum Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Both schedule training difficulty, but this algorithm changes Bernoulli corruption rather than ordering observed examples. The paper’s formal equivalence proof is qualified; the mapping is related, not an equivalence or subclass claim.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DropoutLayer.html" style="font-weight: 600;"><code>AIO:DropoutLayer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Dropout Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure schedules dropout masks over training, while the pinned class describes a masking layer with an inverted-scaling implementation comment. A layer does not by itself identify the schedule or its scaling convention.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-morerio2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">morerio2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_ICCV_2017/papers/Morerio_Curriculum_Dropout_ICCV_2017_paper.pdf" target="_blank" rel="noopener">Curriculum Dropout</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pietro Morerio, Jacopo Cavazza, Riccardo Volpi, René Vidal, Vittorio Murino
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> CVF:Morerio_Curriculum_Dropout_ICCV_2017</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b1bc92e4b045…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-morerio2017supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">morerio2017supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_ICCV_2017/supplemental/Morerio_Curriculum_Dropout_ICCV_2017_supplemental.pdf" target="_blank" rel="noopener">Supplementary Material to Curriculum Dropout</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pietro Morerio, Jacopo Cavazza, Riccardo Volpi, René Vidal, Vittorio Murino
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> CVF:Morerio_Curriculum_Dropout_ICCV_2017_supplemental</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:78ae00c61a6c…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ACurriculumDropout">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Curriculum Dropout" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:CurriculumDropout</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Curriculum Dropout</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 2 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:CurriculumLearning (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T17:16:51Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T17:16:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CurriculumDropout.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CurriculumDropout.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Curriculum%20Dropout"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ACurriculumDropout"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

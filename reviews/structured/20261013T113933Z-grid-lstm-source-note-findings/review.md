@@ -1,0 +1,262 @@
+# Grid LSTM discovery source-note findings
+
+- Review: 20261013T113933Z-grid-lstm-source-note-findings
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T11:37:29Z
+- Finished UTC: 2026-10-13T11:39:33Z
+- Reviewer: Codex (self_review)
+- Completion: partial
+- Verdict: needs_curation
+- Scientific review: true
+
+## Summary
+
+One minor source-note finding affects the discovery dossier; the maintained concept statements remain supported.
+
+## Scope And Provenance
+
+Confirmed source-note defects in the Grid LSTM discovery report.
+
+Selection: Exact maintained ID AIMech:GridLongShortTermMemory
+Coverage: partial; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 71bbccf4c7fb500c713f24329252229ff5f4de7f.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GridLongShortTermMemory | data/curated/GridLongShortTermMemory.yaml | maintained | Grid Long Short-Term Memory |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| Corrected-input publication gates | skipped | True | AIMech:GridLongShortTermMemory | Corrected inputs do not yet exist; the ongoing pre-correction gate is not evidence for them. |
+
+## Scientific And Domain Assessments
+
+### Discovery source-note accuracy
+
+evidence: concern. Targets: AIMech:GridLongShortTermMemory.
+
+Correct equation numbers and distinguish training samples from parameter counts in the discovery notes.
+
+The discovery report reading notes incorrectly label the page5 mechanisms as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M parameter counts, but the table header is Samples. Correct the notes to training sample counts and the actual equation numbers; the maintained concept does not assert those parameter counts.
+
+## Findings
+
+### F1: Correct Grid LSTM source-reading notes
+
+minor / open / confirmed; issue key: grid-lstm-source-notes.
+
+The discovery report reading notes incorrectly label the page5 mechanisms as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M parameter counts, but the table header is Samples. Correct the notes to training sample counts and the actual equation numbers; the maintained concept does not assert those parameter counts.
+
+## Recommended Actions And Acceptance Checks
+
+### A1
+
+Correct source-reading notes, append history, recapture and reassess.
+
+- Reading notes identify Equations5–8 accurately.
+- Figure4 values are identified as samples, not parameters.
+- Final gates and successor review assess the corrected record.
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| record | research/discovery/20261013T113018Z-grid-long-short-term-memory.json | supports | The captured discovery report contains the inaccurate equation numbers and mislabeled Figure4 training sample counts. |
+| paper | https://arxiv.org/pdf/1507.01526v3; PDFpp5–6, Equations5–8 and Figure4; complete PDF was inspected. | supports | Page5 numbers the hidden concatenation5, separate transforms6, priority7 and optional non-LSTM transform8; Figure4 on page6 labels0.55M/5M as Samples. |
+
+## Limits And Additional Notes
+
+- Partial author self-review; DRAFT remains.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T113933Z-grid-lstm-source-note-findings
+kind: record
+repository: CultureBotAI/AIMech
+title: Grid LSTM discovery source-note findings
+started_at: '2026-10-13T11:37:29Z'
+finished_at: '2026-10-13T11:39:33Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author compared complete maintained fields with the inspected
+    primary paper; not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: partial
+verdict: needs_curation
+scientific_review: true
+summary: One minor source-note finding affects the discovery dossier; the maintained
+  concept statements remain supported.
+source:
+  git_revision: 71bbccf4c7fb500c713f24329252229ff5f4de7f
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/DeepFeedForwardNetwork.yaml
+    sha256: d66c246318687598cf762fae4b54586a312b70d143735aba5c12b2606c45c8c9
+    role: context
+  - path: data/aio/LSTMCellLayer.yaml
+    sha256: 3d2dba1fbcce253281204550c144d7c19ad5476ac421c2697ad5913a8adf44c6
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/MemoryCellLayer.yaml
+    sha256: 290f04d7838e185381b29b22e67f8765de74242d687d23b0ffae2dad9d3f7237
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/curated/DynamicMemoryNetworkPlus.yaml
+    sha256: a7360c19312b2db3e79fdebcf74908537e3d1582488646b164c9a97a6c6568d6
+    role: context
+  - path: data/curated/GridLongShortTermMemory.yaml
+    sha256: 24c6416047ffc7b7d205ebb703c14583ef8d6c4f0c1205657863e521b721965b
+    role: target
+  - path: data/curated/NeuralGPU.yaml
+    sha256: 0c862105dfd0351e262d4b100c99b903aaa8f146788817e8c09ee97782b26727
+    role: context
+  - path: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+    sha256: 3b5052204cb9fb56e3cc8279706c736b99fb60fbe8b8c9710c5dbf5144a0a7f2
+    role: context
+  - path: research/discovery/grid-lstm-boundaries.py
+    sha256: 1af0bb8e066aad81d6b8d7387882ec7e31f38cf108ae70cae11fb9331394d4b8
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GridLongShortTermMemory
+  path: data/curated/GridLongShortTermMemory.yaml
+  label: Grid Long Short-Term Memory
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GridLongShortTermMemory.yaml
+    role: maintained
+scope:
+  description: Confirmed source-note defects in the Grid LSTM discovery report.
+  selection: Exact maintained ID AIMech:GridLongShortTermMemory
+  coverage: partial
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GridLongShortTermMemory
+  exclusions:
+  - target: Corrected-input complete scientific review
+    reason: Pending correction and final gates.
+checks:
+- check_id: corrected-publication
+  name: Corrected-input publication gates
+  status: skipped
+  required: true
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  summary: Corrected inputs do not yet exist; the ongoing pre-correction gate is not
+    evidence for them.
+evidence:
+- evidence_id: record
+  kind: record_content
+  reference: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+  accessed_at: '2026-10-13T11:39:33Z'
+  snapshot_sha256: 3b5052204cb9fb56e3cc8279706c736b99fb60fbe8b8c9710c5dbf5144a0a7f2
+  support: supports
+  summary: The captured discovery report contains the inaccurate equation numbers
+    and mislabeled Figure4 training sample counts.
+- evidence_id: paper
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1507.01526v3
+  accessed_at: '2026-10-13T11:06:17Z'
+  snapshot_sha256: 7993018d83f17f52e89910536f14060de587b5baa8b30c886013b10fb3daa63a
+  support: supports
+  locator: PDFpp5–6, Equations5–8 and Figure4; complete PDF was inspected.
+  summary: Page5 numbers the hidden concatenation5, separate transforms6, priority7
+    and optional non-LSTM transform8; Figure4 on page6 labels0.55M/5M as Samples.
+assessments:
+- assessment_id: citations
+  area: evidence
+  topic: Discovery source-note accuracy
+  outcome: concern
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  evidence_ids:
+  - record
+  - paper
+  summary: Correct equation numbers and distinguish training samples from parameter
+    counts in the discovery notes.
+  details: The discovery report reading notes incorrectly label the page5 mechanisms
+    as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M
+    parameter counts, but the table header is Samples. Correct the notes to training
+    sample counts and the actual equation numbers; the maintained concept does not
+    assert those parameter counts.
+findings:
+- finding_id: F1
+  issue_key: grid-lstm-source-notes
+  category: evidence
+  severity: minor
+  status: open
+  certainty: confirmed
+  title: Correct Grid LSTM source-reading notes
+  description: The discovery report reading notes incorrectly label the page5 mechanisms
+    as Equations3–5/6 instead of Equations5–6/7–8. They also call Figure4 values0.55M/5M
+    parameter counts, but the table header is Samples. Correct the notes to training
+    sample counts and the actual equation numbers; the maintained concept does not
+    assert those parameter counts.
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  field_paths:
+  - source_analysis.reading.notes
+  evidence_ids:
+  - record
+  - paper
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+    role: maintained
+actions:
+- action_id: A1
+  description: Correct source-reading notes, append history, recapture and reassess.
+  finding_ids:
+  - F1
+  target_ids:
+  - AIMech:GridLongShortTermMemory
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/20261013T113018Z-grid-long-short-term-memory.json
+    role: maintained
+  acceptance_checks:
+  - Reading notes identify Equations5–8 accurately.
+  - Figure4 values are identified as samples, not parameters.
+  - Final gates and successor review assess the corrected record.
+limitations:
+- Partial author self-review; DRAFT remains.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- source-locators
+```

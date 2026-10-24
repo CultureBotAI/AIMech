@@ -1,0 +1,217 @@
+id: AIMech:PESCF
+name: PESC-F
+concept_kind: algorithm
+definition: An adaptive computation variant of Predictive Entropy Search with Constraints that alternates
+  full inference and acquisition updates with partial updates reusing GP hyperparameter samples, constrained
+  optimizer samples and Gaussian site information, while reducing acquisition optimization effort.
+definition_evidence:
+- source_id: hernandez2016
+  locator: Section 5, PDF pp. 22–25; Algorithm 2 on p. 24
+  relation: supports
+claims:
+- claim_id: full-and-partial-update-levels
+  kind: mechanism
+  statement: PESC-F retains the PESC constrained-optimizer information acquisition and introduces two
+    levels of work between function evaluations. A full update refreshes GP hyperparameter samples, approximate
+    constrained optimizer samples and EP solutions, then optimizes the acquisition. A partial update incorporates
+    new data while reusing selected inference quantities and spending less effort on acquisition optimization.
+    This changes the acquisition approximation and its refresh schedule; it is not merely an exact faster
+    evaluation of every full PESC update. Algorithm 2 presents the competitive decoupled case, with individual
+    objective and constraint tasks sharing one evaluation resource.
+  evidence:
+  - source_id: hernandez2016
+    locator: Sections 5–5.1, PDF pp. 22–24, Algorithm 2
+    relation: supports
+- claim_id: fixed-hyperparameters-with-new-data
+  kind: mechanism
+  statement: During a partial update, the earlier GP hyperparameter samples are retained while the GP
+    model is conditioned on the new observations. Retaining hyperparameters does not mean freezing predictive
+    means and covariances. When appending one input leaves the old covariance block unchanged and the
+    enlarged matrix positive definite, the paper describes updating its Cholesky factor using a bordered
+    calculation with quadratic work instead of a full cubic factorization. This algebraic possibility
+    requires the fixed old block and a positive Schur complement; it is not a general runtime guarantee.
+    The inspected author GP cache still calls a full Cholesky factorization, so the proposed saving is
+    not asserted to occur in that code path.
+  evidence:
+  - source_id: hernandez2016
+    locator: PDF p. 23, first reduction of update cost; Appendix B.4, PDF pp. 49–50; original bordered-factor
+      diagnostic in research/discovery/pesc-fast-boundaries.py
+    relation: supports
+  - source_id: pesc-gp
+    locator: GP.fit lines 517–569 and _prepare_cache lines 271–283 at the pinned commit, read only
+    relation: supports
+- claim_id: optimizer-and-site-reuse
+  kind: mechanism
+  statement: Partial updates reuse previously sampled constrained optimizer locations and previously fitted
+    EP site parameters. In the inspected author implementation, the fast path recomputes predictive Gaussian
+    quantities from the updated models and combines them with the retained sites, without resampling optimizer
+    locations or rerunning the complete EP refinement. New objective input positions receive zero entries
+    when embedding the retained site parameters. Thus cached site reuse does not freeze the whole Gaussian
+    approximation and need not agree with freshly fitted sites. The code requires a preceding full update
+    to initialize these caches.
+  evidence:
+  - source_id: hernandez2016
+    locator: PDF p. 23, second reduction of update cost; Algorithm 2, PDF p. 24, lines 9–10 and 15–16
+    relation: supports
+  - source_id: pesc-acquisition
+    locator: updateEPsolution lines 553–639; create_acquisition_function lines 1271–1285; performEPandXstarSamplingForOneState
+      lines 1348–1389 at the pinned commit, read only
+    relation: supports
+- claim_id: reduced-acquisition-search-effort
+  kind: mechanism
+  statement: The partial computation can reduce acquisition search effort through a coarser stopping tolerance,
+    a smaller initial grid or fewer restarts. These changes trade optimization precision for computation
+    and do not guarantee the same suggested query as a full update. The inspected chooser selects different
+    grid sizes for full and partial updates and, on its NLopt path, different absolute tolerances and
+    evaluation limits. Those are configurable implementation choices, not universal numerical settings
+    or a guarantee that every backend uses the same stopping rule.
+  evidence:
+  - source_id: hernandez2016
+    locator: PDF p. 23, third reduction of update cost; Algorithm 2, PDF p. 24, lines 13 and 17
+    relation: supports
+  - source_id: pesc-chooser
+    locator: suggest lines 504–536; compute_acquisition_function lines 664–774, especially 723–724 and
+      the separate fallback path, at the pinned commit, read only
+    relation: supports
+- claim_id: versioned-timing-trigger
+  kind: mechanism
+  statement: For the inspected author-code convention, let e be elapsed time since the previous full update
+    completed, s its measured duration and g>=0 the thoughtfulness parameter. With fast updates enabled,
+    the chooser uses a partial update when e*g<s and a full update otherwise, including equality. Its
+    full-update completion time is recorded after the acquisition-based suggestion. Initial equal start
+    and end sentinels give s=0 and select a full update before cached partial updates. Disabling fast
+    updates selects full updates directly. This versioned convention agrees with the paper prose that
+    larger rationality levels favor more full computation, but differs from its printed Equation 22 and
+    Algorithm 2 condition e/s>gamma. The discrepancy and the boundary difference are retained rather than
+    silently equated.
+  evidence:
+  - source_id: hernandez2016
+    locator: Section 5.1, PDF p. 23, Equation 22; Algorithm 2, PDF p. 24; Section 7.3, PDF pp. 36–38
+    relation: supports
+  - source_id: pesc-chooser
+    locator: Initialization lines 247–255; fit lines 305–322; suggestion completion lines 653–658 at the
+      pinned commit; original exact trigger diagnostic in research/discovery/pesc-fast-boundaries.py
+    relation: supports
+- claim_id: heuristic-computation-budget
+  kind: scope
+  statement: The switching rule is a heuristic for balancing decision computation with black-box evaluation
+    time. It does not optimize the value of computation or guarantee a fixed upper bound on total BO time
+    divided by evaluation time. Partial-update time also contributes to elapsed time, past full-update
+    duration need not predict the next duration, and sufficiently cheap evaluations can be dominated even
+    by partial updates. PESC-F reduces to the full-update regime when every decision satisfies the chosen
+    full-update condition; this is conditional on the timing convention and parameter, not an unconditional
+    consequence of one evaluation being slower than a previous update. The paper leaves optimal rationality
+    selection and theoretical analysis for future work.
+  evidence:
+  - source_id: hernandez2016
+    locator: Sections 5.1–5.3, PDF pp. 23–25; Table 1 and discussion on p. 38; future work on p. 40; original
+      timing-budget counterexample in research/discovery/pesc-fast-boundaries.py
+    relation: supports
+identity_notes: PESC-F is the named adaptive full/partial PESC computation mechanism, changing cached
+  inference refresh and acquisition search effort. Full PESC acquisition, task/resource graph configurations
+  and CD-F experimental scheduling are distinct context; no separate scheduler or component identity is
+  created. Later pinned author-code timing conventions are distinguished from contradictory printed pseudocode
+  and are not called an erratum. No aliases are adopted. Fresh whole-corpus, semantic, ignored-inclusive
+  and full-frontier assessments establish bounded distinctness before creation.
+evidence_sources:
+- source_id: hernandez2016
+  title: A General Framework for Constrained Bayesian Optimization using Information-based Search
+  authors:
+  - José Miguel Hernández-Lobato
+  - Michael A. Gelbart
+  - Ryan P. Adams
+  - Matthew W. Hoffman
+  - Zoubin Ghahramani
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume17/15-616/15-616.pdf
+  version: Official JMLR 17(160):1–53 (2016) article; published September 2016, embedded PDF creation
+    September 24, 2016. Separate from the later pinned November 2016 author code.
+  access_level: full_text
+  accessed_at: '2026-10-14T22:37:03Z'
+  sha256: bf1df88f424257b19f4dae9cfd70dfcaa9a322c8a317ac355fa689d004f9f177
+- source_id: pesc-chooser
+  title: Spearmint PESC author source — spearmint/choosers/default_chooser.py
+  authors:
+  - Ryan P. Adams
+  - Michael Gelbart
+  - Jasper Snoek
+  - Kevin Swersky
+  - Hugo Larochelle
+  source_type: official_documentation
+  url: https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/choosers/default_chooser.py
+  version: Pinned Spearmint PESC-branch source file at commit b5722e5134becc10523ff8f4bd8ef453b40faf69
+    dated November 13, 2016; a later implementation version than the September 2016 paper.
+  access_level: documentation
+  accessed_at: '2026-10-14T22:50:38Z'
+  sha256: 3313349bc4d1c533b083d8b390cc578a16c4f6d9219727cd4eabdc6e77aba309
+- source_id: pesc-acquisition
+  title: Spearmint PESC author source — spearmint/acquisition_functions/predictive_entropy_search.py
+  authors:
+  - Ryan P. Adams
+  - Michael Gelbart
+  - Jasper Snoek
+  - Kevin Swersky
+  - Hugo Larochelle
+  source_type: official_documentation
+  url: https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/acquisition_functions/predictive_entropy_search.py
+  version: Pinned Spearmint PESC-branch source file at commit b5722e5134becc10523ff8f4bd8ef453b40faf69
+    dated November 13, 2016; a later implementation version than the September 2016 paper.
+  access_level: documentation
+  accessed_at: '2026-10-14T22:50:59Z'
+  sha256: 1124d3cadc0d8e590ce540682781935c6565aca67d8efe1789d619fb21085a9b
+- source_id: pesc-gp
+  title: Spearmint PESC author source — spearmint/models/gp.py
+  authors:
+  - Ryan P. Adams
+  - Michael Gelbart
+  - Jasper Snoek
+  - Kevin Swersky
+  - Hugo Larochelle
+  source_type: official_documentation
+  url: https://github.com/HIPS/Spearmint/blob/b5722e5134becc10523ff8f4bd8ef453b40faf69/spearmint/models/gp.py
+  version: Pinned Spearmint PESC-branch source file at commit b5722e5134becc10523ff8f4bd8ef453b40faf69
+    dated November 13, 2016; a later implementation version than the September 2016 paper.
+  access_level: documentation
+  accessed_at: '2026-10-14T22:51:00Z'
+  sha256: f96c6b69530301ad624e0f303bf51e4d929ad9a4e9ace19547da6c8a15249200
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: The connection is choosing informative queries. The pinned AIO term is a labeling-oriented
+    task, while this algorithm adapts the computation used to choose objective and constraint evaluations.
+    The mapping is related only, without equivalence, subclass, network or layer inheritance.
+limitations:
+- The official 2016 paper was read in full native text, with selected method and experiment visuals. Author
+  code was read selectively at the November 13, 2016 commit b5722e5134becc10523ff8f4bd8ef453b40faf69.
+  It was not imported or executed. This code version is later than the September PDF and is not an author-issued
+  erratum or proof of exact reproduction of the published experiments.
+- Printed Equation 22 reverses the parameter direction relative to the prose and experimental endpoint
+  labels. Algorithm 2 initializes a denominator to zero and records its full-update timer before expensive
+  acquisition optimization, contrary to the prose duration definition. The separately pinned code avoids
+  these literal forms; the record does not merge the versions into one exact pseudocode claim.
+- Full PESC computations already approximate constrained optimizer sampling and conditional observation
+  entropy. PESC-F adds stale samples, retained sites and cheaper search. No exact mutual-information,
+  approximation-error, global optimizer or EP convergence guarantee follows.
+- PESC assumes an attained feasible optimizer with uniqueness or a specified tie policy. The narrow PESC-F
+  mechanism does not supply a general policy for empty feasible sets or certify every printed PESC appendix
+  formula.
+- 'The paper resource graph and Algorithm 1 are surrounding framework context: they greedily choose eligible
+  task/input pairs for available resources, with a model update for pending work. They are not a proof
+  of jointly optimal scheduling, and multiple simultaneously required resources are left to future work.
+  Competitive and non-competitive decoupling are problem configurations, not exact aliases for PESC-F.
+  No separate scheduler identity is asserted here.'
+- The wall-clock experiment uses one synthetic problem, specified artificial evaluation delays and a particular
+  implementation. No universal speedup, quality guarantee, resource fairness or exact time-budget bound
+  is claimed. The retained original calculator checks seven finite algebraic and scheduling boundaries,
+  not author benchmarks.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T03:26:23Z'
+  updated_at: '2026-10-15T03:26:23Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

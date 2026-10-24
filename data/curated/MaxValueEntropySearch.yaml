@@ -1,0 +1,184 @@
+id: AIMech:MaxValueEntropySearch
+name: Max-value Entropy Search
+concept_kind: algorithm
+definition: A Bayesian global optimization algorithm that chooses evaluations using an approximate information
+  acquisition for the latent maximum function value, averaging local truncated-Gaussian entropy differences
+  over approximate maximum-value samples.
+definition_evidence:
+- source_id: wang2017
+  locator: Section 3, PDF pp. 2–4, Equations 4–6 and Algorithm 1
+  relation: supports
+claims:
+- claim_id: maximum-value-information-target
+  kind: mechanism
+  statement: On a compact domain, assuming sample objectives have a finite attained maximum, the method
+    uses a Gaussian-process posterior for an objective observed through independent Gaussian noise. Its
+    information target is the scalar latent maximum M=max_x f(x), rather than the location of a maximizer
+    targeted by Entropy Search and Predictive Entropy Search. At fixed data, candidate x and hyperparameters,
+    the ideal acquisition I(M;Y|D,x) can be written as H(Y|D,x)-E_M[H(Y|D,x,M)] when those entropy terms
+    are well-defined. The maximum value remains defined when multiple locations attain it. Changing the
+    information target does not establish that it is more useful on every problem or that it equals optimizer-location
+    information.
+  evidence:
+  - source_id: wang2017
+    locator: Sections 2–3, PDF p. 2, Equations 1–5; original finite value/location information examples
+      in research/discovery/mes-boundaries.py
+    relation: supports
+- claim_id: local-latent-truncation-acquisition
+  kind: mechanism
+  statement: Let mu_t(x) and s_t(x)>0 be the posterior mean and standard deviation of the latent function.
+    For each approximate maximum sample m, set gamma=(m-mu_t(x))/s_t(x). Equation 6 averages gamma*phi(gamma)/(2*Phi(gamma))-log(Phi(gamma))
+    over these samples, where phi and Phi are the standard-normal density and cumulative distribution.
+    This expression subtracts the entropy of a Gaussian truncated only by f(x)<=m from the ordinary latent
+    Gaussian entropy. Conditioning on the actual global maximum is stronger than this necessary local
+    inequality. Moreover, noisy Y=f(x)+epsilon may exceed M and has predictive variance s_t(x)^2 plus
+    the observation-noise variance. The source uses latent variance and local truncation here, so this
+    is an acquisition approximation, not exact noisy maximum-value information even with exact maximum
+    samples.
+  evidence:
+  - source_id: wang2017
+    locator: Section 3, PDF pp. 2–3, Equations 4–6 and the paragraph following Equation 6; original conditional-Gaussian
+      and noise examples in research/discovery/mes-boundaries.py
+    relation: supports
+- claim_id: independent-grid-and-gumbel-maximum-sampling
+  kind: mechanism
+  statement: The MES-G option first represents the domain by a finite set and approximates its posterior
+    function values as independent Gaussians. Its approximate maximum CDF is the product of the marginal
+    Gaussian CDFs. The source fits a Gumbel distribution by matching the 0.25 and 0.75 quantiles, then
+    samples through its inverse CDF. These are distinct discretization, independence and distribution-fit
+    approximations. The supplement’s Slepian comparison requires nonnegative posterior covariances on
+    the finite set; nonnegative prior covariances alone do not suffice. Even when the independent maximum
+    stochastically dominates under that comparison, the fitted Gumbel need not preserve the ordering.
+    A stochastic distribution bound is also different from a pathwise bound for every sampled value.
+  evidence:
+  - source_id: wang2017
+    locator: Section 3.1 and Algorithm 1, PDF p. 3; original covariance and percentile-fit boundaries
+      in research/discovery/mes-boundaries.py
+    relation: supports
+  - source_id: wang2017-supplement
+    locator: Section 2, supplement PDF pp. 1–2, Lemma 2.1 and the Gumbel approximation discussion
+    relation: supports
+- claim_id: finite-feature-posterior-function-sampling
+  kind: mechanism
+  statement: The MES-R option approximates a suitable stationary Gaussian-process covariance with finite
+    random Fourier features, samples Gaussian posterior feature weights, and numerically maximizes each
+    resulting function to obtain an approximate maximum value. A stationary covariance has spectral mass
+    k(0); drawing frequencies from a probability distribution requires normalization and the corresponding
+    kernel-amplitude factor in the features. The displayed sqrt(2/D) cosine feature scaling uses unit
+    amplitude. For fixed features the posterior belongs to the finite feature model. Finite features and
+    numerical maximization do not guarantee exact maximum draws from the original Gaussian process.
+  evidence:
+  - source_id: wang2017
+    locator: Section 3.2, PDF p. 4; spectral-amplitude boundary in research/discovery/mes-boundaries.py
+    relation: supports
+- claim_id: sequential-evaluations-and-model-adaptation
+  kind: mechanism
+  statement: Each iteration numerically maximizes the approximate acquisition, evaluates the noisy objective
+    at that location, appends the observation and recomputes the posterior acquisition. The paper also
+    discusses maximum-likelihood hyperparameter fitting or aggregation over sampled hyperparameter settings
+    and associated maximum samples. With fixed positive sample counts, omitting a common normalization
+    does not change the acquisition argmax, although its numerical value is then a sum rather than an
+    average. An average of fixed-hyperparameter information approximations is not generally exact information
+    under the fully marginalized model. The displayed regression formulas use the zero-mean convention
+    adopted in the experiments; a general prior mean requires consistent centering.
+  evidence:
+  - source_id: wang2017
+    locator: Algorithm 1, PDF p. 3; Sections 2.1, 3.5 and 5, PDF pp. 2, 4–5
+    relation: supports
+- claim_id: single-sample-ranking-and-guarantee-scope
+  kind: scope
+  statement: For one shared maximum sample and positive posterior standard deviations, the scalar Equation
+    6 score decreases with the standardized gap. Its maximizer therefore minimizes that gap, giving the
+    source’s limited PI and EST relation with matching parameters. The displayed UCB coefficient min_x
+    gamma can be negative, so equivalence to a standard nonnegative UCB exploration coefficient requires
+    an additional domain restriction. There is no general such equivalence for multiple distinct maximum
+    samples. The stated regret bound concerns a specific single-sample regime and maximum-sampling distribution.
+    It does not automatically cover finite Gumbel or feature approximations, arbitrary multi-sample scores,
+    learned hyperparameters or the additive extension.
+  evidence:
+  - source_id: wang2017
+    locator: Sections 3.3–3.4, PDF p. 4, Lemma 3.1 and Theorem 3.2; the finite score grid in research/discovery/mes-boundaries.py
+      is illustrative and is not a proof of global monotonicity
+    relation: supports
+  - source_id: wang2017-supplement
+    locator: Section 3, supplement PDF pp. 2–3, Theorem 3.1, its proof and the explicit absence of an
+      additive regret bound
+    relation: supports
+identity_notes: The original MES Equation 6 acquisition targets a finite attained latent maximum value
+  with local truncated-latent entropy, including MES-G and MES-R as sampling options. ES/PES target optimizer
+  location; OPES shares the ideal value-information target but uses observed-latent EP constraints and
+  noisy Gaussian moment-matched entropy. The common target does not establish operational identity, universal
+  acquisition differences or superior utility. No acronym alias is adopted. Current full normalized, semantic
+  and ignored-inclusive evidence is assessed before creation.
+evidence_sources:
+- source_id: wang2017
+  title: Max-value Entropy Search for Efficient Bayesian Optimization
+  authors:
+  - Zi Wang
+  - Stefanie Jegelka
+  version: Official ICML 2017 proceedings PDF, PMLR 70:3627–3635; nine PDF pages. The separately inspected
+    later arXiv revision is not substituted for these bytes.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/wang17e/wang17e.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T22:16:25Z'
+  sha256: 20e712e001659dcb3ef7463b964b4ab2cd69ef9b078f80e3b2f39f173b5f0580
+- source_id: wang2017-supplement
+  title: 'Max-value Entropy Search for Efficient Bayesian Optimization: Supplementary Material'
+  authors:
+  - Zi Wang
+  - Stefanie Jegelka
+  version: Official separate five-page ICML 2017/PMLR appendix, Sections 1–4; locators use supplement
+    PDF pagination.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v70/wang17e/wang17e-supp.pdf
+  access_level: full_text
+  accessed_at: '2026-10-14T22:16:25Z'
+  sha256: 3681a6cd7e607d506d0eeda1053748f76fafc1d65f2f5ee0d7e67b9bde03d3db
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ActiveLearning
+  relation: related_match
+  rationale: The pinned class describes interactive querying of an information source for outputs. MES
+    chooses expensive objective evaluations for information about a latent maximum. This relation records
+    a query-learning association, without identifying the algorithm with annotation or pool-based classification,
+    asserting subclass membership, or inheriting a neural architecture.
+limitations:
+- This record covers the original Equation 6 acquisition and its MES-G/MES-R sampling options. It does
+  not identify every maximum-value information method, or add-MES, constrained PES and parallel PES, with
+  this algorithm. The paper’s PDF p. 2 credits output-space predictive entropy search with the same ideal
+  information objective while distinguishing its operational approximation; that earlier method is not
+  assigned as an exact alias here.
+- The local-truncation and observation-noise qualifications are part of the mechanism’s scope. The printed
+  use of p(y|D,x) with latent variance and y<m is not silently repaired into a different noisy acquisition.
+  Degenerate posterior variances, extreme Gaussian tails, finite-sample ties and numerical maximization
+  require explicit implementation choices.
+- A finite-domain approximation is not automatically an upper bound on a continuous-domain maximum. The
+  source’s covering argument uses an epsilon-cover and a valid Lipschitz constant to add epsilon times
+  that constant. Neither such a bound nor posterior nonnegative covariance is guaranteed merely by choosing
+  an arbitrary grid or a familiar covariance kernel. Gumbel inversion requires 0<r<1 and a positive scale
+  for finite real outputs; degenerate fitted quantiles need handling.
+- The general regret theorem was not independently established by this record’s curator calculations.
+  Integer sampling-block lengths, confidence terms at selected iteration times versus the final displayed
+  index, and extensions to adaptive maximum distributions require a separate proof audit. No repaired
+  theorem, universal regret rate or finite-budget global-optimum certificate is asserted.
+- The additive extension is outside this identity. Independent component priors generally become dependent
+  after summed observations; separate component acquisitions are not automatically the joint information
+  of the actual summed noisy evaluation. This contextual boundary does not establish that the additive
+  heuristic lacks practical utility.
+- The original curator calculator evaluates 201 scalar scores and seven constructed boundary categories.
+  Rational probability and covariance arithmetic is exact; Gaussian/Gumbel functions and entropy use floating
+  arithmetic with explicit absolute tolerances. Its corrected CDF crossing witness and preserved initial
+  failed assertion are research provenance, not a source-code repair. No Gaussian-process fitting, feature
+  sampling, acquisition optimization, author implementation or benchmark was executed. These checks establish
+  no general accuracy or runtime advantage over ES or PES.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T01:49:16Z'
+  updated_at: '2026-10-15T01:49:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

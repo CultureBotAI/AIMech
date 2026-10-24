@@ -1,0 +1,632 @@
+# Scientific author self-review of IRNN
+
+- Review: 20261013T045502Z-identity-initialized-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T04:49:16Z
+- Finished UTC: 2026-10-13T04:55:02Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain IRNN as a distinct DRAFT architecture with a broader recurrent-network mapping and related activation mapping. All six claims and fields have support with explicit initialization, rectifier/input, scaled-identity and trainable-structure boundaries. The saved predecessor-identity finding is resolved; no additional actionable defect found. No training or author-code execution occurred.
+
+## Scope And Provenance
+
+All fields of the maintained IRNN and the complete primary v2 paper, including its figures, tables and references.
+
+Selection: Exact maintained ID: AIMech:IdentityInitializedRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 15cc01523a4d971572c693233c8fa6907964f482.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:IdentityInitializedRecurrentNeuralNetwork | data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml | maintained | Identity-initialized rectified recurrent neural network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:IdentityInitializedRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 133.74s (0:02:13)<br>Checked 442 record(s); 0 failed.<br>Checked 572 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 227 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 227,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:IdentityInitializedRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:IdentityInitializedRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:IdentityInitializedRecurrentNeuralNetwork | Exited 0 without output. |
+| Constructed IRNN transition boundaries | passed | True | AIMech:IdentityInitializedRecurrentNeuralNetwork | {"identity_copy": [2.0, 3.0], "input_deactivated_state": [0.0, 3.0], "inactive_input_derivative": 0.0, "scaled_four_step_state": [0.125, 0.1875], "scaled_active_derivative": 0.0625, "positive_input_after_100_steps": [100.0, 200.0], "dense_update_cross_dependence": [[2.3, 3.0], [2.4, 4.0]], "scope": "Constructed elementary transition/derivative checks; no fitted network or benchmark."} |
+
+## Scientific And Domain Assessments
+
+### Rectified recurrence with prescribed initialization
+
+identity: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Retain IRNN as a distinct DRAFT architecture.
+
+No normalized maintained identity matched. All nine current ignored-inclusive matches were the preceding norm-stabilizer report’s candidate, source URL and follow-up note, read in full. IRNN is defined by rectified hidden units and an initial recurrent matrix/bias convention. Its scaled identity is preserved as a variant, not duplicated as a separate architecture.
+
+### Broader recurrent architecture and component activation
+
+grounding: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Mapping directions are supported.
+
+The recurrent network target is broader than the initialization-defined local architecture, supporting broad_match. ReLUFunction denotes its component activation, supporting related_match. Neither a generic layer nor a preprocessing/training genus establishes this full architecture identity.
+
+### initialization-and-transition
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+Section2 explicitly initializes recurrent weights to identity and biases to zero, then trains with BPTT. The hidden transition formula makes that initial choice concrete and does not impose identity during all optimization steps.
+
+### active-path-gradient-boundaries
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+The source memory/error motivation requires the rectifier state and input conditions. Positive preactivations have derivative one; negative preactivations have derivative zero and the zero kink needs a convention. The record qualifies the direct path and excludes additional error contributions instead of promising unconditional gradient preservation.
+
+### scaled-identity-variant
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+The source permits scaled identity and uses .01I for speech, named iRNN. For fixed positive c below1, input-free active paths decay by c each step. The record preserves that variant and the limits of extending the calculation to trained/input-driven recurrence.
+
+### trainable-versus-fixed-structure
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+BPTT leaves the recurrent matrix trainable, so off-diagonal entries can appear. Section2 distinguishes a prior subset fixed to identity or approximate identity; the corrected claim now preserves both alternatives. The record does not conflate an initialization with a permanent independent-neuron, diagonal or orthogonal restriction.
+
+### state-magnitude-and-forgetting
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+Repeated positive input can grow an identity-initialized state even though the no-input recurrent gain is one. Section4.4 reports unfavorable full-identity speech behavior and motivates scaled forgetting. No state or optimizer cap and no universal stability claim is inferred.
+
+### evaluation-context
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Supported with explicit initialization and state/input conditions.
+
+The four benchmark families use differing depths, capacities, directionality, tuning and identity scales. The source explicitly allows other LSTM tuning to improve comparisons. No numeric benchmark, current ranking or universal initialization/optimizer recipe is imported.
+
+### Copying, inactive derivatives, forgetting and dense updates
+
+consistency: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Constructed transitions confirm the qualifications.
+
+Identity copies [2,3] without input; input [-3,0] deactivates the first unit and its local derivative is zero. Four steps at scale.5 yield [.125,.1875] with direct derivative.0625. Repeated positive input reaches [100,200] after100 steps. A constructed off-diagonal update creates cross-coordinate dependence. No model was trained.
+
+### Complete maintained record and source scope
+
+provenance: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+All maintained fields were inspected; DRAFT remains.
+
+Read ID/name/alias, architecture kind, definition/citations, identity context, six claims/locators, source identity/version/access/hash, AIO pin, both mappings, six limitations and actual curation times. Source/context/capture hashes and report mirror agree. All nine primary pages were visually inspected. No author code or empirical execution and no actionable record defect.
+
+### Identity or approximate identity
+
+evidence: supported. Targets: AIMech:IdentityInitializedRecurrentNeuralNetwork.
+
+Saved F1 is resolved.
+
+The corrected claim says the earlier matrix is fixed to identity or approximate identity, preserving the source alternative without weakening the trainable-initialization distinction. The complete changed record, report mirror and actual EDIT history were checked; scaled-state grammar was clarified without changing its conditions.
+
+## Findings
+
+### F1: Qualify the predecessor recurrence as identity or approximate identity
+
+minor / resolved / confirmed; issue key: irnn-predecessor-identity-qualification.
+
+The trainable-versus-fixed-structure claim says the predecessor retains a fixed identity matrix. The cited primary Section2 p2 explicitly permits identity or approximate identity. Omitting the latter overstates the comparison and can imply unit carry gain in the earlier constrained context. Preserve that qualification while retaining the supported initialization-versus-structural-constraint distinction.
+
+Disposition: The maintained claim and exact report mirror now retain identity or approximate identity, matching Section2 p2. Actual EDIT history was appended, corrected bytes were freshly captured and reread, and post-edit gates passed. The initialization-versus-structure distinction is unchanged.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T044406Z-identity-initialized-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 571 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 9, 0, 0 lines. All current matches are the preceding norm-stabilizer discovery report’s IRNN candidate, source URL and follow-up note, read in full. No existing maintained record matched. The semantic search covers 44 AIO rows and 118 native definitions; preceding 21 AIO and111 native rows were verified unchanged, and 23 additional AIO plus seven additional native definitions were read. The extra native definitions include norm-stabilizer and other recurrent/output/transport architectures, not this initialization-defined rectified network. Four full annotated AIO node/edge/generated contexts and four full native regularizer/clipping records were inspected. RecurrentNeuralNetwork is broader than the local architecture; ReLUFunction is a related component. SimpleRNNLayer does not by itself specify the initial parameters and denotes a layer rather than the complete architecture. TrainingStrategy is not an architecture superclass. IRNN includes the separately described scaled-identity initialization variant, while preserving the difference from a fixed identity or permanent diagonal recurrent constraint. |
+| mapping | sources/aio/aio.json | supports | Forty-four AIO and118 native semantic rows were read or verified unchanged. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. Both mapping YAMLs reread after capture. RecurrentNeuralNetwork is the broader architecture category; ReLUFunction is a related component. Generic layer and TrainingStrategy definitions do not identify this architecture. |
+| le2015 | https://arxiv.org/pdf/1504.00941v2; Complete nine-page v2 paper visually read; Section2 p2 and scaled speech configuration Section4.4 p6 reread after capture. | supports | April7,2015 v2. All nine printed/PDF pages, including complete method, three figures, four tables and references, visually inspected. |
+| calculation | research/discovery/irnn-boundaries.py | supports | Constructed transition algebra checks identity copying, input-deactivated derivatives, scaled forgetting, positive-input accumulation and dense cross-coordinate recurrence after an update. These are elementary calculations, not training or benchmark evaluation. |
+| predecessor | reviews/structured/20261013T044719Z-irnn-predecessor-qualification-open/review.yaml | supports | Saved partial author review identified the missing approximate-identity alternative. The current claim and report mirror have been inspected against its acceptance criteria. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. One confirmed minor finding is resolved; issue239 tracks the correction.
+- One new DRAFT concept, yielding 572 native and 442 unchanged generated records. The 757-entry main frontier retains 482 pending and 57 partly addressed cohorts; discovery is incomplete.
+- Published comparisons depend on task, tuning, capacity and configuration. No current best performance, numerical benchmark or universal LSTM replacement is asserted.
+- All nine main printed/PDF pages, including the complete method, figures/tables and references, were visually read. No author code, dependency audit, training or empirical replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T045502Z-identity-initialized-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of IRNN
+started_at: '2026-10-13T04:49:16Z'
+finished_at: '2026-10-13T04:55:02Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity/mapping, initialization versus
+    permanent structure, active rectifier derivatives, input accumulation, scaled
+    forgetting and conditional evaluation evidence. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain IRNN as a distinct DRAFT architecture with a broader recurrent-network
+  mapping and related activation mapping. All six claims and fields have support with
+  explicit initialization, rectifier/input, scaled-identity and trainable-structure
+  boundaries. The saved predecessor-identity finding is resolved; no additional actionable
+  defect found. No training or author-code execution occurred.
+source:
+  git_revision: 15cc01523a4d971572c693233c8fa6907964f482
+  state: working_tree
+  inputs:
+  - path: data/aio/ReLUFunction.yaml
+    sha256: 815a5255ec7e87bb8bb123ea7121d024d46450ccfab164985e2014108b53d28c
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/SimpleRNNLayer.yaml
+    sha256: 6e93e3bd5702eb0a1109a12526138ae8aed009f30cc7cb764b0c7db4fa3f0bbe
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/GradientNormClipping.yaml
+    sha256: f17c409240f4de8a4fc3a19847cb9eadd18bfc99113bfa2f39d976f01603654a
+    role: context
+  - path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+    sha256: cfa1543605f0046f0c2bbbffc294d7cead0a444f1db5cb955bdf8971a7ae9d62
+    role: target
+  - path: data/curated/NormStabilizer.yaml
+    sha256: 534daa42c9584cefc836a8e5299b1b61e3e57957f153c3f5a0cd9d4c46202ecb
+    role: context
+  - path: data/curated/VanishingGradientRegularization.yaml
+    sha256: 3e02350f45248dfff36a96270f643522f75aabbaf5160e1aa834ce90a0afdd34
+    role: context
+  - path: data/curated/Zoneout.yaml
+    sha256: 25f1c0e8bfaa491a871c780730358be99aa37f44933aefc466b1ca0024563ae6
+    role: context
+  - path: research/discovery/20261013T044406Z-identity-initialized-recurrent-neural-network.json
+    sha256: 43ed96427f09ac2b62c4056f6b3e68f52d303a6cbe4fd968beb3fdcdff7b61f7
+    role: context
+  - path: research/discovery/irnn-boundaries.py
+    sha256: bc97962bf653c4a56d31813ab267f38b885053ce7a88bdc24fa50c641c508935
+    role: context
+  - path: reviews/structured/20261013T044719Z-irnn-predecessor-qualification-open/review.md
+    sha256: 8b8cac83a3537778f41e7f1801827504ac73410aa88a11797ca83ee3209d32f6
+    role: context
+  - path: reviews/structured/20261013T044719Z-irnn-predecessor-qualification-open/review.yaml
+    sha256: 86c0b5cf63763a1c2fbeb02f9cc510e6cb0604b066517ca4f015e3641e42598b
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:IdentityInitializedRecurrentNeuralNetwork
+  path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+  label: Identity-initialized rectified recurrent neural network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained IRNN and the complete primary v2 paper,
+    including its figures, tables and references.
+  selection: 'Exact maintained ID: AIMech:IdentityInitializedRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Author code and framework runtime
+    reason: The complete nine-page paper was read; no implementation or runtime audit
+      was conducted.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 133.74s (0:02:13)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 572 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 227 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 227,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed IRNN transition boundaries
+  command: python3 research/discovery/irnn-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"identity_copy": [2.0, 3.0], "input_deactivated_state": [0.0, 3.0], "inactive_input_derivative":
+    0.0, "scaled_four_step_state": [0.125, 0.1875], "scaled_active_derivative": 0.0625,
+    "positive_input_after_100_steps": [100.0, 200.0], "dense_update_cross_dependence":
+    [[2.3, 3.0], [2.4, 4.0]], "scope": "Constructed elementary transition/derivative
+    checks; no fitted network or benchmark."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T044406Z-identity-initialized-recurrent-neural-network.json
+  accessed_at: '2026-10-13T04:49:16Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 571 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    9, 0, 0 lines. All current matches are the preceding norm-stabilizer discovery
+    report’s IRNN candidate, source URL and follow-up note, read in full. No existing
+    maintained record matched. The semantic search covers 44 AIO rows and 118 native
+    definitions; preceding 21 AIO and111 native rows were verified unchanged, and
+    23 additional AIO plus seven additional native definitions were read. The extra
+    native definitions include norm-stabilizer and other recurrent/output/transport
+    architectures, not this initialization-defined rectified network. Four full annotated
+    AIO node/edge/generated contexts and four full native regularizer/clipping records
+    were inspected. RecurrentNeuralNetwork is broader than the local architecture;
+    ReLUFunction is a related component. SimpleRNNLayer does not by itself specify
+    the initial parameters and denotes a layer rather than the complete architecture.
+    TrainingStrategy is not an architecture superclass. IRNN includes the separately
+    described scaled-identity initialization variant, while preserving the difference
+    from a fixed identity or permanent diagonal recurrent constraint.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T04:49:16Z'
+  support: supports
+  summary: Forty-four AIO and118 native semantic rows were read or verified unchanged.
+    Four full annotated AIO node/edge/generated contexts and four full native records
+    were inspected. Both mapping YAMLs reread after capture. RecurrentNeuralNetwork
+    is the broader architecture category; ReLUFunction is a related component. Generic
+    layer and TrainingStrategy definitions do not identify this architecture.
+- evidence_id: le2015
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1504.00941v2
+  locator: Complete nine-page v2 paper visually read; Section2 p2 and scaled speech
+    configuration Section4.4 p6 reread after capture.
+  accessed_at: '2026-10-13T04:15:22Z'
+  snapshot_sha256: 99d916f3d8815437dc22c6385b187a00ab789ced829bafc39680904818344a89
+  support: supports
+  summary: April7,2015 v2. All nine printed/PDF pages, including complete method,
+    three figures, four tables and references, visually inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/irnn-boundaries.py
+  accessed_at: '2026-10-13T04:49:42Z'
+  snapshot_sha256: bc97962bf653c4a56d31813ab267f38b885053ce7a88bdc24fa50c641c508935
+  support: supports
+  summary: Constructed transition algebra checks identity copying, input-deactivated
+    derivatives, scaled forgetting, positive-input accumulation and dense cross-coordinate
+    recurrence after an update. These are elementary calculations, not training or
+    benchmark evaluation.
+- evidence_id: predecessor
+  kind: prior_review
+  reference: reviews/structured/20261013T044719Z-irnn-predecessor-qualification-open/review.yaml
+  accessed_at: '2026-10-13T04:49:42Z'
+  snapshot_sha256: 86c0b5cf63763a1c2fbeb02f9cc510e6cb0604b066517ca4f015e3641e42598b
+  support: supports
+  summary: Saved partial author review identified the missing approximate-identity
+    alternative. The current claim and report mirror have been inspected against its
+    acceptance criteria.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Rectified recurrence with prescribed initialization
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - le2015
+  - calculation
+  summary: Retain IRNN as a distinct DRAFT architecture.
+  details: No normalized maintained identity matched. All nine current ignored-inclusive
+    matches were the preceding norm-stabilizer report’s candidate, source URL and
+    follow-up note, read in full. IRNN is defined by rectified hidden units and an
+    initial recurrent matrix/bias convention. Its scaled identity is preserved as
+    a variant, not duplicated as a separate architecture.
+- assessment_id: mapping
+  area: grounding
+  topic: Broader recurrent architecture and component activation
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - le2015
+  summary: Mapping directions are supported.
+  details: The recurrent network target is broader than the initialization-defined
+    local architecture, supporting broad_match. ReLUFunction denotes its component
+    activation, supporting related_match. Neither a generic layer nor a preprocessing/training
+    genus establishes this full architecture identity.
+- assessment_id: initialization-and-transition
+  area: evidence
+  topic: initialization-and-transition
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: Section2 explicitly initializes recurrent weights to identity and biases
+    to zero, then trains with BPTT. The hidden transition formula makes that initial
+    choice concrete and does not impose identity during all optimization steps.
+- assessment_id: active-path-gradient-boundaries
+  area: evidence
+  topic: active-path-gradient-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: The source memory/error motivation requires the rectifier state and input
+    conditions. Positive preactivations have derivative one; negative preactivations
+    have derivative zero and the zero kink needs a convention. The record qualifies
+    the direct path and excludes additional error contributions instead of promising
+    unconditional gradient preservation.
+- assessment_id: scaled-identity-variant
+  area: evidence
+  topic: scaled-identity-variant
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: The source permits scaled identity and uses .01I for speech, named iRNN.
+    For fixed positive c below1, input-free active paths decay by c each step. The
+    record preserves that variant and the limits of extending the calculation to trained/input-driven
+    recurrence.
+- assessment_id: trainable-versus-fixed-structure
+  area: evidence
+  topic: trainable-versus-fixed-structure
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: BPTT leaves the recurrent matrix trainable, so off-diagonal entries can
+    appear. Section2 distinguishes a prior subset fixed to identity or approximate
+    identity; the corrected claim now preserves both alternatives. The record does
+    not conflate an initialization with a permanent independent-neuron, diagonal or
+    orthogonal restriction.
+- assessment_id: state-magnitude-and-forgetting
+  area: evidence
+  topic: state-magnitude-and-forgetting
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: Repeated positive input can grow an identity-initialized state even though
+    the no-input recurrent gain is one. Section4.4 reports unfavorable full-identity
+    speech behavior and motivates scaled forgetting. No state or optimizer cap and
+    no universal stability claim is inferred.
+- assessment_id: evaluation-context
+  area: evidence
+  topic: evaluation-context
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Supported with explicit initialization and state/input conditions.
+  details: The four benchmark families use differing depths, capacities, directionality,
+    tuning and identity scales. The source explicitly allows other LSTM tuning to
+    improve comparisons. No numeric benchmark, current ranking or universal initialization/optimizer
+    recipe is imported.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Copying, inactive derivatives, forgetting and dense updates
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - le2015
+  - calculation
+  summary: Constructed transitions confirm the qualifications.
+  details: Identity copies [2,3] without input; input [-3,0] deactivates the first
+    unit and its local derivative is zero. Four steps at scale.5 yield [.125,.1875]
+    with direct derivative.0625. Repeated positive input reaches [100,200] after100
+    steps. A constructed off-diagonal update creates cross-coordinate dependence.
+    No model was trained.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and source scope
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - le2015
+  - calculation
+  summary: All maintained fields were inspected; DRAFT remains.
+  details: Read ID/name/alias, architecture kind, definition/citations, identity context,
+    six claims/locators, source identity/version/access/hash, AIO pin, both mappings,
+    six limitations and actual curation times. Source/context/capture hashes and report
+    mirror agree. All nine primary pages were visually inspected. No author code or
+    empirical execution and no actionable record defect.
+- assessment_id: resolved-predecessor
+  area: evidence
+  topic: Identity or approximate identity
+  outcome: supported
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  evidence_ids:
+  - predecessor
+  - le2015
+  summary: Saved F1 is resolved.
+  details: The corrected claim says the earlier matrix is fixed to identity or approximate
+    identity, preserving the source alternative without weakening the trainable-initialization
+    distinction. The complete changed record, report mirror and actual EDIT history
+    were checked; scaled-state grammar was clarified without changing its conditions.
+findings:
+- finding_id: F1
+  issue_key: irnn-predecessor-identity-qualification
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Qualify the predecessor recurrence as identity or approximate identity
+  description: The trainable-versus-fixed-structure claim says the predecessor retains
+    a fixed identity matrix. The cited primary Section2 p2 explicitly permits identity
+    or approximate identity. Omitting the latter overstates the comparison and can
+    imply unit carry gain in the earlier constrained context. Preserve that qualification
+    while retaining the supported initialization-versus-structural-constraint distinction.
+  target_ids:
+  - AIMech:IdentityInitializedRecurrentNeuralNetwork
+  field_paths:
+  - claims[claim_id=trainable-versus-fixed-structure].statement
+  evidence_ids:
+  - predecessor
+  - le2015
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T044719Z-irnn-predecessor-qualification-open
+    finding_id: F1
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/239
+  disposition_reason: The maintained claim and exact report mirror now retain identity
+    or approximate identity, matching Section2 p2. Actual EDIT history was appended,
+    corrected bytes were freshly captured and reread, and post-edit gates passed.
+    The initialization-versus-structure distinction is unchanged.
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. One confirmed
+  minor finding is resolved; issue239 tracks the correction.
+- One new DRAFT concept, yielding 572 native and 442 unchanged generated records.
+  The 757-entry main frontier retains 482 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- Published comparisons depend on task, tuning, capacity and configuration. No current
+  best performance, numerical benchmark or universal LSTM replacement is asserted.
+- All nine main printed/PDF pages, including the complete method, figures/tables and
+  references, were visually read. No author code, dependency audit, training or empirical
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T044719Z-irnn-predecessor-qualification-open
+  relationship: Resolves F1 after corrected-input capture, source comparison and publication
+    checks.
+links: []
+tags:
+- native-concepts
+- optimization
+- recurrent-architectures
+- self-review
+- discovery-ongoing
+```

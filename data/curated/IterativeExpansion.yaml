@@ -1,0 +1,263 @@
+id: AIMech:IterativeExpansion
+name: Iterative expansion
+aliases: []
+definition: A recursive heuristic tree-search procedure that repeatedly explores a
+  lowest-valued child within a bound set by its caller and competing children, initializes
+  each generated child with the maximum of its static evaluation and the parent’s
+  stored evaluation, and backs up the minimum child value.
+concept_kind: algorithm
+identity_notes: The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c
+  covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field
+  occurrences and 3,766 normalized values. Candidate-normalized identity matches were
+  empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced
+  6,732 occurrences across 1,557 distinct matching contents, assessed through three
+  attributed reader scopes and exact inherited-wrapper reconstruction. Iterative expansion
+  is Russell1992 source-scoped IE with unconditional max(parent stored value, static
+  child value) inheritance. Korf RBFS conditionally inherits backed-up values, while
+  SRBFS resets children to static values; their monotonic-evaluation correspondence
+  is conditional, not a global alias. Generic iterative-expansion wording, IDA* learned
+  incremental thresholds and RBFS controlled re-expansion are distinct contexts. No
+  global IE abbreviation alias is introduced. Main912 retains 30 citation occurrences,
+  seven version/interface questions and two recovered historical search pointers as
+  source tracking. Ties, dead ends, exhausted-root behavior, graph/cycle assumptions
+  and proof limitations remain explicit.
+definition_evidence:
+- source_id: russell1992
+  locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; Section 4.2 on PDF p.
+    4 and Figure 3 on PDF p. 5
+  relation: supports
+claims:
+- claim_id: unconditional-inherited-evaluation
+  kind: mechanism
+  statement: 'When generating a child, IE applies pathmax: in the paper’s cost-based
+    formulation, the child’s stored evaluation is the maximum of the parent’s stored
+    evaluation and the child’s g+h value. This inheritance is used both on initial
+    generation and when children are regenerated; it is not conditioned on detecting
+    an earlier visit.'
+  evidence:
+  - source_id: russell1992
+    locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; pathmax formula in
+      Section 3.1 on PDF p. 3; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5
+    relation: supports
+- claim_id: caller-and-competing-child-bound
+  kind: mechanism
+  statement: At entry, the displayed IE procedure cuts off when the node’s stored
+    evaluation exceeds the supplied bound, then tests the node for a goal. For an
+    expanded node with children, it selects a child of minimum stored value and recurses
+    with the smaller of the caller’s bound and the other children’s stored values.
+    Equal-bound values remain eligible under the intended inclusive continuation test.
+  evidence:
+  - source_id: russell1992
+    locator: Section 4.1, manuscript/PDF p. 4; IE(n, bound) entry tests, best-child
+      selection and new-bound expression
+    relation: supports
+- claim_id: displayed-parent-backup
+  kind: mechanism
+  statement: 'After the recursive call on the selected child, the IE outline assigns
+    the parent’s stored evaluation to the minimum of its children’s stored evaluations
+    and continues the bounded search. This describes its intended mutable-value backup:
+    the printed call itself has no assignment of a returned value, so complete propagation
+    and success conventions remain qualified rather than silently supplied.'
+  evidence:
+  - source_id: russell1992
+    locator: Section 4.1, manuscript/PDF p. 4; bare IE(best, new-bound) call followed
+      by the parent minimum assignment; Section 4.2 on PDF p. 4 and Figure 3 on PDF
+      p. 5
+    relation: supports
+- claim_id: conditional-monotonic-rbfs-correspondence
+  kind: scope
+  statement: Korf explicitly describes IE as independently developed and reports correspondence
+    with full RBFS when the supplied static evaluation is monotonic. On a first visit
+    with stored parent V equal to its static value f0, nondecreasing child f0 makes
+    IE’s max(V, f0(child)) redundant. After V rises above the parent’s static value,
+    full RBFS also uses max(V, f0(child)); SRBFS instead resets children to their
+    static values. These local comparisons and the source statement do not assert
+    identical procedure-call traces or an unrestricted alias.
+  evidence:
+  - source_id: russell1992
+    locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; pathmax formula in
+      Section 3.1 on PDF p. 3; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5
+    relation: supports
+  - source_id: korf1992
+    locator: SRBFS and Full Recursive Best-First Search, printed p. 535 / PDF p. 3;
+      Related Work, printed p. 537 / PDF p. 5
+    relation: supports
+- claim_id: first-visit-nonmonotonic-boundary
+  kind: scope
+  statement: For a first visit with stored and static parent values both 5 and child
+    static values 2 and 1, the printed rules give child values 5 and 5 in IE but 2
+    and 1 in full RBFS and SRBFS. This source-guided hand calculation shows how unconditional
+    inheritance can create ties and alter first-visit selection when static evaluations
+    decrease. It is not an algorithm execution or a claim that every nonmonotonic
+    instance returns a different solution.
+  evidence:
+  - source_id: russell1992
+    locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; pathmax formula in
+      Section 3.1 on PDF p. 3; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5
+    relation: supports
+  - source_id: korf1992
+    locator: Figures 1 and 3, printed pp. 534–535 / PDF pp. 2–3; full RBFS conditional
+      child initialization on p. 535; Related Work on p. 537 / PDF p. 5
+    relation: supports
+- claim_id: path-and-sibling-storage
+  kind: scope
+  statement: IE’s recursive representation retains the current path and sibling alternatives
+    instead of the complete best-first frontier. With maximum retained depth d, branching
+    bounded by b and bounded-size node data, this representation has O(b*d) node storage.
+    The linear-in-depth description is conditional on bounded branching; IE has no
+    fixed MAX node-budget parameter like the separate SMA* procedure.
+  evidence:
+  - source_id: russell1992
+    locator: Section 4, manuscript/PDF pp. 3–4; linear-space recursion and retained
+      descendants along the path
+    relation: supports
+  - source_id: korf1992
+    locator: SRBFS storage explanation, printed pp. 534–535 / PDF pp. 2–3; Related
+      Work on IE, printed p. 537 / PDF p. 5
+    relation: supports
+evidence_sources:
+- source_id: russell1992
+  title: Efficient Memory-Bounded Search Methods
+  authors:
+  - Stuart Russell
+  source_type: primary_paper
+  url: https://www2.cs.uh.edu/~ceick/ai/SMA.pdf
+  version: ECAI 1992; five-page university-mirrored manuscript, with PDF/manuscript
+    pagination 1–5. This inspected PDF is the defining source for IE; the neighboring
+    SMA* procedure is not substituted for it.
+  access_level: full_text
+  accessed_at: '2026-10-15T23:35:14Z'
+  sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- source_id: korf1992
+  title: 'Linear-Space Best-First Search: Summary of Results'
+  authors:
+  - Richard E. Korf
+  source_type: primary_paper
+  url: https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf
+  version: Official AAAI-92 proceedings, printed pages 533–538 / six PDF pages. Primary
+    SRBFS/RBFS algorithms and explicit related-work comparison to IE; the 1991 predecessors
+    and 1993 journal article are separate uninspected version questions.
+  access_level: full_text
+  accessed_at: '2026-10-16T03:15:26Z'
+  sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Historical prospective snapshot captured2026-10-16T03:26:58–03:27:16UTC:
+    complete1,239-record identity inventory (797native/442pinnedAIO),4,913field occurrences
+    including local IDs, mechanically compared.49 selected AIO lexical/definition
+    candidate projections were read in the paused preparation;14 exact CLASS nodes
+    with all synonyms/metadata and all71 direct edge occurrences (68distinct triples)
+    were read in full in this resumed mapping proposal. Four roots were searched with
+    explicit ignored/hidden inclusion. This is a bounded pinned-snapshot assessment,
+    not all-ontology semantic absence or future current-state clearance.'
+  rationale: IE is Russell’s recursive heuristic search-control procedure. No inspected
+    class provides a defensible exact, broader, narrower or specifically related mapping.
+    Recursion, tree/graph representations, scalar evaluation functions and per-search
+    value backup do not by themselves establish a neural architecture, language model,
+    learning task, probabilistic graphical model or training strategy.
+  examined_targets:
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The class operates on graphs during language tasks. IE is a
+      recursive heuristic search controller over a problem tree, not a language model.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Explicit deductive language-model reasoning does not follow
+      from cost-bounded heuristic search. The broad related synonym reasoning does
+      not erase the LLM definition.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: IE does not combine neural language modeling and symbolic knowledge;
+      a symbolic search procedure alone is not this class.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Recursion and the related synonym iterative refinement do not
+      imply TreeLSTM language modeling or syntactic composition.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Its full definition and DeepNeuralNetwork/part-layer edges identify
+      a neural model, not a recursive traversal with inherited costs.
+  - target: AIO:RecursiveNeuralNetwork
+    rejection_reason: The defining shared learned weights and structured predictions
+      are absent from the source-scoped search method. Program recursion is not recursive
+      neural architecture.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The node intends methods that learn from data. IE backup/reconstruction
+      of per-search cost bounds does not by itself establish a training task or persistent
+      learned heuristic across trials. No positive source-specific relationship was
+      established in this bounded assessment.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: The full task definition concerns learning by balancing exploration/exploitation;
+      local best-child selection and cutoff scheduling do not establish that learning
+      setup.
+  - target: AIO:MathematicalFunction
+    rejection_reason: IE uses scalar evaluation functions but is a control and memory
+      procedure. Mere use of a mathematical rule does not establish identity, hierarchy
+      or a sufficiently specific related mapping.
+  - target: AIO:Model
+    rejection_reason: IE is a search procedure rather than an abstract system representation.
+      Modeling its search space does not identify the algorithm with that representation.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The node concerns preprocessing/techniques used to train machine-learning
+      models. IE is not presented as such a training procedure.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: A search tree with cost bounds does not encode conditional dependencies
+      between random variables. Graph vocabulary is insufficient.
+  - target: AIO:GraphConvolutionalNetwork
+    rejection_reason: The neural convolution architecture and layer relations are
+      not part of the recursive search method.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: IE does not generate graphs via a trained graph-convolution
+      policy with rewards/adversarial loss.
+limitations:
+- The monotonic correspondence concerns the static evaluation supplied to both procedures,
+  not merely stored values after IE has raised them through pathmax. Full RBFS uses
+  conditional inheritance and SRBFS uses static reinitialization; local overlap does
+  not make IE a global alias or establish equality on every nonmonotonic instance.
+- The outline returns infinity when a node has no children, but the caller shows a
+  bare recursive call followed by a minimum over mutable child values. How that infinity
+  is stored back in the child and how successful return propagates are not fully specified.
+  Preserve the no-children guard before child selection; no corrected executable assignment
+  or actual implementation failure is asserted.
+- The printed do-until/or-while wording is not a precise programming-language loop.
+  Under its bounded-search reading, IE tests the parent’s stored value before backing
+  it up, whereas Korf tests the best child before recursion; an immediate cutoff call
+  can therefore occur in IE when the returned bound agrees. Exact call-trace equivalence
+  is not claimed.
+- Equal-value child ordering is not fully specified in the IE outline. An exact expansion
+  trace or choice among tied goals requires an explicit shared tie and successor order;
+  SMA*’s deepest-leaf rule must not be transferred to IE merely because it appears
+  in the same paper.
+- For a single child, the minimum over other children needs an empty-alternative convention
+  so the recursive bound remains the caller’s bound. The outline also does not fully
+  specify failure after an exhausted root with an infinite bound; infinity <= infinity
+  does not itself signal failure. No unrestricted unsolvable-instance termination
+  guarantee follows.
+- The source treatment excludes graph-transposition complications. The IE outline
+  supplies no general closed-list, duplicate-state or reopening policy. Korf’s current-path
+  cycle check for nonincreasing evaluation is a separate scoped condition, not a global
+  duplicate-elimination guarantee for IE.
+- Ordering nodes by an evaluation function does not alone establish minimum path cost,
+  completeness or termination. Stronger results require appropriate cost/admissibility,
+  goal and finiteness assumptions. Korf’s summary omits full proofs, and no general
+  theorem is certified here for infinite spaces, zero-cost cycles, arbitrary negative
+  costs or unqualified unsolvable instances.
+- The storage bound counts retained node information in a path-and-sibling representation.
+  It does not bound all bytes, heuristic tables, call-stack overhead or temporary
+  allocations, and it is not independent of branching or attained depth. Reduced storage
+  can require regeneration of earlier paths.
+- The papers’ puzzle comparisons do not establish universal speed or node-count equality
+  between IE and RBFS. Korf’s related-work expectation about IE is not a reported
+  direct IE-versus-RBFS benchmark. No runtime ratio, performance dominance, implementation
+  equivalence or benchmark reproduction is claimed.
+- Evidence is limited to Russell’s inspected five-page 1992 manuscript and Korf’s
+  six-page 1992 proceedings summary. The Korf 1991 predecessors, 1993 journal article,
+  mismatched Bratko citations, later RBFS paper and 1992 ITS report remain separate
+  source/version questions. All 30 bibliography occurrences and seven pending questions
+  are retained without asserting that every cited original was read or any source
+  family is exhausted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T05:14:56Z'
+  updated_at: '2026-10-16T05:14:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

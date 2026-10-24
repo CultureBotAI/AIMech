@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Speaker-Dependent Pooling Adaptation · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Speaker-Dependent Pooling Adaptation</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Speaker-Dependent Pooling Adaptation</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:SpeakerDependentPoolingAdaptation</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    An acoustic-model adaptation procedure that updates a small set of pooling parameters for a target speaker using decoded acoustic targets while retaining the shared feature projections and output model in its pool-only form.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 626 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 55, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 25 AIO and 46 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the source’s task-specific parameter-adaptation algorithm. Base Lp and activation-value Gaussian units are separate maintained concepts; this record specifies fitting selected parameters to decoded speaker data while freezing the shared representation in its pool-only form. It is not generic adaptive spatial pooling, low-rank weight adaptation, full acoustic-model training, a transfer-learning task or an LLM.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#decoded-target-parameter-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Start from a speaker-independent DNN/HMM acoustic model with parameterized hidden pooling units, decode the target speaker’s speech, and use the resulting tied-state targets to optimize selected pooling parameters through the negative log posterior objective. In the main pool-only form, affine feature projections and the output layer remain shared and fixed. Unsupervised refers to the absence of reference transcripts during this adaptation; it does not mean that the speaker-independent acoustic model was trained without labels.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections II–VI, PDF pp. 1–5; Section VII-B, pp. 6–8, frozen-feature and oracle-target distinction</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#lp-and-value-gaussian-variants</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The Lp variant adapts each group’s norm order, parameterized by p=max(1,rho), with an absolute-power aggregation of affine responses. The Gaussian variant adapts means and precisions of normalized kernels over transformed activation values; amplitudes may also be adapted. Reported Lp experiments use the unnormalized norm, although the method section also defines an optional power mean. These variants change pooling behavior rather than adding low-rank weight matrices or updating a whole acoustic network.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections III–IV, PDF pp. 2–4, Equations 3–21; Section VII-A, pp. 5–6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#order-and-normalization-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At the Lp lower bound, the chosen max parameterization is nondifferentiable and the stated implementation convention sets its order derivative to zero when p is not greater than one. For strictly positive magnitudes, differentiating a normalized power mean requires log(sum_i |a_i|^p/K), while the printed order-derivative expression uses log(sum_i |a_i|^p). Forward scaling alone cannot correct that order derivative. This discrepancy concerns the optional normalized variant; the paper explicitly uses unnormalized Lp units in its reported experiments. No behavior of uninspected code is inferred.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section IV-A, PDF pp. 3–4, Equation 9 and normalization discussion; Section VII-A, p. 5; direct finite-difference check</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#optional-updates-and-scaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Optional adaptations include affine biases, post-pooling hidden-unit contribution scaling, and Gaussian input amplitudes, with different numbers of speaker-specific parameters. These are distinguishable settings, not mandatory steps of pool-only adaptation. A Gaussian amplitude acts before the value-dependent weights are computed, so its effect is not generally the same as multiplying the final pooled value. The reported comparison of these choices is empirical rather than an equivalence theorem.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Section V, PDF p. 5; Section VII-B, pp. 6–8, Tables III–IV and Figure 1; direct amplitude example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-adaptation-evidence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The experiments use configured six-hidden-layer acoustic systems on TED, AMI and Switchboard with different features and language models. Adaptation settings were selected using TED development data; limited-data experiments repeat random utterance selection, whereas the oracle comparison uses reference-aligned targets and is supervised. Improvements under those conditions do not prove that pseudo-label errors, mismatch or overfitting are harmless. Speaker-adaptive training and sequence-discriminative pooling adaptation are proposed extensions in the conclusion, not demonstrated procedures in this source.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-swietojanski2016">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a></span>
+        <span>· <strong>Locator:</strong> Sections VI–VIII, PDF pp. 5–9, Tables I–VII and Figures 4–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The stable identity denotes the Swietojanski–Renals test-time pooling-parameter adaptation procedure, not every speaker-adaptation method, a base pooling unit, general unsupervised training or a trained checkpoint.</li>
+      <li>Optional normalized Lp formulas require their own order derivative; the reported experiments use unnormalized units. Numerical stabilization and implementation choices are not reconstructed from ambiguous prose.</li>
+      <li>Source precision-limit wording for value-kernel pooling must be qualified as nearest-value selection for a fixed mean. Parameter adaptation does not turn it into unconditional maximum pooling.</li>
+      <li>Complete eleven-page primaryv2 inspected. Constructed calculations only; no author software, speech data, model training or empirical replication.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/KnowledgeTransfer.html" style="font-weight: 600;"><code>AIO:KnowledgeTransfer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Knowledge Transfer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure reuses a speaker-independent learned representation while fitting a target-speaker copy through a restricted parameter set. This is related to the pinned transfer/adaptation strategy, without equating the algorithm to the generic strategy.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepTransferLearning.html" style="font-weight: 600;"><code>AIO:DeepTransferLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deep Transfer Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The procedure adapts a deep acoustic model to speaker mismatch with limited target data. The pinned target denotes a network category, so the relationship is contextual rather than an algorithm-to-network subclass claim.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-swietojanski2016">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">swietojanski2016</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1603.09630v2" target="_blank" rel="noopener">Differentiable Pooling for Unsupervised Acoustic Model Adaptation</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Pawel Swietojanski, Steve Renals
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1603.09630v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9cbd9b822c6e…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ASpeakerDependentPoolingAdaptation">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Speaker-Dependent Pooling Adaptation" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:SpeakerDependentPoolingAdaptation</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Speaker-Dependent...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:KnowledgeTransfer (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T15:09:57Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T15:09:57Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/SpeakerDependentPoolingAdaptation.yaml" target="_blank" rel="noopener">
+      <code>data/curated/SpeakerDependentPoolingAdaptation.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Speaker-Dependent%20Pooling%20Adaptation"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ASpeakerDependentPoolingAdaptation"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

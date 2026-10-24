@@ -1,0 +1,186 @@
+id: AIMech:StackAugmentedRecurrentNeuralNetwork
+name: Stack-augmented recurrent neural network
+aliases:
+- Stack RNN
+concept_kind: architecture
+definition: A recurrent sequence architecture whose neural controller reads the leading entries of one
+  or more external stack states and learns continuous mixtures of push, pop and optional no-operation
+  updates to those states.
+identity_notes: Compared all 442 pinned AIO and 573 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 6, 0, 0 lines. All matches were inspected as source/candidate
+  entries in the preceding SCRN discovery report, not an existing maintained Stack RNN record. Semantic
+  matching inspected 54 AIO and134 native definitions, with unchanged preceding rows verified and new
+  matches read. Four full annotated AIO node/edge/generated contexts and four full native records were
+  inspected. StackedRNNCellsLayer describes layer composition, not external push/pop memory; MemoryAugmentedLLM
+  requires large-language-model scope not inherent to this architecture; the pinned NeuralTuringMachineNetwork
+  feedforward/spiking description does not identify stack addressing. None establishes an exact or broader
+  match. RecurrentNeuralNetwork supplies the broader architecture mapping. Beam-stack search and ensemble
+  stacking have different identity and operations. The paper list-memory topology remains a separate lead;
+  stack count, read depth, no-op, recurrence and capacity configurations stay within this record.
+definition_evidence:
+- source_id: joulin2015
+  locator: Section 4.2, Figure 1 and Equations 3–6, printed/PDF p. 4
+  relation: supports
+claims:
+- claim_id: controller-and-stack-transition
+  kind: mechanism
+  statement: The controller forms h_t from the current input, optional previous hidden state and the top
+    k entries of the previous stack. It computes softmax action weights and a sigmoid-valued push proposal
+    v_t. For push weight p and pop weight q, the new top is p*v_t+q*s_prev[1]; a deeper entry i>0 becomes
+    p*s_prev[i-1]+q*s_prev[i+1]. An optional no-op weight n adds n*s_prev[i] at each depth. The paper
+    and pinned code use -1 as the empty-slot sentinel. Read depth, number of stacks and boundary capacity
+    are configuration choices.
+  evidence:
+  - source_id: joulin2015
+    locator: Section4.2, Equations3–6 and no-op paragraph, p.4
+    relation: supports
+  - source_id: authorcode
+    locator: StackRNN.h lines136–252, especially210–245
+    relation: supports
+- claim_id: continuous-versus-discrete-state
+  kind: scope
+  statement: Soft action weights deterministically blend candidate memory updates rather than sample one
+    discrete stack action. One-hot weights recover the corresponding push, pop or no-op operation when
+    the chosen capacity and sentinel boundaries permit it. At nontrivial mixtures the state need not represent
+    one symbolic stack. Although a single affine update is a weighted mean of candidate results, subsequent
+    nonlinear controller evolution is not generally the exact expectation over discrete stack trajectories.
+  evidence:
+  - source_id: joulin2015
+    locator: Section4.2 p.4 and optimization/rounding p.5; curator affine-versus-nonlinear consequence
+    relation: supports
+  - source_id: authorcode
+    locator: StackRNN.h forward136–252
+    relation: supports
+- claim_id: capacity-paper-and-code
+  kind: limitation
+  statement: The paper describes stack depth that can grow on demand as an architectural possibility.
+    The inspected historical StackRNN.h instead allocates a fixed stack_capacity. Its push shifts within
+    that allocation and drops the bottom entry when full; a pop inserts the empty sentinel at the bottom.
+    A push followed by a pop therefore need not restore a previously full stack. Neither the conceptual
+    growing memory nor this finite implementation supplies infinite physical storage, exact arithmetic
+    or unlimited generalization.
+  evidence:
+  - source_id: joulin2015
+    locator: Section4.2 depth/capacity paragraph, p.4; discussion/conclusion p.8
+    relation: supports
+  - source_id: authorcode
+    locator: StackRNN.h constructor41–84, push217–231 and pop233–238
+    relation: supports
+- claim_id: hard-actions-versus-rounding
+  kind: scope
+  statement: 'The pinned forward function has an ishard option that replaces softmax weights by one maximal
+    action, choosing the first action index on a tie. The paper separately describes gradual controller-weight
+    sharpening with further weight refinement and removal of unused stacks. Those procedures are not interchangeable:
+    in ideal real arithmetic, finite sharpening remains soft, and equal maximal logits do not approach
+    a unique one-hot decision solely through scaling. Floating-point exponentiation and rounding can nevertheless
+    produce zero/one weights at finite logit gaps; a constructed Python binary64 example demonstrates
+    that possibility without executing the author code. The record does not claim that every inspected
+    code path implements the complete paper refinement/pruning procedure.'
+  evidence:
+  - source_id: joulin2015
+    locator: Rounding paragraph, p.5; curator softmax tie limit
+    relation: supports
+  - source_id: authorcode
+    locator: StackRNN.h forward193–208
+    relation: supports
+  - source_id: authornonlinearity
+    locator: Nonlinearity.h Softmax::forward, lines22–33; curator binary64 counterexample
+    relation: supports
+- claim_id: multiple-stacks-and-recurrence
+  kind: scope
+  statement: Multiple stacks receive their action decisions through a shared hidden controller and can
+    interact through that hidden representation. Stack push/pop topology is distinct from the paper List
+    RNN with insert and directional movement operations. The general model allows a recurrent hidden-state
+    matrix; the algorithmic toy experiments set it to zero to isolate memory behavior, whereas the language-model
+    experiment uses it. Pinned code exposes separate recurrence modes, so a missing hidden-to-hidden connection
+    is not a universal architecture requirement.
+  evidence:
+  - source_id: joulin2015
+    locator: Section4.2 multiple stacks p.4; List RNN p.5; Sections5.1–5.2 pp.6–8
+    relation: supports
+  - source_id: authorcode
+    locator: StackRNN.h modes64 and166–180
+    relation: supports
+- claim_id: optimization-and-evaluation-boundaries
+  kind: limitation
+  statement: Continuous updates allow the stated gradient-based training, but the source reports difficult
+    controller optimization, restarts and numerical imprecision on long sequences. Counting and memorization
+    evaluation focuses on deterministically predictable symbols; binary addition uses supervised output
+    positions and reversed results. Published tests cover selected lengths and configurations, and the
+    language-model comparison does not show universal superiority over LSTM or SCRN. No numerical benchmark,
+    general algorithm-learning guarantee, full backward-code correctness or independent reproduction is
+    asserted.
+  evidence:
+  - source_id: joulin2015
+    locator: Optimization and rounding p.5; Sections5–6, pp.5–8
+    relation: supports
+evidence_sources:
+- source_id: joulin2015
+  title: Inferring Algorithmic Patterns with Stack-Augmented Recurrent Nets
+  authors:
+  - Armand Joulin
+  - Tomas Mikolov
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2015/file/26657d5ff9020d2abefe558796b99584-Paper.pdf
+  version: NeurIPS2015 proceedings, volume28. All nine printed/PDF pages, Figures1–3, Tables1–4, Equations1–6
+    and references visually inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T04:41:24Z'
+  sha256: 8c9bbbbf4e919d877a24b48b0859a13bcdc36ac8ecad3d8cd502c510a08a8f40
+- source_id: authorcode
+  title: 'Author Stack-RNN implementation: StackRNN.h'
+  authors:
+  - Facebook, Inc. (Stack-RNN project)
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/Stack-RNN/95efe9031aa473e3b0b1750f5e055aac5a2b2599/StackRNN.h
+  version: Pinned author commit 95efe9031aa473e3b0b1750f5e055aac5a2b2599 (2015-06-14T19:32:44Z). Complete
+    651-line header read, including forward, backward, allocation and persistence. Static inspection only;
+    no compilation or runtime execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:44:29Z'
+  sha256: 409c1ac526dc566810f56459236afbe57e3643f02bd783a476b076d9b09361d0
+- source_id: authornonlinearity
+  title: 'Author Stack-RNN implementation: Nonlinearity.h'
+  authors:
+  - Facebook, Inc. (Stack-RNN project)
+  source_type: official_documentation
+  url: https://raw.githubusercontent.com/facebookarchive/Stack-RNN/95efe9031aa473e3b0b1750f5e055aac5a2b2599/Nonlinearity.h
+  version: Pinned author commit 95efe9031aa473e3b0b1750f5e055aac5a2b2599 (2015-06-14T19:32:44Z). Complete
+    file inspected; Softmax::forward uses max-shift exponentiation and normalization. Static inspection
+    only; no author source execution.
+  access_level: documentation
+  accessed_at: '2026-10-13T04:44:29Z'
+  sha256: b011fac8894a99a37cbeafcd21467ebaab00911e63acd7edf9a07f515f397cb7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The architecture is a recurrent sequence model with a particular external-memory topology;
+    the target is the broader recurrent architecture category.
+limitations:
+- Continuous action mixtures are deterministic relaxed memory updates, not automatically discrete stack
+  semantics or an exact ensemble of symbolic trajectories.
+- Historical pinned code fixes stack capacity; full pushes can irreversibly discard bottom entries. The
+  paper growing-memory abstraction does not certify this implementation as dynamically unbounded.
+- Hard argmax action selection and gradual sharpening/refinement/pruning are different procedures. Ties,
+  numerical precision and finite sharpening limit ideal discrete-operation interpretations. Strict softmax
+  positivity at finite logits refers to ideal real arithmetic, not a promise of strictly interior floating-point
+  results.
+- Stack count, read depth, no-op availability, sentinel boundaries and hidden recurrence vary by configuration;
+  no single benchmark recipe defines all variants.
+- All nine conference-paper pages and complete pinned README.md, StackRNN.h and Nonlinearity.h were read.
+  Supplement, task drivers and other dependencies were not audited; no source execution, training or empirical
+  replication was performed.
+- Source tasks, sequence lengths, supervision and tuning constrain the reported generalization. No unlimited
+  exact memory, universal LSTM replacement or independently verified performance claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:21:59Z'
+  updated_at: '2026-10-13T05:25:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

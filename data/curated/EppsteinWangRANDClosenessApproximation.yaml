@@ -1,0 +1,174 @@
+id: AIMech:EppsteinWangRANDClosenessApproximation
+name: Eppstein–Wang RAND closeness approximation
+aliases:
+- Eppstein-Wang closeness approximation
+concept_kind: algorithm
+definition: A randomized graph-analysis algorithm that estimates closeness centrality from independent
+  uniformly sampled source vertices, averaging scaled shortest-path distances to estimate mean distance
+  and taking its reciprocal where defined.
+definition_evidence:
+- source_id: eppsteinwang2001
+  locator: Section 1, closeness definition, PDF/printed p. 1; Section 2, Algorithm RAND, PDF/printed p.
+    1
+  relation: supports
+claims:
+- claim_id: domain-and-estimand
+  kind: scope
+  statement: The maintained formulation uses a connected undirected graph with n>1 and positive edge lengths.
+    For vertex u, mean distance is mu(u)=sum over v of d(v,u)/(n-1), and closeness is c(u)=1/mu(u). The
+    self-distance is zero. This convention is inverse average distance, not inverse unnormalized distance
+    sum, betweenness or eccentricity centrality. It describes graph structure without establishing causal
+    influence.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 1, PDF/printed p. 1, closeness definition and footnote; Section 2, pp. 1–2; positive
+      connected undirected domain is an explicit local restriction
+    relation: supports
+- claim_id: independent-sampling-and-estimator
+  kind: mechanism
+  statement: For k positive integer iterations, draw sources v_i independently and uniformly from all
+    n vertices and solve a single-source shortest-path problem from each source. Repeated vertices are
+    allowed. Form mu_hat(u)=n/[k(n-1)] times sum_i d(v_i,u); define c_hat(u)=1/mu_hat(u) only when the
+    denominator is positive. The mean-distance estimator satisfies E[mu_hat(u)]=mu(u). This does not imply
+    that the reciprocal estimator is unbiased.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 2, Algorithm RAND steps 1–3 and following expectation statement, PDF/printed p. 1;
+      independence required by Lemma 2.1, p. 2
+    relation: supports
+- claim_id: additive-mean-distance-bound
+  kind: scope
+  statement: For diameter Delta and xi>0, the independent bounded contributions give P(|mu_hat(u)-mu(u)|>=xi)
+    <= 2 exp(-2k xi^2/[n Delta/(n-1)]^2). Applying a union bound over n targets, a sufficient sample count
+    for simultaneous additive mean-distance error below epsilon Delta with failure probability at most
+    delta is k >= ceil(n^2 ln(2n/delta)/[2(n-1)^2 epsilon^2]), where epsilon>0 and 0<delta<1. This explicit
+    sufficient count is curator algebra from the displayed bound, not an optimal sample size or a claim
+    that target errors are independent.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 2, Lemma 2.1, probability display and union-bound discussion, PDF/printed p. 2; algebra
+      documented in research/discovery/rand-closeness-boundaries.py
+    relation: supports
+- claim_id: reciprocal-error-conditions
+  kind: limitation
+  statement: Converting additive mean-distance error to multiplicative closeness error requires a positive
+    lower bound on the mean relative to the allowed error. If |mu_hat-mu|<=eta mu for 0<=eta<1, then c_hat/c
+    lies between 1/(1+eta) and 1/(1-eta). Thus for rho>0 a two-sided factor 1+rho is ensured when eta<=rho/(1+rho).
+    A uniform lower bound mu(u)>=a Delta with a>0 supplies this condition when epsilon<=a eta. Bounded
+    weighted diameter alone does not supply an n-independent a for arbitrary positive weights.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 1, small-world and inverse-centrality discussion, PDF/printed p. 1; Section 2 additive
+      analysis, p. 2; explicitly qualified curator reciprocal algebra and weighted-star examples in research/discovery/rand-closeness-boundaries.py
+    relation: supports
+- claim_id: zero-denominator-and-repetitions
+  kind: limitation
+  statement: For any target u, all k independent sources can equal u, with probability n^(-k); then mu_hat(u)=0
+    and its reciprocal is undefined in this record. No fallback is specified by the inspected manuscript.
+    Taking k=n does not ensure every vertex was selected or that the estimate is exact. Traversing every
+    vertex exactly once would recover the mean, but is a different sampling design. On a three-vertex
+    unit path with k=2, enumerating all nine source pairs gives zero reciprocal denominator with probability
+    1/9 at each target.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 2, Algorithm RAND, PDF/printed p. 1; independent-variable analysis, p. 2; curator
+      consequences and finite enumeration in research/discovery/rand-closeness-boundaries.py
+    relation: supports
+- claim_id: computation-and-evidence-scope
+  kind: scope
+  statement: The algorithm requires k single-source traversals. On connected unit-length graphs, breadth-first
+    traversal gives O(k(n+m)) work, equivalently O(km) for n>1; positive weighted graphs admit the cited
+    O(k(n log n+m)) bound with the appropriate shortest-path implementation. With the paper’s high-probability
+    choice k=Theta(log n/epsilon^2), this yields its stated asymptotic inverse-distance approximation
+    cost. The inspected source is a theoretical analysis, without a numerical benchmark, observed ranking-accuracy
+    comparison or empirical runtime validation.
+  evidence:
+  - source_id: eppsteinwang2001
+    locator: Section 1, shortest-path algorithm context and references 13/19, PDF/printed p. 1; Section
+      2, runtime paragraph, PDF/printed p. 2
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 686 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 26,0,0 lines, all read as prior query
+  strings, pending leads or contextual distinctions in Brandes–Pich. Semantic assessment covered 147 AIO
+  and 519 native definitions: all 147 AIO and 518 prior native rows were verified unchanged and the one
+  new native row read. Nine complete AIO contexts and the full Brandes–Pich, Brandes, PageRank and HITS
+  records were assessed. This is the author-qualified RAND procedure for closeness centrality: iid uniform
+  source draws estimate inverse centrality by a scaled distance average. It is not the centrality measure
+  alone, exact Brandes betweenness, Brandes–Pich’s distinct-pivot multistrategy comparison, PageRank,
+  HITS or an arbitrary random sampler. The bare acronym RAND is not adopted as a globally unique alias.
+  Graph-based social-network analysis is the scoped relevance; the record does not claim a learned predictor
+  or that every graph algorithm is an AI method.'
+evidence_sources:
+- source_id: eppsteinwang2001
+  title: Fast Approximation of Centrality
+  authors:
+  - David Eppstein
+  - Joseph Wang
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:cs/0009005
+  version: Author-hosted two-page SODA 2001 manuscript, printed pages 1–2; the author catalog gives proceedings
+    pages 228–229. Both full pages and all 26 references read; both mathematical page renderings inspected.
+    The arXiv identifier identifies the work, not an assertion that these bytes equal an arXiv version.
+    The later JGAA 8(1):39–45 (2004), DOI 10.7155/jgaa.00081, is a separate journal version; its web text
+    was contextual reading, but its local download failed and mathematical rendering was not inspected.
+  url: https://ics.uci.edu/~eppstein/pubs/EppWan-SODA-01.pdf
+  accessed_at: '2026-10-14T04:15:45Z'
+  sha256: be7d33c4c94af84f2038f188ae2c06283c3853e95be50d88ef765f1e00c2dafe
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Compared all 442 pinned AIO and 686 preceding native identities and searched three full
+    checkouts including ignored and hidden files. Semantic assessment covered 147 AIO and 519 native definition
+    rows: all 147 AIO and 518 previously read native rows were verified unchanged, and the one new native
+    row read. Nine complete AIO contexts and four full native neighbors were assessed.'
+  rationale: No examined AIO target denotes this iid-source closeness approximation algorithm. Shared
+    words concerning functions, sampling, rankings or graphs do not establish equivalence or a supported
+    task hierarchy.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: The procedure estimates a structural score per vertex without assigning groups.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Unlabeled graph input alone does not make score estimation a grouping task.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity includes a randomized source experiment and repeated shortest-path
+      computation, rather than merely a mathematical function.
+  - target: AIO:DataPreparation
+    rejection_reason: The defined objective is estimating graph closeness, not preparing machine-learning
+      data. Possible feature use is insufficient.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: No language-model architecture, token prediction or language training is defined.
+  - target: AIO:RankingBias
+    rejection_reason: A structural centrality estimator is not the belief that high-ranked information
+      is necessarily more relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: Uniform independent sampling and estimator error are method properties; they do
+      not identify a bias caused by nonrandom selection.
+  - target: AIO:RepresentationBias
+    rejection_reason: The algorithm is not the bias concept concerning nonrepresentative subgroups.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Sampling source vertices requires no training labels or deep-network fitting.
+limitations:
+- The explicit record is restricted to connected undirected graphs with positive edge lengths and n>1.
+  Disconnected distances, negative or zero lengths, directed conventions and alternative centrality normalizations
+  need separate evidence.
+- Formal source support uses the two-page author-hosted SODA manuscript. The seven-page journal version
+  was read as web-extracted text only; local download returned HTTP 403 and mathematical page images were
+  not available to inspect. Exact equivalence between versions is not asserted.
+- The source’s informal equivalence between constant diameter and a bounded minimum/maximum distance ratio
+  is not adopted as a general theorem for arbitrary positive weighted graphs. Relative centrality guarantees
+  here require the stated mean-to-diameter or relative-error condition.
+- The source’s page 2 bound prose writes d(i,u); Algorithm RAND defines sampled vertices v_i. The maintained
+  contribution is d(v_i,u), consistent with its stated random experiment.
+- Finite arithmetic illustrates error and degeneracy; it is not a replication of author software, a new
+  empirically established confidence guarantee, or proof by enumerating all possible graphs. No model
+  fitting, paid service or data upload was used. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T04:35:32Z'
+  updated_at: '2026-10-14T04:35:32Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

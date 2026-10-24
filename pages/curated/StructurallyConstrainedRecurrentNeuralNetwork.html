@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Structurally constrained recurrent neural network · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/architecture.html">Architectures</a>
+    <span>/</span>
+    <strong>Structurally constrained recurrent neural network</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Structurally constrained recurrent neural network</h1>
+    <span class="badge badge-curated">Architectures</span>
+    <span class="detail-id">AIMech:StructurallyConstrainedRecurrentNeuralNetwork</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> SCRN, SCRNN
+    </div>
+
+  <div class="detail-desc">
+    A recurrent sequence architecture coupling a nonlinear recurrent hidden state with a separate linear context state whose recurrence is constrained to a scalar or diagonal decay, with context-to-hidden connections and no hidden-to-context feedback.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 572 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 7, 0, 0 lines. The current matches were inspected as the preceding IRNN report’s SCRN source/lead notes and one semantic-search expression, not an existing maintained record. The semantic search covers 47 AIO rows and 128 native definitions; preceding 44 AIO and118 native rows were verified unchanged and the additional three activation-function rows plus ten native definitions read. Sigmoid-based belief networks, diagonal state-space models and unrelated diagonal clustering/representation objectives do not match this coupled recurrent architecture. Four full annotated AIO node/edge/generated contexts and four full adjacent native records were inspected. RecurrentNeuralNetwork is the broader architecture category and SigmoidFunction is a related component. SimpleRNNLayer lacks this coupled context structure; EchoStateNetwork’s sparse recurrent/output-learning definition does not establish equivalence or a superclass relation for jointly learned fast/input/context-output parameters. Unlike IRNN initialization, SCRN retains structural zero and diagonal context blocks. Fixed and adaptive per-unit decay configurations are preserved within the record, as are current-versus-lagged context conventions.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#linear-context-and-fast-state</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the fixed-decay paper formulation, s_t=(1-alpha)*B*x_t+alpha*s_(t-1), with 0&lt;alpha&lt;1; its nonlinear state is h_t=sigma(P*s_t+A*x_t+R*h_(t-1)), and output probabilities are obtained from softmax(U*h_t+V*s_t). The context update has no activation nonlinearity and no feedback from h. The fast-state recurrent matrix R is learned without imposing the same diagonal decay constraint. These are the paper equations; the pinned implementation uses a lagged context input to h.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mikolov2015">Learning Longer Memory in Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equations 4–6, p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorgraph">Author SCRNNs implementation: mfactory.lua</a></span>
+        <span>· <strong>Locator:</strong> mfactory.lua lines 150–221, especially 191–199</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#persistent-structure-and-adaptive-variant</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The zero hidden-to-context block and diagonal context recurrence are structural restrictions, rather than a dense matrix initialized near identity and then freely trained. The paper also proposes Q=diag(sigmoid(beta_j)) in place of alpha*I, with s_t=(I-Q)*B*x_t+Q*s_(t-1). In ideal real arithmetic finite beta gives per-unit decays in (0,1); these are learned parameters shared over time, not input-dependent LSTM-style gates. The fixed and adaptive context forms remain configurations of this architecture.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mikolov2015">Learning Longer Memory in Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, alternative interpretation and adaptive context, Equations 7–8, pp. 4–5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#trace-memory-and-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For fixed scalar alpha, the linear context expands to alpha^t*s_0+(1-alpha)*sum from j=1 to t of alpha^(t-j)*B*x_j. Its direct carry derivative over k steps is alpha^k*I, which tends to zero for 0&lt;alpha&lt;1; slower forgetting does not mean permanent gradient preservation. This is a recency-weighted summary and is not generally invariant to permuting tokens. With uniformly bounded embedded inputs the scalar-decay context stays bounded by the larger of the initial-state and input norm bounds, but this does not bound the fast-state Jacobian or establish stability of the whole trained system.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mikolov2015">Learning Longer Memory in Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2, Equation 4 and exponential trace discussion, p. 4; finite memory limitation in conclusion, pp. 7–8; curator expansion</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#current-versus-lagged-context</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Equation 5 feeds current s_t to the fast state, but mfactory.lua feeds prev_hid_slow even though its nearby comment describes current c_t. A simultaneous transition using the paper Equation 7 block [R,P;0,alpha*I] also feeds the previous context. Substituting Equation 4 into Equation 5 instead gives the effective recurrent coupling alpha*P and effective input matrix A+(1-alpha)*P*B. These formulations can be reparameterized for nonzero alpha, but are not identical with unchanged raw parameters, initialization or optimization. The record preserves the paper and pinned-code conventions separately.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mikolov2015">Learning Longer Memory in Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Equations 4–7 and alternative interpretation, p. 4</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorgraph">Author SCRNNs implementation: mfactory.lua</a></span>
+        <span>· <strong>Locator:</strong> mfactory.lua comment lines 164–166 versus graph lines 191–199; curator substitution</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#pinned-fixed-context-implementation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the inspected fresh code setup, util.initSCRNN initializes the slow recurrent matrix to (1-semb_scale)*I with zero off-diagonal entries. The builder scales the slow input embedding by semb_scale, and SCRNN.zeroSomeGradients zeroes the slow recurrent weight gradient before the parameter update. The shown SGD or momentum update, starting with the zero momentum buffer created by SCRNN, therefore preserves this slow matrix under that path. This static reading does not certify arbitrary loaded optimizer state, external mutation, library behavior or an implementation of the paper adaptive-Q variant.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorgraph">Author SCRNNs implementation: mfactory.lua</a></span>
+        <span>· <strong>Locator:</strong> mfactory.lua lines 171–201</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorinit">Author SCRNNs implementation: util.lua</a></span>
+        <span>· <strong>Locator:</strong> util.lua orthInit and initSCRNN</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authortrain">Author SCRNNs implementation: scrnn.lua</a></span>
+        <span>· <strong>Locator:</strong> scrnn.lua lines 120–134 and 320–338</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-authorupdate">Author SCRNNs implementation: rnn.lua</a></span>
+        <span>· <strong>Locator:</strong> rnn.lua lines 247–255</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#evaluation-and-finite-memory</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The paper evaluates language modeling on Penn Treebank and Text8 under selected hidden/context sizes, output parameterizations, backpropagation horizons and learning-rate choices. Text8 performance uses the reported development split, and context-weight learning helps some capacity settings more than others. The authors explicitly acknowledge limits of finite-capacity recurrent memory. These comparisons do not establish universal superiority to LSTM, arbitrary-length exact storage, or equivalence between the paper and historical code training runs. No numerical benchmark or independent reproduction is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-mikolov2015">Learning Longer Memory in Recurrent Neural Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 3 and Tables 1–4, pp. 5–7; conclusion, pp. 7–8</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>Paper current-context equations and pinned previous-context code are kept distinct. Their parameter transformation does not imply identical initialization, optimization or empirical results.</li>
+      <li>The slow-context structural constraint does not constrain the learned fast recurrent matrix in the same way. A decaying trace is not an unlimited exact memory or unconditional gradient guarantee.</li>
+      <li>The paper prints a sigmoid expression with a positive exponential sign while calling it sigmoid; the author graph uses nn.Sigmoid. This record names the operation without importing a theorem from that printed scalar formula.</li>
+      <li>The adaptive per-unit decay is a paper variant; the inspected fixed-context code path is not presented as its implementation. Static preservation reasoning assumes the stated fresh initialization and update path.</li>
+      <li>All nine paper pages and six selected author files were read completely; only lines 230–285 of rnn.lua were read. No full repository/dependency audit, Torch execution, training or benchmark replication was performed.</li>
+      <li>The source evaluations use specific capacities, splits and training choices. No current best performance, unconditional LSTM advantage or independent scientific approval is asserted.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/RecurrentNeuralNetwork.html" style="font-weight: 600;"><code>AIO:RecurrentNeuralNetwork</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Recurrent Neural Network</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">broad_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The architecture is a recurrent sequence network with a constrained linear context subsystem; the target is the broader recurrent architecture category.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/SigmoidFunction.html" style="font-weight: 600;"><code>AIO:SigmoidFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Sigmoid Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The paper names a sigmoid fast-state operation and the author graph uses nn.Sigmoid. The architecture is related to its activation function, not a subclass of that mathematical function.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-mikolov2015">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">mikolov2015</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/1412.7753v2" target="_blank" rel="noopener">Learning Longer Memory in Recurrent Neural Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tomas Mikolov, Armand Joulin, Sumit Chopra, Michael Mathieu, Marc’Aurelio Ranzato
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arXiv:1412.7753v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:5326cbf36d99…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authorgraph">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authorgraph</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/mfactory.lua" target="_blank" rel="noopener">Author SCRNNs implementation: mfactory.lua</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tomas Mikolov, Armand Joulin, Sumit Chopra, Michael Mathieu, Marc’Aurelio Ranzato
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ff3e00fddb9f…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authorinit">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authorinit</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/util.lua" target="_blank" rel="noopener">Author SCRNNs implementation: util.lua</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tomas Mikolov, Armand Joulin, Sumit Chopra, Michael Mathieu, Marc’Aurelio Ranzato
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:d578f925f7ca…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authortrain">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authortrain</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/scrnn.lua" target="_blank" rel="noopener">Author SCRNNs implementation: scrnn.lua</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tomas Mikolov, Armand Joulin, Sumit Chopra, Michael Mathieu, Marc’Aurelio Ranzato
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:41a366ac2291…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-authorupdate">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">authorupdate</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://raw.githubusercontent.com/facebookarchive/SCRNNs/75582d4371d72dc789929b7076777bd5b3e38f1b/rnn.lua" target="_blank" rel="noopener">Author SCRNNs implementation: rnn.lua</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tomas Mikolov, Armand Joulin, Sumit Chopra, Michael Mathieu, Marc’Aurelio Ranzato
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0974765546e1…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AStructurallyConstrainedRecurrentNeuralNetwork">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Structurally constrained recurrent neural network" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Architectures</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:StructurallyConstrainedRecurrentNeuralNetwork</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Structurally...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 5 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:RecurrentNeuralNetwork (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T05:05:19Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T05:05:19Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml" target="_blank" rel="noopener">
+      <code>data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Structurally%20constrained%20recurrent%20neural%20network"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AStructurallyConstrainedRecurrentNeuralNetwork"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

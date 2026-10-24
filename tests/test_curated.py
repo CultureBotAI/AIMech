@@ -48,6 +48,25 @@ def corpus(tmp_path, record):
     return tmp_path
 
 
+@pytest.mark.parametrize("kind", ["coordination_mechanism", "computational_paradigm"])
+def test_source_defined_computational_kinds_are_closed(record, kind):
+    record["concept_kind"] = kind
+    assert validate_curated_record(record) == []
+    record["concept_kind"] = kind + "_typo"
+    assert any("concept_kind" in error for error in validate_curated_record(record))
+
+
+def test_primary_monograph_type_keeps_evidence_requirements(record):
+    source = record["evidence_sources"][0]
+    source["source_type"] = "primary_monograph"
+    assert validate_curated_record(record) == []
+    source["access_level"] = "abstract_only"
+    assert any("abstract-only" in error for error in validate_curated_record(record))
+    source["access_level"] = "full_text"
+    source["source_type"] = "primary_monograph_typo"
+    assert any("source_type" in error for error in validate_curated_record(record))
+
+
 def test_supported_record_and_collection_pass(record, corpus):
     assert validate_curated_record(record) == []
     assert validate_curated(corpus) == 0

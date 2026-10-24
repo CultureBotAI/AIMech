@@ -1,0 +1,628 @@
+# Scientific author self-review of Teacher forcing
+
+- Review: 20261013T065730Z-teacher-forcing
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T06:49:38Z
+- Finished UTC: 2026-10-13T06:57:30Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain teacher forcing as a distinct DRAFT training procedure with a related TrainingStrategy mapping. The minor evidence-locator finding is resolved through seven corrected occurrences, synchronized report, EDIT history, fresh capture and source reassessment. Scientific statements remain supported; no independent approval or training execution.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:TeacherForcing
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 95615ff21d8f70591df2c69b915e988ee700b075.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:TeacherForcing | data/curated/TeacherForcing.yaml | maintained | Teacher forcing |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:TeacherForcing | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 194.40s (0:03:14)<br>Checked 442 record(s); 0 failed.<br>Checked 583 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 241 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 240,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:TeacherForcing | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:TeacherForcing | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:TeacherForcing | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:TeacherForcing | {"teacher_states": ["1", "5/2", "1/4"], "teacher_final_derivative": "3", "incorrect_hidden_detachment_derivative": "5/2", "free_running_final_state": "9/4", "observed_sequence_probability": "1/10", "joint_total": "1", "observed_prefix_negative_log_likelihood": 2.3025850929940455, "interpretation": "Externally supplied token paths are fixed; recurrent hidden paths still contribute. Exact observed-prefix likelihood does not imply matching autonomous trajectories. No fitting, sampling experiment or benchmark."} |
+
+## Scientific And Domain Assessments
+
+### Teacher forcing
+
+identity: supported. Targets: AIMech:TeacherForcing.
+
+Retain this distinct DRAFT algorithm.
+
+Retain teacher forcing as supplied-reference feedback, distinct from RTRL gradient computation, Mean Teacher parameter averaging and DocNADE architecture. All-reference scheduled sampling has the same endpoint; mixed/generated feedback is not a full-teacher-forcing alias.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:TeacherForcing.
+
+Mapping direction and scope are supported.
+
+TrainingStrategy is a related training context, not equivalence or an is-a inference under its preprocessing genus. DifferentiableLLM merely mentions teacher forcing; Distillation compresses models, and AutoregressiveLanguageModel is a model category.
+
+### reference-feedback
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+WilliamsSection2.3 names target substitution in subsequent dynamics. BengioSection2.1 uses previous reference tokens, not the current answer as its own input. Loss supervision alone does not entail feedback substitution.
+
+### observed-prefix-likelihood
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+BengioEquation1 factorizes the observed-sequence probability and Equation4 trains its log likelihood. The normalized binary example verifies this identity; rollout mismatch does not make the all-reference likelihood invalid.
+
+### derivative-paths
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+WilliamsEquations17–19 and p6 preserve the current update before dropping forced-output future sensitivities. BengioEquation3 retains recurrent hidden dependence. The constructed hidden derivative3 differs from the erroneously detached5/2.
+
+### generation-distribution-boundary
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections2.3–2.4 describe generated prefixes, greedy/sample/beam choices and possible compounded errors. The statement is conditional and does not claim inevitable failure or a free-running guarantee.
+
+### scheduled-sampling-boundary
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Corrected Section2.4 on pp3–4 defines per-token reference/generated choice and epsilon endpoints. Figure1 and gradient-convention text are on p4; the experiments omit derivative paths through the sampled token decision. Mixed sampling remains a distinct rule.
+
+### empirical-scope
+
+evidence: supported. Targets: AIMech:TeacherForcing.
+
+Supported within the stated primary-source and mathematical scope.
+
+Sections4.1–4.3 and Tables1–3 span pp5–8, with Conclusion on8. Parsing failure for all-generated training is conditional. Speech next-step validation FER and decoding test FER use different conditions; neither is asserted general word accuracy or universal superiority.
+
+### feedback identity, exact observed-prefix likelihood, hidden-state credit paths, source locators and conditional generation outcomes
+
+consistency: supported. Targets: AIMech:TeacherForcing.
+
+Constructed calculations support the stated distinctions.
+
+An original scalar recurrent example retains hidden-state derivative paths under exogenous teacher inputs and contrasts free feedback. A normalized binary autoregression verifies exact observed-prefix likelihood. These are constructed algebraic examples without training or benchmark execution.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:TeacherForcing.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read all corrected fields after fresh capture and verified the seven fixed primary-paper locator occurrences. Challenged target-feedback identity, valid observed-prefix likelihood, surviving hidden-state derivative paths, inference-prefix mismatch and empirical scope. The earlier minor locator finding is resolved without changing the scientific statements.
+
+## Findings
+
+### F1: Correct the Bengio2015 section and page locators
+
+minor / resolved / confirmed; issue key: teacher-forcing-bengio2015-locators.
+
+Several Bengio2015 evidence locators identify the wrong section or page span. The method is Section2.4 on pp.3–4, not Section3 (Related Work). Figure1 is on p.4, outside the definition and hidden-state locators ending on p.3. Table3 and the Conclusion are on p.8, outside the empirical-scope locator ending on p.7. The inspected source supports the statements, but these locators impede direct verification. Correct all occurrences and the report mirror without changing the supported mechanism.
+
+Disposition: Corrected all seven Bengio2015 locator occurrences: method Section2.4, Figure1 on p4, differentiated equation/training locations, and Table3/Conclusion on p8. Scientific statements are unchanged. Updated report mirror, actual EDIT history and rendering; fresh capture and source reassessment agree, and all required corrected-input gates pass.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T064459Z-teacher-forcing.json | supports | Compared all 442 pinned AIO and 582 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 70, 10, 10 lines. All distinct match contents were inspected. Semantic matching covered 75 AIO and 167 native definitions, with unchanged preceding rows verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Matches concern the AIO DifferentiableLLM definition, the RTRL configuration and the pending broader teacher-forcing lead. Teacher forcing specifies the feedback supplied during training, not a particular architecture, gradient algorithm or trained instance. RTRL is one algorithm that can use it. Mean Teacher averages student parameters for consistency targets; DocumentNADE is a particular autoregressive architecture. Neither is this general feedback-substitution procedure. The pinned Distillation compression definition is also distinct. Scheduled sampling changes the feedback-selection rule and is not an alias; the all-reference endpoint coincides with full teacher guidance. |
+| mapping | sources/aio/aio.json | supports | TrainingStrategy is a related training context, not equivalence or an is-a inference under its preprocessing genus. DifferentiableLLM merely mentions teacher forcing; Distillation compresses models, and AutoregressiveLanguageModel is a model category. |
+| williams1989 | https://gwern.net/doc/ai/nn/rnn/1989-williams-2.pdf; All ten Williams/Zipser1989 and nine Bengio2015 pages read before capture. Williams5–6 and Bengio2–4,7–8 were reread during the initial assessment. After fresh corrected capture, Bengio4 and8 were revisited to verify the corrected method/figure/table/conclusion locations; all source bytes remain identical. Jordan1986 could not be inspected; no priority assertion, author implementation, training or benchmark replication. | supports | Ten-page manuscript copy openly hosted by Gwern, identifying the Neural Computation1:270–280 publication (1989). All ten PDF pages, Equations1–19, experiments and references visually read. PDF page numbers are used; final publisher layout was not inspected. |
+| bengio2015 | https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf; All ten Williams/Zipser1989 and nine Bengio2015 pages read before capture. Williams5–6 and Bengio2–4,7–8 were reread during the initial assessment. After fresh corrected capture, Bengio4 and8 were revisited to verify the corrected method/figure/table/conclusion locations; all source bytes remain identical. Jordan1986 could not be inspected; no priority assertion, author implementation, training or benchmark replication. | supports | NIPS2015 proceedings, Advances in Neural Information Processing Systems28; nine-page conference-hosted PDF, printed/PDF pages1–9. All equations, figures, tables, experimental settings and references visually read. The baseline defines true-prefix training; the explicit teacher-forcing name is supported by Williams/Zipser1989. |
+| calculation | research/discovery/teacher-forcing-boundaries.py | supports | An original scalar recurrent example retains hidden-state derivative paths under exogenous teacher inputs and contrasts free feedback. A normalized binary autoregression verifies exact observed-prefix likelihood. These are constructed algebraic examples without training or benchmark execution. |
+| predecessor | reviews/structured/20261013T064753Z-teacher-forcing-locators-open/review.yaml | supports | The initial partial review preserves the wrong section/page references; seven logical locator occurrences were corrected against the actual primary PDF. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 583 native and 442 unchanged generated records. The 767-entry main frontier retains 481 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All ten Williams/Zipser1989 manuscript pages and all nine Scheduled Sampling2015 proceedings pages visually read, including the teacher-forcing section, likelihood equations1–4, Figures1–2, Tables1–3 and complete experiments/references. Jordan1986 repository page presented a JavaScript robot check and was not bypassed or read. No historical-priority conclusion, author-code inspection or training execution.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T065730Z-teacher-forcing
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Teacher forcing
+started_at: '2026-10-13T06:49:38Z'
+finished_at: '2026-10-13T06:57:30Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged feedback identity, exact observed-prefix
+    likelihood, hidden-state credit paths, source locators and conditional generation
+    outcomes. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain teacher forcing as a distinct DRAFT training procedure with a related
+  TrainingStrategy mapping. The minor evidence-locator finding is resolved through
+  seven corrected occurrences, synchronized report, EDIT history, fresh capture and
+  source reassessment. Scientific statements remain supported; no independent approval
+  or training execution.
+source:
+  git_revision: 95615ff21d8f70591df2c69b915e988ee700b075
+  state: working_tree
+  inputs:
+  - path: data/aio/AutoregressiveLanguageModel.yaml
+    sha256: 1ee5824569635aab5df1b1f23eaabca463bd7ef87d1b22e9d9c42375a49ec800
+    role: context
+  - path: data/aio/DifferentiableLLM.yaml
+    sha256: b8a40c81f74e60c62abed98282803859d0f00ad7e3b9c3d161d63002575f50a3
+    role: context
+  - path: data/aio/Distillation.yaml
+    sha256: 02faf8db468fca6adfe257a141c98c7b13f85dc301e856a1f9622dfdb68ae5c9
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/DocumentNADE.yaml
+    sha256: fd0969626c9aa10b8d5d876c3d537cbef1b317090c49944334e00131060b9d27
+    role: context
+  - path: data/curated/MeanTeacher.yaml
+    sha256: 606e863163715f48b89fb35dc090bb32d5d2ca70c099d1fdfac563104ada27b7
+    role: context
+  - path: data/curated/RealTimeRecurrentLearning.yaml
+    sha256: 56d96389c192a6a7e40852add607c729c48ac19aeb4cc5ef6c44b1a5c3190e7c
+    role: context
+  - path: data/curated/TeacherForcing.yaml
+    sha256: 2fa0fc009f4cdaeee3e6c4b58cb1bb15ba0786f7a3cab9495ed2edd2df74cf3e
+    role: target
+  - path: research/discovery/20261013T064459Z-teacher-forcing.json
+    sha256: 10319aa44f7a7fecaa71e2af1af5c50308092f7bac00abcba5f4aaf9c0192e57
+    role: context
+  - path: research/discovery/teacher-forcing-boundaries.py
+    sha256: 5c279d0943c0d56f2125e106cdd0a0e078bc2804fc4b17d34ad41ec048bb5ef6
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:TeacherForcing
+  path: data/curated/TeacherForcing.yaml
+  label: Teacher forcing
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TeacherForcing.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:TeacherForcing'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:TeacherForcing
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All ten Williams/Zipser1989 and nine Bengio2015 pages read before capture.
+      Williams5–6 and Bengio2–4,7–8 were reread during the initial assessment. After
+      fresh corrected capture, Bengio4 and8 were revisited to verify the corrected
+      method/figure/table/conclusion locations; all source bytes remain identical.
+      Jordan1986 could not be inspected; no priority assertion, author implementation,
+      training or benchmark replication.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TeacherForcing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 194.40s (0:03:14)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 583 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 241 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 240,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TeacherForcing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TeacherForcing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TeacherForcing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/teacher-forcing-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:TeacherForcing
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"teacher_states": ["1", "5/2", "1/4"], "teacher_final_derivative": "3",
+    "incorrect_hidden_detachment_derivative": "5/2", "free_running_final_state": "9/4",
+    "observed_sequence_probability": "1/10", "joint_total": "1", "observed_prefix_negative_log_likelihood":
+    2.3025850929940455, "interpretation": "Externally supplied token paths are fixed;
+    recurrent hidden paths still contribute. Exact observed-prefix likelihood does
+    not imply matching autonomous trajectories. No fitting, sampling experiment or
+    benchmark."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T064459Z-teacher-forcing.json
+  accessed_at: '2026-10-13T06:49:38Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 582 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    70, 10, 10 lines. All distinct match contents were inspected. Semantic matching
+    covered 75 AIO and 167 native definitions, with unchanged preceding rows verified
+    and new matches read. 4 full annotated AIO node/edge/generated contexts and 3
+    full native records were inspected. Matches concern the AIO DifferentiableLLM
+    definition, the RTRL configuration and the pending broader teacher-forcing lead.
+    Teacher forcing specifies the feedback supplied during training, not a particular
+    architecture, gradient algorithm or trained instance. RTRL is one algorithm that
+    can use it. Mean Teacher averages student parameters for consistency targets;
+    DocumentNADE is a particular autoregressive architecture. Neither is this general
+    feedback-substitution procedure. The pinned Distillation compression definition
+    is also distinct. Scheduled sampling changes the feedback-selection rule and is
+    not an alias; the all-reference endpoint coincides with full teacher guidance.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T06:49:38Z'
+  support: supports
+  summary: TrainingStrategy is a related training context, not equivalence or an is-a
+    inference under its preprocessing genus. DifferentiableLLM merely mentions teacher
+    forcing; Distillation compresses models, and AutoregressiveLanguageModel is a
+    model category.
+- evidence_id: williams1989
+  kind: primary_source
+  reference: https://gwern.net/doc/ai/nn/rnn/1989-williams-2.pdf
+  locator: All ten Williams/Zipser1989 and nine Bengio2015 pages read before capture.
+    Williams5–6 and Bengio2–4,7–8 were reread during the initial assessment. After
+    fresh corrected capture, Bengio4 and8 were revisited to verify the corrected method/figure/table/conclusion
+    locations; all source bytes remain identical. Jordan1986 could not be inspected;
+    no priority assertion, author implementation, training or benchmark replication.
+  accessed_at: '2026-10-13T06:06:26Z'
+  snapshot_sha256: 348ca1d75163d1fa2412f4fc2c3d73531051ba14ce9bdc51a098da19f869fc2a
+  support: supports
+  summary: Ten-page manuscript copy openly hosted by Gwern, identifying the Neural
+    Computation1:270–280 publication (1989). All ten PDF pages, Equations1–19, experiments
+    and references visually read. PDF page numbers are used; final publisher layout
+    was not inspected.
+- evidence_id: bengio2015
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf
+  locator: All ten Williams/Zipser1989 and nine Bengio2015 pages read before capture.
+    Williams5–6 and Bengio2–4,7–8 were reread during the initial assessment. After
+    fresh corrected capture, Bengio4 and8 were revisited to verify the corrected method/figure/table/conclusion
+    locations; all source bytes remain identical. Jordan1986 could not be inspected;
+    no priority assertion, author implementation, training or benchmark replication.
+  accessed_at: '2026-10-13T06:27:25Z'
+  snapshot_sha256: ab71fd38a31df07e90e7ec019b19654de8f633484a76c0a68e36133f888454a0
+  support: supports
+  summary: NIPS2015 proceedings, Advances in Neural Information Processing Systems28;
+    nine-page conference-hosted PDF, printed/PDF pages1–9. All equations, figures,
+    tables, experimental settings and references visually read. The baseline defines
+    true-prefix training; the explicit teacher-forcing name is supported by Williams/Zipser1989.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/teacher-forcing-boundaries.py
+  accessed_at: '2026-10-13T06:50:55Z'
+  snapshot_sha256: 5c279d0943c0d56f2125e106cdd0a0e078bc2804fc4b17d34ad41ec048bb5ef6
+  support: supports
+  summary: An original scalar recurrent example retains hidden-state derivative paths
+    under exogenous teacher inputs and contrasts free feedback. A normalized binary
+    autoregression verifies exact observed-prefix likelihood. These are constructed
+    algebraic examples without training or benchmark execution.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T064753Z-teacher-forcing-locators-open/review.yaml
+  accessed_at: '2026-10-13T06:50:55Z'
+  snapshot_sha256: d3b637760812c94a650bd982faa1a4d236b85e00f4ee9fc3a6e3b0b3cd184b9f
+  support: supports
+  summary: The initial partial review preserves the wrong section/page references;
+    seven logical locator occurrences were corrected against the actual primary PDF.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Teacher forcing
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - identity
+  - williams1989
+  - bengio2015
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain teacher forcing as supplied-reference feedback, distinct from RTRL
+    gradient computation, Mean Teacher parameter averaging and DocNADE architecture.
+    All-reference scheduled sampling has the same endpoint; mixed/generated feedback
+    is not a full-teacher-forcing alias.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - mapping
+  - williams1989
+  - bengio2015
+  summary: Mapping direction and scope are supported.
+  details: TrainingStrategy is a related training context, not equivalence or an is-a
+    inference under its preprocessing genus. DifferentiableLLM merely mentions teacher
+    forcing; Distillation compresses models, and AutoregressiveLanguageModel is a
+    model category.
+- assessment_id: reference-feedback
+  area: evidence
+  topic: reference-feedback
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - williams1989
+  - bengio2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: WilliamsSection2.3 names target substitution in subsequent dynamics. BengioSection2.1
+    uses previous reference tokens, not the current answer as its own input. Loss
+    supervision alone does not entail feedback substitution.
+- assessment_id: observed-prefix-likelihood
+  area: evidence
+  topic: observed-prefix-likelihood
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - bengio2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: BengioEquation1 factorizes the observed-sequence probability and Equation4
+    trains its log likelihood. The normalized binary example verifies this identity;
+    rollout mismatch does not make the all-reference likelihood invalid.
+- assessment_id: derivative-paths
+  area: evidence
+  topic: derivative-paths
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - williams1989
+  - bengio2015
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: WilliamsEquations17–19 and p6 preserve the current update before dropping
+    forced-output future sensitivities. BengioEquation3 retains recurrent hidden dependence.
+    The constructed hidden derivative3 differs from the erroneously detached5/2.
+- assessment_id: generation-distribution-boundary
+  area: evidence
+  topic: generation-distribution-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - bengio2015
+  - williams1989
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections2.3–2.4 describe generated prefixes, greedy/sample/beam choices
+    and possible compounded errors. The statement is conditional and does not claim
+    inevitable failure or a free-running guarantee.
+- assessment_id: scheduled-sampling-boundary
+  area: evidence
+  topic: scheduled-sampling-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - bengio2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Corrected Section2.4 on pp3–4 defines per-token reference/generated choice
+    and epsilon endpoints. Figure1 and gradient-convention text are on p4; the experiments
+    omit derivative paths through the sampled token decision. Mixed sampling remains
+    a distinct rule.
+- assessment_id: empirical-scope
+  area: evidence
+  topic: empirical-scope
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - bengio2015
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Sections4.1–4.3 and Tables1–3 span pp5–8, with Conclusion on8. Parsing
+    failure for all-generated training is conditional. Speech next-step validation
+    FER and decoding test FER use different conditions; neither is asserted general
+    word accuracy or universal superiority.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: feedback identity, exact observed-prefix likelihood, hidden-state credit
+    paths, source locators and conditional generation outcomes
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - williams1989
+  - bengio2015
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: An original scalar recurrent example retains hidden-state derivative paths
+    under exogenous teacher inputs and contrasts free feedback. A normalized binary
+    autoregression verifies exact observed-prefix likelihood. These are constructed
+    algebraic examples without training or benchmark execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:TeacherForcing
+  evidence_ids:
+  - identity
+  - mapping
+  - williams1989
+  - bengio2015
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read all corrected fields after fresh capture and
+    verified the seven fixed primary-paper locator occurrences. Challenged target-feedback
+    identity, valid observed-prefix likelihood, surviving hidden-state derivative
+    paths, inference-prefix mismatch and empirical scope. The earlier minor locator
+    finding is resolved without changing the scientific statements.
+findings:
+- finding_id: F1
+  issue_key: teacher-forcing-bengio2015-locators
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct the Bengio2015 section and page locators
+  description: Several Bengio2015 evidence locators identify the wrong section or
+    page span. The method is Section2.4 on pp.3–4, not Section3 (Related Work). Figure1
+    is on p.4, outside the definition and hidden-state locators ending on p.3. Table3
+    and the Conclusion are on p.8, outside the empirical-scope locator ending on p.7.
+    The inspected source supports the statements, but these locators impede direct
+    verification. Correct all occurrences and the report mirror without changing the
+    supported mechanism.
+  target_ids:
+  - AIMech:TeacherForcing
+  field_paths:
+  - definition_evidence[source_id=bengio2015].locator
+  - claims.evidence[source_id=bengio2015].locator
+  evidence_ids:
+  - predecessor
+  - bengio2015
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/TeacherForcing.yaml
+    role: maintained
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T064753Z-teacher-forcing-locators-open
+    finding_id: F1
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/248
+  disposition_reason: 'Corrected all seven Bengio2015 locator occurrences: method
+    Section2.4, Figure1 on p4, differentiated equation/training locations, and Table3/Conclusion
+    on p8. Scientific statements are unchanged. Updated report mirror, actual EDIT
+    history and rendering; fresh capture and source reassessment agree, and all required
+    corrected-input gates pass.'
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 583 native and 442 unchanged generated records.
+  The 767-entry main frontier retains 481 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All ten Williams/Zipser1989 manuscript pages and all nine Scheduled Sampling2015
+  proceedings pages visually read, including the teacher-forcing section, likelihood
+  equations1–4, Figures1–2, Tables1–3 and complete experiments/references. Jordan1986
+  repository page presented a JavaScript robot check and was not bypassed or read.
+  No historical-priority conclusion, author-code inspection or training execution.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T064753Z-teacher-forcing-locators-open
+  relationship: Resolves F1 after source-locator corrections, fresh input capture,
+    source rereading and passing gates.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

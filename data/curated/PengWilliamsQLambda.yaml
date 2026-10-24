@@ -1,0 +1,177 @@
+id: AIMech:PengWilliamsQLambda
+name: Peng and Williams Q(lambda)
+concept_kind: algorithm
+aliases: []
+definition: The 1996 tabular incremental Q(lambda) algorithm that combines a direct one-step Q-learning
+  update for the current state-action pair with a second greedy-state prediction error propagated through
+  decayed accumulating activity traces, without automatically cutting traces on exploratory actions.
+definition_evidence:
+- source_id: peng1996
+  locator: Sections 3–4, PDF pp. 3–5 / printed pp. 285–287, Equations 6–8 and Figure 1.
+  relation: supports
+claims:
+- claim_id: tabular-values-traces-and-behavior
+  kind: mechanism
+  statement: The inspected baseline maintains a table Q(x,a) and an accumulating activity trace Tr(x,a),
+    both initialized to zero in Figure 1. At each step it chooses an action using the current exploration
+    policy, executes that action and observes the immediate reward and next state. Its state-value estimate
+    is V(x)=max_a Q(x,a).
+  evidence:
+  - source_id: peng1996
+    locator: Sections 3–4, PDF pp. 3–5 / printed pp. 285–287; Figure 1 initialization and steps A–C.
+    relation: supports
+- claim_id: two-preupdate-errors
+  kind: mechanism
+  statement: Using the same pre-update Q and V values for a transition (x,a,r,y), compute e_prime = r
+    + gamma*V(y) - Q(x,a) and e = r + gamma*V(y) - V(x). The current-pair error e_prime and older-credit
+    error e generally differ when the current action is not greedy; algebraically e_prime-e = V(x)-Q(x,a).
+  evidence:
+  - source_id: peng1996
+    locator: Section 4, PDF p. 4 / printed p. 286, Equations 6–7; Figure 1 steps D–E, PDF p. 5 / printed
+      p. 287.
+    relation: supports
+- claim_id: decay-old-credit-before-direct-update
+  kind: mechanism
+  statement: First multiply every existing trace by gamma*lambda and add alpha*Tr(x,a)*e, using the decayed
+    trace, to its Q entry. Next add alpha*e_prime separately to the current state-action pair. Only after
+    both value updates increment the current pair’s trace by one. A revisited current pair can therefore
+    receive both its older-trace contribution and the direct current-pair update.
+  evidence:
+  - source_id: peng1996
+    locator: Figure 1 steps F–H, PDF p. 5 / printed p. 287.
+    relation: supports
+  - source_id: peng1994-author-manuscript
+    locator: Author manuscript p. 3, Figure 1 steps f–h. These trace/value update steps agree with the
+      1996 core; the earlier figure’s action-selection wording is separately qualified in the version
+      limitation.
+    relation: supports
+- claim_id: retained-traces-through-exploration
+  kind: mechanism
+  statement: The displayed core does not automatically zero traces after a nongreedy action. Older credit
+    is driven by reward plus the discounted next-state maximum minus the current-state maximum, while
+    rewards still come from the trajectory actually followed. This differs from selected-next-action MCQ-L
+    and from a scheme that cuts prior traces whenever exploration chooses a nongreedy action.
+  evidence:
+  - source_id: peng1996
+    locator: Section 4, PDF pp. 4–5 / printed pp. 286–287, Equations 6–8, exploration discussion and Figure
+      1.
+    relation: supports
+- claim_id: zero-product-one-step-boundary
+  kind: scope
+  statement: Whenever gamma*lambda=0, including lambda=0 or the permitted gamma=0 boundary, every old-trace
+    contribution in Figure 1 vanishes. Only the direct one-step Q-learning update remains for the current
+    pair; at gamma=0 this is alpha*(r-Q(x,a)). Equality of this update does not by itself supply a convergence
+    theorem without the relevant sampling and learning-rate assumptions.
+  evidence:
+  - source_id: peng1996
+    locator: Section 2, PDF p. 2 / printed p. 284, discount domain; Sections 3–4, PDF pp. 3–5 / printed
+      pp. 285–287, Equation 4 and Figure 1.
+    relation: supports
+- claim_id: trace-work-and-pruning-scope
+  kind: scope
+  statement: Incremental value propagation avoids requiring a complete trajectory replay before each update,
+    but the set of active state-action traces can grow to the entire table. The article discusses retaining
+    only sufficiently significant traces when gamma*lambda<1. Such pruning is an approximation requiring
+    its own threshold and conventions, not a proof that the exact update has constant per-step cost.
+  evidence:
+  - source_id: peng1996
+    locator: Section 4, PDF pp. 5–6 / printed pp. 287–288, activity-trace work and pruning discussion;
+      Section 5, PDF p. 7 / printed p. 289, incremental versus replay comparison.
+    relation: supports
+limitations:
+- With active multi-step credit (gamma*lambda>0), exploratory rewards need not evaluate the policy implicit
+  in the greedy maxima. The article therefore does not guarantee convergence to Q-star under arbitrary
+  continuing exploration. Its suggestions to reduce lambda or Boltzmann temperature are not a universal
+  convergence proof. The zero-product boundary is separately described and is not covered by a blanket
+  positive-lambda warning.
+- Equation 8 includes an additional summation caused by changing value estimates. The small-learning-rate
+  discussion does not establish exact forward/backward equality for arbitrary online updates, a uniform
+  finite-step residual bound or convergence of every nonlinear extension.
+- The source discount domain is 0<=gamma<1, with trace parameter lambda in [0,1]. The finite recurrence
+  remains meaningful at lambda=1, but that endpoint is not justified by literally substituting lambda=1
+  into the displayed (1-lambda)-weighted infinite mixture. Return convergence and any limiting interpretation
+  require their own conditions. Repeated visits add new trace mass, so attenuation of old credit is not
+  monotonic decay of the total accumulated trace.
+- The selected primary algorithm is the tabular Figure 1 baseline. The paper discusses connectionist implementation,
+  and Rummery’s report presents a separate neural extension with its own timing. Neither mention establishes
+  that all neural approximators share the tabular update guarantees or that the two papers are interchangeable
+  specifications.
+- Figure 1 is a continuing do-forever loop and does not specify every episodic terminal bootstrap, trace
+  reset or final-update convention. Sparse pruning, replacing traces, clipping and finite-precision choices
+  alter or approximate the literal recurrence and require explicit choices. No complete runnable implementation
+  is reconstructed here.
+- The operational definition remains the 1996 journal Figure 1 method. The inspected 1994 author manuscript
+  supports the same two-error and trace-update order, but its figure’s greedy-action line conflicts with
+  adjoining exploration prose; the local V definition prints arg max despite an earlier max definition,
+  and Equation 12 lacks the visible joining plus before its changing-value sum. The 1996 presentation
+  explicitly uses an exploration policy, max and the plus sign. These are source-display observations,
+  not a formal erratum. The 1994 cart-pole experiment uses separate current-pair and past-pair learning
+  rates and resets traces at each trial; those experimental choices do not replace the single-rate core
+  or specify every episodic convention.
+- The reported task comparisons and claims about faster learning or the necessity of multi-step propagation
+  are not universal results over environments, representations or computational budgets. No author software,
+  benchmark run or original convergence proof was executed or certified by this evidence assessment.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The method learns action values from actions, rewards and transitions for control. The pinned
+    AIO target is a learning task; this qualified algorithm-to-task relation is neither exact identity
+    nor a subclass assertion, a trained model instance or a transferable convergence guarantee.
+review_status: DRAFT
+identity_notes: The actual 2026-10-15 post-cohort349 collection at commit f4b274e9c75703c0f3051ab630b4f090272f056a
+  covers 780 maintained and 442 generated records. Four fixed-string, word-boundary searches included
+  ignored and hidden files across the original checkout and three retained discovery/recovery checkouts.
+  All 16608 occurrences were reconstructed into 1095 distinct contents, freshly read by two attributed
+  supporting readers; root read 18 candidate-focused contents, all nine normalized definitions/21 fields
+  and all 13 matching frontier objects. Normalization covered 4858 identity-field occurrences. The three
+  expected normalized matches identify this exact existing record and its reviewed preimage; no duplicate
+  is created. The authenticated 1994 conference author manuscript and inspected 1996 journal paper share
+  the two-error tabular trace-control construction, with the specifically stated printed/action-selection/version
+  qualifications. The stable 1996 operational definition, all six claim statements, original source row,
+  ReinforcementLearning mapping and created_at remain unchanged. Q-learning, neural MCQ-L, Sarsa and Watkins
+  hard-cut methods retain distinct identities. Reuse owner266 and retain its earlier ID and cohort342
+  resolution without duplication. Historical statements that the 1994 source was uninspected remain dated
+  provenance.
+evidence_sources:
+- source_id: peng1996
+  title: Incremental Multi-Step Q-Learning
+  authors:
+  - Jing Peng
+  - Ronald J. Williams
+  source_type: primary_paper
+  url: https://link.springer.com/content/pdf/10.1007/BF00114731.pdf
+  version: 'Machine Learning 22, 283–290 (1996), technical note. Eight-page publisher journal PDF. The
+    effective response URL contains a cookies_not_supported query, but the retained body is a valid, successfully
+    opened eight-page PDF. Publication precision: year in the PDF and retained Crossref record; received/accepted/manuscript
+    dates are not substituted for publication.'
+  access_level: full_text
+  accessed_at: '2026-10-15T12:29:44Z'
+  sha256: cb2dcf4802a3a3004726257308f5d2a379a008da66f5249ad8b7c609813f149c
+  persistent_id: https://doi.org/10.1007/BF00114731
+- source_id: peng1994-author-manuscript
+  title: Incremental Multi-Step Q-Learning
+  authors:
+  - Jing Peng
+  - Ronald J. Williams
+  source_type: primary_paper
+  url: https://web.archive.org/web/20041112032609id_/http://ftp.ccs.neu.edu:80/pub/people/rjw/qlambda-icml-94.ps
+  version: 1994 ICML conference work, bibliographic proceedings pages 226–232. Complete seven-page author
+    PostScript manuscript linked by the author publication catalog and retained in the 12 November 2004
+    archive capture; the original PostScript hash is recorded here. The manuscript was converted locally
+    to PDF for full visual reading, with derivative lineage retained in the research dossier. It is not
+    asserted to reproduce the publisher layout. The archive date, server modification date and PDF conversion
+    timestamp are not publication dates.
+  access_level: full_text
+  accessed_at: '2026-10-15T19:16:42Z'
+  sha256: 9d1c6c7c0ddc45fbef154d1b5d1eb3c23eb3dd7c2e16a6d8b53857030b7f239a
+  persistent_id: https://doi.org/10.1016/B978-1-55860-335-6.50035-0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T14:06:22Z'
+  updated_at: '2026-10-15T20:34:02Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -44,7 +44,7 @@ identity: supported. Targets: AIMech:LadderSideTuning.
 
 Ladder Side-Tuning (LST) is a distinct concept.
 
-Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory savings at &lt;= 50%), and from vanilla Side-Tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
+Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:IA3ActivationRescaling), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory savings at &lt;= 50%), and from vanilla Side-Tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
 
 ### AIO mapping accuracy
 
@@ -131,10 +131,10 @@ source:
     sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
     role: context
   - path: data/curated/LadderSideTuning.yaml
-    sha256: b23f518600d4bf5407fde10e2a23a3a87930138622fe1326533c9c459461d284
+    sha256: 86f664990250c079bea66b7c4d8790ffbb3b70ee0fe8ea536b232468b3570b38
     role: target
   - path: research/discovery/20261019T125400Z-lst-ladder-side-tuning.json
-    sha256: 2dc8f90ad2c8ea0bee83f6e9be90ec50a504bb9b5cb9edafffb0177677892ab1
+    sha256: 13fa15ae0e5aa74237b055cf813cfdc1f2c7ab332eacb38ecb0f357c1db859c0
     role: context
   - path: research/discovery/lst-ladder-side-tuning-boundaries.py
     sha256: 214f0b8680cafeb2702f7efebd542dc6e297f1944c30fd1b484bfb6681c4411a
@@ -287,13 +287,12 @@ assessments:
   summary: Ladder Side-Tuning (LST) is a distinct concept.
   details: Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA
     (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers),
-    and IA3 (AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations), all
-    of which insert trainable parameters inside the backbone and must cache backbone
-    nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory
-    savings at <= 50%), and from vanilla Side-Tuning (which fuses representations
-    only at the final output layer without intermediate gated ladder shortcuts, structural
-    pruning initialization, or side-network layer dropping). Formulated by Sung, Cho,
-    and Bansal (NeurIPS 2022, arXiv:2206.06522).
+    and IA3 (AIMech:IA3ActivationRescaling), all of which insert trainable parameters
+    inside the backbone and must cache backbone nonlinearity derivatives {sigma'}
+    for chain-rule backpropagation (capping memory savings at <= 50%), and from vanilla
+    Side-Tuning (which fuses representations only at the final output layer without
+    intermediate gated ladder shortcuts, structural pruning initialization, or side-network
+    layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
 - assessment_id: aio-mapping-sufficiency
   area: grounding
   topic: AIO mapping accuracy

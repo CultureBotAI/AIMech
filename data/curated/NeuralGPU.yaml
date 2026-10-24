@@ -1,0 +1,164 @@
+id: AIMech:NeuralGPU
+name: Neural GPU
+aliases:
+- Neural GPUs
+concept_kind: architecture
+definition: A recurrent neural architecture that embeds a complete symbolic sequence in a spatial state
+  grid and repeatedly applies shared convolutional gated updates before reading an output sequence from
+  the final grid.
+identity_notes: Compared all 442 pinned AIO and 607 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 32, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 70 AIO and 94 native definitions, with every matched definition
+  read. 8 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. The
+  named Neural GPU evolves a complete input grid with time-shared convolutional gated updates. It is not
+  GPU hardware, an NTM external read/write controller, generic GRU, DMN episodic QA or typed-graph GG-NN.
+  Follow-up size/curriculum changes are scoped observations about the architecture rather than separate
+  trained-model records.
+definition_evidence:
+- source_id: kaiser2016
+  locator: Section 2, PDF pp. 3–4 and Figure 1
+  relation: supports
+claims:
+- claim_id: initial-grid-and-tied-evolution
+  kind: mechanism
+  statement: Embed the complete input sequence into the first column of a width-by-length grid of feature
+    vectors and initialize the remaining grid positions to zero. Apply a fixed stack of convolutional
+    gated recurrent units repeatedly for a number of time steps tied to input length, sharing each stack
+    position’s parameters across time. The original construction supplies no new external input at each
+    step. A learned output projection reads the first column of the final grid; symbol argmax is an inference
+    operation, while training uses softmax negative log probability.
+  evidence:
+  - source_id: kaiser2016
+    locator: Section 2, PDF pp. 3–4, CGRU and state-update equations, Figure 1 and output/loss description
+    relation: supports
+- claim_id: gate-and-spatial-boundaries
+  kind: scope
+  statement: The displayed CGRU update weights the old state by u and the candidate by 1-u. Its candidate
+    convolves the reset-multiplied state, U*(r*s), which is generally different from applying a spatially
+    varying reset after convolution. The method specifies same-size stride-one convolutions with zero
+    padding; local shared kernels do not imply invariance to arbitrary grid permutations or exact translation
+    equivariance across finite boundaries. Printed mixed index conventions are a mathematical description
+    rather than executable array indexing.
+  evidence:
+  - source_id: kaiser2016
+    locator: Section 2, PDF p. 3, GRU/CGRU, convolution and initialization definitions; constructed gate,
+      reset and finite-boundary examples
+    relation: supports
+- claim_id: relaxation-and-training-protocol
+  kind: scope
+  statement: The original training uses a length curriculum, hidden-state dropout and parameter-sharing
+    relaxation. Relaxation begins with multiple initially identical parameter sets used cyclically across
+    steps, penalizes differences from their mean, increases the pull toward sharing as the curriculum
+    advances, then averages the sets and continues training with one shared set. This is temporary training-time
+    untying, not an output ensemble or a permanent growth of inference parameters with sequence length.
+    The selected optimizer, hyperparameters and random restarts are part of the reported protocol rather
+    than a guarantee of successful learning.
+  evidence:
+  - source_id: kaiser2016
+    locator: Section 2, PDF p. 4; Section 3.3, including 3.3.1–3.3.2, pp. 6–7; constructed parameter-average
+      versus output-average example
+    relation: supports
+- claim_id: parallel-depth-and-total-work
+  kind: limitation
+  statement: For fixed grid width, feature width, kernel sizes and stack depth, increasing input length
+    increases both grid size and the number of recurrent steps while leaving tied inference parameters
+    fixed. Linear sequential depth in input length therefore coexists with quadratic total local-update
+    work in this specified unrolling. The cellular-automaton analogy and representational universality
+    discussion do not prove that training finds a correct algorithm or establish measured hardware speed
+    for arbitrary configurations.
+  evidence:
+  - source_id: kaiser2016
+    locator: Section 2, PDF pp. 3–4; Section 4, p. 8
+    relation: supports
+  - source_id: price2016
+    locator: Section 3 and Figure 1, PDF pp. 3–4; fixed-width arithmetic counts
+    relation: supports
+- claim_id: original-finite-generalization-evidence
+  kind: limitation
+  statement: The original binary arithmetic tasks concatenate lower-endian operands with an operator symbol
+    rather than aligning their digits. Selected runs trained on operands up to twenty bits are evaluated
+    on substantially longer inputs, including two-thousand-bit operands; an answer counts as correct only
+    when the complete output is correct. The experiments also include sequence transformations, and successful
+    long generalization is sensitive to hyperparameters and random initialization. The paper reports failure
+    to learn decimal multiplication in its original setting. These finite tests and selected successful
+    runs do not certify every input or every trained model.
+  evidence:
+  - source_id: kaiser2016
+    locator: Sections 1.1–2, PDF pp. 2–3; Sections 3–4 and Table 1, pp. 4–8
+    relation: supports
+- claim_id: followup-structured-input-failures
+  kind: limitation
+  statement: A follow-up study changes model size and curriculum, enabling decimal arithmetic in selected
+    settings, but finds that high accuracy on long random inputs can coexist with failures on long carry
+    chains, highly structured numbers and leading-zero-padded single-digit products. Training on some
+    hard examples improves the observed range without establishing unlimited carry generalization. These
+    results concern the follow-up configurations and tested instances, not a claim that every original
+    model fails identically. They directly limit an all-input interpretation of successful length extrapolation.
+  evidence:
+  - source_id: price2016
+    locator: Sections 4–5, PDF pp. 4–8, Figures 2–6 and Tables 2–3; Conclusion, p. 9
+    relation: supports
+evidence_sources:
+- source_id: kaiser2016
+  title: Neural GPUs Learn Algorithms
+  authors:
+  - Łukasz Kaiser
+  - Ilya Sutskever
+  persistent_id: arXiv:1511.08228v3
+  version: arXiv1511.08228v3,15 March2016, ICLR2016 publication header. All nine PDF pages visually read,
+    including equations, experiments and references. Locators use PDF/printed page order. Other versions
+    and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1511.08228v3
+  access_level: full_text
+  accessed_at: '2026-10-13T10:40:34Z'
+  sha256: 9bc9b63e985a663420ad6dd172ec9353a79a90b16bbf3f15148a6c182dc8aefc
+- source_id: price2016
+  title: Extensions and Limitations of the Neural GPU
+  authors:
+  - Eric Price
+  - Wojciech Zaremba
+  - Ilya Sutskever
+  persistent_id: arXiv:1611.00736v2
+  version: arXiv1611.00736v2,4 November2016, eleven PDF pages, all visually read. The PDF says under review
+    ICLR2016; no acceptance is inferred from that header. Locators use PDF/printed page order. Other versions
+    and author code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1611.00736v2
+  access_level: full_text
+  accessed_at: '2026-10-13T10:52:21Z'
+  sha256: 898b99d24b64306c51a934c596ff9a0188ce3c4b6470fef757355f79162d1fe7
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: Shared gated state evolution across computational time defines a specific recurrent neural
+    architecture; an observed temporal input stream is not required.
+- target: AIO:GatedRecurrentUnit
+  relation: related_match
+  rationale: Convolutional GRU updates are components of the complete grid architecture; this does not
+    equate the architecture to a single generic GRU or adopt the target’s LSTM parentage.
+- target: AIO:ConvolutionalLayer
+  relation: related_match
+  rationale: Learned local convolutional kernel banks implement candidate and gate computations; a component
+    layer is not the whole recurrent architecture.
+limitations:
+- The named Neural GPU is an architecture, not GPU hardware, a particular trained checkpoint, a Neural
+  Turing Machine or a guarantee of algorithmic correctness.
+- Full nine-page original arXiv1511.08228v3 and eleven-page follow-up arXiv1611.00736v2 PDFs were read.
+  Different source configurations and access versions remain explicit.
+- Author implementations, other versions and model training were not inspected or run. Chosen calculations
+  establish algebraic distinctions only, not empirical replication.
+- Later curriculum successes qualify the original decimal-multiplication failure; structured-input counterexamples
+  qualify generalization language. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T11:11:19Z'
+  updated_at: '2026-10-13T11:11:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

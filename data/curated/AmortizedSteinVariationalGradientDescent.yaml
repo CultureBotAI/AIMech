@@ -1,0 +1,204 @@
+id: AIMech:AmortizedSteinVariationalGradientDescent
+name: Amortized Stein variational gradient descent
+aliases:
+- Amortized SVGD
+concept_kind: algorithm
+definition: A differentiable stochastic-sampler training procedure that repeatedly
+  generates a minibatch, computes kernelized Stein target-score directions on its
+  outputs, and fits the sampler parameters to the resulting displaced outputs.
+definition_evidence:
+- source_id: wang-liu2016-v2
+  locator: Physical PDF pp.4–5, Section3, Algorithm1 and Eqs.7–10
+  relation: supports
+- source_id: feng-wang-liu2017
+  locator: Physical PDF p.1 Problem1 and p.4 Section3, Algorithm1, Eqs.13 and15
+  relation: supports
+claims:
+- claim_id: implicit-sampler
+  kind: mechanism
+  statement: Train parameters of a stochastic simulator that is differentiable in
+    the parameters being fitted so its outputs approximate a target supplied through
+    the target log-density score. Draw random seeds and evaluate simulator outputs
+    and parameter derivatives; neither the output density nor the seed density needs
+    to be evaluated by this update.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Problem1 pp1–2; Section3 pp4–6
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF Problem1 p1; Section3 pp4–5
+    relation: supports
+- claim_id: particle-direction
+  kind: mechanism
+  statement: For current outputs x_i=f_eta(xi_i) from a minibatch of size m, form
+    v_i=(1/m) sum_j [k(x_j,x_i) grad log p(x_j)+grad_first k(x_j,x_i)]. The derivative
+    of the kernel is with respect to its first argument, and both terms use the same
+    current outputs before the fitting step.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Eq7 and Algorithm1 p4
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF Eq10 p3 and Algorithm1 p4
+    relation: supports
+- claim_id: output-projection
+  kind: mechanism
+  statement: Set displaced targets y_i=x_i+epsilon*v_i and fit the sampler outputs
+    for those same seeds by squared Euclidean error. Hold the old outputs, seeds,
+    computed directions and target-distribution parameters fixed during this fit.
+    Repeat the incremental generation, direction and fitting stages rather than first
+    requiring a fully converged particle run.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Section3 and Eq8 pp4–5
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF Section3 and Eq13 p4
+    relation: supports
+- claim_id: parameter-step
+  kind: mechanism
+  statement: With J_i=d f_eta(xi_i)/d eta an output-by-parameter Jacobian, one descent
+    step for the frozen-target fitting loss has positive direction sum_i J_i^T v_i.
+    Its positive scale depends on the loss normalization and fitting learning rate;
+    the inner minibatch average is a separate factor. This practical step is an approximation
+    to nonlinear output fitting and differs from solving its linearized least-squares
+    problem exactly.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Eq8–10 p5
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF p.4, Eqs.13 and15; frozen-target regression and practical
+      positive fitting-gradient step
+    relation: supports
+- claim_id: learned-output-versus-particles
+  kind: mechanism
+  statement: The fitted sampler generates new outputs from fresh random seeds. It
+    is a parameterized approximation to the interacting-particle update, rather than
+    the unchanged unamortized particle procedure or an exact target-sampling oracle.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Section3 pp4–6
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF Section3 pp4–5
+    relation: supports
+- claim_id: application-boundaries
+  kind: scope
+  statement: The 2016 work also alternates energy-model updates with sampler fitting
+    in SteinGAN. The distinct 2017 work applies the sampler-training method to variational
+    encoders and finite-step Langevin simulators. These composite application procedures
+    add structure and are not aliases of generic amortized SVGD.
+  evidence:
+  - source_id: wang-liu2016-v2
+    locator: Physical PDF Section4/Algorithm2 pp6–7
+    relation: supports
+  - source_id: feng-wang-liu2017
+    locator: Physical PDF Sections4.1–4.2, Algorithms2–3 pp5–6
+    relation: supports
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: related_match
+  rationale: Both primary works explicitly train stochastic neural inference networks
+    using this sampler-fitting procedure. This relates the algorithm to a documented
+    neural-sampler implementation class; the generic differentiable-simulator definition
+    also permits other parameterizations. It asserts neither algorithm/model identity
+    nor subclass or broad-match inclusion, and does not make an ANN architecture mandatory.
+limitations:
+- A target score requires a differentiable continuous target on the relevant domain,
+  finite positive normalization and regularity. An unknown multiplicative constant
+  independent of the sampled variable cancels; arbitrary improper energies do not
+  thereby become distributions.
+- The infinitesimal Stein/KL argument concerns suitable population densities, moments,
+  boundary integration and valid perturbations. A finite empirical particle measure
+  is atomic; a finite/discrete-seed simulator can also have singular output. The algorithm
+  can compute directions without an output density, but that alone does not make its
+  population KL finite or justify density-based entropy identities.
+- Finite sampler capacity, restricted tangent directions, rank-deficient Jacobians,
+  nonlinear fitting error, minibatch error and finite step size separate the parameter
+  update from ideal unconstrained SVGD. A least-squares projection may have nonunique
+  minimizers. Even a full-column-rank but restricted parameterization can have a stationary
+  fitting update while the unrestricted Stein field is nonzero. No universal monotone
+  KL descent, exact posterior recovery or global convergence is adopted.
+- The 2016 v1/v2 Eq.9 has eta_new=eta+epsilon*Delta_eta. The 2017 proceedings and
+  arXiv:1707.06626v2 Eq.14 print a minus sign while minimizing ||J*delta-phi||^2 and
+  retaining positive Eq.15. The fitting target and first-order derivation support
+  plus for this delta definition. Retain the printed discrepancy and use positive
+  2016 Eq.10/2017 Eq.15 for the practical step; no published erratum or inspected
+  author implementation is claimed.
+- Unit diagonal and zero first-argument diagonal derivative give the exact one-particle
+  score-ascent reduction, as with a normalized RBF. Other kernels can change the scale
+  or add a derivative. The 2016 p4 single-particle sentence is visibly missing the
+  condition value; the 2017 p3 prints derivative=0 but unit-diagonal scaling still
+  matters. Kernel richness, boundary conditions and positive nondegenerate bandwidth
+  matter; repulsion does not guarantee all modes or prevent coincident outputs.
+- The projected Stein field is not asserted to be the exact ordinary parameter gradient
+  of KL. The paper relates it to a kernel-smoothed score difference under Stein conditions;
+  this does not remove smoothing, projection or family restrictions. The output target
+  is held fixed in the regression derivative, rather than differentiating through
+  the target as an additional objective.
+- SteinGAN replaces a model expectation with imperfect sampler outputs, so finite
+  alternating updates are not automatically exact or unbiased MLE. Its gamma-weighted
+  stabilization changes the objective; proper prior normalization is not established
+  by calling exp(gamma*logZ) conjugate. Learned finite-step Langevin chains are not
+  certified target-invariant or universally transferable by the reported experiments.
+  Entropy-tempering requires a normalizable tempered target and meaningful entropy.
+- 2016 v1/v2 differ in reported CIFAR values and caption gamma, not just typography;
+  keep versions separate. UAI proceedings and later arXiv1707.06626v2 differ in bibliography
+  (Snelson removed, Pu added), and only the latter downloaded artifact contains Appendices
+  A–C. Empirical comparisons, image quality and speed claims are source-reported and
+  not independently reproduced. No code or training was run.
+review_status: DRAFT
+identity_notes: 'Current cohort359 assessment on clean base 0f7e2c5df224901e9284a883dfd0457fd4c29375:
+  ignored-inclusive collection reconciles 1,239 AIO and maintained records and 4,913
+  identity-field occurrences (3,753 normalized values), with no candidate-name/ID/alias
+  collision. Root read388 ordinary matching contents; an independent reviewer reconciled
+  eight large provenance wrappers and read their relevant source-question leaves.
+  Bounded neighbor definitions distinguish this generic differentiable-sampler fitting
+  component from direct SVGD, Soft Q-learning, ULA and score/ELBO estimators; this
+  is not a global novelty claim. The accepted2016v2 and2017 defining sources, six
+  claims, eight limitations and qualified ANN implementation-related mapping remain
+  unchanged. Main909 is accepted as the exact original citation responsibility, with
+  five application/umbrella followups explicitly assigned for tracking rather than
+  asserted historical ownership. All105 bibliography occurrences and seven original
+  source questions remain exact; the narrow component can be represented while application,
+  version and other-original questions stay open. Earlier citation-only access statements
+  remain historical, including separately prepared but not maintained SVPG.'
+evidence_sources:
+- source_id: wang-liu2016-v2
+  title: 'Learning to Draw Samples: With Application to Amortized MLE for Generative
+    Adversarial Learning'
+  authors:
+  - Dilin Wang
+  - Qiang Liu
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1611.01722v2
+  version: arXiv:1611.01722v2, 26 November 2016; under-review preprint, no ICLR acceptance
+    asserted
+  access_level: full_text
+  accessed_at: '2026-10-16T00:53:17Z'
+  sha256: a6c5cffaedb4aabc1243c22e809d332ce7c00bcd564a6846fe5054bab5239477
+  persistent_id: arXiv:1611.01722v2
+- source_id: feng-wang-liu2017
+  title: Learning to Draw Samples with Amortized Stein Variational Gradient Descent
+  authors:
+  - Yihao Feng
+  - Dilin Wang
+  - Qiang Liu
+  source_type: primary_paper
+  url: https://www.auai.org/uai2017/proceedings/papers/206.pdf
+  version: Official UAI 2017 proceedings paper 206, inspected ten-page PDF; distinct
+    work from arXiv:1611.01722
+  access_level: full_text
+  accessed_at: '2026-10-16T00:53:24Z'
+  sha256: ad78165b3ed79994071b6ebb375a41cee67d24e962ecc24d15e48812d19a26ef
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T03:43:16Z'
+  updated_at: '2026-10-16T03:43:16Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

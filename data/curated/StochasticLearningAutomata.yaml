@@ -1,0 +1,175 @@
+id: AIMech:StochasticLearningAutomata
+name: Stochastic learning automata
+concept_kind: learning_paradigm
+aliases: []
+definition: A family of adaptive stochastic decision procedures that selects an action from a maintained
+  finite action-probability vector, receives evaluative environmental feedback on that action, and updates
+  the vector through a specified reinforcement rule. The classical framework accommodates different linear,
+  nonlinear and hybrid rules; it is not one universally fixed optimizer, value-learning algorithm or neural-network
+  architecture.
+definition_evidence:
+- source_id: narendra1974
+  locator: Section II, PDF p. 3 / printed p. 325, stochastic automaton, environment and learning-automaton
+    definitions; Section IV, PDF pp. 4–5 / printed pp. 326–327, Equation 7 and reinforcement-rule classification.
+  relation: supports
+claims:
+- claim_id: finite-action-feedback-loop
+  kind: mechanism
+  statement: In the inspected classical formalism, a stochastic automaton selects among finitely many
+    actions according to its current probabilities. Its action becomes an input to the environment; the
+    environmental response returns to the automaton and influences the next probability vector. The paper
+    uses a deterministic one-to-one state-to-action map for its exposition. Those automaton states are
+    not automatically observed states of an external Markov decision process.
+  evidence:
+  - source_id: narendra1974
+    locator: Section II, PDF p. 3 / printed p. 325, Figure 3 and the stochastic automaton, environment
+      and learning-automaton definitions; Equation 7, PDF p. 4 / printed p. 326.
+    relation: supports
+- claim_id: feedback-alphabet-and-penalty-model
+  kind: scope
+  statement: The source distinguishes P-model binary feedback, Q-model feedback drawn from a finite set,
+    and S-model feedback in [0,1]. For its binary example, zero denotes nonpenalty and one denotes penalty;
+    c_i is the initially unknown probability of a penalty for action i, and the environment is called
+    stationary when these probabilities do not change with the trial index. Q-model names a feedback alphabet,
+    not Q-learning, and S-model feedback does not imply a continuous action space.
+  evidence:
+  - source_id: narendra1974
+    locator: Section II, PDF p. 3 / printed p. 325, Environment and the P-, Q- and S-model distinction.
+    relation: supports
+- claim_id: alternative-reinforcement-rules
+  kind: scope
+  statement: The probability update is specified by a reinforcement rule that receives the current probabilities,
+    selected action and environmental response. The source treats linear, nonlinear and hybrid schemes,
+    and reward, penalty or inaction choices, as different constructions within this framework. Linear
+    reward-inaction and linear reward-penalty are named members rather than aliases of the entire family;
+    no one of these rules is mandatory for every stochastic learning automaton.
+  evidence:
+  - source_id: narendra1974
+    locator: Section IV, PDF pp. 4–5 / printed pp. 326–327, Equation 7, reinforcement-rule classification,
+      Equations 8 and 10, and the named linear schemes. The displayed Equation 9 formula is not adopted.
+    relation: supports
+- claim_id: linear-reward-inaction-member
+  kind: mechanism
+  statement: For the P-model linear reward-inaction member, let p be a probability vector, i the selected
+    action and 0<a<1. A nonpenalty response gives p_i_new=p_i+a(1-p_i) and p_j_new=(1-a)p_j for j≠i; a
+    penalty response leaves the vector unchanged. Equivalently, with R=1 for nonpenalty and R=0 for penalty,
+    p_new=p+a*R*(e_i-p). This is a member-specific rule, and a finite update from an interior probability
+    vector remains in the interior.
+  evidence:
+  - source_id: narendra1974
+    locator: Section IV, PDF p. 5 / printed p. 327, Equations 8 and 10 and the following explanation that
+      LRI ignores penalty inputs; algebraic restatement and simplex consequence of the displayed rule.
+    relation: supports
+- claim_id: conditional-lri-penalty-drift
+  kind: mechanism
+  statement: For that LRI rule, assume that, conditional on the current history, action I is drawn from
+    p and its penalty probability is a fixed c_I. Define M(p)=sum_i p_i*c_i. Directly from the update,
+    E[p_k_new-p_k | p]=a*p_k*(M(p)-c_k), and E[M(p_new)-M(p) | p]=-a*(sum_i p_i*c_i^2-M(p)^2)≤0. The inequality
+    is strict only when the c_i differ on the positive-probability support. This is a one-step conditional
+    expectation under the stated response law, not pathwise improvement or a guarantee of eventual best-action
+    selection.
+  evidence:
+  - source_id: narendra1974
+    locator: Section III, PDF p. 4 / printed p. 326, Equations 1 and 6; Section IV, PDF p. 5 / printed
+      p. 327, Equations 8 and 10. The displayed drift is an explicitly conditional algebraic consequence
+      of these definitions and the LRI rule, not a separately quoted theorem.
+    relation: supports
+- claim_id: distinct-performance-criteria
+  kind: scope
+  statement: For the stationary binary model, the source compares limiting expected penalty with the uniform-action
+    reference and the minimum action penalty. Expediency improves on the uniform reference; optimality
+    reaches the minimum in the stated limiting expectation; epsilon-optimality allows the limiting expectation
+    to approach that minimum within any prescribed positive tolerance by a suitable parameter choice.
+    These criteria differ from a finite-budget bound and do not by themselves identify a probability-one
+    limit for every fixed reinforcement parameter.
+  evidence:
+  - source_id: narendra1974
+    locator: Section III, PDF p. 4 / printed p. 326, Equations 1–6 and Definitions 1–4; Section IV, PDF
+      pp. 6–7 / printed pp. 328–329, Convergence of Action Probabilities and Comments on Convergence Results.
+    relation: supports
+limitations:
+- This record covers the classical finite-action probability-update family. The paper’s one-to-one identification
+  of its finite internal states and actions is an expository choice, not a general environment-state model.
+  Specific fixed-structure, continuous-action, contextual, estimator and hybrid constructions require
+  their own assumptions; they are not automatically aliases or interchangeable implementations of one
+  rule.
+- The inspected archive copy displays g_j(p)=b*p_j+b/r−1 in Equation 9. Under the literal ordinary-precedence
+  reading and Equation 8, r=2, p=(1/2,1/2), b=1/4, selection of action 1 and a penalty produce p_new=(5/4,−1/4),
+  outside the probability simplex. Footnote 4 allowing negative g_j does not justify negative resulting
+  probabilities. The intended sign or denominator correction is unresolved; no conventional LRP formula
+  is silently substituted, and this is not an asserted author erratum.
+- The displayed Equation 14 requires the common ratio mu to be strictly positive, whereas LRI has g_j=0
+  and hence mu=0 in the interior, despite the adjoining discussion including LRI among the relevant schemes.
+  Footnote 5 refers to an earlier paper for a precise theorem. This record does not certify that printed
+  necessary-and-sufficient statement, and it does not adopt the paper’s treatment of epsilon-optimality
+  and absolute expediency as a general equivalence after its acknowledgment of an unproved reverse implication.
+- Expected one-step drift, convergence of expected penalty, convergence in distribution and almost-sure
+  convergence of the probability sequence are different statements. A worse action can receive nonpenalty
+  and reduce the better action’s probability on a realized LRI trial. Increasing bounded expected action
+  probability does not alone prove that its limit is one. No universal best-action convergence, finite-time
+  regret, rate or global-optimization guarantee is asserted for this family.
+- LRI preserves interior probabilities at every finite step with 0<a<1, but it supplies no uniform exploration
+  floor. An initially zero action probability cannot recover under that rule, and limiting concentration
+  can impair adaptation when the environment changes. Strict expected improvement also fails when all
+  active actions have equal penalty probabilities. Resetting, probability bounds and tracking modifications
+  are separate choices; stationary analyses do not automatically establish nonstationary tracking.
+- The stationary finite-action setting can overlap a bandit problem, and particular probability updates
+  can resemble components of AntNet or other reinforced decision systems. Such relationships do not make
+  the family identical to a specific bandit strategy, ACO, AntNet, REINFORCE, Q-learning or temporal-difference
+  learning. Its feedback loop also does not require softmax, a recurrent neural network or the pinned
+  AIO Markov-chain network structure.
+- Primary evidence is the inspected twelve-page academic-archive copy of the 1974 author survey and mathematical
+  exposition. Equality with an IEEE- or author-hosted PDF was not established, and later PDF build timestamps
+  are not its publication date. Earlier cited proofs, priority claims, author implementations and empirical
+  replications were not independently verified. The record uses the clear LRI member and qualified framework
+  definitions while retaining the displayed-formula and theorem-boundary gaps.
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: The framework adapts action selection from evaluative environmental feedback, supporting
+    a relationship to the pinned reinforcement-learning task. The local subject is the classical finite-action
+    probability-update family, not every reinforcement-learning method or the task itself. This qualified
+    related mapping asserts neither equivalence nor an upstream subclass relation.
+review_status: DRAFT
+identity_notes: 'This is the classical finite-action probability-update learning family; LRI is one member.
+  It is not a universal fixed optimizer, neural architecture, Q-learning, REINFORCE, temporal-difference
+  learning, ACO, AntNet or QRouting. Fresh postmerge collection on 15 October 2026 at base a80a4e53097977b397421562fb1169aa1426dc8b
+  inspected 757 maintained and 442 pinned AIO identities, including 4,789 identity-field occurrences and
+  3,661 normalized values. Four fixed-string, word-boundary searches included ignored and hidden files
+  in the original checkout and three discovery/recovery checkouts: 8,131, 7,634, 18,826 and 22,178 occurrences,
+  grouped into 3,163 exact contents. Candidate identities had no collision; the four PSO self-matches
+  were explicitly retained for enrichment. Root read 159 decoded candidate contexts (including a separately
+  retained two-context key/value projection correction), all 30 normalized match fields and relevant frontier
+  fields/selected full owner objects. Supporting agents assessed the disjoint candidate and two contextual
+  partitions; full raw-content reconstruction is separate from semantic assessment and is not a claim
+  that root read all raw containers. Existing unrelated definitions, rendered mirrors, historical report/review
+  contexts and incidental substrings do not establish equivalence. The frontier has 909 main and 393 nested
+  objects; only owners 243, 258, 260 and 261 change. This is bounded to the inspected pin, inventories
+  and contexts, not all AI literature or saturation. Owner 261 retains its historical ACO discovery pointer.
+  The Narendra–Thathachar survey supports the family and qualified LRI illustration; literal LRP formula/proof
+  reconciliation and separately defined automata variants remain residual.'
+evidence_sources:
+- source_id: narendra1974
+  title: Learning Automata—A Survey
+  authors:
+  - Kumpati S. Narendra
+  - M. A. L. Thathachar
+  source_type: primary_paper
+  url: http://www.dklevine.com/archive/refs4481.pdf
+  persistent_id: doi:10.1109/TSMC.1974.5408453
+  version: IEEE Transactions on Systems, Man, and Cybernetics, SMC-4(4), July 1974, printed pp. 323–334.
+    Inspected twelve-page copy from a third-party academic archive; equality with an IEEE or author-hosted
+    binary was not established. PDF build metadata is later than publication.
+  access_level: full_text
+  accessed_at: '2026-10-15T11:47:31Z'
+  sha256: 5588026a172908e6e7a05649c8803c0587e5d7ede354dde618cd24a743907792
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T13:24:46Z'
+  updated_at: '2026-10-15T13:24:46Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

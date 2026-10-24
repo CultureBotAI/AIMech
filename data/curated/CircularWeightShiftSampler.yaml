@@ -1,0 +1,215 @@
+id: AIMech:CircularWeightShiftSampler
+name: Circular weight-shift sampler
+concept_kind: algorithm
+definition: A finite-state Markov transition construction that partitions a circle into intervals with
+  target-weight lengths and derives each transition from the overlap of a positively shifted current-state
+  interval with destination intervals.
+definition_evidence:
+- source_id: suwa2023v2
+  locator: Section III, PDF pp. 3–4, Figure 1 and Equations 10–13; Appendix A, p. 8, Equations A1–A5
+  relation: supports
+claims:
+- claim_id: ordered-circular-overlap-kernel
+  kind: mechanism
+  statement: Take finitely many strictly positive weights w_i in one specified state order, let W=sum_i
+    w_i, F_i=sum_{j<=i} w_j and F_0=0, and choose 0<s<W. The target probabilities are w_i/W. Shift the
+    source interval [F_{i-1},F_i) forward by s modulo W. Let v_ij be the total length of its intersection
+    with destination interval [F_{j-1},F_j), and set P(i,j)=v_ij/w_i. Equivalently, with Delta=F_i-F_{j-1}+s,
+    the flow is max(0,min(Delta,w_i+w_j-Delta,w_i,w_j)) plus max(0,min(Delta-W,w_i+w_j+W-Delta,w_i,w_j)).
+    Sampling a fresh uniform point within the source interval, shifting it forward and reading its destination
+    interval gives the same transition law. The half-open interval convention specifies boundaries for
+    this mathematical construction.
+  evidence:
+  - source_id: suwa2023v2
+    locator: Section III, PDF p. 3, Equations 10–12 and Figure 1; Appendix A, p. 8, interval-overlap derivation
+    relation: supports
+- claim_id: balanced-flows-and-conditional-use
+  kind: mechanism
+  statement: Translation around the circle preserves length. The destination intervals partition the circle,
+    so sum_j v_ij=w_i; the shifted source intervals also partition it, so sum_i v_ij=w_j. The transition
+    rows sum to one and w/W is invariant. The ordering and shift specify the same kernel for every current
+    state of this target. For a full-conditional update they may depend on the fixed conditioning environment,
+    but an arbitrary current-label-dependent choice is not this balanced construction. Updating a valid
+    full conditional with this kernel preserves the joint target. Fixed mixtures and fixed sequential
+    compositions of target-preserving updates preserve it as well; a composition need not be reversible.
+  evidence:
+  - source_id: suwa2023v2
+    locator: Section III, PDF pp. 3–4, Equations 11–14
+    relation: supports
+  - source_id: neal2024
+    locator: Section 2, PDF pp. 2–3, Equations 1–4 and update compositions
+    relation: supports
+- claim_id: maximum-and-half-shift-policies
+  kind: scope
+  statement: The shift parameter is part of the construction. With at least two positive-weight states,
+    s=max_i w_i gives the Suwa–Todo maximum-weight policy in Suwa’s source-shift orientation. The choice
+    s=W/2 is the half-shift policy and has symmetric flows, hence detailed balance. Both policies attain
+    stationary self-transition probability max(0,2*max_i(w_i)/W-1). If max_i(w_i)<=W/2, every shift in
+    [max_i(w_i),W-max_i(w_i)] has zero diagonal. When one weight exceeds W/2, some self probability is
+    unavoidable. Arbitrary interior shifts need not minimize self transitions. ST and HST name specific
+    policies in Neal’s shifted-tower presentation, not exact aliases for the entire parameterized construction.
+  evidence:
+  - source_id: suwa2023v2
+    locator: Section III, PDF pp. 3–4, Figure 1(c), maximum and half-shift discussion
+    relation: supports
+  - source_id: suwa-todo2010
+    locator: PDF pp. 2–3, allocation construction and Equations 5–10
+    relation: supports
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 36–40, ST/HST definitions and Figure 7
+    relation: supports
+- claim_id: orientation-order-and-mixture-boundaries
+  kind: scope
+  statement: This record shifts the source interval by +s. Neal’s Equation 98 and Algorithm 7 instead
+    move a source point by -s, equivalently shifting the destination tower forward. For the same order
+    and shift their flow matrices are transposes, generally giving different kernels; at half shift they
+    agree. For weights (2/5,3/10,1/10,1/5) and s=2/5, the positive-shift first row is (0,3/4,1/4,0), whereas
+    Neal’s is (0,1/4,1/4,1/2). Suwa’s formula agrees with Suwa’s stated source geometry, so Neal’s footnote
+    18 allegation of a reversed-order formula error is not adopted. UST, DST and OHST specify ordering
+    policies within the tower framework, including tie choices. Neal’s UDST explicitly mixes paired reverse
+    UST and DST kernels equally; that mixture is outside this single-order, single-shift identity and
+    is a separate mixture construction. No general equivalence of that mixture to one circle shift is
+    asserted.
+  evidence:
+  - source_id: suwa2022v1
+    locator: Section III, PDF p. 3, Figure 1 and Equations 12–13
+    relation: supports
+  - source_id: suwa2023v2
+    locator: Section III, PDF p. 3, Equations 11–12; Appendix A, p. 8
+    relation: supports
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 37–41, footnote 18, Equations 98–104, Figures 7–9 and Algorithm 7; original
+      orientation comparison in research/discovery/tower-boundaries.py
+    relation: supports
+- claim_id: reversibility-and-exploration-limits
+  kind: limitation
+  statement: Half shift is sufficient for reversibility, but non-half shifts are not necessarily nonreversible.
+    For weights (3/5,2/5) and s=1/10, the matrix has rows (5/6,1/6) and (1/4,3/4), with equal opposing
+    stationary flows. This qualifies the source’s blanket non-half nonreversibility statement. Invariance
+    and minimum self probability also do not establish irreducibility or aperiodicity. Half shift on four
+    equally weighted states gives two disjoint deterministic two-cycles; maximum shift on three equally
+    weighted states gives a deterministic three-cycle. No universal variance, burn-in, finite-run accuracy
+    or runtime advantage is claimed.
+  evidence:
+  - source_id: suwa2023v2
+    locator: Section III, PDF p. 4, half-shift and non-half reversibility discussion
+    relation: supports
+  - source_id: suwa-todo2010
+    locator: PDF p. 3, ergodicity caveat after Equation 10
+    relation: supports
+  - source_id: neal2024
+    locator: Section 13, PDF p. 49, uniform-target comparisons; original non-half and periodicity calculations
+      in research/discovery/tower-boundaries.py
+    relation: supports
+- claim_id: printed-sampler-boundaries
+  kind: limitation
+  statement: 'The overlap formula defines the maintained transition. Neal’s Algorithm 6 dominant-current
+    shortcut is valid for its minimum-self ST/HST choices but not for arbitrary shifts: with weights (3/5,2/5),
+    current state 1 and s=1/10, it returns (1/3,2/3) instead of the overlap row (5/6,1/6). Algorithm 7
+    also does not satisfy its printed nonzero-output guarantee at every closed-uniform endpoint. With
+    weights (1/5,3/10,1/2), current state 1, half shift and r=0, its printed traversal returns state 2
+    although the row is (0,0,1). This endpoint has probability zero under an ideal continuous uniform
+    law and does not invalidate that law. These are explicit mathematical counterexamples, not an author-issued
+    correction or a claim to have executed author software.'
+  evidence:
+  - source_id: neal2024
+    locator: Section 10, PDF pp. 39–41, Algorithms 6–7 and shortcut discussion; original shortcut and
+      endpoint calculations in research/discovery/tower-boundaries.py
+    relation: supports
+identity_notes: The actual post317 assessment covers all 442 pinned AIO and 710 native IDs, names, aliases
+  and every scoped synonym, plus four complete checkout searches including ignored and hidden files. Historical
+  706-native source research, 334 selected ID/name rows, 103 selected definitions, 59 additional mixture
+  definitions, 22 exact AIO node/incident/generated contexts and 18 full native neighbors retain their
+  attributed reading scope. The four actual FSS/ZFSS and NAM/ZDNAM records are freshly assessed. AIO:MarkovChain
+  is related_match between a transition construction and a stochastic process; no equivalent or subclass
+  mapping or neural-layer inheritance is asserted. No aliases adopted. The positive-weight circular interval-overlap
+  construction has one consistent state order, an interior shift and explicit orientation. Maximum and
+  half shifts are policies rather than separately maintained identities. Opposite Suwa and Neal orientations
+  transpose generic flows, so no unqualified exact source-formula alias is adopted. Cumulative interval
+  translation differs from flattened slice bars, nested antithetic focal modifications, retained pair/sign/uniform-memory
+  updates and accept/reject proposal mechanisms. Paired UDST adds a fresh mixture-component choice and
+  is curated separately; coincident kernels on some targets do not identify entire constructions.
+evidence_sources:
+- source_id: suwa2023v2
+  title: Reducing rejection exponentially improves Markov chain Monte Carlo sampling
+  authors:
+  - Hidemaro Suwa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.03935v2
+  persistent_id: arxiv:2208.03935v2
+  version: 'arXiv:2208.03935v2, submitted 27 November 2023; PDF cover dated 28 November 2023; 10 pages.
+    Related published version: Physica A 633 (2024), 129368, DOI 10.1016/j.physa.2023.129368; publisher-byte
+    equivalence is not asserted.'
+  access_level: full_text
+  accessed_at: '2026-10-14T21:13:55Z'
+  sha256: c02ebda8a10c449ded252ae56f86a81ae9f8bbbb48ea3f41d13024b6a9e46ca5
+- source_id: suwa2022v1
+  title: Reducing rejection exponentially improves Markov chain Monte Carlo sampling
+  authors:
+  - Hidemaro Suwa
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/2208.03935v1
+  persistent_id: arxiv:2208.03935v1
+  version: arXiv:2208.03935v1, submitted 8 August 2022; PDF cover dated 9 August 2022; 7 pages. Pinned
+    separately from the later v2 and publisher version.
+  access_level: full_text
+  accessed_at: '2026-10-14T21:13:55Z'
+  sha256: d0fcde405016160bcbeff3ce0111ddefffe9e0a7c5fd91484cca7eae102d10d3
+- source_id: suwa-todo2010
+  title: Markov Chain Monte Carlo Method without Detailed Balance
+  authors:
+  - Hidemaro Suwa
+  - Synge Todo
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1007.2262v2
+  persistent_id: arxiv:1007.2262v2
+  version: 'arXiv:1007.2262v2, submission and margin dated 13 October 2010; the retrieved PDF cover instead
+    says 26 November 2024; 5 pages. The date discrepancy is retained without explanation. Related publication:
+    Physical Review Letters 105, 120603 (2010), DOI 10.1103/PhysRevLett.105.120603; publisher-byte equivalence
+    is not asserted.'
+  access_level: full_text
+  accessed_at: '2026-10-14T21:13:55Z'
+  sha256: 08cb22df3aa546ef72fc09c27d947fada6549248970ed323a77ee45af2fdccce
+- source_id: neal2024
+  title: Modifying Gibbs Sampling to Avoid Self Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://glizen.com/radfordneal/ftp/gibbs-self.pdf
+  persistent_id: arxiv:2403.18054
+  version: Author-hosted technical report dated 26 March 2024; 84 PDF pages. Independently pinned from
+    arXiv:2403.18054v1; byte equivalence between versions is not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:33:01Z'
+  sha256: 3d637d3eec046118a4c81d0d3824f387e1077d5ed8bd15d90a4db242c89d8bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure constructs target-preserving finite Markov transitions. AIO MarkovChain denotes
+    a stochastic process/model; this method-to-process association does not assert equivalence, subclass
+    membership or inheritance of Network and ProbabilisticHiddenLayer assertions.
+limitations:
+- The maintained scope uses exact finite strictly positive weights, one consistent state order and an
+  interior shift. A one-state distribution stays under every interior shift; its maximum-weight shift
+  equals W and lies outside that interior parameter domain. Zero-weight current rows require a separate
+  completion and are not specified here.
+- The descriptive record label covers Suwa’s parameterized overlap construction. It does not make the
+  narrower ST/HST policies, ordered specializations or the UDST mixture broad exact aliases. Agreement
+  with another sampler on a particular target does not establish identity of the full constructions.
+- The half-open interval convention and exact flow formula are mathematical specifications, not a verified
+  finite-precision implementation. Countably infinite extensions, adaptive order selection and author
+  code are outside this maintained scope.
+- Pinned arXiv and author-report versions are used with their distinct source conventions and caveats
+  retained. No publisher-PDF equivalence, full Neal 84-page empirical review, benchmark reproduction or
+  source-family exhaustion is claimed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T23:04:24Z'
+  updated_at: '2026-10-14T23:04:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

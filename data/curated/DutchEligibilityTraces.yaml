@@ -1,0 +1,196 @@
+id: AIMech:DutchEligibilityTraces
+name: Dutch eligibility traces
+concept_kind: mathematical_method
+aliases: []
+definition: An eligibility-trace update that propagates prior feature credit and adds a current-feature
+  contribution adjusted by the prior trace’s projection onto that feature, using the source-specified
+  step-size scaling convention.
+definition_evidence:
+- source_id: vanhasselt2014
+  locator: Section 3, PDF pp. 3–4, Equation 3 and the paragraph naming Dutch traces.
+  relation: supports
+- source_id: vanseijen2016
+  locator: Section 4.1, PDF p. 12, Equation 11 and its separation from the weight correction.
+  relation: supports
+claims:
+- claim_id: named-trace-component
+  kind: scope
+  statement: Dutch eligibility traces are a named feature-credit component. The 2014 UAI source applies
+    this name to its general trace recurrence, and the 2016 journal source explicitly distinguishes the
+    Dutch trace update from the separate changing-prediction correction in true online TD(lambda). The
+    trace recurrence alone does not specify a reward target, weight update or action-selection rule.
+  evidence:
+  - source_id: vanhasselt2014
+    locator: Section 3, PDF pp. 3–4, Theorem 1 Equation 3 and the paragraph naming the general recurrence
+      Dutch traces.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, Equations 11–12 and the separate names for the trace and delta-correction;
+      Section 7.1, p. 26, naming attribution.
+    relation: supports
+- claim_id: scaled-vector-recurrence
+  kind: mechanism
+  statement: In the general step-size-weighted convention, initialize E_0=eta_0*phi_0. For t>0, update
+    E_t=c_(t-1)*E_(t-1)+eta_t*(1-c_(t-1)*phi_t^T*E_(t-1))*phi_t, where E and phi are compatible real feature
+    vectors and eta and c are scalars. The inner product uses the old trace E_(t-1). Equivalently, the
+    update is c_(t-1)*(I-eta_t*phi_t*phi_t^T)*E_(t-1)+eta_t*phi_t; this rank-one form is an algebraic
+    rewrite of the same recurrence.
+  evidence:
+  - source_id: vanhasselt2014
+    locator: Section 3, PDF p. 3, Theorem 1 Equation 3, initialization and final trace-recursion derivation;
+      naming on PDF p. 4. The rank-one expression follows directly by expansion.
+    relation: supports
+- claim_id: td-step-size-conventions
+  kind: mechanism
+  statement: With q=gamma*lambda, the original 2014 TD convention and the 2016 time-dependent-step-size
+    convention use E_t=q*E_(t-1)+alpha_t*phi_t-alpha_t*q*(E_(t-1)^T*phi_t)*phi_t, starting from E_(-1)=0.
+    The 2016 constant-alpha unscaled convention instead uses e_t=q*e_(t-1)+phi_t-alpha*q*(e_(t-1)^T*phi_t)*phi_t,
+    starting from e_(-1)=0. For a constant alpha and the same feature sequence, the compatible traces
+    satisfy E_t=alpha*e_t. Time-varying step sizes remain inside the scaled recurrence.
+  evidence:
+  - source_id: vanseijen2014
+    locator: Section 4.1, PDF p. 5, Equation 11 and Algorithm 2, scaled trace and zero initialization.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, Equation 11 and Algorithm 2; Section 6.1, PDF pp. 22–23, Equation
+      16 and Algorithm 4. Constant-alpha rescaling is the corresponding algebraic identity.
+    relation: supports
+- claim_id: one-hot-specialization
+  kind: mechanism
+  statement: For one-hot features and the unscaled TD convention, inactive coordinates obey e_t(j)=q*e_(t-1)(j),
+    while the active coordinate i obeys e_t(i)=1+(1-alpha)*q*e_(t-1)(i), where q=gamma*lambda. From the
+    same old trace this update map equals (1-alpha) times the accumulating update plus alpha times the
+    replacing update. It is a convex combination only when alpha is in [0,1]; at alpha=1 the one-hot trace
+    update becomes replacing.
+  evidence:
+  - source_id: vanseijen2016
+    locator: Section 6.3, PDF p. 25, displayed tabular trace cases and accumulating/replacing comparison;
+      Algorithm 6 uses an equivalent shifted decay timing. The convexity restriction follows from the
+      displayed coefficients.
+    relation: supports
+- claim_id: rank-one-memory-cost
+  kind: scope
+  statement: For n dense feature coordinates, the trace recurrence can be evaluated using the old trace,
+    the current feature vector, one inner product and vector operations, with O(n) arithmetic and O(n)
+    trace storage per update. It does not require constructing the n-by-n rank-one matrix explicitly.
+    These are costs of the trace recurrence; feature construction, action selection and the host learning
+    rule have their own costs.
+  evidence:
+  - source_id: vanhasselt2014
+    locator: Section 3, PDF pp. 3–4, Equation 3, its factored trace derivation and O(n) backward-view
+      discussion. Trace-only arithmetic/storage follows from the displayed recurrence.
+    relation: supports
+  - source_id: vanseijen2016
+    locator: Section 4.1, PDF p. 12, Equation 11 and vector-update complexity discussion.
+    relation: supports
+limitations:
+- The component is distinct from complete true online TD or Sarsa, the general eligibility family and
+  an entire forward-view learning algorithm. In the UAI theorem, forward/backward weight equality also
+  requires its linear weight updates, companion correction and horizon-independent target-difference relation;
+  inserting only this trace into an arbitrary host does not establish that equality.
+- The scaled and unscaled conventions must be matched to the host update. Constant-alpha rescaling E=alpha*e
+  does not justify the substitution E_t=alpha_t*e_t for varying step sizes. Division by alpha is undefined
+  at alpha=0. A current zero alpha_t in the scaled recurrence leaves the decayed previous trace when earlier
+  step sizes produced nonzero credit.
+- The accumulating/replacing relation is an identity between one-hot update maps evaluated from the same
+  old trace, not a mixture of separately evolved trace histories. It does not extend as a coordinatewise
+  replacing rule to arbitrary overlapping binary or real features. Coincident one-hot trace updates do
+  not make the complete learning algorithms identical.
+- Dutch traces are not coordinatewise clipping and need not remain nonnegative or within [0,1]. In the
+  general scaled recurrence, if z=c*phi^T*E_old and h=eta*||phi||^2, then phi^T*E_new=z+h*(1-z). For any
+  starting projection, h in [0,1] keeps the new projection between its old value and one; unrestricted
+  feature norms or step sizes can overshoot or amplify the deviation. The source phrase toward one does
+  not imply exact unit attainment.
+- The general UAI coefficient c is a scalar independent of the data horizon, not necessarily a number
+  in [0,1]. Its description as shrinking requires additional magnitude conditions. The transition c*(I-eta*phi*phi^T)
+  has feature-direction factor c*(1-eta*||phi||^2), so the recurrence supplies no unconditional numerical
+  stability, contraction, convergence, variance reduction or performance guarantee.
+- The source forward-view derivations concern linear prediction in the learned weights with the specified
+  feature/target sequence and matching initialization. The vector trace formula can be evaluated on supplied
+  features, but generic nonlinear or parameter-dependent feature learning does not automatically inherit
+  those derivations. Dense O(n) bookkeeping does not imply cost proportional only to the current number
+  of nonzero features or a universal wall-clock advantage.
+- The 2014 PMLR paper supplies the earlier scaled recurrence; the 2014 UAI paper explicitly names the
+  general form Dutch traces; the 2016 journal article presents unscaled, time-dependent and tabular conventions
+  and attributes the name to van Hasselt and colleagues. This is inspected source lineage, not an exhaustive
+  priority claim. The UAI proof locally omits +x_k in its first F_k restatement although the theorem and
+  later expansion retain those terms, and the 2016 prose after Equation 17 points to Algorithm 2 although
+  the local time-dependent box is Algorithm 4. These bounded display observations are not a certified
+  defect of the trace recurrence, an official erratum or a full proof audit. No author implementation
+  or benchmark reproduction is certified.
+aio_mappings:
+- target: AIO:MathematicalFunction
+  relation: related_match
+  rationale: The component defines a deterministic vector-valued update from prior trace, current feature
+    vector and scalar parameters. This supports a qualified mathematical-rule association with the pinned
+    generic function class, without exact identity, an asserted subclass edge, a scalar-output restriction
+    or a neural-activation claim.
+review_status: DRAFT
+identity_notes: Selects the vector-valued Dutch eligibility update as a mathematical component, not a
+  complete TD, Sarsa or GTD algorithm. Scaled and constant-step-size unscaled conventions are explicitly
+  related, while variable step sizes and arbitrary feature geometries retain their limits. Existing replacing
+  and accumulating traces remain distinct. Fresh merged-base identity assessment on 15 October 2026, 17:07:16–17:08:53
+  UTC, at 9799fa6e2cb303d940fcb56249830c333cac7c90. All 772 native and 442 pinned AIO records supplied
+  4,834 identity fields and 3,693 normalized values, including local IDs and explicit candidate source
+  spellings. No candidate collision was found. Four checkout scans included ignored and hidden files and
+  retained 2,597 occurrences in 437 exact contents, including 250 new contents. Root read all 250 new
+  contents, all 15 context-only normalized fields with nine definitions, all matching frontier fields
+  and all four complete matching owners. Historical semantic source and mapping readings retain their
+  prior scope; this does not claim a new manual reading of all historical context groups or every record
+  mechanism. All 909 main and 393 nested frontier objects were mechanically queried. Absence is bounded
+  to these snapshots and probes; no saturation is inferred.
+evidence_sources:
+- source_id: vanseijen2014
+  title: True Online TD(lambda)
+  authors:
+  - Harm van Seijen
+  - Richard S. Sutton
+  version: Official PMLR nine-page ICML 2014 paper, Proceedings of Machine Learning Research 32(1):692–700.
+    PDF heading prints lambda as a Greek symbol; the publisher metadata uses the text lambda.
+  persistent_id: https://proceedings.mlr.press/v32/seijen14.html
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v32/seijen14.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T14:43:24Z'
+  sha256: c8f93a80ad4231c9e4ee6c3a0bcbfa60470784e4b1de7eba8c9835402fce0d51
+- source_id: vanseijen2016
+  title: True Online Temporal-Difference Learning
+  authors:
+  - Harm van Seijen
+  - A. Rupam Mahmood
+  - Patrick M. Pilarski
+  - Marlos C. Machado
+  - Richard S. Sutton
+  version: Official JMLR 17(145):1–40 (2016), 40-page article. Cover states Submitted 11/15; Revised 7/16;
+    Published 8/16.
+  persistent_id: https://www.jmlr.org/papers/v17/15-599.html
+  source_type: primary_paper
+  url: https://www.jmlr.org/papers/volume17/15-599/15-599.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T14:43:25Z'
+  sha256: 905d228fcd5e7de3eace656665b6adcba322496f037c94130e14a44084c713fd
+- source_id: vanhasselt2014
+  title: Off-policy TD(λ) with a true online equivalence
+  authors:
+  - Hado van Hasselt
+  - A. Rupam Mahmood
+  - Richard S. Sutton
+  version: Official UAI 2014 proceedings individual paper 324, ten PDF pages. 324 is the conference paper
+    identifier, not a page number. Exact publication day and DOI are not established by the inspected
+    official pages.
+  persistent_id: https://www.auai.org/uai2014/acceptedPapers.shtml
+  source_type: primary_paper
+  url: https://auai.org/uai2014/proceedings/individuals/324.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T16:15:47Z'
+  sha256: d7bdba51b77d3ee002ec2e3a98997d9ee766f5111195402235504f18f9f06b56
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T17:16:20Z'
+  updated_at: '2026-10-15T17:16:20Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

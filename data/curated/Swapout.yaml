@@ -1,0 +1,175 @@
+id: AIMech:Swapout
+name: Swapout
+concept_kind: algorithm
+aliases: []
+definition: A stochastic neural-network training and inference procedure that forms elementwise Bernoulli-selected
+  sums of already computed compatible tensors, trains the resulting network family with shared parameters,
+  and predicts using either local mean selectors or an average of sampled network predictions.
+definition_evidence:
+- source_id: singh2016
+  locator: Section 3, PDF p. 3, Equations 2–3; Section 3.1, PDF p. 4, tied parameters and inference alternatives.
+  relation: supports
+claims:
+- claim_id: compatible-stochastic-path-sums
+  kind: mechanism
+  statement: Let F_i be compatible tensors whose values have already been computed in the network, and
+    let Theta_i be Bernoulli selector tensors with configured probabilities theta_i. The general construction
+    forms Y=sum_i Theta_i elementwise-times F_i. Each selector tensor has independently and identically
+    distributed entries. The contributions can include the block input or outputs of earlier layers; they
+    need not all be functions of one common block input. The surrounding computation remains a directed
+    acyclic network.
+  evidence:
+  - source_id: singh2016
+    locator: Section 3, PDF p. 3, notation paragraph and Equation 2 with its immediately preceding tensor
+      definitions.
+    relation: supports
+- claim_id: unitwise-four-choice-specialization
+  kind: mechanism
+  statement: The studied two-contribution specialization is Y=Theta_1 elementwise-times X + Theta_2 elementwise-times
+    F(X). With independent selectors, each unit can report zero, its input component, its transformed
+    component, or their sum, according to the two binary outcomes. These are four selector patterns, not
+    a guarantee of four distinct numerical values. The unitwise choices can differ within a block, unlike
+    one shared scalar that drops or retains its whole residual transformation.
+  evidence:
+  - source_id: singh2016
+    locator: Figure 1 and Section 3, PDF p. 3, Equation 3 and the four-item explanation; Section 3.2,
+      PDF p. 5, scalar Layer Dropout comparison.
+    relation: supports
+- claim_id: shared-parameter-stochastic-training
+  kind: mechanism
+  statement: Training samples members of the stochastic network family while retaining shared learned
+    parameters across those members. The sampled selectors change which computed contributions reach each
+    unit; this does not require training a separate parameter set for every possible architecture. The
+    original experiments optimize these shared models using stochastic gradient descent. This description
+    does not establish a general stability or convergence guarantee for the resulting optimization.
+  evidence:
+  - source_id: singh2016
+    locator: Section 3, PDF pp. 3–4, sampled architecture discussion; Section 3.1, PDF p. 4, tied-parameter
+      family; Section 4, PDF p. 5, Training paragraph.
+    relation: supports
+- claim_id: depth-dependent-selector-configuration
+  kind: mechanism
+  statement: The Bernoulli probabilities can be configured separately for the identity and transformed
+    contributions and for different blocks. The source compares constant choices with Linear(a,b), meaning
+    linear interpolation of the probabilities from a in the first block to b in the last block. This schedule
+    varies across network depth, not over elapsed training iterations. The reported probability choices
+    are experimental configurations rather than a universally optimal setting.
+  evidence:
+  - source_id: singh2016
+    locator: Section 4, PDF p. 5, stochastic training schedule paragraph; Table 2 and its caption, PDF
+      p. 6.
+    relation: supports
+- claim_id: deterministic-and-stochastic-inference
+  kind: mechanism
+  statement: 'The paper specifies two inference options for a trained shared-parameter family: replace
+    the selectors by their expectations within each local computation, or sample several network members
+    and average their predictions. The first option is deterministic; the second averages stochastic forward
+    predictions using the same learned parameters. Replacing local coefficients by their means does not
+    generally yield the expected prediction of the full nonlinear network. The number of sampled predictions
+    is a configured approximation choice.'
+  evidence:
+  - source_id: singh2016
+    locator: Section 3.1, PDF p. 4, inference alternatives and ReLU noncommutation; Section 4, PDF p.
+      6, stochastic inference and sampling paragraphs.
+    relation: supports
+- claim_id: coupled-special-cases-and-skipforward
+  kind: scope
+  statement: The comparison procedures use distinct selector constraints. Dropout on the residual sum
+    uses one selector on X+F(X). Layer Dropout retains X and uses a single Bernoulli scalar shared across
+    the transformed block. SkipForward instead uses complementary unitwise selectors, Theta on X and one-minus-Theta
+    on F(X), choosing between those contributions rather than allowing their sum or jointly dropping them.
+    These restricted comparisons do not make the full named procedures exact aliases of the general Swapout
+    construction.
+  evidence:
+  - source_id: singh2016
+    locator: Section 3.2, PDF p. 5, Dropout and Layer Dropout definitions and SkipForward Equation 4;
+      Figure 1, PDF p. 3.
+    relation: supports
+identity_notes: This record denotes the original 2016 stochastic combination procedure over already computed
+  compatible tensors, with shared training and explicit inference choices. It remains distinct from whole-branch
+  stochastic depth, recurrent Zoneout, complementary continuous Shake-Shake and shared-switch ShakeDrop.
+  SkipForward is a constrained comparator, not a forced alias or automatic extra record. Reuse owner 227;
+  its old Zoneout URL remains historical discovery context. The wrongly linked PTN supplement is excluded
+  from defining evidence. Current creation assessment uses the actual merged round 336 base d76936e4e77768d08b0cdd7f505ed34c9f50a5f0
+  with 745 native and 442 pinned AIO records. All 1,187 identity/hash rows were compared to retained research
+  snapshots with no unexpected change. Four ignored/hidden-inclusive searches returned 191, 190, 526 and
+  575 occurrences; root read all 26 distinct matching contents, including 18 newly encountered context
+  strings. Normalized ID/name/alias/scoped-synonym probes had no collision. The full 908-main and 393-nested
+  frontier was queried and relevant current owners read. These are bounded current identity findings,
+  not global completeness or exhaustion.
+limitations:
+- Compatible tensor shapes, valid Bernoulli probabilities and an acyclic computation are prerequisites.
+  Selector sharing and coupling specify different procedures; the independent two-selector specialization
+  is not silently replaced by complementary SkipForward, whole-branch stochastic depth, recurrent Zoneout,
+  or the separately prescribed backward multipliers of Shake-Shake and ShakeDrop. The displayed Equation
+  2 outcome set omits the all-zero sum although the selectors permit it; Equation 3 explicitly includes
+  zero. No implementation-level random-number, sharing, device or computation-skipping behavior is certified.
+- 'The generic Equation 2 stability sketch on PDF p. 4 does not justify its pointwise gradient comparison
+  merely by selecting the sampled member with the largest global Lipschitz constant. As a hand example
+  with parameter v, branches F1(v)=v and F2(v)=2 sin(v) and independent half-Bernoulli selectors yield
+  four members with global Lipschitz constants 0,1,2,3. At v=2*pi/3 their derivatives are 0,1,-1,0: the
+  mean gradient magnitude is 1/2, whereas the largest-Lipschitz member has derivative zero there. A common
+  bound of 3 remains valid. This witness concerns the generic source argument, not an asserted instability
+  result for ordinary ReLU residual networks, a full audit of the cited stability theorem, or an author-issued
+  erratum.'
+- Local expectations do not generally commute with downstream nonlinearities or losses. With fixed contributions
+  X=1 and Y=-1 and independent half-Bernoulli selectors, expected ReLU of their selected sum is 1/4 while
+  ReLU of its mean is zero. Likewise, local dropout/ReLU commutation does not establish exact inference
+  for an entire nonlinear dropout network. Averaging sampled predictions is a finite approximation, not
+  by itself a calibrated uncertainty estimate or a universal sample-count guarantee.
+- The source variance comparison requires explicit assumptions. If two Bernoulli(theta) masks are mutually
+  independent and independent of finite-second-moment features X,Y, the variance excess over theta*X+theta*Y
+  is theta*(1-theta)*(E[X squared]+E[Y squared]); X and Y need not be independent. For interior theta
+  it also vanishes when X=Y=0 almost surely. The mean theta*X+theta*Y is conditional on the features;
+  an unconditional mean uses their expectations. Different sharing or feature dependence changes the calculation.
+  This does not prove that batch normalization always fails with deterministic inference or that stochastic
+  inference always cures it.
+- Generalization, parameter-tying and co-adaptation explanations and the numerical comparisons are scoped
+  empirical or conjectural observations. In Table 3, PDF p. 7, the first deterministic Swapout error is
+  8.58 versus ResNet 8.27, while the stochastic column improves every displayed row; nearby prose explicitly
+  says most settings for deterministic inference. The caption does not specify an inference convention,
+  so it is not treated as an unambiguous source contradiction. The preliminary ImageNet setting also performs
+  worse in the source. No universal accuracy, stability, convergence, parameter-efficiency or runtime
+  advantage is asserted.
+- Evidence is the exact nine-page official NIPS 2016 proceedings PDF. Its file-build timestamp is not
+  an exact publication date, and separately inspected arXiv submission metadata does not establish byte
+  identity with the preprint. The official supplementary ZIP returned material for Perspective Transformer
+  Nets, a different paper; it is excluded from all Swapout evidence and retained as a separate pending
+  source lead. Historical research read all main-paper text and selected visuals, without inspecting author
+  code, executing training or reproducing benchmarks. Source-access failures and the pre-draft qualification
+  of the Table 3 caption remain separately retained provenance.
+evidence_sources:
+- source_id: singh2016
+  title: 'Swapout: Learning an ensemble of deep architectures'
+  authors:
+  - Saurabh Singh
+  - Derek Hoiem
+  - David Forsyth
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper_files/paper/2016/file/c51ce410c124a10e0db5e4b97fc2af39-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-15T08:18:14Z'
+  sha256: 8de0db45edbe61d6384be915e7a9ea5b55c66bbc9df3e9b46cde71a1fc29a8e4
+  version: Official NIPS 2016 proceedings PDF, nine local pages; Advances in Neural Information Processing
+    Systems 29, bibliographic pp. 28–36. The PDF modification timestamp of 19 November 2016 is file-build
+    metadata, not an asserted publication day. No equivalence to the separately indexed arXiv preprint
+    is asserted.
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: Swapout changes stochastic neural-network training and its corresponding inference convention.
+    This is a qualified procedure-to-training association. The pinned target uses a broad preprocessing
+    description and learning-task examples, which do not justify identity or subclass membership. The
+    general compatible-tensor construction is not restricted to the residual architecture used in the
+    principal experiments.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T09:02:41Z'
+  updated_at: '2026-10-15T09:02:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

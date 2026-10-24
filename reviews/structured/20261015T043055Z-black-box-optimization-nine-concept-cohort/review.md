@@ -1,0 +1,3825 @@
+# Scientific author self-review of nine black-box optimization concepts
+
+- Review: 20261015T043055Z-black-box-optimization-nine-concept-cohort
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T04:16:57.209891Z
+- Finished UTC: 2026-10-15T04:30:55.389494Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Root read all nine complete canonical YAMLs after capture, including all53 claims, all evidence locators, definitions, limitations, source versions and mapping assessments. All53 prepared claim-support narratives were read and compared with those actual records and retained primary/math evidence; targeted postcapture primary reading is itemized per source. The nine identities and approximation boundaries are supported, with no new defect found. This is a scientific self-review within the same author workflow, not independent approval. Supporting audits were separately attributed, and historical calculations were not rerun.
+
+## Scope And Provenance
+
+All nine captured maintained records, their 53 claims, explicit mappings/no-match, source roles and retain boundaries.
+
+Selection: Exact nine IDs from the accepted cohort manifest; no sampling.
+Coverage: full; 9 reviewed / 9 in the declared population.
+Source: working_tree at Git base 32f25d676bee9ad813025a20e9d63daa352d9494.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:PredictiveEntropySearchForMultiObjectiveOptimization | data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml | maintained | Predictive entropy search for multi-objective Bayesian optimization |
+| AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints | data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml | maintained | Predictive entropy search for multi-objective Bayesian optimization with constraints |
+| AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints | data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml | maintained | Parallel predictive entropy search for multi-objective Bayesian optimization with constraints |
+| AIMech:ParallelPredictiveEntropySearch | data/curated/ParallelPredictiveEntropySearch.yaml | maintained | Parallel predictive entropy search |
+| AIMech:DIRECTGlobalOptimization | data/curated/DIRECTGlobalOptimization.yaml | maintained | DIRECT global optimization |
+| AIMech:ExpectedImprovementAcquisition | data/curated/ExpectedImprovementAcquisition.yaml | maintained | Expected improvement acquisition |
+| AIMech:EfficientGlobalOptimization | data/curated/EfficientGlobalOptimization.yaml | maintained | Efficient Global Optimization |
+| AIMech:ProbabilityOfImprovementAcquisition | data/curated/ProbabilityOfImprovementAcquisition.yaml | maintained | Probability of improvement acquisition |
+| AIMech:MultiTaskBayesianOptimization | data/curated/MultiTaskBayesianOptimization.yaml | maintained | Multi-task Bayesian optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | 247 tests passed,3 skipped;442 generated records and730 native records validated; seed exact;405 history entries and417 prior structured reviews valid. |
+| just vendored-check | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | All22 governed artifacts match their vendored source. |
+| uv run --locked aimech check-source | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | Pinned AIO source integrity verified. |
+| git diff --check | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | git diff --check passed without whitespace diagnostics. |
+| just render | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | Generated pages for the current442 AIO and730 native records. |
+| just render-check | passed | True | AIMech:PredictiveEntropySearchForMultiObjectiveOptimization, AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints, AIMech:ParallelPredictiveEntropySearch, AIMech:DIRECTGlobalOptimization, AIMech:ExpectedImprovementAcquisition, AIMech:EfficientGlobalOptimization, AIMech:ProbabilityOfImprovementAcquisition, AIMech:MultiTaskBayesianOptimization | Generated pages match current source records and templates. |
+
+## Scientific And Domain Assessments
+
+### Predictive entropy search for multi-objective Bayesian optimization
+
+identity: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Retain the separately scoped native identity.
+
+Retain the unconstrained multi-objective evaluation algorithm. Its information target is the input-space Pareto set, not a scalar optimum value or a scalarized objective. Coupled and decoupled objective selection are modes, not new identities. The unconstrained input-space Pareto-set information algorithm remains distinct from PESMOC, scalar PES and parallel batch procedures; coupled and decoupled objective choice are modes of this identity.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+AIO:ActiveLearning is related through selecting informative evaluations. The pinned querying/labeling task is not equivalent to multi-objective optimization or Pareto-set inference. No exact match, subclass assertion, neural architecture or inherited layer semantics is introduced. AIO:ActiveLearning is related through selecting informative evaluations. The pinned querying/labeling task is not equivalent to multi-objective optimization or Pareto-set inference. No exact match, subclass assertion, neural architecture or inherited layer semantics is introduced.
+
+### pareto-set-information-target
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main Section 1 p.1 defines weak-plus-one-strict minimization dominance; Section 2 pp.2–3 Eqs.1–2 uses mutual-information symmetry for an input-space Pareto random set. The definition assumes a suitable posterior and finite information. The bounded dominance/membership diagnostic preserves self/tie and subset-completeness counterexamples; no repaired normalized source density is certified.
+
+### independent-objective-surrogates
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main pp.2–3 assumes independent GP priors and independent Gaussian observation noise at fixed model hyperparameters; pp.5–6 averages acquisition scores over hyperparameter samples. Supplement pp.1 and4 makes the objective-factorized projection explicit. Shared Pareto conditioning need not retain independence: the finite four-state channel and single Gaussian event illustrate dependence/nonadditivity without claiming a fitted-model benchmark.
+
+### approximate-pareto-set-samples
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main p.3 describes posterior random-feature functions, grid or NSGA-II search and a representative finite subset. Ten draws and fifty representative locations are reported numerical choices, not fixed defining constants or exact sampling. Finite optimization and compression may miss true Pareto locations; later author defaults are separately versioned.
+
+### finite-domain-ep-projection
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main Section 2.1 pp.3–4 and Eq.6 restrict locations to observations, retained Pareto points and the candidate; replace comparison factors with objective-specific bivariate Gaussian sites and reuse candidate-independent factors. Candidate factors receive one paper update. Supplement pp.2,4–5 describes self exclusion, cavity/tilted moments and damping. Product projection retains within-objective blocks, not all cross-objective moments; literal signs and Gaussian natural-parameter expressions remain qualified.
+
+### noisy-gaussian-variance-acquisition
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main p.3 Eq.3, p.4 Eqs.7–8 and supplement p.3 add observation-noise variance before the half-log variance difference. Every log argument must be positive. The exact additive form belongs to the stipulated factorized Gaussian approximation, not general Pareto-set mutual information. Bounded variance algebra, the nonadditive finite channel and the separate clipping witness support these limitations. The accepted citation successor additionally cites the pinned July 2016 implementation for noise addition and pre-clipping half-log terms only; source/code equivalence and clipping correctness are not asserted.
+
+### coupled-and-decoupled-selection
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main p.4 following Eq.8 maximizes the sum for coupled evaluation, or separately maximizes each objective contribution and selects the best objective/location score. Shared sampled Pareto sets connect the approximations. The displayed rule has no cost divisor; Section 4.3 p.8 discusses different costs without proving optimal scheduling. These are modes of one algorithm, not separate maintained identities.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Retained boundaries limit the supported claims.
+
+Do not equate it with PESMOC merely by dropping constraints, or with a batch method by evaluating several independently selected inputs. Objective-factorized EP discards dependence induced by shared Pareto conditioning; it is not exact additive mutual information. Use the official 2016 main/supplement plus the separately pinned July2016 code citation only for noise addition and pre-clipping half-log terms. Retain self/tie/orientation/completeness and covariance/precision caveats; code clipping and numerical modifications are separate version-specific choices. No paper/code equivalence, empty-set rule or efficiency guarantee. Official 2016 proceedings main/supplement remain distinct from the pinned July2016 author implementation. Only noise addition and pre-clipping half-log terms cite code; later clipping and source algebra/membership caveats remain explicit. No author-code execution or complete implementation equivalence is inferred.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The two official 2016 PDFs have ten main and nine supplement pages. July 2016 author code is selectively inspected at a pinned commit, not executed or fully audited. The original five-category curator calculation passed its first run and a distinct root reproduction matched bytes; exact rational checks are separate from binary64 log/erf checks. A research-only locator correction changed 1477–1478 to 1481–1482 without changing code or mathematics. Later TEMP native validation detected an uncited declared code source; the accepted successor added one noisy/pre-clipping-score citation, with no statement or calculator change. Official 2016 proceedings main/supplement remain distinct from the pinned July2016 author implementation. Only noise addition and pre-clipping half-log terms cite code; later clipping and source algebra/membership caveats remain explicit. No author-code execution or complete implementation equivalence is inferred.
+
+### Predictive entropy search for multi-objective Bayesian optimization with constraints
+
+identity: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Retain the separately scoped native identity.
+
+Retain the constrained multi-objective single-location algorithm. Feasibility changes the target and comparison factors; objective and constraint task selection differs from selecting among correlated auxiliary tasks in MTBO. The feasible input-space Pareto-set algorithm is retained separately from unconstrained PESMO, scalar PESC and parallel PPESMOC. Objectives and constraints are evaluation tasks here, not correlated transfer tasks.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+AIO:ActiveLearning is related through selecting informative objective/constraint evaluations. Its querying/labeling task is not equivalent to constrained multi-objective optimization or feasible-Pareto inference. No exact match, subclass, architecture or inherited layer semantics is asserted. AIO:ActiveLearning is related through selecting informative objective/constraint evaluations. Its querying/labeling task is not equivalent to constrained multi-objective optimization or feasible-Pareto inference. No exact match, subclass, architecture or inherited layer semantics is asserted.
+
+### feasible-pareto-set-information
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main institutional PDF pp.6–7 states feasible weak-plus-one-strict dominance; pp.11–13 Eqs4–6 use information about the feasible input-space Pareto set. The record assumes attained nonempty targets and finite information, distinguishes Pareto front and optimum values, and does not treat a finite membership product as the normalized random-set law. Exact finite checks preserve self/tie/incomplete-set counterexamples.
+
+### objective-and-constraint-surrogates
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Earlier 2016v2 SectionII PDFp.2 explicitly supplies independent GP priors and Gaussian noise; later main PDFp.12 gives predictive noise/factorization and p.33 hyperparameter averaging. Fixed independent hyperparameters qualify ordinary predictive task independence. Shared feasible-Pareto conditioning generally induces objective/constraint dependence; a bounded finite channel and Gaussian event illustrate nonadditivity without claiming fitted-model validation.
+
+### sampled-feasible-pareto-representatives
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFp.14 samples random-feature objective and constraint functions, filters infeasible candidates and searches approximate nondominated locations; p.22 uses finite representatives. Grid/evolutionary search and compression are approximation choices. The recommendation-threshold relaxation on p.33 is not a defined acquisition policy for posterior draws with an empty feasible region.
+
+### finite-feasibility-and-comparison-ep
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.14–17 Eqs8–14 and supplementary method PDFpp.3–23 restrict conditioning to observed, sampled-Pareto and candidate locations, then use task-specific Gaussian constraint and comparison factors. Candidate-independent factors are reused and candidate factors receive the stated limited update. Cross-task moments are discarded. Self/tie/completeness, competitor-constraint placement and Gaussian curvature/precision defects qualify the literal displays; no complete repaired solver or convergence guarantee follows.
+
+### noisy-taskwise-variance-score
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.18–19 Eqs15–18 and supplement PDFpp.21–23 use noisy predictive variances in the score, read with main Eq7 and Gaussian entropy. Add task noise to both latent variances, require positive arguments and retain the common one half. Main omitted coefficients and sample-index notation are explicit source caveats. Summation belongs to the factorized Gaussian approximation, not general feasible-Pareto mutual-information additivity. The accepted citation successor adds the pinned May 2020 implementation for noisy pre-clipping half-log terms only. This does not repair the paper formulas or certify later clipping/EP behavior.
+
+### coupled-and-decoupled-task-selection
+
+evidence: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.18–20 and63–64 selects a common location by the sum in coupled use, or compares separately maximized task contributions in decoupled use. These are modes of one algorithm. No displayed evaluation-cost divisor or scheduler-optimality theorem is asserted; earlier2016v2 PDFp.6 identifies parallel batches as a separate extension.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Retained boundaries limit the supported claims.
+
+Coupled/decoupled modes remain one identity. Parallel multi-location selection is not supplied by taskwise additivity. A feasible Pareto set is an input set, not just its objective-space front; removing constraints is only a limiting target overlap with PESMO. Keep the incomplete 2019 author manuscript (missing printed p.9), official supplement, earlier 2016v2 and later May2020 code roles separate. The new code citation supports noisy pre-clipping entropy terms only. Preserve factor-location, self/tie, coefficient/index and EP algebra caveats and distinguish empty posterior feasible region from finite-search failure. The incomplete 2019 institutional author manuscript, official 2019 supplement, earlier2016v2 preprint and separately pinned later code have explicit distinct scopes. The missing printed page9 remains an access gap; the earlier preprint is not a replacement page or the journal text. Code clipping is separate from the cited pre-clipping terms.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The institutional 2019 main manuscript lacks printed page 9. Its supplement, earlier six-page 2016v2 and selectively read May 2020 code have distinct versions and reading scopes; the missing page is not treated as read. Original acquisition failures are retained. The original bounded calculator passed its first run and a separate root reproduction matched bytes. Later TEMP native validation found an uncited declared code source; the accepted successor added one noise/pre-clipping-score citation only. The source algebra caveats remain interpretations, not a formal erratum or repaired implementation. The incomplete 2019 institutional author manuscript, official 2019 supplement, earlier2016v2 preprint and separately pinned later code have explicit distinct scopes. The missing printed page9 remains an access gap; the earlier preprint is not a replacement page or the journal text. Code clipping is separate from the cited pre-clipping terms.
+
+### Parallel predictive entropy search for multi-objective Bayesian optimization with constraints
+
+identity: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Retain the separately scoped native identity.
+
+Retain joint parallel constrained multi-objective acquisition as a distinct construction from single-location PESMOC. Full within-task batch covariance log determinants distinguish it from a sum of pointwise scores or fantasy-filled batches. The joint batch feasible-Pareto information procedure retains its own identity. Batch size one can reduce a score without establishing full implementation equivalence to sequential PESMOC.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+AIO:ActiveLearning relates through adaptive querying of informative objective/constraint batches. Its predictive labeling task is not equivalent to constrained multi-objective optimization or feasible-Pareto inference. No exact match, upstream subclass, architecture or inherited layer semantics is asserted. AIO:ActiveLearning relates through adaptive querying of informative objective/constraint batches. Its predictive labeling task is not equivalent to constrained multi-objective optimization or feasible-Pareto inference. No exact match, upstream subclass, architecture or inherited layer semantics is asserted.
+
+### joint-batch-feasible-pareto-information
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main institutional PDFp.5 states nonnegative constraints and weak-plus-one-strict dominance; PDFp.13 Eqs9–10 define whole-batch information about the feasible input-space Pareto set and its MI-symmetry form. Attained nonempty targets, finite information and ties remain assumptions. Finite channels illustrate redundancy/complementarity and the limits of literal self/tie/membership factors; they are not fitted GP experiments.
+
+### within-task-batch-covariances
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFp.10 Eq4 and independent-GP paragraph, then PDFpp.13–15 Eqs10–15, give each task a B-dimensional Gaussian predictive covariance. Cross-task independence at fixed hyperparameters leaves within-task location covariance intact. Shared Pareto conditioning couples tasks; the practical EP projection discards those cross-task moments. The finite task channel bounds exact additivity without asserting a GP approximation error theorem.
+
+### finite-sampled-feasible-pareto-sets
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFp.14 after Eq11 samples random-feature objective/constraint functions and approximates constrained Pareto sets, reporting a grid of 1000 times input dimension and at most 50 retained points. These choices do not yield exact whole-domain Pareto sampling. Failed finite feasible search and genuinely empty feasible draws are separate, and the inspected method supplies no general fallback policy.
+
+### reused-ep-sites-and-batch-updates
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.14–15 Eqs13–16 restrict sites to prior observations, finite Pareto representatives and the complete candidate batch; supplementp.1 and Sections2.1–2.6pp.2–9 describe cached sites and one candidate refinement. Univariate constraint and bivariate within-objective factors yield task-specific batch covariance only when the Gaussian approximation is proper. Literal source product, derivative, inversion and damping defects are preserved rather than certified as a repaired solver.
+
+### joint-log-determinant-acquisition
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.13–16 Eqs10–11/16 and supplementp.8 describe full B-by-B noisy covariance determinants. Gaussian entropy supplies the common one half; the printed Eq16 omits it, preserving uncosted argmax but changing units. The original rational cases illustrate consistent permutation invariance, B=1 reduction, noise on both sides, and disagreement with scalar sums. Repetition is not universally uninformative, and exact MI is not generally additive across tasks after conditioning.
+
+### joint-numerical-batch-selection
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main PDFpp.10–11 contrasts fantasy-based batching; PDFpp.15–16/19–20 describes joint B-times-dimension optimization and distinguishes PESMOC. Supplementp.1 specifies Autograd, random initialization, L-BFGS, at most100 iterations and cached sites with one candidate pass. These are gradients of the numerical approximation with its site convention, not certified exact-MI gradients or a global maximizer. Decoupled per-task batch scoring is described; empirical assessment is left for future work.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Retained boundaries limit the supported claims.
+
+At batch size one determinants reduce to variances, but that reduction does not establish equality of all finite sampling, EP/site-update and optimization choices. Scalar unconstrained PPES has different target/conditioning and is not an exact alias. Use the 2023-associated institutional manuscript and official supplement. Keep the earlier arXiv version as separately scoped context. Preserve missing logs/half coefficients/index errors, non-normalized/self-factor caveats, SPD/noise/tie/empty-draw assumptions, local acquisition search and task-projection limits. No author implementation was inspected for this record. The institutional manuscript with final2023 citation and official supplementary asset are the evidence owners; wrapper/build dates and earlier preprint context are not publication substitutions. Printed factor/index and Gaussian reconstruction defects remain explicit, and automatic differentiation is not a proof of globally optimal acquisition selection.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The institutional three-author journal manuscript and official supplement are separate sources. The earlier two-author 2021v2 is historical context: root metadata/dossier reading and supporting selected-page reading are not combined. Publisher access gaps and earlier DNS failures remain explicit. The original curator calculator passed on its first run, with a distinct matching root reproduction, exact rational versus floating components and no formatting change. No author implementation or benchmark was executed. The institutional manuscript with final2023 citation and official supplementary asset are the evidence owners; wrapper/build dates and earlier preprint context are not publication substitutions. Printed factor/index and Gaussian reconstruction defects remain explicit, and automatic differentiation is not a proof of globally optimal acquisition selection.
+
+### Parallel predictive entropy search
+
+identity: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Retain the separately scoped native identity.
+
+Retain the scalar joint-batch maximizer-location information algorithm. It differs from scalar optimum-value MES/OPES, constrained PESC/PESC-F, and feasible-Pareto PPESMOC. The scalar global-maximizer joint batch information algorithm is separate from sequential PES, scalar max-value entropy search and constrained multiobjective PPESMOC.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+AIO:ActiveLearning relates through adaptive querying of informative objective-evaluation batches. The pinned predictive-labeling task is not identical to scalar black-box optimization or maximizer-location inference. No exact match, upstream subclass, architecture or inherited layer semantics is asserted. AIO:ActiveLearning relates through adaptive querying of informative objective-evaluation batches. The pinned predictive-labeling task is not identical to scalar black-box optimization or maximizer-location inference. No exact match, upstream subclass, architecture or inherited layer semantics is asserted.
+
+### joint-batch-optimizer-information
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainp.2 defines scalar maximization with an attained optimum; p.3 Eqs1–2 give joint Q-location information about its input-space maximizer and MI symmetry. Mainp.8 distinguishes joint within-batch selection from the remaining one-step information objective. Measurable tie handling and finite information remain assumptions. Finite redundant/noisy channels illustrate why joint information is not a sum of singleton scores without claiming an exact GP calculation.
+
+### relaxed-maximizer-conditioning
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainpp.3–4, Eq4 and supplementp.1 Eq1 restrict the all-domain maximum event to Q proposed locations plus Phi((f_star-y_max)/sigma). Supplement proportionality supplies the normalization omitted in main Eq4. Nonempty history and sigma&gt;0 are explicit. The retained (star,query,unseen)=(1,0,2) witness has positive relaxed weight despite a larger unqueried value; the factor does not check each past latent value.
+
+### joint-gaussian-ep-projection
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainp.4 site directions and covariance part of Eq5, with supplementpp.1–2, give Q difference sites and one soft incumbent site over Q+1 latent values. Marginalize the optimizer value to retain full Q-location covariance, then add independent observation noise. Exact Gaussian natural-parameter and cavity/ratio examples substantiate the printed algebra caveats, while proper joint covariance and EP convergence are not guaranteed by these examples.
+
+### approximate-maximizer-samples
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainpp.4–5 Section3.2/Eq6 includes normalized spectral density and sqrt(2 alpha/m) feature amplitude, sampled posterior weights and numerical maximization. Mainp.6 rejects failed-EP draws, which may bias retained samples. The posterior-mean plug-in is not generally optimizer-distribution MAP: the retained full-rank finite Gaussian example bounds its win probability below one third. That witness uses a differentiable polynomial-kernel realization and does not claim stationarity. Nine phase checks support the separate spectral-amplitude calculation.
+
+### joint-covariance-log-determinant-score
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainp.3 Gaussian predictive entropy, p.4 noisy conditional entropy and p.5 Eq7 retain one half of the whole difference of full Q-by-Q log determinants, averaged across sampled hyperparameters/optimizer locations. Positive-definite observation covariances are required. Twenty-seven rational covariance pairs include eighteen differences from scalar sums, exact consistent-permutation checks and three Q=1 reductions. Finite channels show why hyperparameter-conditional averages need not equal marginalized information; these are bounded illustrations, not fitted PPES posterior experiments.
+
+### joint-approximate-acquisition-optimization
+
+evidence: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Mainp.5 Eqs8–9 and p.8 describe joint Q-times-dimension local optimization. Eq9 is the derivative with fitted site variances held fixed. For one hard-threshold EP site, variance c v has refitted derivative c while the frozen-site covariance derivative is c squared, c=1−2/pi. This refutes general site constancy without claiming to audit every hypothesis of the unacquired cited EP report or the full PPES gradient. Local initialization/ascent gives neither a global acquisition guarantee nor an optimal multi-step policy.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Retained boundaries limit the supported claims.
+
+Batch correlation is essential. Q=1 ideal-information overlap with PES does not identify operational approximations. The soft noisy-incumbent factor is a relaxed event, not exact global-maximizer conditioning; joint batch choice remains a one-step information objective. Use official 2015 main and exact ZIP-member supplement bytes. Preserve root official9+2 reading versus supporting arXiv12-page reading. Keep Gaussian mean/cavity/moment source defects, posterior-mean-versus-optimizer-MAP distinction, fixed-site-versus-refitted derivatives, rejected EP draws and positive-noise/SPD assumptions. No author-code or performance claim. The official2015 main and extracted official ZIP supplement are retained with their separate bytes and access metadata. Fresh source equations confirm the previously documented mean, cavity and moment inconsistencies; the record does not claim a repaired complete solver or author-issued erratum.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:ParallelPredictiveEntropySearch.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The official nine-page 2015 article and two-page supplement are separate sources. The supplement is the exact mpes_supp - final.pdf member of a separately hashed official ZIP; archive and extracted PDF hashes are distinct. Root and supporting readings of the official pages are separately recorded. The twelve-page arXiv version is supporting full-text context but root metadata/dossier context only. Earlier access failures remain retained. The first original bounded calculator run and distinct root reproduction agreed; no external code or the cited Seeger 2008 report was read or executed. The official2015 main and extracted official ZIP supplement are retained with their separate bytes and access metadata. Fresh source equations confirm the previously documented mean, cavity and moment inconsistencies; the record does not claim a repaired complete solver or author-issued erratum.
+
+### DIRECT global optimization
+
+identity: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Retain the separately scoped native identity.
+
+Retain the original deterministic center-sampled rectangle partitioning optimizer, not a Bayesian model/query criterion. Its potential-optimal rectangle selection and longest-side trisection are not EGO’s auxiliary surrogate-EI branch-and-bound search. The original1993 center-sampled deterministic rectangle-partition optimizer remains distinct from Bayesian acquisition rules, EGO auxiliary branch and bound, and later locally biased or noisy DIRECT variants.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+Explicit bounded AIO no-match. Nine exact pinned classes and incident contexts were assessed. General deterministic box optimization is not identical to predictive labeling, preprocessing/model training, policy learning, a language model, mathematical function, model, network or stochastic Markov chain. Its use within AI methods is an application/component relationship rather than forced ontology identity. Explicit bounded AIO no-match. Nine exact pinned classes and incident contexts were assessed. General deterministic box optimization is not identical to predictive labeling, preprocessing/model training, policy learning, a language model, mathematical function, model, network or stochastic Markov chain. Its use within AI methods is an application/component relationship rather than forced ontology identity. Examined alternatives: {"AIO:ActiveLearning": "The general deterministic optimizer does not require labeling examples or selecting queries by learned predictive uncertainty; objective evaluation alone does not establish this learning-task mapping.", "AIO:MachineLearningTask": "The algorithm can optimize an arbitrary box-constrained objective without building a method that learns from data; an AI application does not identify its full scope with this task.", "AIO:TrainingStrategy": "The pinned definition concerns preprocessing and model training. DIRECT is a reusable optimizer; its use inside hyperparameter selection is an application rather than a necessary training mechanism.", "AIO:ReinforcementLearning": "Balancing local and global exploration does not make the general search procedure a policy/environment learning task.", "AIO:EvolutionaryLLM": "This target is a large language model and its broad related synonyms do not denote the deterministic rectangle algorithm.", "AIO:MathematicalFunction": "The objective and selection score are mathematical functions, but the proposed concept is the iterative partitioning algorithm, not a function node.", "AIO:Model": "A partition and stored evaluations do not make this search algorithm identical to the pinned abstract model class.", "AIO:Network": "The optional search-tree representation is bookkeeping, not a defining network architecture.", "AIO:MarkovChain": "A generic state representation would be too broad; DIRECT does not define a stochastic transition process or target-invariant sampler."}
+
+### normalized-center-sampled-partition
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Sections3–4 PDFpp.7–14/printed163–170 move from endpoints to centers and normalize positive finite box sides to a unit cube. Each child retains an evaluated center. The function-value construction does not require derivatives or a fitted surrogate. Rational geometry verifies center and coverage properties in bounded cases; normalization affects the metric and is not a rotation-invariance claim.
+
+### potentially-optimal-rectangle-rule
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Definitions3.1/4.1 PDFpp.9/14 require some finite positive weight satisfying both weak inequalities. Half the Euclidean diagonal supplies the rectangle radius. Exact rational interval intersection and separate breakpoint enumeration agree on618 clouds/2097 candidate decisions, including equal-radius and value ties and exclusion of a weight-zero-only contact. These finite radius-cloud checks do not implement general multivariate square roots or certify objective lower bounds.
+
+### longest-side-trisection
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+PDFpp.11–13, Figure7 and the division procedure sample both one-third offsets on every longest dimension and split only the remaining central rectangle in paired-value order. With m tied longest dimensions there are2m new samples and2m+1 children. In180 geometry cases, exact volumes, disjoint interiors, bounds, centers and shrinking squared radii are checked. A constant-square witness shows different axis tie orders produce distinct labeled partitions without creating separate method identities.
+
+### complete-selected-set-iterations
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Univariate Steps2–7 PDFpp.10–11 and multivariate Steps2–6 PDFpp.14–16 identify the complete selected set before subdivision and process all members before selection is recomputed. Deterministic evaluations and fixed within-box tie rules justify order independence for disjoint selected boxes. Five finite1D traces preserve partitions and nonincreasing incumbents; distinct sampled locations are not runtime calls, and an early evaluation budget can interrupt a full iteration.
+
+### epsilon-and-objective-origin
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Definitions3.1/4.1 and PDFpp.10/23 make epsilon a weighted-score improvement filter using abs(f_min). Positive objective scaling can be absorbed into the positive weight; additive translation changes that threshold. The exact realizable interval witness selects indices[0,2,4] before a shift and[0,4] after+100: the small best interval needs0&lt;K&lt;=9 before andK&gt;=18 afterward. At f_min=0 the epsilon term vanishes. These are algebraic consequences, not accuracy or stopping guarantees.
+
+### asymptotic-coverage-with-scoped-convergence
+
+evidence: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Section5 PDFpp.17–18 argues maximal-radius boxes are selected and repeated longest-side splitting drives maximum radius to zero under exact complete iterations. Eq11 needs strictly smaller-radius slopes with equal-radius values handled separately; the printed unrestricted ratio includes zero denominators. Dense centers support value convergence near an attained minimum where the objective is continuous. A finite hidden tent and an isolated irrational-point discontinuity illustrate limits; finite tests do not prove the infinite-run conclusion or a convergence rate.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Retained boundaries limit the supported claims.
+
+Do not absorb locally biased/noisy/constrained/restart variants or DirectPreferenceOptimization. Positive finite weight, both selection inequalities, equal-distance handling, complete selected-set iterations and objective-origin dependence remain defining qualifications. The 1993 academic scan is the evidence owner, with publisher bibliographic corroboration rather than byte equivalence. Retain Eq5/Eq11 caveats, asymptotic density versus continuity-based value convergence, and lack of finite-budget accuracy certificate. Keep aio_no_match with explicit rejected alternatives; historical and actual searched scopes remain explicitly separate. The25-page academic scan is the original article evidence, with publisher bibliographic corroboration rather than asserted byte equivalence. Previously inspected visuals disambiguate scan notation. Original exact rational diagnostics and separate root reproduction remain historical, not rerun for this review.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:DIRECTGlobalOptimization.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The academic-hosted 25-page original 1993 scan, printed 157–181, is distinct from publisher bibliographic metadata. Root historical reading covered 20 native-text pages and five visuals; the source agent covered 25 native-text pages and eight visuals. The original exact Fraction calculator passed first run and root reproduced identical bytes, without whitespace normalization. Source-access failures remain retained. Equal-distance proof handling and Eq.5 factor caveats do not establish an author-issued correction or an implemented general multidimensional solver. The25-page academic scan is the original article evidence, with publisher bibliographic corroboration rather than asserted byte equivalence. Previously inspected visuals disambiguate scan notation. Original exact rational diagnostics and separate root reproduction remain historical, not rerun for this review.
+
+### Expected improvement acquisition
+
+identity: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Retain the separately scoped native identity.
+
+Retain a mathematical acquisition criterion, not a full optimization algorithm. E[max(b-Y,0)] measures expected gain, unlike PI’s threshold-event probability and information acquisitions’ entropy objective. The mathematical expected-positive-gain criterion remains distinct from the complete EGO algorithm, PI threshold probability and entropy acquisitions.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+EI assigns an expected nonnegative gain to a candidate under a predictive law and incumbent. This is a specific mathematical acquisition rule related to the pinned function concept. It is not identical to that broad class, not an activation function, and not a complete EGO optimizer. This association follows the score mechanism, not incidental terminology. EI assigns an expected nonnegative gain to a candidate under a predictive law and incumbent. This is a specific mathematical acquisition rule related to the pinned function concept. It is not identical to that broad class, not an activation function, and not a complete EGO optimizer. This association follows the score mechanism, not incidental terminology.
+
+### expected-positive-improvement
+
+evidence: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Correct deterministic observed minimum, predictive uncertainty and positive-gain expectation. This is a criterion, not a claim that the objective is intrinsically random or noisy. Primary locator: PDF17/p471 Eq14.
+
+### gaussian-standard-deviation-form
+
+evidence: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Sign, standard-deviation denominator/multiplier and positive-s assumption match the primary formula. No predictive-variance substitution. Primary locator: PDF17–18/pp471–472 Eq15.
+
+### fixed-incumbent-monotonicity
+
+evidence: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Correct partial derivatives and rectangular upper bound from valid mean/sd bounds. Explicitly not coordinatewise input monotonicity. Primary locator: PDF18–19/pp472–473.
+
+### degenerate-prediction-boundary
+
+evidence: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+General degenerate EI=max(b-m,0) is honestly labeled a direct derivation; exactly interpolated observed samples give 0. It does not confuse zero variance with universal zero improvement. Primary locator: PDF7–9/pp461–463 Eq7–11; PDF17–18 Eq14.
+
+### one-evaluation-acquisition-scope
+
+evidence: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+One prospective evaluation is the criterion’s scope. Full model fitting, design, search and stopping belong to original EGO, so exact-alias avoidance is supported. Primary locator: PDF17–21/pp471–475, §4.1–4.2.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Retained boundaries limit the supported claims.
+
+Preserve deterministic observed incumbent and predictive standard deviation. At zero variance EI=max(b-m,0), not unconditionally zero. Mean/spread partial derivatives do not imply input-coordinate monotonicity. EGO uses EI but also supplies fitting, diagnostics, initialization, bounding and stopping. Use the 38-page 1998 journal-layout mirror. Preserve noisy/random-incumbent and nonlinear response-scale limits, plug-in uncertainty, cover-only alternative manuscript and unread1978 priority source. Appendix-sign and fixed-SPD Hessian assessments are separate surrogate context and do not alter the five EI claims. The1998 journal-layout38-page mirror supplies both EI and EGO evidence. Broader root full-paper reading and selected visuals remain historical; the fresh passage review verifies the criterion and algorithm boundary. Unread1978 priority material and cover-only alternative manuscript are not promoted to evidence.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:ExpectedImprovementAcquisition.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The 38-page 1998 journal-layout mirror is primary. Root read all native-text pages with selected visuals; alternative author-manuscript cover reading and inaccessible Mockus 1978 context are not expanded. Original EI/EGO and Appendix-sign calculators each passed their first actual run; separate root reproductions agreed. Exact rational interpolation/algebra and floating Gaussian checks are distinct. The fixed-SPD Hessian assessment is analytic surrogate context, not an EI concavity or full optimizer proof. The1998 journal-layout38-page mirror supplies both EI and EGO evidence. Broader root full-paper reading and selected visuals remain historical; the fresh passage review verifies the criterion and algorithm boundary. Unread1978 priority material and cover-only alternative manuscript are not promoted to evidence.
+
+### Efficient Global Optimization
+
+identity: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Retain the separately scoped native identity.
+
+Retain the original deterministic scalar boxed-domain sequential algorithm separately from EI, TPE, general Bayesian optimization and DIRECT. The original deterministic scalar boxed-domain EGO procedure is retained as the complete design-fit-diagnose-query-refit loop, separately from its EI criterion and other surrogate optimizers.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+The original loop adaptively queries the objective and updates its data-derived response model. The pinned class explicitly includes querying another information source for outputs. This is a query-learning association, not exact identity with annotation or an asserted subclass. The original loop adaptively queries the objective and updates its data-derived response model. The pinned class explicitly includes querying another information source for outputs. This is a query-learning association, not exact identity with annotation or an asserted subclass.
+
+### space-filling-initial-design
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+LHD near-uniform projections and finite rectangular region are supported. Sample-size heuristic is not promoted to an invariant count or theorem condition. Primary locator: PDF19/p473 §4.2; PDF22/p476 box setting.
+
+### plug-in-dace-surrogate
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Constant mean/product-exponential covariance, ML plug-in inference and mean-estimation uncertainty match. Inverse nonsingularity and parameter uncertainty are qualified; later fixed-p2 experimental scope is retained. Primary locator: PDF5–9/pp459–463 Eq1–9; PDF19–20.
+
+### diagnostics-and-response-scale
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Practical full-sample fitted covariance parameters during leave-one-out, diagnostic transformation/refit and source’s abandon-if-unsatisfactory branch are supported. Applicable transform domains are qualified. Primary locator: PDF12–15/pp466–469; PDF19–20.
+
+### expected-improvement-box-search
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Valid EI bounds from lower mean/upper sd and relaxed correlation constraints are supported. The implemented stronger predictor bound is explicitly p2; no general-exponent implementation or objective-global-convergence claim. Primary locator: PDF17–20 and22–26/pp471–474,476–480.
+
+### evaluate-refit-and-stop
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Evaluation/ML refit sequence and EI tolerance match. Relative/log stopping is scoped as heuristic, not true-error or all-future-gain certificate. Primary locator: PDF19–21/pp473–475.
+
+### limited-memory-acquisition-variant
+
+evidence: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+50 retained nodes, 500 iteration cap plus local search apply to the stated Hartman6 experiment. The source admits a missed EI maximum; draft does not universalize those settings. Primary locator: PDF21/p475.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Retained boundaries limit the supported claims.
+
+The full loop combines space-filling design, plug-in DACE likelihood fit, diagnostics and possible transformations, EI acquisition search, evaluation and refitting. Full versus limited-memory branch-and-bound and fixed p=2 implemented bounds must remain distinct. No generic EI optimizer is automatically original EGO. Preserve heuristic stopping and scale/sign ambiguity, unproved convergence conjecture, nearly singular correlation matrices, Appendix1 sign discrepancy and analytic fixed-SPD Hessian boundary. No repaired implementation or author erratum is claimed. Initial draft syntax failure/quote correction and later three-phrase scope refinement remain separate from successful mathematical runs. The same1998 primary PDF supports EI/EGO with distinct claims. Retained full-paper reading, source derivative-sign check and fixed-SPD Hessian analysis support scoped limitations only. Earlier draft quote and wording corrections remain separate from successful mathematics and do not become an author erratum or repaired solver.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:EfficientGlobalOptimization.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The original 1998 journal source and bounded mathematics retain the same scopes as EI. The separate Appendix-sign check concerns a displayed derivative, and the fixed-SPD Hessian derivation is explicitly scoped; neither claims a formal erratum or complete repaired EGO solver. An initial data-only draft AST failure was repaired by an exact quote change; subsequent refinements clarified bounded boxes, rectangular search region and correlation parameters. Original and successor bytes/diffs remain separate from the successful calculator runs and later root reproductions. The same1998 primary PDF supports EI/EGO with distinct claims. Retained full-paper reading, source derivative-sign check and fixed-SPD Hessian analysis support scoped limitations only. Earlier draft quote and wording corrections remain separate from successful mathematics and do not become an author erratum or repaired solver.
+
+### Probability of improvement acquisition
+
+identity: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Retain the separately scoped native identity.
+
+Retain a mathematical threshold-probability criterion distinct from EI and from Jones Method4/EnhancedMethod4. Explicit direction, threshold and tie convention are part of the event; the Gaussian CDF requires a Gaussian predictive law and positive standard deviation. The threshold-event probability criterion remains distinct from expected gain, Jones Method4 and EnhancedMethod4. Event direction, threshold and strict/inclusive convention are explicit.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+related_match AIO:MathematicalFunction The scalar probability rule is related to the pinned MathematicalFunction class at a different abstraction level. This qualified mechanism-based association neither equates PI with the broad function class nor assigns activation, model, optimizer or upstream subclass identity.
+
+### threshold-probability-event
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Jones Section 6 p.364 defines the inclusive minimization event Y(x)&lt;=T; Snoek Section 2.2 defines improvement over the incumbent. The event, direction and threshold are the criterion. Conflicting target schedules in the examples are not silently reconstructed into a unique policy.
+
+### gaussian-positive-deviation-score
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Jones Eq.27 and Snoek Eq.1 support the Gaussian CDF with standard deviation in the denominator. Reversing the event gives the maximization expression. Equality of strict and inclusive probabilities requires the stated continuous positive-variance law, not arbitrary predictive atoms.
+
+### probability-not-improvement-magnitude
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+The separate PI and EI definitions in Snoek Eqs.1–2 and Jones Sections 6–7 establish probability versus expected gain. Retained bounded examples show different rankings without asserting universal performance superiority or equating either scalar criterion with a complete optimizer.
+
+### point-mass-event-boundary
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+The zero-variance case is a curator derivation from the declared event. At the threshold, strict and inclusive atoms have probabilities zero and one, while every positive-variance Gaussian tie has probability one half. No printed division-by-zero rule or universal zero convention is attributed to the source.
+
+### fixed-event-hyperparameter-integration
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Snoek Section 3.1 Eq.6 explicitly names PI integration. Averaging conditional probabilities of the same event is exact total probability, unlike replacing the mixture by a Gaussian from its first two moments. A varying or random incumbent requires a separately specified joint event.
+
+### criterion-within-query-selection
+
+evidence: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Snoek separates model and acquisition choices, while Jones Method 4 and Enhanced Method 4 add modeling, initialization, target selection and sequential rules. These are not exact aliases of the scalar criterion. Their convergence or empirical results are not inherited.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Retained boundaries limit the supported claims.
+
+At a point mass on the threshold, strict and inclusive probabilities differ from each other and the positive-variance tie limit. Fixed-event hyperparameter probability averaging is exact by total probability; it is not moment-matched Gaussian scoring. This legitimate probability-mixture identity must not be confused with entropy-score averaging limitations in PES methods. Use Jones2001 and Snoek2012 with their target-schedule/noisy-incumbent ambiguities retained. No unique latent-incumbent policy, fixed confidence-bound equivalence or universal spread benefit is inferred. Kushner1964 access failure prevents original-algorithm/priority claims. Preserve definition qualification and mathematical metadata/locator corrections. Jones2001 and official Snoek2012 are retained as separate primary sources, with their target-schedule and noisy-incumbent ambiguities. Kushner1964 remains inaccessible context rather than original-priority evidence. Curator boundary derivations are labeled, and original diagnostic metadata/locator corrections are preserved.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:ProbabilityOfImprovementAcquisition.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+The primary sources are Jones 2001 and the official Snoek 2012 proceedings, with their distinct publication/build/acquisition metadata. The inaccessible Kushner 1964 publisher PDF is an access gap, not original-method evidence. Accepted definition wording explicitly qualified the Gaussian CDF; mathematical case-count/locator metadata corrections retained original artifacts without changing the accepted scientific scope. Curator Fraction event/algebra examples and floating Gaussian/entropy diagnostics are bounded original illustrations, not author-code or benchmark replication. Jones2001 and official Snoek2012 are retained as separate primary sources, with their target-schedule and noisy-incumbent ambiguities. Kushner1964 remains inaccessible context rather than original-priority evidence. Curator boundary derivations are labeled, and original diagnostic metadata/locator corrections are preserved.
+
+### Multi-task Bayesian optimization
+
+identity: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Retain the separately scoped native identity.
+
+Retain the original finite-task 2013 algorithm family as one identity with three explicit configurations: target-only transfer, average-task two-step EI and dynamic primary-minimizer information per cost. The original finite-task family has three distinct configurations under one shared correlated surrogate: target-only transfer, average-task two-step EI and dynamic primary-minimizer information per positive cost. It is not Pareto optimization or continuous-resource FABOLAS.
+
+### Explicit native-to-AIO relation or bounded no-match
+
+grounding: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+
+related_match AIO:TransferLearning and AIO:ActiveLearning TransferLearning relates through sharing observations across optimization tasks in a learned task-correlated surrogate; ActiveLearning relates through selecting input/task queries to obtain outputs. These are qualified associations between different abstraction levels, not task/algorithm equivalence, neural weight transfer, classification-label requirements or upstream subclass assertions.
+
+### finite-task-correlated-surrogate
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Main Sections 2.1–2.2 support the finite-task pair kernel B[t,t_prime]kx(x,x_prime), sampled covariance parameters and positive-entry Cholesky restriction. A full Kronecker observed matrix additionally needs Cartesian task/input design. Figure 1 does not license an arbitrary signed fitted covariance family.
+
+### target-only-transfer-policy
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Section 3.1 conditions on past related-task observations and restricts future evaluations to the target, illustrated with EI. Target observations are needed to infer useful task relationships; transferring data is not copying an old optimum or dynamically choosing cheap auxiliary queries.
+
+### average-task-two-step-ei-policy
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Section 3.2 Eq.8 uses all task-pair posterior covariances in the average variance. The predictive-mean imputation, average-EI configuration choice and highest single-task EI task choice are explicitly a two-step heuristic, separate from entropy-per-cost selection and Pareto optimization.
+
+### finite-primary-minimizer-information
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Section 2.3 Eqs.6–7 and Section 3.3 target the primary task minimizer on a finite candidate set, with noisy prospective observations and Monte Carlo approximation. This is not the auxiliary minimizer, best task or exact continuous-domain law. Nonnegative expected information does not make each realized entropy reduction nonnegative.
+
+### dynamic-information-per-cost-policy
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Section 3.3 Eq.9 divides approximate primary-minimizer information by positive task/configuration cost and uses a primary-EI candidate subset. The log-cost model is stated, but the posterior cost-uncertainty integration rule is not uniquely specified. The retained fully noisy analytic witness refutes an unqualified primary-query information upper bound; no optimal scheduler claim is made.
+
+### three-configurations-and-common-domain
+
+evidence: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Supported within the maintained statement and inspected source/derivation scope.
+
+Sections 3.1–3.3 and the summary support one original family with three different policies sharing a task-correlated surrogate. Not all policies use entropy or cost. Different-architecture transfer is future work; the common-domain average objective is not multiobjective Pareto selection.
+
+### Mechanism, approximation and source limitations
+
+consistency: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Retained boundaries limit the supported claims.
+
+The shared correlated-task surrogate does not make the policies identical. Average-task optimization is not Pareto optimization, and auxiliary tasks are not the independent objective/constraint tasks of PESMOC. The family differs from GP model alone, continuous-size FABOLAS and PESC/PESC-F scheduling. Only swersky2013 main is a record evidence source; supplement remains experimental context. Keep the positive-Cholesky restriction, general pair-covariance versus full Cartesian Kronecker distinction, uncertain-cost denominator ambiguity, and fully noisy analytic counterexample to the paper’s unqualified auxiliary-information ordering. No new calculator or cost-optimality claim is needed. Only the official2013 main is a maintained evidence source; the experimental supplement stays report context. Earlier source/math reading and analytic derivation are retained with their roles. No calculator, author-code execution, empirical replication, or exact cost-optimal scheduler is claimed.
+
+### Source reading and original correction history
+
+provenance: supported. Targets: AIMech:MultiTaskBayesianOptimization.
+
+Historical scope and corrections remain distinct from current canonical review.
+
+Only the official nine-page Swersky 2013 main paper is a maintained evidence source; the two-page experimental supplement remains report context and does not become an uncited source. Root and supporting method/visual scopes remain separately attributed. The fixed-hyperparameter, fully noisy two-candidate analytic channel witness addresses the unqualified auxiliary-information ordering; no executable calculator, model fit or author code was run for this family. Native-schema preview and scientific acceptance were TEMP preparation, not canonical curation or review. Only the official2013 main is a maintained evidence source; the experimental supplement stays report context. Earlier source/math reading and analytic derivation are retained with their roles. No calculator, author-code execution, empirical replication, or exact cost-optimal scheduler is claimed.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization. Retain the unconstrained multi-objective evaluation algorithm. Its information target is the input-space Pareto set, not a scalar optimum value or a scalarized objective. Coupled and decoupled objective selection are modes, not new identities. Do not equate it with PESMOC merely by dropping constraints, or with a batch method by evaluating several independently selected inputs. Objective-factorized EP discards dependence induced by shared Pareto conditioning; it is not exact additive mutual information.
+- retain: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints. Retain the constrained multi-objective single-location algorithm. Feasibility changes the target and comparison factors; objective and constraint task selection differs from selecting among correlated auxiliary tasks in MTBO. Coupled/decoupled modes remain one identity. Parallel multi-location selection is not supplied by taskwise additivity. A feasible Pareto set is an input set, not just its objective-space front; removing constraints is only a limiting target overlap with PESMO.
+- retain: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints. Retain joint parallel constrained multi-objective acquisition as a distinct construction from single-location PESMOC. Full within-task batch covariance log determinants distinguish it from a sum of pointwise scores or fantasy-filled batches. At batch size one determinants reduce to variances, but that reduction does not establish equality of all finite sampling, EP/site-update and optimization choices. Scalar unconstrained PPES has different target/conditioning and is not an exact alias.
+- retain: AIMech:ParallelPredictiveEntropySearch. Retain the scalar joint-batch maximizer-location information algorithm. It differs from scalar optimum-value MES/OPES, constrained PESC/PESC-F, and feasible-Pareto PPESMOC. Batch correlation is essential. Q=1 ideal-information overlap with PES does not identify operational approximations. The soft noisy-incumbent factor is a relaxed event, not exact global-maximizer conditioning; joint batch choice remains a one-step information objective.
+- retain: AIMech:DIRECTGlobalOptimization. Retain the original deterministic center-sampled rectangle partitioning optimizer, not a Bayesian model/query criterion. Its potential-optimal rectangle selection and longest-side trisection are not EGO’s auxiliary surrogate-EI branch-and-bound search. Do not absorb locally biased/noisy/constrained/restart variants or DirectPreferenceOptimization. Positive finite weight, both selection inequalities, equal-distance handling, complete selected-set iterations and objective-origin dependence remain defining qualifications.
+- retain: AIMech:ExpectedImprovementAcquisition. Retain a mathematical acquisition criterion, not a full optimization algorithm. E[max(b-Y,0)] measures expected gain, unlike PI’s threshold-event probability and information acquisitions’ entropy objective. Preserve deterministic observed incumbent and predictive standard deviation. At zero variance EI=max(b-m,0), not unconditionally zero. Mean/spread partial derivatives do not imply input-coordinate monotonicity. EGO uses EI but also supplies fitting, diagnostics, initialization, bounding and stopping.
+- retain: AIMech:EfficientGlobalOptimization. Retain the original deterministic scalar boxed-domain sequential algorithm separately from EI, TPE, general Bayesian optimization and DIRECT. The full loop combines space-filling design, plug-in DACE likelihood fit, diagnostics and possible transformations, EI acquisition search, evaluation and refitting. Full versus limited-memory branch-and-bound and fixed p=2 implemented bounds must remain distinct. No generic EI optimizer is automatically original EGO.
+- retain: AIMech:ProbabilityOfImprovementAcquisition. Retain a mathematical threshold-probability criterion distinct from EI and from Jones Method4/EnhancedMethod4. Explicit direction, threshold and tie convention are part of the event; the Gaussian CDF requires a Gaussian predictive law and positive standard deviation. At a point mass on the threshold, strict and inclusive probabilities differ from each other and the positive-variance tie limit. Fixed-event hyperparameter probability averaging is exact by total probability; it is not moment-matched Gaussian scoring. This legitimate probability-mixture identity must not be confused with entropy-score averaging limitations in PES methods.
+- retain: AIMech:MultiTaskBayesianOptimization. Retain the original finite-task 2013 algorithm family as one identity with three explicit configurations: target-only transfer, average-task two-step EI and dynamic primary-minimizer information per cost. The shared correlated-task surrogate does not make the policies identical. Average-task optimization is not Pareto optimization, and auxiliary tasks are not the independent objective/constraint tasks of PESMOC. The family differs from GP model alone, continuous-size FABOLAS and PESC/PESC-F scheduling.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| actual-report | research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json; All entries, accepted_input_manifest and frontier_resolution | supports | Root read all nine complete canonical YAMLs after capture, including all53 claims, all evidence locators, definitions, limitations, source versions and mapping assessments. All53 prepared claim-support narratives were read and compared with those actual records and retained primary/math evidence; targeted postcapture primary reading is itemized per source. The nine identities and approximation boundaries are supported, with no new defect found. This is a scientific self-review within the same author workflow, not independent approval. Supporting audits were separately attributed, and historical calculations were not rerun. The311 accepted bound references and20 actual creations preserve original source access/version gaps, research corrections, initial draft/preview failures and original versus root mathematical execution roles. Eight unchanged curator scripts were copied, not rerun. MTBO and fixed-SPD Hessian reasoning remain analytic. Fresh code reading is selective static inspection only. The root identity successor corrected MTBO policy enumeration before canonical creation. Two read-only summary projections during review had an incorrect claim-key lookup and a truncated output; neither changed files or invalidated prior complete YAML reading, and a corrected compact projection established exact claim/source IDs. All six required current checks passed on their first actual execution; full outcomes and intervals are retained in the check manifest. The source/schema/full-corpus gate reports247 passed tests,3 skipped,442 AIO records,730 native records,405 histories and417 prior reviews. |
+| actual-root-reading | /private/tmp/aimech-bo-cohort330-root-reading.json | supports | Actual same-author postcapture assessment of all nine records, all 53 claims and mappings; individual source entries distinguish key-passage rereading from reassessment of retained readings. |
+| actual-check-log | /private/tmp/aimech-bo-cohort330-check-manifest.json | supports | Actual completed project checks. Full commands/output/times and any earlier failed attempts remain in this manifest; this generator ran none. |
+| current-identity-frontier | research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json; identity_collection, prewrite_searches and frontier_resolution | supports | Retain nine separate concepts: unconstrained/constrained/batch Pareto methods, scalar batch PPES, deterministic DIRECT, mathematical EI/PI, full EGO and three-configuration finite-task MTBO. Prewrite identity collection searched ignored/hidden files and all1163 existing record definitions plus902main/393nested labels; the supporting complete inventory and88 decoded match-context reading remain separately attributed from root readings. Root assessed selected full mechanisms and exact AIO nodes/incident contexts. Owner142 stays partial,178/179 retain scoped residuals, six leaves were added, and899other main/all393nested values were unchanged. Related mappings are qualified; DIRECT has an explicit nine-target scoped no-match. |
+| historical-science | research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json; accepted_input_manifest: input_catalogs, accepted_citation_correction and existing_calculators | supports | Previously inspected primary sources, distinct original/root readings and original curator mathematics retain their actual historical scope. Eight copied calculators are byte-bound to accepted originals, not rerun here. The EI/EGO Hessian and MTBO noisy-channel assessments are analytic. Failed source access, TEMP validation/syntax attempts, citation additions and wording/metadata corrections remain attributed references; no formal erratum or canonical finding closure is invented. |
+| t1-record | data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml | supports | The unconstrained input-space Pareto-set information algorithm remains distinct from PESMOC, scalar PES and parallel batch procedures; coupled and decoupled objective choice are modes of this identity. All six claims and prepared support narratives are supported at their stated scope: independent prior tasks; approximate finite posterior Pareto representatives; finite, objective-factorized EP; positive noisy half-log variance scores; and coupled/decoupled selection. Shared Pareto conditioning need not preserve independence, and the taskwise score does not certify exact joint information. Official 2016 proceedings main/supplement remain distinct from the pinned July2016 author implementation. Only noise addition and pre-clipping half-log terms cite code; later clipping and source algebra/membership caveats remain explicit. No author-code execution or complete implementation equivalence is inferred. |
+| t1-hernandez2016-pesmo | https://proceedings.mlr.press/v48/hernandez-lobatoa16.pdf; Sections2–2.1, PDFpp.2–4, Eqs1–8 and sampling/EP descriptions.; Section1, PDFp.1 dominance definition; Section2, PDFpp.2–3, Eqs1–2. The later quantified characterization and Eq4 have the separate caveats retained below.; Section2, PDFpp.2–3, assumptions before Eq1 and Eq3; Section4, PDFpp.5–6, acquisition averaging over hyperparameter samples.; Section2, PDFp.3, random kernel features, grid/NSGA-II search and representative subset; Section2.1, PDFp.4, Monte Carlo average.; Section2.1, PDFpp.3–4, finite restriction, Eq6 Gaussian projection and candidate-factor reuse/update paragraph; printed comparison signs are qualified below.; Section2, PDFp.3, Eq3; Section2.1, PDFp.4, Eqs7–8 and paragraph adding observation-noise variance.; Section2.1, PDFp.4, Eqs7–8 and objective selection following Eq8; Section4.3, PDFp.8, separate evaluation counts and unequal training costs. | supports | ICML2016, PMLR48:1492–1501; official ten-page proceedings PDF, embedded build2016-05-25 Root reading scope: postcapture_reread; PDFpp.3–4, full native text after capture.. Finite random-feature/Pareto representatives, EP factorization, noisy half-log score and objective selection support the scoped approximation; broader previously read source and visual scopes are retained separately. |
+| t1-hernandez2016-pesmo-supplement | https://proceedings.mlr.press/v48/hernandez-lobatoa16-supp.pdf; Section1, PDFp.1, stated independence approximation; Section1.3, PDFp.4, tilted distribution and objective-factorized Gaussian projection.; Sections1.1 and1.3–1.4, PDFpp.2 and4–5, self exclusion, cavity/tilted distributions, objective-factorized moment projection and damping.; Section1.2, PDFp.3, final paragraph adding Gaussian observation-noise variance. | supports | Official nine-page PMLR48 supplement, embedded build2016-05-24 Root reading scope: postcapture_reread; PDFp.3, full native text after capture.. Observation-noise addition and Gaussian reconstruction support the score; prior full mechanism/visual reading supplies retained factorization and algebra caveats, without a fresh full-supplement claim. |
+| t1-pesmo-implementation | https://raw.githubusercontent.com/HIPS/Spearmint/9525e612b94a3b76d5510a816d94eb2801219782/spearmint/acquisition_functions/predictive_entropy_search_multiobjective.py; Pinned author implementation at commit 9525e612b94a3b76d5510a816d94eb2801219782, evaluate_acquisition_function_given_EP_solution, lines2994–2995 and3014–3026: supports observation-noise addition and the pre-clipping half-log variance terms only. Clipping before averaging is a separate version-specific choice retained in limitations, not asserted equivalence to the paper acquisition. | supports | HIPS/Spearmint PESM commit9525e612b94a3b76d5510a816d94eb2801219782,2016-07-26; selective static inspection only Root reading scope: postcapture_reread; Static lines2990–3030 after capture.. Noise is added before half-log terms, and per-draw negative clipping is visibly a separate later operation. These selected lines were read, not executed; the rest of the implementation was not freshly audited. |
+| t2-record | data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml | supports | The feasible input-space Pareto-set algorithm is retained separately from unconstrained PESMO, scalar PESC and parallel PPESMOC. Objectives and constraints are evaluation tasks here, not correlated transfer tasks. All six claims and prepared support narratives preserve the feasible-set target, independent GP assumptions, finite feasible representatives, taskwise EP and approximate noisy score. The common half factor comes from Gaussian entropy and its omission in the paper preserves uncosted ordering only; malformed displayed indices and constraint locations remain qualified. No empty-feasible-set policy is invented. The incomplete 2019 institutional author manuscript, official 2019 supplement, earlier2016v2 preprint and separately pinned later code have explicit distinct scopes. The missing printed page9 remains an access gap; the earlier preprint is not a replacement page or the journal text. Code clipping is separate from the cited pre-clipping terms. |
+| t2-garrido2019-pesmoc | https://repositorio.uam.es/bitstream/handle/10486/710115/predictive_garrido_neurocomputing_2019_ps.pdf?isAllowed=y&amp;sequence=1; Sections2.2–2.4, institutional PDFpp.11–20, ideal feasible-Pareto information target, sampling and EP approximation.; Section1, institutional PDFpp.6–7 (printedpp.5–6), Eq1 and weak-plus-one-strict dominance definition; Section2.2, PDFpp.11–13, Eqs4–6. Subsequent strict quantified characterization is qualified below.; Section2.2, PDFp.12, Eq5 and noise paragraph; Section4, PDFp.33, acquisition averaging over sampled hyperparameters.; Section2.2, PDFp.14, random-feature sampling, grid search and feasibility filtering; Section2.5, PDFp.22, finite Pareto representatives; Section4, PDFp.33, separate recommendation-threshold relaxation.; Sections2.3–2.4, PDFpp.14–17, Eqs8–14 and finite restriction/reuse paragraphs; literal self-pair and constraint-location caveats are retained below.; Section2.4, PDFpp.18–19, Eqs15–18 and Gaussian-noise paragraph, read with Eq7 on PDFp.13 and the coefficient/index caveats below.; Section2.4, PDFpp.18–20, Eqs16–18 and selection paragraphs; Section5, PDFpp.63–64, comparison of individual acquisitions. | supports | Institutional author manuscript dated May3,2019; wrapper identifies Neurocomputing361(2019):50–68; journal publication2019-10-07. UAM wrapper built2024-01-22. Incomplete page sequence, not final typeset article. Root reading scope: postcapture_reread; Institutional PDFpp.18–19, full native text after capture.. The missing common half factor and malformed task/sample indices remain printed-source qualifications; noisy variances and decoupled selection are supported. Broader accepted reading and the missing printed-page gap remain separate. |
+| t2-garrido2019-pesmoc-supplement | https://ars.els-cdn.com/content/image/1-s2.0-S0925231219308525-mmc1.pdf; Sections1–4, PDFpp.3–20, cavity, tilted moments, task-factorized sites and Gaussian reconstruction; Section4.4, PDFpp.21–23, candidate computation.; Section4.4, PDFpp.21–23, Eq54 and final noise-variance paragraph. | supports | Official Elsevier article-PII supplementary asset; title and both authors match; manuscript/date/PDFmetadata May13,2019;31PDFpages. Retrieved using a conventional filename probe, not a link claimed observed on inaccessible publisher page. Root reading scope: postcapture_reread; PDFp.23, full native text after capture.. The candidate-variance conclusion explicitly adds Gaussian observation noise; EP initialization/damping context does not guarantee convergence. Broader accepted covariance/factor reading remains historical. |
+| t2-garrido2016-pesmoc | https://arxiv.org/pdf/1609.01051v2; SectionII, PDFp.2, independent GP priors and zero-mean Gaussian noise.; SectionIV, PDFp.6, parallel batch extension identified as future work. | supports | arXiv1609.01051v2, September26,2016 12:35:35UTC; v1 September5,2016 08:17:17UTC;6PDFpages; PDFbuildSeptember27. Later journal metadata on abstract page does not make this the2019 text. Root reading scope: postcapture_reread; PDFp.2, full native text after capture.. The earlier preprint explicitly defines feasible-Pareto information, independent GP priors and Gaussian noise. This supports its cited assumption without replacing the later incomplete manuscript. |
+| t2-pesmoc-implementation | https://github.com/EduardoGarrido90/Spearmint/blob/fa54faf5b5d2e85878a1d20345898dcc0babcb80/spearmint/acquisition_functions/predictive_entropy_search_multiobjective_constraints.py; Pinned author implementation at commit fa54faf5b5d2e85878a1d20345898dcc0babcb80, evaluate_acquisition_function_given_EP_solution, lines6304–6308 and6331–6346: supports objective/constraint noise addition and the pre-clipping half-log variance terms only. Clipping before averaging is a separate version-specific choice retained in limitations, not asserted equivalence to the paper acquisition. | supports | Later pinned author fork; README identifies PESMOC branch; selected code only, no execution and no claim of an official paper erratum. Root reading scope: postcapture_reread; Static lines6300–6350 after capture.. Ordinary/conditional task noise and pre-clipping half-log differences are present. Per-draw clipping is not mathematically justified by an unconditional pointwise entropy-decrease claim and remains a separate version-specific approximation; no execution occurred. |
+| t3-record | data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml | supports | The joint batch feasible-Pareto information procedure retains its own identity. Batch size one can reduce a score without establishing full implementation equivalence to sequential PESMOC. All six claims and prepared support narratives distinguish within-task full batch covariance from independent-location sums, sampled finite sets from exact posterior Pareto sampling, and reused/one-pass EP sites from exact conditional inference. The full log determinant, positive-definite noisy covariance and numerical joint optimization are supported with algebra and frozen-site caveats. The institutional manuscript with final2023 citation and official supplementary asset are the evidence owners; wrapper/build dates and earlier preprint context are not publication substitutions. Printed factor/index and Gaussian reconstruction defects remain explicit, and automatic differentiation is not a proof of globally optimal acquisition selection. |
+| t3-garrido2023-ppesmoc | https://repositorio.uam.es/bitstream/handle/10486/709939/parallel_garrido_expert_systems_with_applications_2023_ps.pdf?isAllowed=y&amp;sequence=1; Sections3.2–3.4, institutional PDFpp.13–16 / printedpp.12–15, joint feasible-Pareto information target, finite sampling, EP and batch log determinants.; Section2, institutional PDFp.5 / printedp.4, Eq1 and weak-plus-one-strict dominance definition; Section3.2, PDFp.13 / printedp.12, Eqs9–10. The later strict characterization requires the self/tie qualifications below.; Section2.1, PDFp.10 / printedp.9, Eq4 and independent-GP paragraph; Sections3.2–3.3, PDFpp.13–15 / printedpp.12–14, Eqs10–15. Eq11 has the missing-log caveat below.; Section3.2, PDFp.14 / printedp.13, paragraph after Eq11; Section3.3, PDFp.15 / printedp.14, finite domain restriction.; Sections3.3–3.4, PDFpp.14–15 / printedpp.13–14, Eqs13–16 and finite restriction/reuse paragraphs.; Sections3.2–3.4, PDFpp.13–16 / printedpp.12–15, Eqs10–11 and16, Gaussian-noise paragraph and permutation-symmetry discussion; common coefficient and index caveats below.; Section2.2, PDFpp.10–11 / printedpp.9–10, fantasy baseline and batch dimensionality; Sections3.4 and4, PDFpp.15–16 and19–20 / printedpp.14–15 and18–19, joint optimization and PESMOC distinction. | supports | Institutional author manuscript; manuscript header2022, final citation2023; cover plus28printed pages. Wrapper PDF metadata2024-01-16, not the date of original invention or publication. Root reading scope: postcapture_reread; Institutional PDFpp.15–16 / printed14–15, full native text after capture.. Finite EP factorization, reused sites, single candidate pass, full batch log determinants and deferred decoupled evaluation support the scoped claims; printed factor/index issues remain retained. |
+| t3-garrido2023-ppesmoc-supplement | https://ars.els-cdn.com/content/image/1-s2.0-S0957417422023466-mmc1.pdf; Section1, PDFp.1, cached observation/Pareto factors and one candidate pass; Sections2.1–2.6, PDFpp.2–9, EP structure and covariance reconstruction, with formula caveats below.; Section2.4, PDFp.8, covariance matrix at the new batch.; Section1, PDFp.1, random initialization, Autograd, L-BFGS, maximum100 iterations and factor-reuse convention. | supports | Official Elsevier PII-associated supplementary asset,11pages, title/authors match. PDFmetadata2022-11-29; HTTP Last-Modified2023-02-02. Retrieved by conventional filename probe; not claimed as a link observed on inaccessible publisher page. Root reading scope: postcapture_reread; PDFpp.1 and8, full native text after capture.. The numerical optimization and candidate factor update are explicit, as is the full conditional covariance at the new batch. Fixed-parameter derivatives do not establish full refitted-site derivatives or global optimization. |
+| t4-record | data/curated/ParallelPredictiveEntropySearch.yaml | supports | The scalar global-maximizer joint batch information algorithm is separate from sequential PES, scalar max-value entropy search and constrained multiobjective PPESMOC. All six claims and prepared support narratives correctly scope finite relaxed maximizer conditions, the soft noisy-incumbent event, Gaussian EP, approximate random-feature maximizer samples and full noisy covariance entropy. A posterior-mean optimizer is not generally the mode of the optimizer distribution. Frozen-site matrix derivatives do not certify derivatives through refitted EP. The official2015 main and extracted official ZIP supplement are retained with their separate bytes and access metadata. Fresh source equations confirm the previously documented mean, cavity and moment inconsistencies; the record does not claim a repaired complete solver or author-issued erratum. |
+| t4-shah2015-ppes | https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Paper.pdf; Sections3–3.3, PDFpp.3–5, joint optimizer-information target, relaxed conditioning, EP, sampling and Eq 7.; Section2, PDFp.2, problem and existence assumption; Section3, PDFp.3, Eqs1–2; Section5, PDFp.8, one-step versus within-batch distinction.; Section3.1, PDFpp.3–4, relaxed conditions and Eq 4; Eq 4 omits the required normalization.; Section3.1, PDFp.4, site directions, covariance part of Eq 5, Gaussian marginalization and observation-noise addition.; Section3.2, PDFpp.4–5, posterior-mean plug-in, Eq 6 and feature posterior; Section4, PDFp.6, rejection of failed EP runs. The MAP identification is a source caveat, not adopted as an identity.; Section3, PDFp.3, Gaussian predictive entropy; Section3.1, PDFp.4, conditional entropy; Section3.3, PDFp.5, Eq 7 and hyperparameter sampling; Section4, PDFp.6, batch permutation symmetry.; Section3.3, PDFp.5, Eqs 8–9 and site-derivative assertion; Section4, PDFp.8, initialization and admitted local-optimization limitation; Section5, PDFp.8, one-step information objective. | supports | NIPS2015, Advances in Neural Information Processing Systems28; official9-page PDF. Official metadata lists3330–3338. PDF build/modification dates are not the publication date. Root reading scope: postcapture_reread; PDFpp.4–5, full native text after capture.. Soft relaxed conditions, Gaussian EP, noisy covariance log determinants and finite random-feature sampling are explicit. The false posterior-mean/MAP identification and overbroad zero-site-derivative assertion remain qualified. |
+| t4-shah2015-ppes-supplement | https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Supplemental.zip; PDFp.1, Eq 1 states the relaxed product with proportionality.; PDFpp.1–2, Eqs1–4 and6–14, intended EP site/cavity/moment structure; literal formula defects are retained below. | supports | Official linked ZIP, one member mpes_supp - final.pdf,2pages; exact extracted PDF bytes separately hashed. PDFmetadata2015-10-11 is not an independent publication date. Root reading scope: postcapture_reread; PDFpp.1–2, complete native text after capture.. The event density is proportional, not an already normalized identity. The printed Gaussian mean/cavity/tilted-moment formulas retain previously assessed inconsistencies; this reread does not certify a corrected complete EP implementation. |
+| t5-record | data/curated/DIRECTGlobalOptimization.yaml | supports | The original1993 center-sampled deterministic rectangle-partition optimizer remains distinct from Bayesian acquisition rules, EGO auxiliary branch and bound, and later locally biased or noisy DIRECT variants. All six claims and prepared support narratives preserve positive finite slopes and both eligibility inequalities, longest-side trisection, complete selected-set processing, epsilon dependence on objective origin and asymptotic density. Equal-radius terms in the printed proof need separate handling. Finite illustrations neither prove the infinite-run result nor supply a finite-budget certificate. The25-page academic scan is the original article evidence, with publisher bibliographic corroboration rather than asserted byte equivalence. Previously inspected visuals disambiguate scan notation. Original exact rational diagnostics and separate root reproduction remain historical, not rerun for this review. |
+| t5-jones1993-direct | https://dumas.perso.math.cnrs.fr/DIRECT.pdf; Sections 3–4, PDF pp.7–16 / printed pp.163–172, especially Definitions 3.1 and4.1 and the rectangle division procedure.; Sections 3–4, PDF pp.7–14 / printed pp.163–170; center sampling, normalization and multivariate algorithm Step 1.; Definition 3.1, PDF p.9 / printed p.165, and Definition 4.1, PDF p.14 / printed p.170; distinction from a known Lipschitz constant on PDF p.10 / printed p.166.; Section 4, PDF pp.11–13 / printed pp.167–169, Figure 7 and Procedure for Dividing Rectangles, Steps 1–3; child-count and tie consequences of that procedure.; Univariate algorithm Steps 2–7 and order discussion, PDF pp.10–11 / printed pp.166–167; multivariate algorithm Steps 2–6, PDF pp.14–16 / printed pp.170–172.; Definitions 3.1 and 4.1, PDF pp.9 and14 / printed pp.165 and170; epsilon discussion, PDF pp.10 and23 / printed pp.166 and179. Scaling and translation statements are direct algebraic consequences, checked in the supporting exact calculator.; Section 5, PDF pp.17–18 / printed pp.173–174, Eq 9 and dense-sampling argument; stopping limitation on PDF p.3 / printed p.159. The zero-denominator caveat in printed Eq 11 is retained below. | supports | Original October 1993 article, JOTA 79(1):157–181; inspected 25-page academic-hosted scan. Publisher metadata corroborates bibliographic identity, not PDF byte equivalence. Scan build dates 2004/2014 are not publication dates. Root reading scope: postcapture_reread; PDFpp.9,12 and17 / printed165,168,173, full native text after capture.. Both positive-slope eligibility inequalities, ordered trisection and the asymptotic density argument support the claims. Previous visual reading resolves scan notation; equal-radius denominator handling and finite-budget limits remain explicit. |
+| t6-record | data/curated/ExpectedImprovementAcquisition.yaml | supports | The mathematical expected-positive-gain criterion remains distinct from the complete EGO algorithm, PI threshold probability and entropy acquisitions. All five claims and prepared support narratives match E[max(b-Y,0)], the positive-standard-deviation Gaussian formula, fixed-incumbent mean/spread partial derivatives, the general zero-variance max(b-m,0) boundary and one-evaluation scope. Input-coordinate monotonicity, unconditional zero EI at zero variance and full-optimizer guarantees are not asserted. The1998 journal-layout38-page mirror supplies both EI and EGO evidence. Broader root full-paper reading and selected visuals remain historical; the fresh passage review verifies the criterion and algorithm boundary. Unread1978 priority material and cover-only alternative manuscript are not promoted to evidence. |
+| t6-jones1998 | https://openturns.github.io/openturns/papers/jones1998.pdf; Section 4.1, PDF pp.17–18 / printed pp.471–472, Eqs.14–15 and deterministic-uncertainty interpretation.; Section 4.1, PDF p.17 / printed p.471, improvement definition and Eq.14.; Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.15 and definitions of Y, s, Phi and phi.; Section 4.1, PDF pp.18–19 / printed pp.472–473, displayed partial derivatives and rectangular-region bound.; Section 2, PDF pp.7–9 / printed pp.461–463, Eqs.7–11 and interpolation; Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.14 and zero-at-samples statement; general s = 0 qualification follows from Eq.14.; Section 4.1, PDF pp.17–19 / printed pp.471–473; Section 4.2, PDF pp.19–21 / printed pp.473–475, algorithm and one-additional-point limitation. | supports | Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout public mirror. PDF metadata records creation on December 10, 1998 and modification on September 29, 2004; these are file-build dates, not separate publication years. Root reading scope: postcapture_reread; PDFpp.17–21 / printed471–475, full native text after capture; shared exact source reading for EI and EGO.. The positive-gain formula uses standard deviation; partial monotonicity supports box bounds. The complete initialization/diagnosis/refit loop, heuristic stopping and limited-memory exception support the separate EGO identity. Earlier full-paper/visual and Appendix/Hessian assessments remain historical. |
+| t7-record | data/curated/EfficientGlobalOptimization.yaml | supports | The original deterministic scalar boxed-domain EGO procedure is retained as the complete design-fit-diagnose-query-refit loop, separately from its EI criterion and other surrogate optimizers. All six claims and prepared support narratives retain space-filling initialization, plug-in DACE, full-sample covariance parameters in practical cross-validation, response transformation domains, EI bounding, refitting and heuristic stopping. The p=2 implemented bound and limited-memory50-node/500-iteration Hartman6 setting are qualified; neither gives a universal full-search or true-error certificate. The same1998 primary PDF supports EI/EGO with distinct claims. Retained full-paper reading, source derivative-sign check and fixed-SPD Hessian analysis support scoped limitations only. Earlier draft quote and wording corrections remain separate from successful mathematics and do not become an author erratum or repaired solver. |
+| t7-jones1998 | https://openturns.github.io/openturns/papers/jones1998.pdf; Section 4.2, PDF pp.19–22 / printed pp.473–476, original EGO procedure; Sections 2–4.1, PDF pp.4–19 / printed pp.458–473, surrogate, diagnostics and EI dependencies.; Section 4.2, PDF p.19 / printed p.473, initial design and empirical sample-size discussion; PDF p.22 / printed p.476, bounded-box setting.; Section 2, PDF pp.5–9 / printed pp.459–463, Eqs.1–9 and estimated-parameter qualification; Section 4.2, PDF pp.19–20 / printed pp.473–474, maximum-likelihood fitting.; Section 3, PDF pp.12–15 / printed pp.466–469, practical cross-validation and transformations; Section 4.2, PDF pp.19–20 / printed pp.473–474, diagnostic decision and response-scale choices.; Section 4.1, PDF pp.17–19 / printed pp.471–473, Eq.15 and bound; Section 4.2, PDF p.20 / printed p.474, implemented p_h = 2 scope; Sections 4.3–4.4, PDF pp.22–26 / printed pp.476–480, bound constructions.; Section 4.2, PDF pp.19–21 / printed pp.473–475, sampling/refitting loop, stopping rule, log-scale approximation and stated limitations.; Section 4.2, PDF p.21 / printed p.475, limited-memory branch and bound and admitted acquisition-maximization risk. | supports | Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout public mirror. PDF metadata records creation on December 10, 1998 and modification on September 29, 2004; these are file-build dates, not separate publication years. Root reading scope: postcapture_reread; PDFpp.17–21 / printed471–475, full native text after capture; shared exact source reading for EI and EGO.. The positive-gain formula uses standard deviation; partial monotonicity supports box bounds. The complete initialization/diagnosis/refit loop, heuristic stopping and limited-memory exception support the separate EGO identity. Earlier full-paper/visual and Appendix/Hessian assessments remain historical. |
+| t8-record | data/curated/ProbabilityOfImprovementAcquisition.yaml | supports | The threshold-event probability criterion remains distinct from expected gain, Jones Method4 and EnhancedMethod4. Event direction, threshold and strict/inclusive convention are explicit. All six claims and prepared support narratives support the Gaussian positive-standard-deviation CDF, probability-versus-magnitude distinction, singular point-mass events and fixed-event hyperparameter integration. The tie limits differ from the strict/inclusive atom. Total probability validates the same-event mixture average; a Gaussian fitted to mixture moments is a different approximation. Jones2001 and official Snoek2012 are retained as separate primary sources, with their target-schedule and noisy-incumbent ambiguities. Kushner1964 remains inaccessible context rather than original-priority evidence. Curator boundary derivations are labeled, and original diagnostic metadata/locator corrections are preserved. |
+| t8-jones2001 | https://research.cs.wisc.edu/areas/ai/airg/jones01taxonomy.pdf; Section 6, PDF p.20 / printed p.364, improvement-threshold event and Eq.27.; Section 6, PDF p.20 / printed p.364, definition of Y(x), T &lt; f_min and the event Y(x) &lt;= T preceding Eq.27.; Section 6, PDF p.20 / printed p.364, Eq.27 and standard-error definition; maximization and continuity qualifications are direct event derivations.; Section 6, PDF p.20 / printed p.364, Eq.27; Section 7, PDF p.27 / printed p.371, Eqs.34–35.; Section 6, PDF p.20 / printed p.364, inclusive event preceding Eq.27; the point-mass extension is derived from that event, not a printed source algorithm.; Section 6, PDF pp.20–26 / printed pp.364–370, Method 4, target selection and Enhanced Method 4. | supports | Journal of Global Optimization21(4):345–383, December2001. Typeset2001 article on a university mirror,39 article pages plus a reproduction-rights notice at PDF40; build/modification/hosting timestamps are not publication dates. Root reading scope: postcapture_reread; PDFp.20 / printed364, full native text after capture.. The source explicitly uses the inclusive event Y&lt;=T below the incumbent. Singular atom boundaries are direct curator event derivations; broader retained Method4/target-schedule reading does not become a newly read complete paper. |
+| t8-snoek2012 | https://papers.nips.cc/paper_files/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf; Section 2.2, PDF p.3, probability-of-improvement definition and Eq.1.; Section 2.2, PDF p.3, incumbent notation and probability-of-improvement definition preceding Eq.1.; Section 2.2, PDF p.3, Eq.1 and predictive variance notation sigma squared.; Section 2.2, PDF p.3, separate PI and EI definitions in Eqs.1–2; possible ranking difference follows directly from the two formulas.; Section 2.2, PDF p.3, Eq.1; its positive-standard-deviation expression supplies the tie-limit comparison.; Section 3.1, PDF p.4, Eq.6 and the following paragraph explicitly naming probability of improvement and EI; fixed-event and moment-matching qualifications follow from the probability definition.; Section 2, PDF p.2, separate model and acquisition choices; Section 2.2, PDF p.3, next-query maximization and PI Eq.1. | supports | Advances in Neural Information Processing Systems25(2012), official metadata pages2951–2959; PDF labels1–9. Official2012 proceedings PDF; no arXiv-version substitution. No PDF build dates supplied in this file. Root reading scope: postcapture_reread; PDFpp.3–4, full native text after capture.. Separate PI/EI formulas and Eq6 explicitly support hyperparameter integration. The same-event probability law differs from moment Gaussian approximation, while noisy/random incumbent conventions still require specification. |
+| t9-record | data/curated/MultiTaskBayesianOptimization.yaml | supports | The original finite-task family has three distinct configurations under one shared correlated surrogate: target-only transfer, average-task two-step EI and dynamic primary-minimizer information per positive cost. It is not Pareto optimization or continuous-resource FABOLAS. All six claims and prepared support narratives preserve the pair kernel and Cartesian-design requirement for a full Kronecker matrix, positive-entry Cholesky restriction, three policies, finite primary-minimizer representation and unspecified uncertain-cost denominator. Fresh reading confirms the source makes an overbroad auxiliary-information ordering claim; the fully noisy analytic counterexample and realized-versus-expected entropy caveat remain appropriate. Only the official2013 main is a maintained evidence source; the experimental supplement stays report context. Earlier source/math reading and analytic derivation are retained with their roles. No calculator, author-code execution, empirical replication, or exact cost-optimal scheduler is claimed. |
+| t9-swersky2013 | https://papers.nips.cc/paper_files/paper/2013/file/f33ba15effa5c10e873bf3842afb46a6-Paper.pdf; Sections 2.2–3.3, PDF pp. 2–5, task covariance and three query configurations; Section 5, PDF p. 8, original family scope.; Sections 2.1–2.2, PDF pp. 2–3, Equation 3 and covariance-parameter sampling description; Figure 1 on p. 4 is a broader illustrative task process.; Section 3.1, PDF p. 3; Figure 1, PDF p. 4; Section 2.3, PDF p. 3, Equations 4–5; Section 4.1, PDF p. 6, direct-transfer comparator.; Section 3.2, PDF p. 4, Equation 8 and the two-step heuristic; Section 4.2, PDF pp. 6–7, cross-validation interpretation.; Section 2.3, PDF p. 3, Equations 6–7 and Monte Carlo discussion; Section 3.3, PDF pp. 4–5, primary-task target.; Section 3.3, PDF p. 5, Equation 9, log-cost model and fixed candidate subset; Section 4.3, PDF p. 7, dynamic estimation of tasks, correlation and costs.; Section 1, PDF p. 2; Sections 3.1–3.3, PDF pp. 3–5; Section 5, PDF p. 8, summary of configurations and multiple-architecture future work. | supports | Official Advances in Neural Information Processing Systems26 (2013), book pages2004–2012; nine-page proceedings PDF numbered1–9. Embedded modification November25,2014 identifies the downloaded build, not a new publication date. Root reading scope: postcapture_reread; PDFpp.2,4 and5, full native text after capture.. The task kernel, positive Cholesky restriction, average-task two-step EI and primary-minimizer/cost rule are explicit. Source claims of universally redundant perfectly correlated noisy queries and universal primary-information dominance remain qualified by the retained analytic assessment. |
+
+## Limits And Additional Notes
+
+- Same-author scientific self-review, not independent approval or DRAFT promotion.
+- Full coverage means all nine maintained records and 53 claims, not all cited literature, author code, source versions, benchmarks or convergence theorems.
+- Historical calculations and source readings retain their original times and scopes. This review generator does not rerun them or implement the described optimizers.
+- Predictive entropy search for multi-objective Bayesian optimization: Use the official 2016 main/supplement plus the separately pinned July2016 code citation only for noise addition and pre-clipping half-log terms. Retain self/tie/orientation/completeness and covariance/precision caveats; code clipping and numerical modifications are separate version-specific choices. No paper/code equivalence, empty-set rule or efficiency guarantee.
+- Predictive entropy search for multi-objective Bayesian optimization with constraints: Keep the incomplete 2019 author manuscript (missing printed p.9), official supplement, earlier 2016v2 and later May2020 code roles separate. The new code citation supports noisy pre-clipping entropy terms only. Preserve factor-location, self/tie, coefficient/index and EP algebra caveats and distinguish empty posterior feasible region from finite-search failure.
+- Parallel predictive entropy search for multi-objective Bayesian optimization with constraints: Use the 2023-associated institutional manuscript and official supplement. Keep the earlier arXiv version as separately scoped context. Preserve missing logs/half coefficients/index errors, non-normalized/self-factor caveats, SPD/noise/tie/empty-draw assumptions, local acquisition search and task-projection limits. No author implementation was inspected for this record.
+- Parallel predictive entropy search: Use official 2015 main and exact ZIP-member supplement bytes. Preserve root official9+2 reading versus supporting arXiv12-page reading. Keep Gaussian mean/cavity/moment source defects, posterior-mean-versus-optimizer-MAP distinction, fixed-site-versus-refitted derivatives, rejected EP draws and positive-noise/SPD assumptions. No author-code or performance claim.
+- DIRECT global optimization: The 1993 academic scan is the evidence owner, with publisher bibliographic corroboration rather than byte equivalence. Retain Eq5/Eq11 caveats, asymptotic density versus continuity-based value convergence, and lack of finite-budget accuracy certificate. Keep aio_no_match with explicit rejected alternatives; historical and actual searched scopes remain explicitly separate.
+- Expected improvement acquisition: Use the 38-page 1998 journal-layout mirror. Preserve noisy/random-incumbent and nonlinear response-scale limits, plug-in uncertainty, cover-only alternative manuscript and unread1978 priority source. Appendix-sign and fixed-SPD Hessian assessments are separate surrogate context and do not alter the five EI claims.
+- Efficient Global Optimization: Preserve heuristic stopping and scale/sign ambiguity, unproved convergence conjecture, nearly singular correlation matrices, Appendix1 sign discrepancy and analytic fixed-SPD Hessian boundary. No repaired implementation or author erratum is claimed. Initial draft syntax failure/quote correction and later three-phrase scope refinement remain separate from successful mathematical runs.
+- Probability of improvement acquisition: Use Jones2001 and Snoek2012 with their target-schedule/noisy-incumbent ambiguities retained. No unique latent-incumbent policy, fixed confidence-bound equivalence or universal spread benefit is inferred. Kushner1964 access failure prevents original-algorithm/priority claims. Preserve definition qualification and mathematical metadata/locator corrections.
+- Multi-task Bayesian optimization: Only swersky2013 main is a record evidence source; supplement remains experimental context. Keep the positive-Cholesky restriction, general pair-covariance versus full Cartesian Kronecker distinction, uncertain-cost denominator ambiguity, and fully noisy analytic counterexample to the paper’s unqualified auxiliary-information ordering. No new calculator or cost-optimality claim is needed.
+- Retain nine separate concepts: unconstrained/constrained/batch Pareto methods, scalar batch PPES, deterministic DIRECT, mathematical EI/PI, full EGO and three-configuration finite-task MTBO. Prewrite identity collection searched ignored/hidden files and all1163 existing record definitions plus902main/393nested labels; the supporting complete inventory and88 decoded match-context reading remain separately attributed from root readings. Root assessed selected full mechanisms and exact AIO nodes/incident contexts. Owner142 stays partial,178/179 retain scoped residuals, six leaves were added, and899other main/all393nested values were unchanged. Related mappings are qualified; DIRECT has an explicit nine-target scoped no-match.
+- The311 accepted bound references and20 actual creations preserve original source access/version gaps, research corrections, initial draft/preview failures and original versus root mathematical execution roles. Eight unchanged curator scripts were copied, not rerun. MTBO and fixed-SPD Hessian reasoning remain analytic. Fresh code reading is selective static inspection only. The root identity successor corrected MTBO policy enumeration before canonical creation. Two read-only summary projections during review had an incorrect claim-key lookup and a truncated output; neither changed files or invalidated prior complete YAML reading, and a corrected compact projection established exact claim/source IDs. All six required current checks passed on their first actual execution; full outcomes and intervals are retained in the check manifest. The source/schema/full-corpus gate reports247 passed tests,3 skipped,442 AIO records,730 native records,405 histories and417 prior reviews.
+- Do not collapse scalar gain/probability criteria into complete algorithms.
+- Do not collapse input-space optimizer/Pareto sets into scalar optimum values or objective-space fronts.
+- Do not turn within-task full batch covariance into independent-location sums, or a batch-size-one limiting score into exact implementation identity.
+- Task-factorized EP, site reuse, finite random-feature/search representations, hyperparameter averaging and local acquisition optimization remain approximation choices; source algebra caveats do not authorize a claimed repaired solver.
+- MTBO correlated finite tasks, independent multi-objective/constraint tasks and resource-scheduling tasks have different semantics.
+- DIRECT asymptotic coverage does not imply EGO convergence, and an EGO EI bound is not a global true-objective error certificate.
+- No literature saturation, canonical issue closure, upstream ontology change or promotion from DRAFT is asserted.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261015T043055Z-black-box-optimization-nine-concept-cohort
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of nine black-box optimization concepts
+started_at: '2026-10-15T04:16:57.209891Z'
+finished_at: '2026-10-15T04:30:55.389494Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author reassessment with supporting source/mathematical
+    agents in the same author workflow; no independent approval.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Root read all nine complete canonical YAMLs after capture, including all53
+  claims, all evidence locators, definitions, limitations, source versions and mapping
+  assessments. All53 prepared claim-support narratives were read and compared with
+  those actual records and retained primary/math evidence; targeted postcapture primary
+  reading is itemized per source. The nine identities and approximation boundaries
+  are supported, with no new defect found. This is a scientific self-review within
+  the same author workflow, not independent approval. Supporting audits were separately
+  attributed, and historical calculations were not rerun.
+source:
+  git_revision: 32f25d676bee9ad813025a20e9d63daa352d9494
+  state: working_tree
+  inputs:
+  - path: data/aio/ActiveLearning.yaml
+    sha256: a4d5b2c82df6f586fedc7290261bc978e7c8d17f1d844c5ee9efc8243e46bbaf
+    role: context
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/curated/BOHB.yaml
+    sha256: bb965b104107d30a9d74f4ac4eaa0aa72023cdf676afb53528d3a1b41bebf291
+    role: context
+  - path: data/curated/DIRECTGlobalOptimization.yaml
+    sha256: e4b2dae43596a69abdf2092d472ccc54807ab4cc328c3231ecffaabe0ab00148
+    role: target
+  - path: data/curated/EfficientGlobalOptimization.yaml
+    sha256: 29ec5cb85b5000102b1fb9e02dfd366e9e70ea175235293b380cf5709f6f697a
+    role: target
+  - path: data/curated/EntropySearch.yaml
+    sha256: 786a3633b1212b280a7d65b37c7c408ac267554f218daa68d70101651019fafd
+    role: context
+  - path: data/curated/ExpectedImprovementAcquisition.yaml
+    sha256: 1ba50ebcb2fecb54b9ed1186aafdde75eea48aab3e3e3458bdca77db6d380af6
+    role: target
+  - path: data/curated/FABOLAS.yaml
+    sha256: 800fb7787896a6cd3f0c2ced22fd70543a79d3a59502ff2c52cf4ae4f8ba0cb9
+    role: context
+  - path: data/curated/MaxValueEntropySearch.yaml
+    sha256: de6cb4b4f6a16b597a29dc3ff23eb923461352359d5222898b4c6df9fbbcf40b
+    role: context
+  - path: data/curated/MultiTaskBayesianOptimization.yaml
+    sha256: 39feaf7d15fbb832976e9c33ecf9619787e3bc8c5cb956eececa4a4ef548a88f
+    role: target
+  - path: data/curated/OutputSpacePredictiveEntropySearch.yaml
+    sha256: 03999fd49973345c8fd8ebabf6141c5944385965d6632b393f7ffd8eac407cd0
+    role: context
+  - path: data/curated/PESCF.yaml
+    sha256: 1363758925ee5871695c266f73d695f86d0495c73b524b69810768a8b45d08db
+    role: context
+  - path: data/curated/ParallelPredictiveEntropySearch.yaml
+    sha256: e69f34009e872023e351452b031b8f423d88a8dc203a3e2d1f8ea15bd0b6e02f
+    role: target
+  - path: data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+    sha256: eaa16b129e201b0aeade7ee2ec6ac24aea19b074c4d2b099656be75e1f362a65
+    role: target
+  - path: data/curated/PredictiveEntropySearch.yaml
+    sha256: 359a11bbbb1efb522df8b3652ffe308ff20564e94fc5e20638b418c29b69de5d
+    role: context
+  - path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml
+    sha256: fdd70b1f3421c8f5744247f2609a53c327518af600b782f0182219a08426b411
+    role: target
+  - path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+    sha256: 4182aeb602dc768a2440acb823fb0b0d07237813800255fb5ff15957b0c3cb33
+    role: target
+  - path: data/curated/PredictiveEntropySearchWithConstraints.yaml
+    sha256: 98bb35b375fd1a5b397a480c702ae018cfee661ce1a61e5ff06b22529528ae59
+    role: context
+  - path: data/curated/ProbabilityOfImprovementAcquisition.yaml
+    sha256: ab51005ea58b24f63a59266319ef806d1c51b27b7e2a6f48240708a4321af72e
+    role: target
+  - path: data/curated/SequentialModelBasedAlgorithmConfiguration.yaml
+    sha256: 578ea6762a48bc56063d3e5907bb038b728112560a3baee7811d4f9b50354357
+    role: context
+  - path: data/curated/TreeStructuredParzenEstimator.yaml
+    sha256: bdd8130958b93502ecd3bf0cd73f411dfb4aecb5d6d2ab2e01454dee9bae2737
+    role: context
+  - path: history/reports/black-box-optimization-nine-concept-cohort/2026-10-15T041623Z-codex-ce1a9b.yaml
+    sha256: 5540551adae81e122fe38cb5ac557fc835289dfe7a057cfdcd39b1e2868a38b5
+    role: context
+  - path: research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json
+    sha256: 1952162d3b6aa24950fca33db840622bebe55fdb4214f65e06ccb8547f449739
+    role: context
+  - path: research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.md
+    sha256: 89d1356217a8a632aac919f8f3f9b6bc681de3de0420ebd8570f1a495cadec0d
+    role: context
+  - path: research/discovery/direct-boundaries.py
+    sha256: 4f3f8c77b49bbe2bfdb26161ccb2c0e60fde083e9c5029d146b92e3a6ccd2bb3
+    role: context
+  - path: research/discovery/ei-ego-appendix-sign-check.py
+    sha256: 8c375ed03fddb2a8cdc013f30f508ef729bc2643173878cd51a4dc8616ac3d82
+    role: context
+  - path: research/discovery/ei-ego-boundaries.py
+    sha256: 96a97c608698add9f2c9da0183e041b1246730c29baaccdf02ff5e07ccec725d
+    role: context
+  - path: research/discovery/pesmo-boundaries.py
+    sha256: 8c47e00adab0f49aa816dd9d1eb2d4fc631a6ea85f331f45ad1a914e8ea0032f
+    role: context
+  - path: research/discovery/pesmoc-boundaries.py
+    sha256: 7d4817e4c4b24c65c8010a22dfea66e4ce49a650e6028e06fd7b0a472553c0ec
+    role: context
+  - path: research/discovery/pi-boundaries.py
+    sha256: d8eb631e45ca9da6b23471c5ca7abf7576658b829f4562786fed2f3436665094
+    role: context
+  - path: research/discovery/ppes-boundaries.py
+    sha256: 0b2ff9517e6bb8111eb1f6367cbe07ca49848f5779ca951aeb2d6832550eae5b
+    role: context
+  - path: research/discovery/ppesmoc-boundaries.py
+    sha256: 866f43669f8b95ee472d2ce97610d65c0b7bb9c6ea72dcf77d4534d8817fff3f
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/aimech.yaml
+    sha256: 5a54dafe2fc17bc027e14bc3a2829b265cbb34427ad58eef63fe99616e17b852
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: src/aimech/schema/mech_shared.yaml
+    sha256: c2e7054fd32635e380c698282bd886a9105861009b9f0474f02bb1b80865e895
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml
+  label: Predictive entropy search for multi-objective Bayesian optimization
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml
+    role: maintained
+- target_id: AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+  label: Predictive entropy search for multi-objective Bayesian optimization with
+    constraints
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+    role: maintained
+- target_id: AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  path: data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+  label: Parallel predictive entropy search for multi-objective Bayesian optimization
+    with constraints
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+    role: maintained
+- target_id: AIMech:ParallelPredictiveEntropySearch
+  path: data/curated/ParallelPredictiveEntropySearch.yaml
+  label: Parallel predictive entropy search
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ParallelPredictiveEntropySearch.yaml
+    role: maintained
+- target_id: AIMech:DIRECTGlobalOptimization
+  path: data/curated/DIRECTGlobalOptimization.yaml
+  label: DIRECT global optimization
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DIRECTGlobalOptimization.yaml
+    role: maintained
+- target_id: AIMech:ExpectedImprovementAcquisition
+  path: data/curated/ExpectedImprovementAcquisition.yaml
+  label: Expected improvement acquisition
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ExpectedImprovementAcquisition.yaml
+    role: maintained
+- target_id: AIMech:EfficientGlobalOptimization
+  path: data/curated/EfficientGlobalOptimization.yaml
+  label: Efficient Global Optimization
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/EfficientGlobalOptimization.yaml
+    role: maintained
+- target_id: AIMech:ProbabilityOfImprovementAcquisition
+  path: data/curated/ProbabilityOfImprovementAcquisition.yaml
+  label: Probability of improvement acquisition
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ProbabilityOfImprovementAcquisition.yaml
+    role: maintained
+- target_id: AIMech:MultiTaskBayesianOptimization
+  path: data/curated/MultiTaskBayesianOptimization.yaml
+  label: Multi-task Bayesian optimization
+  record_class: CuratedAIConcept
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/MultiTaskBayesianOptimization.yaml
+    role: maintained
+scope:
+  description: All nine captured maintained records, their 53 claims, explicit mappings/no-match,
+    source roles and retain boundaries.
+  selection: Exact nine IDs from the accepted cohort manifest; no sampling.
+  coverage: full
+  population_size: 9
+  reviewed_target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exclusions:
+  - target: Neighboring records and other frontier candidates
+    reason: Context only, not formal review targets.
+  - target: Uninspected primary versions, general implementation correctness and empirical
+      performance
+    reason: Actual source scopes and approximation limits remain explicit.
+checks:
+- check_id: actual-1
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: 247 tests passed,3 skipped;442 generated records and730 native records
+    validated; seed exact;405 history entries and417 prior structured reviews valid.
+  scope_note: 'Actual interval 2026-10-15T04:18:19.455234Z to 2026-10-15T04:30:24.680963Z.
+    Full output and retained prior failures: check manifest entry 1; log SHA256 c1d3fffa63d61227cd24af825d2285bc20c504b8d2f1c94b62860d476d754739.'
+- check_id: actual-2
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: All22 governed artifacts match their vendored source.
+  scope_note: 'Actual interval 2026-10-15T04:18:23.238192Z to 2026-10-15T04:18:27.346942Z.
+    Full output and retained prior failures: check manifest entry 2; log SHA256 ce6da3dfdfda1324abb615262209df9a5ebccef1481fbeaeaba77c72e74bc0fd.'
+- check_id: actual-3
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: Pinned AIO source integrity verified.
+  scope_note: 'Actual interval 2026-10-15T04:17:31.164470Z to 2026-10-15T04:17:33.384916Z.
+    Full output and retained prior failures: check manifest entry 3; log SHA256 e8a64b6db522c390d5334ef0c435087a3fe604431fb82f97a32086328a4d1c0c.'
+- check_id: actual-4
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: git diff --check passed without whitespace diagnostics.
+  scope_note: 'Actual interval 2026-10-15T04:18:06.285069Z to 2026-10-15T04:18:07.314709Z.
+    Full output and retained prior failures: check manifest entry 4; log SHA256 2c2735c959e2d43446f7e58a00a4f742d1c0b6cefa9c2b0e8d02a9a3a986e041.'
+- check_id: actual-5
+  name: just render
+  command: just render
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: Generated pages for the current442 AIO and730 native records.
+  scope_note: 'Actual interval 2026-10-15T04:17:33.385651Z to 2026-10-15T04:17:49.286983Z.
+    Full output and retained prior failures: check manifest entry 5; log SHA256 1eba6a02f5739844b1fef3c645a6b57a11ec61c2dcb6a43c8927cef050fa4ea2.'
+- check_id: actual-6
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  - AIMech:ParallelPredictiveEntropySearch
+  - AIMech:DIRECTGlobalOptimization
+  - AIMech:ExpectedImprovementAcquisition
+  - AIMech:EfficientGlobalOptimization
+  - AIMech:ProbabilityOfImprovementAcquisition
+  - AIMech:MultiTaskBayesianOptimization
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - actual-check-log
+  summary: Generated pages match current source records and templates.
+  scope_note: 'Actual interval 2026-10-15T04:17:49.287563Z to 2026-10-15T04:18:06.284317Z.
+    Full output and retained prior failures: check manifest entry 6; log SHA256 148ca26e85795e36417e0c107f763d7fba7b6c18ee430c9baf88f45d865075bc.'
+evidence:
+- evidence_id: actual-report
+  kind: record_content
+  reference: research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json
+  locator: All entries, accepted_input_manifest and frontier_resolution
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 1952162d3b6aa24950fca33db840622bebe55fdb4214f65e06ccb8547f449739
+  support: supports
+  summary: Root read all nine complete canonical YAMLs after capture, including all53
+    claims, all evidence locators, definitions, limitations, source versions and mapping
+    assessments. All53 prepared claim-support narratives were read and compared with
+    those actual records and retained primary/math evidence; targeted postcapture
+    primary reading is itemized per source. The nine identities and approximation
+    boundaries are supported, with no new defect found. This is a scientific self-review
+    within the same author workflow, not independent approval. Supporting audits were
+    separately attributed, and historical calculations were not rerun. The311 accepted
+    bound references and20 actual creations preserve original source access/version
+    gaps, research corrections, initial draft/preview failures and original versus
+    root mathematical execution roles. Eight unchanged curator scripts were copied,
+    not rerun. MTBO and fixed-SPD Hessian reasoning remain analytic. Fresh code reading
+    is selective static inspection only. The root identity successor corrected MTBO
+    policy enumeration before canonical creation. Two read-only summary projections
+    during review had an incorrect claim-key lookup and a truncated output; neither
+    changed files or invalidated prior complete YAML reading, and a corrected compact
+    projection established exact claim/source IDs. All six required current checks
+    passed on their first actual execution; full outcomes and intervals are retained
+    in the check manifest. The source/schema/full-corpus gate reports247 passed tests,3
+    skipped,442 AIO records,730 native records,405 histories and417 prior reviews.
+- evidence_id: actual-root-reading
+  kind: record_content
+  reference: /private/tmp/aimech-bo-cohort330-root-reading.json
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 917e652ee43a7075bb3e85103c6cc327d8edff2dcc0c1f504ac73097cae2ae2a
+  support: supports
+  summary: Actual same-author postcapture assessment of all nine records, all 53 claims
+    and mappings; individual source entries distinguish key-passage rereading from
+    reassessment of retained readings.
+- evidence_id: actual-check-log
+  kind: validation
+  reference: /private/tmp/aimech-bo-cohort330-check-manifest.json
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 7f98668b2202cc5f88c5e1900a930498942d2d727f08d47d828f6bd36a73c780
+  support: supports
+  summary: Actual completed project checks. Full commands/output/times and any earlier
+    failed attempts remain in this manifest; this generator ran none.
+- evidence_id: current-identity-frontier
+  kind: search
+  reference: research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json
+  locator: identity_collection, prewrite_searches and frontier_resolution
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 1952162d3b6aa24950fca33db840622bebe55fdb4214f65e06ccb8547f449739
+  support: supports
+  summary: 'Retain nine separate concepts: unconstrained/constrained/batch Pareto
+    methods, scalar batch PPES, deterministic DIRECT, mathematical EI/PI, full EGO
+    and three-configuration finite-task MTBO. Prewrite identity collection searched
+    ignored/hidden files and all1163 existing record definitions plus902main/393nested
+    labels; the supporting complete inventory and88 decoded match-context reading
+    remain separately attributed from root readings. Root assessed selected full mechanisms
+    and exact AIO nodes/incident contexts. Owner142 stays partial,178/179 retain scoped
+    residuals, six leaves were added, and899other main/all393nested values were unchanged.
+    Related mappings are qualified; DIRECT has an explicit nine-target scoped no-match.'
+  search_scope: Read all 1,163 current identity/name/alias/scoped-synonym rows and
+    complete definitions; all 1,295 frontier labels/statuses and five matching fields;
+    29 complete relevant frontier objects; mechanism/mapping fields and every claim
+    statement for ten nearest native records; ten exact AIO CLASS contexts with all
+    incident edges; all 88 decoded matching contexts. Complete scan occurrence reconstruction
+    is separately attributed to the supporting reconciliation. No source-wide rereading,
+    target execution, canonical mutation or saturation claim. No normalized candidate
+    collision, current record-byte drift or semantic duplicate was found. Absence
+    is bounded to the pinned inventory, scoped queries and semantic neighborhood.
+    Four ignored/hidden-inclusive checkout scans are retained. Semantic ownership
+    is the explicit actual decision, not inferred solely from text absence.
+- evidence_id: historical-science
+  kind: record_content
+  reference: research/discovery/20261015T041451Z-black-box-optimization-nine-concept-cohort.json
+  locator: 'accepted_input_manifest: input_catalogs, accepted_citation_correction
+    and existing_calculators'
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 1952162d3b6aa24950fca33db840622bebe55fdb4214f65e06ccb8547f449739
+  support: supports
+  summary: Previously inspected primary sources, distinct original/root readings and
+    original curator mathematics retain their actual historical scope. Eight copied
+    calculators are byte-bound to accepted originals, not rerun here. The EI/EGO Hessian
+    and MTBO noisy-channel assessments are analytic. Failed source access, TEMP validation/syntax
+    attempts, citation additions and wording/metadata corrections remain attributed
+    references; no formal erratum or canonical finding closure is invented.
+- evidence_id: t1-record
+  kind: record_content
+  reference: data/curated/PredictiveEntropySearchForMultiObjectiveOptimization.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: fdd70b1f3421c8f5744247f2609a53c327518af600b782f0182219a08426b411
+  support: supports
+  summary: 'The unconstrained input-space Pareto-set information algorithm remains
+    distinct from PESMOC, scalar PES and parallel batch procedures; coupled and decoupled
+    objective choice are modes of this identity. All six claims and prepared support
+    narratives are supported at their stated scope: independent prior tasks; approximate
+    finite posterior Pareto representatives; finite, objective-factorized EP; positive
+    noisy half-log variance scores; and coupled/decoupled selection. Shared Pareto
+    conditioning need not preserve independence, and the taskwise score does not certify
+    exact joint information. Official 2016 proceedings main/supplement remain distinct
+    from the pinned July2016 author implementation. Only noise addition and pre-clipping
+    half-log terms cite code; later clipping and source algebra/membership caveats
+    remain explicit. No author-code execution or complete implementation equivalence
+    is inferred.'
+- evidence_id: t1-hernandez2016-pesmo
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v48/hernandez-lobatoa16.pdf
+  locator: Sections2–2.1, PDFpp.2–4, Eqs1–8 and sampling/EP descriptions.; Section1,
+    PDFp.1 dominance definition; Section2, PDFpp.2–3, Eqs1–2. The later quantified
+    characterization and Eq4 have the separate caveats retained below.; Section2,
+    PDFpp.2–3, assumptions before Eq1 and Eq3; Section4, PDFpp.5–6, acquisition averaging
+    over hyperparameter samples.; Section2, PDFp.3, random kernel features, grid/NSGA-II
+    search and representative subset; Section2.1, PDFp.4, Monte Carlo average.; Section2.1,
+    PDFpp.3–4, finite restriction, Eq6 Gaussian projection and candidate-factor reuse/update
+    paragraph; printed comparison signs are qualified below.; Section2, PDFp.3, Eq3;
+    Section2.1, PDFp.4, Eqs7–8 and paragraph adding observation-noise variance.; Section2.1,
+    PDFp.4, Eqs7–8 and objective selection following Eq8; Section4.3, PDFp.8, separate
+    evaluation counts and unequal training costs.
+  accessed_at: '2026-10-14T22:59:56Z'
+  snapshot_sha256: e85486acb4a5f78c72fb132616b64ee7f1adb50eaf5145014f2040b22dd49c12
+  support: supports
+  summary: 'ICML2016, PMLR48:1492–1501; official ten-page proceedings PDF, embedded
+    build2016-05-25 Root reading scope: postcapture_reread; PDFpp.3–4, full native
+    text after capture.. Finite random-feature/Pareto representatives, EP factorization,
+    noisy half-log score and objective selection support the scoped approximation;
+    broader previously read source and visual scopes are retained separately.'
+- evidence_id: t1-hernandez2016-pesmo-supplement
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v48/hernandez-lobatoa16-supp.pdf
+  locator: Section1, PDFp.1, stated independence approximation; Section1.3, PDFp.4,
+    tilted distribution and objective-factorized Gaussian projection.; Sections1.1
+    and1.3–1.4, PDFpp.2 and4–5, self exclusion, cavity/tilted distributions, objective-factorized
+    moment projection and damping.; Section1.2, PDFp.3, final paragraph adding Gaussian
+    observation-noise variance.
+  accessed_at: '2026-10-14T22:59:56Z'
+  snapshot_sha256: 2932a6f431f827474c795ac5386a4fd6bee6541eaffe82b6e16163edf2b75fa8
+  support: supports
+  summary: 'Official nine-page PMLR48 supplement, embedded build2016-05-24 Root reading
+    scope: postcapture_reread; PDFp.3, full native text after capture.. Observation-noise
+    addition and Gaussian reconstruction support the score; prior full mechanism/visual
+    reading supplies retained factorization and algebra caveats, without a fresh full-supplement
+    claim.'
+- evidence_id: t1-pesmo-implementation
+  kind: primary_source
+  reference: https://raw.githubusercontent.com/HIPS/Spearmint/9525e612b94a3b76d5510a816d94eb2801219782/spearmint/acquisition_functions/predictive_entropy_search_multiobjective.py
+  locator: 'Pinned author implementation at commit 9525e612b94a3b76d5510a816d94eb2801219782,
+    evaluate_acquisition_function_given_EP_solution, lines2994–2995 and3014–3026:
+    supports observation-noise addition and the pre-clipping half-log variance terms
+    only. Clipping before averaging is a separate version-specific choice retained
+    in limitations, not asserted equivalence to the paper acquisition.'
+  accessed_at: '2026-10-14T23:02:04Z'
+  snapshot_sha256: 613bec578f01083a7ea91ef42c4c5de35993b275994372747b2292ca9f97788d
+  support: supports
+  summary: 'HIPS/Spearmint PESM commit9525e612b94a3b76d5510a816d94eb2801219782,2016-07-26;
+    selective static inspection only Root reading scope: postcapture_reread; Static
+    lines2990–3030 after capture.. Noise is added before half-log terms, and per-draw
+    negative clipping is visibly a separate later operation. These selected lines
+    were read, not executed; the rest of the implementation was not freshly audited.'
+- evidence_id: t2-record
+  kind: record_content
+  reference: data/curated/PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 4182aeb602dc768a2440acb823fb0b0d07237813800255fb5ff15957b0c3cb33
+  support: supports
+  summary: The feasible input-space Pareto-set algorithm is retained separately from
+    unconstrained PESMO, scalar PESC and parallel PPESMOC. Objectives and constraints
+    are evaluation tasks here, not correlated transfer tasks. All six claims and prepared
+    support narratives preserve the feasible-set target, independent GP assumptions,
+    finite feasible representatives, taskwise EP and approximate noisy score. The
+    common half factor comes from Gaussian entropy and its omission in the paper preserves
+    uncosted ordering only; malformed displayed indices and constraint locations remain
+    qualified. No empty-feasible-set policy is invented. The incomplete 2019 institutional
+    author manuscript, official 2019 supplement, earlier2016v2 preprint and separately
+    pinned later code have explicit distinct scopes. The missing printed page9 remains
+    an access gap; the earlier preprint is not a replacement page or the journal text.
+    Code clipping is separate from the cited pre-clipping terms.
+- evidence_id: t2-garrido2019-pesmoc
+  kind: primary_source
+  reference: https://repositorio.uam.es/bitstream/handle/10486/710115/predictive_garrido_neurocomputing_2019_ps.pdf?isAllowed=y&sequence=1
+  locator: Sections2.2–2.4, institutional PDFpp.11–20, ideal feasible-Pareto information
+    target, sampling and EP approximation.; Section1, institutional PDFpp.6–7 (printedpp.5–6),
+    Eq1 and weak-plus-one-strict dominance definition; Section2.2, PDFpp.11–13, Eqs4–6.
+    Subsequent strict quantified characterization is qualified below.; Section2.2,
+    PDFp.12, Eq5 and noise paragraph; Section4, PDFp.33, acquisition averaging over
+    sampled hyperparameters.; Section2.2, PDFp.14, random-feature sampling, grid search
+    and feasibility filtering; Section2.5, PDFp.22, finite Pareto representatives;
+    Section4, PDFp.33, separate recommendation-threshold relaxation.; Sections2.3–2.4,
+    PDFpp.14–17, Eqs8–14 and finite restriction/reuse paragraphs; literal self-pair
+    and constraint-location caveats are retained below.; Section2.4, PDFpp.18–19,
+    Eqs15–18 and Gaussian-noise paragraph, read with Eq7 on PDFp.13 and the coefficient/index
+    caveats below.; Section2.4, PDFpp.18–20, Eqs16–18 and selection paragraphs; Section5,
+    PDFpp.63–64, comparison of individual acquisitions.
+  accessed_at: '2026-10-14T23:12:12Z'
+  snapshot_sha256: 61320cfbed3777367cd5bf017880e5efbc8601e1230cff5e3c52a8f3555f4e87
+  support: supports
+  summary: 'Institutional author manuscript dated May3,2019; wrapper identifies Neurocomputing361(2019):50–68;
+    journal publication2019-10-07. UAM wrapper built2024-01-22. Incomplete page sequence,
+    not final typeset article. Root reading scope: postcapture_reread; Institutional
+    PDFpp.18–19, full native text after capture.. The missing common half factor and
+    malformed task/sample indices remain printed-source qualifications; noisy variances
+    and decoupled selection are supported. Broader accepted reading and the missing
+    printed-page gap remain separate.'
+- evidence_id: t2-garrido2019-pesmoc-supplement
+  kind: primary_source
+  reference: https://ars.els-cdn.com/content/image/1-s2.0-S0925231219308525-mmc1.pdf
+  locator: Sections1–4, PDFpp.3–20, cavity, tilted moments, task-factorized sites
+    and Gaussian reconstruction; Section4.4, PDFpp.21–23, candidate computation.;
+    Section4.4, PDFpp.21–23, Eq54 and final noise-variance paragraph.
+  accessed_at: '2026-10-14T23:14:06Z'
+  snapshot_sha256: 2d19afc6f7d54e3aa16e4069b6bffe56c2a5de4b7b7ad13cea5c8a055504acfe
+  support: supports
+  summary: 'Official Elsevier article-PII supplementary asset; title and both authors
+    match; manuscript/date/PDFmetadata May13,2019;31PDFpages. Retrieved using a conventional
+    filename probe, not a link claimed observed on inaccessible publisher page. Root
+    reading scope: postcapture_reread; PDFp.23, full native text after capture.. The
+    candidate-variance conclusion explicitly adds Gaussian observation noise; EP initialization/damping
+    context does not guarantee convergence. Broader accepted covariance/factor reading
+    remains historical.'
+- evidence_id: t2-garrido2016-pesmoc
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1609.01051v2
+  locator: SectionII, PDFp.2, independent GP priors and zero-mean Gaussian noise.;
+    SectionIV, PDFp.6, parallel batch extension identified as future work.
+  accessed_at: '2026-10-14T23:12:13Z'
+  snapshot_sha256: 7c1637319e8da8bf3e0b849c0bbe57c1619fc5a3a3ca9e207a485f434f8a6fff
+  support: supports
+  summary: 'arXiv1609.01051v2, September26,2016 12:35:35UTC; v1 September5,2016 08:17:17UTC;6PDFpages;
+    PDFbuildSeptember27. Later journal metadata on abstract page does not make this
+    the2019 text. Root reading scope: postcapture_reread; PDFp.2, full native text
+    after capture.. The earlier preprint explicitly defines feasible-Pareto information,
+    independent GP priors and Gaussian noise. This supports its cited assumption without
+    replacing the later incomplete manuscript.'
+- evidence_id: t2-pesmoc-implementation
+  kind: primary_source
+  reference: https://github.com/EduardoGarrido90/Spearmint/blob/fa54faf5b5d2e85878a1d20345898dcc0babcb80/spearmint/acquisition_functions/predictive_entropy_search_multiobjective_constraints.py
+  locator: 'Pinned author implementation at commit fa54faf5b5d2e85878a1d20345898dcc0babcb80,
+    evaluate_acquisition_function_given_EP_solution, lines6304–6308 and6331–6346:
+    supports objective/constraint noise addition and the pre-clipping half-log variance
+    terms only. Clipping before averaging is a separate version-specific choice retained
+    in limitations, not asserted equivalence to the paper acquisition.'
+  accessed_at: '2026-10-14T23:15:05Z'
+  snapshot_sha256: 6ac60919d376b427da9093d507b4d7f3bea3464b253083a5f3a484716bebeb20
+  support: supports
+  summary: 'Later pinned author fork; README identifies PESMOC branch; selected code
+    only, no execution and no claim of an official paper erratum. Root reading scope:
+    postcapture_reread; Static lines6300–6350 after capture.. Ordinary/conditional
+    task noise and pre-clipping half-log differences are present. Per-draw clipping
+    is not mathematically justified by an unconditional pointwise entropy-decrease
+    claim and remains a separate version-specific approximation; no execution occurred.'
+- evidence_id: t3-record
+  kind: record_content
+  reference: data/curated/ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: eaa16b129e201b0aeade7ee2ec6ac24aea19b074c4d2b099656be75e1f362a65
+  support: supports
+  summary: The joint batch feasible-Pareto information procedure retains its own identity.
+    Batch size one can reduce a score without establishing full implementation equivalence
+    to sequential PESMOC. All six claims and prepared support narratives distinguish
+    within-task full batch covariance from independent-location sums, sampled finite
+    sets from exact posterior Pareto sampling, and reused/one-pass EP sites from exact
+    conditional inference. The full log determinant, positive-definite noisy covariance
+    and numerical joint optimization are supported with algebra and frozen-site caveats.
+    The institutional manuscript with final2023 citation and official supplementary
+    asset are the evidence owners; wrapper/build dates and earlier preprint context
+    are not publication substitutions. Printed factor/index and Gaussian reconstruction
+    defects remain explicit, and automatic differentiation is not a proof of globally
+    optimal acquisition selection.
+- evidence_id: t3-garrido2023-ppesmoc
+  kind: primary_source
+  reference: https://repositorio.uam.es/bitstream/handle/10486/709939/parallel_garrido_expert_systems_with_applications_2023_ps.pdf?isAllowed=y&sequence=1
+  locator: Sections3.2–3.4, institutional PDFpp.13–16 / printedpp.12–15, joint feasible-Pareto
+    information target, finite sampling, EP and batch log determinants.; Section2,
+    institutional PDFp.5 / printedp.4, Eq1 and weak-plus-one-strict dominance definition;
+    Section3.2, PDFp.13 / printedp.12, Eqs9–10. The later strict characterization
+    requires the self/tie qualifications below.; Section2.1, PDFp.10 / printedp.9,
+    Eq4 and independent-GP paragraph; Sections3.2–3.3, PDFpp.13–15 / printedpp.12–14,
+    Eqs10–15. Eq11 has the missing-log caveat below.; Section3.2, PDFp.14 / printedp.13,
+    paragraph after Eq11; Section3.3, PDFp.15 / printedp.14, finite domain restriction.;
+    Sections3.3–3.4, PDFpp.14–15 / printedpp.13–14, Eqs13–16 and finite restriction/reuse
+    paragraphs.; Sections3.2–3.4, PDFpp.13–16 / printedpp.12–15, Eqs10–11 and16, Gaussian-noise
+    paragraph and permutation-symmetry discussion; common coefficient and index caveats
+    below.; Section2.2, PDFpp.10–11 / printedpp.9–10, fantasy baseline and batch dimensionality;
+    Sections3.4 and4, PDFpp.15–16 and19–20 / printedpp.14–15 and18–19, joint optimization
+    and PESMOC distinction.
+  accessed_at: '2026-10-14T23:25:12Z'
+  snapshot_sha256: eeb6e41bf7ae4084554ba05bfe79d29bdab925115d804f3e9e5807bfb1471e73
+  support: supports
+  summary: 'Institutional author manuscript; manuscript header2022, final citation2023;
+    cover plus28printed pages. Wrapper PDF metadata2024-01-16, not the date of original
+    invention or publication. Root reading scope: postcapture_reread; Institutional
+    PDFpp.15–16 / printed14–15, full native text after capture.. Finite EP factorization,
+    reused sites, single candidate pass, full batch log determinants and deferred
+    decoupled evaluation support the scoped claims; printed factor/index issues remain
+    retained.'
+- evidence_id: t3-garrido2023-ppesmoc-supplement
+  kind: primary_source
+  reference: https://ars.els-cdn.com/content/image/1-s2.0-S0957417422023466-mmc1.pdf
+  locator: Section1, PDFp.1, cached observation/Pareto factors and one candidate pass;
+    Sections2.1–2.6, PDFpp.2–9, EP structure and covariance reconstruction, with formula
+    caveats below.; Section2.4, PDFp.8, covariance matrix at the new batch.; Section1,
+    PDFp.1, random initialization, Autograd, L-BFGS, maximum100 iterations and factor-reuse
+    convention.
+  accessed_at: '2026-10-14T23:25:14Z'
+  snapshot_sha256: 10ca9c713d6889a16ea4b935c0e45c27671d91221dfb88fc3b2be08177d0b9e6
+  support: supports
+  summary: 'Official Elsevier PII-associated supplementary asset,11pages, title/authors
+    match. PDFmetadata2022-11-29; HTTP Last-Modified2023-02-02. Retrieved by conventional
+    filename probe; not claimed as a link observed on inaccessible publisher page.
+    Root reading scope: postcapture_reread; PDFpp.1 and8, full native text after capture..
+    The numerical optimization and candidate factor update are explicit, as is the
+    full conditional covariance at the new batch. Fixed-parameter derivatives do not
+    establish full refitted-site derivatives or global optimization.'
+- evidence_id: t4-record
+  kind: record_content
+  reference: data/curated/ParallelPredictiveEntropySearch.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: e69f34009e872023e351452b031b8f423d88a8dc203a3e2d1f8ea15bd0b6e02f
+  support: supports
+  summary: The scalar global-maximizer joint batch information algorithm is separate
+    from sequential PES, scalar max-value entropy search and constrained multiobjective
+    PPESMOC. All six claims and prepared support narratives correctly scope finite
+    relaxed maximizer conditions, the soft noisy-incumbent event, Gaussian EP, approximate
+    random-feature maximizer samples and full noisy covariance entropy. A posterior-mean
+    optimizer is not generally the mode of the optimizer distribution. Frozen-site
+    matrix derivatives do not certify derivatives through refitted EP. The official2015
+    main and extracted official ZIP supplement are retained with their separate bytes
+    and access metadata. Fresh source equations confirm the previously documented
+    mean, cavity and moment inconsistencies; the record does not claim a repaired
+    complete solver or author-issued erratum.
+- evidence_id: t4-shah2015-ppes
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Paper.pdf
+  locator: Sections3–3.3, PDFpp.3–5, joint optimizer-information target, relaxed conditioning,
+    EP, sampling and Eq 7.; Section2, PDFp.2, problem and existence assumption; Section3,
+    PDFp.3, Eqs1–2; Section5, PDFp.8, one-step versus within-batch distinction.; Section3.1,
+    PDFpp.3–4, relaxed conditions and Eq 4; Eq 4 omits the required normalization.;
+    Section3.1, PDFp.4, site directions, covariance part of Eq 5, Gaussian marginalization
+    and observation-noise addition.; Section3.2, PDFpp.4–5, posterior-mean plug-in,
+    Eq 6 and feature posterior; Section4, PDFp.6, rejection of failed EP runs. The
+    MAP identification is a source caveat, not adopted as an identity.; Section3,
+    PDFp.3, Gaussian predictive entropy; Section3.1, PDFp.4, conditional entropy;
+    Section3.3, PDFp.5, Eq 7 and hyperparameter sampling; Section4, PDFp.6, batch
+    permutation symmetry.; Section3.3, PDFp.5, Eqs 8–9 and site-derivative assertion;
+    Section4, PDFp.8, initialization and admitted local-optimization limitation; Section5,
+    PDFp.8, one-step information objective.
+  accessed_at: '2026-10-14T23:41:24Z'
+  snapshot_sha256: 001c9bdbac5f41c4df4d8b0b51efe4f6b6915e00f5c3c51a4d01e096dd5f0449
+  support: supports
+  summary: 'NIPS2015, Advances in Neural Information Processing Systems28; official9-page
+    PDF. Official metadata lists3330–3338. PDF build/modification dates are not the
+    publication date. Root reading scope: postcapture_reread; PDFpp.4–5, full native
+    text after capture.. Soft relaxed conditions, Gaussian EP, noisy covariance log
+    determinants and finite random-feature sampling are explicit. The false posterior-mean/MAP
+    identification and overbroad zero-site-derivative assertion remain qualified.'
+- evidence_id: t4-shah2015-ppes-supplement
+  kind: primary_source
+  reference: https://proceedings.neurips.cc/paper_files/paper/2015/file/57c0531e13f40b91b3b0f1a30b529a1d-Supplemental.zip
+  locator: PDFp.1, Eq 1 states the relaxed product with proportionality.; PDFpp.1–2,
+    Eqs1–4 and6–14, intended EP site/cavity/moment structure; literal formula defects
+    are retained below.
+  accessed_at: '2026-10-14T23:41:24Z'
+  snapshot_sha256: 6047e004013d4db6d26c515faecea2e76b63584e9d6446dfc5203c3a56dc5db4
+  support: supports
+  summary: 'Official linked ZIP, one member mpes_supp - final.pdf,2pages; exact extracted
+    PDF bytes separately hashed. PDFmetadata2015-10-11 is not an independent publication
+    date. Root reading scope: postcapture_reread; PDFpp.1–2, complete native text
+    after capture.. The event density is proportional, not an already normalized identity.
+    The printed Gaussian mean/cavity/tilted-moment formulas retain previously assessed
+    inconsistencies; this reread does not certify a corrected complete EP implementation.'
+- evidence_id: t5-record
+  kind: record_content
+  reference: data/curated/DIRECTGlobalOptimization.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: e4b2dae43596a69abdf2092d472ccc54807ab4cc328c3231ecffaabe0ab00148
+  support: supports
+  summary: The original1993 center-sampled deterministic rectangle-partition optimizer
+    remains distinct from Bayesian acquisition rules, EGO auxiliary branch and bound,
+    and later locally biased or noisy DIRECT variants. All six claims and prepared
+    support narratives preserve positive finite slopes and both eligibility inequalities,
+    longest-side trisection, complete selected-set processing, epsilon dependence
+    on objective origin and asymptotic density. Equal-radius terms in the printed
+    proof need separate handling. Finite illustrations neither prove the infinite-run
+    result nor supply a finite-budget certificate. The25-page academic scan is the
+    original article evidence, with publisher bibliographic corroboration rather than
+    asserted byte equivalence. Previously inspected visuals disambiguate scan notation.
+    Original exact rational diagnostics and separate root reproduction remain historical,
+    not rerun for this review.
+- evidence_id: t5-jones1993-direct
+  kind: primary_source
+  reference: https://dumas.perso.math.cnrs.fr/DIRECT.pdf
+  locator: Sections 3–4, PDF pp.7–16 / printed pp.163–172, especially Definitions
+    3.1 and4.1 and the rectangle division procedure.; Sections 3–4, PDF pp.7–14 /
+    printed pp.163–170; center sampling, normalization and multivariate algorithm
+    Step 1.; Definition 3.1, PDF p.9 / printed p.165, and Definition 4.1, PDF p.14
+    / printed p.170; distinction from a known Lipschitz constant on PDF p.10 / printed
+    p.166.; Section 4, PDF pp.11–13 / printed pp.167–169, Figure 7 and Procedure for
+    Dividing Rectangles, Steps 1–3; child-count and tie consequences of that procedure.;
+    Univariate algorithm Steps 2–7 and order discussion, PDF pp.10–11 / printed pp.166–167;
+    multivariate algorithm Steps 2–6, PDF pp.14–16 / printed pp.170–172.; Definitions
+    3.1 and 4.1, PDF pp.9 and14 / printed pp.165 and170; epsilon discussion, PDF pp.10
+    and23 / printed pp.166 and179. Scaling and translation statements are direct algebraic
+    consequences, checked in the supporting exact calculator.; Section 5, PDF pp.17–18
+    / printed pp.173–174, Eq 9 and dense-sampling argument; stopping limitation on
+    PDF p.3 / printed p.159. The zero-denominator caveat in printed Eq 11 is retained
+    below.
+  accessed_at: '2026-10-14T23:51:43Z'
+  snapshot_sha256: 7c5944920fe52145cbb11dfb26f3e9b68e1f8c653382dc09114d28fa980718f8
+  support: supports
+  summary: 'Original October 1993 article, JOTA 79(1):157–181; inspected 25-page academic-hosted
+    scan. Publisher metadata corroborates bibliographic identity, not PDF byte equivalence.
+    Scan build dates 2004/2014 are not publication dates. Root reading scope: postcapture_reread;
+    PDFpp.9,12 and17 / printed165,168,173, full native text after capture.. Both positive-slope
+    eligibility inequalities, ordered trisection and the asymptotic density argument
+    support the claims. Previous visual reading resolves scan notation; equal-radius
+    denominator handling and finite-budget limits remain explicit.'
+- evidence_id: t6-record
+  kind: record_content
+  reference: data/curated/ExpectedImprovementAcquisition.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 1ba50ebcb2fecb54b9ed1186aafdde75eea48aab3e3e3458bdca77db6d380af6
+  support: supports
+  summary: The mathematical expected-positive-gain criterion remains distinct from
+    the complete EGO algorithm, PI threshold probability and entropy acquisitions.
+    All five claims and prepared support narratives match E[max(b-Y,0)], the positive-standard-deviation
+    Gaussian formula, fixed-incumbent mean/spread partial derivatives, the general
+    zero-variance max(b-m,0) boundary and one-evaluation scope. Input-coordinate monotonicity,
+    unconditional zero EI at zero variance and full-optimizer guarantees are not asserted.
+    The1998 journal-layout38-page mirror supplies both EI and EGO evidence. Broader
+    root full-paper reading and selected visuals remain historical; the fresh passage
+    review verifies the criterion and algorithm boundary. Unread1978 priority material
+    and cover-only alternative manuscript are not promoted to evidence.
+- evidence_id: t6-jones1998
+  kind: primary_source
+  reference: https://openturns.github.io/openturns/papers/jones1998.pdf
+  locator: Section 4.1, PDF pp.17–18 / printed pp.471–472, Eqs.14–15 and deterministic-uncertainty
+    interpretation.; Section 4.1, PDF p.17 / printed p.471, improvement definition
+    and Eq.14.; Section 4.1, PDF pp.17–18 / printed pp.471–472, Eq.15 and definitions
+    of Y, s, Phi and phi.; Section 4.1, PDF pp.18–19 / printed pp.472–473, displayed
+    partial derivatives and rectangular-region bound.; Section 2, PDF pp.7–9 / printed
+    pp.461–463, Eqs.7–11 and interpolation; Section 4.1, PDF pp.17–18 / printed pp.471–472,
+    Eq.14 and zero-at-samples statement; general s = 0 qualification follows from
+    Eq.14.; Section 4.1, PDF pp.17–19 / printed pp.471–473; Section 4.2, PDF pp.19–21
+    / printed pp.473–475, algorithm and one-additional-point limitation.
+  accessed_at: '2026-10-15T01:07:21Z'
+  snapshot_sha256: 356260d0303a7fa2c8cc4456f46ebc9f39c0bcf763b2e3982c2b78921eab4a57
+  support: supports
+  summary: 'Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout
+    public mirror. PDF metadata records creation on December 10, 1998 and modification
+    on September 29, 2004; these are file-build dates, not separate publication years.
+    Root reading scope: postcapture_reread; PDFpp.17–21 / printed471–475, full native
+    text after capture; shared exact source reading for EI and EGO.. The positive-gain
+    formula uses standard deviation; partial monotonicity supports box bounds. The
+    complete initialization/diagnosis/refit loop, heuristic stopping and limited-memory
+    exception support the separate EGO identity. Earlier full-paper/visual and Appendix/Hessian
+    assessments remain historical.'
+- evidence_id: t7-record
+  kind: record_content
+  reference: data/curated/EfficientGlobalOptimization.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 29ec5cb85b5000102b1fb9e02dfd366e9e70ea175235293b380cf5709f6f697a
+  support: supports
+  summary: The original deterministic scalar boxed-domain EGO procedure is retained
+    as the complete design-fit-diagnose-query-refit loop, separately from its EI criterion
+    and other surrogate optimizers. All six claims and prepared support narratives
+    retain space-filling initialization, plug-in DACE, full-sample covariance parameters
+    in practical cross-validation, response transformation domains, EI bounding, refitting
+    and heuristic stopping. The p=2 implemented bound and limited-memory50-node/500-iteration
+    Hartman6 setting are qualified; neither gives a universal full-search or true-error
+    certificate. The same1998 primary PDF supports EI/EGO with distinct claims. Retained
+    full-paper reading, source derivative-sign check and fixed-SPD Hessian analysis
+    support scoped limitations only. Earlier draft quote and wording corrections remain
+    separate from successful mathematics and do not become an author erratum or repaired
+    solver.
+- evidence_id: t7-jones1998
+  kind: primary_source
+  reference: https://openturns.github.io/openturns/papers/jones1998.pdf
+  locator: Section 4.2, PDF pp.19–22 / printed pp.473–476, original EGO procedure;
+    Sections 2–4.1, PDF pp.4–19 / printed pp.458–473, surrogate, diagnostics and EI
+    dependencies.; Section 4.2, PDF p.19 / printed p.473, initial design and empirical
+    sample-size discussion; PDF p.22 / printed p.476, bounded-box setting.; Section
+    2, PDF pp.5–9 / printed pp.459–463, Eqs.1–9 and estimated-parameter qualification;
+    Section 4.2, PDF pp.19–20 / printed pp.473–474, maximum-likelihood fitting.; Section
+    3, PDF pp.12–15 / printed pp.466–469, practical cross-validation and transformations;
+    Section 4.2, PDF pp.19–20 / printed pp.473–474, diagnostic decision and response-scale
+    choices.; Section 4.1, PDF pp.17–19 / printed pp.471–473, Eq.15 and bound; Section
+    4.2, PDF p.20 / printed p.474, implemented p_h = 2 scope; Sections 4.3–4.4, PDF
+    pp.22–26 / printed pp.476–480, bound constructions.; Section 4.2, PDF pp.19–21
+    / printed pp.473–475, sampling/refitting loop, stopping rule, log-scale approximation
+    and stated limitations.; Section 4.2, PDF p.21 / printed p.475, limited-memory
+    branch and bound and admitted acquisition-maximization risk.
+  accessed_at: '2026-10-15T01:07:21Z'
+  snapshot_sha256: 356260d0303a7fa2c8cc4456f46ebc9f39c0bcf763b2e3982c2b78921eab4a57
+  support: supports
+  summary: 'Journal of Global Optimization 13 (1998), pp.455–492; 38-page journal-layout
+    public mirror. PDF metadata records creation on December 10, 1998 and modification
+    on September 29, 2004; these are file-build dates, not separate publication years.
+    Root reading scope: postcapture_reread; PDFpp.17–21 / printed471–475, full native
+    text after capture; shared exact source reading for EI and EGO.. The positive-gain
+    formula uses standard deviation; partial monotonicity supports box bounds. The
+    complete initialization/diagnosis/refit loop, heuristic stopping and limited-memory
+    exception support the separate EGO identity. Earlier full-paper/visual and Appendix/Hessian
+    assessments remain historical.'
+- evidence_id: t8-record
+  kind: record_content
+  reference: data/curated/ProbabilityOfImprovementAcquisition.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: ab51005ea58b24f63a59266319ef806d1c51b27b7e2a6f48240708a4321af72e
+  support: supports
+  summary: The threshold-event probability criterion remains distinct from expected
+    gain, Jones Method4 and EnhancedMethod4. Event direction, threshold and strict/inclusive
+    convention are explicit. All six claims and prepared support narratives support
+    the Gaussian positive-standard-deviation CDF, probability-versus-magnitude distinction,
+    singular point-mass events and fixed-event hyperparameter integration. The tie
+    limits differ from the strict/inclusive atom. Total probability validates the
+    same-event mixture average; a Gaussian fitted to mixture moments is a different
+    approximation. Jones2001 and official Snoek2012 are retained as separate primary
+    sources, with their target-schedule and noisy-incumbent ambiguities. Kushner1964
+    remains inaccessible context rather than original-priority evidence. Curator boundary
+    derivations are labeled, and original diagnostic metadata/locator corrections
+    are preserved.
+- evidence_id: t8-jones2001
+  kind: primary_source
+  reference: https://research.cs.wisc.edu/areas/ai/airg/jones01taxonomy.pdf
+  locator: Section 6, PDF p.20 / printed p.364, improvement-threshold event and Eq.27.;
+    Section 6, PDF p.20 / printed p.364, definition of Y(x), T < f_min and the event
+    Y(x) <= T preceding Eq.27.; Section 6, PDF p.20 / printed p.364, Eq.27 and standard-error
+    definition; maximization and continuity qualifications are direct event derivations.;
+    Section 6, PDF p.20 / printed p.364, Eq.27; Section 7, PDF p.27 / printed p.371,
+    Eqs.34–35.; Section 6, PDF p.20 / printed p.364, inclusive event preceding Eq.27;
+    the point-mass extension is derived from that event, not a printed source algorithm.;
+    Section 6, PDF pp.20–26 / printed pp.364–370, Method 4, target selection and Enhanced
+    Method 4.
+  accessed_at: '2026-10-15T02:05:39Z'
+  snapshot_sha256: 26035885efeda4fb970905f21d738d5e42962f7db1d6edba28a7f3f5748a0f5d
+  support: supports
+  summary: 'Journal of Global Optimization21(4):345–383, December2001. Typeset2001
+    article on a university mirror,39 article pages plus a reproduction-rights notice
+    at PDF40; build/modification/hosting timestamps are not publication dates. Root
+    reading scope: postcapture_reread; PDFp.20 / printed364, full native text after
+    capture.. The source explicitly uses the inclusive event Y<=T below the incumbent.
+    Singular atom boundaries are direct curator event derivations; broader retained
+    Method4/target-schedule reading does not become a newly read complete paper.'
+- evidence_id: t8-snoek2012
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2012/file/05311655a15b75fab86956663e1819cd-Paper.pdf
+  locator: Section 2.2, PDF p.3, probability-of-improvement definition and Eq.1.;
+    Section 2.2, PDF p.3, incumbent notation and probability-of-improvement definition
+    preceding Eq.1.; Section 2.2, PDF p.3, Eq.1 and predictive variance notation sigma
+    squared.; Section 2.2, PDF p.3, separate PI and EI definitions in Eqs.1–2; possible
+    ranking difference follows directly from the two formulas.; Section 2.2, PDF p.3,
+    Eq.1; its positive-standard-deviation expression supplies the tie-limit comparison.;
+    Section 3.1, PDF p.4, Eq.6 and the following paragraph explicitly naming probability
+    of improvement and EI; fixed-event and moment-matching qualifications follow from
+    the probability definition.; Section 2, PDF p.2, separate model and acquisition
+    choices; Section 2.2, PDF p.3, next-query maximization and PI Eq.1.
+  accessed_at: '2026-10-15T02:05:38Z'
+  snapshot_sha256: 218a2ffbff18a6bf45132b9137f3a389f60ad4bd164fab5f4805a06b397a2255
+  support: supports
+  summary: 'Advances in Neural Information Processing Systems25(2012), official metadata
+    pages2951–2959; PDF labels1–9. Official2012 proceedings PDF; no arXiv-version
+    substitution. No PDF build dates supplied in this file. Root reading scope: postcapture_reread;
+    PDFpp.3–4, full native text after capture.. Separate PI/EI formulas and Eq6 explicitly
+    support hyperparameter integration. The same-event probability law differs from
+    moment Gaussian approximation, while noisy/random incumbent conventions still
+    require specification.'
+- evidence_id: t9-record
+  kind: record_content
+  reference: data/curated/MultiTaskBayesianOptimization.yaml
+  accessed_at: '2026-10-15T04:30:42.689621Z'
+  snapshot_sha256: 39feaf7d15fbb832976e9c33ecf9619787e3bc8c5cb956eececa4a4ef548a88f
+  support: supports
+  summary: 'The original finite-task family has three distinct configurations under
+    one shared correlated surrogate: target-only transfer, average-task two-step EI
+    and dynamic primary-minimizer information per positive cost. It is not Pareto
+    optimization or continuous-resource FABOLAS. All six claims and prepared support
+    narratives preserve the pair kernel and Cartesian-design requirement for a full
+    Kronecker matrix, positive-entry Cholesky restriction, three policies, finite
+    primary-minimizer representation and unspecified uncertain-cost denominator. Fresh
+    reading confirms the source makes an overbroad auxiliary-information ordering
+    claim; the fully noisy analytic counterexample and realized-versus-expected entropy
+    caveat remain appropriate. Only the official2013 main is a maintained evidence
+    source; the experimental supplement stays report context. Earlier source/math
+    reading and analytic derivation are retained with their roles. No calculator,
+    author-code execution, empirical replication, or exact cost-optimal scheduler
+    is claimed.'
+- evidence_id: t9-swersky2013
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2013/file/f33ba15effa5c10e873bf3842afb46a6-Paper.pdf
+  locator: Sections 2.2–3.3, PDF pp. 2–5, task covariance and three query configurations;
+    Section 5, PDF p. 8, original family scope.; Sections 2.1–2.2, PDF pp. 2–3, Equation
+    3 and covariance-parameter sampling description; Figure 1 on p. 4 is a broader
+    illustrative task process.; Section 3.1, PDF p. 3; Figure 1, PDF p. 4; Section
+    2.3, PDF p. 3, Equations 4–5; Section 4.1, PDF p. 6, direct-transfer comparator.;
+    Section 3.2, PDF p. 4, Equation 8 and the two-step heuristic; Section 4.2, PDF
+    pp. 6–7, cross-validation interpretation.; Section 2.3, PDF p. 3, Equations 6–7
+    and Monte Carlo discussion; Section 3.3, PDF pp. 4–5, primary-task target.; Section
+    3.3, PDF p. 5, Equation 9, log-cost model and fixed candidate subset; Section
+    4.3, PDF p. 7, dynamic estimation of tasks, correlation and costs.; Section 1,
+    PDF p. 2; Sections 3.1–3.3, PDF pp. 3–5; Section 5, PDF p. 8, summary of configurations
+    and multiple-architecture future work.
+  accessed_at: '2026-10-15T03:07:45Z'
+  snapshot_sha256: 294123432b98a2fa5dc3eed6a2e3a6f5c3df03473f0f5350aa046640cb0acb57
+  support: supports
+  summary: 'Official Advances in Neural Information Processing Systems26 (2013), book
+    pages2004–2012; nine-page proceedings PDF numbered1–9. Embedded modification November25,2014
+    identifies the downloaded build, not a new publication date. Root reading scope:
+    postcapture_reread; PDFpp.2,4 and5, full native text after capture.. The task
+    kernel, positive Cholesky restriction, average-task two-step EI and primary-minimizer/cost
+    rule are explicit. Source claims of universally redundant perfectly correlated
+    noisy queries and universal primary-information dominance remain qualified by
+    the retained analytic assessment.'
+assessments:
+- assessment_id: t1-identity
+  area: identity
+  topic: Predictive entropy search for multi-objective Bayesian optimization
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - current-identity-frontier
+  - t1-record
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+  summary: Retain the separately scoped native identity.
+  details: Retain the unconstrained multi-objective evaluation algorithm. Its information
+    target is the input-space Pareto set, not a scalar optimum value or a scalarized
+    objective. Coupled and decoupled objective selection are modes, not new identities.
+    The unconstrained input-space Pareto-set information algorithm remains distinct
+    from PESMOC, scalar PES and parallel batch procedures; coupled and decoupled objective
+    choice are modes of this identity.
+- assessment_id: t1-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - actual-report
+  - t1-record
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: AIO:ActiveLearning is related through selecting informative evaluations.
+    The pinned querying/labeling task is not equivalent to multi-objective optimization
+    or Pareto-set inference. No exact match, subclass assertion, neural architecture
+    or inherited layer semantics is introduced. AIO:ActiveLearning is related through
+    selecting informative evaluations. The pinned querying/labeling task is not equivalent
+    to multi-objective optimization or Pareto-set inference. No exact match, subclass
+    assertion, neural architecture or inherited layer semantics is introduced.
+- assessment_id: t1-pareto-set-information-target
+  area: evidence
+  topic: pareto-set-information-target
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main Section 1 p.1 defines weak-plus-one-strict minimization dominance;
+    Section 2 pp.2–3 Eqs.1–2 uses mutual-information symmetry for an input-space Pareto
+    random set. The definition assumes a suitable posterior and finite information.
+    The bounded dominance/membership diagnostic preserves self/tie and subset-completeness
+    counterexamples; no repaired normalized source density is certified.
+- assessment_id: t1-independent-objective-surrogates
+  area: evidence
+  topic: independent-objective-surrogates
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Main pp.2–3 assumes independent GP priors and independent Gaussian observation
+    noise at fixed model hyperparameters; pp.5–6 averages acquisition scores over
+    hyperparameter samples. Supplement pp.1 and4 makes the objective-factorized projection
+    explicit. Shared Pareto conditioning need not retain independence: the finite
+    four-state channel and single Gaussian event illustrate dependence/nonadditivity
+    without claiming a fitted-model benchmark.'
+- assessment_id: t1-approximate-pareto-set-samples
+  area: evidence
+  topic: approximate-pareto-set-samples
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main p.3 describes posterior random-feature functions, grid or NSGA-II
+    search and a representative finite subset. Ten draws and fifty representative
+    locations are reported numerical choices, not fixed defining constants or exact
+    sampling. Finite optimization and compression may miss true Pareto locations;
+    later author defaults are separately versioned.
+- assessment_id: t1-finite-domain-ep-projection
+  area: evidence
+  topic: finite-domain-ep-projection
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main Section 2.1 pp.3–4 and Eq.6 restrict locations to observations, retained
+    Pareto points and the candidate; replace comparison factors with objective-specific
+    bivariate Gaussian sites and reuse candidate-independent factors. Candidate factors
+    receive one paper update. Supplement pp.2,4–5 describes self exclusion, cavity/tilted
+    moments and damping. Product projection retains within-objective blocks, not all
+    cross-objective moments; literal signs and Gaussian natural-parameter expressions
+    remain qualified.
+- assessment_id: t1-noisy-gaussian-variance-acquisition
+  area: evidence
+  topic: noisy-gaussian-variance-acquisition
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main p.3 Eq.3, p.4 Eqs.7–8 and supplement p.3 add observation-noise variance
+    before the half-log variance difference. Every log argument must be positive.
+    The exact additive form belongs to the stipulated factorized Gaussian approximation,
+    not general Pareto-set mutual information. Bounded variance algebra, the nonadditive
+    finite channel and the separate clipping witness support these limitations. The
+    accepted citation successor additionally cites the pinned July 2016 implementation
+    for noise addition and pre-clipping half-log terms only; source/code equivalence
+    and clipping correctness are not asserted.
+- assessment_id: t1-coupled-and-decoupled-selection
+  area: evidence
+  topic: coupled-and-decoupled-selection
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main p.4 following Eq.8 maximizes the sum for coupled evaluation, or separately
+    maximizes each objective contribution and selects the best objective/location
+    score. Shared sampled Pareto sets connect the approximations. The displayed rule
+    has no cost divisor; Section 4.3 p.8 discusses different costs without proving
+    optimal scheduling. These are modes of one algorithm, not separate maintained
+    identities.
+- assessment_id: t1-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+  - t1-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: Do not equate it with PESMOC merely by dropping constraints, or with a
+    batch method by evaluating several independently selected inputs. Objective-factorized
+    EP discards dependence induced by shared Pareto conditioning; it is not exact
+    additive mutual information. Use the official 2016 main/supplement plus the separately
+    pinned July2016 code citation only for noise addition and pre-clipping half-log
+    terms. Retain self/tie/orientation/completeness and covariance/precision caveats;
+    code clipping and numerical modifications are separate version-specific choices.
+    No paper/code equivalence, empty-set rule or efficiency guarantee. Official 2016
+    proceedings main/supplement remain distinct from the pinned July2016 author implementation.
+    Only noise addition and pre-clipping half-log terms cite code; later clipping
+    and source algebra/membership caveats remain explicit. No author-code execution
+    or complete implementation equivalence is inferred.
+- assessment_id: t1-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  evidence_ids:
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+  - t1-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The two official 2016 PDFs have ten main and nine supplement pages. July
+    2016 author code is selectively inspected at a pinned commit, not executed or
+    fully audited. The original five-category curator calculation passed its first
+    run and a distinct root reproduction matched bytes; exact rational checks are
+    separate from binary64 log/erf checks. A research-only locator correction changed
+    1477–1478 to 1481–1482 without changing code or mathematics. Later TEMP native
+    validation detected an uncited declared code source; the accepted successor added
+    one noisy/pre-clipping-score citation, with no statement or calculator change.
+    Official 2016 proceedings main/supplement remain distinct from the pinned July2016
+    author implementation. Only noise addition and pre-clipping half-log terms cite
+    code; later clipping and source algebra/membership caveats remain explicit. No
+    author-code execution or complete implementation equivalence is inferred.
+- assessment_id: t2-identity
+  area: identity
+  topic: Predictive entropy search for multi-objective Bayesian optimization with
+    constraints
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - current-identity-frontier
+  - t2-record
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-garrido2016-pesmoc
+  - t2-pesmoc-implementation
+  summary: Retain the separately scoped native identity.
+  details: Retain the constrained multi-objective single-location algorithm. Feasibility
+    changes the target and comparison factors; objective and constraint task selection
+    differs from selecting among correlated auxiliary tasks in MTBO. The feasible
+    input-space Pareto-set algorithm is retained separately from unconstrained PESMO,
+    scalar PESC and parallel PPESMOC. Objectives and constraints are evaluation tasks
+    here, not correlated transfer tasks.
+- assessment_id: t2-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - actual-report
+  - t2-record
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-garrido2016-pesmoc
+  - t2-pesmoc-implementation
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: AIO:ActiveLearning is related through selecting informative objective/constraint
+    evaluations. Its querying/labeling task is not equivalent to constrained multi-objective
+    optimization or feasible-Pareto inference. No exact match, subclass, architecture
+    or inherited layer semantics is asserted. AIO:ActiveLearning is related through
+    selecting informative objective/constraint evaluations. Its querying/labeling
+    task is not equivalent to constrained multi-objective optimization or feasible-Pareto
+    inference. No exact match, subclass, architecture or inherited layer semantics
+    is asserted.
+- assessment_id: t2-feasible-pareto-set-information
+  area: evidence
+  topic: feasible-pareto-set-information
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main institutional PDF pp.6–7 states feasible weak-plus-one-strict dominance;
+    pp.11–13 Eqs4–6 use information about the feasible input-space Pareto set. The
+    record assumes attained nonempty targets and finite information, distinguishes
+    Pareto front and optimum values, and does not treat a finite membership product
+    as the normalized random-set law. Exact finite checks preserve self/tie/incomplete-set
+    counterexamples.
+- assessment_id: t2-objective-and-constraint-surrogates
+  area: evidence
+  topic: objective-and-constraint-surrogates
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2016-pesmoc
+  - t2-garrido2019-pesmoc
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Earlier 2016v2 SectionII PDFp.2 explicitly supplies independent GP priors
+    and Gaussian noise; later main PDFp.12 gives predictive noise/factorization and
+    p.33 hyperparameter averaging. Fixed independent hyperparameters qualify ordinary
+    predictive task independence. Shared feasible-Pareto conditioning generally induces
+    objective/constraint dependence; a bounded finite channel and Gaussian event illustrate
+    nonadditivity without claiming fitted-model validation.
+- assessment_id: t2-sampled-feasible-pareto-representatives
+  area: evidence
+  topic: sampled-feasible-pareto-representatives
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFp.14 samples random-feature objective and constraint functions,
+    filters infeasible candidates and searches approximate nondominated locations;
+    p.22 uses finite representatives. Grid/evolutionary search and compression are
+    approximation choices. The recommendation-threshold relaxation on p.33 is not
+    a defined acquisition policy for posterior draws with an empty feasible region.
+- assessment_id: t2-finite-feasibility-and-comparison-ep
+  area: evidence
+  topic: finite-feasibility-and-comparison-ep
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.14–17 Eqs8–14 and supplementary method PDFpp.3–23 restrict conditioning
+    to observed, sampled-Pareto and candidate locations, then use task-specific Gaussian
+    constraint and comparison factors. Candidate-independent factors are reused and
+    candidate factors receive the stated limited update. Cross-task moments are discarded.
+    Self/tie/completeness, competitor-constraint placement and Gaussian curvature/precision
+    defects qualify the literal displays; no complete repaired solver or convergence
+    guarantee follows.
+- assessment_id: t2-noisy-taskwise-variance-score
+  area: evidence
+  topic: noisy-taskwise-variance-score
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-pesmoc-implementation
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.18–19 Eqs15–18 and supplement PDFpp.21–23 use noisy predictive
+    variances in the score, read with main Eq7 and Gaussian entropy. Add task noise
+    to both latent variances, require positive arguments and retain the common one
+    half. Main omitted coefficients and sample-index notation are explicit source
+    caveats. Summation belongs to the factorized Gaussian approximation, not general
+    feasible-Pareto mutual-information additivity. The accepted citation successor
+    adds the pinned May 2020 implementation for noisy pre-clipping half-log terms
+    only. This does not repair the paper formulas or certify later clipping/EP behavior.
+- assessment_id: t2-coupled-and-decoupled-task-selection
+  area: evidence
+  topic: coupled-and-decoupled-task-selection
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-garrido2016-pesmoc
+  - t2-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.18–20 and63–64 selects a common location by the sum in coupled
+    use, or compares separately maximized task contributions in decoupled use. These
+    are modes of one algorithm. No displayed evaluation-cost divisor or scheduler-optimality
+    theorem is asserted; earlier2016v2 PDFp.6 identifies parallel batches as a separate
+    extension.
+- assessment_id: t2-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-garrido2016-pesmoc
+  - t2-pesmoc-implementation
+  - t2-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: Coupled/decoupled modes remain one identity. Parallel multi-location selection
+    is not supplied by taskwise additivity. A feasible Pareto set is an input set,
+    not just its objective-space front; removing constraints is only a limiting target
+    overlap with PESMO. Keep the incomplete 2019 author manuscript (missing printed
+    p.9), official supplement, earlier 2016v2 and later May2020 code roles separate.
+    The new code citation supports noisy pre-clipping entropy terms only. Preserve
+    factor-location, self/tie, coefficient/index and EP algebra caveats and distinguish
+    empty posterior feasible region from finite-search failure. The incomplete 2019
+    institutional author manuscript, official 2019 supplement, earlier2016v2 preprint
+    and separately pinned later code have explicit distinct scopes. The missing printed
+    page9 remains an access gap; the earlier preprint is not a replacement page or
+    the journal text. Code clipping is separate from the cited pre-clipping terms.
+- assessment_id: t2-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-garrido2016-pesmoc
+  - t2-pesmoc-implementation
+  - t2-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The institutional 2019 main manuscript lacks printed page 9. Its supplement,
+    earlier six-page 2016v2 and selectively read May 2020 code have distinct versions
+    and reading scopes; the missing page is not treated as read. Original acquisition
+    failures are retained. The original bounded calculator passed its first run and
+    a separate root reproduction matched bytes. Later TEMP native validation found
+    an uncited declared code source; the accepted successor added one noise/pre-clipping-score
+    citation only. The source algebra caveats remain interpretations, not a formal
+    erratum or repaired implementation. The incomplete 2019 institutional author manuscript,
+    official 2019 supplement, earlier2016v2 preprint and separately pinned later code
+    have explicit distinct scopes. The missing printed page9 remains an access gap;
+    the earlier preprint is not a replacement page or the journal text. Code clipping
+    is separate from the cited pre-clipping terms.
+- assessment_id: t3-identity
+  area: identity
+  topic: Parallel predictive entropy search for multi-objective Bayesian optimization
+    with constraints
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - current-identity-frontier
+  - t3-record
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  summary: Retain the separately scoped native identity.
+  details: Retain joint parallel constrained multi-objective acquisition as a distinct
+    construction from single-location PESMOC. Full within-task batch covariance log
+    determinants distinguish it from a sum of pointwise scores or fantasy-filled batches.
+    The joint batch feasible-Pareto information procedure retains its own identity.
+    Batch size one can reduce a score without establishing full implementation equivalence
+    to sequential PESMOC.
+- assessment_id: t3-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - actual-report
+  - t3-record
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: AIO:ActiveLearning relates through adaptive querying of informative objective/constraint
+    batches. Its predictive labeling task is not equivalent to constrained multi-objective
+    optimization or feasible-Pareto inference. No exact match, upstream subclass,
+    architecture or inherited layer semantics is asserted. AIO:ActiveLearning relates
+    through adaptive querying of informative objective/constraint batches. Its predictive
+    labeling task is not equivalent to constrained multi-objective optimization or
+    feasible-Pareto inference. No exact match, upstream subclass, architecture or
+    inherited layer semantics is asserted.
+- assessment_id: t3-joint-batch-feasible-pareto-information
+  area: evidence
+  topic: joint-batch-feasible-pareto-information
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main institutional PDFp.5 states nonnegative constraints and weak-plus-one-strict
+    dominance; PDFp.13 Eqs9–10 define whole-batch information about the feasible input-space
+    Pareto set and its MI-symmetry form. Attained nonempty targets, finite information
+    and ties remain assumptions. Finite channels illustrate redundancy/complementarity
+    and the limits of literal self/tie/membership factors; they are not fitted GP
+    experiments.
+- assessment_id: t3-within-task-batch-covariances
+  area: evidence
+  topic: within-task-batch-covariances
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFp.10 Eq4 and independent-GP paragraph, then PDFpp.13–15 Eqs10–15,
+    give each task a B-dimensional Gaussian predictive covariance. Cross-task independence
+    at fixed hyperparameters leaves within-task location covariance intact. Shared
+    Pareto conditioning couples tasks; the practical EP projection discards those
+    cross-task moments. The finite task channel bounds exact additivity without asserting
+    a GP approximation error theorem.
+- assessment_id: t3-finite-sampled-feasible-pareto-sets
+  area: evidence
+  topic: finite-sampled-feasible-pareto-sets
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFp.14 after Eq11 samples random-feature objective/constraint functions
+    and approximates constrained Pareto sets, reporting a grid of 1000 times input
+    dimension and at most 50 retained points. These choices do not yield exact whole-domain
+    Pareto sampling. Failed finite feasible search and genuinely empty feasible draws
+    are separate, and the inspected method supplies no general fallback policy.
+- assessment_id: t3-reused-ep-sites-and-batch-updates
+  area: evidence
+  topic: reused-ep-sites-and-batch-updates
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.14–15 Eqs13–16 restrict sites to prior observations, finite
+    Pareto representatives and the complete candidate batch; supplementp.1 and Sections2.1–2.6pp.2–9
+    describe cached sites and one candidate refinement. Univariate constraint and
+    bivariate within-objective factors yield task-specific batch covariance only when
+    the Gaussian approximation is proper. Literal source product, derivative, inversion
+    and damping defects are preserved rather than certified as a repaired solver.
+- assessment_id: t3-joint-log-determinant-acquisition
+  area: evidence
+  topic: joint-log-determinant-acquisition
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.13–16 Eqs10–11/16 and supplementp.8 describe full B-by-B noisy
+    covariance determinants. Gaussian entropy supplies the common one half; the printed
+    Eq16 omits it, preserving uncosted argmax but changing units. The original rational
+    cases illustrate consistent permutation invariance, B=1 reduction, noise on both
+    sides, and disagreement with scalar sums. Repetition is not universally uninformative,
+    and exact MI is not generally additive across tasks after conditioning.
+- assessment_id: t3-joint-numerical-batch-selection
+  area: evidence
+  topic: joint-numerical-batch-selection
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  - t3-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main PDFpp.10–11 contrasts fantasy-based batching; PDFpp.15–16/19–20 describes
+    joint B-times-dimension optimization and distinguishes PESMOC. Supplementp.1 specifies
+    Autograd, random initialization, L-BFGS, at most100 iterations and cached sites
+    with one candidate pass. These are gradients of the numerical approximation with
+    its site convention, not certified exact-MI gradients or a global maximizer. Decoupled
+    per-task batch scoring is described; empirical assessment is left for future work.
+- assessment_id: t3-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  - t3-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: At batch size one determinants reduce to variances, but that reduction
+    does not establish equality of all finite sampling, EP/site-update and optimization
+    choices. Scalar unconstrained PPES has different target/conditioning and is not
+    an exact alias. Use the 2023-associated institutional manuscript and official
+    supplement. Keep the earlier arXiv version as separately scoped context. Preserve
+    missing logs/half coefficients/index errors, non-normalized/self-factor caveats,
+    SPD/noise/tie/empty-draw assumptions, local acquisition search and task-projection
+    limits. No author implementation was inspected for this record. The institutional
+    manuscript with final2023 citation and official supplementary asset are the evidence
+    owners; wrapper/build dates and earlier preprint context are not publication substitutions.
+    Printed factor/index and Gaussian reconstruction defects remain explicit, and
+    automatic differentiation is not a proof of globally optimal acquisition selection.
+- assessment_id: t3-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  evidence_ids:
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+  - t3-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: 'The institutional three-author journal manuscript and official supplement
+    are separate sources. The earlier two-author 2021v2 is historical context: root
+    metadata/dossier reading and supporting selected-page reading are not combined.
+    Publisher access gaps and earlier DNS failures remain explicit. The original curator
+    calculator passed on its first run, with a distinct matching root reproduction,
+    exact rational versus floating components and no formatting change. No author
+    implementation or benchmark was executed. The institutional manuscript with final2023
+    citation and official supplementary asset are the evidence owners; wrapper/build
+    dates and earlier preprint context are not publication substitutions. Printed
+    factor/index and Gaussian reconstruction defects remain explicit, and automatic
+    differentiation is not a proof of globally optimal acquisition selection.'
+- assessment_id: t4-identity
+  area: identity
+  topic: Parallel predictive entropy search
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - current-identity-frontier
+  - t4-record
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  summary: Retain the separately scoped native identity.
+  details: Retain the scalar joint-batch maximizer-location information algorithm.
+    It differs from scalar optimum-value MES/OPES, constrained PESC/PESC-F, and feasible-Pareto
+    PPESMOC. The scalar global-maximizer joint batch information algorithm is separate
+    from sequential PES, scalar max-value entropy search and constrained multiobjective
+    PPESMOC.
+- assessment_id: t4-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - actual-report
+  - t4-record
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: AIO:ActiveLearning relates through adaptive querying of informative objective-evaluation
+    batches. The pinned predictive-labeling task is not identical to scalar black-box
+    optimization or maximizer-location inference. No exact match, upstream subclass,
+    architecture or inherited layer semantics is asserted. AIO:ActiveLearning relates
+    through adaptive querying of informative objective-evaluation batches. The pinned
+    predictive-labeling task is not identical to scalar black-box optimization or
+    maximizer-location inference. No exact match, upstream subclass, architecture
+    or inherited layer semantics is asserted.
+- assessment_id: t4-joint-batch-optimizer-information
+  area: evidence
+  topic: joint-batch-optimizer-information
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Mainp.2 defines scalar maximization with an attained optimum; p.3 Eqs1–2
+    give joint Q-location information about its input-space maximizer and MI symmetry.
+    Mainp.8 distinguishes joint within-batch selection from the remaining one-step
+    information objective. Measurable tie handling and finite information remain assumptions.
+    Finite redundant/noisy channels illustrate why joint information is not a sum
+    of singleton scores without claiming an exact GP calculation.
+- assessment_id: t4-relaxed-maximizer-conditioning
+  area: evidence
+  topic: relaxed-maximizer-conditioning
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Mainpp.3–4, Eq4 and supplementp.1 Eq1 restrict the all-domain maximum event
+    to Q proposed locations plus Phi((f_star-y_max)/sigma). Supplement proportionality
+    supplies the normalization omitted in main Eq4. Nonempty history and sigma>0 are
+    explicit. The retained (star,query,unseen)=(1,0,2) witness has positive relaxed
+    weight despite a larger unqueried value; the factor does not check each past latent
+    value.
+- assessment_id: t4-joint-gaussian-ep-projection
+  area: evidence
+  topic: joint-gaussian-ep-projection
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Mainp.4 site directions and covariance part of Eq5, with supplementpp.1–2,
+    give Q difference sites and one soft incumbent site over Q+1 latent values. Marginalize
+    the optimizer value to retain full Q-location covariance, then add independent
+    observation noise. Exact Gaussian natural-parameter and cavity/ratio examples
+    substantiate the printed algebra caveats, while proper joint covariance and EP
+    convergence are not guaranteed by these examples.
+- assessment_id: t4-approximate-maximizer-samples
+  area: evidence
+  topic: approximate-maximizer-samples
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Mainpp.4–5 Section3.2/Eq6 includes normalized spectral density and sqrt(2
+    alpha/m) feature amplitude, sampled posterior weights and numerical maximization.
+    Mainp.6 rejects failed-EP draws, which may bias retained samples. The posterior-mean
+    plug-in is not generally optimizer-distribution MAP: the retained full-rank finite
+    Gaussian example bounds its win probability below one third. That witness uses
+    a differentiable polynomial-kernel realization and does not claim stationarity.
+    Nine phase checks support the separate spectral-amplitude calculation.'
+- assessment_id: t4-joint-covariance-log-determinant-score
+  area: evidence
+  topic: joint-covariance-log-determinant-score
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Mainp.3 Gaussian predictive entropy, p.4 noisy conditional entropy and
+    p.5 Eq7 retain one half of the whole difference of full Q-by-Q log determinants,
+    averaged across sampled hyperparameters/optimizer locations. Positive-definite
+    observation covariances are required. Twenty-seven rational covariance pairs include
+    eighteen differences from scalar sums, exact consistent-permutation checks and
+    three Q=1 reductions. Finite channels show why hyperparameter-conditional averages
+    need not equal marginalized information; these are bounded illustrations, not
+    fitted PPES posterior experiments.
+- assessment_id: t4-joint-approximate-acquisition-optimization
+  area: evidence
+  topic: joint-approximate-acquisition-optimization
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Mainp.5 Eqs8–9 and p.8 describe joint Q-times-dimension local optimization.
+    Eq9 is the derivative with fitted site variances held fixed. For one hard-threshold
+    EP site, variance c v has refitted derivative c while the frozen-site covariance
+    derivative is c squared, c=1−2/pi. This refutes general site constancy without
+    claiming to audit every hypothesis of the unacquired cited EP report or the full
+    PPES gradient. Local initialization/ascent gives neither a global acquisition
+    guarantee nor an optimal multi-step policy.
+- assessment_id: t4-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  - t4-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: Batch correlation is essential. Q=1 ideal-information overlap with PES
+    does not identify operational approximations. The soft noisy-incumbent factor
+    is a relaxed event, not exact global-maximizer conditioning; joint batch choice
+    remains a one-step information objective. Use official 2015 main and exact ZIP-member
+    supplement bytes. Preserve root official9+2 reading versus supporting arXiv12-page
+    reading. Keep Gaussian mean/cavity/moment source defects, posterior-mean-versus-optimizer-MAP
+    distinction, fixed-site-versus-refitted derivatives, rejected EP draws and positive-noise/SPD
+    assumptions. No author-code or performance claim. The official2015 main and extracted
+    official ZIP supplement are retained with their separate bytes and access metadata.
+    Fresh source equations confirm the previously documented mean, cavity and moment
+    inconsistencies; the record does not claim a repaired complete solver or author-issued
+    erratum.
+- assessment_id: t4-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  evidence_ids:
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+  - t4-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The official nine-page 2015 article and two-page supplement are separate
+    sources. The supplement is the exact mpes_supp - final.pdf member of a separately
+    hashed official ZIP; archive and extracted PDF hashes are distinct. Root and supporting
+    readings of the official pages are separately recorded. The twelve-page arXiv
+    version is supporting full-text context but root metadata/dossier context only.
+    Earlier access failures remain retained. The first original bounded calculator
+    run and distinct root reproduction agreed; no external code or the cited Seeger
+    2008 report was read or executed. The official2015 main and extracted official
+    ZIP supplement are retained with their separate bytes and access metadata. Fresh
+    source equations confirm the previously documented mean, cavity and moment inconsistencies;
+    the record does not claim a repaired complete solver or author-issued erratum.
+- assessment_id: t5-identity
+  area: identity
+  topic: DIRECT global optimization
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - current-identity-frontier
+  - t5-record
+  - t5-jones1993-direct
+  summary: Retain the separately scoped native identity.
+  details: Retain the original deterministic center-sampled rectangle partitioning
+    optimizer, not a Bayesian model/query criterion. Its potential-optimal rectangle
+    selection and longest-side trisection are not EGO’s auxiliary surrogate-EI branch-and-bound
+    search. The original1993 center-sampled deterministic rectangle-partition optimizer
+    remains distinct from Bayesian acquisition rules, EGO auxiliary branch and bound,
+    and later locally biased or noisy DIRECT variants.
+- assessment_id: t5-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - actual-report
+  - t5-record
+  - t5-jones1993-direct
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: 'Explicit bounded AIO no-match. Nine exact pinned classes and incident
+    contexts were assessed. General deterministic box optimization is not identical
+    to predictive labeling, preprocessing/model training, policy learning, a language
+    model, mathematical function, model, network or stochastic Markov chain. Its use
+    within AI methods is an application/component relationship rather than forced
+    ontology identity. Explicit bounded AIO no-match. Nine exact pinned classes and
+    incident contexts were assessed. General deterministic box optimization is not
+    identical to predictive labeling, preprocessing/model training, policy learning,
+    a language model, mathematical function, model, network or stochastic Markov chain.
+    Its use within AI methods is an application/component relationship rather than
+    forced ontology identity. Examined alternatives: {"AIO:ActiveLearning": "The general
+    deterministic optimizer does not require labeling examples or selecting queries
+    by learned predictive uncertainty; objective evaluation alone does not establish
+    this learning-task mapping.", "AIO:MachineLearningTask": "The algorithm can optimize
+    an arbitrary box-constrained objective without building a method that learns from
+    data; an AI application does not identify its full scope with this task.", "AIO:TrainingStrategy":
+    "The pinned definition concerns preprocessing and model training. DIRECT is a
+    reusable optimizer; its use inside hyperparameter selection is an application
+    rather than a necessary training mechanism.", "AIO:ReinforcementLearning": "Balancing
+    local and global exploration does not make the general search procedure a policy/environment
+    learning task.", "AIO:EvolutionaryLLM": "This target is a large language model
+    and its broad related synonyms do not denote the deterministic rectangle algorithm.",
+    "AIO:MathematicalFunction": "The objective and selection score are mathematical
+    functions, but the proposed concept is the iterative partitioning algorithm, not
+    a function node.", "AIO:Model": "A partition and stored evaluations do not make
+    this search algorithm identical to the pinned abstract model class.", "AIO:Network":
+    "The optional search-tree representation is bookkeeping, not a defining network
+    architecture.", "AIO:MarkovChain": "A generic state representation would be too
+    broad; DIRECT does not define a stochastic transition process or target-invariant
+    sampler."}'
+- assessment_id: t5-normalized-center-sampled-partition
+  area: evidence
+  topic: normalized-center-sampled-partition
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Sections3–4 PDFpp.7–14/printed163–170 move from endpoints to centers and
+    normalize positive finite box sides to a unit cube. Each child retains an evaluated
+    center. The function-value construction does not require derivatives or a fitted
+    surrogate. Rational geometry verifies center and coverage properties in bounded
+    cases; normalization affects the metric and is not a rotation-invariance claim.
+- assessment_id: t5-potentially-optimal-rectangle-rule
+  area: evidence
+  topic: potentially-optimal-rectangle-rule
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Definitions3.1/4.1 PDFpp.9/14 require some finite positive weight satisfying
+    both weak inequalities. Half the Euclidean diagonal supplies the rectangle radius.
+    Exact rational interval intersection and separate breakpoint enumeration agree
+    on618 clouds/2097 candidate decisions, including equal-radius and value ties and
+    exclusion of a weight-zero-only contact. These finite radius-cloud checks do not
+    implement general multivariate square roots or certify objective lower bounds.
+- assessment_id: t5-longest-side-trisection
+  area: evidence
+  topic: longest-side-trisection
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: PDFpp.11–13, Figure7 and the division procedure sample both one-third offsets
+    on every longest dimension and split only the remaining central rectangle in paired-value
+    order. With m tied longest dimensions there are2m new samples and2m+1 children.
+    In180 geometry cases, exact volumes, disjoint interiors, bounds, centers and shrinking
+    squared radii are checked. A constant-square witness shows different axis tie
+    orders produce distinct labeled partitions without creating separate method identities.
+- assessment_id: t5-complete-selected-set-iterations
+  area: evidence
+  topic: complete-selected-set-iterations
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Univariate Steps2–7 PDFpp.10–11 and multivariate Steps2–6 PDFpp.14–16 identify
+    the complete selected set before subdivision and process all members before selection
+    is recomputed. Deterministic evaluations and fixed within-box tie rules justify
+    order independence for disjoint selected boxes. Five finite1D traces preserve
+    partitions and nonincreasing incumbents; distinct sampled locations are not runtime
+    calls, and an early evaluation budget can interrupt a full iteration.
+- assessment_id: t5-epsilon-and-objective-origin
+  area: evidence
+  topic: epsilon-and-objective-origin
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Definitions3.1/4.1 and PDFpp.10/23 make epsilon a weighted-score improvement
+    filter using abs(f_min). Positive objective scaling can be absorbed into the positive
+    weight; additive translation changes that threshold. The exact realizable interval
+    witness selects indices[0,2,4] before a shift and[0,4] after+100: the small best
+    interval needs0<K<=9 before andK>=18 afterward. At f_min=0 the epsilon term vanishes.
+    These are algebraic consequences, not accuracy or stopping guarantees.'
+- assessment_id: t5-asymptotic-coverage-with-scoped-convergence
+  area: evidence
+  topic: asymptotic-coverage-with-scoped-convergence
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Section5 PDFpp.17–18 argues maximal-radius boxes are selected and repeated
+    longest-side splitting drives maximum radius to zero under exact complete iterations.
+    Eq11 needs strictly smaller-radius slopes with equal-radius values handled separately;
+    the printed unrestricted ratio includes zero denominators. Dense centers support
+    value convergence near an attained minimum where the objective is continuous.
+    A finite hidden tent and an isolated irrational-point discontinuity illustrate
+    limits; finite tests do not prove the infinite-run conclusion or a convergence
+    rate.
+- assessment_id: t5-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: Do not absorb locally biased/noisy/constrained/restart variants or DirectPreferenceOptimization.
+    Positive finite weight, both selection inequalities, equal-distance handling,
+    complete selected-set iterations and objective-origin dependence remain defining
+    qualifications. The 1993 academic scan is the evidence owner, with publisher bibliographic
+    corroboration rather than byte equivalence. Retain Eq5/Eq11 caveats, asymptotic
+    density versus continuity-based value convergence, and lack of finite-budget accuracy
+    certificate. Keep aio_no_match with explicit rejected alternatives; historical
+    and actual searched scopes remain explicitly separate. The25-page academic scan
+    is the original article evidence, with publisher bibliographic corroboration rather
+    than asserted byte equivalence. Previously inspected visuals disambiguate scan
+    notation. Original exact rational diagnostics and separate root reproduction remain
+    historical, not rerun for this review.
+- assessment_id: t5-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  evidence_ids:
+  - t5-jones1993-direct
+  - t5-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The academic-hosted 25-page original 1993 scan, printed 157–181, is distinct
+    from publisher bibliographic metadata. Root historical reading covered 20 native-text
+    pages and five visuals; the source agent covered 25 native-text pages and eight
+    visuals. The original exact Fraction calculator passed first run and root reproduced
+    identical bytes, without whitespace normalization. Source-access failures remain
+    retained. Equal-distance proof handling and Eq.5 factor caveats do not establish
+    an author-issued correction or an implemented general multidimensional solver.
+    The25-page academic scan is the original article evidence, with publisher bibliographic
+    corroboration rather than asserted byte equivalence. Previously inspected visuals
+    disambiguate scan notation. Original exact rational diagnostics and separate root
+    reproduction remain historical, not rerun for this review.
+- assessment_id: t6-identity
+  area: identity
+  topic: Expected improvement acquisition
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - current-identity-frontier
+  - t6-record
+  - t6-jones1998
+  summary: Retain the separately scoped native identity.
+  details: Retain a mathematical acquisition criterion, not a full optimization algorithm.
+    E[max(b-Y,0)] measures expected gain, unlike PI’s threshold-event probability
+    and information acquisitions’ entropy objective. The mathematical expected-positive-gain
+    criterion remains distinct from the complete EGO algorithm, PI threshold probability
+    and entropy acquisitions.
+- assessment_id: t6-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - actual-report
+  - t6-record
+  - t6-jones1998
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: EI assigns an expected nonnegative gain to a candidate under a predictive
+    law and incumbent. This is a specific mathematical acquisition rule related to
+    the pinned function concept. It is not identical to that broad class, not an activation
+    function, and not a complete EGO optimizer. This association follows the score
+    mechanism, not incidental terminology. EI assigns an expected nonnegative gain
+    to a candidate under a predictive law and incumbent. This is a specific mathematical
+    acquisition rule related to the pinned function concept. It is not identical to
+    that broad class, not an activation function, and not a complete EGO optimizer.
+    This association follows the score mechanism, not incidental terminology.
+- assessment_id: t6-expected-positive-improvement
+  area: evidence
+  topic: expected-positive-improvement
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Correct deterministic observed minimum, predictive uncertainty and positive-gain
+    expectation. This is a criterion, not a claim that the objective is intrinsically
+    random or noisy. Primary locator: PDF17/p471 Eq14.'
+- assessment_id: t6-gaussian-standard-deviation-form
+  area: evidence
+  topic: gaussian-standard-deviation-form
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Sign, standard-deviation denominator/multiplier and positive-s assumption
+    match the primary formula. No predictive-variance substitution. Primary locator:
+    PDF17–18/pp471–472 Eq15.'
+- assessment_id: t6-fixed-incumbent-monotonicity
+  area: evidence
+  topic: fixed-incumbent-monotonicity
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Correct partial derivatives and rectangular upper bound from valid mean/sd
+    bounds. Explicitly not coordinatewise input monotonicity. Primary locator: PDF18–19/pp472–473.'
+- assessment_id: t6-degenerate-prediction-boundary
+  area: evidence
+  topic: degenerate-prediction-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'General degenerate EI=max(b-m,0) is honestly labeled a direct derivation;
+    exactly interpolated observed samples give 0. It does not confuse zero variance
+    with universal zero improvement. Primary locator: PDF7–9/pp461–463 Eq7–11; PDF17–18
+    Eq14.'
+- assessment_id: t6-one-evaluation-acquisition-scope
+  area: evidence
+  topic: one-evaluation-acquisition-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'One prospective evaluation is the criterion’s scope. Full model fitting,
+    design, search and stopping belong to original EGO, so exact-alias avoidance is
+    supported. Primary locator: PDF17–21/pp471–475, §4.1–4.2.'
+- assessment_id: t6-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: Preserve deterministic observed incumbent and predictive standard deviation.
+    At zero variance EI=max(b-m,0), not unconditionally zero. Mean/spread partial
+    derivatives do not imply input-coordinate monotonicity. EGO uses EI but also supplies
+    fitting, diagnostics, initialization, bounding and stopping. Use the 38-page 1998
+    journal-layout mirror. Preserve noisy/random-incumbent and nonlinear response-scale
+    limits, plug-in uncertainty, cover-only alternative manuscript and unread1978
+    priority source. Appendix-sign and fixed-SPD Hessian assessments are separate
+    surrogate context and do not alter the five EI claims. The1998 journal-layout38-page
+    mirror supplies both EI and EGO evidence. Broader root full-paper reading and
+    selected visuals remain historical; the fresh passage review verifies the criterion
+    and algorithm boundary. Unread1978 priority material and cover-only alternative
+    manuscript are not promoted to evidence.
+- assessment_id: t6-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  evidence_ids:
+  - t6-jones1998
+  - t6-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The 38-page 1998 journal-layout mirror is primary. Root read all native-text
+    pages with selected visuals; alternative author-manuscript cover reading and inaccessible
+    Mockus 1978 context are not expanded. Original EI/EGO and Appendix-sign calculators
+    each passed their first actual run; separate root reproductions agreed. Exact
+    rational interpolation/algebra and floating Gaussian checks are distinct. The
+    fixed-SPD Hessian assessment is analytic surrogate context, not an EI concavity
+    or full optimizer proof. The1998 journal-layout38-page mirror supplies both EI
+    and EGO evidence. Broader root full-paper reading and selected visuals remain
+    historical; the fresh passage review verifies the criterion and algorithm boundary.
+    Unread1978 priority material and cover-only alternative manuscript are not promoted
+    to evidence.
+- assessment_id: t7-identity
+  area: identity
+  topic: Efficient Global Optimization
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - current-identity-frontier
+  - t7-record
+  - t7-jones1998
+  summary: Retain the separately scoped native identity.
+  details: Retain the original deterministic scalar boxed-domain sequential algorithm
+    separately from EI, TPE, general Bayesian optimization and DIRECT. The original
+    deterministic scalar boxed-domain EGO procedure is retained as the complete design-fit-diagnose-query-refit
+    loop, separately from its EI criterion and other surrogate optimizers.
+- assessment_id: t7-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - actual-report
+  - t7-record
+  - t7-jones1998
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: The original loop adaptively queries the objective and updates its data-derived
+    response model. The pinned class explicitly includes querying another information
+    source for outputs. This is a query-learning association, not exact identity with
+    annotation or an asserted subclass. The original loop adaptively queries the objective
+    and updates its data-derived response model. The pinned class explicitly includes
+    querying another information source for outputs. This is a query-learning association,
+    not exact identity with annotation or an asserted subclass.
+- assessment_id: t7-space-filling-initial-design
+  area: evidence
+  topic: space-filling-initial-design
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'LHD near-uniform projections and finite rectangular region are supported.
+    Sample-size heuristic is not promoted to an invariant count or theorem condition.
+    Primary locator: PDF19/p473 §4.2; PDF22/p476 box setting.'
+- assessment_id: t7-plug-in-dace-surrogate
+  area: evidence
+  topic: plug-in-dace-surrogate
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Constant mean/product-exponential covariance, ML plug-in inference and
+    mean-estimation uncertainty match. Inverse nonsingularity and parameter uncertainty
+    are qualified; later fixed-p2 experimental scope is retained. Primary locator:
+    PDF5–9/pp459–463 Eq1–9; PDF19–20.'
+- assessment_id: t7-diagnostics-and-response-scale
+  area: evidence
+  topic: diagnostics-and-response-scale
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Practical full-sample fitted covariance parameters during leave-one-out,
+    diagnostic transformation/refit and source’s abandon-if-unsatisfactory branch
+    are supported. Applicable transform domains are qualified. Primary locator: PDF12–15/pp466–469;
+    PDF19–20.'
+- assessment_id: t7-expected-improvement-box-search
+  area: evidence
+  topic: expected-improvement-box-search
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Valid EI bounds from lower mean/upper sd and relaxed correlation constraints
+    are supported. The implemented stronger predictor bound is explicitly p2; no general-exponent
+    implementation or objective-global-convergence claim. Primary locator: PDF17–20
+    and22–26/pp471–474,476–480.'
+- assessment_id: t7-evaluate-refit-and-stop
+  area: evidence
+  topic: evaluate-refit-and-stop
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: 'Evaluation/ML refit sequence and EI tolerance match. Relative/log stopping
+    is scoped as heuristic, not true-error or all-future-gain certificate. Primary
+    locator: PDF19–21/pp473–475.'
+- assessment_id: t7-limited-memory-acquisition-variant
+  area: evidence
+  topic: limited-memory-acquisition-variant
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: '50 retained nodes, 500 iteration cap plus local search apply to the stated
+    Hartman6 experiment. The source admits a missed EI maximum; draft does not universalize
+    those settings. Primary locator: PDF21/p475.'
+- assessment_id: t7-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: The full loop combines space-filling design, plug-in DACE likelihood fit,
+    diagnostics and possible transformations, EI acquisition search, evaluation and
+    refitting. Full versus limited-memory branch-and-bound and fixed p=2 implemented
+    bounds must remain distinct. No generic EI optimizer is automatically original
+    EGO. Preserve heuristic stopping and scale/sign ambiguity, unproved convergence
+    conjecture, nearly singular correlation matrices, Appendix1 sign discrepancy and
+    analytic fixed-SPD Hessian boundary. No repaired implementation or author erratum
+    is claimed. Initial draft syntax failure/quote correction and later three-phrase
+    scope refinement remain separate from successful mathematical runs. The same1998
+    primary PDF supports EI/EGO with distinct claims. Retained full-paper reading,
+    source derivative-sign check and fixed-SPD Hessian analysis support scoped limitations
+    only. Earlier draft quote and wording corrections remain separate from successful
+    mathematics and do not become an author erratum or repaired solver.
+- assessment_id: t7-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  evidence_ids:
+  - t7-jones1998
+  - t7-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The original 1998 journal source and bounded mathematics retain the same
+    scopes as EI. The separate Appendix-sign check concerns a displayed derivative,
+    and the fixed-SPD Hessian derivation is explicitly scoped; neither claims a formal
+    erratum or complete repaired EGO solver. An initial data-only draft AST failure
+    was repaired by an exact quote change; subsequent refinements clarified bounded
+    boxes, rectangular search region and correlation parameters. Original and successor
+    bytes/diffs remain separate from the successful calculator runs and later root
+    reproductions. The same1998 primary PDF supports EI/EGO with distinct claims.
+    Retained full-paper reading, source derivative-sign check and fixed-SPD Hessian
+    analysis support scoped limitations only. Earlier draft quote and wording corrections
+    remain separate from successful mathematics and do not become an author erratum
+    or repaired solver.
+- assessment_id: t8-identity
+  area: identity
+  topic: Probability of improvement acquisition
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - current-identity-frontier
+  - t8-record
+  - t8-jones2001
+  - t8-snoek2012
+  summary: Retain the separately scoped native identity.
+  details: Retain a mathematical threshold-probability criterion distinct from EI
+    and from Jones Method4/EnhancedMethod4. Explicit direction, threshold and tie
+    convention are part of the event; the Gaussian CDF requires a Gaussian predictive
+    law and positive standard deviation. The threshold-event probability criterion
+    remains distinct from expected gain, Jones Method4 and EnhancedMethod4. Event
+    direction, threshold and strict/inclusive convention are explicit.
+- assessment_id: t8-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - actual-report
+  - t8-record
+  - t8-jones2001
+  - t8-snoek2012
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: related_match AIO:MathematicalFunction The scalar probability rule is related
+    to the pinned MathematicalFunction class at a different abstraction level. This
+    qualified mechanism-based association neither equates PI with the broad function
+    class nor assigns activation, model, optimizer or upstream subclass identity.
+- assessment_id: t8-threshold-probability-event
+  area: evidence
+  topic: threshold-probability-event
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-jones2001
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Jones Section 6 p.364 defines the inclusive minimization event Y(x)<=T;
+    Snoek Section 2.2 defines improvement over the incumbent. The event, direction
+    and threshold are the criterion. Conflicting target schedules in the examples
+    are not silently reconstructed into a unique policy.
+- assessment_id: t8-gaussian-positive-deviation-score
+  area: evidence
+  topic: gaussian-positive-deviation-score
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-jones2001
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Jones Eq.27 and Snoek Eq.1 support the Gaussian CDF with standard deviation
+    in the denominator. Reversing the event gives the maximization expression. Equality
+    of strict and inclusive probabilities requires the stated continuous positive-variance
+    law, not arbitrary predictive atoms.
+- assessment_id: t8-probability-not-improvement-magnitude
+  area: evidence
+  topic: probability-not-improvement-magnitude
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-snoek2012
+  - t8-jones2001
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: The separate PI and EI definitions in Snoek Eqs.1–2 and Jones Sections
+    6–7 establish probability versus expected gain. Retained bounded examples show
+    different rankings without asserting universal performance superiority or equating
+    either scalar criterion with a complete optimizer.
+- assessment_id: t8-point-mass-event-boundary
+  area: evidence
+  topic: point-mass-event-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-jones2001
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: The zero-variance case is a curator derivation from the declared event.
+    At the threshold, strict and inclusive atoms have probabilities zero and one,
+    while every positive-variance Gaussian tie has probability one half. No printed
+    division-by-zero rule or universal zero convention is attributed to the source.
+- assessment_id: t8-fixed-event-hyperparameter-integration
+  area: evidence
+  topic: fixed-event-hyperparameter-integration
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Snoek Section 3.1 Eq.6 explicitly names PI integration. Averaging conditional
+    probabilities of the same event is exact total probability, unlike replacing the
+    mixture by a Gaussian from its first two moments. A varying or random incumbent
+    requires a separately specified joint event.
+- assessment_id: t8-criterion-within-query-selection
+  area: evidence
+  topic: criterion-within-query-selection
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-snoek2012
+  - t8-jones2001
+  - t8-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Snoek separates model and acquisition choices, while Jones Method 4 and
+    Enhanced Method 4 add modeling, initialization, target selection and sequential
+    rules. These are not exact aliases of the scalar criterion. Their convergence
+    or empirical results are not inherited.
+- assessment_id: t8-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-jones2001
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: At a point mass on the threshold, strict and inclusive probabilities differ
+    from each other and the positive-variance tie limit. Fixed-event hyperparameter
+    probability averaging is exact by total probability; it is not moment-matched
+    Gaussian scoring. This legitimate probability-mixture identity must not be confused
+    with entropy-score averaging limitations in PES methods. Use Jones2001 and Snoek2012
+    with their target-schedule/noisy-incumbent ambiguities retained. No unique latent-incumbent
+    policy, fixed confidence-bound equivalence or universal spread benefit is inferred.
+    Kushner1964 access failure prevents original-algorithm/priority claims. Preserve
+    definition qualification and mathematical metadata/locator corrections. Jones2001
+    and official Snoek2012 are retained as separate primary sources, with their target-schedule
+    and noisy-incumbent ambiguities. Kushner1964 remains inaccessible context rather
+    than original-priority evidence. Curator boundary derivations are labeled, and
+    original diagnostic metadata/locator corrections are preserved.
+- assessment_id: t8-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  evidence_ids:
+  - t8-jones2001
+  - t8-snoek2012
+  - t8-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: The primary sources are Jones 2001 and the official Snoek 2012 proceedings,
+    with their distinct publication/build/acquisition metadata. The inaccessible Kushner
+    1964 publisher PDF is an access gap, not original-method evidence. Accepted definition
+    wording explicitly qualified the Gaussian CDF; mathematical case-count/locator
+    metadata corrections retained original artifacts without changing the accepted
+    scientific scope. Curator Fraction event/algebra examples and floating Gaussian/entropy
+    diagnostics are bounded original illustrations, not author-code or benchmark replication.
+    Jones2001 and official Snoek2012 are retained as separate primary sources, with
+    their target-schedule and noisy-incumbent ambiguities. Kushner1964 remains inaccessible
+    context rather than original-priority evidence. Curator boundary derivations are
+    labeled, and original diagnostic metadata/locator corrections are preserved.
+- assessment_id: t9-identity
+  area: identity
+  topic: Multi-task Bayesian optimization
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - current-identity-frontier
+  - t9-record
+  - t9-swersky2013
+  summary: Retain the separately scoped native identity.
+  details: 'Retain the original finite-task 2013 algorithm family as one identity
+    with three explicit configurations: target-only transfer, average-task two-step
+    EI and dynamic primary-minimizer information per cost. The original finite-task
+    family has three distinct configurations under one shared correlated surrogate:
+    target-only transfer, average-task two-step EI and dynamic primary-minimizer information
+    per positive cost. It is not Pareto optimization or continuous-resource FABOLAS.'
+- assessment_id: t9-mapping
+  area: grounding
+  topic: Explicit native-to-AIO relation or bounded no-match
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - actual-report
+  - t9-record
+  - t9-swersky2013
+  summary: Related mappings remain qualified; DIRECT retains explicit bounded no-match.
+  details: related_match AIO:TransferLearning and AIO:ActiveLearning TransferLearning
+    relates through sharing observations across optimization tasks in a learned task-correlated
+    surrogate; ActiveLearning relates through selecting input/task queries to obtain
+    outputs. These are qualified associations between different abstraction levels,
+    not task/algorithm equivalence, neural weight transfer, classification-label requirements
+    or upstream subclass assertions.
+- assessment_id: t9-finite-task-correlated-surrogate
+  area: evidence
+  topic: finite-task-correlated-surrogate
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Main Sections 2.1–2.2 support the finite-task pair kernel B[t,t_prime]kx(x,x_prime),
+    sampled covariance parameters and positive-entry Cholesky restriction. A full
+    Kronecker observed matrix additionally needs Cartesian task/input design. Figure
+    1 does not license an arbitrary signed fitted covariance family.
+- assessment_id: t9-target-only-transfer-policy
+  area: evidence
+  topic: target-only-transfer-policy
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Section 3.1 conditions on past related-task observations and restricts
+    future evaluations to the target, illustrated with EI. Target observations are
+    needed to infer useful task relationships; transferring data is not copying an
+    old optimum or dynamically choosing cheap auxiliary queries.
+- assessment_id: t9-average-task-two-step-ei-policy
+  area: evidence
+  topic: average-task-two-step-ei-policy
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Section 3.2 Eq.8 uses all task-pair posterior covariances in the average
+    variance. The predictive-mean imputation, average-EI configuration choice and
+    highest single-task EI task choice are explicitly a two-step heuristic, separate
+    from entropy-per-cost selection and Pareto optimization.
+- assessment_id: t9-finite-primary-minimizer-information
+  area: evidence
+  topic: finite-primary-minimizer-information
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Section 2.3 Eqs.6–7 and Section 3.3 target the primary task minimizer on
+    a finite candidate set, with noisy prospective observations and Monte Carlo approximation.
+    This is not the auxiliary minimizer, best task or exact continuous-domain law.
+    Nonnegative expected information does not make each realized entropy reduction
+    nonnegative.
+- assessment_id: t9-dynamic-information-per-cost-policy
+  area: evidence
+  topic: dynamic-information-per-cost-policy
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Section 3.3 Eq.9 divides approximate primary-minimizer information by positive
+    task/configuration cost and uses a primary-EI candidate subset. The log-cost model
+    is stated, but the posterior cost-uncertainty integration rule is not uniquely
+    specified. The retained fully noisy analytic witness refutes an unqualified primary-query
+    information upper bound; no optimal scheduler claim is made.
+- assessment_id: t9-three-configurations-and-common-domain
+  area: evidence
+  topic: three-configurations-and-common-domain
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Supported within the maintained statement and inspected source/derivation
+    scope.
+  details: Sections 3.1–3.3 and the summary support one original family with three
+    different policies sharing a task-correlated surrogate. Not all policies use entropy
+    or cost. Different-architecture transfer is future work; the common-domain average
+    objective is not multiobjective Pareto selection.
+- assessment_id: t9-scope
+  area: consistency
+  topic: Mechanism, approximation and source limitations
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Retained boundaries limit the supported claims.
+  details: The shared correlated-task surrogate does not make the policies identical.
+    Average-task optimization is not Pareto optimization, and auxiliary tasks are
+    not the independent objective/constraint tasks of PESMOC. The family differs from
+    GP model alone, continuous-size FABOLAS and PESC/PESC-F scheduling. Only swersky2013
+    main is a record evidence source; supplement remains experimental context. Keep
+    the positive-Cholesky restriction, general pair-covariance versus full Cartesian
+    Kronecker distinction, uncertain-cost denominator ambiguity, and fully noisy analytic
+    counterexample to the paper’s unqualified auxiliary-information ordering. No new
+    calculator or cost-optimality claim is needed. Only the official2013 main is a
+    maintained evidence source; the experimental supplement stays report context.
+    Earlier source/math reading and analytic derivation are retained with their roles.
+    No calculator, author-code execution, empirical replication, or exact cost-optimal
+    scheduler is claimed.
+- assessment_id: t9-historical-provenance
+  area: provenance
+  topic: Source reading and original correction history
+  outcome: supported
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  evidence_ids:
+  - t9-swersky2013
+  - t9-record
+  - historical-science
+  summary: Historical scope and corrections remain distinct from current canonical
+    review.
+  details: Only the official nine-page Swersky 2013 main paper is a maintained evidence
+    source; the two-page experimental supplement remains report context and does not
+    become an uncited source. Root and supporting method/visual scopes remain separately
+    attributed. The fixed-hyperparameter, fully noisy two-candidate analytic channel
+    witness addresses the unqualified auxiliary-information ordering; no executable
+    calculator, model fit or author code was run for this family. Native-schema preview
+    and scientific acceptance were TEMP preparation, not canonical curation or review.
+    Only the official2013 main is a maintained evidence source; the experimental supplement
+    stays report context. Earlier source/math reading and analytic derivation are
+    retained with their roles. No calculator, author-code execution, empirical replication,
+    or exact cost-optimal scheduler is claimed.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimization
+  rationale: Retain the unconstrained multi-objective evaluation algorithm. Its information
+    target is the input-space Pareto set, not a scalar optimum value or a scalarized
+    objective. Coupled and decoupled objective selection are modes, not new identities.
+    Do not equate it with PESMOC merely by dropping constraints, or with a batch method
+    by evaluating several independently selected inputs. Objective-factorized EP discards
+    dependence induced by shared Pareto conditioning; it is not exact additive mutual
+    information.
+  evidence_ids:
+  - t1-record
+  - current-identity-frontier
+  - t1-hernandez2016-pesmo
+  - t1-hernandez2016-pesmo-supplement
+  - t1-pesmo-implementation
+- action: retain
+  target_ids:
+  - AIMech:PredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  rationale: Retain the constrained multi-objective single-location algorithm. Feasibility
+    changes the target and comparison factors; objective and constraint task selection
+    differs from selecting among correlated auxiliary tasks in MTBO. Coupled/decoupled
+    modes remain one identity. Parallel multi-location selection is not supplied by
+    taskwise additivity. A feasible Pareto set is an input set, not just its objective-space
+    front; removing constraints is only a limiting target overlap with PESMO.
+  evidence_ids:
+  - t2-record
+  - current-identity-frontier
+  - t2-garrido2019-pesmoc
+  - t2-garrido2019-pesmoc-supplement
+  - t2-garrido2016-pesmoc
+  - t2-pesmoc-implementation
+- action: retain
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearchForMultiObjectiveOptimizationWithConstraints
+  rationale: Retain joint parallel constrained multi-objective acquisition as a distinct
+    construction from single-location PESMOC. Full within-task batch covariance log
+    determinants distinguish it from a sum of pointwise scores or fantasy-filled batches.
+    At batch size one determinants reduce to variances, but that reduction does not
+    establish equality of all finite sampling, EP/site-update and optimization choices.
+    Scalar unconstrained PPES has different target/conditioning and is not an exact
+    alias.
+  evidence_ids:
+  - t3-record
+  - current-identity-frontier
+  - t3-garrido2023-ppesmoc
+  - t3-garrido2023-ppesmoc-supplement
+- action: retain
+  target_ids:
+  - AIMech:ParallelPredictiveEntropySearch
+  rationale: Retain the scalar joint-batch maximizer-location information algorithm.
+    It differs from scalar optimum-value MES/OPES, constrained PESC/PESC-F, and feasible-Pareto
+    PPESMOC. Batch correlation is essential. Q=1 ideal-information overlap with PES
+    does not identify operational approximations. The soft noisy-incumbent factor
+    is a relaxed event, not exact global-maximizer conditioning; joint batch choice
+    remains a one-step information objective.
+  evidence_ids:
+  - t4-record
+  - current-identity-frontier
+  - t4-shah2015-ppes
+  - t4-shah2015-ppes-supplement
+- action: retain
+  target_ids:
+  - AIMech:DIRECTGlobalOptimization
+  rationale: Retain the original deterministic center-sampled rectangle partitioning
+    optimizer, not a Bayesian model/query criterion. Its potential-optimal rectangle
+    selection and longest-side trisection are not EGO’s auxiliary surrogate-EI branch-and-bound
+    search. Do not absorb locally biased/noisy/constrained/restart variants or DirectPreferenceOptimization.
+    Positive finite weight, both selection inequalities, equal-distance handling,
+    complete selected-set iterations and objective-origin dependence remain defining
+    qualifications.
+  evidence_ids:
+  - t5-record
+  - current-identity-frontier
+  - t5-jones1993-direct
+- action: retain
+  target_ids:
+  - AIMech:ExpectedImprovementAcquisition
+  rationale: Retain a mathematical acquisition criterion, not a full optimization
+    algorithm. E[max(b-Y,0)] measures expected gain, unlike PI’s threshold-event probability
+    and information acquisitions’ entropy objective. Preserve deterministic observed
+    incumbent and predictive standard deviation. At zero variance EI=max(b-m,0), not
+    unconditionally zero. Mean/spread partial derivatives do not imply input-coordinate
+    monotonicity. EGO uses EI but also supplies fitting, diagnostics, initialization,
+    bounding and stopping.
+  evidence_ids:
+  - t6-record
+  - current-identity-frontier
+  - t6-jones1998
+- action: retain
+  target_ids:
+  - AIMech:EfficientGlobalOptimization
+  rationale: Retain the original deterministic scalar boxed-domain sequential algorithm
+    separately from EI, TPE, general Bayesian optimization and DIRECT. The full loop
+    combines space-filling design, plug-in DACE likelihood fit, diagnostics and possible
+    transformations, EI acquisition search, evaluation and refitting. Full versus
+    limited-memory branch-and-bound and fixed p=2 implemented bounds must remain distinct.
+    No generic EI optimizer is automatically original EGO.
+  evidence_ids:
+  - t7-record
+  - current-identity-frontier
+  - t7-jones1998
+- action: retain
+  target_ids:
+  - AIMech:ProbabilityOfImprovementAcquisition
+  rationale: Retain a mathematical threshold-probability criterion distinct from EI
+    and from Jones Method4/EnhancedMethod4. Explicit direction, threshold and tie
+    convention are part of the event; the Gaussian CDF requires a Gaussian predictive
+    law and positive standard deviation. At a point mass on the threshold, strict
+    and inclusive probabilities differ from each other and the positive-variance tie
+    limit. Fixed-event hyperparameter probability averaging is exact by total probability;
+    it is not moment-matched Gaussian scoring. This legitimate probability-mixture
+    identity must not be confused with entropy-score averaging limitations in PES
+    methods.
+  evidence_ids:
+  - t8-record
+  - current-identity-frontier
+  - t8-jones2001
+  - t8-snoek2012
+- action: retain
+  target_ids:
+  - AIMech:MultiTaskBayesianOptimization
+  rationale: 'Retain the original finite-task 2013 algorithm family as one identity
+    with three explicit configurations: target-only transfer, average-task two-step
+    EI and dynamic primary-minimizer information per cost. The shared correlated-task
+    surrogate does not make the policies identical. Average-task optimization is not
+    Pareto optimization, and auxiliary tasks are not the independent objective/constraint
+    tasks of PESMOC. The family differs from GP model alone, continuous-size FABOLAS
+    and PESC/PESC-F scheduling.'
+  evidence_ids:
+  - t9-record
+  - current-identity-frontier
+  - t9-swersky2013
+limitations:
+- Same-author scientific self-review, not independent approval or DRAFT promotion.
+- Full coverage means all nine maintained records and 53 claims, not all cited literature,
+  author code, source versions, benchmarks or convergence theorems.
+- Historical calculations and source readings retain their original times and scopes.
+  This review generator does not rerun them or implement the described optimizers.
+- 'Predictive entropy search for multi-objective Bayesian optimization: Use the official
+  2016 main/supplement plus the separately pinned July2016 code citation only for
+  noise addition and pre-clipping half-log terms. Retain self/tie/orientation/completeness
+  and covariance/precision caveats; code clipping and numerical modifications are
+  separate version-specific choices. No paper/code equivalence, empty-set rule or
+  efficiency guarantee.'
+- 'Predictive entropy search for multi-objective Bayesian optimization with constraints:
+  Keep the incomplete 2019 author manuscript (missing printed p.9), official supplement,
+  earlier 2016v2 and later May2020 code roles separate. The new code citation supports
+  noisy pre-clipping entropy terms only. Preserve factor-location, self/tie, coefficient/index
+  and EP algebra caveats and distinguish empty posterior feasible region from finite-search
+  failure.'
+- 'Parallel predictive entropy search for multi-objective Bayesian optimization with
+  constraints: Use the 2023-associated institutional manuscript and official supplement.
+  Keep the earlier arXiv version as separately scoped context. Preserve missing logs/half
+  coefficients/index errors, non-normalized/self-factor caveats, SPD/noise/tie/empty-draw
+  assumptions, local acquisition search and task-projection limits. No author implementation
+  was inspected for this record.'
+- 'Parallel predictive entropy search: Use official 2015 main and exact ZIP-member
+  supplement bytes. Preserve root official9+2 reading versus supporting arXiv12-page
+  reading. Keep Gaussian mean/cavity/moment source defects, posterior-mean-versus-optimizer-MAP
+  distinction, fixed-site-versus-refitted derivatives, rejected EP draws and positive-noise/SPD
+  assumptions. No author-code or performance claim.'
+- 'DIRECT global optimization: The 1993 academic scan is the evidence owner, with
+  publisher bibliographic corroboration rather than byte equivalence. Retain Eq5/Eq11
+  caveats, asymptotic density versus continuity-based value convergence, and lack
+  of finite-budget accuracy certificate. Keep aio_no_match with explicit rejected
+  alternatives; historical and actual searched scopes remain explicitly separate.'
+- 'Expected improvement acquisition: Use the 38-page 1998 journal-layout mirror. Preserve
+  noisy/random-incumbent and nonlinear response-scale limits, plug-in uncertainty,
+  cover-only alternative manuscript and unread1978 priority source. Appendix-sign
+  and fixed-SPD Hessian assessments are separate surrogate context and do not alter
+  the five EI claims.'
+- 'Efficient Global Optimization: Preserve heuristic stopping and scale/sign ambiguity,
+  unproved convergence conjecture, nearly singular correlation matrices, Appendix1
+  sign discrepancy and analytic fixed-SPD Hessian boundary. No repaired implementation
+  or author erratum is claimed. Initial draft syntax failure/quote correction and
+  later three-phrase scope refinement remain separate from successful mathematical
+  runs.'
+- 'Probability of improvement acquisition: Use Jones2001 and Snoek2012 with their
+  target-schedule/noisy-incumbent ambiguities retained. No unique latent-incumbent
+  policy, fixed confidence-bound equivalence or universal spread benefit is inferred.
+  Kushner1964 access failure prevents original-algorithm/priority claims. Preserve
+  definition qualification and mathematical metadata/locator corrections.'
+- 'Multi-task Bayesian optimization: Only swersky2013 main is a record evidence source;
+  supplement remains experimental context. Keep the positive-Cholesky restriction,
+  general pair-covariance versus full Cartesian Kronecker distinction, uncertain-cost
+  denominator ambiguity, and fully noisy analytic counterexample to the paper’s unqualified
+  auxiliary-information ordering. No new calculator or cost-optimality claim is needed.'
+notes:
+- 'Retain nine separate concepts: unconstrained/constrained/batch Pareto methods,
+  scalar batch PPES, deterministic DIRECT, mathematical EI/PI, full EGO and three-configuration
+  finite-task MTBO. Prewrite identity collection searched ignored/hidden files and
+  all1163 existing record definitions plus902main/393nested labels; the supporting
+  complete inventory and88 decoded match-context reading remain separately attributed
+  from root readings. Root assessed selected full mechanisms and exact AIO nodes/incident
+  contexts. Owner142 stays partial,178/179 retain scoped residuals, six leaves were
+  added, and899other main/all393nested values were unchanged. Related mappings are
+  qualified; DIRECT has an explicit nine-target scoped no-match.'
+- The311 accepted bound references and20 actual creations preserve original source
+  access/version gaps, research corrections, initial draft/preview failures and original
+  versus root mathematical execution roles. Eight unchanged curator scripts were copied,
+  not rerun. MTBO and fixed-SPD Hessian reasoning remain analytic. Fresh code reading
+  is selective static inspection only. The root identity successor corrected MTBO
+  policy enumeration before canonical creation. Two read-only summary projections
+  during review had an incorrect claim-key lookup and a truncated output; neither
+  changed files or invalidated prior complete YAML reading, and a corrected compact
+  projection established exact claim/source IDs. All six required current checks passed
+  on their first actual execution; full outcomes and intervals are retained in the
+  check manifest. The source/schema/full-corpus gate reports247 passed tests,3 skipped,442
+  AIO records,730 native records,405 histories and417 prior reviews.
+- Do not collapse scalar gain/probability criteria into complete algorithms.
+- Do not collapse input-space optimizer/Pareto sets into scalar optimum values or
+  objective-space fronts.
+- Do not turn within-task full batch covariance into independent-location sums, or
+  a batch-size-one limiting score into exact implementation identity.
+- Task-factorized EP, site reuse, finite random-feature/search representations, hyperparameter
+  averaging and local acquisition optimization remain approximation choices; source
+  algebra caveats do not authorize a claimed repaired solver.
+- MTBO correlated finite tasks, independent multi-objective/constraint tasks and resource-scheduling
+  tasks have different semantics.
+- DIRECT asymptotic coverage does not imply EGO convergence, and an EGO EI bound is
+  not a global true-objective error certificate.
+- No literature saturation, canonical issue closure, upstream ontology change or promotion
+  from DRAFT is asserted.
+tags:
+- native-concepts
+- scientific-batch
+- self-review
+- discovery-ongoing
+```

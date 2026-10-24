@@ -1,0 +1,599 @@
+# Scientific author self-review of Lookup Conditional Distribution Prediction
+
+- Review: 20261013T191150Z-lookup-conditional-distribution-prediction
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T19:06:49Z
+- Finished UTC: 2026-10-13T19:11:50Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Lookup CDP as a DRAFT native computational variant with related AIO mapping. All maintained fields assessed against the complete primary source and constructed recurrences; one minor section-locator finding corrected and resolved through a linked successor review.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:LookupConditionalDistributionPrediction
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 7cca784529fe8ffa9fb1af07286fefab7856ad74.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LookupConditionalDistributionPrediction | data/curated/LookupConditionalDistributionPrediction.yaml | maintained | Lookup Conditional Distribution Prediction |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LookupConditionalDistributionPrediction | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 150.45s (0:02:30)<br>Checked 442 record(s); 0 failed.<br>Checked 641 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 320 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 317,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:LookupConditionalDistributionPrediction | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:LookupConditionalDistributionPrediction | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:LookupConditionalDistributionPrediction | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:LookupConditionalDistributionPrediction | {"fixed_model_cached_equals_forward_cases": 14, "root_A_budget3_prediction": "27/4", "prefix_plus_frontier_prediction": "15/2", "incorrect_frontier_double_count": "19/2", "model_prediction_and_concrete_tree_count": ["3/2", 3], "same_type_budget_different_stage_values": ["1", "7/5"], "illustrative_one_query_costs": ["10001", "1010001/100"], "illustrative_102_query_costs": ["10102", "505051/50"], "scope": "Fixed-model arithmetic equivalence and boundary constructions, not measured runtime or empirical replication."} |
+
+## Scientific And Domain Assessments
+
+### Lookup Conditional Distribution Prediction
+
+identity: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Retain this distinct DRAFT algorithm.
+
+Retain Lookup CDP as computational reuse of a fixed count-estimation model. Original CDP, probability-changing epsilon-truncation and solution-returning IDA*IM search control have distinct scopes. No actual-state path-cache or exact subtree-size identity is asserted.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+The declared AIO mapping is supported.
+
+MarkovChain is related through conditional context transitions inside the reused estimator. Nine full annotated AIO contexts and three full native neighbors delimit that component mapping. Count propagation includes branching and threshold pruning; neither exact equivalence nor is-a is asserted.
+
+### cached-subproblem-predictions
+
+evidence: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source defines dynamic programming or memoization over type and remaining bound. Cached quantities are model predictions, not automatically exact counts of every state sharing that type.
+
+### shallow-frontier-accounting
+
+evidence: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Strictly shallower prefix expansions plus frontier-inclusive cached subtrees avoid duplicate counting. Constructed arithmetic gives15/2 rather than the double-counted19/2. Prefix work and pruning conventions remain explicit.
+
+### fixed-model-equivalence
+
+evidence: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Supported within the stated primary-source and mathematical scope.
+
+Fourteen rational cases agree between cached and forward evaluation of the identical model. A concrete tree can still differ from that model prediction. Mathematical equivalence does not require bitwise equality of reordered floating-point sums.
+
+### cache-context-boundary
+
+evidence: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Supported within the stated primary-source and mathematical scope.
+
+The source’s depth-dependent epsilon tables expose a context requirement. Same type and budget can produce1 or7/5 under different stage tables. The cache requirement is curator inference from the depth-dependent source model; the record does not claim that unseen code is defective.
+
+### runtime-and-evaluation-boundaries
+
+evidence: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Supported within the stated primary-source and mathematical scope.
+
+The O(prefixwork) query bound excludes offline work and assumes constant-time lookup. Table12 includes regimes dominated by the prefix; illustrative costs show why first-query and amortized comparisons differ. No universal speedup is inferred.
+
+### fixed-model cache equivalence, prefix accounting and the separation of runtime from accuracy
+
+consistency: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Constructed calculations support the stated distinctions.
+
+Rational examples compare cached and forward recurrences, distinguish strictly shallower prefix counts from frontier counts, separate identical estimator outputs from true per-start counts, expose depth-varying cache contexts and illustrate preprocessing amortization. No author code or measured runtime.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:LookupConditionalDistributionPrediction.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed all maintained fields, exact source provenance and mapping, fixed-model recurrence identity, root/frontier count conventions, depth-varying cache state and amortized runtime boundaries. No author implementation or measured speedup is certified.
+
+## Findings
+
+### F1: Correct the CDP framework section labels in two evidence locators
+
+minor / resolved / confirmed; issue key: lookup-cdp-recurrence-section-locators.
+
+The shallow-frontier-accounting locator names Section3 for PDFp5 although the frontier paragraph precedes the Section3 heading and belongs to Section2. The fixed-model-equivalence locator names Sections3–4 for PDFpp4–7 although the recurrence on PDFp4 is also in Section2. Their PDF/printed page ranges remain useful, but section labels should be corrected to Section2 and Sections2–4 respectively. Section7/7.1 references remain correct.
+
+Disposition: The frontier locator now cites Section2 and Section7, and the recurrence-context locator cites Sections2–4 and Section7.1. Accurate PDF/printed page ranges are retained. Complete corrected record, MarkovChain YAML and source PDFpages3–5 were reread after successor capture; initial complete review also reread pages10–11,16–18 and21–24. Report mirror, correction history and corrected-input gates agree.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T185653Z-lookup-conditional-distribution-prediction.json | supports | Compared all 442 pinned AIO and 640 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 27, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 346 native definitions, with every matched definition read. 9 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the named lookup-based computational variant of CDP. It precomputes or memoizes fixed-model subtree-count predictions for reuse, whereas epsilon-truncation modifies model probabilities and IDA*IM integrates online prediction into threshold-controlled search. It is not a solution path cache, transposition table or claim that all search trees sharing a compressed type have identical sizes. |
+| mapping | sources/aio/aio.json | supports | MarkovChain is related through conditional context transitions inside the reused estimator. Nine full annotated AIO contexts and three full native neighbors delimit that component mapping. Count propagation includes branching and threshold pruning; neither exact equivalence nor is-a is asserted. |
+| lelis2013prediction | https://webdocs.cs.ualberta.ca/~santanad/papers/2013/ARTINT2694.pdf; All25 pages of the author-hosted personal-copy journal PDF read: cover, Sections1–13, Equations1–6 and unnumbered formulas, Definitions1–5, Algorithm1, Figures1–8, Tables1–17 and all28references. Other paper versions, author code and empirical replication excluded. | supports | Author-hosted personal-copy PDF: one cover plus 24 journal pages, Artificial Intelligence 196 (2013), pages 53–76. PDF pages 2–25 correspond to printed pages 53–76. All 25 pages visually inspected: Sections 1–13, Equations 1–6 and unnumbered formulas, Definitions 1–5, Algorithm 1, Figures 1–8, Tables 1–17 and all 28 references. Earlier conference papers and author code were not inspected. |
+| calculation | research/discovery/lookup-cdp-boundaries.py | supports | Rational examples compare cached and forward recurrences, distinguish strictly shallower prefix counts from frontier counts, separate identical estimator outputs from true per-start counts, expose depth-varying cache contexts and illustrate preprocessing amortization. No author code or measured runtime. |
+| corrected-record | data/curated/LookupConditionalDistributionPrediction.yaml | supports | Complete corrected record read after capture. The two locators now include the actual Section2 framework passages. |
+| predecessor | reviews/structured/20261013T185909Z-lookup-cdp-section-locators/review.yaml | supports | Immutable partial review preserves the original minor locator provenance finding. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 641 native and 442 unchanged generated records. The 826-entry main frontier retains 474 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All25 author-hosted pages visually read: cover plus printed53–76; Sections1–13, Equations1–6 and unnumbered equations, Algorithm1, Definitions1–5, Figures1–8, Tables1–17, all28references. Focused rereading of PDFs8–10 and17 checked probability, aggregation and caching boundaries. Other versions and author code excluded.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T191150Z-lookup-conditional-distribution-prediction
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Lookup Conditional Distribution Prediction
+started_at: '2026-10-13T19:06:49Z'
+finished_at: '2026-10-13T19:11:50Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged fixed-model cache equivalence, prefix
+    accounting and the separation of runtime from accuracy. This is adversarial author
+    self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Lookup CDP as a DRAFT native computational variant with related AIO
+  mapping. All maintained fields assessed against the complete primary source and
+  constructed recurrences; one minor section-locator finding corrected and resolved
+  through a linked successor review.
+source:
+  git_revision: 7cca784529fe8ffa9fb1af07286fefab7856ad74
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/curated/ConditionalDistributionPredictionIDAStar.yaml
+    sha256: 316d4e103eb9ebc513fd94573e8d0ee3c287cc569affd4249d5815db50f6793f
+    role: context
+  - path: data/curated/EpsilonTruncationCDP.yaml
+    sha256: fca33999517a17fae9dbb7a755302a8450fc8dd8aaa0d1fb8d2c4ff27fecbf03
+    role: context
+  - path: data/curated/IDAStarIncrementalModel.yaml
+    sha256: 0c3ea32d9b744d1324b6c58ef06d60e5a71a0d327d8c9a880ee89490dbd02a7e
+    role: context
+  - path: data/curated/LookupConditionalDistributionPrediction.yaml
+    sha256: ea35e5fcd870efc3d6d3f8e4bae4b2fabb4e4e3e6313dfcc5388bab27ed709b8
+    role: target
+  - path: research/discovery/20261013T185653Z-lookup-conditional-distribution-prediction.json
+    sha256: 030b40b72b389b41dc00d1f39dc83db9d75ef7af01697c0862487119cd563e85
+    role: context
+  - path: research/discovery/lookup-cdp-boundaries.py
+    sha256: 2bd5fcff459390f838e912b4043c50ae208678be1c3c48f8eebefb1413cdbd22
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LookupConditionalDistributionPrediction
+  path: data/curated/LookupConditionalDistributionPrediction.yaml
+  label: Lookup Conditional Distribution Prediction
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LookupConditionalDistributionPrediction.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:LookupConditionalDistributionPrediction'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: 'All25 pages of the author-hosted personal-copy journal PDF read: cover,
+      Sections1–13, Equations1–6 and unnumbered formulas, Definitions1–5, Algorithm1,
+      Figures1–8, Tables1–17 and all28references. Other paper versions, author code
+      and empirical replication excluded.'
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 150.45s (0:02:30)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 641 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 320 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 317,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/lookup-cdp-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"fixed_model_cached_equals_forward_cases": 14, "root_A_budget3_prediction":
+    "27/4", "prefix_plus_frontier_prediction": "15/2", "incorrect_frontier_double_count":
+    "19/2", "model_prediction_and_concrete_tree_count": ["3/2", 3], "same_type_budget_different_stage_values":
+    ["1", "7/5"], "illustrative_one_query_costs": ["10001", "1010001/100"], "illustrative_102_query_costs":
+    ["10102", "505051/50"], "scope": "Fixed-model arithmetic equivalence and boundary
+    constructions, not measured runtime or empirical replication."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T185653Z-lookup-conditional-distribution-prediction.json
+  accessed_at: '2026-10-13T19:06:49Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 640 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    27, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 66 AIO and 346 native definitions, with every matched definition read.
+    9 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Retain the named lookup-based computational variant of CDP. It precomputes
+    or memoizes fixed-model subtree-count predictions for reuse, whereas epsilon-truncation
+    modifies model probabilities and IDA*IM integrates online prediction into threshold-controlled
+    search. It is not a solution path cache, transposition table or claim that all
+    search trees sharing a compressed type have identical sizes.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T19:06:49Z'
+  support: supports
+  summary: MarkovChain is related through conditional context transitions inside the
+    reused estimator. Nine full annotated AIO contexts and three full native neighbors
+    delimit that component mapping. Count propagation includes branching and threshold
+    pruning; neither exact equivalence nor is-a is asserted.
+- evidence_id: lelis2013prediction
+  kind: primary_source
+  reference: https://webdocs.cs.ualberta.ca/~santanad/papers/2013/ARTINT2694.pdf
+  locator: 'All25 pages of the author-hosted personal-copy journal PDF read: cover,
+    Sections1–13, Equations1–6 and unnumbered formulas, Definitions1–5, Algorithm1,
+    Figures1–8, Tables1–17 and all28references. Other paper versions, author code
+    and empirical replication excluded.'
+  accessed_at: '2026-10-13T17:23:34Z'
+  snapshot_sha256: ee16910b3529eab60bc1527773d4d91d77d81778a153d33f7a8d6e80c09f6fba
+  support: supports
+  summary: 'Author-hosted personal-copy PDF: one cover plus 24 journal pages, Artificial
+    Intelligence 196 (2013), pages 53–76. PDF pages 2–25 correspond to printed pages
+    53–76. All 25 pages visually inspected: Sections 1–13, Equations 1–6 and unnumbered
+    formulas, Definitions 1–5, Algorithm 1, Figures 1–8, Tables 1–17 and all 28 references.
+    Earlier conference papers and author code were not inspected.'
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/lookup-cdp-boundaries.py
+  accessed_at: '2026-10-13T19:07:05Z'
+  snapshot_sha256: 2bd5fcff459390f838e912b4043c50ae208678be1c3c48f8eebefb1413cdbd22
+  support: supports
+  summary: Rational examples compare cached and forward recurrences, distinguish strictly
+    shallower prefix counts from frontier counts, separate identical estimator outputs
+    from true per-start counts, expose depth-varying cache contexts and illustrate
+    preprocessing amortization. No author code or measured runtime.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/LookupConditionalDistributionPrediction.yaml
+  accessed_at: '2026-10-13T19:07:05Z'
+  snapshot_sha256: ea35e5fcd870efc3d6d3f8e4bae4b2fabb4e4e3e6313dfcc5388bab27ed709b8
+  support: supports
+  summary: Complete corrected record read after capture. The two locators now include
+    the actual Section2 framework passages.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T185909Z-lookup-cdp-section-locators/review.yaml
+  accessed_at: '2026-10-13T19:07:05Z'
+  support: supports
+  summary: Immutable partial review preserves the original minor locator provenance
+    finding.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Lookup Conditional Distribution Prediction
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - identity
+  - lelis2013prediction
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain Lookup CDP as computational reuse of a fixed count-estimation model.
+    Original CDP, probability-changing epsilon-truncation and solution-returning IDA*IM
+    search control have distinct scopes. No actual-state path-cache or exact subtree-size
+    identity is asserted.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - mapping
+  - lelis2013prediction
+  summary: The declared AIO mapping is supported.
+  details: MarkovChain is related through conditional context transitions inside the
+    reused estimator. Nine full annotated AIO contexts and three full native neighbors
+    delimit that component mapping. Count propagation includes branching and threshold
+    pruning; neither exact equivalence nor is-a is asserted.
+- assessment_id: cached-subproblem-predictions
+  area: evidence
+  topic: cached-subproblem-predictions
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source defines dynamic programming or memoization over type and remaining
+    bound. Cached quantities are model predictions, not automatically exact counts
+    of every state sharing that type.
+- assessment_id: shallow-frontier-accounting
+  area: evidence
+  topic: shallow-frontier-accounting
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Strictly shallower prefix expansions plus frontier-inclusive cached subtrees
+    avoid duplicate counting. Constructed arithmetic gives15/2 rather than the double-counted19/2.
+    Prefix work and pruning conventions remain explicit.
+- assessment_id: fixed-model-equivalence
+  area: evidence
+  topic: fixed-model-equivalence
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Fourteen rational cases agree between cached and forward evaluation of
+    the identical model. A concrete tree can still differ from that model prediction.
+    Mathematical equivalence does not require bitwise equality of reordered floating-point
+    sums.
+- assessment_id: cache-context-boundary
+  area: evidence
+  topic: cache-context-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The source’s depth-dependent epsilon tables expose a context requirement.
+    Same type and budget can produce1 or7/5 under different stage tables. The cache
+    requirement is curator inference from the depth-dependent source model; the record
+    does not claim that unseen code is defective.
+- assessment_id: runtime-and-evaluation-boundaries
+  area: evidence
+  topic: runtime-and-evaluation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The O(prefixwork) query bound excludes offline work and assumes constant-time
+    lookup. Table12 includes regimes dominated by the prefix; illustrative costs show
+    why first-query and amortized comparisons differ. No universal speedup is inferred.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: fixed-model cache equivalence, prefix accounting and the separation of runtime
+    from accuracy
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Rational examples compare cached and forward recurrences, distinguish strictly
+    shallower prefix counts from frontier counts, separate identical estimator outputs
+    from true per-start counts, expose depth-varying cache contexts and illustrate
+    preprocessing amortization. No author code or measured runtime.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  evidence_ids:
+  - identity
+  - mapping
+  - lelis2013prediction
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed all maintained fields, exact source provenance
+    and mapping, fixed-model recurrence identity, root/frontier count conventions,
+    depth-varying cache state and amortized runtime boundaries. No author implementation
+    or measured speedup is certified.
+findings:
+- finding_id: F1
+  issue_key: lookup-cdp-recurrence-section-locators
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Correct the CDP framework section labels in two evidence locators
+  description: The shallow-frontier-accounting locator names Section3 for PDFp5 although
+    the frontier paragraph precedes the Section3 heading and belongs to Section2.
+    The fixed-model-equivalence locator names Sections3–4 for PDFpp4–7 although the
+    recurrence on PDFp4 is also in Section2. Their PDF/printed page ranges remain
+    useful, but section labels should be corrected to Section2 and Sections2–4 respectively.
+    Section7/7.1 references remain correct.
+  target_ids:
+  - AIMech:LookupConditionalDistributionPrediction
+  field_paths:
+  - claims[shallow-frontier-accounting].evidence[0].locator
+  - claims[fixed-model-equivalence].evidence[0].locator
+  evidence_ids:
+  - lelis2013prediction
+  - calculation
+  - corrected-record
+  - predecessor
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LookupConditionalDistributionPrediction.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/303
+  disposition_reason: The frontier locator now cites Section2 and Section7, and the
+    recurrence-context locator cites Sections2–4 and Section7.1. Accurate PDF/printed
+    page ranges are retained. Complete corrected record, MarkovChain YAML and source
+    PDFpages3–5 were reread after successor capture; initial complete review also
+    reread pages10–11,16–18 and21–24. Report mirror, correction history and corrected-input
+    gates agree.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T185909Z-lookup-cdp-section-locators
+    finding_id: F1
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 641 native and 442 unchanged generated records.
+  The 826-entry main frontier retains 474 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- 'All25 author-hosted pages visually read: cover plus printed53–76; Sections1–13,
+  Equations1–6 and unnumbered equations, Algorithm1, Definitions1–5, Figures1–8, Tables1–17,
+  all28references. Focused rereading of PDFs8–10 and17 checked probability, aggregation
+  and caching boundaries. Other versions and author code excluded.'
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T185909Z-lookup-cdp-section-locators
+  relationship: Resolves the explicitly linked paper-locator provenance finding.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

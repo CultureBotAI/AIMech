@@ -1,0 +1,174 @@
+id: AIMech:TeacherForcing
+name: Teacher forcing
+aliases: []
+concept_kind: algorithm
+definition: A sequence-training procedure that supplies reference outputs from earlier steps as feedback
+  for subsequent predictions, in place of the model outputs that would otherwise be fed back.
+identity_notes: Compared all 442 pinned AIO and 582 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 70, 10, 10 lines. All distinct match contents were
+  inspected. Semantic matching covered 75 AIO and 167 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records
+  were inspected. Matches concern the AIO DifferentiableLLM definition, the RTRL configuration and the
+  pending broader teacher-forcing lead. Teacher forcing specifies the feedback supplied during training,
+  not a particular architecture, gradient algorithm or trained instance. RTRL is one algorithm that can
+  use it. Mean Teacher averages student parameters for consistency targets; DocumentNADE is a particular
+  autoregressive architecture. Neither is this general feedback-substitution procedure. The pinned Distillation
+  compression definition is also distinct. Scheduled sampling changes the feedback-selection rule and
+  is not an alias; the all-reference endpoint coincides with full teacher guidance.
+definition_evidence:
+- source_id: williams1989
+  locator: Section2.3, Equations17–19 and explanation, PDF pp.5–6
+  relation: supports
+- source_id: bengio2015
+  locator: Sections2.1–2.2, Equations1–4, PDF/printed pp.2–3; Figure1, p.4
+  relation: supports
+claims:
+- claim_id: reference-feedback
+  kind: mechanism
+  statement: During training, substitute the supplied reference output for the model output on the feedback
+    path used by subsequent computations. In autoregressive token prediction this means predicting y_t
+    given reference tokens y_<t and any conditioning input, rather than feeding the current target y_t
+    as its own predictor input. The reference may be a token or a continuous output; the term does not
+    by itself specify a neural architecture, optimizer or decoding policy. Merely placing a reference
+    in the loss without substituting a feedback input is insufficient to define this procedure.
+  evidence:
+  - source_id: williams1989
+    locator: Section2.3, Equations17–19 and explanation, PDF pp.5–6
+    relation: supports
+  - source_id: bengio2015
+    locator: Sections2.1–2.2, Equations1–4, PDF/printed pp.2–3; Figure1, p.4
+    relation: supports
+- claim_id: observed-prefix-likelihood
+  kind: mechanism
+  statement: For the cited autoregressive sequence model, log p_theta(Y|X)=sum_t log p_theta(y_t|y_<t,X).
+    Evaluating these conditionals on the observed prefix gives the exact observed-sequence log likelihood
+    for that model. Conditioning on reference tokens during likelihood training is therefore not inherently
+    an invalid likelihood objective. This identity does not establish that a trained model generates correct
+    sequences or that every nonlikelihood use of teacher forcing optimizes this objective.
+  evidence:
+  - source_id: bengio2015
+    locator: Sections2.1–2.2, Equations1–4, PDF/printed pp.2–3; Figure1, p.4
+    relation: supports
+- claim_id: derivative-paths
+  kind: mechanism
+  statement: When supplied reference values are parameter independent, future computations have no derivative
+    through the model-output values they replace. Unreplaced recurrent hidden-state paths can still carry
+    gradients through time. In the Williams–Zipser RTRL configuration, the current output sensitivity
+    first contributes to its current update, then the forced output is treated as having zero sensitivity
+    for subsequent propagation. Thus teacher forcing does not generally detach every hidden state or remove
+    all temporal credit assignment.
+  evidence:
+  - source_id: williams1989
+    locator: Section2.3, Equations17–19 and explanation, PDF pp.5–6
+    relation: supports
+  - source_id: bengio2015
+    locator: Recurrent hidden-state Equation3, Section2.1, PDF/printed p.2; training Equation4, Section2.2,
+      p.3; Figure1, p.4; curator hidden-state derivative example
+    relation: supports
+- claim_id: generation-distribution-boundary
+  kind: limitation
+  statement: At generation time the preceding reference output may be unavailable, so an autoregressive
+    generator uses its own selected outputs, for example through sampling, greedy selection or beam search.
+    Those prefixes can differ from training prefixes and permit errors to compound. This is a conditional
+    distribution-mismatch concern, not a proof that every teacher-forced model fails or that low reference-prefix
+    loss guarantees accurate autonomous rollouts.
+  evidence:
+  - source_id: bengio2015
+    locator: Introduction, PDF/printed pp.1–2; inference Section2.3 and scheduled-sampling motivation
+      Section2.4, pp.3–4
+    relation: supports
+  - source_id: williams1989
+    locator: Teacher forcing and autonomous oscillation discussion, Sections2.3 and3.5, PDF pp.5–6,8
+    relation: supports
+- claim_id: scheduled-sampling-boundary
+  kind: scope
+  statement: The cited scheduled-sampling procedure chooses between the reference previous token and a
+    model-generated token during training using a scheduled probability. Its all-reference endpoint is
+    full teacher guidance; mixed-input training and the all-generated endpoint are distinct feedback rules,
+    not aliases for full teacher forcing. The 2015 experiments do not backpropagate through the sampled
+    token-selection decision. These choices do not redefine the exact observed-prefix likelihood identity
+    for the all-reference baseline.
+  evidence:
+  - source_id: bengio2015
+    locator: Section2.4, PDF/printed pp.3–4; Figures1–2, probability schedules and stated decision-gradient
+      convention, p.4
+    relation: supports
+- claim_id: empirical-scope
+  kind: scope
+  statement: The 2015 comparisons cover specified image-captioning, parsing and speech setups. Training
+    entirely on generated tokens from the start is not uniformly successful in those experiments; the
+    parsing discussion reports failure to learn correct tree structure in that condition. The speech next-step
+    and free-decoding frame-error results use different prediction conditions, and must not be treated
+    as the same metric or as general word-recognition accuracy. These selected experiments do not establish
+    a universal ordering between teacher forcing, scheduled sampling and autonomous training.
+  evidence:
+  - source_id: bengio2015
+    locator: Sections4.1–4.3, task-specific training/evaluation settings and Tables1–3, PDF/printed pp.5–8;
+      Section5 Conclusion, p.8
+    relation: supports
+evidence_sources:
+- source_id: williams1989
+  title: A Learning Algorithm for Continually Running Fully Recurrent Neural Networks
+  authors:
+  - Ronald J. Williams
+  - David Zipser
+  persistent_id: https://doi.org/10.1162/neco.1989.1.2.270
+  version: Ten-page manuscript copy openly hosted by Gwern, identifying the Neural Computation1:270–280
+    publication (1989). All ten PDF pages, Equations1–19, experiments and references visually read. PDF
+    page numbers are used; final publisher layout was not inspected.
+  source_type: primary_paper
+  url: https://gwern.net/doc/ai/nn/rnn/1989-williams-2.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:06:26Z'
+  sha256: 348ca1d75163d1fa2412f4fc2c3d73531051ba14ce9bdc51a098da19f869fc2a
+- source_id: bengio2015
+  title: Scheduled Sampling for Sequence Prediction with Recurrent Neural Networks
+  authors:
+  - Samy Bengio
+  - Oriol Vinyals
+  - Navdeep Jaitly
+  - Noam Shazeer
+  persistent_id: https://proceedings.neurips.cc/paper/2015/hash/e995f98d56967d946471af29d7bf99f1-Abstract.html
+  version: NIPS2015 proceedings, Advances in Neural Information Processing Systems28; nine-page conference-hosted
+    PDF, printed/PDF pages1–9. All equations, figures, tables, experimental settings and references visually
+    read. The baseline defines true-prefix training; the explicit teacher-forcing name is supported by
+    Williams/Zipser1989.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2015/file/e995f98d56967d946471af29d7bf99f1-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:27:25Z'
+  sha256: ab71fd38a31df07e90e7ec019b19654de8f633484a76c0a68e36133f888454a0
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: Teacher forcing specifies feedback supplied during model training. The pinned target describes
+    preprocessing and general training strategies rather than this sequential feedback rule. A contextual
+    related match preserves that abstraction difference without asserting exact identity or a subclass
+    edge.
+limitations:
+- The explicit teacher-forcing name is supported by Williams and Zipser1989; Bengio et al2015 supplies
+  the broader true-prefix sequence-training baseline. Jordan1986 was not accessible for inspection, so
+  no origin or priority claim is made.
+- The supplied target is assumed independent of model parameters in the stated derivative rule. Learned
+  targets or differentiable target generation need their own dependency analysis.
+- The reference-prefix likelihood claim is scoped to the cited autoregressive likelihood formulation;
+  not all continuous-output or task-loss configurations have that likelihood objective.
+- Target substitution and gradient truncation are separate choices. Keeping recurrent hidden paths does
+  not guarantee that a particular implementation differentiates every path or that long dependencies are
+  learned.
+- Neither good reference-prefix prediction nor optional teacher-forced training establishes matched free-running
+  performance, universal robustness or superiority over other training procedures.
+- All ten1989 manuscript pages and nine2015 proceedings pages were read. Constructed algebraic examples
+  were run without fitting; no author implementation, model training or benchmark replication was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T06:44:59Z'
+  updated_at: '2026-10-13T06:48:49Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

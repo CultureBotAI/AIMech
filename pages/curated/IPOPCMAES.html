@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPOP-CMA-ES · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>IPOP-CMA-ES</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">IPOP-CMA-ES</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IPOPCMAES</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    The original increasing-population restart CMA-ES algorithm, which independently restarts its weighted, rank-mu covariance-matrix-adaptation inner optimizer with doubled population size after local termination, using fresh initialization, inherited cumulative step-size adaptation and separate overall stopping conditions.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record describes the original 2005 named whole IPOP-CMA-ES algorithm with the cited 2004 positive-weight rank-mu and cumulative step-size base. The independent population-doubling restarts are additional to the maintained 2001 CMA-ES scope. The 2003 covariance component alone, IGO/xNES correspondences, local fixed-population restarts and later BIPOP are distinct. Fresh postmerge collection at a7303d92795cc371954c527372fce9117342d7b5 checked all 735 native and 442 pinned AIO record identities and bytes. Four searches included ignored and hidden files, yielding 1,529 occurrences grouped into 45 exact contents, all reconciled with earlier research; root read all 45 complete contents. No normalized ID, label, alias or scoped-synonym collision was found for the explicit candidate probes. This is bounded to the pinned inventory and inspected semantic neighborhoods, not an exhaustive absence claim about AI literature. Existing frontier owner 202 is resolved in place without adding a duplicate lead.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#weighted-gaussian-cma-inner-search</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The original IPOP procedure uses the cited 2004 weighted, rank-mu CMA-ES as its inner optimizer. At each generation it draws lambda independent candidates from a Gaussian with mean m and covariance sigma squared C, evaluates the objective for minimization, and sets the new mean to a positive weighted combination of the best mu candidates, with weights summing to one. The covariance rule combines a rank-one evolution-path contribution with a rank-mu contribution from selected displacements. The method uses objective evaluations rather than objective derivatives; the Gaussian is a search distribution, not a predictive model of objective values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / paper p. 1, the (mu_W,lambda)-CMA-ES subsection and explicit reference to the 2004 base.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2004">Evaluating the CMA Evolution Strategy on Multimodal Test Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 3–4 / article pp. 2–3, Equations 1–3 and weighted recombination.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#inherited-cumulative-step-size-adaptation</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The fixed inner routine adapts its scalar step size using a conjugate evolution path. With old-generation covariance C=B*D^2*B^T, it accumulates the normalized mean displacement after whitening by B*D^(-1)*B^T into p_sigma. It then uses sigma_new=sigma*exp((c_sigma/d_sigma)*(norm(p_sigma_new)/E_norm_standard_normal-1)), where the expectation is the length of an n-dimensional standard-normal vector. This scalar exponential is inherited cumulative step-size adaptation, distinct from the population-doubling restart rule. A positive initial sigma remains positive for finite exponents in exact real arithmetic; this does not guarantee objective improvement or floating-point stability.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / paper p. 1, reference to the base Equations 4–5 for cumulative step-size adaptation.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2004">Evaluating the CMA Evolution Strategy on Multimodal Test Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 4 / article p. 3, Equations 4–5, covariance eigendecomposition and expected standard-normal length.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#independent-population-doubling-restarts</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    When an inner attempt meets a local stopping criterion, launch an independent restart with twice its population size. The original procedure starts with lambda_0=4+floor(3 ln n), so the population of an actually launched attempt indexed k from zero is lambda_k=2^k*lambda_0. Each attempt uses the default parameter formulas for its population: mu=floor(lambda/2), positive recombination weights and dependent effective-selection and learning-rate parameters are recomputed accordingly. Reusing default formulas does not mean freezing every derived numerical constant. The doubling occurs between attempts, not every generation, and no indefinitely continuing sequence is implied under a finite overall budget.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / paper p. 1, the IPOP-CMA-ES restart subsection: independent restart, factor 2 and initial default population.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2004">Evaluating the CMA Evolution Strategy on Multimodal Test Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 4 / article p. 3, Equations 6–8; Section 3.2, PDF p. 5 / article p. 4, footnote 6 on parameter dependence.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#corrected-local-restart-triggers</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The stated local termination categories are a stagnant or sufficiently small function-value range, small coordinate spread and evolution-path scale, finite-precision no-effect tests, or a covariance condition number above 10^14. For the no-effect-coordinate test, apply the explicit author correction: restart if adding 0.2 times the coordinate standard deviation leaves at least one coordinate of the mean unchanged. The uncorrected does-change wording is not the rule. These triggers indicate stagnation or numerical limits; they are not certificates that the global optimum has been reached.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> PDF p. 1, explicit erratum; Section 2, PDF p. 3 / paper p. 2, stopping bullets and no-effect-axis footnote 3.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ipop-author-errata">A Restart CMA Evolution Strategy With Increasing Population Size — author abstract and errata</a></span>
+        <span>· <strong>Locator:</strong> ERRATA, correction to the end-of-Section-2 noeffectcoord criterion.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#fresh-initialization-and-overall-stopping</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the evaluated 2005 configuration, each restart samples a fresh initial mean uniformly in the prescribed box [A,B]^n and sets sigma_0=(B-A)/2; the cited base starts C at the identity and both evolution paths at zero. The benchmark specifies an overall allowance of n*10^4 function evaluations or termination when the objective error relative to the known optimum is below 10^-8. These overall conditions are separate from the local restart triggers. The box, initial scale, target, budget and boundary policy are configuration choices, not a requirement that an arbitrary black-box problem have a known optimum or this exact budget.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 2–3 / paper pp. 1–2, independent restarts and problem-dependent initialization; Section 3, PDF p. 3 / paper p. 2, experimental initialization and overall stopping.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-hansen2004">Evaluating the CMA Evolution Strategy on Multimodal Test Functions</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 4 / article p. 3, initialization paragraph following Equation 5; cover erratum specifies the starting point as the recombination mean.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#original-whole-method-and-local-comparator-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The named original IPOP algorithm comprises its increasing-population restart policy and specified weighted, rank-mu, evolution-path and step-size-adapting CMA base. It is not every restart controller or an exact alias of all CMA-ES versions. The companion local-restart CMA-ES keeps the same small default population across independent attempts. Its evaluated initial scale is 10^-2*(B-A)/2, one hundredth of the IPOP setting, so their reported comparison does not isolate population growth as the only changed factor.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005ipop">A Restart CMA Evolution Strategy With Increasing Population Size</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2 / paper p. 1, fixed inner method and growing-population restart; Section 3, PDF p. 3 / paper p. 2, initial scale.</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-auger2005local">Performance Evaluation of an Advanced Local Search Evolutionary Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Section 3, PDF pp. 3–4 / paper pp. 2–3, the local-restart (mu_W,lambda)-CMA-ES subsection; Section 4, PDF p. 4 / paper p. 3, experimental initialization.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The 2005 author-hosted copy includes an explicit no-effect-coordinate erratum, used above. Its separate author-hosted ERRATA text also reports that the F4 initial mean was mistakenly sampled with Xup rather than Xlow in the offset, and that boundary settings were omitted on some functions. The authors suggest limited or favorable effects of correction, but those effects were not reproduced. No numerical superiority or repaired benchmark result is curated.</li>
+      <li>The original inner routine is the 2004 positive-weight rank-mu and evolution-path CMA-ES, not merely the maintained 2001 rank-one CMA description and not later active/negative-weight variants. The 2004 conclusion suggests a restart multiplier of 3; the concrete 2005 procedure chooses 2. The 2005 discussion of factors between 1.5 and 5 is heuristic context, not a proven optimal range or an identification of every such schedule with the original procedure.</li>
+      <li>The literal small-path stopping prose says sigma*p_c is smaller than TolX in all components without explicitly printing absolute-value syntax. The draft retains the stopping category and does not claim a verified executable interpretation. The prose also does not fully specify partial-generation evaluation or budget overshoot behavior. The referenced cmaes.m version 2.35 was not acquired or executed.</li>
+      <li>The fixed objective-value tolerance, known-optimum error target, coordinate no-effect checks, condition-number threshold, initialization box and boundary policy limit claims about the whole protocol. An increasing transformation that preserves rankings can change a numeric function-range stopping test. Corresponding transformations of inner distributions alone do not certify invariance of every configured restart run.</li>
+      <li>Population growth changes the allocation of evaluations across attempts, but numerical stopping and a finite budget do not establish a global optimum, monotonic distribution quality or universal improvement over constant-population restarts. The source empirical comparison also changes initial scale. No optimizer, benchmark or author code was run for this draft.</li>
+      <li>The success-runtime expression in the 2005 Section 3 concerns independent repetition of a complete algorithm with positive success probability. It must not be applied without qualification to heterogeneous internal IPOP attempts with changing populations. Table 2 on PDF p. 5 displays SP2=0 for some zero-success rows, although Equation 4 on PDF p. 3 divides by that estimated success probability; those entries are not evidence of zero expected runtime. No success-rate or expected-runtime result is claimed.</li>
+      <li>The 2004 base-paper errata correct a benchmark penalty and identify the initialized point as the recombination mean. Source build dates and later author errata are distinct from the 2004 and 2005 publication years. The source version and acquisition records are retained; no complete certification of all baseline proofs, numerical safeguards or benchmark tables is asserted.</li>
+      <li>The local-restart companion is cited only for the defining method and initialization comparison. BIPOP is retained solely as a separate unresolved boundary: its full primary methods were not read and no substantive BIPOP construction, equivalence or performance claim is made. Existing rank-mu, active-CMA and other source-family leads are not resolved by this one named algorithm.</li>
+      <li>Supporting research read all nine pages of the IPOP author copy including its erratum, selected defining and discussion pages of the 2004 base, and the first four pages of the local-restart companion. Exact text/visual scopes and the narrower root reading are retained separately. The historical wrapper/no-match proposal is preserved; the current mapping follows the accepted whole-method scope. Identity and frontier checks remain bounded to their recorded snapshot and must be refreshed before curation.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ExponentialFunction.html" style="font-weight: 600;"><code>AIO:ExponentialFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Exponential Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The original named whole algorithm fixes a CMA-ES base whose mandatory cumulative step-size adaptation uses the scalar exponential exp. This inherited component supports the related mapping; it is not the novel population-restart rule. The algorithm is neither equivalent to nor a subclass of the scalar function, and this does not assert a neural activation, matrix elementwise exponential or exponential requirement for arbitrary host-independent restart controllers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">4 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-auger2005ipop">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">auger2005ipop</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/cec2005ipopcmaes.pdf" target="_blank" rel="noopener">A Restart CMA Evolution Strategy With Increasing Population Size</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anne Auger, Nikolaus Hansen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1109/CEC.2005.1554902</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:67e91cca499d…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-hansen2004">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">hansen2004</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/ppsn2004hansenkern.pdf" target="_blank" rel="noopener">Evaluating the CMA Evolution Strategy on Multimodal Test Functions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Nikolaus Hansen, Stefan Kern
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:81fb79a0bc91…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-auger2005local">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">auger2005local</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/cec2005localcmaes.pdf" target="_blank" rel="noopener">Performance Evaluation of an Advanced Local Search Evolutionary Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anne Auger, Nikolaus Hansen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:caefccd2984e…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-ipop-author-errata">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ipop-author-errata</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cmap.polytechnique.fr/~nikolaus.hansen/cec2005ipopcmaes.txt" target="_blank" rel="noopener">A Restart CMA Evolution Strategy With Increasing Population Size — author abstract and errata</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Anne Auger, Nikolaus Hansen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:addac47190bc…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AIPOPCMAES">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for IPOP-CMA-ES" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:IPOPCMAES</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">IPOP-CMA-ES</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 4 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ExponentialFunction (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T06:13:45Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T06:13:45Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IPOPCMAES.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IPOPCMAES.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=IPOP-CMA-ES"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AIPOPCMAES"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

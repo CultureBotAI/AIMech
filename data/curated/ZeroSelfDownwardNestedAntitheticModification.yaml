@@ -1,0 +1,140 @@
+id: AIMech:ZeroSelfDownwardNestedAntitheticModification
+name: Zero-self downward nested antithetic modification
+concept_kind: algorithm
+definition: A finite conditional sampling construction that follows downward nested antithetic modification
+  and replaces stages retaining avoidable self probability with a reversible two-focal-state completion
+  that minimizes self transitions.
+definition_evidence:
+- source_id: neal2024
+  locator: Section 9, PDF pp. 31–34, Equations 91–94 and Algorithm 5
+  relation: supports
+claims:
+- claim_id: downward-prefix-and-look-ahead
+  kind: mechanism
+  statement: Let pi be a normalized strictly positive probability mass function on a finite state space.
+    Choose a consistent nonincreasing order sigma, including a specified tie rule. Handle a maximum mass
+    of at least one half separately. Otherwise follow the downward NAM stages, but at each stage i examine
+    the next focal mass q2=pi(sigma(i+1)) and the mass s2 of states after it. When q2>=s2, complete the
+    remaining block jointly instead of taking separate DNAM steps for the two focal states. Previously
+    determined transitions to and from earlier focal states remain unchanged. Equality belongs to the
+    completion branch of Algorithm 5.
+  evidence:
+  - source_id: neal2024
+    locator: Section 9, PDF pp. 31–34, Equations 91–94 and Algorithm 5; Section 8, pp. 28–29, downward
+      ordering
+    relation: supports
+- claim_id: two-focal-state-completion
+  kind: mechanism
+  statement: At completion let a=sigma(i), b=sigma(i+1), q=pi(a), q2=pi(b), and let f be the transition
+    mass still assigned to the block containing a, b and the remaining tail. When s2>0, set A=(q+q2-s2)/2,
+    B=(q-q2+s2)/(2*s2), and C=(s2+q2-q)/(2*s2). The block entries are P(a,b)=f*A/q, P(b,a)=f*A/q2, P(a,j)=f*B*pi(j)/q,
+    P(b,j)=f*C*pi(j)/q2, P(j,a)=f*B and P(j,b)=f*C for tail states j. Both focal diagonals and all tail-to-tail
+    entries are zero. The relations A+B*s2=q, A+C*s2=q2 and B+C=1 give the required residual row sums;
+    the paired flows satisfy detailed balance. Algorithm 5 has a separate zero-tail guard; formulas dividing
+    by s2 are not used at s2=0.
+  evidence:
+  - source_id: neal2024
+    locator: Section 9, PDF p. 32, Equations 92–94; Algorithm 5 Part 2, p. 34
+    relation: supports
+- claim_id: dominant-mass-boundary
+  kind: mechanism
+  statement: If a maximum state a has mass h>=1/2, the positive-support kernel moves every other state
+    to a with probability one, while P(a,j)=pi(j)/h for j!=a and P(a,a)=(2*h-1)/h. At h=1/2 the maximum
+    has no self transition. For a one-state point mass, it stays with probability one. Thus zero-self
+    in the name does not mean that positive self probability is eliminated when a state has more than
+    half the target mass.
+  evidence:
+  - source_id: neal2024
+    locator: Algorithm 5 Part 1, PDF p. 33, both half-mass branches; Section 2, p. 3, footnote 1
+    relation: supports
+- claim_id: invariance-and-minimum-self-mass
+  kind: mechanism
+  statement: The NAM prefix and final balanced block preserve pi. If no state has mass greater than one
+    half, every diagonal is zero. Otherwise only the dominant state retains the unavoidable self probability.
+    The stationary probability of a self transition is therefore max(0,2*max(pi)-1), attaining the lower
+    bound from invariance. This is a statement about the specified finite transition kernel, not a guarantee
+    of convergence for every multi-variable update schedule.
+  evidence:
+  - source_id: neal2024
+    locator: Section 9, PDF pp. 31–34, reversible completion; Section 2, p. 3, footnote 1; Section 13,
+      p. 51, Equations 112–114
+    relation: supports
+- claim_id: tie-policy-and-distinct-kernel-boundaries
+  kind: scope
+  statement: 'The choice among tied downward focal states can change ZDNAM even on positive support. For
+    pi=(1/7,2/7,2/7,2/7), orders (2,3,4,1) and (3,2,4,1), using one-based labels, give different supported
+    rows in the original exact calculations. ZDNAM is also not generally a different single NAM order:
+    for pi=(4/9,3/9,2/9), its diagonal is zero while every one of the six NAM orders retains a positive
+    diagonal entry. The source’s DNAM/ZDNAM comparison does not assert that reducing self transitions
+    always improves efficiency relative to DNAM.'
+  evidence:
+  - source_id: neal2024
+    locator: Section 9, PDF pp. 31–35, Algorithm 5 and Equation 95; Section 8, p. 30, limits of single-order
+      NAM; explicit tie and six-order comparisons in research/discovery/nam-boundaries.py
+    relation: supports
+- claim_id: conditional-and-composition-scope
+  kind: limitation
+  statement: Using the reversible kernel for a valid full conditional while keeping other coordinates
+    unchanged preserves the joint target. Fixed mixtures and fixed sweeps also preserve it, but a fixed
+    sweep need not be reversible or explore all states. Uniform binary conditionals give deterministic
+    flips, so eliminating self transitions alone does not establish aperiodicity or joint exploration.
+    This record does not adopt a universal variance, finite-run accuracy, burn-in or wall-clock advantage.
+  evidence:
+  - source_id: neal2024
+    locator: Section 2, PDF pp. 2–3, conditional invariance and composition; Section 5, p. 14, footnotes
+      7–8; Algorithm 5, p. 33
+    relation: supports
+identity_notes: The post315 assessment covers all 442 pinned AIO and 708 native IDs, labels, aliases and
+  scoped synonyms, plus four complete checkout searches including ignored and hidden files. Historical
+  706-native research, 334 selected ID/name rows, 103 definitions and 15 fully read native neighbors retain
+  their attributed scope. The two actual FSS/ZFSS records were freshly assessed; shared dominant-mass
+  boundaries do not equate full kernels. The finite local reversible construction differs from exact Gibbs
+  resampling, one-stage Liu MHGS, pair-state/direction/uniform-memory samplers, continuous slice procedures
+  and multiple-proposal frameworks. AIO:MarkovChain is related_match at the process-versus-construction
+  level; neural Network/ProbabilisticHiddenLayer inheritance is not asserted. ZDNAM is a distinct two-focal/tail
+  completion following the downward prefix, with an explicit tie policy and dominant-mass boundary. It
+  differs from every single NAM ordering in the supported (4,3,2)/9 example. Zero-self denotes removal
+  of avoidable self mass, not unconditional zero diagonal or an alias of every minimum-self sampler. No
+  aliases adopted.
+evidence_sources:
+- source_id: neal2024
+  title: Modifying Gibbs Sampling to Avoid Self Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://glizen.com/radfordneal/ftp/gibbs-self.pdf
+  persistent_id: arxiv:2403.18054
+  version: Author-hosted technical report dated 26 March 2024; 84 PDF pages. Independently pinned from
+    arXiv:2403.18054v1; byte equivalence between versions is not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:33:01Z'
+  sha256: 3d637d3eec046118a4c81d0d3824f387e1077d5ed8bd15d90a4db242c89d8bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The procedure constructs reversible conditional Markov transitions with a specified target.
+    AIO MarkovChain denotes a stochastic process/model. The relation is method-to-process association
+    without equivalence, subclass membership or inheritance of Network and ProbabilisticHiddenLayer assertions.
+limitations:
+- The maintained scope is a finite positive-support distribution, exact normalization and a consistent
+  downward ordering with explicit tie handling. Zero-probability current states and countably infinite
+  extensions are outside this initial operational scope.
+- Algorithm 5 contains printed missing brackets in its loop and index notation. The mathematical interpretation
+  used here follows the surrounding equations and includes the equality completion condition. It is not
+  a claim that literal author implementation code was executed or floating-point guards fully verified.
+- Curator calculations cover a bounded set of exact rational kernels. They do not certify an arbitrary
+  floating-point implementation, execute author code or reproduce empirical benchmarks.
+- NAM, UNAM, DNAM and the UDNAM mixture have related but different scopes. No broad exact aliases or equivalence
+  with all zero-self sampling methods are asserted. The source family and empirical literature remain
+  incompletely assessed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T22:25:01Z'
+  updated_at: '2026-10-14T22:25:01Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

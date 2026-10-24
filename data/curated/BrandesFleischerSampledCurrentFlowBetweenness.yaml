@@ -1,0 +1,175 @@
+id: AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+name: Brandes–Fleischer sampled-pair current-flow betweenness
+aliases:
+- Brandes-Fleischer current-flow betweenness approximation
+concept_kind: algorithm
+definition: A randomized network-analysis algorithm that estimates normalized, endpoint-excluded current-flow
+  betweenness by independently sampling uniform source–sink pairs, solving their grounded electrical-network
+  systems, and averaging scaled vertex throughputs.
+definition_evidence:
+- source_id: brandesfleischer2005
+  locator: Section 5, Theorem 3 and Algorithm 3, PDF p. 10 / printed p. 542
+  relation: supports
+claims:
+- claim_id: domain-and-target
+  kind: scope
+  statement: The maintained domain is a simple connected undirected graph with n>=3 and positive edge
+    conductances. For ordered distinct source–sink vertices s,t, potentials satisfy Lp=e_s-e_t and edge
+    current is c(u,v)[p(u)-p(v)]. Throughput tau_st(v) is half the incident absolute current minus half
+    the absolute supply; source and sink throughputs are zero. The target B(v) sums throughputs over ordered
+    pairs and divides by (n-1)(n-2). Edge orientation is only a computational convention.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Sections 2 and 3.1, Definition 2, PDF pp. 2–5 / printed pp. 534–537; Section 5, p. 10 / p.
+      542
+    relation: supports
+- claim_id: independent-pair-estimator
+  kind: mechanism
+  statement: Draw k>=1 ordered pairs uniformly from the n(n-1) distinct-endpoint pairs, independently
+    with replacement across iterations. Solve each grounded unit-supply system. For nonendpoints accumulate
+    half the incident absolute current; endpoints contribute zero. With a=n/(n-2), return Bhat(v)=a/k
+    times the sum of sampled throughputs. Under exact currents its expectation is B(v). Independence concerns
+    pair draws, not the different vertices estimated from one shared draw.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 5, proof of Theorem 3 and Algorithm 3, PDF p. 10 / printed p. 542
+    relation: supports
+- claim_id: absolute-error-guarantee
+  kind: scope
+  statement: Each throughput lies in [0,1]. For epsilon>0 and exact currents, a fixed vertex has probability
+    at most 2 exp[-2k(epsilon/a)^2] of absolute error at least epsilon. A union bound gives simultaneous
+    error below epsilon for every vertex with failure at most delta when k>=ceil[a^2 ln(2n/delta)/(2 epsilon^2)],
+    where 0<delta<1. This explicit sufficient count is curator algebra, not an optimal count. The source
+    uses k=ell ceil[(a/epsilon)^2 ln n]; for positive integer ell this yields the stated per-vertex 2/n^(2ell)
+    bound and, by a union bound, all-vertex 2/n^(2ell-1). These are additive guarantees, not relative-error
+    or rank-preservation guarantees.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 5, Theorem 3 and its displayed Hoeffding bound, PDF p. 10 / printed p. 542; union-bound
+      algebra in research/discovery/sampled-current-flow-boundaries.py
+    relation: supports
+- claim_id: sample-range-and-repetition
+  kind: limitation
+  statement: Although the exact normalized score is at most one, an individual estimate can exceed one
+    because a sampled contribution is scaled by a. On the unit three-vertex path, the middle single-draw
+    contribution is 3 with probability 1/3 and zero otherwise. For two draws, its estimate is 0, 3/2 or
+    3 with probabilities 4/9, 4/9 and 1/9, while its expectation and exact score are one. Hypothetically
+    clipping to one changes this expectation to 5/9 and is not part of the maintained method. Repetition
+    remains possible when k equals the number of distinct pairs; that sample size does not imply exact
+    enumeration. These are curator finite examples.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Section 5, estimator and Algorithm 3, PDF p. 10 / printed p. 542; explicit curator consequences
+      in research/discovery/sampled-current-flow-boundaries.py
+    relation: supports
+- claim_id: solver-and-work-boundary
+  kind: limitation
+  statement: The procedure performs k grounded Laplacian solves and O(km) work to aggregate edge currents.
+    The source proposes conjugate gradients to avoid the dense inverse used by its separate exact sorted-row
+    algorithm. Its displayed condition-number runtime does not specify a numerical tolerance. Sampling
+    concentration assumes exact throughputs; approximate-solver error requires additional analysis and
+    is not covered by that probability bound. No unconditional exact floating-point runtime, solver accuracy
+    or implementation-independent memory guarantee is asserted.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Sections 4 and 5, conjugate-gradient discussion and Algorithm 3, PDF pp. 8–10 / printed pp.
+      540–542
+    relation: supports
+- claim_id: evidence-and-method-boundary
+  kind: limitation
+  statement: This is the chapter’s sampled-pair Algorithm 3, distinct from exact sorted-row betweenness,
+    grounded closeness, shortest-path dependency accumulation and sampling source pivots for shortest-path
+    centrality. Appendix A describes an ell=1 Java approximation experiment, and Figure 1 presents maximum
+    absolute errors for six random and six AS graphs. This record asserts no digitized numerical advantage,
+    replicated benchmark, causal influence or learned predictive performance. The paper’s phrase fully
+    polynomial randomized approximation scheme is not treated as a relative-error theorem.
+  evidence:
+  - source_id: brandesfleischer2005
+    locator: Sections 4–6, PDF pp. 7–11 / printed pp. 539–543; Appendix A and Figure 1, PDF p. 12 / printed
+      p. 544
+    relation: supports
+identity_notes: 'Compared all 442 pinned AIO and 688 native identities; no normalized match. Ignored-
+  and hidden-inclusive searches of three full checkouts returned 89,0,0 lines, read as the exact-current
+  record/report and prior chapter leads or query strings. Semantic assessment covered 147 AIO and 522
+  native definitions: all 147 AIO and 521 prior native rows verified unchanged and one newly selected
+  native row read. Nine complete AIO contexts and six full native neighbors were assessed. Algorithm 3
+  independently samples source–sink pairs and averages scaled electrical throughputs. This differs from
+  Algorithm 1’s exact sorted-row aggregation, grounded resistance-sum closeness, shortest-path dependency
+  accumulation and source-pivot distance or dependency estimation. It estimates a structural graph score,
+  not a causal influence model or a learned predictor.'
+evidence_sources:
+- source_id: brandesfleischer2005
+  title: Centrality Measures Based on Current Flow
+  authors:
+  - Ulrik Brandes
+  - Daniel Fleischer
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: doi:10.1007/978-3-540-31856-9_44
+  version: Twelve-page repository-hosted typeset STACS 2005 chapter, Lecture Notes in Computer Science
+    3404:533–544, with a KOPS deposit overlay on the first page. All text and 22 references read; mathematical
+    pages 2–10 and Appendix A/Figure 1 on page 12 visually inspected. Publisher metadata and abstract
+    confirm title, authors, venue, pages and DOI. No author software, raw data or alternate corrected
+    edition was inspected.
+  url: https://d-nb.info/1104942720/34
+  accessed_at: '2026-10-14T04:15:45Z'
+  sha256: 92063e95b544688e1aabb5468e2fefcb3276520743a661bf9febc8622e90556d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 688 preceding native identities, with full-checkout text
+    searches including ignored and hidden files. Semantic context comprises 147 AIO and 522 native definitions,
+    with prior rows verified unchanged and the new exact-current algorithm read. Nine complete AIO contexts
+    and six full native neighbors were assessed.
+  rationale: No examined AIO target denotes this randomized current-flow centrality estimator. Random
+    sampling, graph inputs and ranking outputs do not by themselves identify it with a bias, clustering
+    task, language model or deep active learning.
+  examined_targets:
+  - target: AIO:Clustering
+    rejection_reason: A centrality vector assigns scores without grouping vertices into clusters.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: Absence of labels does not turn structural score computation into clustering.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The identity is a specific pair-sampling and electrical-solve procedure, not solely
+      a rule defining an input-output function.
+  - target: AIO:DataPreparation
+    rejection_reason: Computing network prominence is the defined result; incidental downstream feature
+      use does not establish a preprocessing identity.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: The electrical-network computation has no language-model input/output or training
+      mechanism.
+  - target: AIO:RankingBias
+    rejection_reason: A structural graph score is not the belief that high-ranked information is necessarily
+      relevant.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: The estimator’s specified independent uniform pair sampling is a method, not the
+      bias concept caused by nonrepresentative selection.
+  - target: AIO:RepresentationBias
+    rejection_reason: A graph centrality computation is not subgroup representation bias.
+  - target: AIO:DeepActiveLearning
+    rejection_reason: Neither labels nor a deep neural network are acquired or fitted.
+limitations:
+- Connected simple undirected positive-conductance graphs with n>=3, distinct pair endpoints and endpoint-excluded
+  normalization only. Disconnected components, signed weights, endpoint inclusion and edge centrality
+  need separate conventions.
+- Independent uniform pair sampling and exact electrical currents are assumptions of the estimator and
+  concentration analysis. Dependence between vertex estimates is allowed by the union bound; biased pair
+  sampling or approximate solves require separate analysis.
+- Absolute-error probability does not guarantee relative accuracy at near-zero scores, deterministic accuracy
+  or preserved rankings. Estimates above one are possible; no clipping, resampling or fallback is introduced.
+- The chapter has a current-versus-potential cycle equation discrepancy and inconsistent incidence dimensions
+  and intermediate normalization in its separate exact computation. This record uses its explicit weighted
+  Laplacian, Ohm law, throughput definition and Algorithm 3. It does not adopt the separate closeness
+  normalization or claim a corrected source edition.
+- The complete twelve-page chapter was read, including mathematical renderings and Figure 1; no author
+  implementation, raw results or benchmark replication. Finite rational examples check selected boundaries
+  rather than proving every graph or numerical solver. DRAFT remains after author self-review.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T05:08:08Z'
+  updated_at: '2026-10-14T05:08:08Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

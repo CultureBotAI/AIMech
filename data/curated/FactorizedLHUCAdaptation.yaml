@@ -1,0 +1,137 @@
+id: AIMech:FactorizedLHUCAdaptation
+name: Factorized LHUC Adaptation
+aliases: []
+concept_kind: algorithm
+definition: An acoustic-model adaptation procedure that combines separately estimated speaker and environment
+  LHUC transforms by interpolating their transformed hidden-unit amplitudes for a known target environment.
+identity_notes: Compared all 442 pinned AIO and 629 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 65, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 37 AIO and 89 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain
+  the explicitly described factorized speaker/environment LHUC combination procedure. It estimates two
+  different transform families and interpolates their amplitudes for a known environment. This is neither
+  ordinary single-target LHUC nor SAT-LHUC joint base training, pooling-parameter adaptation or additive
+  low-rank weight adaptation.
+definition_evidence:
+- source_id: swietojanski2016lhuc
+  locator: Section VII, PDF pp.10–11, Equation 10 and Table XIII
+  relation: supports
+claims:
+- claim_id: transformed-amplitude-interpolation
+  kind: mechanism
+  statement: Given separate speaker and environment parameters r_S and r_E, the combined hidden-unit amplitude
+    is alpha*xi(r_S)+(1-alpha)*xi(r_E). The interpolation acts on transformed amplitudes, not generally
+    on the latent parameters before applying xi. With exponential xi, averaging latent log amplitudes
+    gives a geometric combination rather than the stated arithmetic combination.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section VII, PDF p.10, Equation 10; direct exponential-parameter example
+    relation: supports
+- claim_id: separate-estimation-protocol
+  kind: scope
+  statement: In the described Aurora4 experiment, speaker transforms are estimated from clean speech.
+    Environment transforms are estimated separately for seven scenarios using multiple speakers while
+    excluding the target speaker’s data. The baseline network is trained on multiple conditions. Both
+    transform estimates use unsupervised acoustic adaptation targets; the procedure does not identify
+    the environment without supplied knowledge.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section V, PDF p.5, Aurora4 setup; Section VII, p.10
+    relation: supports
+- claim_id: known-environment-selection
+  kind: limitation
+  statement: The method assumes that the test environment is known so the appropriate environment transform
+    can be selected. It does not learn an automatic environment classifier, guarantee successful adaptation
+    to an unseen environment, or remove the need for data used to estimate the separate transforms.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section VII, PDF p.10, assumptions following Equation 10
+    relation: supports
+- claim_id: joint-versus-factorized-estimation
+  kind: scope
+  statement: The source compares separately estimated speaker-only and environment-only transforms, a
+    single transform estimated jointly from matching speaker-environment data, and interpolation of the
+    separate transformed amplitudes. These have different available-data requirements. Interpolation is
+    an alternative when joint matching adaptation data are unavailable; it is not asserted to recover
+    the joint optimum or to equal summing parameter vectors.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section VII, PDF pp.10–11, Equation 10 and Table XIII
+    relation: supports
+- claim_id: finite-evaluation-boundary
+  kind: performance
+  statement: On the configured Aurora4 evaluation, the source reports that interpolation improves on the
+    separate transforms but remains worse in aggregate than the jointly estimated speaker-environment
+    transform. The reported alpha choice and word-error rates do not imply a universally optimal interpolation
+    weight or superiority for every condition. The calculation checks amplitude placement only and does
+    not reproduce acoustic results.
+  evidence:
+  - source_id: swietojanski2016lhuc
+    locator: Section VII, PDF pp.10–11, Table XIII
+    relation: supports
+  evaluation:
+    task: Automatic speech recognition under speaker, noise and channel variation.
+    dataset_and_split: 'Aurora4 eval92 test: 330 utterances evaluated under fourteen conditions, grouped
+      A–D, with eight test speakers; Section V and Table I.'
+    model_and_version: Multi-condition trained DNN acoustic system reported in Table XIII of arXiv 1601.02828v2;
+      this is not the separate Maxout-CNN experiment in Table XIV.
+    metric_and_units: Word error rate, percent; lower is better. Values are the source table’s AVG column.
+    result: 'Factorized interpolation: 12.9% at alpha=0.5 and 12.7% at alpha=0.7.'
+    baseline: Unadapted DNN 13.9%; speaker-only LHUC 13.1%; environment-only LHUC 13.3%; joint speaker-environment
+      LHUC 12.4%.
+    conditions: Speaker transforms estimated on clean speech; seven environment transforms use multiple
+      speakers with target-speaker data excluded. Test environment is known. Joint fitting uses matching
+      speaker-environment adaptation data and has different data requirements. Source-reported experiment,
+      not replicated.
+    uncertainty: Table XIII gives point estimates without repeated-run spread, confidence intervals or
+      a significance test for this comparison. No per-condition dominance or universal alpha optimum is
+      inferred.
+evidence_sources:
+- source_id: swietojanski2016lhuc
+  title: Learning Hidden Unit Contributions for Unsupervised Acoustic Model Adaptation
+  authors:
+  - Pawel Swietojanski
+  - Jinyu Li
+  - Steve Renals
+  persistent_id: arXiv:1601.02828v2
+  version: arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534
+    agrees with primary metadata. All pages visually inspected, including Equations 1–10, Figures 1–11,
+    Tables I–XIV, footnotes, 84 references and biographies. Metadata says nine tables, but the inspected
+    PDF contains fourteen. Other versions and author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1601.02828v2
+  access_level: full_text
+  accessed_at: '2026-10-13T14:38:16Z'
+  sha256: d9732801becdcbfc57c96ac6f53e66869cdca819aa22a5aae941799dc63423b4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:KnowledgeTransfer
+  relation: related_match
+  rationale: Separately learned adaptation transforms are reused for a combined target speaker and known
+    environment. The pinned transfer strategy is related context rather than an equivalent algorithm.
+- target: AIO:DeepTransferLearning
+  relation: related_match
+  rationale: The procedure adapts a deep acoustic representation across speaker and environment conditions.
+    The pinned class denotes a network category rather than this combination algorithm.
+limitations:
+- The local identity denotes the source’s factorized LHUC interpolation procedure, not every factorized
+  neural model, ordinary test-only LHUC or SAT-LHUC training.
+- Interpolation is performed after xi. A latent parameter representing the combined amplitude requires
+  a compatible inverse or representation; the method must not silently replace amplitude interpolation
+  with latent interpolation.
+- Known environment identity and separately estimated transforms are required in the demonstrated protocol.
+  Factorization does not establish statistical independence or a causal decomposition of speaker and environment
+  effects.
+- Complete fourteen-page primary v2 inspected. Constructed amplitude calculations only; no author software,
+  speech data, training or empirical replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T15:51:57Z'
+  updated_at: '2026-10-13T15:51:57Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

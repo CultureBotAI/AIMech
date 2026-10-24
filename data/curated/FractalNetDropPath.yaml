@@ -1,0 +1,158 @@
+id: AIMech:FractalNetDropPath
+name: FractalNet DropPath
+concept_kind: algorithm
+aliases: []
+definition: A structured regularization procedure for fractal networks that trains shared parameters using
+  locally selected nonempty subsets of join inputs or a single globally selected column, with elementwise
+  averaging over the active join inputs.
+definition_evidence:
+- source_id: larsson2017-arxiv-v4
+  locator: Section 3 and Section 3.1, PDF pp. 4–5; Figure 2 and its caption, PDF p. 5.
+  relation: supports
+claims:
+- claim_id: fractal-host-and-procedure
+  kind: scope
+  statement: The procedure operates on the parallel paths of a fractal network whose join layers combine
+    compatible feature tensors. In the demonstrated construction, every join input comes from a preceding
+    learned layer; none is designated as an identity pass-through or residual correction. The curated
+    identity is the path-selection regularizer, not the entire FractalNet architecture or a particular
+    trained column.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3, Equations (1)–(2), join definition and residual-network comparison, PDF p. 4;
+      Section 3.1, PDF pp. 4–5.
+    relation: supports
+- claim_id: local-nonempty-join-selection
+  kind: mechanism
+  statement: In local mode, a join randomly drops its input operands using a fixed drop-probability setting
+    while ensuring that at least one input survives. The selected objects are join inputs rather than
+    independent samples from the set of all end-to-end paths. The surviving set must remain nonempty for
+    the active-input mean to be defined; the paper does not specify the exact enforcement law.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3.1, local sampling bullet, PDF p. 4; Figure 2 caption and active-input rescaling
+      paragraph, PDF p. 5.
+    relation: supports
+- claim_id: global-single-column-selection
+  kind: mechanism
+  statement: In global mode, select one column as the single active path through the entire network. This
+    mode trains columns of different depths as usable stand-alone subnetworks. A network-wide column choice
+    couples the active computation across its blocks; it is not a separate independent drop decision for
+    every block. The source does not specify a probability distribution over the selected columns.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3.1, global sampling bullet, PDF p. 4; Figure 2 and the global-path discussion, PDF
+      p. 5.
+    relation: supports
+- claim_id: mean-over-active-inputs
+  kind: mechanism
+  statement: Each evaluated join takes the elementwise mean of only its active inputs. For a nonempty
+    surviving set S of compatible tensors h_i, this is J=(1/|S|)*sum_{i in S} h_i. The denominator is
+    the realized number of active inputs, not a fixed keep probability. With one surviving input, the
+    join returns that input.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3, elementwise join definition, PDF p. 4; Section 3.1, rescaling paragraph, PDF p.
+      5. The displayed finite-sum expression directly restates the active-input mean.
+    relation: supports
+- claim_id: reported-minibatch-mixture
+  kind: mechanism
+  statement: The reported experiments use a mixture with 50% local and 50% global sampling, drawing a
+    new subnetwork for each minibatch. The local drop setting is 15% across the network, and ordinary
+    dropout is also used in the stated regularized training recipe. These are reported configuration choices.
+    The alternating local/global drawings in Figure 2 do not require strict deterministic alternation
+    of the sampled modes.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3.1, mixture and minibatch paragraphs and Figure 2, PDF p. 5; Section 4.1, local
+      drop rate, PDF p. 6.
+    relation: supports
+- claim_id: full-graph-and-extracted-column-use
+  kind: scope
+  statement: The trained fractal graph can be evaluated as a full network or used to extract a single
+    trained column for stand-alone prediction. The source evaluates both choices and discusses a speed–accuracy
+    trade-off across columns of different depths. This is a choice of prediction graph after shared training,
+    not a claim that every column has equal quality or that the full prediction is the exact average of
+    all sampled subnetworks.
+  evidence:
+  - source_id: larsson2017-arxiv-v4
+    locator: Section 3.1, final global-path discussion, PDF p. 5; Table 1, PDF p. 6; Table 4 and Section
+      4.2, PDF p. 7; Section 4.3, PDF p. 8.
+    relation: supports
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: This procedure changes the participating network paths during training, giving a useful relationship
+    to the pinned TrainingStrategy class. That class uses a preprocessing genus and broad learning-paradigm
+    examples; it does not define this graph-specific sampling and averaging algorithm. The mapping asserts
+    neither equivalence nor subclass membership, and it does not turn the procedure into a data-preprocessing
+    method.
+limitations:
+- The inspected paper does not specify how an empty local mask is prevented, whether by resampling, repair
+  or another dependent rule. Independent drop draws at a nontrivial probability can remove all inputs,
+  so independence of the final nonempty mask and exact repaired marginal probabilities must not be inferred.
+  No particular implementation fallback is asserted.
+- The probability distribution over globally selected columns is not specified. The 50/50 mode mixture
+  and 15% local drop setting describe reported experiments rather than universal constants. A constrained
+  local join mask is not uniform sampling of all possible end-to-end paths, and the illustrative figure
+  does not determine the full sampling law.
+- 'A mean over active features does not generally make subsequent nonlinear predictions or losses equal
+  to an ensemble expectation. A hand illustration can use nonnegative join operands 0 and 2, uniform singleton
+  selection, and a later affine map z−1 followed by ReLU: the mean output is 1/2, whereas applying that
+  map to the full join mean gives 0. This is an illustrative permitted feature composition, not the paper''s
+  specified mask distribution, a training experiment or a contradiction of its claims.'
+- Suppressing a path's current loss-gradient contribution does not necessarily freeze every parameter
+  or state associated with it. Momentum, weight decay, running statistics or use elsewhere can still matter.
+  No author-code audit of mask repair, batching, computation skipping or batch-normalization handling
+  in extracted columns has been performed.
+- The reported regularized recipe also uses ordinary dropout, and the experiments vary architecture, augmentation
+  and training conditions. No new numerical effect size, isolated causal attribution to one mode, universal
+  speedup or benchmark reproduction is asserted. The student–teacher and deep-supervision explanation
+  is presented as a hypothesis, not a convergence or generalization theorem.
+- This record follows the retained 2017 arXiv v4 paper, which identifies itself as an ICLR conference
+  publication. Earlier preprints and the alternate author-hosted PDF whose download failed are not assumed
+  byte-equivalent. The procedure does not require a residual identity skip, and the unqualified name DropPath
+  is not assigned as an exact alias covering stochastic depth, NASNet Scheduled DropPath or later library
+  functions.
+- The source mentions more general possible layer types, but its detailed experiments use specified convolutional
+  hosts. Compatible join shapes and nonempty active input sets remain prerequisites. Reading all 11 retained
+  text pages and selected visuals does not certify every implementation detail, training result or architecture
+  outside that evidence scope.
+review_status: DRAFT
+identity_notes: This record denotes the original source-qualified FractalNet local/global path-selection
+  protocol. Its two modes remain one algorithm, distinct from the whole architecture, a trained column,
+  NASNet Scheduled DropPath and whole-residual stochastic depth. No bare DropPath alias is assigned. Reuse
+  owner 209 alongside the separately identified NASNet procedure; preserve its old DropBlock pointer as
+  historical discovery context. Current creation assessment uses the actual merged round 336 base d76936e4e77768d08b0cdd7f505ed34c9f50a5f0
+  with 745 native and 442 pinned AIO records. All 1,187 identity/hash rows were compared to retained research
+  snapshots with no unexpected change. Four ignored/hidden-inclusive searches returned 191, 190, 526 and
+  575 occurrences; root read all 26 distinct matching contents, including 18 newly encountered context
+  strings. Normalized ID/name/alias/scoped-synonym probes had no collision. The full 908-main and 393-nested
+  frontier was queried and relevant current owners read. These are bounded current identity findings,
+  not global completeness or exhaustion.
+evidence_sources:
+- source_id: larsson2017-arxiv-v4
+  title: 'FractalNet: Ultra-Deep Neural Networks without Residuals'
+  authors:
+  - Gustav Larsson
+  - Michael Maire
+  - Gregory Shakhnarovich
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1605.07648v4
+  persistent_id: arXiv:1605.07648v4
+  version: arXiv:1605.07648v4, submitted 26 May 2017 at 18:53:56 UTC; retained 11-page PDF identifying
+    publication at ICLR 2017. The PDF build date of 30 May 2017 and HTTP Last-Modified date in 2023 are
+    file metadata, not publication dates.
+  access_level: full_text
+  accessed_at: '2026-10-15T08:15:59Z'
+  sha256: 6d75803a1a74624d2dda0b62baf76bc3a628062717e03797f44a241cea5d468f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T09:02:41Z'
+  updated_at: '2026-10-15T09:02:41Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

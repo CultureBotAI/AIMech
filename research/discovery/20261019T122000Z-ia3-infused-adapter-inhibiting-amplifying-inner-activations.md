@@ -1,8 +1,8 @@
 # Discovery Report: Round 657 — Infused Adapter by Inhibiting and Amplifying Inner Activations ((IA)^3)
 
 - **Timestamp**: `2026-10-19T12:20:00Z`
-- **Selected Concept**: `AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations` (*Infused Adapter by Inhibiting and Amplifying Inner Activations ((IA)^3)*)
-- **Record Path**: `data/curated/Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations.yaml`
+- **Selected Concept**: `AIMech:IA3ActivationRescaling` (*Infused Adapter by Inhibiting and Amplifying Inner Activations ((IA)^3)*)
+- **Record Path**: `data/curated/IA3ActivationRescaling.yaml`
 - **Primary Source**: Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, Colin Raffel — *Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning* (`https://dblp.org/rec/conf/nips/LiuTMMHBR22.html`).
 
 ## Identity & Boundary Resolution

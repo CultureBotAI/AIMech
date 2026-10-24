@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Information-geometric optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Information-geometric optimization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Information-geometric optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:InformationGeometricOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A stochastic black-box optimization framework that adapts a parametrized sampling distribution using objective ranks and Fisher natural gradients, defining a continuous flow with reference-frozen quantile utilities and finite algorithms that approximate that flow by ranked sampling and Euler updates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      IGO specifies quantile/rank utility, reference-frozen natural-gradient flow and a parameterized sampled update across distribution families. It is not an exact alias of generic NES, xNES, SNES, full maintained CMA-ES, CEM or PBIL. The scoped rank-mu/no-path Gaussian, normalized-weight ML and Bernoulli/no-mutation correspondences do not equate the maintained whole methods. Current bounded identity assessment covers730native and442pinnedAIO records and four ignored/hidden-inclusive checkout scans; all2900matches were reconciled. Existing frontier owner203 is retained in place, without a duplicate leaf. The premerge collection and actual creation freshness checks remain separately recorded.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#distribution-relative-rank-utility</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For minimization of a black-box objective f over a search space X, choose a parametrized family of sampling distributions P_theta and a non-increasing selection function w on [0,1]. Define the lower and upper probability levels of x using, respectively, objective values strictly below and at or below f(x) under P_theta. When the two levels coincide, the utility W_theta(x) is w at that level. For a positive-probability tie, it is the average of w over the whole interval between the two levels. Averaging w over this interval is generally different from evaluating w at its midpoint. This distribution-relative rank utility replaces raw objective magnitudes as the preference signal.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2.1, Definition 3 and Equations 4–6, PDF/printed pp. 9–10.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#reference-frozen-natural-gradient-flow</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At a current parameter theta_t, freeze the reference utility W_theta_t while differentiating its expectation under a variable P_theta. The IGO flow follows natural-gradient ascent of that expectation, evaluated at theta_t. With a differentiable sampling family and a usable nonsingular Fisher information matrix I, its velocity is I(theta_t)^(-1) times the expectation under P_theta_t of W_theta_t(x) times the score gradient of log P_theta(x), evaluated at theta_t. Differentiation acts on the distribution parameters, not on the black-box objective. Differentiating the utility and its averaging distribution together would instead differentiate the constant integral of w and lose the intended preference update.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> Section 2.1.2, PDF/printed p. 7; Section 2.2.2, Definition 4 and Equations 7–13, pp. 10–11; fixed-reference explanation below Equation 7.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sampled-euler-update-and-ties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The finite IGO algorithm draws N independent samples from the current distribution, evaluates f and ranks samples from best to worst for minimization. Without ties, a sample with zero-based rank r receives weight (1/N) w((r + 1/2)/N). Tied samples receive the average of these weights over their possible rank positions. The parameter update adds delta_t times the sum of each weight multiplied by its natural score gradient at the current parameter. The factor 1/N is already in each weight. This is a sampled Euler approximation, requiring a chosen distribution family, weighting scheme, coordinate parametrization, sample size and step size; it is not an exact finite-time solution of the flow.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2.3, Definition 5 and Equations 14, 16–18, PDF/printed pp. 11–13; tie convention after Equation 14. Footnote 2, Equation 15, gives a separate integral-weight alternative.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#qualified-invariance-properties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Strictly increasing transformations of objective values preserve the population probability levels, sampled rankings and ties, so they preserve the IGO flow and the finite rule with corresponding samples. A smooth invertible reparametrization preserves the continuous trajectory in distribution space. Finite additive updates generally agree only to first order in delta_t, with local differences of order delta_t squared under the stated regularity assumptions; affine parameter changes preserve the finite rule exactly. A one-to-one search-space transformation also requires preservation of the distribution family, a locally diffeomorphic induced parameter correspondence and transformed initialization. Its finite-update equivariance has the same second-order qualification unless the induced parameter map is affine.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> Section 2.2.4, PDF/printed p. 13; Appendix C.1, Propositions 17–19 and their finite-step qualifications, pp. 43–44.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#population-limit-and-quantile-improvement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    At a fixed parameter, independent sampling, square-integrable score components and a bounded non-increasing selection function support almost-sure convergence of the rank-weighted empirical update to the exact-population Euler update as N tends to infinity, with the stated tie averaging. This limit alone does not remove the time-discretization error. For the ideal continuous IGO flow with truncation weights w(u)=1 when u&lt;=q and 0 otherwise, where 0&lt;q&lt;1, the source establishes non-increase of the q-quantile of f under its regularity assumptions. Strict improvement additionally requires no objective plateaus and a nonstationary trajectory. These are not finite-population monotonicity, finite-budget accuracy or global-optimum guarantees.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> Section 3.1, Theorem 6, PDF/printed p. 14; Appendix D.2, Proposition 27 and proof, pp. 52–54, with its monotonicity-wording inconsistency retained below; Section 3.2, Proposition 7, p. 15, and Appendix D.3, pp. 54–55.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#scoped-algorithm-correspondences</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The framework overlaps rank-shaped natural evolution strategies; it does not equate the rank utility with raw expected fitness. For Gaussian distributions in mean/covariance coordinates, the IGO update matches the displayed rank-mu CMA update when mean and covariance learning rates are equal and evolution-path and step-size-control effects are disabled. For product Bernoulli distributions in probability coordinates, a weight of one on the best sample and zero on the others recovers the stated PBIL attraction update without probability mutation. The separate IGO-ML construction maximizes a weighted likelihood objective; for an exponential family in expectation coordinates and sample weights summing to one, it coincides with the corresponding IGO and smoothed cross-entropy updates when their required maximizers exist. These special cases do not make the whole framework an exact alias of full CMA-ES, mutated PBIL, generic NES or cross-entropy updates in arbitrary coordinates.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-ollivier2017">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a></span>
+        <span>· <strong>Locator:</strong> NES discussion following Definition 4, PDF/printed p. 11; Section 4, Definition 11, Equations 30–34 and Theorem 12, pp. 20–22; Section 5.1, Proposition 14 and best-sample/no-mutation case, pp. 23–24; Section 5.2.1, Proposition 15 and footnote 5, p. 25.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The source is the official 2017 JMLR article. Supporting research read native text on pages 1–33, 39–45 and 52–55 and selected visuals; root reading has its own narrower ledger. This is not a full 65-page proof audit. Earlier versions, author implementations and benchmark results were not reproduced.</li>
+      <li>The core score/Fisher formulas require a suitable regular sampling family and legitimate differentiation under the integral. An empirical Fisher estimate can be singular: at least as many distinct samples as parameter dimensions is necessary, not sufficient, for invertibility. Arbitrarily large finite steps can leave the parameter domain or poorly approximate the flow; no automatic regularization or boundary repair is supplied.</li>
+      <li>The rank utility depends on the current distribution and the selected weight function. A constant weight provides no population preference signal, although its finite-sample estimate can fluctuate. Finite ties average weights over compatible ranks. The integral-weight alternative in footnote 2 is not silently substituted for midpoint weights; they need not agree at finite sample size.</li>
+      <li>Definition 3 on page 9 uses a non-increasing weight for minimization. Proposition 27 on page 52 prints non-decreasing, while its proof on pages 53–54 uses non-increasing inequalities. The record follows the defining minimization convention and retains this source inconsistency; it does not claim an author-issued erratum or certification of all proofs.</li>
+      <li>The introductory discussion on page 8 uses minimize/descent wording beside a plus-gradient update. Definitions 3–5 specify ascent of the transformed rank utility. The overview on page 17 also needs the detailed finite-step invariance qualifications of Propositions 18–19 on pages 43–44; nonlinear coordinate changes are not asserted to leave arbitrary finite updates identical.</li>
+      <li>Strictly increasing objective transformations preserve order and ties; a merely non-decreasing transformation can create new ties. Search-space transformations must preserve the distribution family. Sampling consistency is a fixed-parameter limit and supplies no explicit finite population threshold, high-probability trajectory bound, finite-sample monotonicity or global convergence guarantee.</li>
+      <li>IGO-ML is a separately defined likelihood-maximization construction, not an automatic alias of the generic sampled Euler rule. Its required maximizer must be well defined and tractable. Expectation coordinates, mean/covariance coordinates and other smoothed cross-entropy parametrizations need not produce the same finite update. No distinct IGO-ML, rank-mu CMA or PBIL variant record is created by this framework description.</li>
+      <li>Existing NES, CMA-ES, cross-entropy optimization and PBIL records remain distinct. The special-case correspondences do not import complete evolution-path adaptation, probability-vector mutation, all raw-fitness NES rules or every cross-entropy variant. No historical-priority, general superiority, diversity-optimality or benchmark claim is made.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No inspected target establishes a sufficiently specific identity or defining-component relation for the general rank-based natural-gradient optimization framework. Optional learning applications and distribution families do not justify forcing a learning-task, network, model or scalar-function mapping.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> On2026-10-15 the bounded current assessment covered730native and442pinned AIO identities, aliases and scoped synonyms, with complete definition projections and focused semantic comparison to NES, CMA-ES, cross-entropy optimization and PBIL. All908main and393nested frontier objects were mechanically scanned; retained complete label/status coverage and17 freshly read relevant objects identify owners193/194/203. Four rg --no-ignore --hidden checkout searches yielded2900occurrences in18 exact contents, all reconciled and read, including explicit NES variant exclusions and four license-acronym false positives. Fourteen exact AIO CLASS nodes and48 incident edges plus31 additional semantic rows were inspected. The13 original rejected alternatives and ExponentialFunction are considered explicitly below; scalar exponential updates are not mandatory for generic IGO. Supporting full-inventory reading and root focused readings are separately attributed. Record/report bytes were verified at committed330head78f5e99222362867cab3990afd59485c58e18f8a; merge-based creation freshness is recorded separately. This is scoped pinned-snapshot evidence, not universal absence or literature saturation.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This is a large language model class. Its related evolutionary-algorithms synonym does not identify the general distribution-based optimizer.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned model-training and preprocessing scope does not identify a general black-box optimization framework.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A task defined by learning from data does not identify this general optimizer, even though its sampling distribution adapts.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MetaLearning.html"><code>AIO:MetaLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            IGO does not inherently use metadata over machine-learning experiments.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html"><code>AIO:ActiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Black-box objective evaluations do not inherently require label queries or a predictive surrogate.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An optional policy-search application does not make reward/environment learning the defining identity.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RandomForest.html"><code>AIO:RandomForest</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No decision-tree ensemble or forest surrogate is required.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvaluationBias.html"><code>AIO:EvaluationBias</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Bias in a testing population is not the rank-based optimizer; a possible limitation is not a mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A generic stochastic-state representation does not identify the natural-gradient search framework or establish a target-invariant sampler.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The concept is an iterative optimization framework, not merely a scalar function or acquisition criterion.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/BayesianNetwork.html"><code>AIO:BayesianNetwork</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            No directed acyclic graphical model is inherent to the chosen distribution family.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ProbabilisticGraphicalModel.html"><code>AIO:ProbabilisticGraphicalModel</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned graph-expressed conditional-dependence task is not required by the IGO construction.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/RestrictedBoltzmannMachine.html"><code>AIO:RestrictedBoltzmannMachine</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            An optional distribution-family example does not identify the general framework or give it a hidden-layer requirement.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ExponentialFunction.html"><code>AIO:ExponentialFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Scalar exponential scale updates define the selected xNES/SNES procedures, but are not required by the general rank-based IGO flow or sampled Euler construction over arbitrary distribution families.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-ollivier2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">ollivier2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://jmlr.org/papers/volume18/14-467/14-467.pdf" target="_blank" rel="noopener">Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Yann Ollivier, Ludovic Arnold, Anne Auger, Nikolaus Hansen
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9ae914cf439b…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AInformationGeometricOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Information-geometric optimization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:InformationGeometricOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Information-geometric...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">No-match assessed</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:48:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:48:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/InformationGeometricOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/InformationGeometricOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Information-geometric%20optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AInformationGeometricOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,201 @@
+id: AIMech:HRSAT
+name: HRSAT
+concept_kind: algorithm
+aliases: []
+definition: 'A source-scoped SAT-search algorithm described by the literal composition of the 1995 GenSAT
+  stages: a probability-controlled choice between false-clause variables and globally best-scoring flips,
+  followed by HSAT’s least-recently-flipped selector. The paper’s generic random-walk prose does not uniquely
+  certify this composition as its experimental executable.'
+definition_evidence:
+- source_id: gent-walsh1995
+  locator: 'PDF pp. 2–5, Section 2, Figure 1 and Section 4: literal select/pick composition and HRSAT
+    history strategy; PDF p. 8, Section 5.3, generic random-picking prose retained as a qualification.'
+  relation: supports
+claims:
+- claim_id: printed-gensat-search-context
+  kind: mechanism
+  statement: In the inspected 1995 GenSAT framework, begin an attempt from an initialized complete Boolean
+    assignment; the GSAT initialization described in Section 2 is random. Before each permitted flip,
+    test whether the assignment satisfies the CNF formula. Otherwise select a candidate set, pick one
+    variable, flip its truth value and continue within the per-attempt flip budget and outer attempt budget.
+    HRSAT is introduced as a variant within this framework.
+  evidence:
+  - source_id: gent-walsh1995
+    locator: PDF pp. 2–4, Section 2, Figure 1 and Section 4 introducing HRSAT.
+    relation: supports
+- claim_id: probability-controlled-candidate-set
+  kind: mechanism
+  statement: In the literal printed select stage, choose with probability p the set of all variables occurring
+    in currently unsatisfied clauses. With probability 1−p, choose the variables whose single-variable
+    flips give the greatest change toward more satisfied clauses, as in the stated GSAT hclimb rule. A
+    greatest change need not be positive. The focused branch is available even when an improving flip
+    exists; Section 5.3 treats allowing walks only when hill climbing is unavailable as a separate variant.
+  evidence:
+  - source_id: gent-walsh1995
+    locator: PDF pp. 2–3, Section 2 and Figure 1; PDF p. 8, Section 5.3, the separately restricted walk
+      variant.
+    relation: supports
+- claim_id: literal-history-pick-composition
+  kind: mechanism
+  statement: 'After select returns its candidate set, the printed driver applies pick to that set. For
+    HRSAT, compose this with the HSAT strategy described in Section 4: choose a candidate whose last flip
+    was longest ago. The same section explicitly contrasts this history-based deterministic picking with
+    random picking. This is a source-scoped reading of the printed stages, not a claim that the paper’s
+    generic random-walk prose fully specifies or certifies the experimental implementation.'
+  evidence:
+  - source_id: gent-walsh1995
+    locator: PDF p. 3, Figure 1 and HSAT pick definition in Section 4; PDF pp. 4–5, HRSAT introduction
+      and deterministic/history-picking discussion; PDF p. 8, generic random-picking prose retained as
+      a qualification.
+    relation: supports
+- claim_id: focused-moves-and-endpoints
+  kind: mechanism
+  statement: A focused flip changes a variable appearing in a false clause and can reduce the total number
+    of satisfied clauses. Under the literal composition and the same history, tie and outer-loop conventions,
+    p=0 recovers the HSAT candidate/pick combination, while p=1 always uses the false-clause variable
+    pool but retains the history selector. The latter endpoint is not a uniform random draw from that
+    pool or a clause-first random walk.
+  evidence:
+  - source_id: gent-walsh1995
+    locator: PDF pp. 1–3, discussion of downward focused flips, Section 2 and Figure 1; PDF pp. 3–5, history
+      picking. Endpoint statements are direct consequences of the stated probability branch and composition.
+    relation: supports
+- claim_id: archived-hwsat-version-distinction
+  kind: scope
+  statement: The inspected UBCSAT 1.0.0 archive registers HWSAT as HSAT with random walk and cites the
+    Gent–Walsh paper. Its unweighted PickHWSat walk branch instead chooses an unsatisfied clause uniformly
+    and then a literal uniformly from that clause, flipping the corresponding variable; its other branch
+    delegates to PickHSat. This is a separately versioned implementation policy, not evidence that HWSAT
+    is an exact alias of the literal HRSAT composition curated here.
+  evidence:
+  - source_id: ubcsat1-hwsat
+    locator: Archive member src/hwsat.c, AddHWSat lines 28–41 and unweighted PickHWSat lines 56–77. The
+      explicit uniform clause/literal comment accompanies the two RandomInt selections.
+    relation: supports
+  - source_id: gent-walsh1995
+    locator: PDF p. 3, Figure 1; PDF pp. 3–5, HRSAT history selector, for the original composition being
+      contrasted.
+    relation: supports
+limitations:
+- The 1995 printed select/pick stages and deterministic-history discussion support this literal composition,
+  while the paper also uses generic random-walk and random-picking prose. This record preserves that ambiguity;
+  it does not claim to reconstruct the exact experimental executable or silently substitute a uniform
+  focused selector.
+- The later HWSAT name does not establish identical transition rules. The inspected UBCSAT 1.0 clause-first
+  sampling differs from both history picking over the full focused pool and uniform sampling of the duplicate-free
+  variable union. The complete delegated HSAT helper, solver infrastructure and later releases are not
+  certified by this comparison.
+- The 1995 summary does not restate every initialization, never-flipped tie and restart convention from
+  the earlier HSAT work. Those choices must be specified for an operational implementation; no convention
+  is imported here from a maintained neighbor as though it were fresh primary evidence. A history preference
+  is not a tabu-tenure exclusion.
+- The probability parameter lies in [0,1], and a focused flip needs an eligible variable. Empty clauses
+  or an empty eligible set require explicit handling outside that selector. Clause/literal multiplicity
+  and normalization can alter score counts or clause-first sampling; representation choices are not silently
+  standardized.
+- Finite unsuccessful search is not an UNSAT certificate. Figure 1 tests satisfaction before each flip,
+  so a model reached on the final permitted flip is not rechecked inside that literal loop. An added final
+  test must be declared rather than treated as printed behavior.
+- The reported parameter studies and random/structured benchmarks do not establish a universal p, restart
+  budget, speedup or asymptotic complexity bound. Difficult structured examples and the dependence on
+  encoding and parameter choices remain within the source’s scope. No solver or benchmark was executed
+  for this record.
+- Focused moves need not improve the score, and the history selector does not give every eligible variable
+  a positive uniform probability at each step. General random-walk or 2-SAT convergence bounds therefore
+  do not automatically apply. Endpoint agreement at p=0 does not identify the full parameterized method
+  with ordinary HSAT.
+aio_no_match:
+  search_scope: At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the current inventory has786
+    native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized values, and no candidate
+    collision. Four full-checkout searches included ignored and hidden files; all1329 distinct matching
+    contents (23381 occurrences) were read by the attributed root/team partitions, with18 contextual fields
+    across ten neighboring records assessed separately. This is bounded identity evidence, not proof of
+    universal semantic absence. Exact pinned AIO CLASS neighborhoods and incident edges remain the separately
+    accepted research assessment; 11 examined targets retain their individual rejection rationales. Shared
+    score, memory or randomness vocabulary does not make symbolic SAT search a neural architecture or
+    an ML training procedure.
+  rationale: The inspected AIO targets describe language models, machine-learning tasks or training, neural
+    architectures/layers, or a stochastic network/model class. The source-scoped symbolic SAT selector
+    does not require those mechanisms. A possible augmented-state stochastic representation and flip-age
+    bookkeeping do not alone establish a suitable mapping.
+  examined_targets:
+  - target: AIO:ReasoningLLM
+    rejection_reason: The target is a language model doing reasoning in language tasks; the candidate
+      searches Boolean assignments.
+  - target: AIO:TrainingStrategy
+    rejection_reason: A fixed-formula SAT move selector is not preprocessing or a strategy for training
+      a machine-learning model.
+  - target: AIO:MachineLearningTask
+    rejection_reason: Keeping flip ages is bookkeeping; it does not require constructing methods that
+      learn from data.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: A probability-controlled move and clause score do not establish a learned reward
+      policy or value-function method.
+  - target: AIO:MarkovChain
+    rejection_reason: An augmented-state stochastic description could include the assignment, ages and
+      phase, but this representation alone does not map the named heuristic to the pinned network/model
+      class and its probabilistic-hidden-layer relation.
+  - target: AIO:ArtificialNeuralNetwork
+    rejection_reason: The method does not require a connected network of artificial neurons.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: A variable-age table is not external memory in a large language model.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A SAT timestamp table is not the neural cell layer described by the target and its
+      incident architecture edges.
+  - target: AIO:LongShortTermMemory
+    rejection_reason: The method does not require the recurrent neural architecture or its input, memory-cell
+      and output layers.
+  - target: AIO:NoiseDenseLayer
+    rejection_reason: The discrete candidate-set coin is not dense-layer weight noise for neural regularization.
+  - target: AIO:GaussianNoiseLayer
+    rejection_reason: No additive zero-centered Gaussian regularization of neural inputs is required.
+review_status: DRAFT
+identity_notes: Gent and Walsh1995 Figure1 defines the source-scoped HRSAT candidate-pool coin followed
+  by history selection in either pool. The accompanying prose wording is retained as an ambiguity. Later
+  UBCSAT1.0.0 HWSAT uses a clause-first uniform random variable rule and is comparative evidence, not
+  an exact alias. Existing HSAT, IHSAT, GSAT-with-random-walk, WalkSAT and AutoWalksat have distinct pool,
+  picking or outer-controller scopes. At clean merged base14e9168ee3496e914545ae5c449e3ee190f0294b, the
+  current inventory has786 native and442 pinned AIO records:4876 identity-field occurrences,3723 normalized
+  values, and no candidate collision. Four full-checkout searches included ignored and hidden files; all1329
+  distinct matching contents (23381 occurrences) were read by the attributed root/team partitions, with18
+  contextual fields across ten neighboring records assessed separately. This is bounded identity evidence,
+  not proof of universal semantic absence.
+evidence_sources:
+- source_id: gent-walsh1995
+  title: Unsatisfied Variables in Local Search
+  authors:
+  - Ian P. Gent
+  - Toby Walsh
+  source_type: primary_paper
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/algorithms/GenWal95.pdf
+  version: Thirteen-page archival author-layout version of the 1995 AISB paper in Hybrid Problems, Hybrid
+    Solutions, pp. 73–85. Locators use physical PDF pages. The native text has malformed glyphs; all pages
+    were read by OCR and defining pages were checked visually. The original printed select/pick composition
+    and generic random-walk prose are kept distinct; no experimental executable is certified.
+  access_level: full_text
+  accessed_at: '2026-10-15T21:23:41Z'
+  sha256: eaa23fc5c52ed9a73646f05ed892622d3c06a22a99d049c6e572e50a039c15e5
+- source_id: ubcsat1-hwsat
+  title: 'UBCSAT 1.0.0 source archive: HWSAT selector in src/hwsat.c'
+  authors:
+  - Dave Tompkins
+  - UBCSAT project
+  source_type: official_documentation
+  url: https://cs.uwaterloo.ca/~dtompkin/archive/ubcsat/ubcsat-1-0-0.tar.gz
+  version: Official project-linked version 1.0.0 archive. The SHA-256 identifies the complete downloaded
+    archive; inspected member src/hwsat.c has SHA-256 68eb445492935e76943c3429c9071c967087dba482030bbed9b6dbd61d6d89ec.
+    The unweighted PickHWSat branch at lines 56–77 is read statically for its clause-first sampling. No
+    build, execution or certification of the delegated HSAT helper, full solver or later releases is implied.
+  access_level: documentation
+  accessed_at: '2026-10-15T21:29:18Z'
+  sha256: 62a15f14ea22246ece58de7fb430f96493da0c91af54dafbd11157a1c3ffee62
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-15T23:35:54Z'
+  updated_at: '2026-10-15T23:35:54Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,148 @@
+id: AIMech:RandomOnlyAbstractionSampling
+name: Random-only abstraction for abstraction sampling
+aliases:
+- Random-only abstraction sampling
+- simpleRand abstraction
+- Purely random abstraction sampling
+concept_kind: mathematical_method
+definition: A randomized abstraction rule for graphical-model sampling that uniformly permutes the current
+  search nodes and divides that order into groups of nearly equal cardinality, within which the surrounding
+  sampler selects and importance-weights representatives.
+identity_notes: 'Compared all 442 pinned AIO and 649 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 87, 0, 0 lines. All distinct match contents were
+  inspected, including the value-based record and its report/rendered/review copies, source metadata and
+  pending simpleRand leads. None identifies an existing simpleRand record. The older and original checkout
+  searches returned no matches, including ignored and hidden files. Semantic matching covered 65 AIO and
+  347 native definitions, with every matched definition read. 15 full annotated AIO node/edge/generated
+  contexts and 3 full native records were inspected. Retain the simpleRand abstraction component: uniformly
+  shuffle the current node set and split the resulting sequence into balanced-cardinality groups. This
+  is separate from the AOAS traversal and estimator, from the value-ordered randVB cuts, and from randomized
+  context hashing RandCB. Generic tree sampling supplies representative-weight logic rather than this
+  partition rule. Bare RAND and random sampling are excluded as ambiguous aliases.'
+definition_evidence:
+- source_id: pezeshki2024value
+  locator: Main Section 5, The simpleRand Scheme and Algorithm 6, PDF p.7 / printed p.2867
+  relation: supports
+claims:
+- claim_id: shuffle-and-balanced-groups
+  kind: mechanism
+  statement: For N current nodes and an integer group count k with 1 <= k <= N, draw a uniformly random
+    permutation. Let b=floor(N/k) and e=N mod k. Cut the sequence into k groups, giving the first e groups
+    b+1 nodes and the others b nodes. This uses node identities and cardinalities without sorting by heuristic
+    or proposal values.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 5, Algorithm 6 lines1–15, PDF p.7 / printed p.2867
+    relation: supports
+- claim_id: weighted-selection-remains
+  kind: mechanism
+  statement: The randomization changes the partition rule. In AOAS, the representative within each group
+    is still sampled using the normalized proposal proportional to w*g*h*r and its weight becomes w/p
+    for the actual selection probability p. Random group assignment therefore does not make representative
+    selection uniformly distributed across the frontier, and does not remove dependence on the surrounding
+    heuristic and weight updates.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 3, Algorithm 1 and Figure 3, PDF pp.3–4 / printed pp.2863–2864; Section 5 Intuition,
+      PDF p.7 / printed p.2867
+    relation: supports
+- claim_id: distinct-randomization-laws
+  kind: scope
+  statement: simpleRand fixes balanced group sizes after shuffling node order. The value-based randVB
+    scheme instead selects cut positions in value-sorted order and permits unequal group sizes. RandCB
+    hashes full context assignments into abstract states. These randomization laws are distinct; sharing
+    a randomization step is not an identity mapping.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 4 context-based paragraph, Section 4.2 randVB and Algorithm 5, Section 5 and
+      Algorithm 6, PDF pp.4,6–7 / printed pp.2864,2866–2867
+    relation: supports
+- claim_id: linear-partition-cost
+  kind: scope
+  statement: The paper states O(N) time and space for the simpleRand partition step. This bound concerns
+    shuffling and grouping current nodes, with k bounded by N. It excludes heuristic preprocessing, generating
+    those nodes and the surrounding AOAS traversal or repeated probes.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 5 Complexity, PDF p.7 / printed p.2867; Algorithm 1, PDF p.3 / printed p.2863
+    relation: supports
+- claim_id: diversity-is-not-a-variance-guarantee
+  kind: limitation
+  statement: The authors motivate random groups by their potential to expose otherwise rarely selected
+    nodes to more favorable competitors. This is a design intuition, not a guarantee of uniform inclusion,
+    minimum estimator variance or finite-run accuracy. Correct weighting and proposal support remain necessary
+    for expectation claims of the surrounding estimator.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 5 Intuition, PDF p.7 / printed p.2867; Sections 3–4.1, Algorithm 1 and Theorem
+      4.1, PDF pp.3–5 / printed pp.2863–2865
+    relation: supports
+- claim_id: evaluation-reference-limits
+  kind: limitation
+  statement: The reported RAND results use AOAS and weighted mini-bucket heuristics on five graphical-model
+    benchmark families. Some reported settings select granularity by observed benchmark error; runs without
+    a positive estimate use a mini-bucket fallback. Large-problem error uses a reference from long RAND
+    runs rather than exact partition functions. The main text labels that reference 10 hours while supplemental
+    legends say 100 hours, and the supplemental exact-DBN budget differs from the main setting. These
+    results do not establish an independently exact reference or universal superiority.
+  evidence:
+  - source_id: pezeshki2024value
+    locator: Main Section 6, Tables 1–5 and Figures 4–8, PDF pp.7–10 / printed pp.2867–2870; appended
+      supplement Section 7.1.1 Table 1 and Section 7.3 Plots 1–4, PDF pp.30,35–38 / printed pp.2890,2895–2898
+    relation: supports
+evidence_sources:
+- source_id: pezeshki2024value
+  title: Value-Based Abstraction Functions for Abstraction Sampling
+  authors:
+  - Bobak Pezeshki
+  - Kalev Kask
+  - Alexander Ihler
+  - Rina Dechter
+  persistent_id: https://proceedings.mlr.press/v244/pezeshki24a.html
+  version: 'PMLR 244, UAI 2024, pp.2861–2901: 41 PDF pages comprising the 11-page main paper and 30-page
+    appended supplement. All pages visually read, including main Sections 1–7, Algorithms 1–6, Tables
+    1–5, Figures 1–8, 21 references, and supplement Sections 1–8, Algorithms 1–10, proof derivations,
+    Tables 1–10, Plots 1–6 and 8 references. The separate extended-background PDF is not included in this
+    full-reading claim.'
+  source_type: primary_paper
+  url: https://raw.githubusercontent.com/mlresearch/v244/main/assets/pezeshki24a/pezeshki24a.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T20:06:33Z'
+  sha256: 349e887f31bf40f81b2c191aceaf805edc62153fa0ebea2e0be16010835ab911
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ProbabilisticGraphicalModel
+  relation: related_match
+  rationale: The rule forms abstraction states for partition-function inference in graphical-model search
+    spaces. The pinned target provides the necessary model/task context; the link does not assert that
+    a randomized partition component is itself a graphical model or learning task.
+limitations:
+- This record is the simpleRand abstraction component, not a complete estimator or every randomized abstraction.
+  Bare RAND is not an alias. Random group membership alone does not identify value-based cuts, context
+  hashing, a learned abstraction or a clustering objective.
+- The stated cardinality formula uses a nonempty frontier and 1 <= k <= N. A larger cap requires an explicit
+  singleton/empty-group convention; the separate supplemental singleton wrapper is presented for value-ordered
+  abstractions and is not asserted here as simpleRand pseudocode. k=0 is invalid. Correct uniform shuffling
+  is assumed.
+- In a finite four-node example, all24 permutations give three balanced pairings equally often. With contributions1,1,9,9
+  and uniform selection within each pair, every partition estimates20 in expectation; random pairing has
+  variance256/3 while value-homogeneous pairing has variance0. This illustrates lack of universal variance
+  reduction, not a benchmark result.
+- Unequal proposal masses1,2,3,4 produce unequal marginal inclusion probabilities under the same random
+  pairings. Conditional selection must use its actual probability, and positive contributions require
+  positive support. Zero/all-zero proposal handling and numerical stability remain implementation responsibilities.
+- All41 proceedings pages, including the appended30-page supplement, were visually read. The separate19-page
+  extended background and OpenReview copies were not fully read; source-comparison and partial static
+  implementation reading are documented in the ledger. No author program, training run, hardware measurement
+  or benchmark replication was executed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T20:41:34Z'
+  updated_at: '2026-10-13T20:41:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

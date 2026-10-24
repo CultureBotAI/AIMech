@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exponential natural evolution strategies · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Exponential natural evolution strategies</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Exponential natural evolution strategies</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ExponentialNaturalEvolutionStrategies</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A Gaussian black-box optimization algorithm that adapts a search mean and full covariance factor from ranked samples in local standard-normal coordinates, using a transported mean step and separate exponential global-scale and matrix-shape updates.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The original 2010 full-covariance Gaussian population update is a concrete NES variant with transported mean and separate exponential scale/shape updates. The maintained NES family expressly reserves executable xNES/SNES rules; its Fisher/score framework and optional rank shaping do not already curate this finite update. xNES is also distinct from the maintained 2001 evolution-path CMA-ES and from generic IGO flow. Current bounded identity assessment covers730native and442pinnedAIO records and four ignored/hidden-inclusive checkout scans; all2900matches were reconciled. Existing frontier owner193 is retained in place, without a duplicate leaf. The premerge collection and actual creation freshness checks remain separately recorded.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#gaussian-ranked-generations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Maintain a Gaussian search distribution in d-dimensional real space through a mean mu and a nonsingular real matrix A, with covariance C=A*A^T. At each generation, draw independent standard normal vectors z_i, form x_i=mu+A*z_i and evaluate their black-box fitness. Rank the paired samples from best to worst for the chosen maximization convention and assign the configured rank utilities u_i. Algorithm 1 generates a new population each iteration; it uses objective evaluations rather than derivatives of the objective. The search distribution is not a predictive model of objective values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF p. 2, Gaussian sampling and fitness shaping; Section 5 and Algorithm 1, PDF pp. 5–6.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#natural-score-decomposition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Use the sampled standard coordinates to compute g=sum_i u_i*z_i and Delta=sum_i u_i*(z_i*z_i^T-I), in the natural-score normalization of Algorithm 1. Split Delta into the scalar a=tr(Delta)/d and the symmetric trace-free matrix H=Delta-a*I. Represent A=sigma*B, initializing sigma=abs(det(A))^(1/d) and B=A/sigma. Then sigma is positive and abs(det(B))=1; a positive-determinant initial factor gives det(B)=1. Rank utilities replace raw fitness weights and need not give an unbiased gradient estimate of raw expected fitness.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Sections 4.2–4.3, PDF pp. 4–5; Algorithm 1 and utility discussion, PDF p. 6. The ordinary/natural matrix-score notation discrepancy is retained in the limitations.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#finite-exponential-factor-update</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    With configured learning rates eta_mu, eta_sigma and eta_B, Algorithm 1 updates mu_new=mu+eta_mu*sigma*B*g, sigma_new=sigma*exp(eta_sigma*a/2), and B_new=B*exp(eta_B*H/2). The mean step uses the generation&#39;s original sigma and B. The shape exponential is a matrix exponential, whereas the global scale uses the scalar exponential. All scores come from the same sampled generation. When eta_sigma=eta_B=eta_A, the scale and shape updates combine to A_new=A*exp(eta_A*Delta/2). Different block learning rates rescale the components and do not generally give one scalar multiple of the complete natural-gradient direction.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 1, PDF p. 6; local-coordinate map in Equation 4, PDF p. 4; expanded scale/shape updates and equal-rate case in Equations 9–11, PDF p. 5.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#positive-covariance-and-shape-normalization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For a nonsingular initial factor, finite learning rates and finite symmetric score matrices, the matrix exponential in the factor update is invertible and the scalar scale multiplier is positive. The resulting covariance sigma_new^2*B_new*B_new^T therefore remains positive definite in exact arithmetic. Since H has zero trace, det(exp(eta_B*H/2))=1, preserving the normalized absolute determinant of B. The factor itself need not stay symmetric. These domain-preservation statements do not establish fitness improvement or protection against floating-point overflow, underflow and ill-conditioning.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp. 3–4, symmetric matrix exponential; Section 4.3, PDF p. 5, trace decomposition and determinant identity; Algorithm 1, PDF p. 6.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#qualified-affine-and-rank-equivariance</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For an invertible affine change of search coordinates y=L*x+b, the concrete full-factor update is equivariant when the initial mean and factor transform as L*mu+b and L*A, samples correspond, and the same learning rates and rank utilities are used. Any constraints and stopping policy also need corresponding transformation for a whole search to agree. Strictly increasing fitness transformations preserve the ranking and existing ties with a consistent tie policy. This is not a claim that arbitrary finite updates are invariant under nonlinear parameter changes or under transformations that create new ties.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 2, PDF pp. 2–3, rank shaping and invariance; Section 4.2, PDF p. 4; Algorithm 1 and Section 6.1, PDF p. 6; Section 7, PDF p. 8.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#first-order-cma-connection-and-identity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the equal covariance-learning-rate case, the covariance update is C_new=A*exp(eta_A*Delta)*A^T. Its first-order expansion has the rank-weighted additive form (1-eta_A*U)*C+eta_A*sum_i u_i*(x_i-mu)*(x_i-mu)^T, where U=sum_i u_i. This explains the source&#39;s connection to a rank-mu covariance update under corresponding weights and rates. The exponential update is not that first-order approximation at a general finite step. The named algorithm does not include full CMA-ES evolution-path and cumulative step-size mechanisms, and it is a concrete Gaussian NES variant rather than an alias of the general NES framework.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-glasmachers2010">Exponential Natural Evolution Strategies</a></span>
+        <span>· <strong>Locator:</strong> Section 4.4, PDF p. 5, covariance expansion and evolution-path qualification; Section 5, PDF pp. 5–6; Section 7, PDF p. 8.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The evidence owner is the eight-page 2010 author manuscript associated with the GECCO paper. Research read native text on PDF pages 1–6 and 8 and visuals 4–6; root reading has its own ledger and visually checked Algorithm 1. The alternate author-hosted PDF has different bytes and metadata but identical extracted text on all eight pages. This is not a benchmark replication, full implementation audit or author-issued erratum.</li>
+      <li>Use Algorithm 1 consistently with covariance A*A^T, samples mu+A*z, mean transport A and a right factor exponential. The source Equation 8 on page 5 omits that mean transport. Equation 6 on page 4 displays the ordinary Frobenius matrix score with a factor 1/2, whereas Algorithm 1 and expanded page-5 updates use the unhalved natural-score sum. In ordinary symmetric-matrix coordinates the Fisher bilinear form is tr(U*V)/2; its inverse accounts for this factor. The notation should not be mixed without that metric qualification.</li>
+      <li>The displayed local log density on page 4 contains -tr(A), lacks the mean-offset dependence and the trace-M normalizer, and its intermediate mean derivative does not consistently carry the local coordinate transport. The coherent Algorithm 1 and its Gaussian score interpretation are used; these intermediate displays are not certified. Section 4.2 also places the factor in the positive-definite symmetric cone, although its general right update need not preserve factor symmetry. Positive definiteness concerns the covariance.</li>
+      <li>The source prose assumes det(B)=1, while the Algorithm 1 initialization uses abs(det(A)). A positive-determinant factor satisfies the prose convention; arbitrary nonsingular input instead preserves abs(det(B))=1. The method requires a valid nonsingular initial factor and finite updates. Matrix exponential domain preservation in exact arithmetic does not prevent numerical collapse or guarantee a useful search distribution.</li>
+      <li>Retained comparison context: Wierstra et al. 2014, Algorithm 5 at PDF page 16/printed 964, samples using B^T but transports the mean with B and right-multiplies the factor. Its displayed covariance update on PDF page 18/printed 966 also does not follow that right update under its A^T*A convention for a general nonsymmetric factor. The 2011 SNES paper repeats this mixed convention in its xNES background. These contextual discrepancies are not silently imported into the 2010 algorithm, and no repaired or executable author-code version is claimed.</li>
+      <li>The exact utility curve, population size, learning rates, tie handling, constraint policy and stopping rule remain configuration choices. Table 1 supplies empirical defaults, not defining constants or optimality guarantees. Rank shaping and centered utility baselines alter the finite sampled update; they should not be described as unbiased raw-fitness gradients. A constant or uninformative ranking need not yield useful progress.</li>
+      <li>Full-factor sampling and weighted outer-product accumulation require O(n*d^2) arithmetic for n offspring, while a dense matrix exponential commonly costs O(d^3); sorting and objective evaluations add costs. This loop accounting is not a runtime measurement. No dimension-independent whole-generation cost, universal superiority, monotonic fitness improvement, finite-budget global optimum or general convergence rate is asserted.</li>
+      <li>Generic NES, diagonal Gaussian SNES, full CMA-ES and the separately assessed IGO flow/Euler framework remain distinct. Unequal block learning rates rescale natural-gradient components. The finite exponential retraction is not an exact finite-time solution of a general IGO flow, and the first-order covariance comparison does not equate default signed xNES utilities with every CMA-ES weighting scheme. Heavy-tailed, hill-climber, adaptation-sampling and importance-mixing variants are not silently added.</li>
+      <li>Both discovered standalone author Python URLs returned HTTP 500 during this research. No author code was acquired, executed or verified. The initial primary-download DNS failure and successful retry, publisher access failures, exact PDF versions and hand-derived transpose witnesses remain in the research provenance. This draft does not replace those failures with a successful implementation claim.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ExponentialFunction.html" style="font-weight: 600;"><code>AIO:ExponentialFunction</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Exponential Function</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The mandatory scalar exponential global-scale update is a defining component related to the pinned exp/e^x function. The optimizer is neither equivalent to nor a subclass of that function. This relation does not interpret the matrix exponential as elementwise scalar exponentiation and does not introduce neural activation or layer semantics.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-glasmachers2010">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">glasmachers2010</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://stiff-project.org/uploads/tx_sibibtex/glasmachers2010b.pdf" target="_blank" rel="noopener">Exponential Natural Evolution Strategies</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Tobias Glasmachers, Tom Schaul, Sun Yi, Daan Wierstra, Jürgen Schmidhuber
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> https://doi.org/10.1145/1830483.1830557</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:eca9c29d9549…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AExponentialNaturalEvolutionStrategies">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Exponential natural evolution strategies" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ExponentialNaturalEvolutionStrategies</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Exponential natural...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:ExponentialFunction (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:48:29Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:48:29Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ExponentialNaturalEvolutionStrategies.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ExponentialNaturalEvolutionStrategies.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Exponential%20natural%20evolution%20strategies"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AExponentialNaturalEvolutionStrategies"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -14,49 +14,67 @@
   Explore <strong>{{ total_concepts }}</strong> artificial intelligence concepts, comprising <strong>{{ curated_count }}</strong> evidence-curated algorithms, architectures, and model families alongside <strong>{{ aio_count }}</strong> classes projected from the Artificial Intelligence Ontology (AIO).
 </p>
 
-<div class="browser-controls">
-  <div class="search-bar">
-    <input type="text" id="searchInput" class="search-input" placeholder="Search by name, ID, definition, authors, claims, or keywords (e.g. attention, optimizer, diffusion)..." autofocus>
-  </div>
-  <div class="filter-row">
-    <div style="display: flex; align-items: center; gap: 0.4rem;">
-      <label for="originSelect" class="filter-label">Origin:</label>
-      <select id="originSelect" class="filter-select">
-        <option value="all">All Origins ({{ total_concepts }})</option>
-        <option value="curated">Curated AIMech ({{ curated_count }})</option>
-        <option value="aio">AIO Imported ({{ aio_count }})</option>
-      </select>
-    </div>
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Concept filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter concepts</h2>
+    <div class="browser-controls">
+      <div class="facet-group">
+        <label for="searchInput" class="facet-label">Search</label>
+        <input type="search" id="searchInput" name="q" class="search-input" placeholder="Name, ID, definition, authors, claims, or keywords…" autofocus>
+      </div>
+      <div class="facet-group">
+        <label for="sortSelect" class="facet-label">Sort by</label>
+        <select id="sortSelect" name="sort" class="filter-select">
+          <option value="name-asc">Concept name (A–Z)</option>
+          <option value="name-desc">Concept name (Z–A)</option>
+          <option value="claims-desc">Curated claims (high–low)</option>
+          <option value="sources-desc">Evidence sources (high–low)</option>
+          <option value="origin-asc">Origin (Curated first)</option>
+          <option value="id-asc">Identifier (A–Z)</option>
+        </select>
+      </div>
+      <div class="facet-group">
+        <label for="originSelect" class="facet-label">Origin</label>
+        <select id="originSelect" class="filter-select">
+          <option value="all">All Origins ({{ total_concepts }})</option>
+          <option value="curated">Curated AIMech ({{ curated_count }})</option>
+          <option value="aio">AIO Imported ({{ aio_count }})</option>
+        </select>
+      </div>
 
-    <div style="display: flex; align-items: center; gap: 0.4rem;">
-      <label for="kindSelect" class="filter-label">Concept Kind:</label>
-      <select id="kindSelect" class="filter-select">
-        <option value="all">All Kinds</option>
-        {% for k in kinds_meta %}
-          <option value="{{ k.id }}">{{ k.label }} ({{ k.count }})</option>
-        {% endfor %}
-      </select>
-    </div>
+      <div class="facet-group">
+        <label for="kindSelect" class="facet-label">Concept Kind</label>
+        <select id="kindSelect" class="filter-select">
+          <option value="all">All Kinds</option>
+          {% for k in kinds_meta %}
+            <option value="{{ k.id }}">{{ k.label }} ({{ k.count }})</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <div style="display: flex; align-items: center; gap: 0.4rem;">
-      <label for="branchSelect" class="filter-label">AIO Branch:</label>
-      <select id="branchSelect" class="filter-select">
-        <option value="all">All Branches</option>
-        {% for b in branches_meta %}
-          <option value="{{ b.id }}">{{ b.label }} ({{ b.count }})</option>
-        {% endfor %}
-      </select>
-    </div>
+      <div class="facet-group">
+        <label for="branchSelect" class="facet-label">AIO Branch</label>
+        <select id="branchSelect" class="filter-select">
+          <option value="all">All Branches</option>
+          {% for b in branches_meta %}
+            <option value="{{ b.id }}">{{ b.label }} ({{ b.count }})</option>
+          {% endfor %}
+        </select>
+      </div>
 
-    <button type="button" id="resetFilters" class="btn">Reset</button>
-
-    <div class="filter-count">
-      Showing <span id="matchCount">{{ total_concepts }}</span> of <span id="totalCount">{{ total_concepts }}</span>
+      <div class="facet-actions">
+        <div class="filter-count">
+          Showing <span id="matchCount">{{ total_concepts }}</span> of <span id="totalCount">{{ total_concepts }}</span>
+        </div>
+        <button type="button" id="resetFilters" class="btn">Reset</button>
+      </div>
     </div>
+  </aside>
+
+  <div class="browse-main">
+    {% include "record_table.html" %}
   </div>
 </div>
-
-{% include "record_table.html" %}
 
 <script src="{{ root }}record-browser.js"></script>
 {% endblock %}

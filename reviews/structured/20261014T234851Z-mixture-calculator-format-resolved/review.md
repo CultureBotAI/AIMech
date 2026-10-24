@@ -1,0 +1,1517 @@
+# Resolution review of the mixture calculator publication formatting
+
+- Review: 20261014T234851Z-mixture-calculator-format-resolved
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T23:36:49.279257Z
+- Finished UTC: 2026-10-14T23:48:51.048322Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: false
+
+## Summary
+
+The same minor EOF-format issue is resolved with explicit predecessor linkage, exact two-byte correction and actual current checks. Earlier scientific reviews and their historical source hashes remain immutable.
+
+## Scope And Provenance
+
+Only the exact calculator EOF-format correction, its append-only provenance and current validation evidence.
+
+Selection: Exact artifact research/discovery/mixture-boundaries.py
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base f80a7e2e48616126ad74f0e53aac6eadac9e9034.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:mixture-boundaries-publication-format | research/discovery/mixture-boundaries.py | maintained | Mixture calculation publication formatting |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:mixture-boundaries-publication-format | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 359.42s (0:05:59)<br>Checked 442 record(s); 0 failed.<br>Checked 713 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 399 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 408,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:mixture-boundaries-publication-format | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:mixture-boundaries-publication-format | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:mixture-boundaries-publication-format | Actual command exited zero without output. |
+| git diff --cached --check | passed | True | AIMech:mixture-boundaries-publication-format | Actual command exited zero without output. |
+| just render-check | passed | True | AIMech:mixture-boundaries-publication-format | pages/ is current<br>uv run --locked python scripts/render_pages.py --check<br> |
+
+## Scientific And Domain Assessments
+
+### Exact EOF normalization and successful current checks
+
+representation: supported. Targets: AIMech:mixture-boundaries-publication-format.
+
+The exact two trailing LF bytes have been removed while preserving one terminal newline. Original and corrected ASTs including location attributes agree, and the corrected calculator reproduced the original output bytes. The staged and working whitespace checks, full project gate, source pin, vendored artifacts and rendered-page check passed at their recorded current times. All other original publication paths remain byte-identical. This resolves only the recorded minor EOF formatting defect; it does not reassess scientific claims or assert external issue closure or merge.
+
+The original failure and open observation are retained. The successor is assessed against freshly captured corrected bytes; scientific records and prior scientific-review bytes were not rewritten.
+
+## Findings
+
+### extra-eof-blank-line: Extra trailing blank lines removed and publication checks repeated
+
+minor / resolved / confirmed; issue key: mixture-boundaries-extra-eof-blank-line.
+
+Exactly two LF bytes were removed from the original calculator so one final LF remains. AST equality, retained output reproduction and successful current staged whitespace/project checks support resolution of this formatting defect only.
+
+Disposition: The exact two trailing LF bytes have been removed while preserving one terminal newline. Original and corrected ASTs including location attributes agree, and the corrected calculator reproduced the original output bytes. The staged and working whitespace checks, full project gate, source pin, vendored artifacts and rendered-page check passed at their recorded current times. All other original publication paths remain byte-identical. This resolves only the recorded minor EOF formatting defect; it does not reassess scientific claims or assert external issue closure or merge.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| current-log-0 | /private/tmp/aimech-batch319-format-correction/checks-gate.json | supports | [{"command": "just check", "started_at": "2026-10-14T23:37:03.737128Z", "completed_at": "2026-10-14T23:48:05.359183Z", "exit_code": 0, "output": "All checks passed!\n........................................................................ [ 28%]\n........................................................................ [ 57%]\n........................................................................ [ 86%]\n...............................sss                                       [100%]\n247 passed, 3 skipped in 359.42s (0:05:59)\nChecked 442 record(s); 0 failed.\nChecked 713 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing, 0 changed, 0 unexpected.\nChecked 399 history record(s); 0 error(s).\n{\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 408,\n  \"coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\ntopClass is deprecated - use top_class\n", "stderr": "uv run --locked --extra dev python scripts/check.py\ntopClass is deprecated - use top_class\n"}] |
+| current-log-1 | /private/tmp/aimech-batch319-format-correction/checks-vendor.json | supports | [{"command": "just vendored-check", "started_at": "2026-10-14T23:37:08.368561Z", "completed_at": "2026-10-14T23:37:12.744356Z", "exit_code": 0, "output": "OK: 22 governed artifacts match the pinned claw revision\nbash scripts/check_vendored_sync.sh\n", "stderr": "bash scripts/check_vendored_sync.sh\n"}] |
+| current-log-2 | /private/tmp/aimech-batch319-format-correction/checks-additional.json | supports | [{"command": "uv run --locked aimech check-source", "started_at": "2026-10-14T23:37:03.802896Z", "completed_at": "2026-10-14T23:37:06.996865Z", "exit_code": 0, "output": "Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a\n", "stderr": ""}, {"command": "git diff --check", "started_at": "2026-10-14T23:37:06.997028Z", "completed_at": "2026-10-14T23:37:07.205852Z", "exit_code": 0, "output": "", "stderr": ""}, {"command": "git diff --cached --check", "started_at": "2026-10-14T23:37:07.205979Z", "completed_at": "2026-10-14T23:37:07.449551Z", "exit_code": 0, "output": "", "stderr": ""}] |
+| current-log-3 | /private/tmp/aimech-batch319-format-correction/checks-render.json | supports | [{"command": "just render-check", "started_at": "2026-10-14T23:37:03.824300Z", "completed_at": "2026-10-14T23:37:25.014793Z", "exit_code": 0, "output": "pages/ is current\nuv run --locked python scripts/render_pages.py --check\n", "stderr": "uv run --locked python scripts/render_pages.py --check\n"}] |
+| corrected-eof | research/discovery/mixture-boundaries.py; EOF normalized to one final LF | supports | Actual before/after bytes differ only by two trailing LF bytes; ASTs compare equal. No scientific interpretation is inferred from AST equality. |
+| correction-lineage | research/discovery/20261014T233615Z-mixture-calculator-format-correction.json | supports | Append-only correction report preserves original and corrected script hashes, genuine issue361, the actual failure and exact formatting scope; the original creation report/history and three scientific reviews are unchanged. |
+| actual-correction-receipt | /private/tmp/aimech-batch319-format-correction/correction.json | supports | {"started_at": "2026-10-14T23:36:08.981948Z", "completed_at": "2026-10-14T23:36:18.823183Z", "before": {"path": "/private/tmp/aimech-batch319-format-correction/mixture-boundaries.before.py", "sha256": "08aabec98558e43e20983518eb4b28c6ec6f383ad26e980a8e577612638e8125"}, "after": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/mixture-boundaries.py", "sha256": "24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790"}, "removed_byte_count": 2, "ast_equal": true, "original_plan": {"path": "/private/tmp/aimech-batch319-publication-plan.json", "sha256": "6ca1baa5c4f103a77132cb5aed2ab7b7b38a6a33480390779a238d5e9f939ba6"}, "original_all_other_paths_unchanged": true, "failed_check": {"path": "/private/tmp/aimech-batch319-format-correction/post-capture-failed-check.json", "sha256": "1ca7253bedbae74a2c638566053cf4c3260824362f694d8458db59a82426fef6"}, "issue_url": "https://github.com/CultureBotAI/AIMech/issues/361", "correction_report_path": "research/discovery/20261014T233615Z-mixture-calculator-format-correction.json", "correction_report_sha256": "5fdb01e10f8d6ad78a2d3614f37a13e86e717c7436ea7d7d6b7e02f7fb0c81b5", "correction_markdown_path": "research/discovery/20261014T233615Z-mixture-calculator-format-correction.md", "history_path": "history/reports/mixture-calculator-format-correction/2026-10-14T233618Z-codex-97a432.yaml", "actual_calculation": {"command": "python3 research/discovery/mixture-boundaries.py", "started_at": "2026-10-14T23:36:08.984723Z", "completed_at": "2026-10-14T23:36:15.413391Z", "exit_code": 0, "output": "{\n  \"UDNAM_scope\": {\n    \"HST\": [\n      [\n        \"0\",\n        \"5/8\",\n        \"3/8\"\n      ],\n      [\n        \"5/6\",\n        \"0\",\n        \"1/6\"\n      ],\n      [\n        \"3/4\",\n        \"1/4\",\n        \"0\"\n      ]\n    ],\n    \"Liu_modified_Gibbs\": [\n      [\n        \"3/14\",\n        \"1/2\",\n        \"2/7\"\n      ],\n      [\n        \"2/3\",\n        \"1/21\",\n        \"2/7\"\n      ],\n      [\n        \"4/7\",\n        \"3/7\",\n        \"0\"\n      ]\n    ],\n    \"ST\": [\n      [\n        \"0\",\n        \"3/4\",\n        \"1/4\"\n      ],\n      [\n        \"2/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"U_then_D\": [\n      [\n        \"23/35\",\n        \"1/5\",\n        \"1/7\"\n      ],\n      [\n        \"8/35\",\n        \"17/35\",\n        \"2/7\"\n      ],\n      [\n        \"12/35\",\n        \"13/35\",\n        \"2/7\"\n      ]\n    ],\n    \"U_then_D_reversible\": false,\n    \"ZDNAM\": [\n      [\n        \"0\",\n        \"5/8\",\n        \"3/8\"\n      ],\n      [\n        \"5/6\",\n        \"0\",\n        \"1/6\"\n      ],\n      [\n        \"3/4\",\n        \"1/4\",\n        \"0\"\n      ]\n    ],\n    \"all_six_orders_all_shift_exclusion\": [\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/3\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"4/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\": \"5/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\": \"2/3\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"7/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"-19/140\",\n          \"matches\": false\n        }\n      }\n    ],\n    \"minimum_self_mass\": \"0\",\n    \"mixture\": [\n      [\n        \"5/56\",\n        \"159/280\",\n        \"12/35\"\n      ],\n      [\n        \"53/70\",\n        \"1/30\",\n        \"22/105\"\n      ],\n      [\n        \"24/35\",\n        \"11/35\",\n        \"0\"\n      ]\n    ],\n    \"pi\": [\n      \"4/9\",\n      \"1/3\",\n      \"2/9\"\n    ],\n    \"row_dependent_after\": [\n      \"11/21\",\n      \"32/105\",\n      \"6/35\"\n    ],\n    \"row_dependent_component_choice\": [\n      [\n        \"5/28\",\n        \"15/28\",\n        \"2/7\"\n      ],\n      [\n        \"4/5\",\n        \"1/15\",\n        \"2/15\"\n      ],\n      [\n        \"4/5\",\n        \"1/5\",\n        \"0\"\n      ]\n    ],\n    \"stationary_self_mass\": \"16/315\"\n  },\n  \"UDST_uniform4\": {\n    \"UDNAM\": [\n      [\n        \"0\",\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"0\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\",\n        \"0\"\n      ]\n    ],\n    \"UDST\": [\n      [\n        \"0\",\n        \"1/2\",\n        \"0\",\n        \"1/2\"\n      ],\n      [\n        \"1/2\",\n        \"0\",\n        \"1/2\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1/2\",\n        \"0\",\n        \"1/2\"\n      ],\n      [\n        \"1/2\",\n        \"0\",\n        \"1/2\",\n        \"0\"\n      ]\n    ],\n    \"ZDNAM\": [\n      [\n        \"0\",\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"0\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\",\n        \"0\"\n      ]\n    ],\n    \"all_24_orders_all_shift_exclusion\": [\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            2,\n            0\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"0\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\": \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/4\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\": \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\": \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\": \"1/2\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\": \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\": [\n            0,\n            2\n          ],\n          \"conflicting_fraction\": \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\": \"3/4\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\": \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\": [\n            0,\n            1\n          ],\n          \"conflicting_fraction\": \"1/2\",\n          \"matches\": false\n        }\n      }\n    ],\n    \"analytic_certificate\": \"For equal quarter intervals, any shift has two consecutive cyclic offsets q,q+1 with probabilities 1-t,t. Matching two half-probability outputs requires t=1/2. No pair of consecutive residues modulo4 is closed under negation. Thus this single-shift kernel cannot be reversible in any order, whereas UDST is reversible. Boundary shifts have one supported destination and also cannot match.\",\n    \"every_single_NAM_order_equal\": true,\n    \"pi\": [\n      \"1/4\",\n      \"1/4\",\n      \"1/4\",\n      \"1/4\"\n    ],\n    \"source_uniform_FSS_ZFSS_cycle_example\": [\n      [\n        \"0\",\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\",\n        \"0\"\n      ]\n    ]\n  },\n  \"assumptions\": [\n    \"Use one complete positive target and current-independent component-selection probabilities at each fixed conditioning environment.\",\n    \"UDNAM mixes two reversible NAM kernels; independent valid ascending and descending tie policies preserve reversibility, although the mixture can change.\",\n    \"UDST uses one maximum anchor and a specified ascending tail with its exact reversal, including tied labels. Independent weak sorting does not establish reverse-flow pairing.\",\n    \"Equal mixture is part of each named method. Unequal constant weights remain invariant but need not remain reversible for UDST.\",\n    \"One-state UDST maximum shift equals total mass; its stay kernel is an explicitly guarded boundary extension.\",\n    \"The comparison with uniform FSS/ZFSS uses the source-described deterministic-cycle property; their implementation is not imported or executed here.\"\n  ],\n  \"dependency_sha256\": {\n    \"nam-boundaries.py\": \"cb58dd0a41b32a7c4f12dcfc711963b39ff062b12f79d8fe6bf065b777714941\",\n    \"tower-boundaries.py\": \"d8e458ae28b7a679456a729231621f5ad35ac00bfa0d7bd52ee655d2f8423c47\"\n  },\n  \"expanded_counts\": {\n    \"arbitrary_fixed_NAM_mixing_weight_cases\": 600,\n    \"compatible_NAM_order_cases\": 771,\n    \"independent_UDNAM_tie_pairs\": 3231,\n    \"one_state_UDST_endpoint_extensions\": 3,\n    \"paired_UDST_order_cases\": 435,\n    \"positive_target_vectors\": 120\n  },\n  \"fixed_two_binary_coordinate_scan\": {\n    \"classes\": [\n      {\n        \"closed\": true,\n        \"period\": 2,\n        \"states_zero_based\": [\n          0,\n          3\n        ]\n      },\n      {\n        \"closed\": true,\n        \"period\": 2,\n        \"states_zero_based\": [\n          1,\n          2\n        ]\n      }\n    ],\n    \"matrix\": [\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"states\": [\n      [\n        0,\n        0\n      ],\n      [\n        0,\n        1\n      ],\n      [\n        1,\n        0\n      ],\n      [\n        1,\n        1\n      ]\n    ]\n  },\n  \"half_dominant_point_boundaries\": [\n    {\n      \"UDNAM\": [\n        [\n          \"1\"\n        ]\n      ],\n      \"UDNAM_self_mass\": \"1\",\n      \"UDST\": [\n        [\n          \"1\"\n        ]\n      ],\n      \"UDST_self_mass\": \"1\",\n      \"minimum_self_mass\": \"1\",\n      \"pi\": [\n        \"1\"\n      ],\n      \"weights\": [\n        1\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\": \"0\",\n      \"UDST\": [\n        [\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\": \"0\",\n      \"minimum_self_mass\": \"0\",\n      \"pi\": [\n        \"1/2\",\n        \"1/2\"\n      ],\n      \"weights\": [\n        1,\n        1\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"3/20\",\n          \"21/40\",\n          \"13/40\"\n        ],\n        [\n          \"7/8\",\n          \"0\",\n          \"1/8\"\n        ],\n        [\n          \"13/16\",\n          \"3/16\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\": \"3/40\",\n      \"UDST\": [\n        [\n          \"0\",\n          \"3/5\",\n          \"2/5\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\": \"0\",\n      \"minimum_self_mass\": \"0\",\n      \"pi\": [\n        \"1/2\",\n        \"3/10\",\n        \"1/5\"\n      ],\n      \"weights\": [\n        5,\n        3,\n        2\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"7/18\",\n          \"17/36\",\n          \"5/36\"\n        ],\n        [\n          \"17/18\",\n          \"0\",\n          \"1/18\"\n        ],\n        [\n          \"5/6\",\n          \"1/6\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\": \"7/30\",\n      \"UDST\": [\n        [\n          \"1/3\",\n          \"1/2\",\n          \"1/6\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\": \"1/5\",\n      \"minimum_self_mass\": \"1/5\",\n      \"pi\": [\n        \"3/5\",\n        \"3/10\",\n        \"1/10\"\n      ],\n      \"weights\": [\n        6,\n        3,\n        1\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"55/72\",\n          \"17/144\",\n          \"17/144\"\n        ],\n        [\n          \"17/18\",\n          \"0\",\n          \"1/18\"\n        ],\n        [\n          \"17/18\",\n          \"1/18\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\": \"11/18\",\n      \"UDST\": [\n        [\n          \"3/4\",\n          \"1/8\",\n          \"1/8\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\": \"3/5\",\n      \"minimum_self_mass\": \"3/5\",\n      \"pi\": [\n        \"4/5\",\n        \"1/10\",\n        \"1/10\"\n      ],\n      \"weights\": [\n        8,\n        1,\n        1\n      ]\n    }\n  ],\n  \"mixture_weight_boundaries\": {\n    \"after\": [\n      \"1/3\",\n      \"2/3\",\n      \"0\"\n    ],\n    \"paired_components\": [\n      [\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      [\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ]\n      ]\n    ],\n    \"pi\": [\n      \"1/3\",\n      \"1/3\",\n      \"1/3\"\n    ],\n    \"state_dependent_choice\": [\n      [\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\",\n        \"0\"\n      ]\n    ],\n    \"unequal_fixed_mix\": [\n      [\n        \"0\",\n        \"1/4\",\n        \"3/4\"\n      ],\n      [\n        \"3/4\",\n        \"0\",\n        \"1/4\"\n      ],\n      [\n        \"1/4\",\n        \"3/4\",\n        \"0\"\n      ]\n    ],\n    \"unequal_fixed_mix_reversible\": false,\n    \"unequal_fixed_mix_stationary\": true\n  },\n  \"original_witnesses\": {\n    \"positive_target_vectors\": 120,\n    \"scope\": \"Original exact Fraction calculations, not author software. Positive integer weights1..3 for lengths1..4 produce120 ordered vectors, including repeated normalized targets. One-state maximum-shift endpoint is a separately recognized identity extension. No float, efficiency, benchmark or general ergodicity claim.\",\n    \"udnam_distinction\": {\n      \"DNAM\": [\n        [\n          \"0\",\n          \"3/5\",\n          \"2/5\"\n        ],\n        [\n          \"4/5\",\n          \"1/15\",\n          \"2/15\"\n        ],\n        [\n          \"4/5\",\n          \"1/5\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM\": [\n        [\n          \"5/56\",\n          \"159/280\",\n          \"12/35\"\n        ],\n        [\n          \"53/70\",\n          \"1/30\",\n          \"22/105\"\n        ],\n        [\n          \"24/35\",\n          \"11/35\",\n          \"0\"\n        ]\n      ],\n      \"UNAM\": [\n        [\n          \"5/28\",\n          \"15/28\",\n          \"2/7\"\n        ],\n        [\n          \"5/7\",\n          \"0\",\n          \"2/7\"\n        ],\n        [\n          \"4/7\",\n          \"3/7\",\n          \"0\"\n        ]\n      ],\n      \"all_six_single_NAM_orders\": [\n        {\n          \"matrix\": [\n            [\n              \"0\",\n              \"3/5\",\n              \"2/5\"\n            ],\n            [\n              \"4/5\",\n              \"1/15\",\n              \"2/15\"\n            ],\n            [\n              \"4/5\",\n              \"1/5\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            0,\n            1,\n            2\n          ]\n        },\n        {\n          \"matrix\": [\n            [\n              \"0\",\n              \"3/5\",\n              \"2/5\"\n            ],\n            [\n              \"4/5\",\n              \"1/15\",\n              \"2/15\"\n            ],\n            [\n              \"4/5\",\n              \"1/5\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            0,\n            2,\n            1\n          ]\n        },\n        {\n          \"matrix\": [\n            [\n              \"1/4\",\n              \"1/2\",\n              \"1/4\"\n            ],\n            [\n              \"2/3\",\n              \"0\",\n              \"1/3\"\n            ],\n            [\n              \"1/2\",\n              \"1/2\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            1,\n            0,\n            2\n          ]\n        },\n        {\n          \"matrix\": [\n            [\n              \"1/4\",\n              \"1/2\",\n              \"1/4\"\n            ],\n            [\n              \"2/3\",\n              \"0\",\n              \"1/3\"\n            ],\n            [\n              \"1/2\",\n              \"1/2\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            1,\n            2,\n            0\n          ]\n        },\n        {\n          \"matrix\": [\n            [\n              \"5/28\",\n              \"15/28\",\n              \"2/7\"\n            ],\n            [\n              \"5/7\",\n              \"0\",\n              \"2/7\"\n            ],\n            [\n              \"4/7\",\n              \"3/7\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            2,\n            0,\n            1\n          ]\n        },\n        {\n          \"matrix\": [\n            [\n              \"5/28\",\n              \"15/28\",\n              \"2/7\"\n            ],\n            [\n              \"5/7\",\n              \"0\",\n              \"2/7\"\n            ],\n            [\n              \"4/7\",\n              \"3/7\",\n              \"0\"\n            ]\n          ],\n          \"order\": [\n            2,\n            1,\n            0\n          ]\n        }\n      ],\n      \"down_order\": [\n        0,\n        1,\n        2\n      ],\n      \"interpretation\": \"The mixture has two positive diagonal entries while each single NAM ordering has at most one; this one target disproves full construction equivalence. It does not assert disjoint kernel sets.\",\n      \"pi\": [\n        \"4/9\",\n        \"1/3\",\n        \"2/9\"\n      ],\n      \"positive_diagonals\": 2,\n      \"up_order\": [\n        2,\n        1,\n        0\n      ]\n    },\n    \"udnam_tie_policy\": {\n      \"DNAM_choices\": [\n        [\n          [\n            \"0\",\n            \"1/14\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/42\",\n            \"1/21\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/14\",\n            \"3/14\",\n            \"0\",\n            \"5/7\"\n          ],\n          [\n            \"1/7\",\n            \"3/7\",\n            \"3/7\",\n            \"0\"\n          ]\n        ],\n        [\n          [\n            \"0\",\n            \"3/14\",\n            \"1/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/14\",\n            \"0\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/42\",\n            \"3/14\",\n            \"1/21\",\n            \"5/7\"\n          ],\n          [\n            \"1/7\",\n            \"3/7\",\n            \"3/7\",\n            \"0\"\n          ]\n        ]\n      ],\n      \"UDNAM_choices\": [\n        [\n          [\n            \"0\",\n            \"53/308\",\n            \"75/308\",\n            \"45/77\"\n          ],\n          [\n            \"53/924\",\n            \"1/42\",\n            \"171/616\",\n            \"395/616\"\n          ],\n          [\n            \"25/308\",\n            \"171/616\",\n            \"0\",\n            \"395/616\"\n          ],\n          [\n            \"9/77\",\n            \"237/616\",\n            \"237/616\",\n            \"5/44\"\n          ]\n        ],\n        [\n          [\n            \"0\",\n            \"75/308\",\n            \"53/308\",\n            \"45/77\"\n          ],\n          [\n            \"25/308\",\n            \"0\",\n            \"171/616\",\n            \"395/616\"\n          ],\n          [\n            \"53/924\",\n            \"171/616\",\n            \"1/42\",\n            \"395/616\"\n          ],\n          [\n            \"9/77\",\n            \"237/616\",\n            \"237/616\",\n            \"5/44\"\n          ]\n        ]\n      ],\n      \"UNAM\": [\n        [\n          \"0\",\n          \"3/11\",\n          \"3/11\",\n          \"5/11\"\n        ],\n        [\n          \"1/11\",\n          \"0\",\n          \"15/44\",\n          \"25/44\"\n        ],\n        [\n          \"1/11\",\n          \"15/44\",\n          \"0\",\n          \"25/44\"\n        ],\n        [\n          \"1/11\",\n          \"15/44\",\n          \"15/44\",\n          \"5/22\"\n        ]\n      ],\n      \"down_orders\": [\n        [\n          3,\n          2,\n          1,\n          0\n        ],\n        [\n          3,\n          1,\n          2,\n          0\n        ]\n      ],\n      \"interpretation\": \"UNAM is unchanged under this tie exchange; DNAM and hence UDNAM change. Each component and mixture remains reversible. A reverse-pair requirement is not needed for UDNAM reversibility.\",\n      \"pi\": [\n        \"1/12\",\n        \"1/4\",\n        \"1/4\",\n        \"5/12\"\n      ],\n      \"up_orders\": [\n        [\n          0,\n          1,\n          2,\n          3\n        ],\n        [\n          0,\n          2,\n          1,\n          3\n        ]\n      ]\n    },\n    \"udst_single_circle_distinction\": {\n      \"DST_positive_orientation\": [\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"HST_same_order\": [\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM\": [\n        [\n          \"0\",\n          \"1/3\",\n          \"1/3\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"0\",\n          \"1/3\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"1/3\",\n          \"0\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"1/3\",\n          \"1/3\",\n          \"0\"\n        ]\n      ],\n      \"UDST\": [\n        [\n          \"0\",\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\",\n          \"0\"\n        ]\n      ],\n      \"UST_positive_orientation\": [\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"all_24_orders_all_shift_certificate\": [\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              2,\n              0\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              1,\n              0\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"0\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\": \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/4\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\": \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\": \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\": \"1/2\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\": \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\": [\n              0,\n              2\n            ],\n            \"conflicting_fraction\": \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\": \"3/4\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\": \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\": [\n              0,\n              1\n            ],\n            \"conflicting_fraction\": \"1/2\",\n            \"matches\": false\n          }\n        }\n      ],\n      \"closed_affine_segments\": 96,\n      \"down_order\": [\n        0,\n        3,\n        2,\n        1\n      ],\n      \"interpretation\": \"For this uniform4 target, no single circular shift in any order gives the UDST kernel. All shifts in [0,1] are covered by four affine pieces per order, including endpoints. Either orientation is covered by the full shift range. This is one counterexample, not a classification of all coincidences.\",\n      \"orders\": 24,\n      \"pi\": [\n        \"1/4\",\n        \"1/4\",\n        \"1/4\",\n        \"1/4\"\n      ],\n      \"up_order\": [\n        0,\n        1,\n        2,\n        3\n      ]\n    },\n    \"udst_unpaired_tie_failure\": {\n      \"independently_tied_down_order\": [\n        0,\n        1,\n        2\n      ],\n      \"interpretation\": \"Both same orders satisfy weak upward/downward probability sorting when all masses tie. They are not reverse-paired, so Eq101 and the reversibility conclusion do not follow. The bad mixture remains invariant, demonstrating precisely the missing pairing condition.\",\n      \"paired_reverse_mixture\": [\n        [\n          \"0\",\n          \"1/2\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"1/2\",\n          \"0\"\n        ]\n      ],\n      \"pi\": [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      \"unpaired_mixture\": [\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"up_order\": [\n        0,\n        1,\n        2\n      ]\n    }\n  },\n  \"scope\": \"Exact positive finite conditional kernels. Original source-agent witness output is retained without runtime metadata. Expanded tie, independent-component, all-shift and exploration checks use pinned unchanged sibling routines. No efficiency, float, author-code, all-target nonintersection or general convergence claim.\",\n  \"uniform_periodicity\": [\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\": [\n            0,\n            1\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\": [\n            0,\n            1\n          ]\n        }\n      ],\n      \"states\": 2\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2\n          ]\n        }\n      ],\n      \"states\": 3\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3\n          ]\n        }\n      ],\n      \"states\": 4\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4\n          ]\n        }\n      ],\n      \"states\": 5\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5\n          ]\n        }\n      ],\n      \"states\": 6\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6\n          ]\n        }\n      ],\n      \"states\": 7\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7\n          ]\n        }\n      ],\n      \"UDST_classes\": [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7\n          ]\n        }\n      ],\n      \"states\": 8\n    }\n  ]\n}\n", "stderr": "", "script_sha256": "24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790", "matches_original_result": true}, "open_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.yaml", "sha256": "8016e2bf30c39d80130f0da98d022ffe47d9553c0cbf42d4b0385b5a48616460"}} |
+| bounded-output-reproduction | /private/tmp/aimech-batch319-format-correction/correction.json; actual_calculation | supports | Corrected-script actual output matches the retained original JSON result. Receipt 2026-10-14T23:36:08.984723Z to 2026-10-14T23:36:15.413391Z is preserved, whether before or after this capture; it is not relabeled as a postcapture execution. |
+| prior-open-observation | reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.yaml; extra-eof-blank-line | context_only | The immutable prior repository review recorded the same minor open issue against the original three-LF bytes. Its failed check remains historical evidence, not a current failed required check. |
+
+## Limits And Additional Notes
+
+- Non-scientific single-artifact author review. AST equality and bounded output reproduction do not establish universal mathematical correctness.
+- Only the original formatting issue is resolved; scientific claim support, status promotion, publication and external issue closure are outside this review.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T234851Z-mixture-calculator-format-resolved
+kind: repository
+repository: CultureBotAI/AIMech
+title: Resolution review of the mixture calculator publication formatting
+started_at: '2026-10-14T23:36:49.279257Z'
+finished_at: '2026-10-14T23:48:51.048322Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author reassesses the exact repository-format correction;
+    same-workflow support is not independent scientific review.
+skill: docs/record-reviews.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: false
+summary: The same minor EOF-format issue is resolved with explicit predecessor linkage,
+  exact two-byte correction and actual current checks. Earlier scientific reviews
+  and their historical source hashes remain immutable.
+source:
+  git_revision: f80a7e2e48616126ad74f0e53aac6eadac9e9034
+  state: working_tree
+  inputs:
+  - path: data/curated/CircularWeightShiftSampler.yaml
+    sha256: a2ee967fb51b3b61ddc17f4259d3f79bbe94db4f04df27c55f671684a8d96536
+    role: context
+  - path: data/curated/UpwardDownwardNestedAntitheticMixture.yaml
+    sha256: c7754a4aa39a4f1ce5703c13f225693604ab9cc760af3f45236b64137fc6e9e2
+    role: context
+  - path: data/curated/UpwardDownwardShiftedTowerMixture.yaml
+    sha256: edf53fd84732416ca0ea18919f055eee78aa7902b488ae6898141ce30a484ade
+    role: context
+  - path: history/reports/circular-shift-and-antithetic-mixtures/2026-10-14T230534Z-codex-1c9e4b.yaml
+    sha256: 2fdfa3b02e63b829b0c66215cf5b7c0cf0a9e7ae864cd7e67dd28a4729ff3441
+    role: context
+  - path: history/reports/mixture-calculator-format-correction/2026-10-14T233618Z-codex-97a432.yaml
+    sha256: d8a0d7ba21de2dde905b80a2d26aa17b39ff4c887cd0adc87012cbd901406027
+    role: context
+  - path: pages/aio/MarkovChain.html
+    sha256: d45c725207964dba68e3d008ee4bf72555d748889e1f75756f87fbbf366c48ba
+    role: context
+  - path: pages/browse.html
+    sha256: 74e0255580142c65dce53cc4ef7239eeab1e2257152588c87a38caef39e36432
+    role: context
+  - path: pages/curated/CircularWeightShiftSampler.html
+    sha256: 63d11095b4b14eb99795fe521aac3f6e83915f7b7012c5c1f97e718ad31cb1df
+    role: context
+  - path: pages/curated/UpwardDownwardNestedAntitheticMixture.html
+    sha256: 03065391cd541a9fb5c5bef1113b5361b59d82e4e36a81f2f58b8e269f362aed
+    role: context
+  - path: pages/curated/UpwardDownwardShiftedTowerMixture.html
+    sha256: 5d70d3e3840158ad4d79e077511bd02b8e78bfc7301619064ac599d534f5f1fc
+    role: context
+  - path: pages/index.html
+    sha256: c744124adbe530e16abcbce4c91aa935de2d63832db82a381fbaf5b3edef6049
+    role: context
+  - path: pages/index.json
+    sha256: e3cc26974f075f4ff341cca186fabdd49572b320af0f8d81d12f291c25529f7d
+    role: context
+  - path: pages/kinds/algorithm.html
+    sha256: 5bbd58b76ccd11fdc7d080442e694445543121a22e4710744f290b74ab2c0328
+    role: context
+  - path: research/discovery/20261014T230424Z-circular-shift-and-antithetic-mixtures.json
+    sha256: 67c0606e4e22d9ca2d473842632207842effb729628e0a61402e1f9e1f49818b
+    role: context
+  - path: research/discovery/20261014T230424Z-circular-shift-and-antithetic-mixtures.md
+    sha256: fdb94a95a30f76ab24df23f1e17fc654c244551da81bcec3165b4cec917ce25f
+    role: context
+  - path: research/discovery/20261014T233615Z-mixture-calculator-format-correction.json
+    sha256: 5fdb01e10f8d6ad78a2d3614f37a13e86e717c7436ea7d7d6b7e02f7fb0c81b5
+    role: context
+  - path: research/discovery/20261014T233615Z-mixture-calculator-format-correction.md
+    sha256: a907854d2b473646d3cb0969cf215329f81bc4dd61df1858765edb24db2e5071
+    role: context
+  - path: research/discovery/mixture-boundaries.py
+    sha256: 24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790
+    role: target
+  - path: research/discovery/tower-boundaries.py
+    sha256: d8e458ae28b7a679456a729231621f5ad35ac00bfa0d7bd52ee655d2f8423c47
+    role: context
+  - path: reviews/structured/20261014T231824Z-circular-weight-shift-sampler/review.md
+    sha256: 6335ee6a38c849f172cf365efdf1dc8106d32416ca2a95586d6e1e7e0efa373e
+    role: context
+  - path: reviews/structured/20261014T231824Z-circular-weight-shift-sampler/review.yaml
+    sha256: 929b2bf72f715078c5aa956d0768b3d631c5e15e9963b547af6776405efea539
+    role: context
+  - path: reviews/structured/20261014T231908Z-upward-downward-nested-antithetic-mixture/review.md
+    sha256: a5659203835d8df92a6d0ddfe0846802237c98964705c2c6bde6f2872ec260bb
+    role: context
+  - path: reviews/structured/20261014T231908Z-upward-downward-nested-antithetic-mixture/review.yaml
+    sha256: e4127517930c78c8b32388483139b2239ef50a68ad1dbbf44b33af0b547bd253
+    role: context
+  - path: reviews/structured/20261014T231949Z-upward-downward-shifted-tower-mixture/review.md
+    sha256: 814c3421528ab46c114102d3f20b238513ee4d717404f3003108c839656eec5e
+    role: context
+  - path: reviews/structured/20261014T231949Z-upward-downward-shifted-tower-mixture/review.yaml
+    sha256: 9619f169c60f63eabde8bca677f7e8077038edceb73431e08cfaab48ea0d1d40
+    role: context
+  - path: reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.md
+    sha256: a52c999cddb3839901405394b62a5cfbcea240f6035450e814bd8a7958761e31
+    role: context
+  - path: reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.yaml
+    sha256: 8016e2bf30c39d80130f0da98d022ffe47d9553c0cbf42d4b0385b5a48616460
+    role: context
+targets:
+- target_id: AIMech:mixture-boundaries-publication-format
+  path: research/discovery/mixture-boundaries.py
+  label: Mixture calculation publication formatting
+  kind: maintained
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/mixture-boundaries.py
+    role: maintained
+scope:
+  description: Only the exact calculator EOF-format correction, its append-only provenance
+    and current validation evidence.
+  selection: Exact artifact research/discovery/mixture-boundaries.py
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exclusions:
+  - target: Scientific claims, mapping judgments and mathematical correctness
+    reason: Not re-reviewed or certified by formatting/AST/output checks.
+  - target: Merge and GitHub issue state
+    reason: Local resolution is not evidence of protected merge or external issue
+      closure.
+checks:
+- check_id: current-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 359.42s (0:05:59)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 713 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 399 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 408,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+  evidence_ids:
+  - current-log-0
+  scope_note: Actual execution 2026-10-14T23:37:03.737128Z to 2026-10-14T23:48:05.359183Z.
+    This helper executes no recorded check.
+- check_id: current-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+  evidence_ids:
+  - current-log-1
+  scope_note: Actual execution 2026-10-14T23:37:08.368561Z to 2026-10-14T23:37:12.744356Z.
+    This helper executes no recorded check.
+- check_id: current-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+  evidence_ids:
+  - current-log-2
+  scope_note: Actual execution 2026-10-14T23:37:03.802896Z to 2026-10-14T23:37:06.996865Z.
+    This helper executes no recorded check.
+- check_id: current-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Actual command exited zero without output.
+  evidence_ids:
+  - current-log-2
+  scope_note: Actual execution 2026-10-14T23:37:06.997028Z to 2026-10-14T23:37:07.205852Z.
+    This helper executes no recorded check.
+- check_id: current-4
+  name: git diff --cached --check
+  command: git diff --cached --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Actual command exited zero without output.
+  evidence_ids:
+  - current-log-2
+  scope_note: Actual execution 2026-10-14T23:37:07.205979Z to 2026-10-14T23:37:07.449551Z.
+    This helper executes no recorded check.
+- check_id: current-5
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'pages/ is current
+
+    uv run --locked python scripts/render_pages.py --check
+
+    '
+  evidence_ids:
+  - current-log-3
+  scope_note: Actual execution 2026-10-14T23:37:03.824300Z to 2026-10-14T23:37:25.014793Z.
+    This helper executes no recorded check.
+evidence:
+- evidence_id: current-log-0
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/checks-gate.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 11f25697242c27840f9d6234ef7eb6b7afa9dda25e7ef0364e3051290df00530
+  support: supports
+  summary: '[{"command": "just check", "started_at": "2026-10-14T23:37:03.737128Z",
+    "completed_at": "2026-10-14T23:48:05.359183Z", "exit_code": 0, "output": "All
+    checks passed!\n........................................................................
+    [ 28%]\n........................................................................
+    [ 57%]\n........................................................................
+    [ 86%]\n...............................sss                                       [100%]\n247
+    passed, 3 skipped in 359.42s (0:05:59)\nChecked 442 record(s); 0 failed.\nChecked
+    713 curated concept record(s); 0 error(s).\nAIO: 442 records; 0 missing, 0 changed,
+    0 unexpected.\nChecked 399 history record(s); 0 error(s).\n{\n  \"repository\":
+    \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 408,\n  \"coverage\": \"declared_scopes_only\"\n}\nuv
+    run --locked --extra dev python scripts/check.py\ntopClass is deprecated - use
+    top_class\n", "stderr": "uv run --locked --extra dev python scripts/check.py\ntopClass
+    is deprecated - use top_class\n"}]'
+- evidence_id: current-log-1
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/checks-vendor.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: a88cfba0aa98de4359e5ead2724ce922df662f8b02d7833b8bea2f03b2173878
+  support: supports
+  summary: '[{"command": "just vendored-check", "started_at": "2026-10-14T23:37:08.368561Z",
+    "completed_at": "2026-10-14T23:37:12.744356Z", "exit_code": 0, "output": "OK:
+    22 governed artifacts match the pinned claw revision\nbash scripts/check_vendored_sync.sh\n",
+    "stderr": "bash scripts/check_vendored_sync.sh\n"}]'
+- evidence_id: current-log-2
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/checks-additional.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: bd7cfc62ff0b10cca676b368570aff321946aca21fb7e2e34777ab3747cfe7a7
+  support: supports
+  summary: '[{"command": "uv run --locked aimech check-source", "started_at": "2026-10-14T23:37:03.802896Z",
+    "completed_at": "2026-10-14T23:37:06.996865Z", "exit_code": 0, "output": "Verified
+    AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a\n",
+    "stderr": ""}, {"command": "git diff --check", "started_at": "2026-10-14T23:37:06.997028Z",
+    "completed_at": "2026-10-14T23:37:07.205852Z", "exit_code": 0, "output": "", "stderr":
+    ""}, {"command": "git diff --cached --check", "started_at": "2026-10-14T23:37:07.205979Z",
+    "completed_at": "2026-10-14T23:37:07.449551Z", "exit_code": 0, "output": "", "stderr":
+    ""}]'
+- evidence_id: current-log-3
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/checks-render.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 90b1a760c353c636d53b73c53303bb47744b94b3f252845c359961fb0bb06976
+  support: supports
+  summary: '[{"command": "just render-check", "started_at": "2026-10-14T23:37:03.824300Z",
+    "completed_at": "2026-10-14T23:37:25.014793Z", "exit_code": 0, "output": "pages/
+    is current\nuv run --locked python scripts/render_pages.py --check\n", "stderr":
+    "uv run --locked python scripts/render_pages.py --check\n"}]'
+- evidence_id: corrected-eof
+  kind: record_content
+  reference: research/discovery/mixture-boundaries.py
+  locator: EOF normalized to one final LF
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790
+  support: supports
+  summary: Actual before/after bytes differ only by two trailing LF bytes; ASTs compare
+    equal. No scientific interpretation is inferred from AST equality.
+- evidence_id: correction-lineage
+  kind: record_content
+  reference: research/discovery/20261014T233615Z-mixture-calculator-format-correction.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 5fdb01e10f8d6ad78a2d3614f37a13e86e717c7436ea7d7d6b7e02f7fb0c81b5
+  support: supports
+  summary: Append-only correction report preserves original and corrected script hashes,
+    genuine issue361, the actual failure and exact formatting scope; the original
+    creation report/history and three scientific reviews are unchanged.
+- evidence_id: actual-correction-receipt
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/correction.json
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 754a2a8b2cf3ec138ea9858bbdb8db25f4dcbad67fece878961f8e1213f6084b
+  support: supports
+  summary: '{"started_at": "2026-10-14T23:36:08.981948Z", "completed_at": "2026-10-14T23:36:18.823183Z",
+    "before": {"path": "/private/tmp/aimech-batch319-format-correction/mixture-boundaries.before.py",
+    "sha256": "08aabec98558e43e20983518eb4b28c6ec6f383ad26e980a8e577612638e8125"},
+    "after": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/mixture-boundaries.py",
+    "sha256": "24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790"},
+    "removed_byte_count": 2, "ast_equal": true, "original_plan": {"path": "/private/tmp/aimech-batch319-publication-plan.json",
+    "sha256": "6ca1baa5c4f103a77132cb5aed2ab7b7b38a6a33480390779a238d5e9f939ba6"},
+    "original_all_other_paths_unchanged": true, "failed_check": {"path": "/private/tmp/aimech-batch319-format-correction/post-capture-failed-check.json",
+    "sha256": "1ca7253bedbae74a2c638566053cf4c3260824362f694d8458db59a82426fef6"},
+    "issue_url": "https://github.com/CultureBotAI/AIMech/issues/361", "correction_report_path":
+    "research/discovery/20261014T233615Z-mixture-calculator-format-correction.json",
+    "correction_report_sha256": "5fdb01e10f8d6ad78a2d3614f37a13e86e717c7436ea7d7d6b7e02f7fb0c81b5",
+    "correction_markdown_path": "research/discovery/20261014T233615Z-mixture-calculator-format-correction.md",
+    "history_path": "history/reports/mixture-calculator-format-correction/2026-10-14T233618Z-codex-97a432.yaml",
+    "actual_calculation": {"command": "python3 research/discovery/mixture-boundaries.py",
+    "started_at": "2026-10-14T23:36:08.984723Z", "completed_at": "2026-10-14T23:36:15.413391Z",
+    "exit_code": 0, "output": "{\n  \"UDNAM_scope\": {\n    \"HST\": [\n      [\n        \"0\",\n        \"5/8\",\n        \"3/8\"\n      ],\n      [\n        \"5/6\",\n        \"0\",\n        \"1/6\"\n      ],\n      [\n        \"3/4\",\n        \"1/4\",\n        \"0\"\n      ]\n    ],\n    \"Liu_modified_Gibbs\":
+    [\n      [\n        \"3/14\",\n        \"1/2\",\n        \"2/7\"\n      ],\n      [\n        \"2/3\",\n        \"1/21\",\n        \"2/7\"\n      ],\n      [\n        \"4/7\",\n        \"3/7\",\n        \"0\"\n      ]\n    ],\n    \"ST\":
+    [\n      [\n        \"0\",\n        \"3/4\",\n        \"1/4\"\n      ],\n      [\n        \"2/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"U_then_D\":
+    [\n      [\n        \"23/35\",\n        \"1/5\",\n        \"1/7\"\n      ],\n      [\n        \"8/35\",\n        \"17/35\",\n        \"2/7\"\n      ],\n      [\n        \"12/35\",\n        \"13/35\",\n        \"2/7\"\n      ]\n    ],\n    \"U_then_D_reversible\":
+    false,\n    \"ZDNAM\": [\n      [\n        \"0\",\n        \"5/8\",\n        \"3/8\"\n      ],\n      [\n        \"5/6\",\n        \"0\",\n        \"1/6\"\n      ],\n      [\n        \"3/4\",\n        \"1/4\",\n        \"0\"\n      ]\n    ],\n    \"all_six_orders_all_shift_exclusion\":
+    [\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"51/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/140\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"5/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"2/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"1/3\",\n        \"solution\": {\n          \"candidate_fraction\": \"23/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"159/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/3\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"4/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"89/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"4/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"5/9\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"5/56\"\n        }\n      },\n      {\n        \"left\":
+    \"5/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"2/3\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"3/4\",\n          \"matches\": false,\n          \"required_value\": \"159/280\"\n        }\n      },\n      {\n        \"left\":
+    \"2/3\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"7/9\",\n        \"solution\": {\n          \"candidate_fraction\": \"-9/14\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"51/70\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"7/9\",\n        \"order\": [\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"-23/28\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"-19/140\",\n          \"matches\": false\n        }\n      }\n    ],\n    \"minimum_self_mass\":
+    \"0\",\n    \"mixture\": [\n      [\n        \"5/56\",\n        \"159/280\",\n        \"12/35\"\n      ],\n      [\n        \"53/70\",\n        \"1/30\",\n        \"22/105\"\n      ],\n      [\n        \"24/35\",\n        \"11/35\",\n        \"0\"\n      ]\n    ],\n    \"pi\":
+    [\n      \"4/9\",\n      \"1/3\",\n      \"2/9\"\n    ],\n    \"row_dependent_after\":
+    [\n      \"11/21\",\n      \"32/105\",\n      \"6/35\"\n    ],\n    \"row_dependent_component_choice\":
+    [\n      [\n        \"5/28\",\n        \"15/28\",\n        \"2/7\"\n      ],\n      [\n        \"4/5\",\n        \"1/15\",\n        \"2/15\"\n      ],\n      [\n        \"4/5\",\n        \"1/5\",\n        \"0\"\n      ]\n    ],\n    \"stationary_self_mass\":
+    \"16/315\"\n  },\n  \"UDST_uniform4\": {\n    \"UDNAM\": [\n      [\n        \"0\",\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"0\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\",\n        \"0\"\n      ]\n    ],\n    \"UDST\":
+    [\n      [\n        \"0\",\n        \"1/2\",\n        \"0\",\n        \"1/2\"\n      ],\n      [\n        \"1/2\",\n        \"0\",\n        \"1/2\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1/2\",\n        \"0\",\n        \"1/2\"\n      ],\n      [\n        \"1/2\",\n        \"0\",\n        \"1/2\",\n        \"0\"\n      ]\n    ],\n    \"ZDNAM\":
+    [\n      [\n        \"0\",\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"0\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"0\",\n        \"1/3\"\n      ],\n      [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\",\n        \"0\"\n      ]\n    ],\n    \"all_24_orders_all_shift_exclusion\":
+    [\n      {\n        \"left\": \"0\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          1,\n          2,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          1,\n          3,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          2,\n          1,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          2,\n          3,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          3,\n          1,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          0,\n          3,\n          2,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          0,\n          2,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          0,\n          3,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          2,\n          0,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          2,\n          3,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          3,\n          0,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          1,\n          3,\n          2,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          0,\n          1,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          0,\n          3,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          1,\n          0,\n          3\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          1,\n          3,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          3,\n          0,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          2,\n          3,\n          1,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          0,\n          1,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          0,\n          2,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          1,\n          0,\n          2\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            2,\n            0\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"0\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          1,\n          2,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            1,\n            0\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          2,\n          0,\n          1\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"0\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"1/4\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/4\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"1/2\",\n        \"solution\": {\n          \"constant_entry_mismatch\": [\n            0,\n            1\n          ],\n          \"fixed_value\":
+    \"0\",\n          \"matches\": false,\n          \"required_value\": \"1/2\"\n        }\n      },\n      {\n        \"left\":
+    \"1/2\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"3/4\",\n        \"solution\": {\n          \"candidate_fraction\": \"1/2\",\n          \"conflict_entry\":
+    [\n            0,\n            2\n          ],\n          \"conflicting_fraction\":
+    \"1\",\n          \"matches\": false\n        }\n      },\n      {\n        \"left\":
+    \"3/4\",\n        \"order\": [\n          3,\n          2,\n          1,\n          0\n        ],\n        \"right\":
+    \"1\",\n        \"solution\": {\n          \"candidate_fraction\": \"0\",\n          \"conflict_entry\":
+    [\n            0,\n            1\n          ],\n          \"conflicting_fraction\":
+    \"1/2\",\n          \"matches\": false\n        }\n      }\n    ],\n    \"analytic_certificate\":
+    \"For equal quarter intervals, any shift has two consecutive cyclic offsets q,q+1
+    with probabilities 1-t,t. Matching two half-probability outputs requires t=1/2.
+    No pair of consecutive residues modulo4 is closed under negation. Thus this single-shift
+    kernel cannot be reversible in any order, whereas UDST is reversible. Boundary
+    shifts have one supported destination and also cannot match.\",\n    \"every_single_NAM_order_equal\":
+    true,\n    \"pi\": [\n      \"1/4\",\n      \"1/4\",\n      \"1/4\",\n      \"1/4\"\n    ],\n    \"source_uniform_FSS_ZFSS_cycle_example\":
+    [\n      [\n        \"0\",\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\",\n        \"0\"\n      ]\n    ]\n  },\n  \"assumptions\":
+    [\n    \"Use one complete positive target and current-independent component-selection
+    probabilities at each fixed conditioning environment.\",\n    \"UDNAM mixes two
+    reversible NAM kernels; independent valid ascending and descending tie policies
+    preserve reversibility, although the mixture can change.\",\n    \"UDST uses one
+    maximum anchor and a specified ascending tail with its exact reversal, including
+    tied labels. Independent weak sorting does not establish reverse-flow pairing.\",\n    \"Equal
+    mixture is part of each named method. Unequal constant weights remain invariant
+    but need not remain reversible for UDST.\",\n    \"One-state UDST maximum shift
+    equals total mass; its stay kernel is an explicitly guarded boundary extension.\",\n    \"The
+    comparison with uniform FSS/ZFSS uses the source-described deterministic-cycle
+    property; their implementation is not imported or executed here.\"\n  ],\n  \"dependency_sha256\":
+    {\n    \"nam-boundaries.py\": \"cb58dd0a41b32a7c4f12dcfc711963b39ff062b12f79d8fe6bf065b777714941\",\n    \"tower-boundaries.py\":
+    \"d8e458ae28b7a679456a729231621f5ad35ac00bfa0d7bd52ee655d2f8423c47\"\n  },\n  \"expanded_counts\":
+    {\n    \"arbitrary_fixed_NAM_mixing_weight_cases\": 600,\n    \"compatible_NAM_order_cases\":
+    771,\n    \"independent_UDNAM_tie_pairs\": 3231,\n    \"one_state_UDST_endpoint_extensions\":
+    3,\n    \"paired_UDST_order_cases\": 435,\n    \"positive_target_vectors\": 120\n  },\n  \"fixed_two_binary_coordinate_scan\":
+    {\n    \"classes\": [\n      {\n        \"closed\": true,\n        \"period\":
+    2,\n        \"states_zero_based\": [\n          0,\n          3\n        ]\n      },\n      {\n        \"closed\":
+    true,\n        \"period\": 2,\n        \"states_zero_based\": [\n          1,\n          2\n        ]\n      }\n    ],\n    \"matrix\":
+    [\n      [\n        \"0\",\n        \"0\",\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\",\n        \"0\"\n      ]\n    ],\n    \"states\":
+    [\n      [\n        0,\n        0\n      ],\n      [\n        0,\n        1\n      ],\n      [\n        1,\n        0\n      ],\n      [\n        1,\n        1\n      ]\n    ]\n  },\n  \"half_dominant_point_boundaries\":
+    [\n    {\n      \"UDNAM\": [\n        [\n          \"1\"\n        ]\n      ],\n      \"UDNAM_self_mass\":
+    \"1\",\n      \"UDST\": [\n        [\n          \"1\"\n        ]\n      ],\n      \"UDST_self_mass\":
+    \"1\",\n      \"minimum_self_mass\": \"1\",\n      \"pi\": [\n        \"1\"\n      ],\n      \"weights\":
+    [\n        1\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\":
+    \"0\",\n      \"UDST\": [\n        [\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\":
+    \"0\",\n      \"minimum_self_mass\": \"0\",\n      \"pi\": [\n        \"1/2\",\n        \"1/2\"\n      ],\n      \"weights\":
+    [\n        1,\n        1\n      ]\n    },\n    {\n      \"UDNAM\": [\n        [\n          \"3/20\",\n          \"21/40\",\n          \"13/40\"\n        ],\n        [\n          \"7/8\",\n          \"0\",\n          \"1/8\"\n        ],\n        [\n          \"13/16\",\n          \"3/16\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\":
+    \"3/40\",\n      \"UDST\": [\n        [\n          \"0\",\n          \"3/5\",\n          \"2/5\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\":
+    \"0\",\n      \"minimum_self_mass\": \"0\",\n      \"pi\": [\n        \"1/2\",\n        \"3/10\",\n        \"1/5\"\n      ],\n      \"weights\":
+    [\n        5,\n        3,\n        2\n      ]\n    },\n    {\n      \"UDNAM\":
+    [\n        [\n          \"7/18\",\n          \"17/36\",\n          \"5/36\"\n        ],\n        [\n          \"17/18\",\n          \"0\",\n          \"1/18\"\n        ],\n        [\n          \"5/6\",\n          \"1/6\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\":
+    \"7/30\",\n      \"UDST\": [\n        [\n          \"1/3\",\n          \"1/2\",\n          \"1/6\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\":
+    \"1/5\",\n      \"minimum_self_mass\": \"1/5\",\n      \"pi\": [\n        \"3/5\",\n        \"3/10\",\n        \"1/10\"\n      ],\n      \"weights\":
+    [\n        6,\n        3,\n        1\n      ]\n    },\n    {\n      \"UDNAM\":
+    [\n        [\n          \"55/72\",\n          \"17/144\",\n          \"17/144\"\n        ],\n        [\n          \"17/18\",\n          \"0\",\n          \"1/18\"\n        ],\n        [\n          \"17/18\",\n          \"1/18\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM_self_mass\":
+    \"11/18\",\n      \"UDST\": [\n        [\n          \"3/4\",\n          \"1/8\",\n          \"1/8\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDST_self_mass\":
+    \"3/5\",\n      \"minimum_self_mass\": \"3/5\",\n      \"pi\": [\n        \"4/5\",\n        \"1/10\",\n        \"1/10\"\n      ],\n      \"weights\":
+    [\n        8,\n        1,\n        1\n      ]\n    }\n  ],\n  \"mixture_weight_boundaries\":
+    {\n    \"after\": [\n      \"1/3\",\n      \"2/3\",\n      \"0\"\n    ],\n    \"paired_components\":
+    [\n      [\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      [\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ]\n      ]\n    ],\n    \"pi\":
+    [\n      \"1/3\",\n      \"1/3\",\n      \"1/3\"\n    ],\n    \"state_dependent_choice\":
+    [\n      [\n        \"0\",\n        \"1\",\n        \"0\"\n      ],\n      [\n        \"1\",\n        \"0\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"1\",\n        \"0\"\n      ]\n    ],\n    \"unequal_fixed_mix\":
+    [\n      [\n        \"0\",\n        \"1/4\",\n        \"3/4\"\n      ],\n      [\n        \"3/4\",\n        \"0\",\n        \"1/4\"\n      ],\n      [\n        \"1/4\",\n        \"3/4\",\n        \"0\"\n      ]\n    ],\n    \"unequal_fixed_mix_reversible\":
+    false,\n    \"unequal_fixed_mix_stationary\": true\n  },\n  \"original_witnesses\":
+    {\n    \"positive_target_vectors\": 120,\n    \"scope\": \"Original exact Fraction
+    calculations, not author software. Positive integer weights1..3 for lengths1..4
+    produce120 ordered vectors, including repeated normalized targets. One-state maximum-shift
+    endpoint is a separately recognized identity extension. No float, efficiency,
+    benchmark or general ergodicity claim.\",\n    \"udnam_distinction\": {\n      \"DNAM\":
+    [\n        [\n          \"0\",\n          \"3/5\",\n          \"2/5\"\n        ],\n        [\n          \"4/5\",\n          \"1/15\",\n          \"2/15\"\n        ],\n        [\n          \"4/5\",\n          \"1/5\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM\":
+    [\n        [\n          \"5/56\",\n          \"159/280\",\n          \"12/35\"\n        ],\n        [\n          \"53/70\",\n          \"1/30\",\n          \"22/105\"\n        ],\n        [\n          \"24/35\",\n          \"11/35\",\n          \"0\"\n        ]\n      ],\n      \"UNAM\":
+    [\n        [\n          \"5/28\",\n          \"15/28\",\n          \"2/7\"\n        ],\n        [\n          \"5/7\",\n          \"0\",\n          \"2/7\"\n        ],\n        [\n          \"4/7\",\n          \"3/7\",\n          \"0\"\n        ]\n      ],\n      \"all_six_single_NAM_orders\":
+    [\n        {\n          \"matrix\": [\n            [\n              \"0\",\n              \"3/5\",\n              \"2/5\"\n            ],\n            [\n              \"4/5\",\n              \"1/15\",\n              \"2/15\"\n            ],\n            [\n              \"4/5\",\n              \"1/5\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            0,\n            1,\n            2\n          ]\n        },\n        {\n          \"matrix\":
+    [\n            [\n              \"0\",\n              \"3/5\",\n              \"2/5\"\n            ],\n            [\n              \"4/5\",\n              \"1/15\",\n              \"2/15\"\n            ],\n            [\n              \"4/5\",\n              \"1/5\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            0,\n            2,\n            1\n          ]\n        },\n        {\n          \"matrix\":
+    [\n            [\n              \"1/4\",\n              \"1/2\",\n              \"1/4\"\n            ],\n            [\n              \"2/3\",\n              \"0\",\n              \"1/3\"\n            ],\n            [\n              \"1/2\",\n              \"1/2\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            1,\n            0,\n            2\n          ]\n        },\n        {\n          \"matrix\":
+    [\n            [\n              \"1/4\",\n              \"1/2\",\n              \"1/4\"\n            ],\n            [\n              \"2/3\",\n              \"0\",\n              \"1/3\"\n            ],\n            [\n              \"1/2\",\n              \"1/2\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            1,\n            2,\n            0\n          ]\n        },\n        {\n          \"matrix\":
+    [\n            [\n              \"5/28\",\n              \"15/28\",\n              \"2/7\"\n            ],\n            [\n              \"5/7\",\n              \"0\",\n              \"2/7\"\n            ],\n            [\n              \"4/7\",\n              \"3/7\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            2,\n            0,\n            1\n          ]\n        },\n        {\n          \"matrix\":
+    [\n            [\n              \"5/28\",\n              \"15/28\",\n              \"2/7\"\n            ],\n            [\n              \"5/7\",\n              \"0\",\n              \"2/7\"\n            ],\n            [\n              \"4/7\",\n              \"3/7\",\n              \"0\"\n            ]\n          ],\n          \"order\":
+    [\n            2,\n            1,\n            0\n          ]\n        }\n      ],\n      \"down_order\":
+    [\n        0,\n        1,\n        2\n      ],\n      \"interpretation\": \"The
+    mixture has two positive diagonal entries while each single NAM ordering has at
+    most one; this one target disproves full construction equivalence. It does not
+    assert disjoint kernel sets.\",\n      \"pi\": [\n        \"4/9\",\n        \"1/3\",\n        \"2/9\"\n      ],\n      \"positive_diagonals\":
+    2,\n      \"up_order\": [\n        2,\n        1,\n        0\n      ]\n    },\n    \"udnam_tie_policy\":
+    {\n      \"DNAM_choices\": [\n        [\n          [\n            \"0\",\n            \"1/14\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/42\",\n            \"1/21\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/14\",\n            \"3/14\",\n            \"0\",\n            \"5/7\"\n          ],\n          [\n            \"1/7\",\n            \"3/7\",\n            \"3/7\",\n            \"0\"\n          ]\n        ],\n        [\n          [\n            \"0\",\n            \"3/14\",\n            \"1/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/14\",\n            \"0\",\n            \"3/14\",\n            \"5/7\"\n          ],\n          [\n            \"1/42\",\n            \"3/14\",\n            \"1/21\",\n            \"5/7\"\n          ],\n          [\n            \"1/7\",\n            \"3/7\",\n            \"3/7\",\n            \"0\"\n          ]\n        ]\n      ],\n      \"UDNAM_choices\":
+    [\n        [\n          [\n            \"0\",\n            \"53/308\",\n            \"75/308\",\n            \"45/77\"\n          ],\n          [\n            \"53/924\",\n            \"1/42\",\n            \"171/616\",\n            \"395/616\"\n          ],\n          [\n            \"25/308\",\n            \"171/616\",\n            \"0\",\n            \"395/616\"\n          ],\n          [\n            \"9/77\",\n            \"237/616\",\n            \"237/616\",\n            \"5/44\"\n          ]\n        ],\n        [\n          [\n            \"0\",\n            \"75/308\",\n            \"53/308\",\n            \"45/77\"\n          ],\n          [\n            \"25/308\",\n            \"0\",\n            \"171/616\",\n            \"395/616\"\n          ],\n          [\n            \"53/924\",\n            \"171/616\",\n            \"1/42\",\n            \"395/616\"\n          ],\n          [\n            \"9/77\",\n            \"237/616\",\n            \"237/616\",\n            \"5/44\"\n          ]\n        ]\n      ],\n      \"UNAM\":
+    [\n        [\n          \"0\",\n          \"3/11\",\n          \"3/11\",\n          \"5/11\"\n        ],\n        [\n          \"1/11\",\n          \"0\",\n          \"15/44\",\n          \"25/44\"\n        ],\n        [\n          \"1/11\",\n          \"15/44\",\n          \"0\",\n          \"25/44\"\n        ],\n        [\n          \"1/11\",\n          \"15/44\",\n          \"15/44\",\n          \"5/22\"\n        ]\n      ],\n      \"down_orders\":
+    [\n        [\n          3,\n          2,\n          1,\n          0\n        ],\n        [\n          3,\n          1,\n          2,\n          0\n        ]\n      ],\n      \"interpretation\":
+    \"UNAM is unchanged under this tie exchange; DNAM and hence UDNAM change. Each
+    component and mixture remains reversible. A reverse-pair requirement is not needed
+    for UDNAM reversibility.\",\n      \"pi\": [\n        \"1/12\",\n        \"1/4\",\n        \"1/4\",\n        \"5/12\"\n      ],\n      \"up_orders\":
+    [\n        [\n          0,\n          1,\n          2,\n          3\n        ],\n        [\n          0,\n          2,\n          1,\n          3\n        ]\n      ]\n    },\n    \"udst_single_circle_distinction\":
+    {\n      \"DST_positive_orientation\": [\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ]\n      ],\n      \"HST_same_order\":
+    [\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"UDNAM\":
+    [\n        [\n          \"0\",\n          \"1/3\",\n          \"1/3\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"0\",\n          \"1/3\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"1/3\",\n          \"0\",\n          \"1/3\"\n        ],\n        [\n          \"1/3\",\n          \"1/3\",\n          \"1/3\",\n          \"0\"\n        ]\n      ],\n      \"UDST\":
+    [\n        [\n          \"0\",\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\",\n          \"0\"\n        ]\n      ],\n      \"UST_positive_orientation\":
+    [\n        [\n          \"0\",\n          \"1\",\n          \"0\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"all_24_orders_all_shift_certificate\":
+    [\n        {\n          \"left\": \"0\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            1,\n            2,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            1,\n            3,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            2,\n            1,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            2,\n            3,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            3,\n            1,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            0,\n            3,\n            2,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            0,\n            2,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            0,\n            3,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            2,\n            0,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            2,\n            3,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            3,\n            0,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            1,\n            3,\n            2,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            0,\n            1,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            0,\n            3,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            1,\n            0,\n            3\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            1,\n            3,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            3,\n            0,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            2,\n            3,\n            1,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            0,\n            1,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            0,\n            2,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            1,\n            0,\n            2\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              2,\n              0\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"0\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            1,\n            2,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              1,\n              0\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            2,\n            0,\n            1\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"constant_entry_mismatch\": [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"0\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\":
+    \"1/4\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/4\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\":
+    \"1/2\",\n          \"solution\": {\n            \"constant_entry_mismatch\":
+    [\n              0,\n              1\n            ],\n            \"fixed_value\":
+    \"0\",\n            \"matches\": false,\n            \"required_value\": \"1/2\"\n          }\n        },\n        {\n          \"left\":
+    \"1/2\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\":
+    \"3/4\",\n          \"solution\": {\n            \"candidate_fraction\": \"1/2\",\n            \"conflict_entry\":
+    [\n              0,\n              2\n            ],\n            \"conflicting_fraction\":
+    \"1\",\n            \"matches\": false\n          }\n        },\n        {\n          \"left\":
+    \"3/4\",\n          \"order\": [\n            3,\n            2,\n            1,\n            0\n          ],\n          \"right\":
+    \"1\",\n          \"solution\": {\n            \"candidate_fraction\": \"0\",\n            \"conflict_entry\":
+    [\n              0,\n              1\n            ],\n            \"conflicting_fraction\":
+    \"1/2\",\n            \"matches\": false\n          }\n        }\n      ],\n      \"closed_affine_segments\":
+    96,\n      \"down_order\": [\n        0,\n        3,\n        2,\n        1\n      ],\n      \"interpretation\":
+    \"For this uniform4 target, no single circular shift in any order gives the UDST
+    kernel. All shifts in [0,1] are covered by four affine pieces per order, including
+    endpoints. Either orientation is covered by the full shift range. This is one
+    counterexample, not a classification of all coincidences.\",\n      \"orders\":
+    24,\n      \"pi\": [\n        \"1/4\",\n        \"1/4\",\n        \"1/4\",\n        \"1/4\"\n      ],\n      \"up_order\":
+    [\n        0,\n        1,\n        2,\n        3\n      ]\n    },\n    \"udst_unpaired_tie_failure\":
+    {\n      \"independently_tied_down_order\": [\n        0,\n        1,\n        2\n      ],\n      \"interpretation\":
+    \"Both same orders satisfy weak upward/downward probability sorting when all masses
+    tie. They are not reverse-paired, so Eq101 and the reversibility conclusion do
+    not follow. The bad mixture remains invariant, demonstrating precisely the missing
+    pairing condition.\",\n      \"paired_reverse_mixture\": [\n        [\n          \"0\",\n          \"1/2\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"0\",\n          \"1/2\"\n        ],\n        [\n          \"1/2\",\n          \"1/2\",\n          \"0\"\n        ]\n      ],\n      \"pi\":
+    [\n        \"1/3\",\n        \"1/3\",\n        \"1/3\"\n      ],\n      \"unpaired_mixture\":
+    [\n        [\n          \"0\",\n          \"1\",\n          \"0\"\n        ],\n        [\n          \"0\",\n          \"0\",\n          \"1\"\n        ],\n        [\n          \"1\",\n          \"0\",\n          \"0\"\n        ]\n      ],\n      \"up_order\":
+    [\n        0,\n        1,\n        2\n      ]\n    }\n  },\n  \"scope\": \"Exact
+    positive finite conditional kernels. Original source-agent witness output is retained
+    without runtime metadata. Expanded tie, independent-component, all-shift and exploration
+    checks use pinned unchanged sibling routines. No efficiency, float, author-code,
+    all-target nonintersection or general convergence claim.\",\n  \"uniform_periodicity\":
+    [\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\": true,\n          \"period\":
+    2,\n          \"states_zero_based\": [\n            0,\n            1\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\":
+    [\n            0,\n            1\n          ]\n        }\n      ],\n      \"states\":
+    2\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2\n          ]\n        }\n      ],\n      \"states\":
+    3\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2,\n            3\n          ]\n        }\n      ],\n      \"states\":
+    4\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2,\n            3,\n            4\n          ]\n        }\n      ],\n      \"states\":
+    5\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5\n          ]\n        }\n      ],\n      \"states\":
+    6\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 1,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6\n          ]\n        }\n      ],\n      \"states\":
+    7\n    },\n    {\n      \"UDNAM_classes\": [\n        {\n          \"closed\":
+    true,\n          \"period\": 1,\n          \"states_zero_based\": [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7\n          ]\n        }\n      ],\n      \"UDST_classes\":
+    [\n        {\n          \"closed\": true,\n          \"period\": 2,\n          \"states_zero_based\":
+    [\n            0,\n            1,\n            2,\n            3,\n            4,\n            5,\n            6,\n            7\n          ]\n        }\n      ],\n      \"states\":
+    8\n    }\n  ]\n}\n", "stderr": "", "script_sha256": "24e36834ffb8c654dab05eab1731ee24cac5b38bd5cf9b0db7efbc0ca73b3790",
+    "matches_original_result": true}, "open_review": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.yaml",
+    "sha256": "8016e2bf30c39d80130f0da98d022ffe47d9553c0cbf42d4b0385b5a48616460"}}'
+- evidence_id: bounded-output-reproduction
+  kind: validation
+  reference: /private/tmp/aimech-batch319-format-correction/correction.json
+  locator: actual_calculation
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 754a2a8b2cf3ec138ea9858bbdb8db25f4dcbad67fece878961f8e1213f6084b
+  support: supports
+  summary: Corrected-script actual output matches the retained original JSON result.
+    Receipt 2026-10-14T23:36:08.984723Z to 2026-10-14T23:36:15.413391Z is preserved,
+    whether before or after this capture; it is not relabeled as a postcapture execution.
+- evidence_id: prior-open-observation
+  kind: prior_review
+  reference: reviews/structured/20261014T233538Z-mixture-calculator-format-open/review.yaml
+  locator: extra-eof-blank-line
+  accessed_at: '2026-10-14T23:48:51.048322Z'
+  snapshot_sha256: 8016e2bf30c39d80130f0da98d022ffe47d9553c0cbf42d4b0385b5a48616460
+  support: context_only
+  summary: The immutable prior repository review recorded the same minor open issue
+    against the original three-LF bytes. Its failed check remains historical evidence,
+    not a current failed required check.
+assessments:
+- assessment_id: format-resolution
+  area: representation
+  topic: Exact EOF normalization and successful current checks
+  outcome: supported
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  evidence_ids:
+  - corrected-eof
+  - correction-lineage
+  - actual-correction-receipt
+  - bounded-output-reproduction
+  summary: The exact two trailing LF bytes have been removed while preserving one
+    terminal newline. Original and corrected ASTs including location attributes agree,
+    and the corrected calculator reproduced the original output bytes. The staged
+    and working whitespace checks, full project gate, source pin, vendored artifacts
+    and rendered-page check passed at their recorded current times. All other original
+    publication paths remain byte-identical. This resolves only the recorded minor
+    EOF formatting defect; it does not reassess scientific claims or assert external
+    issue closure or merge.
+  details: The original failure and open observation are retained. The successor is
+    assessed against freshly captured corrected bytes; scientific records and prior
+    scientific-review bytes were not rewritten.
+findings:
+- finding_id: extra-eof-blank-line
+  issue_key: mixture-boundaries-extra-eof-blank-line
+  category: representation
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Extra trailing blank lines removed and publication checks repeated
+  description: Exactly two LF bytes were removed from the original calculator so one
+    final LF remains. AST equality, retained output reproduction and successful current
+    staged whitespace/project checks support resolution of this formatting defect
+    only.
+  target_ids:
+  - AIMech:mixture-boundaries-publication-format
+  field_paths:
+  - EOF trailing newline bytes
+  evidence_ids:
+  - corrected-eof
+  - correction-lineage
+  - actual-correction-receipt
+  - bounded-output-reproduction
+  - prior-open-observation
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: research/discovery/mixture-boundaries.py
+    role: maintained
+  disposition_reason: The exact two trailing LF bytes have been removed while preserving
+    one terminal newline. Original and corrected ASTs including location attributes
+    agree, and the corrected calculator reproduced the original output bytes. The
+    staged and working whitespace checks, full project gate, source pin, vendored
+    artifacts and rendered-page check passed at their recorded current times. All
+    other original publication paths remain byte-identical. This resolves only the
+    recorded minor EOF formatting defect; it does not reassess scientific claims or
+    assert external issue closure or merge.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261014T233538Z-mixture-calculator-format-open
+    finding_id: extra-eof-blank-line
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/361
+  rule_id: git-diff-cached-check
+  tags:
+  - publication-format
+  - whitespace
+actions: []
+limitations:
+- Non-scientific single-artifact author review. AST equality and bounded output reproduction
+  do not establish universal mathematical correctness.
+- Only the original formatting issue is resolved; scientific claim support, status
+  promotion, publication and external issue closure are outside this review.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261014T233538Z-mixture-calculator-format-open
+  relationship: Explicit successor disposition for the same formatting issue
+links:
+- https://github.com/CultureBotAI/AIMech/issues/361
+tags:
+- publication-format
+- non-scientific
+- self-review
+```

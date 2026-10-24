@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epsilon-truncation for Conditional Distribution Prediction · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Epsilon-truncation for Conditional Distribution Prediction</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Epsilon-truncation for Conditional Distribution Prediction</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:EpsilonTruncationCDP</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CDP epsilon-truncation
+    </div>
+
+  <div class="detail-desc">
+    A modification of conditional distribution prediction for IDA* tree size that removes conditional child-type probabilities below a calibrated level-specific cutoff, renormalizes the surviving probabilities and uses the modified tables in node-count propagation.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 639 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 5, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 66 AIO and 345 native definitions, with every matched definition read. 12 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain the named CDP probability-table modification and calibrated per-level cutoff method. It changes an estimator, not the actual IDA* search tree or solution policy. Original CDP, lookup-based reuse, IDA*IM threshold control, score-margin sequence beam pruning and pruned topic-model Gibbs transitions have distinct targets. Generic epsilon-truncation outside this search-estimation context is not asserted equivalent.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#level-specific-table-modification</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each prediction level and parent type, set conditional child-type probabilities strictly below the chosen cutoff to zero and divide the retained probabilities by their positive sum. Probabilities equal to the cutoff are retained. The source lowers a proposed cutoff if it would remove an entire conditional row. The resulting normalized table replaces the original table at that level of CDP count propagation; it does not prune nodes from an actual IDA* execution.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lelis2013prediction">Predicting the size of IDA*’s search tree</a></span>
+        <span>· <strong>Locator:</strong> Section 5.2, PDF pp. 10–11 / printed pp. 61–62</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#offline-cutoff-calibration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source estimates transition and branching statistics, then obtains per-level cutoff candidates using sampled start states and a supertype allocation procedure that groups related parent-child contexts. It looks for a prefix of small probability values that are set to zero in at least half of the sampled allocation solutions, then guards against empty retained rows. This offline approximation replaces solving an allocation problem during every prediction. The cutoff depends on the sampled contexts and depth; it is not a universal constant or a guarantee of optimal true expansion counts.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lelis2013prediction">Predicting the size of IDA*’s search tree</a></span>
+        <span>· <strong>Locator:</strong> Sections 5–5.2, PDF pp. 8–11 / printed pp. 59–62, Procedures P1 and P2 and Figure 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#printed-calibration-boundaries</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The printed calibration objectives use p^j(1-p)^(N-j) as the probability of an exact count j, omitting the binomial multiplicity required for N independent Bernoulli trials. The supertype count in Equation 4 also sums over parent-child pairs, whereas the preceding transition formula sums distinct parent types; a parent with multiple child types in the same group can be counted repeatedly under that literal reading. The record therefore describes the practical cutoff construction without certifying those printed formulas as an exact expected-error optimization or equivalent recurrence. These observations do not establish what uninspected author code computes.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lelis2013prediction">Predicting the size of IDA*’s search tree</a></span>
+        <span>· <strong>Locator:</strong> Sections 5–5.2, PDF pp. 8–10 / printed pp. 59–61, Equations 3–6 and definitions of pr and supertype counts</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#aggregation-and-accuracy-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The method addresses errors that can arise when CDP propagates fractional expected counts through aggregated types, including settings where a more detailed type system predicts less accurately. Removing rare transitions is nevertheless an approximation: a rare child type can have a large descendant subtree, and truncation can worsen a previously exact count. The source reports degradations in some error metrics and explicitly does not guarantee unbiased predictions. Accurate global conditional probabilities alone do not ensure accurate counts for every start.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lelis2013prediction">Predicting the size of IDA*’s search tree</a></span>
+        <span>· <strong>Locator:</strong> Sections 4–6, PDF pp. 6–16 / printed pp. 57–67, especially Tables 2–11; Section 11, PDF p. 23 / printed p. 74</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-evaluation-and-amortization</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Evidence comes from configured sliding-tile, pancake and Rubik’s Cube experiments with selected heuristics, type systems, start sets and shallow-search radii. The paper separates aggregate prediction ratios, mean absolute relative error and root-mean-square relative error; these can rank settings differently. Sampling and cutoff calibration can be costly and are assumed amortized across predictions. Lookup CDP is a separate computational-reuse method; retaining identical predictions requires the same model and depth-dependent table context, not merely reusing a type label under a changed schedule.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lelis2013prediction">Predicting the size of IDA*’s search tree</a></span>
+        <span>· <strong>Locator:</strong> Sections 6–7 and 10–11, PDF pp. 11–17 and 20–23 / printed pp. 62–68 and 71–74; Tables 6–17</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This identity is the scoped CDP epsilon-truncation method. It is not generic numerical truncation, beam pruning, a cutoff in the actual IDA* search, lookup caching or an asserted exact new search algorithm.</li>
+      <li>Each retained conditional row must have positive total mass. Equality follows the source’s retention rule; a cutoff that empties a row cannot be normalized.</li>
+      <li>The printed count-probability and supertype aggregation formulas require the stated qualifications. No correction to author software is inferred, and neither the calibration objective nor heuristic cutoff is certified as an optimum of true expansion-count error.</li>
+      <li>Finite empirical improvements do not establish unbiasedness, per-start accuracy, universal speedup or immunity to rare types with large subtrees. Absolute-depth-varying schedules must be preserved in any cached recurrence state.</li>
+      <li>All 25 pages of the author-hosted journal personal copy were visually read. Earlier conference versions, author software and benchmark replication were not inspected or executed. Constructed rational examples test mathematical boundaries only.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method truncates and renormalizes the conditional transition law on CDP type contexts, potentially using a different law at each prediction level. This is a curator-inferred component relationship. Branching-count propagation and threshold pruning are not probability-preserving chain evolution, and compressed contexts need not make the actual search process Markov. The procedure is not asserted equivalent to or a subclass of the pinned network class.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-lelis2013prediction">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">lelis2013prediction</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://webdocs.cs.ualberta.ca/~santanad/papers/2013/ARTINT2694.pdf" target="_blank" rel="noopener">Predicting the size of IDA*’s search tree</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Levi H. S. Lelis, Sandra Zilles, Robert C. Holte
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1016/j.artint.2013.01.001</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:ee16910b3529…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AEpsilonTruncationCDP">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Epsilon-truncation for Conditional Distribution Prediction" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:EpsilonTruncationCDP</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Epsilon-truncation for...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:MarkovChain (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T18:39:32Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T18:39:32Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/EpsilonTruncationCDP.yaml" target="_blank" rel="noopener">
+      <code>data/curated/EpsilonTruncationCDP.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Epsilon-truncation%20for%20Conditional%20Distribution%20Prediction"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AEpsilonTruncationCDP"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

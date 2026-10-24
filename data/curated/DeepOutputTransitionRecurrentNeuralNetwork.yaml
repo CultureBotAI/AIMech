@@ -1,0 +1,139 @@
+id: AIMech:DeepOutputTransitionRecurrentNeuralNetwork
+name: Deep Output-Transition Recurrent Neural Network
+aliases:
+- DOT-RNN
+- Deep output, deep transition RNN
+concept_kind: architecture
+definition: A recurrent neural architecture that uses intermediate nonlinear feedforward layers in both
+  the hidden-state transition from the previous state and current input, and the output function from
+  the current hidden state.
+identity_notes: Compared all 442 pinned AIO and 613 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 22 AIO and 26 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. DOT-RNN
+  combines an MLP transition with an MLP output map. DT-only, DO-only, separately stacked recurrent states
+  and the DOT(S) shortcut variant are explicitly distinguished. Direct LSTM cell carries and delayed gated
+  feedback do not define this architecture.
+definition_evidence:
+- source_id: pascanu2014
+  locator: Section 3.2.3 and Figure 2(c), PDF p. 4; Sections 3.3.1–3.3.2, p. 5
+  relation: supports
+claims:
+- claim_id: two-deep-maps
+  kind: mechanism
+  statement: The state transition is a multilayer perceptron of the current input and previous hidden
+    state. A separate multilayer perceptron maps the current hidden state to the output. The illustrated
+    DOT-RNN has one intermediate nonlinear layer in each map. Increasing depth within these maps is distinct
+    from increasing the number of time steps in an unfolded recurrent network.
+  evidence:
+  - source_id: pascanu2014
+    locator: Sections 2–3.3.2, PDF pp. 2–5, Equations 1–5, Figure 2(c) and unnumbered nested MLP formulas
+    relation: supports
+- claim_id: shortcut-and-state-scope
+  kind: scope
+  statement: Intermediate transition and output values are feedforward computations within a time step,
+    not necessarily separately recurrent states. The DT and DO design choices deepen the transition and
+    output maps, respectively; their combination is DOT-RNN. Stacked RNNs maintain multiple recurrent
+    hidden states. DOT(S)-RNN adds shortcut connections within the deep transition. These shortcuts shorten
+    some gradient paths but do not guarantee a nonzero or bounded full derivative, successful training
+    or long-term memory.
+  evidence:
+  - source_id: pascanu2014
+    locator: Sections 3.2.2–3.3.3, PDF pp. 3–6, Figure 2; Discussion, p. 10; constructed shortcut cancellation
+      example
+    relation: supports
+- claim_id: learned-neural-operator-boundary
+  kind: scope
+  statement: The paper interprets the transition as a learned plus operator combining input and hidden
+    state, and the output map as a learned predict operator. Both can be MLPs. The plus notation does
+    not require literal vector addition or commutativity. Regularizing it to commute is proposed as a
+    possible extension and is not evaluated in this paper.
+  evidence:
+  - source_id: pascanu2014
+    locator: Section 4 and Figure 3, PDF p. 6; constructed noncommutative nonlinear map
+    relation: supports
+- claim_id: training-and-capacity
+  kind: limitation
+  statement: The main comparisons choose model sizes from finite validation sets and use unequal parameter
+    counts. Training uses stochastic gradient descent, gradient clipping and validation stopping, with
+    task-dependent initialization and regularization. The main DOT(S) and stacked models are initialized
+    from simpler recurrent models, and pretrained parameters use a tenfold smaller learning rate. Table
+    1’s three DOT widths denote recurrent state, transition intermediate and output intermediate dimensions,
+    not three recurrent layers. These protocols do not isolate depth as the only cause of a performance
+    difference.
+  evidence:
+  - source_id: pascanu2014
+    locator: Sections 5.1–5.2, PDF pp. 7–8, Table 1
+    relation: supports
+- claim_id: music-comparison-boundary
+  kind: limitation
+  statement: 'On the three reported polyphonic-music datasets, the main DOT(S) model does not dominate
+    all comparators: its JSB Chorales negative log-probability is 8.437 versus 8.338 for the shallow RNN,
+    where lower is better. A separate starred DOT(S) configuration improves the listed results while changing
+    transition units to learned-norm units, output units to maxout, regularization to dropout, and omitting
+    pretraining. Those results cannot be attributed solely to adding output depth.'
+  evidence:
+  - source_id: pascanu2014
+    locator: Table 2 and Section 5.3.1, PDF pp. 8–9; constructed table comparisons
+    relation: supports
+- claim_id: language-model-comparison-boundary
+  kind: limitation
+  statement: For Penn Treebank, the main DOT(S) model reports 1.386 bits per character and word perplexity
+    107.5, lower than the paper’s three directly compared recurrent alternatives. A separately cited LSTM
+    character result of 1.24 is lower still. The reported models omit dynamic evaluation, while some cited
+    language-model results use parameter updates during evaluation. These are finite historical comparisons,
+    with training difficulty acknowledged, rather than a current ranking, controlled comparison to every
+    cited model or universal advantage.
+  evidence:
+  - source_id: pascanu2014
+    locator: Table 3 and Section 5.3.2, PDF p. 9, including footnotes; Discussion, p. 10; constructed
+      table comparison
+    relation: supports
+evidence_sources:
+- source_id: pascanu2014
+  title: How to Construct Deep Recurrent Neural Networks
+  authors:
+  - Razvan Pascanu
+  - Caglar Gulcehre
+  - Kyunghyun Cho
+  - Yoshua Bengio
+  persistent_id: arXiv:1312.6026v5
+  version: arXiv:1312.6026v5, 24 April 2014, 13 PDF pages; primary metadata reports ICLR 2014 conference-track
+    acceptance. All pages visually read. PDF and printed page numbers coincide; nested transition/output
+    formulas on page 5 are unnumbered. Author implementation and other versions not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1312.6026v5
+  access_level: full_text
+  accessed_at: '2026-10-13T11:58:05Z'
+  sha256: 2d517627b4b6284f46939a99463c501d23c108513c8b39ca64cfe13408236cc4
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: The local architecture is a particular recurrent sequence network with deep transition and
+    output maps; the pinned generic RNN target is broader.
+- target: AIO:DeepFeedForwardNetwork
+  relation: related_match
+  rationale: The pinned target includes the MLP synonym and corresponds to feedforward maps used inside
+    the recurrent architecture. It is related as a component family; the complete recurrent network is
+    not asserted to be feedforward.
+limitations:
+- DT-only, DO-only, DOT, shortcut variants and stacked recurrent states are distinguished; shared depth
+  terminology does not make them exact synonyms.
+- Learned operators need not satisfy arithmetic algebraic laws. Shortcut paths and universal-approximation
+  motivation do not establish training or memory guarantees.
+- Main and starred music experiments differ in units, initialization and regularization. Language comparisons
+  differ in model sizes and evaluation protocols.
+- All 13 primary PDF pages visually read, including figures, formulas, tables, footnotes and references.
+  No author code, other versions, model training or empirical replication; DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T12:09:35Z'
+  updated_at: '2026-10-13T12:16:31Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

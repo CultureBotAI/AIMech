@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIRECT global optimization · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>DIRECT global optimization</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">DIRECT global optimization</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:DIRECTGlobalOptimization</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A deterministic derivative-free global optimization algorithm that adaptively partitions a bounded real search box, samples rectangle centers and trisects the longest sides of every rectangle that is potentially optimal for some positive rate-of-change weight and a specified score-improvement threshold.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      DIRECT denotes the original deterministic box-partition method: normalized-domain center sampling, potentially optimal rectangles under an unspecified positive slope, and longest-side trisection. It does not require a surrogate or an information acquisition. This differs from random or grid search, population-based differential evolution/CMA-ES, and GP-guided optimization. Direct Preference Optimization is a policy objective and is unrelated.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#normalized-center-sampled-partition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For minimization of a finite-valued deterministic scalar objective on a finite-dimensional box with strictly positive side lengths, normalize each coordinate to [0,1]. Start with the unit hypercube and evaluate its center. Maintain a partition into axis-aligned hyperrectangles, each with an evaluated center, and retain the smallest objective value observed. The defining search uses function values rather than objective derivatives or a fitted probabilistic surrogate. The geometry is measured in normalized coordinates, so the original coordinate bounds affect its metric.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Sections 3–4, PDF pp.7–14 / printed pp.163–170; center sampling, normalization and multivariate algorithm Step 1.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#potentially-optimal-rectangle-rule</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Let c_i be each rectangle center and d_i its Euclidean distance to a vertex, equal to one half of its diagonal length in normalized coordinates. For a fixed epsilon &gt; 0 and current best value f_min, rectangle j is potentially optimal when some finite K_tilde &gt; 0 satisfies both f(c_j) - K_tilde d_j &lt;= f(c_i) - K_tilde d_i for every current rectangle i, and f(c_j) - K_tilde d_j &lt;= f_min - epsilon |f_min|. All such rectangles are eligible, including distinct rectangles tied at the same distance and value. The rate-of-change weight is varied rather than supplied as a known Lipschitz bound; its score is not automatically a certified lower bound on the objective inside the rectangle.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Definition 3.1, PDF p.9 / printed p.165, and Definition 4.1, PDF p.14 / printed p.170; distinction from a known Lipschitz constant on PDF p.10 / printed p.166.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#longest-side-trisection</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For each selected rectangle, collect all dimensions whose side length equals its maximum side length L. Evaluate the objective at c plus and minus (L/3)e_i for every such dimension i. Order these dimensions by the smaller of their two sampled values. Trisect the rectangle containing the original center along the best dimension, then continue splitting only the remaining central rectangle along each subsequent dimension. With m tied longest dimensions, this creates 2m + 1 child rectangles from 2m new center samples while reusing the original center value. A stated deterministic rule is needed to order dimensions with equal pair scores; different valid tie orders can produce different labeled partitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Section 4, PDF pp.11–13 / printed pp.167–169, Figure 7 and Procedure for Dividing Rectangles, Steps 1–3; child-count and tie consequences of that procedure.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#complete-selected-set-iterations</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Determine the full potentially optimal set at the start of an iteration. Subdivide every member of that fixed set, updating the partition and the observed best value, before computing a new potentially optimal set. The original procedure processes all selected rectangles and does not replace this step by repeatedly selecting only the current best rectangle. Complete-iteration results do not depend on the order of processing disjoint selected rectangles when within-rectangle tie conventions are fixed and evaluations are deterministic. An iteration can contain multiple new evaluations. The source uses a specified iteration limit and also permits an evaluation budget; an early budget stop may interrupt the complete-iteration convention.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Univariate algorithm Steps 2–7 and order discussion, PDF pp.10–11 / printed pp.166–167; multivariate algorithm Steps 2–6, PDF pp.14–16 / printed pp.170–172.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#epsilon-and-objective-origin</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Epsilon imposes a required improvement on the weighted selection score relative to |f_min|; it is not a verified error bound or stopping tolerance. At f_min = 0 the epsilon term vanishes, although the remaining selection inequalities still apply. Multiplying all objective values by a positive constant preserves the exact selection test after rescaling K_tilde. Adding a constant generally does not, because |f_min| changes. For example, with epsilon = 1/100, a best small interval of radius 1/18 and value 0 competes with larger intervals of radius 1/6 and value 1 for 0 &lt; K_tilde &lt;= 9. Adding 100 to every value requires K_tilde &gt;= 18 for the small interval, so it ceases to be potentially optimal despite unchanged objective rankings.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Definitions 3.1 and 4.1, PDF pp.9 and14 / printed pp.165 and170; epsilon discussion, PDF pp.10 and23 / printed pp.166 and179. Scaling and translation statements are direct algebraic consequences, checked in the supporting exact calculator.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#asymptotic-coverage-with-scoped-convergence</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the ideal original algorithm continued indefinitely with exact selection, complete iterations and finite objective values, at least one rectangle with maximal center-to-vertex distance is selected each iteration. Repeated longest-side trisection makes the maximum rectangle radius tend to zero, so sampled centers become dense in the box. If a finite global minimum is attained and the objective is continuous in a neighborhood of a global minimizer, the best sampled values converge to that minimum. This is an asymptotic value statement, not a finite-budget error certificate, a rate guarantee, exact finite attainment of a boundary minimizer or a guarantee for arbitrary discontinuous objectives and modified selection rules.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-jones1993-direct">Lipschitzian Optimization Without the Lipschitz Constant</a></span>
+        <span>· <strong>Locator:</strong> Section 5, PDF pp.17–18 / printed pp.173–174, Eq 9 and dense-sampling argument; stopping limitation on PDF p.3 / printed p.159. The zero-denominator caveat in printed Eq 11 is retained below.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This record describes the original 1993 DIRECT construction. Later locally biased, tie-reduced, restart, noisy-objective, constrained or parallel variants are not silently imported or declared exact aliases. A direct-search optimizer is not the maintained DirectPreferenceOptimization algorithm.</li>
+      <li>The source uses finite-valued deterministic objective evaluations on a finite box. General constraints, failed evaluations, noise handling, categorical parameters, zero-width coordinates and floating-point degeneracy need additional implementation rules. Normalization and tie conventions can affect the search trajectory; no rotation invariance or coordinate-independent behavior is asserted.</li>
+      <li>The lower-right convex-hull interpretation concerns existence of a positive weight satisfying both inequalities. A point touching only at weight zero is excluded by the stated definition, and the epsilon filter can exclude a hull candidate. Equal-distance candidates require direct value comparison rather than division by a zero distance difference.</li>
+      <li>In the introductory Shubert comparison, PDF p.4 / printed p.160 Eq 5 omits the factor one half on K(b-a) for the claimed bottom-of-V value. With equal endpoint values 0, interval [0,2] and K=1, the intersecting lines have minimum -1, while the printed expression gives -2. That expression is a weaker lower bound in this example, not the stated intersection value. DIRECT’s center-based Eq 8 and potentially optimal definitions are separate.</li>
+      <li>The convergence proof’s Eq 11, PDF p.17 / printed p.173, writes an unrestricted maximum of ratios with denominator d_j-d_i, including equal-distance cases and i=j. The argument requires taking those ratios only over strictly smaller distances, while handling equal-distance centers by selecting a minimum-value one. This is an explicit curator reading of the definition-level proof, not an asserted author-issued correction.</li>
+      <li>Dense sampling alone does not guarantee convergence of values for arbitrary discontinuities: a function equal to -1 only at sqrt(2)/2 and 0 elsewhere on [0,1] has an isolated minimum that the exact rational center sequence never samples. Even for a continuous objective, a finite set of sampled values can miss a narrow negative tent between samples. Without additional certified function bounds, a budget stop cannot certify global accuracy.</li>
+      <li>The source’s benchmark comparisons use different convergence definitions for competing methods and discuss parameter-tuning and stochastic-run comparability problems. No benchmark was reproduced and no universal speed, dimension-independent storage, parameter-insensitivity or superiority claim is made. The central sample avoids enumerating all box vertices, but subdivision, retained rectangles and coordinate bookkeeping still require resources.</li>
+      <li>The original bounded calculator in research/discovery/direct-boundaries.py uses rational radius clouds for selection, exact multivariate partition geometry and finite one-dimensional examples. It does not implement general multivariate square-root radius selection or establish asymptotic results by testing. Its trace evaluation counts denote distinct sampled locations, not runtime function-call costs; center values may be recomputed for geometric checks. It is supporting evidence within the author workflow, not independent scientific approval or external author-code execution.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Explicit AIO Snapshot Assessment: No Match</div>
+  <p style="margin: 0.25rem 0 0.75rem; font-size: 0.95rem; line-height: 1.5;">
+    <strong>Rationale:</strong> No inspected pinned AIO target provides a sufficiently specific mapping for the general DIRECT optimizer. Its machine-learning uses do not make it a learning task, training preprocessing, network or model. This is an explicit bounded no-match assessment, not a claim that no suitable concept exists in another ontology.
+  </p>
+  <div style="font-size: 0.85rem; color: var(--meta); margin-bottom: 0.75rem;">
+    <strong>Search Scope:</strong> Freshly assessed all 721 native and 442 pinned AIO records (1,163 total): IDs, names, aliases, scoped synonyms and complete definitions. Four whole-checkout searches used rg --no-ignore --hidden with exact IDs/full names and meaningful compounds; all 4,196 occurrences were reconciled and all 88 decoded matching contexts read. Bare DIRECT was not treated as an exhaustive identity probe; ordinary direct-algorithm phrases were false positives. All 902 main and 393 nested frontier labels/statuses, all matching fields and 29 relevant full objects were read. Nine exact examined AIO CLASS nodes (ActiveLearning, MachineLearningTask, TrainingStrategy, ReinforcementLearning, EvolutionaryLLM, MathematicalFunction, Model, Network and MarkovChain), including metadata/synonyms and every incident edge, support no suitable mapping for this deterministic rectangle-partition optimizer. TransferLearning was also inspected for the cohort. This is a scoped pinned-snapshot no-match assessment, not absence from all ontologies.
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 220px;">Examined AIO Candidate</th>
+          <th>Rejection Reason</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/ActiveLearning.html"><code>AIO:ActiveLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The general deterministic optimizer does not require labeling examples or selecting queries by learned predictive uncertainty; objective evaluation alone does not establish this learning-task mapping.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MachineLearningTask.html"><code>AIO:MachineLearningTask</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm can optimize an arbitrary box-constrained objective without building a method that learns from data; an AI application does not identify its full scope with this task.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/TrainingStrategy.html"><code>AIO:TrainingStrategy</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The pinned definition concerns preprocessing and model training. DIRECT is a reusable optimizer; its use inside hyperparameter selection is an application rather than a necessary training mechanism.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/ReinforcementLearning.html"><code>AIO:ReinforcementLearning</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Balancing local and global exploration does not make the general search procedure a policy/environment learning task.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/EvolutionaryLLM.html"><code>AIO:EvolutionaryLLM</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            This target is a large language model and its broad related synonyms do not denote the deterministic rectangle algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MathematicalFunction.html"><code>AIO:MathematicalFunction</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The objective and selection score are mathematical functions, but the proposed concept is the iterative partitioning algorithm, not a function node.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Model.html"><code>AIO:Model</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A partition and stored evaluations do not make this search algorithm identical to the pinned abstract model class.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/Network.html"><code>AIO:Network</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The optional search-tree representation is bookkeeping, not a defining network architecture.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html"><code>AIO:MarkovChain</code></a>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            A generic state representation would be too broad; DIRECT does not define a stochastic transition process or target-invariant sampler.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-jones1993-direct">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">jones1993-direct</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://dumas.perso.math.cnrs.fr/DIRECT.pdf" target="_blank" rel="noopener">Lipschitzian Optimization Without the Lipschitz Constant</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            D. R. Jones, C. D. Perttunen, B. E. Stuckman
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.1007/BF00941892</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:7c5944920fe5…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ADIRECTGlobalOptimization">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for DIRECT global optimization" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:DIRECTGlobalOptimization</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">DIRECT global optimization</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">No-match assessed</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T04:14:51Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T04:14:51Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/DIRECTGlobalOptimization.yaml" target="_blank" rel="noopener">
+      <code>data/curated/DIRECTGlobalOptimization.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=DIRECT%20global%20optimization"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ADIRECTGlobalOptimization"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

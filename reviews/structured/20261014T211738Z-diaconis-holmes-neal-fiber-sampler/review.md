@@ -1,0 +1,1215 @@
+# Scientific author self-review of Diaconis–Holmes–Neal fiber sampler
+
+- Review: 20261014T211738Z-diaconis-holmes-neal-fiber-sampler
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T21:04:32.749169Z
+- Finished UTC: 2026-10-14T21:17:38.630934Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the finite DHN fiber algorithm including its one-line directed special case, with a related Markov-process mapping. The invariance and finite ergodicity claims are tied to the stated assumptions; continuous extensions, parameter endpoints and efficiency are bounded. The inspected 1997 report remains distinct from the unread final journal version.
+
+## Scope And Provenance
+
+All maintained fields of the selected record. Actual source scope: DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal full text are not claimed read.. DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal full text are not claimed read. The exact source method and assumption boundaries support the maintained claims. Source access timestamps remain separate from this actual review reading time.
+
+Selection: Exact maintained ID: AIMech:DiaconisHolmesNealFiberSampler
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 09acb520b62acc87b8c9fc0ca24bff277d883851.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:DiaconisHolmesNealFiberSampler | data/curated/DiaconisHolmesNealFiberSampler.yaml | maintained | Diaconis–Holmes–Neal fiber sampler |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:DiaconisHolmesNealFiberSampler | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 302.62s (0:05:02)<br>Checked 442 record(s); 0 failed.<br>Checked 706 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 395 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 397,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:DiaconisHolmesNealFiberSampler | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| just render | passed | True | AIMech:DiaconisHolmesNealFiberSampler | Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages<br>uv run --locked python scripts/render_pages.py<br> |
+| just render-check | passed | True | AIMech:DiaconisHolmesNealFiberSampler | pages/ is current<br>uv run --locked python scripts/render_pages.py --check<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:DiaconisHolmesNealFiberSampler | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:DiaconisHolmesNealFiberSampler | Actual command exited zero without output. |
+| python3 research/discovery/gibbs-fiber-guided-walk-boundaries.py | passed | True | AIMech:DiaconisHolmesNealFiberSampler | {<br>  "scope": "Original bounded rational illustrations and explicit analytic flow identities; no author/library runtime, benchmark replication, whole-repository gate or scientific approval.",<br>  "liu": {<br>    "supported_subspace_cases_including_zero_mass_categories": 116,<br>    "support_example": [<br>      [<br>        1,<br>        3<br>      ],<br>      [<br>        "2/3",<br>        "1/3"<br>      ],<br>      [<br>        [<br>          "1/2",<br>          "1/2"<br>        ],<br>        [<br>          "1",<br>          "0"<br>        ]<br>      ]<br>    ],<br>    "point_mass_example": [<br>      [<br>        2<br>      ],<br>      [<br>        "1"<br>      ],<br>      [<br>        [<br>          1<br>        ]<br>      ]<br>    ],<br>    "uniform_binary_period": 2,<br>    "sweep_counterexample": {<br>      "target_weights": [<br>        4,<br>        2,<br>        2,<br>        1<br>      ],<br>      "target": [<br>        "4/9",<br>        "2/9",<br>        "2/9",<br>        "1/9"<br>      ],<br>      "states": [<br>        [<br>          0,<br>          0<br>        ],<br>        [<br>          0,<br>          1<br>        ],<br>        [<br>          1,<br>          0<br>        ],<br>        [<br>          1,<br>          1<br>        ]<br>      ],<br>      "centered_observable": [<br>        1,<br>        -2,<br>        -2,<br>        4<br>      ],<br>      "exact_gibbs_sweep_kernel": [<br>        [<br>          "4/9",<br>          "2/9",<br>          "2/9",<br>          "1/9"<br>        ],<br>        [<br>          "4/9",<br>          "2/9",<br>          "2/9",<br>          "1/9"<br>        ],<br>        [<br>          "4/9",<br>          "2/9",<br>          "2/9",<br>          "1/9"<br>        ],<br>        [<br>          "4/9",<br>          "2/9",<br>          "2/9",<br>          "1/9"<br>        ]<br>      ],<br>      "liu_sweep_kernel": [<br>        [<br>          "1/4",<br>          "1/4",<br>          "1/4",<br>          "1/4"<br>        ],<br>        [<br>          "1/2",<br>          "0",<br>          "1/2",<br>          "0"<br>        ],<br>        [<br>          "1/2",<br>          "1/2",<br>          "0",<br>          "0"<br>        ],<br>        [<br>          "1",<br>          "0",<br>          "0",<br>          "0"<br>        ]<br>      ],<br>      "uniform_random_permutation_equals_fixed_sweep_here": true,<br>      "both_sweep_kernels_reversible_irreducible_aperiodic": true,<br>      "asymptotic_variance_per_full_sweep": {<br>        "liu": "20/3",<br>        "gibbs": "4"<br>      },<br>      "asymptotic_variance_per_single_fixed_random_scan_update": {<br>        "liu": "4/3",<br>        "gibbs": "4"<br>      },<br>      "failed_sweep_off_diagonal_domination": [<br>        {<br>          "from": [<br>            0,<br>            1<br>          ],<br>          "to": [<br>            1,<br>            1<br>          ],<br>          "modified": "0",<br>          "gibbs": "1/9"<br>        },<br>        {<br>          "from": [<br>            1,<br>            0<br>          ],<br>          "to": [<br>            1,<br>            1<br>          ],<br>          "modified": "0",<br>          "gibbs": "1/9"<br>        },<br>        {<br>          "from": [<br>            1,<br>            1<br>          ],<br>          "to": [<br>            0,<br>            1<br>          ],<br>          "modified": "0",<br>          "gibbs": "2/9"<br>        },<br>        {<br>          "from": [<br>            1,<br>            1<br>          ],<br>          "to": [<br>            1,<br>            0<br>          ],<br>          "modified": "0",<br>          "gibbs": "2/9"<br>        }<br>      ],<br>      "meaning": "Local Peskun ordering does not transfer automatically to full sweeps, including reversible uniform random-permutation sweeps. No wall-clock comparison."<br>    },<br>    "dependent_target_scan_check": {<br>      "weights": [<br>        1,<br>        2,<br>        3,<br>        4<br>      ],<br>      "systematic_invariant_nonreversible": true,<br>      "uniform_random_permutation_invariant_reversible": true,<br>      "state_dependent_selection_counterexample_after": [<br>        "1/5",<br>        "1/10",<br>        "3/5",<br>        "1/10"<br>      ]<br>    }<br>  },<br>  "dhn": {<br>    "construction": "Independent separate reversible MH-proposal and sign matrices composed then mixed; all exact, with explicit proposal involution check.",<br>    "degenerate_fiber_families": [<br>      {<br>        "family": "one_state",<br>        "positive_cases": 4,<br>        "states": 1,<br>        "signs": 2<br>      },<br>      {<br>        "family": "one_state_three_signs",<br>        "positive_cases": 16,<br>        "states": 1,<br>        "signs": 8<br>      },<br>      {<br>        "family": "one_line",<br>        "positive_cases": 16,<br>        "states": 3,<br>        "signs": 2<br>      },<br>      {<br>        "family": "overlapping_with_singletons",<br>        "positive_cases": 32,<br>        "states": 3,<br>        "signs": 4<br>      },<br>      {<br>        "family": "singleton_partition_plus_line",<br>        "positive_cases": 32,<br>        "states": 3,<br>        "signs": 4<br>      },<br>      {<br>        "family": "oppositely_ordered_duplicate_partition",<br>        "positive_cases": 32,<br>        "states": 3,<br>        "signs": 4<br>      },<br>      {<br>        "family": "grid",<br>        "positive_cases": 64,<br>        "states": 4,<br>        "signs": 4<br>      }<br>    ],<br>    "total_positive_cases": 196,<br>    "disconnected_partition_example": {<br>      "invariant": true,<br>      "irreducible": false<br>    },<br>    "zero_direction_selection_example": {<br>      "invariant": true,<br>      "irreducible": false,<br>      "reason": "An unselected sign remains frozen."<br>    },<br>    "theta_endpoints": [<br>      {<br>        "n": 1,<br>        "theta": "0",<br>        "invariant": true,<br>        "irreducible": true,<br>        "period": 2,<br>        "reachable_state_counts": [<br>          2<br>        ]<br>      },<br>      {<br>        "n": 1,<br>        "theta": "1",<br>        "invariant": true,<br>        "irreducible": false,<br>        "period": null,<br>        "reachable_state_counts": [<br>          1<br>        ]<br>      },<br>      {<br>        "n": 2,<br>        "theta": "0",<br>        "invariant": true,<br>        "irreducible": true,<br>        "period": 4,<br>        "reachable_state_counts": [<br>          4<br>        ]<br>      },<br>      {<br>        "n": 2,<br>        "theta": "1",<br>        "invariant": true,<br>        "irreducible": false,<br>        "period": null,<br>        "reachable_state_counts": [<br>          1,<br>          2<br>        ]<br>      },<br>      {<br>        "n": 3,<br>        "theta": "0",<br>        "invariant": true,<br>        "irreducible": true,<br>        "period": 6,<br>        "reachable_state_counts": [<br>          6<br>        ]<br>      },<br>      {<br>        "n": 3,<br>        "theta": "1",<br>        "invariant": true,<br>        "irreducible": false,<br>        "period": null,<br>        "reachable_state_counts": [<br>          1,<br>          2<br>        ]<br>      }<br>    ],<br>    "scope": "Singleton lines, redundant/overlapping partitions and one-state spaces are allowed by the tested finite construction. Positivity/connectivity/fixed-mixture assumptions must not be silently removed."<br>  },<br>  "gustafson": {<br>    "continuous_proposal_density": "r_sigma(s)=sqrt(2/pi)/sigma*exp(-s^2/(2 sigma^2)), s&gt;0. q((x,p),(y,-p))=r_sigma(&#124;y-x&#124;) when p(y-x)&gt;0; the reverse proposal has equal density.",<br>    "exact_density_identity": "For A_p(x)=integral_0^infinity r_sigma(s)*min(pi(x-p*s),pi(x)) ds, incoming acceptance density at(x,p) is A_p(x)/2 and incoming rejection density from(x,-p) is[pi(x)-A_p(x)]/2; total pi(x)/2. Assumes proper measurable target density and well-defined finite positive current density, fixed sigma&gt;0. Zero density outside support is included in the integral.",<br>    "uniform_target_incoming_example": {<br>      "x": 0.25,<br>      "sigma": 1.0,<br>      "half_normal_cdf_to_left_boundary": 0.19741265136584743,<br>      "accepted_incoming_plus_density": 0.09870632568292372,<br>      "rejection_from_minus_density": 0.4012936743170763,<br>      "correct_total_density": 0.5,<br>      "wrong_same_sign_rejection_density": 0.3253336780597919,<br>      "target_plus_density": 0.5,<br>      "numeric_scope": "math.erf floating evaluation only; the displayed analytic identity supplies exact cancellation."<br>    },<br>    "negative_control_distinction": "Keeping the old sign on both acceptance and rejection breaks the augmented target in this example. Omitting the final unconditional flip from the equivalent MH-plus-flip representation instead leaves a different valid reversible MH kernel: it is not the same negative control.",<br>    "nonreversibility_witness": "On a positive-density interval, accepted transitions from(x,+) to(y,+), y&gt;x, have positive density but their direct reverse with unchanged plus sign has zero density. The complete guided-walk kernel differs from reversible ordinary MH.",<br>    "support_note": "No reflection, clipping, rejection-resampling or connected-support assumption is needed for the invariance identity. The unbounded half-normal law can jump across zero-density gaps. This calculation does not certify general Harris recurrence, rates or a multivariate bookkeeping implementation.",<br>    "scale_endpoint": "sigma=0 lies outside the draft definition; then y=x and acceptance1 leaves both state/sign unchanged, giving an identity kernel."<br>  }<br>}<br> |
+| python3 research/discovery/liu-modified-gibbs-boundaries.py | passed | True | AIMech:DiaconisHolmesNealFiberSampler | {<br>  "scope": "Independent exact finite algebra checks, not author-code replication, scientific approval, floating-point/library execution or a general proof.",<br>  "positive_conditional_cases": 360,<br>  "checks": "Rows stochastic, conditional invariance, detailed balance, off-diagonal domination of the independent conditional draw, equality of proposal/acceptance and min-form kernels, equivalence of NumPyro 0.7.0 correction algebra under positive finite conditional weights.",<br>  "example": {<br>    "conditional": [<br>      "3/5",<br>      "3/10",<br>      "1/10"<br>    ],<br>    "kernel": [<br>      [<br>        "29/63",<br>        "3/7",<br>        "1/9"<br>      ],<br>      [<br>        "6/7",<br>        "2/63",<br>        "1/9"<br>      ],<br>      [<br>        "2/3",<br>        "1/3",<br>        "0"<br>      ]<br>    ],<br>    "rejection_probability_current_0": "29/63"<br>  },<br>  "point_mass_guard": {<br>    "target": [<br>      1<br>    ],<br>    "kernel": [<br>      [<br>        "1"<br>      ]<br>    ]<br>  },<br>  "uniform_binary_boundary": {<br>    "target": [<br>      "1/2",<br>      "1/2"<br>    ],<br>    "kernel": [<br>      [<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "1",<br>        "0"<br>      ]<br>    ],<br>    "period": 2,<br>    "interpretation": "Propose a different category does not guarantee an aperiodic chain; accepted moves can coexist with periodicity."<br>  },<br>  "scan_boundary": {<br>    "states": [<br>      [<br>        0,<br>        0<br>      ],<br>      [<br>        0,<br>        1<br>      ],<br>      [<br>        1,<br>        0<br>      ],<br>      [<br>        1,<br>        1<br>      ]<br>    ],<br>    "target": [<br>      "1/10",<br>      "1/5",<br>      "3/10",<br>      "2/5"<br>    ],<br>    "random_scan_invariant_reversible": true,<br>    "systematic_order_invariant": true,<br>    "systematic_order_reversible": false,<br>    "systematic_kernel": [<br>      [<br>        "0",<br>        "0",<br>        "0",<br>        "1"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "3/4",<br>        "1/4"<br>      ],<br>      [<br>        "0",<br>        "1/3",<br>        "0",<br>        "2/3"<br>      ],<br>      [<br>        "1/4",<br>        "1/4",<br>        "3/8",<br>        "1/8"<br>      ]<br>    ],<br>    "limitation": "Does not compare asymptotic variances of systematic or random-permutation scan against Gibbs."<br>  },<br>  "pymc_v5_9_0_code_negative_control": {<br>    "target": [<br>      "3/5",<br>      "3/10",<br>      "1/10"<br>    ],<br>    "equation_kernel": [<br>      [<br>        "7/60",<br>        "3/4",<br>        "2/15"<br>      ],<br>      [<br>        "6/7",<br>        "11/420",<br>        "7/60"<br>      ],<br>      [<br>        "2/3",<br>        "1/3",<br>        "0"<br>      ]<br>    ],<br>    "target_after_one_step": [<br>      "827/2100",<br>      "2063/4200",<br>      "23/200"<br>    ],<br>    "preserves_target": false,<br>    "binary_case": [<br>      [<br>        "1",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "1"<br>      ]<br>    ],<br>    "scope": "Exact algebraic interpretation of the inspected source overwriting probabilities before constructing its denominator. Actual PyMC/JAX runtime and floating-point behavior were not tested."<br>  }<br>}<br> |
+| python3 research/discovery/dhn-fiber-boundaries.py | passed | True | AIMech:DiaconisHolmesNealFiberSampler | {<br>  "scope": "Exact finite illustrations; not a general proof, convergence-rate computation, author replication, or independent scientific approval.",<br>  "directed_positive_target_cases": 351,<br>  "checks": "Stochastic rows, exact target invariance, irreducibility, positive self-loop (hence aperiodicity for each irreducible case), and failure of detailed balance for the one-dimensional cases.",<br>  "directed_example": {<br>    "weights": [<br>      1,<br>      2,<br>      4<br>    ],<br>    "theta": "1/5",<br>    "states": [<br>      [<br>        [<br>          -1<br>        ],<br>        0<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        1<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        2<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        0<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        1<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        2<br>      ]<br>    ],<br>    "transition": [<br>      [<br>        "1/5",<br>        "0",<br>        "0",<br>        "4/5",<br>        "0",<br>        "0"<br>      ],<br>      [<br>        "2/5",<br>        "1/10",<br>        "0",<br>        "1/10",<br>        "2/5",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "2/5",<br>        "1/10",<br>        "0",<br>        "1/10",<br>        "2/5"<br>      ],<br>      [<br>        "0",<br>        "1/5",<br>        "0",<br>        "0",<br>        "4/5",<br>        "0"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "1/5",<br>        "0",<br>        "0",<br>        "4/5"<br>      ],<br>      [<br>        "0",<br>        "0",<br>        "4/5",<br>        "0",<br>        "0",<br>        "1/5"<br>      ]<br>    ],<br>    "invariant": [<br>      "1/14",<br>      "1/7",<br>      "2/7",<br>      "1/14",<br>      "1/7",<br>      "2/7"<br>    ]<br>  },<br>  "theta_zero_uniform_boundary": {<br>    "period": 10,<br>    "cycle": [<br>      [<br>        [<br>          -1<br>        ],<br>        0<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        0<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        1<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        2<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        3<br>      ],<br>      [<br>        [<br>          1<br>        ],<br>        4<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        4<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        3<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        2<br>      ],<br>      [<br>        [<br>          -1<br>        ],<br>        1<br>      ]<br>    ]<br>  },<br>  "theta_one_uniform_boundary": {<br>    "closed_classes": [<br>      [<br>        [<br>          [<br>            -1<br>          ],<br>          0<br>        ]<br>      ],<br>      [<br>        [<br>          [<br>            -1<br>          ],<br>          1<br>        ],<br>        [<br>          [<br>            1<br>          ],<br>          0<br>        ]<br>      ],<br>      [<br>        [<br>          [<br>            -1<br>          ],<br>          2<br>        ],<br>        [<br>          [<br>            1<br>          ],<br>          1<br>        ]<br>      ],<br>      [<br>        [<br>          [<br>            -1<br>          ],<br>          3<br>        ],<br>        [<br>          [<br>            1<br>          ],<br>          2<br>        ]<br>      ],<br>      [<br>        [<br>          [<br>            -1<br>          ],<br>          4<br>        ],<br>        [<br>          [<br>            1<br>          ],<br>          3<br>        ]<br>      ],<br>      [<br>        [<br>          [<br>            1<br>          ],<br>          4<br>        ]<br>      ]<br>    ]<br>  },<br>  "fiber_positive_target_cases": 64,<br>  "fiber_scope": "Two directions on a 2 by 2 grid, four persistent sign vectors, positive selection probabilities 1/3 and 2/3; checked invariance, irreducibility and aperiodicity.",<br>  "limitations": "No empirical results or total-variation/chi-square rate claims tested. Endpoint theta values illustrate why the reported ergodicity proposition uses 0&lt;theta&lt;1."<br>}<br> |
+
+## Scientific And Domain Assessments
+
+### Diaconis–Holmes–Neal fiber sampler
+
+identity: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Retain the narrow DRAFT identity within the documented search scope.
+
+The record identifies one finite DHN fiber construction, including the Section 5.1 directed sampler as the d=1 single-line specialization. The source explicitly names the fiber generalization and specifies partitions, retained sign vector, direction selection and a second sign operation. The general construction contains the special case without a separate directed record; this does not make its narrower name an exact alias for every fiber configuration. MH is a stage, ordinary Gibbs is not the update, and ordinary random-walk MH does not retain these signs. Neal’s previous/current-state lift and persistent acceptance-threshold method retain different memory. Gustafson’s continuous half-normal method is related but has deterministic rejection reversal without the interior theta randomization. Broad lifted/nonreversible-MCMC or generic fiber terminology is not an exact alias.
+
+### Definition and source scope
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+The maintained definition is supported within its stated method scope.
+
+The definition correctly restricts the record to finite ordered-fiber sampling with one binary sign per partition. Its detailed claims specify the positive target, connected union, fixed positive selection weights and interior flip probabilities rather than importing a continuous extension or a universal speed claim from the paper title. The maintained evidence is the author-hosted5 June 1997 Technical Report BU-1385-M, not an unread final 2000 journal PDF. Section 5.1 printed 15/PDF 16 gives the two-stage line update and endpoint rule; Section 5.2 printed 16–17/PDF 17–18 gives the fiber partitions, Steps1–3 and Proposition2. The exact report version and its selective reading scope are separate metadata. The source’s discussion of continuous/general spaces is not a fully proved continuous theorem for this record.
+
+### Related Markov-process mapping
+
+grounding: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+related_match expresses method-to-process association without equivalence or ontology inheritance.
+
+The related_match to AIO:MarkovChain is supported. The algorithm constructs Markov transitions on a specified conditional or augmented state, supporting a method-to-process association. The pinned target is a stochastic process/model exported under Network, with a ProbabilisticHiddenLayer has-part assertion. Equivalence, subclass membership and inheritance of those assertions are not warranted. The dated identity/mapping handoff read eighteen complete exact CLASS contexts, all incident edges and their generated YAML: the target plus the seventeen alternatives documented here. This rationale concerns the pinned snapshot and manifest retained in the review inputs.
+Alternatives:
+AIO:Network: A target-invariant transition procedure is not a network architecture. A Markov graph representation does not establish an exact or broader-class mapping to Network.
+AIO:ProbabilisticHiddenLayer: A retained sign, conditional category or auxiliary state is not a neural hidden layer that estimates probabilities. The MarkovChain has-part edge is context, not an inherited algorithm assertion.
+AIO:Model: A target distribution or model may be an input or application; the maintained identity is the transition algorithm, not a fitted statistical or predictive model.
+AIO:MachineLearningTask: These records specify operational sampling mechanisms, not a machine-learning problem or task definition.
+AIO:TrainingStrategy: Use of a sampler during learning does not make its invariant transition rule a training strategy.
+AIO:MathematicalFunction: Update equations describe the mechanism, but they do not make a randomized target-preserving procedure merely a mathematical input-output function.
+AIO:BayesianNetwork: Bayesian inference is an application; no directed acyclic dependency graph is required by these transition rules.
+AIO:ProbabilisticGraphicalModel: A graphical target distribution is optional. The pinned graph-factorization/task identity is distinct from a sampler acting on a specified target.
+AIO:UnsupervisedLearning: No learning-from-unlabeled-data objective is needed to define these finite or continuous sampling kernels.
+AIO:BoltzmannMachineNetwork: A Boltzmann machine may be a target/application, but no recurrent stochastic network architecture is required.
+AIO:RestrictedBoltzmannMachine: Sampling a restricted Boltzmann machine does not make a general conditional update or direction-based kernel that model architecture.
+AIO:EnergyBasedLLM: The exact pinned CLASS denotes an explicit token-sequence density language model. A broader related synonym does not replace that definition or make it a generic energy-target sampler.
+AIO:ImplicitLanguageModel: Whole-sequence language-model scoring is not the identity of these sampling mechanisms.
+AIO:Preprocessing: The methods construct target-invariant transitions rather than prepare raw data for analysis.
+AIO:Layer: A transition stage or stored direction is not a neural-network layer.
+AIO:HiddenLayer: Auxiliary direction memory is not a nonlinear hidden neural layer.
+AIO:CausalGraphicalModel: These target distributions need not encode causal assumptions; a causal-model application is not algorithm identity.
+
+### ordered-partitions-and-augmented-target
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+Each partition covers X with disjoint ordered lines, while connectivity belongs to their union. The retained sign vector has 2^d configurations and target pi(x)/2^d. Fixed positive direction weights sum to one and the theorem uses 0&lt;theta_i&lt;1. A partition need not individually connect all of X, and singleton lines are allowed by the transition. Dropping a direction’s weight to zero can freeze its sign even if other lines move the position, showing why positive weights matter for the full state.
+
+### directed-neighbor-metropolis-stage
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+Proposing the adjacent ordered point together with negation of the chosen sign is an involution: the reversed proposed sign points back to the original neighbor. The symmetric proposal therefore uses min(1,pi(x*)/pi(x)). A missing neighbor is rejected; on singleton lines that positional stage always stays. Other signs remain fixed. This is a neighboring-point proposal, not a full-line conditional draw or a rule that reflects or wraps the position at an endpoint.
+
+### post-metropolis-sign-update
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+The second stage acts on the sign after the MH outcome, with flip probability 1-theta_i. It follows rejection as well as acceptance: accepted moves retain the incoming sign with 1-theta_i, whereas rejected moves reverse it with that probability. Confusing theta_i with the flip probability, or applying the stage only after rejection, changes the specified kernel. Omitting it leaves a different invariant MH stage rather than the full directed sampler.
+
+### finite-state-invariance-and-ergodicity
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+The MH and sign matrices each preserve pi(x)/2^d; composition and a fixed mixture preserve it. Proposition2’s irreducibility and aperiodicity also require the stated finite positivity, connected union and nondegenerate weights/flip probabilities. The independent matrix construction checks 196 positive cases including one-point spaces, singleton lines, overlapping and redundant partitions; the earlier direct implementation agrees after state-order alignment. Disconnected fibers preserve the measure but can be reducible. At theta=0 a uniform n-point line is a deterministic 2n-cycle; theta=1 can leave closed MH pairs/endpoints. These examples justify separating stationarity from ergodicity without claiming every endpoint or every untested fiber graph behaves identically.
+
+### one-line-directed-specialization
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+Choosing d=1 with one line containing all of X exactly recovers Section 5.1 including its accepted/rejected sign behavior and endpoint rejection. The parent/generalization record explicitly contains this specialization. Continuous counterparts and Gustafson are related source discussions with different proposal domains/parameters; they do not turn the finite fiber definition into an umbrella for all persistent-direction methods.
+
+### line-selection-and-exploration-limits
+
+evidence: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Supported within the stated assumptions and inspected passages.
+
+The source requires an available successor/predecessor operation, not necessarily full materialization of every line. Its warning about finding useful lines and retaining diffusive behavior on awkward supports is preserved. Local probability barriers and target geometry can limit exploration, and comparison with direct conditionals or independence proposals is not settled by auxiliary sign memory alone. No tuned-cycle mixing rate is extrapolated to this general construction.
+
+### finite positive target, connected ordered-fiber union,2^d persistent sign states, fixed positive direction weights, post-MH sign operation, interior theta and explicit single-line containment
+
+consistency: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Mechanism, scan/parameter limits and identity boundaries remain qualified.
+
+No general continuous ergodicity extension, arbitrary zero-probability support implementation, universal nonreversibility or speedup, finite-run error order, author-code execution or benchmark replication. The n=1 and singleton checks are finite illustrations, not a new general theorem.
+
+### All captured maintained fields
+
+provenance: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+Root reassessed the complete current record after canonical capture; DRAFT remains.
+
+Full maintained record and all six claim/source locators reread after capture. Positive finite target, connected ordered-line union, fixed positive direction weights and interior theta match the source. The neighbor-plus-sign proposal is involutive; the second sign operation follows both MH outcomes. Endpoint rejection, pi/2^d invariance and the conditional finite ergodicity claim retain assumptions. One-line d=1 is contained in this single identity. Singleton/redundant fibers and theta endpoints were assessed with bounded calculations, without universal rate or continuous-extension claims. All remaining maintained fields, identity notes, source version/access/hash, AIO pin and related mapping, limitations, DRAFT status and curation metadata were assessed. Root reread the complete assessment configuration after capture and agrees within its stated bounds. Root retained the earlier full18AIO-context reading and seven nearest-native readings; broader182semantic/19native assessment remains attributed to the supporting source agent. Current integrity checks confirm no prior canonical bytes changed. The corrected mathematical audit and original erroneous15-versus21July metadata lineage were inspected; the15July successor governs, with unchanged scientific content. Root also read the actual-content supporting audit, which identifies no required correction and remains part of the same author workflow. Rereads: DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal full text are not claimed read.
+
+### Original and corrected mathematical audit lineage
+
+provenance: supported. Targets: AIMech:DiaconisHolmesNealFiberSampler.
+
+The bibliographic correction is explicit and scientific audit content is unchanged.
+
+Original created_at, draft inputs, findings and calculation audit are retained. The corrected successor governs; no future review/gate is inferred from the correction.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json; identity_search and identity_assessment | supports | Whole-corpus normalized checks cover every ID, name, alias and scoped synonym in 442 pinned AIO and 703 native records; four full checkouts include ignored and hidden files. Finite ordered fibers, one retained sign per partition, fixed partition selection and the post-MH sign operation define this identity. The one-line directed sampler is explicitly covered as d=1 specialization, with no separate record or narrower-name exact alias. Shared MH or lifting does not make this equivalent to random walk MH, Neal pair-state or acceptance-uniform updates, HMC or continuous Gustafson half-normal displacement. Existing source-frontier reference is resolved in place. Related AIO:MarkovChain does not assert model identity or layer inheritance; 18 complete candidate class contexts and 19 native neighbors were assessed. |
+| mapping | research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json; mapping_context nodes, native_neighbors, semantic_rows and mapping_assessment | supports | The related_match to AIO:MarkovChain is supported. The algorithm constructs Markov transitions on a specified conditional or augmented state, supporting a method-to-process association. The pinned target is a stochastic process/model exported under Network, with a ProbabilisticHiddenLayer has-part assertion. Equivalence, subclass membership and inheritance of those assertions are not warranted. The dated identity/mapping handoff read eighteen complete exact CLASS contexts, all incident edges and their generated YAML: the target plus the seventeen alternatives documented here. This rationale concerns the pinned snapshot and manifest retained in the review inputs. |
+| actual-record-reading | data/curated/DiaconisHolmesNealFiberSampler.yaml | supports | Full maintained record and all six claim/source locators reread after capture. Positive finite target, connected ordered-line union, fixed positive direction weights and interior theta match the source. The neighbor-plus-sign proposal is involutive; the second sign operation follows both MH outcomes. Endpoint rejection, pi/2^d invariance and the conditional finite ergodicity claim retain assumptions. One-line d=1 is contained in this single identity. Singleton/redundant fibers and theta endpoints were assessed with bounded calculations, without universal rate or continuous-extension claims. All remaining maintained fields, identity notes, source version/access/hash, AIO pin and related mapping, limitations, DRAFT status and curation metadata were assessed. Root reread the complete assessment configuration after capture and agrees within its stated bounds. Root retained the earlier full18AIO-context reading and seven nearest-native readings; broader182semantic/19native assessment remains attributed to the supporting source agent. Current integrity checks confirm no prior canonical bytes changed. The corrected mathematical audit and original erroneous15-versus21July metadata lineage were inspected; the15July successor governs, with unchanged scientific content. Root also read the actual-content supporting audit, which identifies no required correction and remains part of the same author workflow. Actual post-capture source reread: DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal full text are not claimed read. |
+| dhn1997 | https://glizen.com/radfordneal/ftp/nonrev.pdf; Section 5.2, printed pp. 16–17 / PDF pp. 17–18, fiber construction and Proposition 2; one-line case in Section 5.1, printed p. 15 / PDF p. 16; Section 5.2, printed p. 16 / PDF p. 17, partitions, connectedness and augmented state; Section 5.2, printed p. 16 / PDF p. 17, Steps 1–2; endpoint rule in Section 5.1, printed p. 15 / PDF p. 16, Step 1; application to each line in Proposition 2 proof, printed p. 17 / PDF p. 18; Section 5.2, printed p. 16 / PDF p. 17, Step 3; combined-effect explanation in Section 5.1, printed p. 15 / PDF p. 16; Section 5.1, printed p. 15 / PDF p. 16, Proposition 1; Section 5.2, printed pp. 16–17 / PDF pp. 17–18, Proposition 2 and proof; Section 5.1, printed pp. 15–16 / PDF pp. 16–17; Section 5.2, printed pp. 16–17 / PDF pp. 17–18; Section 5.2, printed p. 17 / PDF p. 18, line-construction discussion; Section 7, printed pp. 23–24 / PDF pp. 24–25, discussion | supports | Technical Report BU-1385-M, Biometrics Unit, Cornell University, dated 5 June 1997; author-hosted 27-page PDF with cover and printed pp. 1–26. Distinct bibliographic version from the 2000 journal article. Actual root reading: DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal full text are not claimed read. The exact source method and assumption boundaries support the maintained claims. Source access timestamps remain separate from this actual review reading time. |
+| calculation | research/discovery/gibbs-fiber-guided-walk-boundaries.py; Combined result section dhn | supports | Original bounded checks: exact rational finite transitions and scan examples; analytic continuous cancellation with separately labeled floating erf illustration. Not author-code replication or a general convergence theorem. Selected result: {"construction": "Independent separate reversible MH-proposal and sign matrices composed then mixed; all exact, with explicit proposal involution check.", "degenerate_fiber_families": [{"family": "one_state", "positive_cases": 4, "states": 1, "signs": 2}, {"family": "one_state_three_signs", "positive_cases": 16, "states": 1, "signs": 8}, {"family": "one_line", "positive_cases": 16, "states": 3, "signs": 2}, {"family": "overlapping_with_singletons", "positive_cases": 32, "states": 3, "signs": 4}, {"family": "singleton_partition_plus_line", "positive_cases": 32, "states": 3, "signs": 4}, {"family": "oppositely_ordered_duplicate_partition", "positive_cases": 32, "states": 3, "signs": 4}, {"family": "grid", "positive_cases": 64, "states": 4, "signs": 4}], "total_positive_cases": 196, "disconnected_partition_example": {"invariant": true, "irreducible": false}, "zero_direction_selection_example": {"invariant": true, "irreducible": false, "reason": "An unselected sign remains frozen."}, "theta_endpoints": [{"n": 1, "theta": "0", "invariant": true, "irreducible": true, "period": 2, "reachable_state_counts": [2]}, {"n": 1, "theta": "1", "invariant": true, "irreducible": false, "period": null, "reachable_state_counts": [1]}, {"n": 2, "theta": "0", "invariant": true, "irreducible": true, "period": 4, "reachable_state_counts": [4]}, {"n": 2, "theta": "1", "invariant": true, "irreducible": false, "period": null, "reachable_state_counts": [1, 2]}, {"n": 3, "theta": "0", "invariant": true, "irreducible": true, "period": 6, "reachable_state_counts": [6]}, {"n": 3, "theta": "1", "invariant": true, "irreducible": false, "period": null, "reachable_state_counts": [1, 2]}], "scope": "Singleton lines, redundant/overlapping partitions and one-state spaces are allowed by the tested finite construction. Positivity/connectivity/fixed-mixture assumptions must not be silently removed."} |
+| supporting-math-audit | research/discovery/20261014T203348Z-gibbs-fiber-guided-walk-supporting-math-audit.json | supports | Root assessed the corrected bounded mathematical audit; supporting agents belong to the same author workflow and provide no independent scientific approval. |
+| metadata-correction-lineage | research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json; supporting_math_audit_correction_lineage and source_analysis.bounded_math_audit | supports | The original audit incorrectly dated Neal v1 as 21 July 2004. The explicitly corrected successor uses 15 July; original object/hash, actual correction metadata and unchanged scientific sections are preserved. |
+
+## Limits And Additional Notes
+
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- No general continuous ergodicity extension, arbitrary zero-probability support implementation, universal nonreversibility or speedup, finite-run error order, author-code execution or benchmark replication. The n=1 and singleton checks are finite illustrations, not a new general theorem.
+- The math audit compares two original calculator organizations and preserves source theorem assumptions; it is not independent scientific approval.
+- Theta endpoint examples preserve stationarity while invalidating automatic convergence claims; no blanket endpoint classification is inferred.
+- Original Liu 1996 full PDF was not obtained: publisher/author access attempts are preserved in source handoff. The curated method uses inspected Neal 2004 equations, not unseen original proofs or an abstract as method evidence.
+- DHN source is the 5 June 1997 author technical report; the 2000 journal PDF was not obtained or read. Source reading is selective and does not establish inspection of every spectral proof.
+- Gustafson journal-layout PDF came from the observed public Studyres mirror. Publisher-download byte equivalence was not established; no redistribution license is inferred. PDF bytes are not copied to the repository.
+- Gustafson Example 2 and Example 4/Figure 2 disagree on two numerical performance labels. Those numerals and the experimental first-hit criterion are not adopted as performance or general convergence claims.
+- Empty findings reflect actual root assessment of this selected captured record only; no unrelated finding closure or literature saturation is asserted.
+- A metadata correction in the supporting audit is retained as provenance, not fabricated maintained-record finding lineage.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T211738Z-diaconis-holmes-neal-fiber-sampler
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Diaconis–Holmes–Neal fiber sampler
+started_at: '2026-10-14T21:04:32.749169Z'
+finished_at: '2026-10-14T21:17:38.630934Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author reassessment with supporting source, mathematical
+    and integrity agents in the same author workflow; no independent scientific approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the finite DHN fiber algorithm including its one-line directed special
+  case, with a related Markov-process mapping. The invariance and finite ergodicity
+  claims are tied to the stated assumptions; continuous extensions, parameter endpoints
+  and efficiency are bounded. The inspected 1997 report remains distinct from the
+  unread final journal version.
+source:
+  git_revision: 09acb520b62acc87b8c9fc0ca24bff277d883851
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/BoltzmannMachineNetwork.yaml
+    sha256: 1152d2d85c5c1c408a0420e13f211ed109b12fb289c706ee7449864e91aece03
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/EnergyBasedLLM.yaml
+    sha256: e9e29aa4f8400ad463dfe058fade876ef36c4a2637e1ebc4b42688116896310b
+    role: context
+  - path: data/aio/HiddenLayer.yaml
+    sha256: 945f974c1d298a827086c3439ec3f9ae029380f6d2fa52378eb95ccad1f3b886
+    role: context
+  - path: data/aio/ImplicitLanguageModel.yaml
+    sha256: 818c396b19757360dcdff6291a85d589c50638e0dc6d6bfcd96fdcb7bdf46ce9
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/Preprocessing.yaml
+    sha256: 2c4a30f4f829a757be1feabf78d15780eedf93681a62eede3e76b2304f21bb7a
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ProbabilisticHiddenLayer.yaml
+    sha256: 610c29db815f7348c5bdcdc7e7460dd2dea9ea338f3727ebb1596c51b4af41da
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/UnsupervisedLearning.yaml
+    sha256: c75c631eb034257c75645995539dcc614fd5ab5e521dbede69457a318e86615e
+    role: context
+  - path: data/curated/AnnealedImportanceSampling.yaml
+    sha256: 94c7b8e597f3551b2b804778e11385d6ec9137515bc44a9c9d429268869f7e68
+    role: context
+  - path: data/curated/BarkerAcceptanceRule.yaml
+    sha256: e81a763ba4f2eb2c7e51f3e520311bd111d269f45cdf2417055d72a4ddd4d08c
+    role: context
+  - path: data/curated/DiaconisHolmesNealFiberSampler.yaml
+    sha256: 2c9a3659fe85b5cb71cc22d7e9198c732aa3bdaed398f2b25793d514eeb0f3a6
+    role: target
+  - path: data/curated/FastPersistentContrastiveDivergence.yaml
+    sha256: 3049a144e2c5e8c8afeda5182d1cdcd4da5a3e2d2a75257c10d7f9f5b85236b4
+    role: context
+  - path: data/curated/GibbsSampling.yaml
+    sha256: 8175215986c0507e3664a3aedf8074fc067d85b4a89002091d1bcb9b637a522a
+    role: context
+  - path: data/curated/GustafsonGuidedWalkMetropolis.yaml
+    sha256: 839d08e76d362a34ead45d72c7e4d31bfbb29833b8638f31ff7c32d26ff5e67d
+    role: context
+  - path: data/curated/HamiltonianMonteCarlo.yaml
+    sha256: 28367594dbc36a8357c33a4e639aeb0fefdd47adc8c46e2b3d5feb96b67e84ca
+    role: context
+  - path: data/curated/IndependenceMetropolisHastings.yaml
+    sha256: ca1390f00edca43e94f897e2398b3f7d8edddefadc0a5780e0b470816a7754df
+    role: context
+  - path: data/curated/LiuModifiedGibbsSampler.yaml
+    sha256: b3736d9f8dfb1e8b7e218d2b8fc075f413a719dc1c11cee951af8fa3b4542e54
+    role: context
+  - path: data/curated/MetropolisAdjustedLangevinAlgorithm.yaml
+    sha256: 6e815be8054929061e44ef8ddd5a63c5b1361d8c518fb3ec5fd7f9bba884b6f7
+    role: context
+  - path: data/curated/MetropolisHastings.yaml
+    sha256: 01cb22a25242e8564e2a7bb839ecb46da1bc49eb09b3c85200f9a596e05b99b4
+    role: context
+  - path: data/curated/MetropolisWithinGibbs.yaml
+    sha256: 0e9cfedc93c7e46cc6316809d5a9ec9488b33891a9c9862f914a0adf8f7cb140
+    role: context
+  - path: data/curated/MixedMemoryMarkovModel.yaml
+    sha256: 3d85215830d8e12bae4b29ae645412aff678693cb56eb639dc93860d6baaed86
+    role: context
+  - path: data/curated/MultipleTryMetropolisWithinGibbs.yaml
+    sha256: 539c4d93eff27f5e064abb16fe3e892406ad5dc3d3a6bceb314f4eee37b2a727
+    role: context
+  - path: data/curated/NealBacktrackingSuppressedMCMC.yaml
+    sha256: 1da524622ec40d25aac45313cdbd6412adf1376c6c8b78eeecaded8eb561a0be
+    role: context
+  - path: data/curated/NonreversibleMetropolisUniformUpdate.yaml
+    sha256: 27dbec2b01a48103d709df4b9ab94bba36083bd27acb69af1e3bc70ab6ab4ecd
+    role: context
+  - path: data/curated/PairwiseMarkovChain.yaml
+    sha256: 87196baeddf19e49cb4c7e3804336980a1bbdaa222e70815040d53f1aa222a9e
+    role: context
+  - path: data/curated/PersistentContrastiveDivergence.yaml
+    sha256: 6cc8bf6977132bfa801fffba08986446faf7b6250ff5b8f38ca0de965673441f
+    role: context
+  - path: data/curated/RandomWalkMetropolisHastings.yaml
+    sha256: aeff822517db546b4e3dee3421a54d5887ed178f3b9e6e3df46283eceb39677d
+    role: context
+  - path: data/curated/SliceSampling.yaml
+    sha256: a87319788a5d2966dd1484b6672a968642fb5514cc6f81184908576304bf6aaa
+    role: context
+  - path: data/curated/TemperedTransitions.yaml
+    sha256: d0f1d74d46bcd92995467e13b3552cdf5637cd0a81c8e88fd8a3c52b8bd1af79
+    role: context
+  - path: data/curated/TripletMarkovChain.yaml
+    sha256: 1b73a91285250e23b2d488d78e1dd79d4451e4943b8d0efc4dca33df619995ec
+    role: context
+  - path: research/discovery/20261014T203348Z-gibbs-fiber-guided-walk-supporting-math-audit.json
+    sha256: cb907256334387fed3a86d5904ed0f07e44222547c109db88d2aab6a24f8555a
+    role: context
+  - path: research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json
+    sha256: bde6dea6594397164fdc8aba5e816bdda108127b374885acb694adeb9912acf7
+    role: context
+  - path: research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.md
+    sha256: ecaeed923a355ae9f03964dba3702aebbc4fc0b1ce2940ebebdfb26b2f59532a
+    role: context
+  - path: research/discovery/dhn-fiber-boundaries.py
+    sha256: ff0d94688ced02279037b39d64e5dc653ff937495f50b0a361a3a41a85b9c59b
+    role: context
+  - path: research/discovery/gibbs-fiber-guided-walk-boundaries.py
+    sha256: f4605a688ade559b75acbd2272dc574ee876e765eee0287107640ff552e2b889
+    role: context
+  - path: research/discovery/liu-modified-gibbs-boundaries.py
+    sha256: 34271c625003992c2a4799b4b9a6a517cce9cc2c6614389c43971e7785012f44
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/history.py
+    sha256: 4ff83e818c7f50ea25bfc6b8f2cae7ab29c814310b8b361a6f7af8160055aa91
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:DiaconisHolmesNealFiberSampler
+  path: data/curated/DiaconisHolmesNealFiberSampler.yaml
+  label: Diaconis–Holmes–Neal fiber sampler
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/DiaconisHolmesNealFiberSampler.yaml
+    role: maintained
+scope:
+  description: 'All maintained fields of the selected record. Actual source scope:
+    DHN1997 PDF pages16–18 freshly read as OCR text and complete rendered pages after
+    capture. Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18;
+    pages5–15 and final2000 journal full text are not claimed read.. DHN1997 PDF pages16–18
+    freshly read as OCR text and complete rendered pages after capture. Retained root
+    scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15
+    and final2000 journal full text are not claimed read. The exact source method
+    and assumption boundaries support the maintained claims. Source access timestamps
+    remain separate from this actual review reading time.'
+  selection: 'Exact maintained ID: AIMech:DiaconisHolmesNealFiberSampler'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exclusions:
+  - target: Other batch entries and neighboring identities
+    reason: Read as identity/mapping context, not formal review targets.
+  - target: Uninspected source versions, general convergence and runtime claims
+    reason: No general continuous ergodicity extension, arbitrary zero-probability
+      support implementation, universal nonreversibility or speedup, finite-run error
+      order, author-code execution or benchmark replication. The n=1 and singleton
+      checks are finite illustrations, not a new general theorem.
+  - target: Author implementation and benchmark replication
+    reason: Only bounded original calculations and project checks were executed.
+checks:
+- check_id: gate-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 302.62s (0:05:02)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 706 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 395 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 397,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+  scope_note: Actual execution completed 2026-10-14T21:14:47.131289Z; this generator
+    executes no recorded commands.
+- check_id: vendor-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+  scope_note: Actual execution completed 2026-10-14T21:05:40.367219Z; this generator
+    executes no recorded commands.
+- check_id: render-2
+  name: just render
+  command: just render
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Rendered AIMech site under /private/tmp/aimech-discovery-recovery-worktree-20261012/pages
+
+    uv run --locked python scripts/render_pages.py
+
+    '
+  scope_note: Actual execution completed 2026-10-14T21:05:06.047854Z; this generator
+    executes no recorded commands.
+- check_id: render-3
+  name: just render-check
+  command: just render-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'pages/ is current
+
+    uv run --locked python scripts/render_pages.py --check
+
+    '
+  scope_note: Actual execution completed 2026-10-14T21:05:18.844048Z; this generator
+    executes no recorded commands.
+- check_id: additional-4
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+  scope_note: Actual execution completed 2026-10-14T21:05:34.553412Z; this generator
+    executes no recorded commands.
+- check_id: additional-5
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Actual command exited zero without output.
+  scope_note: Actual execution completed 2026-10-14T21:05:35.583960Z; this generator
+    executes no recorded commands.
+- check_id: calculation-6
+  name: python3 research/discovery/gibbs-fiber-guided-walk-boundaries.py
+  command: python3 research/discovery/gibbs-fiber-guided-walk-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"scope\": \"Original bounded rational illustrations and explicit\
+    \ analytic flow identities; no author/library runtime, benchmark replication,\
+    \ whole-repository gate or scientific approval.\",\n  \"liu\": {\n    \"supported_subspace_cases_including_zero_mass_categories\"\
+    : 116,\n    \"support_example\": [\n      [\n        1,\n        3\n      ],\n\
+    \      [\n        \"2/3\",\n        \"1/3\"\n      ],\n      [\n        [\n  \
+    \        \"1/2\",\n          \"1/2\"\n        ],\n        [\n          \"1\",\n\
+    \          \"0\"\n        ]\n      ]\n    ],\n    \"point_mass_example\": [\n\
+    \      [\n        2\n      ],\n      [\n        \"1\"\n      ],\n      [\n   \
+    \     [\n          1\n        ]\n      ]\n    ],\n    \"uniform_binary_period\"\
+    : 2,\n    \"sweep_counterexample\": {\n      \"target_weights\": [\n        4,\n\
+    \        2,\n        2,\n        1\n      ],\n      \"target\": [\n        \"\
+    4/9\",\n        \"2/9\",\n        \"2/9\",\n        \"1/9\"\n      ],\n      \"\
+    states\": [\n        [\n          0,\n          0\n        ],\n        [\n   \
+    \       0,\n          1\n        ],\n        [\n          1,\n          0\n  \
+    \      ],\n        [\n          1,\n          1\n        ]\n      ],\n      \"\
+    centered_observable\": [\n        1,\n        -2,\n        -2,\n        4\n  \
+    \    ],\n      \"exact_gibbs_sweep_kernel\": [\n        [\n          \"4/9\",\n\
+    \          \"2/9\",\n          \"2/9\",\n          \"1/9\"\n        ],\n     \
+    \   [\n          \"4/9\",\n          \"2/9\",\n          \"2/9\",\n          \"\
+    1/9\"\n        ],\n        [\n          \"4/9\",\n          \"2/9\",\n       \
+    \   \"2/9\",\n          \"1/9\"\n        ],\n        [\n          \"4/9\",\n \
+    \         \"2/9\",\n          \"2/9\",\n          \"1/9\"\n        ]\n      ],\n\
+    \      \"liu_sweep_kernel\": [\n        [\n          \"1/4\",\n          \"1/4\"\
+    ,\n          \"1/4\",\n          \"1/4\"\n        ],\n        [\n          \"\
+    1/2\",\n          \"0\",\n          \"1/2\",\n          \"0\"\n        ],\n  \
+    \      [\n          \"1/2\",\n          \"1/2\",\n          \"0\",\n         \
+    \ \"0\"\n        ],\n        [\n          \"1\",\n          \"0\",\n         \
+    \ \"0\",\n          \"0\"\n        ]\n      ],\n      \"uniform_random_permutation_equals_fixed_sweep_here\"\
+    : true,\n      \"both_sweep_kernels_reversible_irreducible_aperiodic\": true,\n\
+    \      \"asymptotic_variance_per_full_sweep\": {\n        \"liu\": \"20/3\",\n\
+    \        \"gibbs\": \"4\"\n      },\n      \"asymptotic_variance_per_single_fixed_random_scan_update\"\
+    : {\n        \"liu\": \"4/3\",\n        \"gibbs\": \"4\"\n      },\n      \"failed_sweep_off_diagonal_domination\"\
+    : [\n        {\n          \"from\": [\n            0,\n            1\n       \
+    \   ],\n          \"to\": [\n            1,\n            1\n          ],\n   \
+    \       \"modified\": \"0\",\n          \"gibbs\": \"1/9\"\n        },\n     \
+    \   {\n          \"from\": [\n            1,\n            0\n          ],\n  \
+    \        \"to\": [\n            1,\n            1\n          ],\n          \"\
+    modified\": \"0\",\n          \"gibbs\": \"1/9\"\n        },\n        {\n    \
+    \      \"from\": [\n            1,\n            1\n          ],\n          \"\
+    to\": [\n            0,\n            1\n          ],\n          \"modified\":\
+    \ \"0\",\n          \"gibbs\": \"2/9\"\n        },\n        {\n          \"from\"\
+    : [\n            1,\n            1\n          ],\n          \"to\": [\n      \
+    \      1,\n            0\n          ],\n          \"modified\": \"0\",\n     \
+    \     \"gibbs\": \"2/9\"\n        }\n      ],\n      \"meaning\": \"Local Peskun\
+    \ ordering does not transfer automatically to full sweeps, including reversible\
+    \ uniform random-permutation sweeps. No wall-clock comparison.\"\n    },\n   \
+    \ \"dependent_target_scan_check\": {\n      \"weights\": [\n        1,\n     \
+    \   2,\n        3,\n        4\n      ],\n      \"systematic_invariant_nonreversible\"\
+    : true,\n      \"uniform_random_permutation_invariant_reversible\": true,\n  \
+    \    \"state_dependent_selection_counterexample_after\": [\n        \"1/5\",\n\
+    \        \"1/10\",\n        \"3/5\",\n        \"1/10\"\n      ]\n    }\n  },\n\
+    \  \"dhn\": {\n    \"construction\": \"Independent separate reversible MH-proposal\
+    \ and sign matrices composed then mixed; all exact, with explicit proposal involution\
+    \ check.\",\n    \"degenerate_fiber_families\": [\n      {\n        \"family\"\
+    : \"one_state\",\n        \"positive_cases\": 4,\n        \"states\": 1,\n   \
+    \     \"signs\": 2\n      },\n      {\n        \"family\": \"one_state_three_signs\"\
+    ,\n        \"positive_cases\": 16,\n        \"states\": 1,\n        \"signs\"\
+    : 8\n      },\n      {\n        \"family\": \"one_line\",\n        \"positive_cases\"\
+    : 16,\n        \"states\": 3,\n        \"signs\": 2\n      },\n      {\n     \
+    \   \"family\": \"overlapping_with_singletons\",\n        \"positive_cases\":\
+    \ 32,\n        \"states\": 3,\n        \"signs\": 4\n      },\n      {\n     \
+    \   \"family\": \"singleton_partition_plus_line\",\n        \"positive_cases\"\
+    : 32,\n        \"states\": 3,\n        \"signs\": 4\n      },\n      {\n     \
+    \   \"family\": \"oppositely_ordered_duplicate_partition\",\n        \"positive_cases\"\
+    : 32,\n        \"states\": 3,\n        \"signs\": 4\n      },\n      {\n     \
+    \   \"family\": \"grid\",\n        \"positive_cases\": 64,\n        \"states\"\
+    : 4,\n        \"signs\": 4\n      }\n    ],\n    \"total_positive_cases\": 196,\n\
+    \    \"disconnected_partition_example\": {\n      \"invariant\": true,\n     \
+    \ \"irreducible\": false\n    },\n    \"zero_direction_selection_example\": {\n\
+    \      \"invariant\": true,\n      \"irreducible\": false,\n      \"reason\":\
+    \ \"An unselected sign remains frozen.\"\n    },\n    \"theta_endpoints\": [\n\
+    \      {\n        \"n\": 1,\n        \"theta\": \"0\",\n        \"invariant\"\
+    : true,\n        \"irreducible\": true,\n        \"period\": 2,\n        \"reachable_state_counts\"\
+    : [\n          2\n        ]\n      },\n      {\n        \"n\": 1,\n        \"\
+    theta\": \"1\",\n        \"invariant\": true,\n        \"irreducible\": false,\n\
+    \        \"period\": null,\n        \"reachable_state_counts\": [\n          1\n\
+    \        ]\n      },\n      {\n        \"n\": 2,\n        \"theta\": \"0\",\n\
+    \        \"invariant\": true,\n        \"irreducible\": true,\n        \"period\"\
+    : 4,\n        \"reachable_state_counts\": [\n          4\n        ]\n      },\n\
+    \      {\n        \"n\": 2,\n        \"theta\": \"1\",\n        \"invariant\"\
+    : true,\n        \"irreducible\": false,\n        \"period\": null,\n        \"\
+    reachable_state_counts\": [\n          1,\n          2\n        ]\n      },\n\
+    \      {\n        \"n\": 3,\n        \"theta\": \"0\",\n        \"invariant\"\
+    : true,\n        \"irreducible\": true,\n        \"period\": 6,\n        \"reachable_state_counts\"\
+    : [\n          6\n        ]\n      },\n      {\n        \"n\": 3,\n        \"\
+    theta\": \"1\",\n        \"invariant\": true,\n        \"irreducible\": false,\n\
+    \        \"period\": null,\n        \"reachable_state_counts\": [\n          1,\n\
+    \          2\n        ]\n      }\n    ],\n    \"scope\": \"Singleton lines, redundant/overlapping\
+    \ partitions and one-state spaces are allowed by the tested finite construction.\
+    \ Positivity/connectivity/fixed-mixture assumptions must not be silently removed.\"\
+    \n  },\n  \"gustafson\": {\n    \"continuous_proposal_density\": \"r_sigma(s)=sqrt(2/pi)/sigma*exp(-s^2/(2\
+    \ sigma^2)), s>0. q((x,p),(y,-p))=r_sigma(|y-x|) when p(y-x)>0; the reverse proposal\
+    \ has equal density.\",\n    \"exact_density_identity\": \"For A_p(x)=integral_0^infinity\
+    \ r_sigma(s)*min(pi(x-p*s),pi(x)) ds, incoming acceptance density at(x,p) is A_p(x)/2\
+    \ and incoming rejection density from(x,-p) is[pi(x)-A_p(x)]/2; total pi(x)/2.\
+    \ Assumes proper measurable target density and well-defined finite positive current\
+    \ density, fixed sigma>0. Zero density outside support is included in the integral.\"\
+    ,\n    \"uniform_target_incoming_example\": {\n      \"x\": 0.25,\n      \"sigma\"\
+    : 1.0,\n      \"half_normal_cdf_to_left_boundary\": 0.19741265136584743,\n   \
+    \   \"accepted_incoming_plus_density\": 0.09870632568292372,\n      \"rejection_from_minus_density\"\
+    : 0.4012936743170763,\n      \"correct_total_density\": 0.5,\n      \"wrong_same_sign_rejection_density\"\
+    : 0.3253336780597919,\n      \"target_plus_density\": 0.5,\n      \"numeric_scope\"\
+    : \"math.erf floating evaluation only; the displayed analytic identity supplies\
+    \ exact cancellation.\"\n    },\n    \"negative_control_distinction\": \"Keeping\
+    \ the old sign on both acceptance and rejection breaks the augmented target in\
+    \ this example. Omitting the final unconditional flip from the equivalent MH-plus-flip\
+    \ representation instead leaves a different valid reversible MH kernel: it is\
+    \ not the same negative control.\",\n    \"nonreversibility_witness\": \"On a\
+    \ positive-density interval, accepted transitions from(x,+) to(y,+), y>x, have\
+    \ positive density but their direct reverse with unchanged plus sign has zero\
+    \ density. The complete guided-walk kernel differs from reversible ordinary MH.\"\
+    ,\n    \"support_note\": \"No reflection, clipping, rejection-resampling or connected-support\
+    \ assumption is needed for the invariance identity. The unbounded half-normal\
+    \ law can jump across zero-density gaps. This calculation does not certify general\
+    \ Harris recurrence, rates or a multivariate bookkeeping implementation.\",\n\
+    \    \"scale_endpoint\": \"sigma=0 lies outside the draft definition; then y=x\
+    \ and acceptance1 leaves both state/sign unchanged, giving an identity kernel.\"\
+    \n  }\n}\n"
+  scope_note: Actual execution completed 2026-10-14T21:05:34.530320Z; this generator
+    executes no recorded commands.
+- check_id: calculation-7
+  name: python3 research/discovery/liu-modified-gibbs-boundaries.py
+  command: python3 research/discovery/liu-modified-gibbs-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"scope\": \"Independent exact finite algebra checks, not author-code\
+    \ replication, scientific approval, floating-point/library execution or a general\
+    \ proof.\",\n  \"positive_conditional_cases\": 360,\n  \"checks\": \"Rows stochastic,\
+    \ conditional invariance, detailed balance, off-diagonal domination of the independent\
+    \ conditional draw, equality of proposal/acceptance and min-form kernels, equivalence\
+    \ of NumPyro 0.7.0 correction algebra under positive finite conditional weights.\"\
+    ,\n  \"example\": {\n    \"conditional\": [\n      \"3/5\",\n      \"3/10\",\n\
+    \      \"1/10\"\n    ],\n    \"kernel\": [\n      [\n        \"29/63\",\n    \
+    \    \"3/7\",\n        \"1/9\"\n      ],\n      [\n        \"6/7\",\n        \"\
+    2/63\",\n        \"1/9\"\n      ],\n      [\n        \"2/3\",\n        \"1/3\"\
+    ,\n        \"0\"\n      ]\n    ],\n    \"rejection_probability_current_0\": \"\
+    29/63\"\n  },\n  \"point_mass_guard\": {\n    \"target\": [\n      1\n    ],\n\
+    \    \"kernel\": [\n      [\n        \"1\"\n      ]\n    ]\n  },\n  \"uniform_binary_boundary\"\
+    : {\n    \"target\": [\n      \"1/2\",\n      \"1/2\"\n    ],\n    \"kernel\"\
+    : [\n      [\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"1\"\
+    ,\n        \"0\"\n      ]\n    ],\n    \"period\": 2,\n    \"interpretation\"\
+    : \"Propose a different category does not guarantee an aperiodic chain; accepted\
+    \ moves can coexist with periodicity.\"\n  },\n  \"scan_boundary\": {\n    \"\
+    states\": [\n      [\n        0,\n        0\n      ],\n      [\n        0,\n \
+    \       1\n      ],\n      [\n        1,\n        0\n      ],\n      [\n     \
+    \   1,\n        1\n      ]\n    ],\n    \"target\": [\n      \"1/10\",\n     \
+    \ \"1/5\",\n      \"3/10\",\n      \"2/5\"\n    ],\n    \"random_scan_invariant_reversible\"\
+    : true,\n    \"systematic_order_invariant\": true,\n    \"systematic_order_reversible\"\
+    : false,\n    \"systematic_kernel\": [\n      [\n        \"0\",\n        \"0\"\
+    ,\n        \"0\",\n        \"1\"\n      ],\n      [\n        \"0\",\n        \"\
+    0\",\n        \"3/4\",\n        \"1/4\"\n      ],\n      [\n        \"0\",\n \
+    \       \"1/3\",\n        \"0\",\n        \"2/3\"\n      ],\n      [\n       \
+    \ \"1/4\",\n        \"1/4\",\n        \"3/8\",\n        \"1/8\"\n      ]\n   \
+    \ ],\n    \"limitation\": \"Does not compare asymptotic variances of systematic\
+    \ or random-permutation scan against Gibbs.\"\n  },\n  \"pymc_v5_9_0_code_negative_control\"\
+    : {\n    \"target\": [\n      \"3/5\",\n      \"3/10\",\n      \"1/10\"\n    ],\n\
+    \    \"equation_kernel\": [\n      [\n        \"7/60\",\n        \"3/4\",\n  \
+    \      \"2/15\"\n      ],\n      [\n        \"6/7\",\n        \"11/420\",\n  \
+    \      \"7/60\"\n      ],\n      [\n        \"2/3\",\n        \"1/3\",\n     \
+    \   \"0\"\n      ]\n    ],\n    \"target_after_one_step\": [\n      \"827/2100\"\
+    ,\n      \"2063/4200\",\n      \"23/200\"\n    ],\n    \"preserves_target\": false,\n\
+    \    \"binary_case\": [\n      [\n        \"1\",\n        \"0\"\n      ],\n  \
+    \    [\n        \"0\",\n        \"1\"\n      ]\n    ],\n    \"scope\": \"Exact\
+    \ algebraic interpretation of the inspected source overwriting probabilities before\
+    \ constructing its denominator. Actual PyMC/JAX runtime and floating-point behavior\
+    \ were not tested.\"\n  }\n}\n"
+  scope_note: Actual execution completed 2026-10-14T21:05:35.044896Z; this generator
+    executes no recorded commands.
+- check_id: calculation-8
+  name: python3 research/discovery/dhn-fiber-boundaries.py
+  command: python3 research/discovery/dhn-fiber-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "{\n  \"scope\": \"Exact finite illustrations; not a general proof, convergence-rate\
+    \ computation, author replication, or independent scientific approval.\",\n  \"\
+    directed_positive_target_cases\": 351,\n  \"checks\": \"Stochastic rows, exact\
+    \ target invariance, irreducibility, positive self-loop (hence aperiodicity for\
+    \ each irreducible case), and failure of detailed balance for the one-dimensional\
+    \ cases.\",\n  \"directed_example\": {\n    \"weights\": [\n      1,\n      2,\n\
+    \      4\n    ],\n    \"theta\": \"1/5\",\n    \"states\": [\n      [\n      \
+    \  [\n          -1\n        ],\n        0\n      ],\n      [\n        [\n    \
+    \      -1\n        ],\n        1\n      ],\n      [\n        [\n          -1\n\
+    \        ],\n        2\n      ],\n      [\n        [\n          1\n        ],\n\
+    \        0\n      ],\n      [\n        [\n          1\n        ],\n        1\n\
+    \      ],\n      [\n        [\n          1\n        ],\n        2\n      ]\n \
+    \   ],\n    \"transition\": [\n      [\n        \"1/5\",\n        \"0\",\n   \
+    \     \"0\",\n        \"4/5\",\n        \"0\",\n        \"0\"\n      ],\n    \
+    \  [\n        \"2/5\",\n        \"1/10\",\n        \"0\",\n        \"1/10\",\n\
+    \        \"2/5\",\n        \"0\"\n      ],\n      [\n        \"0\",\n        \"\
+    2/5\",\n        \"1/10\",\n        \"0\",\n        \"1/10\",\n        \"2/5\"\n\
+    \      ],\n      [\n        \"0\",\n        \"1/5\",\n        \"0\",\n       \
+    \ \"0\",\n        \"4/5\",\n        \"0\"\n      ],\n      [\n        \"0\",\n\
+    \        \"0\",\n        \"1/5\",\n        \"0\",\n        \"0\",\n        \"\
+    4/5\"\n      ],\n      [\n        \"0\",\n        \"0\",\n        \"4/5\",\n \
+    \       \"0\",\n        \"0\",\n        \"1/5\"\n      ]\n    ],\n    \"invariant\"\
+    : [\n      \"1/14\",\n      \"1/7\",\n      \"2/7\",\n      \"1/14\",\n      \"\
+    1/7\",\n      \"2/7\"\n    ]\n  },\n  \"theta_zero_uniform_boundary\": {\n   \
+    \ \"period\": 10,\n    \"cycle\": [\n      [\n        [\n          -1\n      \
+    \  ],\n        0\n      ],\n      [\n        [\n          1\n        ],\n    \
+    \    0\n      ],\n      [\n        [\n          1\n        ],\n        1\n   \
+    \   ],\n      [\n        [\n          1\n        ],\n        2\n      ],\n   \
+    \   [\n        [\n          1\n        ],\n        3\n      ],\n      [\n    \
+    \    [\n          1\n        ],\n        4\n      ],\n      [\n        [\n   \
+    \       -1\n        ],\n        4\n      ],\n      [\n        [\n          -1\n\
+    \        ],\n        3\n      ],\n      [\n        [\n          -1\n        ],\n\
+    \        2\n      ],\n      [\n        [\n          -1\n        ],\n        1\n\
+    \      ]\n    ]\n  },\n  \"theta_one_uniform_boundary\": {\n    \"closed_classes\"\
+    : [\n      [\n        [\n          [\n            -1\n          ],\n         \
+    \ 0\n        ]\n      ],\n      [\n        [\n          [\n            -1\n  \
+    \        ],\n          1\n        ],\n        [\n          [\n            1\n\
+    \          ],\n          0\n        ]\n      ],\n      [\n        [\n        \
+    \  [\n            -1\n          ],\n          2\n        ],\n        [\n     \
+    \     [\n            1\n          ],\n          1\n        ]\n      ],\n     \
+    \ [\n        [\n          [\n            -1\n          ],\n          3\n     \
+    \   ],\n        [\n          [\n            1\n          ],\n          2\n   \
+    \     ]\n      ],\n      [\n        [\n          [\n            -1\n         \
+    \ ],\n          4\n        ],\n        [\n          [\n            1\n       \
+    \   ],\n          3\n        ]\n      ],\n      [\n        [\n          [\n  \
+    \          1\n          ],\n          4\n        ]\n      ]\n    ]\n  },\n  \"\
+    fiber_positive_target_cases\": 64,\n  \"fiber_scope\": \"Two directions on a 2\
+    \ by 2 grid, four persistent sign vectors, positive selection probabilities 1/3\
+    \ and 2/3; checked invariance, irreducibility and aperiodicity.\",\n  \"limitations\"\
+    : \"No empirical results or total-variation/chi-square rate claims tested. Endpoint\
+    \ theta values illustrate why the reported ergodicity proposition uses 0<theta<1.\"\
+    \n}\n"
+  scope_note: Actual execution completed 2026-10-14T21:05:35.661263Z; this generator
+    executes no recorded commands.
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json
+  locator: identity_search and identity_assessment
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: bde6dea6594397164fdc8aba5e816bdda108127b374885acb694adeb9912acf7
+  support: supports
+  summary: Whole-corpus normalized checks cover every ID, name, alias and scoped synonym
+    in 442 pinned AIO and 703 native records; four full checkouts include ignored
+    and hidden files. Finite ordered fibers, one retained sign per partition, fixed
+    partition selection and the post-MH sign operation define this identity. The one-line
+    directed sampler is explicitly covered as d=1 specialization, with no separate
+    record or narrower-name exact alias. Shared MH or lifting does not make this equivalent
+    to random walk MH, Neal pair-state or acceptance-uniform updates, HMC or continuous
+    Gustafson half-normal displacement. Existing source-frontier reference is resolved
+    in place. Related AIO:MarkovChain does not assert model identity or layer inheritance;
+    18 complete candidate class contexts and 19 native neighbors were assessed.
+  search_scope: Canonical ID/name/alias/all-scoped-synonym checks and retained four
+    complete-checkout searches include ignored and hidden files. Bounded corpus scope,
+    not universal absence.
+- evidence_id: mapping
+  kind: record_content
+  reference: research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json
+  locator: mapping_context nodes, native_neighbors, semantic_rows and mapping_assessment
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: bde6dea6594397164fdc8aba5e816bdda108127b374885acb694adeb9912acf7
+  support: supports
+  summary: 'The related_match to AIO:MarkovChain is supported. The algorithm constructs
+    Markov transitions on a specified conditional or augmented state, supporting a
+    method-to-process association. The pinned target is a stochastic process/model
+    exported under Network, with a ProbabilisticHiddenLayer has-part assertion. Equivalence,
+    subclass membership and inheritance of those assertions are not warranted. The
+    dated identity/mapping handoff read eighteen complete exact CLASS contexts, all
+    incident edges and their generated YAML: the target plus the seventeen alternatives
+    documented here. This rationale concerns the pinned snapshot and manifest retained
+    in the review inputs.'
+- evidence_id: actual-record-reading
+  kind: record_content
+  reference: data/curated/DiaconisHolmesNealFiberSampler.yaml
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: 2c9a3659fe85b5cb71cc22d7e9198c732aa3bdaed398f2b25793d514eeb0f3a6
+  support: supports
+  summary: 'Full maintained record and all six claim/source locators reread after
+    capture. Positive finite target, connected ordered-line union, fixed positive
+    direction weights and interior theta match the source. The neighbor-plus-sign
+    proposal is involutive; the second sign operation follows both MH outcomes. Endpoint
+    rejection, pi/2^d invariance and the conditional finite ergodicity claim retain
+    assumptions. One-line d=1 is contained in this single identity. Singleton/redundant
+    fibers and theta endpoints were assessed with bounded calculations, without universal
+    rate or continuous-extension claims. All remaining maintained fields, identity
+    notes, source version/access/hash, AIO pin and related mapping, limitations, DRAFT
+    status and curation metadata were assessed. Root reread the complete assessment
+    configuration after capture and agrees within its stated bounds. Root retained
+    the earlier full18AIO-context reading and seven nearest-native readings; broader182semantic/19native
+    assessment remains attributed to the supporting source agent. Current integrity
+    checks confirm no prior canonical bytes changed. The corrected mathematical audit
+    and original erroneous15-versus21July metadata lineage were inspected; the15July
+    successor governs, with unchanged scientific content. Root also read the actual-content
+    supporting audit, which identifies no required correction and remains part of
+    the same author workflow. Actual post-capture source reread: DHN1997 PDF pages16–18
+    freshly read as OCR text and complete rendered pages after capture. Retained root
+    scope is selective OCR pages1–4 and16–27, with method visuals16–18; pages5–15
+    and final2000 journal full text are not claimed read.'
+- evidence_id: dhn1997
+  kind: primary_source
+  reference: https://glizen.com/radfordneal/ftp/nonrev.pdf
+  locator: Section 5.2, printed pp. 16–17 / PDF pp. 17–18, fiber construction and
+    Proposition 2; one-line case in Section 5.1, printed p. 15 / PDF p. 16; Section
+    5.2, printed p. 16 / PDF p. 17, partitions, connectedness and augmented state;
+    Section 5.2, printed p. 16 / PDF p. 17, Steps 1–2; endpoint rule in Section 5.1,
+    printed p. 15 / PDF p. 16, Step 1; application to each line in Proposition 2 proof,
+    printed p. 17 / PDF p. 18; Section 5.2, printed p. 16 / PDF p. 17, Step 3; combined-effect
+    explanation in Section 5.1, printed p. 15 / PDF p. 16; Section 5.1, printed p.
+    15 / PDF p. 16, Proposition 1; Section 5.2, printed pp. 16–17 / PDF pp. 17–18,
+    Proposition 2 and proof; Section 5.1, printed pp. 15–16 / PDF pp. 16–17; Section
+    5.2, printed pp. 16–17 / PDF pp. 17–18; Section 5.2, printed p. 17 / PDF p. 18,
+    line-construction discussion; Section 7, printed pp. 23–24 / PDF pp. 24–25, discussion
+  accessed_at: '2026-10-14T20:02:11Z'
+  snapshot_sha256: 795fc1d474252d33c44c3d2b4fe51f3590a4cc0f4c74a17b70fd0a718f3e10e3
+  support: supports
+  summary: 'Technical Report BU-1385-M, Biometrics Unit, Cornell University, dated
+    5 June 1997; author-hosted 27-page PDF with cover and printed pp. 1–26. Distinct
+    bibliographic version from the 2000 journal article. Actual root reading: DHN1997
+    PDF pages16–18 freshly read as OCR text and complete rendered pages after capture.
+    Retained root scope is selective OCR pages1–4 and16–27, with method visuals16–18;
+    pages5–15 and final2000 journal full text are not claimed read. The exact source
+    method and assumption boundaries support the maintained claims. Source access
+    timestamps remain separate from this actual review reading time.'
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/gibbs-fiber-guided-walk-boundaries.py
+  locator: Combined result section dhn
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: f4605a688ade559b75acbd2272dc574ee876e765eee0287107640ff552e2b889
+  support: supports
+  summary: 'Original bounded checks: exact rational finite transitions and scan examples;
+    analytic continuous cancellation with separately labeled floating erf illustration.
+    Not author-code replication or a general convergence theorem. Selected result:
+    {"construction": "Independent separate reversible MH-proposal and sign matrices
+    composed then mixed; all exact, with explicit proposal involution check.", "degenerate_fiber_families":
+    [{"family": "one_state", "positive_cases": 4, "states": 1, "signs": 2}, {"family":
+    "one_state_three_signs", "positive_cases": 16, "states": 1, "signs": 8}, {"family":
+    "one_line", "positive_cases": 16, "states": 3, "signs": 2}, {"family": "overlapping_with_singletons",
+    "positive_cases": 32, "states": 3, "signs": 4}, {"family": "singleton_partition_plus_line",
+    "positive_cases": 32, "states": 3, "signs": 4}, {"family": "oppositely_ordered_duplicate_partition",
+    "positive_cases": 32, "states": 3, "signs": 4}, {"family": "grid", "positive_cases":
+    64, "states": 4, "signs": 4}], "total_positive_cases": 196, "disconnected_partition_example":
+    {"invariant": true, "irreducible": false}, "zero_direction_selection_example":
+    {"invariant": true, "irreducible": false, "reason": "An unselected sign remains
+    frozen."}, "theta_endpoints": [{"n": 1, "theta": "0", "invariant": true, "irreducible":
+    true, "period": 2, "reachable_state_counts": [2]}, {"n": 1, "theta": "1", "invariant":
+    true, "irreducible": false, "period": null, "reachable_state_counts": [1]}, {"n":
+    2, "theta": "0", "invariant": true, "irreducible": true, "period": 4, "reachable_state_counts":
+    [4]}, {"n": 2, "theta": "1", "invariant": true, "irreducible": false, "period":
+    null, "reachable_state_counts": [1, 2]}, {"n": 3, "theta": "0", "invariant": true,
+    "irreducible": true, "period": 6, "reachable_state_counts": [6]}, {"n": 3, "theta":
+    "1", "invariant": true, "irreducible": false, "period": null, "reachable_state_counts":
+    [1, 2]}], "scope": "Singleton lines, redundant/overlapping partitions and one-state
+    spaces are allowed by the tested finite construction. Positivity/connectivity/fixed-mixture
+    assumptions must not be silently removed."}'
+- evidence_id: supporting-math-audit
+  kind: record_content
+  reference: research/discovery/20261014T203348Z-gibbs-fiber-guided-walk-supporting-math-audit.json
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: cb907256334387fed3a86d5904ed0f07e44222547c109db88d2aab6a24f8555a
+  support: supports
+  summary: Root assessed the corrected bounded mathematical audit; supporting agents
+    belong to the same author workflow and provide no independent scientific approval.
+- evidence_id: metadata-correction-lineage
+  kind: record_content
+  reference: research/discovery/20261014T210245Z-gibbs-fiber-guided-walk.json
+  locator: supporting_math_audit_correction_lineage and source_analysis.bounded_math_audit
+  accessed_at: '2026-10-14T21:07:49.748440Z'
+  snapshot_sha256: bde6dea6594397164fdc8aba5e816bdda108127b374885acb694adeb9912acf7
+  support: supports
+  summary: The original audit incorrectly dated Neal v1 as 21 July 2004. The explicitly
+    corrected successor uses 15 July; original object/hash, actual correction metadata
+    and unchanged scientific sections are preserved.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Diaconis–Holmes–Neal fiber sampler
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - identity
+  - dhn1997
+  summary: Retain the narrow DRAFT identity within the documented search scope.
+  details: The record identifies one finite DHN fiber construction, including the
+    Section 5.1 directed sampler as the d=1 single-line specialization. The source
+    explicitly names the fiber generalization and specifies partitions, retained sign
+    vector, direction selection and a second sign operation. The general construction
+    contains the special case without a separate directed record; this does not make
+    its narrower name an exact alias for every fiber configuration. MH is a stage,
+    ordinary Gibbs is not the update, and ordinary random-walk MH does not retain
+    these signs. Neal’s previous/current-state lift and persistent acceptance-threshold
+    method retain different memory. Gustafson’s continuous half-normal method is related
+    but has deterministic rejection reversal without the interior theta randomization.
+    Broad lifted/nonreversible-MCMC or generic fiber terminology is not an exact alias.
+- assessment_id: definition
+  area: evidence
+  topic: Definition and source scope
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - actual-record-reading
+  summary: The maintained definition is supported within its stated method scope.
+  details: The definition correctly restricts the record to finite ordered-fiber sampling
+    with one binary sign per partition. Its detailed claims specify the positive target,
+    connected union, fixed positive selection weights and interior flip probabilities
+    rather than importing a continuous extension or a universal speed claim from the
+    paper title. The maintained evidence is the author-hosted5 June 1997 Technical
+    Report BU-1385-M, not an unread final 2000 journal PDF. Section 5.1 printed 15/PDF
+    16 gives the two-stage line update and endpoint rule; Section 5.2 printed 16–17/PDF
+    17–18 gives the fiber partitions, Steps1–3 and Proposition2. The exact report
+    version and its selective reading scope are separate metadata. The source’s discussion
+    of continuous/general spaces is not a fully proved continuous theorem for this
+    record.
+- assessment_id: mapping
+  area: grounding
+  topic: Related Markov-process mapping
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - mapping
+  - dhn1997
+  summary: related_match expresses method-to-process association without equivalence
+    or ontology inheritance.
+  details: 'The related_match to AIO:MarkovChain is supported. The algorithm constructs
+    Markov transitions on a specified conditional or augmented state, supporting a
+    method-to-process association. The pinned target is a stochastic process/model
+    exported under Network, with a ProbabilisticHiddenLayer has-part assertion. Equivalence,
+    subclass membership and inheritance of those assertions are not warranted. The
+    dated identity/mapping handoff read eighteen complete exact CLASS contexts, all
+    incident edges and their generated YAML: the target plus the seventeen alternatives
+    documented here. This rationale concerns the pinned snapshot and manifest retained
+    in the review inputs.
+
+    Alternatives:
+
+    AIO:Network: A target-invariant transition procedure is not a network architecture.
+    A Markov graph representation does not establish an exact or broader-class mapping
+    to Network.
+
+    AIO:ProbabilisticHiddenLayer: A retained sign, conditional category or auxiliary
+    state is not a neural hidden layer that estimates probabilities. The MarkovChain
+    has-part edge is context, not an inherited algorithm assertion.
+
+    AIO:Model: A target distribution or model may be an input or application; the
+    maintained identity is the transition algorithm, not a fitted statistical or predictive
+    model.
+
+    AIO:MachineLearningTask: These records specify operational sampling mechanisms,
+    not a machine-learning problem or task definition.
+
+    AIO:TrainingStrategy: Use of a sampler during learning does not make its invariant
+    transition rule a training strategy.
+
+    AIO:MathematicalFunction: Update equations describe the mechanism, but they do
+    not make a randomized target-preserving procedure merely a mathematical input-output
+    function.
+
+    AIO:BayesianNetwork: Bayesian inference is an application; no directed acyclic
+    dependency graph is required by these transition rules.
+
+    AIO:ProbabilisticGraphicalModel: A graphical target distribution is optional.
+    The pinned graph-factorization/task identity is distinct from a sampler acting
+    on a specified target.
+
+    AIO:UnsupervisedLearning: No learning-from-unlabeled-data objective is needed
+    to define these finite or continuous sampling kernels.
+
+    AIO:BoltzmannMachineNetwork: A Boltzmann machine may be a target/application,
+    but no recurrent stochastic network architecture is required.
+
+    AIO:RestrictedBoltzmannMachine: Sampling a restricted Boltzmann machine does not
+    make a general conditional update or direction-based kernel that model architecture.
+
+    AIO:EnergyBasedLLM: The exact pinned CLASS denotes an explicit token-sequence
+    density language model. A broader related synonym does not replace that definition
+    or make it a generic energy-target sampler.
+
+    AIO:ImplicitLanguageModel: Whole-sequence language-model scoring is not the identity
+    of these sampling mechanisms.
+
+    AIO:Preprocessing: The methods construct target-invariant transitions rather than
+    prepare raw data for analysis.
+
+    AIO:Layer: A transition stage or stored direction is not a neural-network layer.
+
+    AIO:HiddenLayer: Auxiliary direction memory is not a nonlinear hidden neural layer.
+
+    AIO:CausalGraphicalModel: These target distributions need not encode causal assumptions;
+    a causal-model application is not algorithm identity.'
+- assessment_id: ordered-partitions-and-augmented-target
+  area: evidence
+  topic: ordered-partitions-and-augmented-target
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Each partition covers X with disjoint ordered lines, while connectivity
+    belongs to their union. The retained sign vector has 2^d configurations and target
+    pi(x)/2^d. Fixed positive direction weights sum to one and the theorem uses 0<theta_i<1.
+    A partition need not individually connect all of X, and singleton lines are allowed
+    by the transition. Dropping a direction’s weight to zero can freeze its sign even
+    if other lines move the position, showing why positive weights matter for the
+    full state.
+- assessment_id: directed-neighbor-metropolis-stage
+  area: evidence
+  topic: directed-neighbor-metropolis-stage
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 'Proposing the adjacent ordered point together with negation of the chosen
+    sign is an involution: the reversed proposed sign points back to the original
+    neighbor. The symmetric proposal therefore uses min(1,pi(x*)/pi(x)). A missing
+    neighbor is rejected; on singleton lines that positional stage always stays. Other
+    signs remain fixed. This is a neighboring-point proposal, not a full-line conditional
+    draw or a rule that reflects or wraps the position at an endpoint.'
+- assessment_id: post-metropolis-sign-update
+  area: evidence
+  topic: post-metropolis-sign-update
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  summary: Supported within the stated assumptions and inspected passages.
+  details: 'The second stage acts on the sign after the MH outcome, with flip probability
+    1-theta_i. It follows rejection as well as acceptance: accepted moves retain the
+    incoming sign with 1-theta_i, whereas rejected moves reverse it with that probability.
+    Confusing theta_i with the flip probability, or applying the stage only after
+    rejection, changes the specified kernel. Omitting it leaves a different invariant
+    MH stage rather than the full directed sampler.'
+- assessment_id: finite-state-invariance-and-ergodicity
+  area: evidence
+  topic: finite-state-invariance-and-ergodicity
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  summary: Supported within the stated assumptions and inspected passages.
+  details: The MH and sign matrices each preserve pi(x)/2^d; composition and a fixed
+    mixture preserve it. Proposition2’s irreducibility and aperiodicity also require
+    the stated finite positivity, connected union and nondegenerate weights/flip probabilities.
+    The independent matrix construction checks 196 positive cases including one-point
+    spaces, singleton lines, overlapping and redundant partitions; the earlier direct
+    implementation agrees after state-order alignment. Disconnected fibers preserve
+    the measure but can be reducible. At theta=0 a uniform n-point line is a deterministic
+    2n-cycle; theta=1 can leave closed MH pairs/endpoints. These examples justify
+    separating stationarity from ergodicity without claiming every endpoint or every
+    untested fiber graph behaves identically.
+- assessment_id: one-line-directed-specialization
+  area: evidence
+  topic: one-line-directed-specialization
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  summary: Supported within the stated assumptions and inspected passages.
+  details: Choosing d=1 with one line containing all of X exactly recovers Section
+    5.1 including its accepted/rejected sign behavior and endpoint rejection. The
+    parent/generalization record explicitly contains this specialization. Continuous
+    counterparts and Gustafson are related source discussions with different proposal
+    domains/parameters; they do not turn the finite fiber definition into an umbrella
+    for all persistent-direction methods.
+- assessment_id: line-selection-and-exploration-limits
+  area: evidence
+  topic: line-selection-and-exploration-limits
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  summary: Supported within the stated assumptions and inspected passages.
+  details: The source requires an available successor/predecessor operation, not necessarily
+    full materialization of every line. Its warning about finding useful lines and
+    retaining diffusive behavior on awkward supports is preserved. Local probability
+    barriers and target geometry can limit exploration, and comparison with direct
+    conditionals or independence proposals is not settled by auxiliary sign memory
+    alone. No tuned-cycle mixing rate is extrapolated to this general construction.
+- assessment_id: scope-and-boundaries
+  area: consistency
+  topic: finite positive target, connected ordered-fiber union,2^d persistent sign
+    states, fixed positive direction weights, post-MH sign operation, interior theta
+    and explicit single-line containment
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - dhn1997
+  - calculation
+  - supporting-math-audit
+  summary: Mechanism, scan/parameter limits and identity boundaries remain qualified.
+  details: No general continuous ergodicity extension, arbitrary zero-probability
+    support implementation, universal nonreversibility or speedup, finite-run error
+    order, author-code execution or benchmark replication. The n=1 and singleton checks
+    are finite illustrations, not a new general theorem.
+- assessment_id: actual-maintained-fields
+  area: provenance
+  topic: All captured maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - actual-record-reading
+  - identity
+  - mapping
+  - dhn1997
+  summary: Root reassessed the complete current record after canonical capture; DRAFT
+    remains.
+  details: 'Full maintained record and all six claim/source locators reread after
+    capture. Positive finite target, connected ordered-line union, fixed positive
+    direction weights and interior theta match the source. The neighbor-plus-sign
+    proposal is involutive; the second sign operation follows both MH outcomes. Endpoint
+    rejection, pi/2^d invariance and the conditional finite ergodicity claim retain
+    assumptions. One-line d=1 is contained in this single identity. Singleton/redundant
+    fibers and theta endpoints were assessed with bounded calculations, without universal
+    rate or continuous-extension claims. All remaining maintained fields, identity
+    notes, source version/access/hash, AIO pin and related mapping, limitations, DRAFT
+    status and curation metadata were assessed. Root reread the complete assessment
+    configuration after capture and agrees within its stated bounds. Root retained
+    the earlier full18AIO-context reading and seven nearest-native readings; broader182semantic/19native
+    assessment remains attributed to the supporting source agent. Current integrity
+    checks confirm no prior canonical bytes changed. The corrected mathematical audit
+    and original erroneous15-versus21July metadata lineage were inspected; the15July
+    successor governs, with unchanged scientific content. Root also read the actual-content
+    supporting audit, which identifies no required correction and remains part of
+    the same author workflow. Rereads: DHN1997 PDF pages16–18 freshly read as OCR
+    text and complete rendered pages after capture. Retained root scope is selective
+    OCR pages1–4 and16–27, with method visuals16–18; pages5–15 and final2000 journal
+    full text are not claimed read.'
+- assessment_id: audit-date-correction
+  area: provenance
+  topic: Original and corrected mathematical audit lineage
+  outcome: supported
+  target_ids:
+  - AIMech:DiaconisHolmesNealFiberSampler
+  evidence_ids:
+  - metadata-correction-lineage
+  summary: The bibliographic correction is explicit and scientific audit content is
+    unchanged.
+  details: Original created_at, draft inputs, findings and calculation audit are retained.
+    The corrected successor governs; no future review/gate is inferred from the correction.
+findings: []
+actions: []
+limitations:
+- Author self-review, not independent scientific approval or DRAFT promotion.
+- No general continuous ergodicity extension, arbitrary zero-probability support implementation,
+  universal nonreversibility or speedup, finite-run error order, author-code execution
+  or benchmark replication. The n=1 and singleton checks are finite illustrations,
+  not a new general theorem.
+- The math audit compares two original calculator organizations and preserves source
+  theorem assumptions; it is not independent scientific approval.
+- Theta endpoint examples preserve stationarity while invalidating automatic convergence
+  claims; no blanket endpoint classification is inferred.
+- 'Original Liu 1996 full PDF was not obtained: publisher/author access attempts are
+  preserved in source handoff. The curated method uses inspected Neal 2004 equations,
+  not unseen original proofs or an abstract as method evidence.'
+- DHN source is the 5 June 1997 author technical report; the 2000 journal PDF was
+  not obtained or read. Source reading is selective and does not establish inspection
+  of every spectral proof.
+- Gustafson journal-layout PDF came from the observed public Studyres mirror. Publisher-download
+  byte equivalence was not established; no redistribution license is inferred. PDF
+  bytes are not copied to the repository.
+- Gustafson Example 2 and Example 4/Figure 2 disagree on two numerical performance
+  labels. Those numerals and the experimental first-hit criterion are not adopted
+  as performance or general convergence claims.
+notes:
+- Empty findings reflect actual root assessment of this selected captured record only;
+  no unrelated finding closure or literature saturation is asserted.
+- A metadata correction in the supporting audit is retained as provenance, not fabricated
+  maintained-record finding lineage.
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+- mcmc
+```

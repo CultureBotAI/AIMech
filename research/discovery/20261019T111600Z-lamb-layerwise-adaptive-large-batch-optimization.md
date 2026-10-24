@@ -1,8 +1,8 @@
 # Discovery Report: Round 593 — LAMB (Layer-wise Adaptive Moments Optimizer for Batch Training)
 
 - **Timestamp**: `2026-10-19T11:16:00Z`
-- **Selected Concept**: `AIMech:LAMBLayerwiseAdaptiveLargeBatchOptimization` (*LAMB (Layer-wise Adaptive Moments Optimizer for Batch Training)*)
-- **Record Path**: `data/curated/LAMBLayerwiseAdaptiveLargeBatchOptimization.yaml`
+- **Selected Concept**: `AIMech:LayerWiseAdaptiveMoments` (*LAMB (Layer-wise Adaptive Moments Optimizer for Batch Training)*)
+- **Record Path**: `data/curated/LayerWiseAdaptiveMoments.yaml`
 - **Primary Source**: Yang You, Jing Li, Sashank J. Reddi, Jonathan Hseu, Sanjiv Kumar, Srinadh Bhojanapalli, Xiaodan Song, James Demmel, Kurt Keutzer, Cho-Jui Hsieh — *Large Batch Optimization for Deep Learning: Training BERT in 76 minutes* (`https://dblp.org/rec/conf/iclr/YouLRHKBSDKH20`).
 
 ## Identity & Boundary Resolution

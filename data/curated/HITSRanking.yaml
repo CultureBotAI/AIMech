@@ -1,0 +1,163 @@
+id: AIMech:HITSRanking
+name: HITS hub and authority ranking
+aliases:
+- HITS
+concept_kind: algorithm
+definition: A link-analysis ranking algorithm that constructs a query-focused directed page graph and
+  alternately propagates authority scores from incoming hub scores and hub scores from outgoing authority
+  scores, normalizing the vectors and selecting their largest coordinates.
+definition_evidence:
+- source_id: kleinberg1999
+  locator: Sections 2–3, Subgraph, Iterate and Filter procedures, printed pp. 4–11 / PDF pp. 5–12
+  relation: supports
+claims:
+- claim_id: query-graph
+  kind: mechanism
+  statement: Start from the top t text-query results, then add every outgoing neighbor and at most d incoming
+    neighbors of each root page, taking an arbitrary subset when the latter bound is exceeded. This is
+    one expansion from the root set, not recursive crawl closure. Form the induced graph on the base set
+    and remove links between pages on the same domain. The source uses typical t=200 and d=50. A proposed
+    cap on referrals from one domain was not used in the reported experiments.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 2, Subgraph and Figure 1, printed pp. 4–6 / PDF pp. 5–7
+    relation: supports
+- claim_id: sequential-propagation
+  kind: mechanism
+  statement: Let A[u,v]=1 for a retained link u to v. Initialize authority x and hub y to all ones. Each
+    Iterate step computes x_new=A^T y_old, then y_new=A x_new using the newly computed authority vector,
+    and separately normalizes both by their Euclidean norms. Filter selects the c largest coordinates
+    of each vector. Ranking after graph construction uses links alone in this original procedure. It is
+    not indegree ranking, simultaneous updates with both old vectors, or relevance-weighted propagation.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 3, Figures 2–3, Iterate and Filter, printed pp. 7–11 / PDF pp. 8–12; finite graph
+      arithmetic in research/discovery/hits-boundaries.py
+    relation: supports
+- claim_id: spectral-boundary
+  kind: limitation
+  statement: The convergence argument assumes a strict leading eigenvalue gap for the nonnegative Gram
+    matrices A^T A and A A^T, with all-ones initialization supplying a nonzero leading projection. Authority
+    and hub directions approach their principal eigendirections under these assumptions. The reported
+    stabilization after approximately 20 iterations is an empirical observation, not a universal stopping
+    rule. The printed algorithm does not specify a zero-norm policy for an edgeless graph.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 3, Theorems 3.1–3.2 and following discussion, printed pp. 10–11 / PDF pp. 11–12
+    relation: supports
+- claim_id: query-and-topic-scope
+  kind: scope
+  statement: For a similar-page query, the source replaces the text-query root with pages linking to the
+    supplied page and applies the same expansion and ranking machinery. Broad-topic authority is a graph-based
+    relevance heuristic. For narrow queries, the strongest linked theme can diffuse into a broader or
+    different topic; high link authority does not establish factual correctness, exhaustive retrieval
+    or a human community boundary.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Sections 4 and 7, printed pp. 12–14,24–25 / PDF pp. 13–15,25–26
+    relation: supports
+- claim_id: evaluation-boundary
+  kind: limitation
+  statement: The primary manuscript presents historical ranked URL lists for broad and similar-page queries.
+    Section 8 separately summarizes user studies of systems augmented with text and link heuristics and
+    explicitly distinguishes these from direct evaluation of the pure algorithm. Those enhanced-system
+    results are not recorded here as HITS accuracy, benchmark wins or contemporary web effectiveness.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Sections 4 and 8, printed pp. 12–14,25–27 / PDF pp. 13–15,26–28
+    relation: supports
+aio_no_match:
+  search_scope: All 442 pinned AIO and 681 preceding native identities were compared. Ignored- and hidden-inclusive
+    searches covered three checkouts. Semantic assessment covered 127 AIO and 450 native definitions,
+    verifying 127/439 unchanged prior rows and reading eleven new native rows. Fourteen complete AIO node/edge/generated-record
+    contexts and five full native neighbors were assessed.
+  rationale: No suitable AIO counterpart was found for the original hub/authority ranking procedure in
+    this snapshot. Its graph propagation and query selection do not make it a classifier, language model,
+    teacher–student distiller, centered PCA or clustering task. The separate nonprincipal extension has
+    an implicit-clustering relationship; that relationship is not transferred to this principal ranking
+    record.
+  examined_targets:
+  - target: AIO:Distillation
+    rejection_reason: Here distillation means selecting link authorities, not fitting a student to a teacher.
+  - target: AIO:ProbabilisticTopicModel
+    rejection_reason: The algorithms do not fit latent probability distributions over topics or words.
+  - target: AIO:RankingBias
+    rejection_reason: A belief about rank and relevance is a bias concept, not this ranking procedure.
+  - target: AIO:OrdinalLLM
+    rejection_reason: The methods are graph algorithms, not language models with ordinal outputs.
+  - target: AIO:DataPreparation
+    rejection_reason: Selecting query-relevant authority lists is not defined as cleaning or transforming
+      data for model training.
+  - target: AIO:Clustering
+    rejection_reason: The principal-mode ranking procedure selects a single ranked set of authorities
+      and hubs, not a grouping of objects by within-group similarity.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The defined concept includes graph construction, iteration and selection rather
+      than only a scalar mathematical function.
+  - target: AIO:RetrievalAugmentedLLM
+    rejection_reason: No retrieval-conditioned language generation is defined.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A directed web-link graph is not a graph language model.
+  - target: AIO:Classification
+    rejection_reason: Neither method trains a classifier or assigns supplied class labels.
+  - target: AIO:HierarchicalClassification
+    rejection_reason: There is no class hierarchy or hierarchical assignment rule.
+  - target: AIO:PrincipalComponentAnalysis
+    rejection_reason: Shared eigenvector mathematics does not make authority ranking ordinary centered
+      covariance PCA.
+  - target: AIO:DimensionalityReduction
+    rejection_reason: The specified output is selected hub/authority lists, not a general low-dimensional
+      data representation.
+  - target: AIO:UnsupervisedClustering
+    rejection_reason: The core ranking does not construct an unlabeled-object partition or cluster assignment.
+limitations:
+- The concept covers the original query-focused principal ranking algorithm. The Section 6 nonprincipal
+  extraction and Chakrabarti relevance-weighted distiller are distinct procedures.
+- Graph acquisition, domain filtering, initialization and selection ties affect the result. The source
+  does not give a universal tie, degeneracy or zero-score policy, nor an arbitrary-graph convergence-rate
+  guarantee.
+- A constructed eleven-vertex graph has one authority of indegree four and three authorities of indegree
+  three; mutual reinforcement favors the latter component. This is a finite algebraic example, not a web
+  experiment or benchmark replication.
+- All 34 manuscript pages, references and relevant rendered equations, algorithms and result lists were
+  inspected. Author code, historical graph snapshots and primary enhanced-system user studies were not
+  inspected or executed.
+- The author copy has different pagination from journal metadata. Source locators identify that copy.
+  NetworkX documentation corroborates the HITS name but its modern implementation options are outside
+  this record; DRAFT remains.
+identity_notes: 'Compared all 442 pinned AIO and 681 native identities before either cohort write; no
+  normalized match. Ignored- and hidden-inclusive searches of three checkouts returned 419,78,76 lines.
+  All 23 nonembedded unique payloads were read; six embedded matches were decoded and verified byte-identical
+  to previously read search payloads. These were prior pending leads and contrasts, not existing maintained
+  identities. Semantic assessment covered 127 AIO and 450 native definitions: 127/439 prior rows verified
+  unchanged, eleven new native rows read. Fourteen complete AIO nodes/incident-edge/generated-record contexts
+  and full PowerIterationClustering, LaplacianEigenmaps, KernelPCA, ChakrabartiFocusedCrawler and RelevanceWeightedTopicDistillation
+  records were assessed. The original principal ranking and nonprincipal extraction were compared directly.
+  The concept is the original principal hub/authority ranking procedure and its query-focused graph construction,
+  not all web ranking or the relevance-weighted Chakrabarti variant.'
+evidence_sources:
+- source_id: kleinberg1999
+  title: Authoritative Sources in a Hyperlinked Environment
+  authors:
+  - Jon M. Kleinberg
+  source_type: primary_paper
+  access_level: full_text
+  version: 'Author-hosted extended manuscript associated with JACM 46(5):604–632 (1999), 34 PDF pages:
+    unnumbered cover then printed pages 1–33. All text and 58 references read; rendered mathematical/algorithm/result
+    pages inspected. Cover identifies preliminary SODA 1998 and IBM RJ10076 May 1997 versions. Locators
+    use this author copy; byte identity with the journal PDF is not asserted.'
+  persistent_id: doi:10.1145/324133.324140
+  url: https://www.cs.cornell.edu/home/kleinber/auth.pdf
+  accessed_at: '2026-10-14T02:45:46Z'
+  sha256: a8503fe2c089deae3f32c7c8970935b0d0a560f3f558f72d09426513cb95bea5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T03:04:21Z'
+  updated_at: '2026-10-14T03:04:21Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compositional spatial transformer · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/layer.html">Layers &amp; Modules</a>
+    <span>/</span>
+    <strong>Compositional spatial transformer</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Compositional spatial transformer</h1>
+    <span class="badge badge-curated">Layers &amp; Modules</span>
+    <span class="detail-id">AIMech:CompositionalSpatialTransformer</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A learnable image-alignment module that retains an original source image and accumulated warp state, samples that source under the current warp to predict an incremental transform, composes the increment with the state, and passes the source and updated geometry onward for later alignment or final sampling.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      This record denotes the reusable c-STN alignment module in Lin and Lucey 2017 Figure 3: retain the original source image and accumulated warp, predict an increment from its current sample, and pass composed geometry onward. Cascading these modules is an application of the module; the record does not alternate its identity with a complete classifier or mandate untied predictors. The shared IC-STN recurrence is a related specialization with one-step/tied-cascade overlap, not a disjoint function class or universal exact alias. The earlier SpatialTransformer does not itself require this retained-state composition. At the actual clean cohort 338 base 5bca5a88c58998cc790594358d178fe828da1eea, the complete inventory contained 748 native and 442 pinned AIO records. Normalized IDs, local IDs, names, aliases and all scoped synonyms comprised 4761 field occurrences and 3640 distinct normalized values. The selected candidate probes had no collision; the sole normalized contextual hit was AIMech:SpatialTransformer. Four full-checkout searches included ignored and hidden files and returned 134/136/349/418 occurrences, grouped losslessly into 48 distinct contents. Root read all 48 contents, the provenance representatives/root sets and current relevant frontier objects. These hits are the existing SpatialTransformer record and its generated/review/history contexts, the carried IC-STN owner, or the separately pending PTN source context. All 909 main and 393 nested frontier objects were mechanically queried recursively. The actual inventory preserves the historical semantic research bytes, with only the three unrelated cohort 337 regularizers added to the earlier PTN snapshot. This is bounded snapshot/semantic-neighborhood evidence, not a global absence or saturation claim. Reuse owner 236 together with the distinct shared-recurrence record, preserving its later-analysis URL as historical context and identifying the 2017 CVPR paper separately as defining evidence. Source-agent 92 semantic rows, 13 complete frontier objects and 14 AIO nodes / 141 incident edges remain attributed; root read all 14 AIO contexts, complete current SpatialTransformer and the primary pages specified in its research acceptance. Qualified related Layer association only.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#retained-source-and-geometric-state</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The module receives an original source image I and current warp parameters p_in. Its geometric predictor uses the source sampled under the current warp to estimate an update delta p. The module carries the original source and updated warp state onward, rather than replacing the source with the preceding cropped or resampled output. A later stage can therefore sample original pixels outside an earlier intermediate crop, provided those pixels are present in the retained source.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lin2017">Inverse Compositional Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF p. 4 / printed p. 2571, Figures 2–3 and the geometry-preservation explanation; Figure 4, PDF p. 5.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#explicit-affine-left-composition</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    For the displayed affine convention, p=(p1,p2,p3,p4,p5,p6) determines M(p)=[[1+p1,p2,p3],[p4,1+p5,p6],[0,0,1]]. The module composes the update as M(p_out)=M(delta p) M(p_in). Writing these affine matrices as linear blocks A with translations b gives A_out=A_delta A_in and b_out=A_delta b_in+b_delta. This is composition of coordinate transformations, not addition of the six parameter vectors.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lin2017">Inverse Compositional Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF p. 4 / printed p. 2571, Equations 9–10.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#differentiable-composition-partials</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source supplies derivatives of p_out with respect to p_in while holding delta p fixed, and with respect to delta p while holding p_in fixed. In the six-parameter order of Equation 9, these are A_delta tensor-product I_3 and blockdiag(M(p_in)^T,M(p_in)^T), respectively. They agree with the displayed left-composition rule and allow gradients through the composition operation. They are fixed-argument partials, not the full state derivative through the learned predictor and image sampler.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lin2017">Inverse Compositional Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp. 4–5 / printed pp. 2571–2572, Equation 11 and its immediately following backpropagation explanation.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#reusable-module-with-cascade-use</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Several compositional modules can be concatenated into an alignment cascade while retaining the source image and passing accumulated geometry between stages. The module definition does not require either distinct or shared predictor parameters. Reusing one predictor at all steps gives the IC-STN recurrent specialization; a finite cascade with separate predictors is another use of the module. The source identifies a one-step compositional model with a one-step IC-STN.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lin2017">Inverse Compositional Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF pp. 4–5, Figures 3–4; Section 4.2, PDF p. 5, shared unrolling; Section 5.1, PDF p. 6, explicit c-STN-1/IC-STN-1 equivalence.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#learned-alignment-with-downstream-objective</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The predictor can be learned through the warp-and-composition graph together with a downstream objective. The source describes linear, fully connected and convolutional predictor configurations, using geometric-parameter error for its planar alignment experiment and joint alignment/classification configurations elsewhere. The module is not defined by one fixed classifier, one predictor architecture or the classical Lucas–Kanade least-squares objective.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-lin2017">Inverse Compositional Spatial Transformer Networks</a></span>
+        <span>· <strong>Locator:</strong> Section 4.1, PDF p. 5, learned-feature/end-to-end paragraph; Section 5.1, PDF p. 6, linear predictor and geometric-parameter objective; Section 5.2 and Table 2, PDF pp. 6–7.</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The affine coordinate convention and multiplication order are part of the stated mechanism. Composing singular affine matrices is algebraically possible, but interpreting a warp as invertible requires a nonsingular, suitably conditioned linear part. Equation 9 imposes no determinant constraint by itself. The homography experiments additionally require nonzero homogeneous denominators on the sampled domain; the affine Equation 11 does not specify homography derivatives. An incremental inverse, when required by a chosen interpretation, is not obtained by simply negating all six parameters.</li>
+      <li>Retaining the original image prevents information loss caused by repeatedly replacing it with intermediate cropped or interpolated outputs. It does not recover pixels absent from the original source, physical occlusion or lost resolution. Intermediate samples for the predictors still occur. Finite grids, out-of-range sampling, interpolation, aliasing and numerical error remain relevant; exact matrix composition does not imply exact raster preservation.</li>
+      <li>Equation 11 contains correct composition partials. If C(p,delta) is the composition and delta=f(warp(I,p)), the full state derivative is C_p+C_delta Df D_p[warp(I,p)] where differentiable. The identity term in a partial alone gives no arbitrary-horizon gradient guarantee. For 0&lt;epsilon&lt;1, constant incremental linear parts (1−epsilon)I or (1+epsilon)I produce direct gradient magnitudes (1−epsilon)^K or (1+epsilon)^K; these isotropic examples still have condition number one. Anisotropic scales can instead worsen conditioning. These are bounded hand constructions, not reports about trained-model failure or author-code backpropagation.</li>
+      <li>Differentiable or subdifferentiable sampling enables optimization but does not imply smoothness at all interpolation knots and boundaries. The displayed composition partials must be combined with the predictor and sampler derivatives and their domain conventions. No padding, subgradient, coordinate-range or singular-transform handling is verified at implementation level.</li>
+      <li>A learned linear predictor can share the algebraic form of a classical alignment regressor without equaling a particular template-Jacobian pseudoinverse or minimizing the same objective. The source’s LK/SDM analogy, residual-gradient explanation and selected empirical results do not establish universal solver equivalence, monotone descent, convergence or accuracy and computational advantages. This record denotes the Figure 3 reusable module; cascade usage does not silently change its identity into a whole classifier or require untied weights.</li>
+      <li>Evidence is the exact nine-page official CVPR 2017 proceedings PDF. The acquired CVF page numbering and Crossref IEEE numbering differ and are explicitly separated; no exact publication day or preprint byte identity is asserted. The official supplementary ZIP returned HTTP 404, so no supplementary content is claimed. Historical source inspection did not include author code or full original LK, IC-LK and SDM papers, and did not execute training or reproduce benchmarks. No implementation-level coordinate normalization, padding, device behavior or numerical accuracy is certified.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/Layer.html" style="font-weight: 600;"><code>AIO:Layer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Layer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The reusable alignment module receives source/state information, transforms the geometric state and passes information onward, supporting a qualified relation to the pinned Layer class. That broad class does not identify this particular geometry-preserving construction. The relation is neither exact equivalence nor a claim that a complete alignment cascade or classifier is one primitive layer.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-lin2017">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">lin2017</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://openaccess.thecvf.com/content_cvpr_2017/papers/Lin_Inverse_Compositional_Spatial_CVPR_2017_paper.pdf" target="_blank" rel="noopener">Inverse Compositional Spatial Transformer Networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Chen-Hsuan Lin, Simon Lucey
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> 10.1109/CVPR.2017.242</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:b9c660a8bcc8…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ACompositionalSpatialTransformer">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Compositional spatial transformer" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Layers &amp; Modules</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:CompositionalSpatialTransformer</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Compositional spatial...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:Layer (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-15T09:56:01Z</div>
+    <div><strong>Updated:</strong> 2026-10-15T09:56:01Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CompositionalSpatialTransformer.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CompositionalSpatialTransformer.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Compositional%20spatial%20transformer"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ACompositionalSpatialTransformer"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero-self flattened slice sampling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Zero-self flattened slice sampling</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Zero-self flattened slice sampling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:ZeroSelfFlattenedSliceSampling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+
+  <div class="detail-desc">
+    A finite categorical conditional-update algorithm that flattens probability bars and relocates a qualifying blocker before the maximum-probability state, yielding directed slice transitions with the minimum permitted self-transition probability.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      The post312 assessment covers all 442 pinned AIO and 706 native IDs, names, aliases and scoped synonyms, plus four complete checkout searches including ignored and hidden files. The maintained identity is a finite ordered conditional kernel, distinct from generic slice/Gibbs, interval and elliptical slice procedures, MH-within-Gibbs and persistent-sign/pair-state samplers. Earlier 703-native searches and 18 exact AIO contexts are preserved with their reading scopes; the three actual batch312 native neighbors were assessed for this identity comparison. AIO:MarkovChain is related_match at a different abstraction level; no neural Network or ProbabilisticHiddenLayer inheritance is implied. ZFSS denotes the nearest-qualifying-blocker ZERO=true policy. It differs from FSS for positive-probability transitions, while sharing special cases. Zero-self means removal of avoidable self transitions; it is not an exact alias for arbitrary minimum-self kernels. No aliases are adopted.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">6 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#blocking-state-and-flattened-bars</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Use an ordered finite state list and nonnegative probabilities pi summing to one. In the regular case max(pi)&lt;1/2 and pi(k)&gt;0, choose the first maximum a, with mass h, and let s be the second largest probability. Scan cyclically backward from a for the first state b satisfying pi(b)&gt;=f*s, recomputing f=(h-s)/(1-h-pi(b)) for each candidate. Move b immediately before a while retaining the relative order of all other states. Shorten the original a bar to height s and append an a-labelled bar of height f*pi(j) after each original bar j other than a and b. Choose a current-symbol bar proportional to its height, draw a uniform height within it and move to the previous active bar with wraparound. The regular denominator is positive, 0&lt;=f&lt;1, and a second-largest state qualifies as a blocker, so the search terminates. Tied maxima give f=0.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 11, PDF pp. 42–43, blocker construction; Algorithm 8, pp. 44–45, ZERO true</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#invariance-and-avoided-self-transitions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Bar splitting retains total height pi(j) for every symbol. At a fixed height, the predecessor map is a cyclic permutation of active bars, preserving their uniform distribution; integrating height and projecting labels preserves pi. An added a bar is no taller than its preceding original bar, so movement from that piece leaves a. The relocated blocker prevents the original a bar from reaching another a piece: below its height it intercepts movement, and above its height no added a piece is active because their heights are at most f*s. Thus self probabilities are zero in the regular case. Applied to a valid full conditional with other coordinates fixed, the kernel preserves the joint target; fixed mixtures and compositions preserve it too. These facts alone do not establish reversibility or convergence.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 11, PDF pp. 41–43, invariant-slice framework and blocker argument; Section 2, pp. 2–3, Equations 2–4; geometric calculations in research/discovery/fss-zfss-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#dominant-mass-and-zero-state-conventions</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    If the current value has pi(k)=0, Algorithm 8 assigns its outgoing row pi before the other cases. This convention does not define a conditional law when its conditioning context has zero total mass. For positive current mass and h=max(pi)&gt;=1/2, every nonmaximum state moves to a, while P(a,a)=(2h-1)/h and P(a,j)=pi(j)/h for j!=a. The overall self probability is then 2h-1, the minimum allowed by stationarity. At h=1/2 it is zero; at h=1 the supported state is absorbing. This common kernel is reversible on positive support, even though the regular ZFSS construction is generally nonreversible. The uniqueness argument does not constrain zero-mass rows: for pi=(1/2,1/2,0), both the prescribed third row pi and the alternative (1,0,0) preserve the same target and minimum self mass.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 8 Part 1, PDF p. 44, zero-current and dominant-mass branches; Section 13, p. 51, Equations 112–114; exact support example in research/discovery/fss-zfss-extra-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#finite-checks-and-printed-matrix-discrepancy</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Curator exact rational checks compare Algorithm 8, explicit bar geometry and a separately written interpretation of Algorithm 9 on 4,450 ordered target vectors. Their 8,900 paired FSS/ZFSS kernels agree on 48,580 rows and preserve the target; ZFSS achieves the minimal self mass in every tested case. The printed ZFSS matrix in Figure 10 does not preserve its stated target (1/10,1/5,1/5,1/20,9/20): multiplication gives (17/140,17/70,1/5,1/28,2/5). In the original state order, the calculations instead give row 2=(1/7,0,0,0,6/7) and row 3=(0,2/7,0,1/14,9/14), while the printed last row (10/63,20/63,4/9,5/63,0) agrees. The printed matrix is a negative control; the defining algorithms and geometry support the maintained kernel. These bounded checks are not an author-issued correction, implementation replication or general numerical proof.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Figure 10, PDF p. 42, rightmost matrix; Algorithms 8–9, pp. 44–47; original curator calculations in research/discovery/fss-zfss-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#kernel-distinction-and-periodicity</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    ZFSS changes the kernel when its blocking-state relocation is needed; it coincides with FSS in cases where it is not needed and in the shared dominant-mass branch. The exact suite contains 297 targets with different FSS and ZFSS matrices. Zero self transitions do not establish ergodicity: for m uniformly weighted states, ZFSS is a deterministic predecessor cycle of period m. A fixed full scan of two independent uniform three-state coordinates maps (a,b) to (a-1 mod 3,b-1 mod 3), with three closed classes indexed by a-b mod 3. The joint target is invariant but one trajectory cannot explore all classes. No universal variance reduction, finite-run accuracy or wall-clock advantage is asserted.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Section 11, PDF pp. 42–43, FSS/ZFSS distinction; Section 13, pp. 49–51, uniform cycles and common boundary kernel; exact examples in research/discovery/fss-zfss-boundaries.py and research/discovery/fss-zfss-extra-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#fast-sampler-interpretation-limits</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Algorithm 8 supplies the explicit maintained transition probabilities. The Algorithm 9 comparison interprets the zero-current branch as one inverse-CDF traversal because its printed outer loop line reuses an index that is immediately reset. This is a documented interpretation, not a verified literal author implementation. Its stated nonzero-output guarantee also fails for an exact closed-uniform endpoint: with pi=(1/4,1/4,1/2), current state 3 and r=1, the dominant-mass branch returns state 3 although P(3,3)=0. This has zero probability under an ideal continuous uniform law and does not change that law, but it prevents an unconditional endpoint or floating-point correctness claim. No author software was executed.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-neal2024">Modifying Gibbs Sampling to Avoid Self Transitions</a></span>
+        <span>· <strong>Locator:</strong> Algorithm 9 Part 1, PDF p. 46, output guarantee, zero-current loop and dominant-mass CDF; endpoint checks in research/discovery/fss-zfss-extra-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This local record denotes the finite ZFSS blocker-and-bar construction. Generic slice sampling, Gibbs sampling, FSS and general nonreversible MCMC are not exact aliases.</li>
+      <li>The zero-self name does not promise zero self probability when a state has mass greater than one half. Zero-current rows are a stated convention, not uniquely determined by the stationary law.</li>
+      <li>The supplied finite order, tie convention and full conditional probabilities are part of the mechanism. Invalid targets, undefined conditioning contexts, adaptive order changes and countably infinite extensions are outside this record.</li>
+      <li>The inspected author report is retained with its printed Figure 10 and Algorithm 9 caveats. No complete 84-page empirical review, author-code execution, numerical implementation guarantee or benchmark reproduction is claimed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/MarkovChain.html" style="font-weight: 600;"><code>AIO:MarkovChain</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Markov Chain</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm defines a conditional Markov transition preserving a specified target. AIO MarkovChain denotes a stochastic process/model; this association does not assert equivalence, subclass membership or inheritance of the exported Network and ProbabilisticHiddenLayer assertions.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">1 Source</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-neal2024">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">neal2024</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://glizen.com/radfordneal/ftp/gibbs-self.pdf" target="_blank" rel="noopener">Modifying Gibbs Sampling to Avoid Self Transitions</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Radford M. Neal
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">author technical report</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:2403.18054</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:3d637d3eec04…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AZeroSelfFlattenedSliceSampling">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Zero-self flattened slice sampling" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:ZeroSelfFlattenedSliceSampling</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Zero-self flattened...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">6 claims · 1 source</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:MarkovChain (1)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T21:38:22Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T21:38:22Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/ZeroSelfFlattenedSliceSampling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/ZeroSelfFlattenedSliceSampling.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Zero-self%20flattened%20slice%20sampling"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AZeroSelfFlattenedSliceSampling"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

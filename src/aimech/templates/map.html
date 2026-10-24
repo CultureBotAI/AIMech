@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+{% block title %}Text Embedding Map — AIMech{% endblock %}
+{% block content %}
+<div class="page-top-bar">
+  <nav class="breadcrumbs"><a href="{{ root }}index.html">AIMech</a> / <span>Text map</span></nav>
+  <form class="page-search" action="{{ root }}browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<h1>Concept Embedding Map</h1>
+<p class="lead">
+  {{ map_data.n }} AIMech concepts (curated records and AIO ontology classes) embedded with
+  <code>{{ map_data.model }}</code> over names, definitions, synonyms, classification,
+  computational roles, and relationships, projected to 2D with PaCMAP. Points are colored by
+  origin and kind/branch; click a point to open its concept page.
+</p>
+
+<div class="browse-layout">
+  <aside class="facet-sidebar" aria-label="Embedding map filters">
+    <h2 style="font-size: 0.95rem; margin: 0;">Filter map</h2>
+    <div class="facet-group">
+      <label class="facet-label" for="map-search">Search concepts</label>
+      <input id="map-search" type="search" placeholder="Filter by name, ID, or class…" autocomplete="off">
+      <div class="map-search-status" id="map-count"></div>
+    </div>
+
+    <div class="facet-group">
+      <span class="facet-label">Origin</span>
+      <div class="facet-pills" id="map-origin-controls">
+        <button type="button" class="pill active" data-origin="all">All</button>
+        <button type="button" class="pill" data-origin="curated">Curated</button>
+        <button type="button" class="pill" data-origin="aio">AIO</button>
+      </div>
+    </div>
+
+    <div class="facet-group">
+      <div class="facet-header">
+        <span class="facet-label">Kind / Branch</span>
+        <span id="map-toggle-holder"></span>
+      </div>
+      <div id="map-controls" class="facet-list"></div>
+    </div>
+  </aside>
+
+  <div class="browse-main">
+    <div class="map-wrap">
+      <canvas id="corpus-map" width="980" height="640"></canvas>
+      <div id="map-tip" class="map-tip" hidden></div>
+      <div class="map-hint">scroll to zoom · drag to pan · double-click to reset · click point to open concept · Esc clears filter</div>
+    </div>
+  </div>
+</div>
+
+<script id="corpus-map-data" type="application/json">{{ map_data_json | safe }}</script>
+<script>
+(function () {
+  const D = JSON.parse(document.getElementById('corpus-map-data').textContent);
+  const canvas = document.getElementById('corpus-map');
+  const ctx = canvas.getContext('2d');
+  const tip = document.getElementById('map-tip');
+  const controls = document.getElementById('map-controls');
+  const toggleHolder = document.getElementById('map-toggle-holder');
+  const search = document.getElementById('map-search');
+  const countEl = document.getElementById('map-count');
+  const originBtns = document.querySelectorAll('#map-origin-controls [data-origin]');
+
+  const dpr = window.devicePixelRatio || 1;
+  let W = 980, H = 640;
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    W = Math.max(360, Math.floor(rect.width));
+    H = Math.max(420, Math.min(700, Math.floor(W * 0.66)));
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+
+  function palette() {
+    const cs = getComputedStyle(document.documentElement);
+    return D.classes.map((_, i) => cs.getPropertyValue('--cls' + (i % 20)).trim() || '#0f6b63');
+  }
+  let colors = palette();
+
+  const counts = new Array(D.classes.length).fill(0);
+  for (const p of D.points) counts[p[2]]++;
+
+  const active = new Array(D.classes.length).fill(true);
+  let originFilter = 'all';
+  const pills = [];
+
+  const allBtn = document.createElement('button');
+  allBtn.type = 'button';
+  allBtn.className = 'pill map-all';
+  allBtn.textContent = 'All / none';
+  allBtn.onclick = () => {
+    const anyOff = active.some((v, idx) => !v && matchesOrigin(idx));
+    for (let i = 0; i < active.length; i++) {
+      if (matchesOrigin(i)) {
+        active[i] = anyOff;
+        pills[i].classList.toggle('off', !anyOff);
+      }
+    }
+    draw();
+  };
+  toggleHolder.appendChild(allBtn);
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function formatClassLabel(cls) {
+    return cls.replace(/^(curated|aio):/, '').replace(/_/g, ' ');
+  }
+
+  function matchesOrigin(clsIdx) {
+    if (originFilter === 'all') return true;
+    return D.classes[clsIdx].startsWith(originFilter + ':');
+  }
+
+  D.classes.forEach((cls, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pill facet-pill';
+    b.title = 'Click to toggle · Shift-click to solo (' + cls + ')';
+    const prefix = cls.startsWith('curated:') ? 'Curated' : 'AIO';
+    b.innerHTML = `<span class="sw" style="background:${colors[i]}"></span><span class="facet-pill-name">${esc(formatClassLabel(cls))}</span><small>${prefix} · ${counts[i]}</small>`;
+    b.onclick = (e) => {
+      if (e.shiftKey) {
+        const solo = active.filter((v, idx) => v && matchesOrigin(idx)).length === 1 && active[i];
+        for (let j = 0; j < active.length; j++) {
+          active[j] = solo ? true : (j === i);
+          pills[j].classList.toggle('off', !active[j]);
+        }
+      } else {
+        active[i] = !active[i];
+        b.classList.toggle('off', !active[i]);
+      }
+      draw();
+    };
+    controls.appendChild(b);
+    pills.push(b);
+  });
+
+  originBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      originFilter = btn.getAttribute('data-origin') || 'all';
+      originBtns.forEach(b => b.classList.toggle('active', b === btn));
+      pills.forEach((p, idx) => {
+        p.style.display = matchesOrigin(idx) ? '' : 'none';
+      });
+      syncUrl();
+      draw();
+    });
+  });
+
+  const PAD = 28;
+  let k = 1, tx = 0, ty = 0;
+  function sx(x) { return (PAD + x * (W - 2 * PAD)) * k + tx; }
+  function sy(y) { return (PAD + (1 - y) * (H - 2 * PAD)) * k + ty; }
+
+  let query = '';
+  let hover = -1;
+
+  function syncUrl() {
+    if (!window.history || !window.history.replaceState) return;
+    const params = new URLSearchParams(window.location.search);
+    if (query) params.set('q', query);
+    else params.delete('q');
+    if (originFilter !== 'all') params.set('origin', originFilter);
+    else params.delete('origin');
+    const qs = params.toString();
+    window.history.replaceState(null, '', window.location.pathname + (qs ? '?' + qs : '') + window.location.hash);
+  }
+
+  function match(p) {
+    if (!query) return true;
+    return p[4].toLowerCase().includes(query) ||
+           p[3].toLowerCase().includes(query) ||
+           D.classes[p[2]].toLowerCase().includes(query);
+  }
+
+  function draw() {
+    colors = palette();
+    pills.forEach((b, i) => { b.querySelector('.sw').style.background = colors[i]; });
+    ctx.clearRect(0, 0, W, H);
+
+    const r = Math.max(2.4, Math.min(6.0, 3.0 * Math.sqrt(k)));
+    let shown = 0, hits = 0;
+
+    if (query) {
+      ctx.globalAlpha = 0.12;
+      for (let i = 0; i < D.points.length; i++) {
+        const p = D.points[i];
+        if (!active[p[2]] || !matchesOrigin(p[2]) || match(p)) continue;
+        ctx.fillStyle = colors[p[2]];
+        ctx.beginPath();
+        ctx.arc(sx(p[0]), sy(p[1]), r, 0, 6.2832);
+        ctx.fill();
+        shown++;
+      }
+    }
+
+    ctx.globalAlpha = 0.86;
+    for (let i = 0; i < D.points.length; i++) {
+      const p = D.points[i];
+      if (!active[p[2]] || !matchesOrigin(p[2])) continue;
+      if (query && !match(p)) continue;
+      ctx.fillStyle = colors[p[2]];
+      ctx.beginPath();
+      ctx.arc(sx(p[0]), sy(p[1]), query ? r * 1.25 : r, 0, 6.2832);
+      ctx.fill();
+      shown++;
+      hits++;
+    }
+
+    if (hover >= 0) {
+      const p = D.points[hover];
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#16191d';
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.arc(sx(p[0]), sy(p[1]), r + 3.5, 0, 6.2832);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    countEl.textContent = query ? `${hits} / ${shown} matched` : `${shown} concepts shown`;
+  }
+
+  function pick(mx, my) {
+    let best = -1, bestD = 12 * 12;
+    for (let i = 0; i < D.points.length; i++) {
+      const p = D.points[i];
+      if (!active[p[2]] || !matchesOrigin(p[2])) continue;
+      if (query && !match(p)) continue;
+      const dx = sx(p[0]) - mx, dy = sy(p[1]) - my;
+      const d = dx * dx + dy * dy;
+      if (d < bestD) { bestD = d; best = i; }
+    }
+    return best;
+  }
+
+  let drag = null, moved = false;
+  canvas.addEventListener('mousedown', (e) => {
+    drag = { x: e.clientX - tx, y: e.clientY - ty, sx: e.clientX, sy: e.clientY };
+    moved = false;
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (drag) {
+      if (Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 3) moved = true;
+      tx = e.clientX - drag.x;
+      ty = e.clientY - drag.y;
+      tip.hidden = true;
+      draw();
+      return;
+    }
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    if (mx < 0 || my < 0 || mx > W || my > H) {
+      if (hover !== -1) { hover = -1; tip.hidden = true; draw(); }
+      return;
+    }
+    const h = pick(mx, my);
+    if (h !== hover) { hover = h; draw(); }
+    if (h >= 0) {
+      const p = D.points[h];
+      tip.innerHTML = `<strong>${esc(p[4])}</strong><br><span>${esc(p[3])} · ${esc(D.classes[p[2]])}</span>`;
+      tip.style.left = Math.min(W - 240, Math.max(8, mx + 12)) + 'px';
+      tip.style.top = Math.max(8, my - 36) + 'px';
+      tip.hidden = false;
+      canvas.style.cursor = 'pointer';
+    } else {
+      tip.hidden = true;
+      canvas.style.cursor = 'grab';
+    }
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+
+  canvas.addEventListener('click', () => {
+    if (moved || hover < 0) return;
+    const id = D.points[hover][3];
+    const href = D.hrefs && D.hrefs[id];
+    if (href) window.location.href = href;
+  });
+
+  canvas.addEventListener('dblclick', () => { k = 1; tx = 0; ty = 0; draw(); });
+
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    const f = Math.exp(-e.deltaY * 0.0018);
+    const nk = Math.max(0.7, Math.min(24, k * f));
+    tx = mx - (mx - tx) * (nk / k);
+    ty = my - (my - ty) * (nk / k);
+    k = nk;
+    draw();
+  }, { passive: false });
+
+  search.addEventListener('input', () => {
+    query = search.value.trim().toLowerCase();
+    syncUrl();
+    draw();
+  });
+  search.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      search.value = '';
+      query = '';
+      syncUrl();
+      draw();
+    }
+  });
+
+  const initParams = new URLSearchParams(window.location.search);
+  if (initParams.get('q')) {
+    search.value = initParams.get('q');
+    query = search.value.trim().toLowerCase();
+  }
+  if (initParams.get('origin')) {
+    const orig = initParams.get('origin');
+    originBtns.forEach(btn => {
+      if (btn.getAttribute('data-origin') === orig) {
+        originFilter = orig;
+        originBtns.forEach(b => b.classList.toggle('active', b === btn));
+        pills.forEach((p, idx) => {
+          p.style.display = matchesOrigin(idx) ? '' : 'none';
+        });
+      }
+    });
+  }
+
+  window.addEventListener('resize', () => { resize(); draw(); });
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  draw();
+})();
+</script>
+{% endblock %}

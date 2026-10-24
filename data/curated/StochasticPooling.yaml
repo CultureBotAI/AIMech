@@ -1,0 +1,136 @@
+id: AIMech:StochasticPooling
+name: Stochastic Pooling
+aliases: []
+concept_kind: layer
+definition: A spatial neural pooling layer that samples one activation per region with probability proportional
+  to its nonnegative value during training and uses an activation-weighted regional mean during deterministic
+  inference.
+identity_notes: Compared all 442 pinned AIO and 622 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 15, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 44 AIO and 60 native definitions, with every matched definition
+  read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. This
+  record denotes the spatial convolutional pooling layer introduced by Zeiler and Fergus. Its activation-proportional
+  location sampling differs from uniform sampling, deterministic max or average pooling, learned-norm
+  channel pooling, learned affine maxout, Bernoulli connection masking and stochastic residual-block depth.
+  Other uses of the phrase stochastic pooling, including sensor-network and compositional-optimization
+  search leads, are not asserted equivalent.
+definition_evidence:
+- source_id: zeiler2013
+  locator: Section 3, PDF pp. 2–3, Equations 4–6 and Figure 1
+  relation: supports
+claims:
+- claim_id: activation-proportional-selection
+  kind: mechanism
+  statement: For regional activations a_i>=0 with positive total, compute p_i=a_i/sum_j a_j, draw one
+    categorical location, and output the selected activation. Positive nonmaximal entries can be selected;
+    zero-probability entries cannot. The displayed rule is undefined when every activation is zero, and
+    the paper does not specify a sampling fallback. Setting a zero output in that case would not by itself
+    determine the routing convention. The source uses rectified activations and spatial regions, not a
+    maximum over learned affine channels.
+  evidence:
+  - source_id: zeiler2013
+    locator: Sections 2–3, PDF pp. 2–3, Equations 4–5 and Figure 1; direct probability-domain assessment
+    relation: supports
+- claim_id: routed-gradient-and-conditional-draws
+  kind: limitation
+  statement: The described backward pass routes the gradient through the same location sampled in the
+    forward pass. Treating that location as fixed omits the derivative of the activation-dependent sampling
+    probabilities; it is not automatically an unbiased gradient of the expected sampled objective. Independent
+    random draws conditional on current activations also do not imply unconditional independence across
+    layers, because earlier selections change deeper activations and their probabilities. Finite training
+    does not guarantee use of every positive entry.
+  evidence:
+  - source_id: zeiler2013
+    locator: Section 3, PDF p. 3, sampling and backpropagation paragraphs; direct finite-difference and
+      two-stage conditional examples
+    relation: supports
+- claim_id: local-moment-versus-network-ensemble
+  kind: mechanism
+  statement: Deterministic inference replaces a regional sample by sum_i p_i*a_i=sum_i a_i^2/sum_i a_i.
+    For nonnegative positive-total inputs this is the exact conditional local first moment and lies between
+    the ordinary arithmetic mean and the maximum. It is generally neither ordinary mean pooling nor the
+    maximum. Substituting local means through nonlinear downstream computations or subsequent activation-dependent
+    pooling generally differs from averaging complete stochastic network predictions. The n^d count for
+    d regions of n locations is a count of possible routing settings, not independently trained models
+    or a guarantee that all settings have positive probability.
+  evidence:
+  - source_id: zeiler2013
+    locator: Section 3.1, PDF p. 3, Equation 6 and model-averaging discussion; direct finite examples
+    relation: supports
+- claim_id: finite-inference-comparison
+  kind: limitation
+  statement: The source uses three convolutional layers with 5x5 filters and 64 maps each, rectifiers,
+    3x3 pooling at stride 2, response normalization and a softmax classifier, trained for 280 epochs.
+    CIFAR-10 has 50,000 training images; 5,000 are used for cross-validation of learning rates and weight
+    decay, with the latter set to 0.001. Pixels are scaled to [0,1] and the per-pixel mean is subtracted.
+    Table 5 does not state the final validation/refit membership, test-set size, repeated-run variability
+    or error bars. The CIFAR-10 inference comparison averages output probabilities across stochastic forward
+    passes, which is arithmetic predictive averaging. Table 5 reports 15.20 percent test error for stochastic
+    training with deterministic probability weighting and 15.12 percent for 100 sampled passes, despite
+    its caption describing probability weighting as best. Those finite classification errors do not establish
+    identical predictions or exact full-network expectation. Training with deterministic probability weighting
+    is a different procedure and reports 19.40 percent error with the same inference choice. The small
+    numerical difference is not a demonstrated statistically significant advantage.
+  evidence:
+  - source_id: zeiler2013
+    locator: Sections 4.1–4.2, PDF pp. 4–5, architecture and CIFAR-10 setup; Section 4.7, pp. 7–8, and
+      Table 5, p. 8
+    relation: supports
+- claim_id: network-and-visualization-scope
+  kind: scope
+  statement: The experiments evaluate configured convolutional classifiers on MNIST, CIFAR-10, CIFAR-100
+    and SVHN, with rectifiers, response normalization, weight decay and specified training schedules.
+    Region size, stride, architecture and optimization remain choices even though the probability rule
+    adds no learned parameter. Different widths and training durations in the SVHN configurations prevent
+    a width-independent performance conclusion. Saved-switch deconvolutional pictures are qualitative
+    visualizations, not an exact inverse or information-preservation proof. The results do not establish
+    universal regularization benefit, negligible cost on every implementation or current superiority.
+  evidence:
+  - source_id: zeiler2013
+    locator: Sections 4.1–4.6, PDF pp. 4–7, Tables 1–4 and Figures 2–5; Section 4.8, pp. 8–9, Figure 6
+    relation: supports
+evidence_sources:
+- source_id: zeiler2013
+  title: Stochastic Pooling for Regularization of Deep Convolutional Neural Networks
+  authors:
+  - Matthew D. Zeiler
+  - Rob Fergus
+  persistent_id: arXiv:1301.3557v1
+  version: arXiv:1301.3557v1, 16 January 2013, nine PDF pages. All pages visually inspected, including
+    equations, figures, tables, footnotes and references; PDF and printed page numbers agree. Author code
+    and supplementary videos not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1301.3557v1
+  access_level: full_text
+  accessed_at: '2026-10-13T13:37:20Z'
+  sha256: 59ec8bbf080d4113d743121edf3e2d5ed574bef2e43a46fd4bbacfe49f705dec
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:PoolingLayer
+  relation: broad_match
+  rationale: The original construction aggregates spatial regions into smaller feature maps, placing this
+    particular stochastic layer within the broader spatial-pooling scope.
+- target: AIO:MaxPooling2DLayer
+  relation: related_match
+  rationale: Both select a regional activation and route a gradient through a selected location, but stochastic
+    pooling samples from activation-dependent probabilities rather than always selecting the largest value.
+limitations:
+- This record denotes the Zeiler–Fergus convolutional pooling construction, not every method called stochastic
+  pooling, a complete convolutional classifier, channel maxout or random connection masking.
+- The probability formula requires nonnegative activations and positive total. No undocumented all-zero
+  sampling fallback or author implementation behavior is asserted.
+- Local conditional expectations and fixed-routing derivatives have narrower scope than complete-network
+  predictive expectations and expected-objective gradients.
+- One complete nine-page versioned primary paper was visually inspected. Constructed calculations only;
+  no author code, supplementary video, training, timing or benchmark replication.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T14:01:54Z'
+  updated_at: '2026-10-13T14:08:11Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

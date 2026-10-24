@@ -1,0 +1,132 @@
+id: AIMech:HACQ
+name: HAC-Q network clustering
+aliases:
+- HAC-Q
+concept_kind: algorithm
+definition: A hierarchical network-clustering variant that uses a degree-corrected modularity contribution
+  to guide group merges and retains hierarchical group structure for link prediction rather than using
+  only a modularity-selected flat partition.
+definition_evidence:
+- source_id: park2011
+  locator: Different merging scores, PDF p. 4, Equation 11 and comparison with CNM; Link prediction, p.
+    5
+  relation: supports
+claims:
+- claim_id: modularity-merge-guide
+  kind: mechanism
+  statement: The merge score sums observed cross-group adjacency minus the degree-product expectation
+    under the graph’s degree-based null model. Equivalently it is the observed edge count minus the product
+    of the two groups’ total degrees divided by twice the number of edges. Unlike edge density, it depends
+    on the graph-wide edge total and vertex degrees.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4, Equation 11
+    relation: supports
+- claim_id: cnm-and-gain-boundary
+  kind: scope
+  statement: The authors describe the score-driven algorithm as essentially CNM while emphasizing a different
+    retained representation for link prediction. Under the standard normalized undirected modularity convention,
+    the normalized modularity change for merging two fixed groups is this score divided by the graph’s
+    number of edges. Greedy local gain is not a guarantee of a globally optimal partition or hierarchy.
+  evidence:
+  - source_id: park2011
+    locator: Other methods and Different merging scores, PDF p. 4; curator-derived modularity identity
+      in research/discovery/hacq-boundaries.py
+    relation: supports
+- claim_id: hierarchy-versus-flat-prediction
+  kind: scope
+  statement: For hierarchical methods the study estimates densities across the two sides of tree joins;
+    for CNM it estimates within- and between-group densities for the selected flat clustering. Retaining
+    a hierarchy can therefore produce different link estimates even when related merge criteria are used.
+    A finite tree-versus-partition example illustrates this representation distinction conditionally,
+    without asserting uninspected stopping or collapse behavior.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4; Link prediction, p. 5; curator conditional representation
+      example in research/discovery/hacq-boundaries.py
+    relation: supports
+- claim_id: score-domain-boundary
+  kind: limitation
+  statement: The degree-corrected score may be negative, and its printed degree-product denominator is
+    undefined for a graph with no edges. It is a merge contribution rather than an edge probability. The
+    record does not invent handling of edgeless graphs, negative-gain completion or implementation-specific
+    tie and termination policies.
+  evidence:
+  - source_id: park2011
+    locator: Different merging scores, PDF p. 4, Equation 11; curator-derived score examples in research/discovery/hacq-boundaries.py
+    relation: supports
+- claim_id: evaluation-scope
+  kind: scope
+  statement: The study compares this named variant with HAC-ML and other methods on biological interaction
+    networks using held-out-edge prediction. Positive test pairs are balanced by an equal number of sampled
+    holes, and maximum F scores summarize ranked predictions. This selection changes the negative prevalence
+    relative to deployment. The reported comparisons support a setting-specific empirical assessment,
+    not universal superiority or calibrated real-world link probabilities.
+  evidence:
+  - source_id: park2011
+    locator: Performance Evaluation and Link prediction, PDF pp. 4–5; Table 2 and Figure 1, p. 6
+    relation: supports
+limitations:
+- HAC-Q does not introduce a distinct general modularity objective. Its source-defined scope preserves
+  hierarchical representation for link prediction, separately from the CNM flat-cut baseline.
+- The three-vertex path calculation is a conditional mathematical example, not a claim about the paper’s
+  degree-filtered evaluation network or about whether its uninspected code would retain that entire binary
+  tree.
+- This record covers a named 2011 score variant in Park and Bader’s network-clustering study, not a fitted
+  interactome or the entire family of agglomerative clustering methods.
+- The paper defines each alternative by replacing the merge guide. It does not separately specify every
+  candidate-restriction, tie, stopping and terminal-collapse convention for each variant. The detailed
+  HAC-ML implementation and its complexity are not automatically asserted for this variant.
+- The experiments use undirected, unweighted interaction graphs with iterative removal of isolated and
+  degree-one vertices. Missing observed edges can include unobserved biological interactions; sampled
+  holes are not established biological negatives.
+- No author implementation, data or supplementary archive was audited or executed. Finite constructed
+  checks assess local scores and algebraic distinctions, not complete clustering runs, benchmark replication
+  or global optimality. DRAFT remains.
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: This algorithm constructs a hierarchy of vertex groups. The target is a related task, not
+    an equivalent algorithm or asserted superclass.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The procedure groups graph vertices using observed relationships rather than supervised label
+    prediction. The task relation does not establish algorithm identity.
+identity_notes: 'Compared all 442 pinned AIO and 669 native IDs, names, aliases and scoped synonyms for
+  the three candidates and publication identifiers; no normalized identity match. Ignored- and hidden-inclusive
+  fixed-string searches of the recovery, older discovery and original Documents checkouts returned 158,
+  0 and 5 lines. All 158 public matches were inspected and belong to source/discovery/review context and
+  rendered existing records, not these maintained identities. The five original-checkout matches are unrelated
+  Spanish hace text in ignored dependencies. Semantic assessment covered 46 AIO and 264 native definitions:
+  44 AIO and 260 native rows were unchanged from prior reading; two additional AIO and four additional
+  native definitions were read. Sixteen complete annotated AIO node/edge/generated contexts and the candidate-specific
+  native records were assessed. Retain the source-named HAC-Q hierarchical link-prediction variant. Its
+  modularity merge criterion is closely related to CNM, as the paper explicitly states; retaining hierarchical
+  density estimates is distinct from using only a modularity-maximizing flat cut. No claim of a new modularity
+  objective is made.'
+evidence_sources:
+- source_id: park2011
+  title: Resolving the structure of interactomes with hierarchical agglomerative clustering
+  authors:
+  - Yongjin Park
+  - Joel S Bader
+  source_type: primary_paper
+  access_level: full_text
+  version: BMC Bioinformatics 12(Suppl 1):S44, 2011-02-15. All ten publisher-PDF pages, 36 references,
+    Equations 1–11, pseudocode, four figures and three tables were read. Variant formulas on page 4 and
+    evaluation on page 6 were visually reassessed in this batch. Supplementary author code remains uninspected.
+  persistent_id: doi:10.1186/1471-2105-12-S1-S44
+  url: https://link.springer.com/content/pdf/10.1186/1471-2105-12-S1-S44.pdf
+  accessed_at: '2026-10-14T00:38:22Z'
+  sha256: e930abd762f0f7c51d7671b3f605bc1fd2a35cdc230b668515c7778ffcb73b60
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T01:20:36Z'
+  updated_at: '2026-10-14T01:20:36Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

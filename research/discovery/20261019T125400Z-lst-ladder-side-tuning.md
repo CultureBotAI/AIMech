@@ -7,7 +7,7 @@
 
 ## Identity & Boundary Resolution
 
-Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:Ia3InfusedAdapterByInhibitingAndAmplifyingInnerActivations), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory savings at <= 50%), and from vanilla Side-Tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
+Distinct from in-backbone PETL methods such as LoRA (AIMech:LoRA), LoRA-FA (AIMech:LoRAFA), Compacter (AIMech:CompacterLowRankHypercomplexAdapterLayers), and IA3 (AIMech:IA3ActivationRescaling), all of which insert trainable parameters inside the backbone and must cache backbone nonlinearity derivatives {sigma'} for chain-rule backpropagation (capping memory savings at <= 50%), and from vanilla Side-Tuning (which fuses representations only at the final output layer without intermediate gated ladder shortcuts, structural pruning initialization, or side-network layer dropping). Formulated by Sung, Cho, and Bansal (NeurIPS 2022, arXiv:2206.06522).
 
 ## Constructed Boundary & Regime Verification
 

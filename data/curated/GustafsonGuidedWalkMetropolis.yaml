@@ -1,0 +1,129 @@
+id: AIMech:GustafsonGuidedWalkMetropolis
+name: Gustafson guided-walk Metropolis sampler
+concept_kind: algorithm
+definition: A continuous-state Metropolis sampler that augments a univariate state with a binary direction,
+  proposes a half-normal displacement along that direction, retains direction after acceptance and reverses
+  it after rejection.
+definition_evidence:
+- source_id: gustafson1998
+  locator: Section 3, printed pp. 358–359 / PDF pp. 2–3, displayed guided-walk transition and invariance
+    argument
+  relation: supports
+claims:
+- claim_id: direction-augmented-half-normal-proposal
+  kind: mechanism
+  statement: For a proper univariate target with density pi, retain state (x,p), where p is either −1
+    or +1, with augmented target pi(x)/2. At a current point with positive target density, draw z from
+    N(0,sigma²) for a fixed sigma>0 and propose y=x+p*abs(z). The sign selects the proposal direction
+    while the absolute Gaussian draw supplies its random magnitude; target derivatives are not used.
+  evidence:
+  - source_id: gustafson1998
+    locator: Section 2 and Section 3, printed p. 358 / PDF p. 2, continuous univariate setting and displayed
+      guided-walk proposal
+    relation: supports
+- claim_id: acceptance-and-rejection-direction-rules
+  kind: mechanism
+  statement: Accept with probability min(1,pi(y)/pi(x)). On acceptance the new state is (y,p); on rejection
+    it is (x,−p). Thus accepted moves retain direction, while rejection retains the position and reverses
+    the direction for the next proposal. There is no additional random sign refresh in this displayed
+    univariate kernel. An unknown common normalizing constant in the target density cancels from the ratio.
+  evidence:
+  - source_id: gustafson1998
+    locator: Section 3, printed p. 358 / PDF p. 2, displayed guided-walk transition and immediately following
+      explanation
+    relation: supports
+- claim_id: two-stage-invariance-construction
+  kind: mechanism
+  statement: The transition can be decomposed into a Metropolis–Hastings stage proposing (x+p*abs(z),−p),
+    followed by unconditional negation of the resulting sign. The first proposal is symmetric on the augmented
+    space and preserves the target under the Metropolis correction; the second operation preserves the
+    uniform sign factor. Their composition therefore preserves pi(x)/2. This argument establishes invariance,
+    not a general convergence rate or ergodicity theorem for every target and tuning choice.
+  evidence:
+  - source_id: gustafson1998
+    locator: Section 3, printed p. 359 / PDF p. 3, first paragraph; introduction continuation, printed
+      p. 358 / PDF p. 2
+    relation: supports
+- claim_id: univariate-and-componentwise-scope
+  kind: scope
+  statement: The paper applies univariate invariant updates in turn to full conditional distributions
+    and studies componentwise guided walks for multivariate targets. This record’s operational kernel
+    is the displayed univariate update. The separate simultaneous-vector variant mentioned in the discussion
+    includes direction perturbation and is not specified by the same univariate formula alone; it is not
+    asserted as an exact alias or complete implementation here.
+  evidence:
+  - source_id: gustafson1998
+    locator: Introduction continuation, printed p. 358 / PDF p. 2; Examples 2–4, printed pp. 359–363 /
+      PDF pp. 3–7; Section 5, printed p. 363 / PDF p. 7, simultaneous-vector discussion
+    relation: supports
+- claim_id: evidence-and-performance-boundaries
+  kind: limitation
+  statement: The paper evaluates synthetic targets and distinguishes its continuous guided walk from related
+    finite-state theory. Its reported convergence experiment uses entry into a selected target ellipsoid
+    as a criterion, rather than a general proof of distributional convergence. The paper also assigns
+    the best acceptance-rate labels inconsistently between Example 2 and Example 4. These observations
+    support keeping the mechanism separate from claims of universal efficiency, convergence or an optimal
+    acceptance rate.
+  evidence:
+  - source_id: gustafson1998
+    locator: Introduction continuation, printed p. 358 / PDF p. 2; Example 2, printed p. 361 / PDF p.
+      5; Example 4 and Figure 2, printed pp. 361–363 / PDF pp. 5–7; Section 5, printed p. 363 / PDF p.
+      7
+    relation: supports
+identity_notes: Whole-corpus normalized checks cover every ID, name, alias and scoped synonym in 442 pinned
+  AIO and 703 native records; four complete ignored-inclusive checkouts include the final author-qualified
+  ID/label and broader source names. The named univariate continuous half-normal guided step retains sign
+  on acceptance and flips on rejection. Finite DHN fixed-neighbor fibers with nondegenerate auxiliary
+  sign randomization are a related variant, not the same complete kernel. Generic guided/lifted/nonreversible
+  labels are not exact aliases. Existing Gustafson source-frontier reference is resolved in place. Related
+  AIO:MarkovChain expresses process connection only; it does not import graph parents or neural-layer
+  ancestry. Broad semantic and full native-context assessments remain explicitly attributed to their readers.
+evidence_sources:
+- source_id: gustafson1998
+  title: A guided walk Metropolis algorithm
+  authors:
+  - Paul Gustafson
+  source_type: primary_paper
+  url: https://s1p.studyres.com/store/data/006398654.pdf?k=AwAAAaE8Dia1AAACWAmBLbNwqxCl67xnHM1Hyn5zBV8q
+  persistent_id: doi:10.1023/A:1008880707168
+  version: Statistics and Computing 8(4), December 1998, pp. 357–364; submitted July 1997 and accepted
+    March 1998. Eight-page journal-layout PDF obtained from the public Studyres mirror; publisher-download
+    byte equivalence was not established.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:17:39Z'
+  sha256: 644d92ef3292e3d56b3074a6fecff16d168476db56be0c1458211ae6aff77f36
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The guided-walk procedure constructs a Markov chain on position and binary direction with
+    a specified target marginal. AIO MarkovChain denotes a stochastic process/model. This is a method-to-process
+    association, without equivalence, subclass status or inheritance of Network and hidden-layer assertions.
+limitations:
+- The definition is restricted to the displayed continuous univariate half-normal proposal and fixed positive
+  scale. Other displacement laws, adaptive scales and simultaneous vector proposals require their own
+  evidence and validity conditions.
+- The current point must have positive target density and the acceptance calculation must be defined.
+  If an outside-support proposal has zero target density, the displayed formula rejects it and flips the
+  sign; it does not specify clipping, resampling or a reflected proposal. This is the formula’s support
+  consequence, not a separate boundary theorem.
+- The paper gives no general target-regularity and ergodicity theorem for this continuous kernel. The
+  finite positive-target, nonzero-sign-randomization conditions in the related DHN construction cannot
+  be transferred automatically.
+- The method shares persistent-direction lifting with the DHN finite fiber sampler, but uses random continuous
+  displacement and deterministic rejection reversal without its additional theta sign randomization. It
+  is not an exact alias of the finite fiber construction, ordinary random-walk Metropolis or Hamiltonian
+  Monte Carlo.
+- The inspected source is the 1998 journal-layout paper obtained through a public mirror. Exact byte equivalence
+  to a publisher download or to the 1997 preprint cited by DHN was not established. No numerical performance
+  or runtime claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T21:02:45Z'
+  updated_at: '2026-10-14T21:02:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

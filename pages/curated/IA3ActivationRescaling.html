@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IA3 Activation Rescaling · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>IA3 Activation Rescaling</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">IA3 Activation Rescaling</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:IA3ActivationRescaling</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> IA3, Infused Adapter by Inhibiting and Amplifying Inner Activations
+    </div>
+
+  <div class="detail-desc">
+    A transformer adaptation method that learns task-specific vectors to rescale attention key/value channels and intermediate feedforward activations while freezing the pretrained network parameters.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 631 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 180, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 40 AIO and 91 native definitions, with every matched definition read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain IA3 as the specific transformer activation-vector adaptation method. The typeset (IA)^3 is the same method spelling and is included in the identity search; a redundant normalized alias is omitted. Its frozen base with task-specific key/value/feedforward scales differs from additive LoRA updates, speaker-specific LHUC and condition-generated FiLM scale/shift. T-Few combines IA3 with further objectives and a training recipe and is a distinct algorithm scope. Generic fine-tuning model categories do not identify this parameterization.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">5 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#attention-channel-rescaling</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Each transformer block has learned vectors for the key and value channels in its self-attention and, where present, encoder-decoder attention. In row-activation notation the attention output is softmax(Q*Diag(l_k)*K_transpose/sqrt(d_k))*V*Diag(l_v). The vectors are specific to a task and broadcast across sequence positions; the method does not generate a different gate from every token.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, main PDF p.6, attention expression and broadcast definition; constructed finite differences</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#feedforward-placement</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A further task vector multiplies the intermediate feedforward activation after its nonlinearity and before the output projection. This diagonal scaling is distinct from an additive low-rank weight update. Moving the scale across a nonlinear function generally changes the computation. The described encoder adds L*(d_k+d_v+d_ff) parameters and the decoder adds L*(2*d_k+2*d_v+d_ff), reflecting its two attention modules.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, main PDF p.6, feedforward expression and parameter counts; constructed nonlinearity example</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#initialization-and-frozen-base</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The added vectors are initialized to ones, which preserves the unadapted computation when first inserted. They are learned thereafter, without a positivity or zero-to-one constraint specified in this source. The base parameters stay fixed during IA3 fitting but still participate in forward and derivative computations. Pretraining the added vectors, as done in T-Few, is a separate learning stage and does not leave them at their initial values.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.3–3.4, main PDF pp. 6–7</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#task-batching-and-absorption</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    Different examples can use different task vectors while sharing the base matrices in a mixed-task batch. For a fixed task, scales adjacent to a linear projection can instead be absorbed into compatible matrix rows or columns, including the corresponding bias when present. This eliminates the explicit scale operation for that task; one permanently folded matrix does not simultaneously encode arbitrary different task vectors. It also does not permit moving a scale across an intervening nonlinearity.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Section 3.3, main PDF p.6, mixed-task and single-task discussion; direct folding and bias examples</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#finite-comparison-context</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The source compares configured adaptation methods on a T0-3B backbone with prompted few-shot classification, additional objectives and method-specific training choices. The results do not establish superiority for every dataset, parameter budget, generative task or implementation. The T-Few recipe additionally specifies losses and pretraining; its complete behavior is not synonymous with the IA3 parameterization.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a></span>
+        <span>· <strong>Locator:</strong> Sections 3.1–3.5, main PDF pp. 4–7; Sections 4–5, pp. 8–10</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-liu2022ia3supp">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary Material</a></span>
+        <span>· <strong>Locator:</strong> Appendix C, supplemental PDF pp. 1–2/printed 17–18; Tables 4–7, supplemental pp. 3–6/printed 19–22</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>This local identity denotes the IA3 adaptation parameterization, not the T-Few composite recipe, a T0 checkpoint, FiLM conditioning or ordinary speaker-specific LHUC.</li>
+      <li>One initialization is an identity transformation, not a permanent positivity or magnitude constraint. Freezing weights does not eliminate base-network computation or activation memory.</li>
+      <li>Fixed-task scale absorption requires the appropriate linear adjacency and layout. It is not a universal mixed-task merging or latency guarantee.</li>
+      <li>All sixteen main-paper and eight supplemental pages were visually inspected. The supplement specifies differing comparator settings and a Banking77 exception to the broader T-Few recipe. No author implementation, model fitting, hardware test or empirical replication was executed.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/KnowledgeTransfer.html" style="font-weight: 600;"><code>AIO:KnowledgeTransfer</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Knowledge Transfer</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The method reuses a pretrained representation for target-task adaptation through a restricted parameterization. The generic transfer strategy is related context rather than an equivalent algorithm.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/DeepTransferLearning.html" style="font-weight: 600;"><code>AIO:DeepTransferLearning</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Deep Transfer Learning</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The demonstrated method adapts deep transformer representations. The pinned target describes a network category, so this is not an algorithm-to-network subclass assertion.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-liu2022ia3">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">liu2022ia3</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://proceedings.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Paper-Conference.pdf" target="_blank" rel="noopener">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.52202/068431-0142</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:9c107aa36f12…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-liu2022ia3supp">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">liu2022ia3supp</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://papers.neurips.cc/paper_files/paper/2022/file/0cde695b83bd186c1fd456302888454c-Supplemental-Conference.pdf" target="_blank" rel="noopener">Few-Shot Parameter-Efficient Fine-Tuning is Better and Cheaper than In-Context Learning — Supplementary Material</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Haokun Liu, Derek Tam, Mohammed Muqeeth, Jay Mohta, Tenghao Huang, Mohit Bansal, Colin Raffel
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> doi:10.52202/068431-0142</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:0da202641e40…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3AIA3ActivationRescaling">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for IA3 Activation Rescaling" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:IA3ActivationRescaling</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">IA3 Activation Rescaling</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">5 claims · 2 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:KnowledgeTransfer (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-13T16:27:07Z</div>
+    <div><strong>Updated:</strong> 2026-10-13T16:27:07Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/IA3ActivationRescaling.yaml" target="_blank" rel="noopener">
+      <code>data/curated/IA3ActivationRescaling.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=IA3%20Activation%20Rescaling"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3AIA3ActivationRescaling"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

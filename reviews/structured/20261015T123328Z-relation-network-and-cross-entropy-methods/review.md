@@ -1,0 +1,2041 @@
+# Scientific self-review of relation network and two cross-entropy methods
+
+- Review: 20261015T123328Z-relation-network-and-cross-entropy-methods
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-15T12:17:08.437517Z
+- Finished UTC: 2026-10-15T12:33:28.268357Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+The explicit heterogeneous three-target batch is assessed through 18 source-linked claims, 18 individual limitations and three declared source rows across two distinct primary PDFs. Retain the reusable relation module, static rare-event estimator and named FACE optimization controller separately. One related Layer mapping and two fourteen-target no-match assessments retain their qualified scopes. Actual creation, capture, postcapture root reading and six completed required checks must be bound before generation. All records remain DRAFT; no independent approval or global exhaustion is inferred. The actual creation is followed by a separately retained FACE identity-context correction: the elite count is fixed while sample size is adaptive. The review must bind the correction, CREATE and EDIT histories, new capture and post-correction checks; it does not reuse the original capture as current evidence.
+
+## Scope And Provenance
+
+Complete explicitly selected heterogeneous cohort: one neural module and two distinct adaptive sampling/search algorithms. Shared curation does not assert a common algorithm family.
+
+Selection: Exact maintained IDs AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization from actual cohort 340 creation.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base c056d16ecdad4e240beaaf5cf04b36d7b34fe052.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:RelationNetwork | data/curated/RelationNetwork.yaml | maintained | Relation network |
+| AIMech:CrossEntropyImportanceSampling | data/curated/CrossEntropyImportanceSampling.yaml | maintained | Cross-entropy rare-event importance sampling |
+| AIMech:FullyAdaptiveCrossEntropyOptimization | data/curated/FullyAdaptiveCrossEntropyOptimization.yaml | maintained | Fully adaptive cross-entropy optimization |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+| just vendored-check | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+| just render | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+| just render-check | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+| git diff --check | passed | True | AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization | Actual command completed with exit0; exact output is retained. |
+
+## Scientific And Domain Assessments
+
+### Claim shared-pairwise-neural-computation
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+Equation 1 and the immediately following paragraph specify the shared pair-function, global sum and output function. Figure 2 identifies the composite as a reusable module. The implementation paragraph supports MLPs/backpropagation without a global smoothness claim.
+
+### Claim all-pairs-and-selected-pairs
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+The complete-directed-graph discussion, unrestricted double sum and explicit n^2 pass count support ordered all-pairs processing. The source separately allows an input pair list. No inspected implementation or hidden diagonal mask is asserted.
+
+### Claim permutation-invariant-global-readout
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+A finite permutation bijectively reindexes all ordered pairs. The proof requires neither pair symmetry nor semantic object identity. The fixed query, unchanged tags and exact-arithmetic restrictions prevent stronger coordinate, cardinality or floating-point claims.
+
+### Claim question-conditioned-relations
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+The unnumbered Section 4 formula conditions every pair on q, and its prose gives the upstream LSTM final-state example. The reusable equation does not intrinsically require recurrence or attention normalization.
+
+### Claim object-representation-interfaces
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+The three Section 4 interfaces explicitly cover CNN cells with coordinates, state descriptions and independently encoded tagged support sentences. The source itself allows background, texture and object conjunctions; no discovered-object guarantee is inferred.
+
+### Claim shared-parameters-and-quadratic-work
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+The paper distinguishes sharing g from n^2 forward passes and later explicitly calls the relation count quadratic. The restriction/downsampling suggestions bound a changed input or pair set, not a proved exact acceleration of every full-sum output.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:RelationNetwork.
+
+The definition retains the original reusable shared-pair/sum/readout module and optional common-query conditioning. It does not claim that the NIPS paper first introduced the core, require its complete visual QA wrapper, or conflate the later few-shot homonym.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:RelationNetwork.
+
+The reusable relation module takes object representations from upstream processing and passes an aggregated learned representation or readout onward, supporting a qualified relationship to the pinned Layer topology. It is a composite of shared pair computations, aggregation and an output network, not an exact synonym for every layer or a single elementary dense operation.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:RelationNetwork.
+
+The sole declared primary source santoro2017 supports the definition and all six claims. Actual whole-second access is projected from the retained fractional acquisition. The official supplement, selected June version, February precursor and few-shot abstract remain separately attributed context rather than uncited native evidence-source entries.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+Enumeration invariance fixes the tagged object vectors, query and consistently selected pair multiset. Multiplicity, quadratic work, antisymmetric cancellation and functional coordinate ambiguity remain distinct boundaries. Finite experiments and optional wrappers do not establish universal reasoning or a recurrent core; source versions and unread software remain explicit.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:RelationNetwork.
+
+The maintained concept retains its accepted layer scope with its exact accepted aliases []. Actual root decisions retain owner 241 and distinct residuals. The supporting historical identity scope is: This record denotes the reusable relational-reasoning module described by the 2017 Santoro/Raposo source family, with shared pair computation, global aggregation and a learned readout. It does not denote the whole surrounding question-answering network or the 2018 few-shot homonym. The February 2017 precursor already gives the same core and is not a separate proposed identity. Historical research on 15 October 2026 at 10:24:01.611955–10:24:19.120099 UTC inventoried 751 native and 442 pinned AIO records. All 1,193 identity rows were normalized and their file hashes verified; the chosen identifier and singular/plural names had no normalized collision. Four fixed-string word-boundary scans included ignored and hidden files and returned 87, 88, 256 and 274 occurrences, all 705 occurrences being one repeated pending-owner label content. Exact order and multiplicity were reconstructed. Every string field of 909 main and 393 nested frontier objects was queried mechanically; 25 relevant complete objects and 16 selected definitions were read, not every unrelated full object. Five complete native neighbor records and all 16 exact AIO nodes with 154 incident-edge entries were inspected. These conclusions describe that historical snapshot only. Existing owner 241 is the appropriate research owner; its Wang 2018 URL and carried-from provenance remain historical neural context rather than the defining primary source. The addressed Interaction Network and VAIN owner contexts remain distinct. The short acronym RN is not an alias because the pinned RecurrentNeuralNetwork already uses it. No duplicate frontier leaf, future-base absence or saturation is implied.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+Reindexing fixes vectors and query. The duplication witness and selector consistency condition are mathematical consequences, not empirical failure claims. Numerical reduction order is a separate implementation issue.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+The antisymmetric contribution sums to zero over all ordered pairs. A linear invertible output change can be absorbed at a flexible functional level; no universal fixed-width realization is claimed. Neither observation identifies a particular trained model or a causal relation.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+Sharing parameter values and performing pair calls are different resources. No implementation memory layout was inspected. The main paper’s n^2-copy MLP rhetoric is not adopted as an impossibility theorem; the earlier source expressly allows a sufficiently large deep network in principle.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+Finite benchmark outcomes and a single bAbI seed do not entail universal reasoning, calibration or generalization. ReLU is piecewise differentiable, and training through the module is not a global optimization guarantee.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+Retain the explicit module construction rather than lumping related whole networks or homonyms. These are named construction boundaries, not assertions of disjoint function classes. The RN lexical collision is exact in the pinned recurrent-network context.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:RelationNetwork.
+
+The sole declared source supports all six formal claims. The precursor, supplement, earlier version and abstract-only homonym are attributed context with incomplete scopes made explicit. No code or benchmark execution is claimed. Initial acquisition failures and later successful downloads remain separate immutable receipts.
+
+### Claim fixed-nominal-event-and-ideal-proposal
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The support condition and ideal conditional-event density are explicit. ell&gt;0 prevents division by zero; the unknown normalizer remains a limitation of the ideal, not an available fitted guarantee.
+
+### Claim forward-kl-weighted-proposal-fit
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Equations 11–16 fix the KL direction and the nominal numerator; Equations 21–22 specialize the pilot fit. The separate variance objective is explicitly distinguished on page 14.
+
+### Claim multilevel-pilot-thresholds
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The finite quantile, cap and reuse of the current pilot sample are literal Algorithm 2.1 steps. The unchanged final target and original nominal numerator prevent confusing fitting levels with a new estimand.
+
+### Claim exponential-mean-fit-example
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Equation 24 is supported for independent exponential means. The positive-weight/domain and sufficient-statistic wording avoids importing the following overbroad raw-coordinate claim.
+
+### Claim fresh-final-likelihood-ratio-estimate
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Algorithm 1.1 explicitly generates the final sample. Its iid IS identity gives the stated conditional and tower-expectation argument only under the stated learned-proposal sampling law; no exact fit or finite-variance guarantee is added.
+
+### Claim probability-estimation-versus-optimization
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Algorithm 2.3 explicitly sets W=1, whereas the rare-event estimator retains a nominal probability and final LR average. The broader identity distinctions are scoped curator interpretation, not a claim of disjoint fitting subroutines.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+This identity denotes the tutorial’s static fixed-nominal rare-event estimator with weighted pilot proposal fitting and a fresh final LR estimate. It remains distinct from the existing unit-weight CrossEntropyOptimization record and from FACE, AIS and generic or self-normalized importance sampling.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Root accepted the bounded fourteen-target no-match for the whole algorithms. The draft’s MathematicalFunction reason explicitly recognizes its generic rule scope rather than a scalar-only restriction; the original research reasons and exact refinement are separately retained.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The sole declared source deboer2005 supports the definition and all six claims. It is the retained published tutorial; no unused source entry or new download is invented. Specific source discrepancies are preserved in the native limitations and individual assessments.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Proposal support, conditional fresh sampling, finite second moments and admissible weighted fits remain separate conditions. Restricted KL fitting is not generic variance minimization; unadjusted pilot reuse and adaptive final stopping require separate analysis. Curvature, sufficient-statistic and empirical-quantile qualifications preserve the source discrepancies without a universal convergence claim.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The maintained concept retains its accepted algorithm scope with its exact accepted aliases []. Actual root decisions retain owner 244 and distinct residuals. The supporting historical identity scope is: This identity denotes the tutorial’s static fixed-nominal rare-event estimator with weighted pilot proposal fitting and a fresh final LR estimate. It remains distinct from the existing unit-weight CrossEntropyOptimization record and from FACE, AIS and generic or self-normalized importance sampling. Historical research on 15 October 2026 at 10:42:32–10:42:48 UTC covered 751 native and 442 pinned AIO records. Four hidden- and ignored-inclusive checkout scans retained 7,246 occurrences, 215 exact contents and 133 decoded matching contexts. The research agent read those contexts and selected semantic definitions; it did not claim every unrelated serialized report body was read. All string fields of 909 main and 393 nested objects were queried mechanically, with eight substantive objects read. Six complete native neighbors and fourteen exact AIO contexts with 53 incident rows were assessed by that agent; root’s separately recorded neighbor scope is identity/definition/claim projections, with the existing CrossEntropyOptimization read fully. Four supplementary fully automated-name scans returned no matches. These are historical observations, not future-base clearance or saturation. Existing owner 244 supplies this lead with its tutorial URL and carried provenance retained; no new leaf or automatic resolution of other importance-sampling owners is implied.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The change of measure requires support for its actual event. The retained exponential example has full support but infinite second moment, separating unbiasedness from variance and CE from variance minimization.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The Bernoulli pilot-reuse witness has expectation 5/18 instead of 1/2 despite full proposal support. It challenges only the unadjusted reused-sample formula, not all adaptive importance sampling.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The source’s convexity and universal coordinate-mean wording is not adopted. Domain/existence conditions and appropriate sufficient statistics are explicit; the one-parameter exponential calculation does not establish a generic fit theorem.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+Finite quantiles and tied inclusive thresholds differ from deterministic population quantities. The source says the next fit will hopefully make the event less rare; no universal monotone empirical trajectory is asserted.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The estimator, optimizer and other adaptive-sampling constructions retain task and weighting distinctions. Source-specific numerical examples do not justify an application-independent efficiency claim.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:CrossEntropyImportanceSampling.
+
+The original whole-second 11 October acquisition is unchanged. Neither extraction of 49 pages nor selective reading establishes a complete applications/proof/software audit; historical owner and absence scope stay bounded.
+
+### Claim named-adaptive-optimization-controller
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+Section 4.2 explicitly names FACE and describes the fixed elite count with adaptive sample size. Both source expansions are preserved without claiming complete automation.
+
+### Claim dedicated-top-k-likelihood-fit
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The dedicated page-35 formulas are unweighted top-K likelihood fitting. The exact occurrence count and ties are separated from the conflicting equation cross-reference.
+
+### Claim within-iteration-adaptive-sampling
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The chart and accompanying text support the comparison, within-iteration growth and current-sample maximum. No best-so-far archive or fully specified sample-reuse policy is invented.
+
+### Claim flowchart-update-and-reset-transition
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The iteration increment and reset are visible in Figure 8. This is explicitly a chart-based interpretation, with numbered Step 4 retained as incomplete control-flow context.
+
+### Claim source-named-stagnation-outcomes
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The reported reliable/unreliable branches and literal equality are source names. Page 47 and the bounded finite-cap reasoning prevent elevating them to certificates.
+
+### Claim configured-budget-and-ce-specialization
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+All listed budgets and initialization remain supplied. The exact-reduction statement is qualified by matched conventions because the dedicated and generic indices differ; no universal speedup is claimed.
+
+### definition assessment
+
+evidence: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+This identity denotes the source-named FACE optimization controller, selecting its dedicated top-K definition and attributing outer control to Figure 8 while retaining numbered-pseudocode conflicts. It is a named specialization, not an alias of every CE optimizer. FACE is retained as source terminology; this draft adds no acronym alias.
+
+### mapping assessment
+
+grounding: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+Root accepted the bounded fourteen-target no-match for the whole algorithms. The draft’s MathematicalFunction reason explicitly recognizes its generic rule scope rather than a scalar-only restriction; the original research reasons and exact refinement are separately retained.
+
+### source assessment
+
+provenance: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The sole declared source deboer2005 supports the definition and all six claims. It is the retained published tutorial; no unused source entry or new download is invented. Specific source discrepancies are preserved in the native limitations and individual assessments.
+
+### limitations assessment
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The dedicated top-K fit and explicit flowchart define the selected description while the generic quantile discrepancy, numbered-step reset gap, inclusive history count, ties and sampling/smoothing details remain visible. Finite stagnation and capped budgets are heuristic; fixed-size reduction requires matched conventions. The source-scoped controller is not a certified executable reconstruction.
+
+### Concept boundary and actual owner
+
+identity: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The maintained concept retains its accepted algorithm scope with its exact accepted aliases []. Actual root decisions retain owner 245 and distinct residuals. The supporting historical identity scope is: This identity denotes the source-named FACE optimization controller, selecting its dedicated top-K definition and attributing outer control to Figure 8 while retaining numbered-pseudocode conflicts. It is a named specialization, not an alias of every CE optimizer. FACE is retained as source terminology; this draft adds no acronym alias. Historical research on 15 October 2026 at 10:42:32–10:42:48 UTC covered 751 native and 442 pinned AIO records. Four hidden- and ignored-inclusive checkout scans retained 7,246 occurrences, 215 exact contents and 133 decoded matching contexts. The research agent read those contexts and selected semantic definitions; it did not claim every unrelated serialized report body was read. All string fields of 909 main and 393 nested objects were queried mechanically, with eight substantive objects read. Six complete native neighbors and fourteen exact AIO contexts with 53 incident rows were assessed by that agent; root’s separately recorded neighbor scope is identity/definition/claim projections, with the existing CrossEntropyOptimization read fully. Four supplementary fully automated-name scans returned no matches. These are historical observations, not future-base clearance or saturation. Existing owner 245 supplies this lead with its tutorial URL and carried provenance retained; no new leaf or automatic resolution of other importance-sampling owners is implied.
+
+### Retained limitation 1
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The exact N=10,K=2 hand witness selects two values at index 9 versus three at index 8 under &gt;=. Ties and K=N add separate boundaries. No source code or repaired implementation is claimed.
+
+### Retained limitation 2
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The displayed increment/reset and the numbered return target differ. Literal t through t-d includes d+1 indices; prior-history conventions remain unspecified rather than silently filled in.
+
+### Retained limitation 3
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+A finite conditional independent budget can miss improvements with positive probability. The source itself states its heuristic may stop away from a local optimum; no complete trajectory probability is derived.
+
+### Retained limitation 4
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The dimensional suggestions need integer/domain conventions. Naming alpha does not specify an operational smoothing schedule, and a separately introduced score-weighted modification is not automatically included.
+
+### Retained limitation 5
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+Fixed-K adaptive allocation is a named specialization. Matching some fitted product-distribution substeps does not establish complete-procedure equality. The generic reduction requires conventions that the conflicting indices do not themselves fix.
+
+### Retained limitation 6
+
+scope: supported. Targets: AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+The primary supports a source-scoped controller and empirical suggestions. Partial earlier-version/proof/code scopes remain explicit; historical repository absence is not projected into a future creation state.
+
+### Captured bytes, accepted science and frontier accounting
+
+consistency: supported. Targets: AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling, AIMech:FullyAdaptiveCrossEntropyOptimization.
+
+All three captured records equal the actual write payloads and report entries. Exact support covers 18 claims and 18 limitations. Only existing owners 241, 244 and 245 changed; all 906 other prior main and 393 nested values remain unchanged. All three accepted method scopes reuse their existing owners, with no appended leaf. The real minor issue 380 was corrected after original creation: FACE keeps a fixed elite count and adapts sample size. Its original finding, preimages, creation receipt and prior capture remain historical; the current exact science and context are bound by the new capture, CREATE and EDIT histories, and six post-correction required checks. No global exhaustion or DRAFT promotion is inferred.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:RelationNetwork. Retain one reusable 2017 relation module under existing owner 241. Earlier Raposo source is precursor evidence for the same core, not another leaf. Preserve Interaction Network, VAIN, Deep Sets, NonLocalBlock, Set Transformer and the abstract-only few-shot homonym as separately scoped identities. Preserve the historical Wang URL as context; no RN acronym alias.
+- retain: AIMech:CrossEntropyImportanceSampling. This identity denotes the tutorial’s static fixed-nominal rare-event estimator with weighted pilot proposal fitting and a fresh final LR estimate. It remains distinct from the existing unit-weight CrossEntropyOptimization record and from FACE, AIS and generic or self-normalized importance sampling. Retain existing owner 244; the dated source and identity distinction does not authorize canonical creation or a new frontier leaf.
+- retain: AIMech:FullyAdaptiveCrossEntropyOptimization. This identity denotes the source-named FACE optimization controller, selecting its dedicated top-K definition and attributing outer control to Figure 8 while retaining numbered-pseudocode conflicts. It is a named specialization, not an alias of every CE optimizer. FACE is retained as source terminology; this draft adds no acronym alias. Retain existing owner 245; the dated source and identity distinction does not authorize canonical creation or a new frontier leaf.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| captured-inputs | /private/tmp/aimech-cohort340-corrected-capture.json | context_only | Actual canonical inspect output; all captured input hashes rechecked. Inspection alone is not scientific approval. |
+| postcapture-reading | /private/tmp/aimech-cohort340-corrected-root-reading.json | context_only | Actual root full-target assessment after capture and completed checks; selective primary scopes are stated separately. |
+| scientific-support | /private/tmp/aimech-cohort340-face-correction-consumers-20261015/scientific-support.corrected.structure.json | context_only | Attributed same-author support of all 18 accepted claims and 18 individual limitations. This is preparation DATA, not itself an actual canonical capture. |
+| actual-write | /private/tmp/aimech-rn-ce-cohort340-corrected-state.json | context_only | Consolidated actual post-correction state binds three records, report pair and both CREATE/EDIT histories. This is not a second ordinary creation invocation. |
+| original-creation-write | /private/tmp/aimech-rn-ce-cohort340-write.json | context_only | Immutable original creation receipt; its two changed output hashes are verified against retained preimages, not falsely rebound to current files. |
+| postcreation-context-correction | /private/tmp/aimech-cohort340-face-context-correction-20261015/correction-receipt.json | context_only | Actual completed issue 380 correction replaces the inaccurate FACE identity wording with a fixed elite count and adaptive sample size. Definitions, all claims, limitations, sources, mappings and created_at remain exact. |
+| correction-guard | /private/tmp/aimech-cohort340-face-correction-guard.py | context_only | Exact current-state delta and two-stage provenance guard used by this generator. |
+| context-finding | /private/tmp/aimech-cohort340-face-context-correction-20261015/finding.json | context_only | Actual minor context finding, retained despite its later correction. Empty current findings do not erase it. |
+| original-capture | /private/tmp/aimech-cohort340-capture.json | context_only | Historical pre-correction capture retained as provenance; the new capture is current review evidence. |
+| context-issue | https://github.com/CultureBotAI/AIMech/issues/380 | context_only | GitHub issue 380 records the actual inaccurate identity context. The runtime correction and new captured state establish the addressed wording; no independent approval is asserted. |
+| discovery-report | research/discovery/20261015T115901Z-relation-network-and-cross-entropy-methods.json | context_only | Record mirrors are exact. Only existing owners 241, 244 and 245 changed; all 906 other prior main and 393 nested objects are unchanged. Each target reuses its existing pending owner; no new frontier leaf was appended. |
+| creation-history | history/reports/relation-network-and-cross-entropy-methods/2026-10-15T115924Z-codex-704413.yaml | context_only | Original append-only CREATE sidecar retained as historical creation evidence. |
+| correction-history | history/records/FullyAdaptiveCrossEntropyOptimization/2026-10-15T121426Z-codex-2efd14.yaml | context_only | Actual append-only EDIT sidecar records issue 380 and the fixed-elite context correction. |
+| pinned-aio | sources/aio/aio.json; Exact AIO:Layer plus all fourteen accepted CE rejected targets and retained incident-edge contexts. Positive mapping directions and no-match reasons retain their distinct meanings. | context_only | Exact snapshot supports one qualified related Layer mapping and two explicit fourteen-target CE no-match assessments; no upstream equivalence or subclass assertion. |
+| identity-assessment | /private/tmp/aimech-cohort340-face-context-correction-20261015/root-decisions-corrected.json | context_only | Actual root decisions bind fresh ignored/hidden-inclusive scans and existing owners 241/244/245, including any explicitly assessed context-only matches; no manual rereading of every hit by this generator is claimed. |
+| ce-schema-correction | /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/correction.json; Exact original/successor references, actual receipt and retained difference; preparation lineage only. | context_only | The original rare-event native preview failed on an empty positive mapping field. Both v2 modules omit exactly that one field while retaining all scientific values and explicit no-match. Actual successful successor previews and distinct root acceptance receipts are preserved; no original FACE invocation or canonical finding is invented. |
+| ce-original-preview-failure | /private/tmp/aimech-ce-rare-event-face-draft-preparation-20261015/rare-event/native-preview-receipt.json; Exact original/successor references, actual receipt and retained difference; preparation lineage only. | context_only | Actual original rare-event native-schema failure is retained with its failed payload and exact error; this is TEMP preparation provenance, not a failed canonical gate or a resolved formal finding. |
+| rn-support-locator-refinement | /private/tmp/aimech-relation-network-draft-preparation-20261015/final-readback-refinement.json; Exact original/successor references, actual receipt and retained difference; preparation lineage only. | context_only | Historical supporting locator refined to Sections 5.3–5.4 with the recorded page 8 reread; accepted module unchanged. |
+| collector-path-normalization | /private/tmp/aimech-cohort340-collector-preparation-20261015/created-path-normalization-correction.json; Exact original/successor references, actual receipt and retained difference; preparation lineage only. | context_only | Pre-invocation collector guard correction normalizes relative created_paths against the repository root before comparison with absolute output refs. Original code and exact diff remain retained; no canonical or scientific defect is asserted. |
+| src-santoro2017 | https://papers.nips.cc/paper_files/paper/2017/file/e6acf4b0f69f6f6e60e9a815938aa1ff-Paper.pdf; Source agent: native text 1–10, visuals 2, 3, 5, 6. Root: native text 1–10, visuals 2, 3, 5. Draft preparation: fresh text 2, 3, 5, 6, 8, 9; historical scopes remain separate. | supports | NIPS 2017 proceedings, volume 30, pp. 4967–4976; ten-page official PDF; locators use printed/local pages 1–10. PDF modification metadata is a later build event, not a publication day. Acquisition time is access metadata, not a claim of full reading. |
+| src-deboer2005 | https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf; Defining static rare-event and FACE passages were read by all attributed reviewers at the distinct scopes in reading.json; no full application/proof/code reading is claimed. | supports | Annals of Operations Research 134:19–67 (2005); retained 49-page published article hosted by Dirk Kroese. Printed page = PDF page + 18. Distinct from the separate 47-page 2003 manuscript; manuscript received/revised/accepted dates and PDF build metadata are not publication or new-access dates. Acquisition time is access metadata, not a claim of full reading. |
+| record-rn | data/curated/RelationNetwork.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-rn | /private/tmp/aimech-relation-network-preview-root-acceptance-20261015.json | context_only | Root read the full actual successful native preview: six claims, six limits, definition and evidence, qualified Layer mapping, historical identity notes, sole primary source and actual curation time. Exact static-data correspondence was checked during invocation; no payload correction needed. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-rn | /private/tmp/aimech-relation-network-supporting-draft-audit-20261015/assessment.json | context_only | Later bounded draft assessment with selective primary rereading; six claims and six limitations assessed. |
+| record-rare-event | data/curated/CrossEntropyImportanceSampling.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-rare-event | /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/rare-event/root-preview-acceptance.json | context_only | Root fully read the original static science and all unique supporting narratives, read the exact one-line schema correction, and assessed the actual complete preview by exact comparison of every scientific/identity/source/mapping field to those read inputs. Actual curation metadata and native validation result were separately read. No claim of a second verbatim printing/read of all repeated preview text. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-rare-event | /private/tmp/aimech-ce-rare-event-face-research-20261015/supporting-source-assessment/handoff.json | context_only | Historical bounded primary-method and hand-mathematics assessment; not a later full-preview reading or canonical review. |
+| record-face | data/curated/FullyAdaptiveCrossEntropyOptimization.yaml | supports | Complete maintained DRAFT record assessed by root after capture and matched to accepted scientific support. |
+| preview-acceptance-face | /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/face/root-preview-acceptance.json | context_only | Root fully read the original static science and all unique supporting narratives, read the exact one-line schema correction, and assessed the actual complete preview by exact comparison of every scientific/identity/source/mapping field to those read inputs. Actual curation metadata and native validation result were separately read. No claim of a second verbatim printing/read of all repeated preview text. Historical TEMP acceptance is separate from the actual postcapture review; no independent approval. |
+| supporting-context-face | /private/tmp/aimech-ce-rare-event-face-research-20261015/supporting-source-assessment/handoff.json | context_only | Historical bounded primary-method and hand-mathematics assessment; not a later full-preview reading or canonical review. |
+| check-gate | /private/tmp/aimech-rn-ce-cohort340-corrected-check-gate.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-vendor | /private/tmp/aimech-rn-ce-cohort340-corrected-check-vendor.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-check-source | /private/tmp/aimech-rn-ce-cohort340-corrected-check-check-source.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render | /private/tmp/aimech-rn-ce-cohort340-corrected-check-render.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-render-check | /private/tmp/aimech-rn-ce-cohort340-corrected-check-render-check.json | context_only | Actual completed command and retained output before this new review was saved. |
+| check-diff | /private/tmp/aimech-rn-ce-cohort340-corrected-check-diff.json | context_only | Actual completed command and retained output before this new review was saved. |
+| historical-baseline-check-1 | /private/tmp/aimech-rn-ce-cohort340-check-gate.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+| historical-baseline-check-2 | /private/tmp/aimech-rn-ce-cohort340-check-vendor.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+| historical-baseline-check-3 | /private/tmp/aimech-rn-ce-cohort340-check-check-source.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+| historical-baseline-check-4 | /private/tmp/aimech-rn-ce-cohort340-check-render.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+| historical-baseline-check-5 | /private/tmp/aimech-rn-ce-cohort340-check-render-check.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+| historical-baseline-check-6 | /private/tmp/aimech-rn-ce-cohort340-check-diff.json | context_only | Actual pre-correction baseline command with exit code 0. Preserved for provenance only; it does not satisfy a current post-correction required check. |
+
+## Limits And Additional Notes
+
+- Author self-review with attributed supporting agents is not independent scientific approval. Full_text is source access, not a claim that every page or cited proof was read.
+- Enumeration invariance fixes the tagged object vectors, query and consistently selected pair multiset. Multiplicity, quadratic work, antisymmetric cancellation and functional coordinate ambiguity remain distinct boundaries. Finite experiments and optional wrappers do not establish universal reasoning or a recurrent core; source versions and unread software remain explicit.
+- Proposal support, conditional fresh sampling, finite second moments and admissible weighted fits remain separate conditions. Restricted KL fitting is not generic variance minimization; unadjusted pilot reuse and adaptive final stopping require separate analysis. Curvature, sufficient-statistic and empirical-quantile qualifications preserve the source discrepancies without a universal convergence claim.
+- The dedicated top-K fit and explicit flowchart define the selected description while the generic quantile discrepancy, numbered-step reset gap, inclusive history count, ties and sampling/smoothing details remain visible. Finite stagnation and capped budgets are heuristic; fixed-size reduction requires matched conventions. The source-scoped controller is not a certified executable reconstruction.
+- The official 2017 proceedings paper and retained 2005 tutorial have distinct publication, build, acquisition and selective-reading histories. Three source rows represent two PDFs; the CE source is deliberately shared by two distinct methods.
+- RN root acceptance records a full actual preview reading. The two CE root acceptances record complete-field comparisons against fully read static science plus separately read actual curation metadata and validation results; no second verbatim preview rereading is claimed.
+- The actual failed original CE preview and exact schema-only successor are preserved. Preparation locator and collector corrections are not canonical scientific findings.
+- The qualified related Layer mapping is not equivalence or subclass. Both CE algorithms retain fourteen examined targets and all rejection reasons; only exact root-provided dated search scopes may refresh.
+- Required checks must be actual completed logs. Failed attempts and later successful replacements remain separate. Canonical review validate/save/check and publication are later actions; no DRAFT promotion or frontier saturation follows.
+- The original FACE identity-context wording was inaccurate and is retained with its actual finding and subsequent correction evidence. Empty current findings do not erase that history or present a pre-correction capture as current.
+- Root read all three current canonical YAML targets after the new capture, across bounded output calls; a truncated combined display was completed by a separate full CEIS read and RN metadata tail. All 18 claims, 18 limitations, definitions, sources and mapping/no-match reasons were assessed. Historical primary reading remains selective: RN primary all text with selected visuals; CE tutorial pages 1–19,34–38,45–49 text and 11,36,37 visuals. No new full rereading of all 49 tutorial pages or author-code execution is claimed. Root previously read all 505 current probe-bearing passage sets,22 complete candidate contexts,four full long HTML scalar lines,seven normalized matches and12 selected full frontier objects; all909 main/393 nested objects were mechanically compared, not all manually reread. After correction, both full histories and report Markdown, exact report/decision deltas and owner245 were read; all unchanged scientific fields and other frontier objects were compared mechanically.
+- Retain the reusable global relation module, fixed-nominal cross-entropy rare-event estimator and named FACE optimization controller separately as DRAFT. Current related Layer and two explicit fourteen-target no-match assessments are appropriately qualified. All claims and limitations are supported within their declared primary scopes; no new or unresolved finding remains in this corrected state. Real issue380 corrected a root-authored identity-context error: FACE fixes elite K and adapts sample size. The original clean audit missed it; original decisions/write/capture/preimages and the successor finding remain retained. Actual EDIT history, corrected capture and six fresh completed checks support the fix; earlier passing checks are historical only. All906 unrelated main and393 nested frontier objects remain unchanged and no new leaf was appended. This is author scientific review with attributed supporting agents, not independent approval or global saturation.
+- Issue 380 was an actual postcreation identity-context finding and was corrected before this new capture/review. It is acknowledged in evidence and the correspondence assessment; no prior saved formal occurrence is invented and no pre-correction capture is presented as current.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+title: Scientific self-review of relation network and two cross-entropy methods
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root author assessment with attributed same-author supporting
+    source and mathematical agents. No external or independent scientific approval
+    is asserted.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: 'The explicit heterogeneous three-target batch is assessed through 18 source-linked
+  claims, 18 individual limitations and three declared source rows across two distinct
+  primary PDFs. Retain the reusable relation module, static rare-event estimator and
+  named FACE optimization controller separately. One related Layer mapping and two
+  fourteen-target no-match assessments retain their qualified scopes. Actual creation,
+  capture, postcapture root reading and six completed required checks must be bound
+  before generation. All records remain DRAFT; no independent approval or global exhaustion
+  is inferred. The actual creation is followed by a separately retained FACE identity-context
+  correction: the elite count is fixed while sample size is adaptive. The review must
+  bind the correction, CREATE and EDIT histories, new capture and post-correction
+  checks; it does not reuse the original capture as current evidence.'
+scope:
+  description: 'Complete explicitly selected heterogeneous cohort: one neural module
+    and two distinct adaptive sampling/search algorithms. Shared curation does not
+    assert a common algorithm family.'
+  selection: Exact maintained IDs AIMech:RelationNetwork, AIMech:CrossEntropyImportanceSampling,
+    AIMech:FullyAdaptiveCrossEntropyOptimization from actual cohort 340 creation.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  exclusions:
+  - target: InteractionNetwork, VAIN, DeepSets, NonLocalBlock, SetTransformer and
+      the 2018 few-shot Relation Network
+    reason: Distinct nearby constructions and homonym context; not additional review
+      targets or automatic aliases.
+  - target: CrossEntropyOptimization, AIS, EDA, UMDA, PBIL and IGO
+    reason: Neighboring task, weighting and update constructions remain distinct;
+      overlapping substeps do not establish whole-method identity.
+  - target: Author software, benchmark reproduction, complete cited proofs and uninspected
+      tutorial applications
+    reason: Outside the explicitly attributed acquired-primary and bounded analytic
+      reading.
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:RelationNetwork
+  rationale: Retain one reusable 2017 relation module under existing owner 241. Earlier
+    Raposo source is precursor evidence for the same core, not another leaf. Preserve
+    Interaction Network, VAIN, Deep Sets, NonLocalBlock, Set Transformer and the abstract-only
+    few-shot homonym as separately scoped identities. Preserve the historical Wang
+    URL as context; no RN acronym alias.
+  evidence_ids:
+  - record-rn
+  - src-santoro2017
+  - identity-assessment
+  - pinned-aio
+- action: retain
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  rationale: This identity denotes the tutorial’s static fixed-nominal rare-event
+    estimator with weighted pilot proposal fitting and a fresh final LR estimate.
+    It remains distinct from the existing unit-weight CrossEntropyOptimization record
+    and from FACE, AIS and generic or self-normalized importance sampling. Retain
+    existing owner 244; the dated source and identity distinction does not authorize
+    canonical creation or a new frontier leaf.
+  evidence_ids:
+  - record-rare-event
+  - src-deboer2005
+  - identity-assessment
+  - pinned-aio
+- action: retain
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  rationale: This identity denotes the source-named FACE optimization controller,
+    selecting its dedicated top-K definition and attributing outer control to Figure
+    8 while retaining numbered-pseudocode conflicts. It is a named specialization,
+    not an alias of every CE optimizer. FACE is retained as source terminology; this
+    draft adds no acronym alias. Retain existing owner 245; the dated source and identity
+    distinction does not authorize canonical creation or a new frontier leaf.
+  evidence_ids:
+  - record-face
+  - src-deboer2005
+  - identity-assessment
+  - pinned-aio
+limitations:
+- Author self-review with attributed supporting agents is not independent scientific
+  approval. Full_text is source access, not a claim that every page or cited proof
+  was read.
+- Enumeration invariance fixes the tagged object vectors, query and consistently selected
+  pair multiset. Multiplicity, quadratic work, antisymmetric cancellation and functional
+  coordinate ambiguity remain distinct boundaries. Finite experiments and optional
+  wrappers do not establish universal reasoning or a recurrent core; source versions
+  and unread software remain explicit.
+- Proposal support, conditional fresh sampling, finite second moments and admissible
+  weighted fits remain separate conditions. Restricted KL fitting is not generic variance
+  minimization; unadjusted pilot reuse and adaptive final stopping require separate
+  analysis. Curvature, sufficient-statistic and empirical-quantile qualifications
+  preserve the source discrepancies without a universal convergence claim.
+- The dedicated top-K fit and explicit flowchart define the selected description while
+  the generic quantile discrepancy, numbered-step reset gap, inclusive history count,
+  ties and sampling/smoothing details remain visible. Finite stagnation and capped
+  budgets are heuristic; fixed-size reduction requires matched conventions. The source-scoped
+  controller is not a certified executable reconstruction.
+- The official 2017 proceedings paper and retained 2005 tutorial have distinct publication,
+  build, acquisition and selective-reading histories. Three source rows represent
+  two PDFs; the CE source is deliberately shared by two distinct methods.
+- RN root acceptance records a full actual preview reading. The two CE root acceptances
+  record complete-field comparisons against fully read static science plus separately
+  read actual curation metadata and validation results; no second verbatim preview
+  rereading is claimed.
+- The actual failed original CE preview and exact schema-only successor are preserved.
+  Preparation locator and collector corrections are not canonical scientific findings.
+- The qualified related Layer mapping is not equivalence or subclass. Both CE algorithms
+  retain fourteen examined targets and all rejection reasons; only exact root-provided
+  dated search scopes may refresh.
+- Required checks must be actual completed logs. Failed attempts and later successful
+  replacements remain separate. Canonical review validate/save/check and publication
+  are later actions; no DRAFT promotion or frontier saturation follows.
+- The original FACE identity-context wording was inaccurate and is retained with its
+  actual finding and subsequent correction evidence. Empty current findings do not
+  erase that history or present a pre-correction capture as current.
+- 'Root read all three current canonical YAML targets after the new capture, across
+  bounded output calls; a truncated combined display was completed by a separate full
+  CEIS read and RN metadata tail. All 18 claims, 18 limitations, definitions, sources
+  and mapping/no-match reasons were assessed. Historical primary reading remains selective:
+  RN primary all text with selected visuals; CE tutorial pages 1–19,34–38,45–49 text
+  and 11,36,37 visuals. No new full rereading of all 49 tutorial pages or author-code
+  execution is claimed. Root previously read all 505 current probe-bearing passage
+  sets,22 complete candidate contexts,four full long HTML scalar lines,seven normalized
+  matches and12 selected full frontier objects; all909 main/393 nested objects were
+  mechanically compared, not all manually reread. After correction, both full histories
+  and report Markdown, exact report/decision deltas and owner245 were read; all unchanged
+  scientific fields and other frontier objects were compared mechanically.'
+tags:
+- scientific-review
+- self-review
+- heterogeneous-batch
+- source-scoped
+schema_version: 1.0.0
+review_id: 20261015T123328Z-relation-network-and-cross-entropy-methods
+kind: batch
+repository: CultureBotAI/AIMech
+started_at: '2026-10-15T12:17:08.437517Z'
+finished_at: '2026-10-15T12:33:28.268357Z'
+source:
+  git_revision: c056d16ecdad4e240beaaf5cf04b36d7b34fe052
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/ActiveLearning.yaml
+    sha256: a4d5b2c82df6f586fedc7290261bc978e7c8d17f1d844c5ee9efc8243e46bbaf
+    role: context
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/EvaluationBias.yaml
+    sha256: 6523f8c43f7b140c6dd593069e30b7fc1bdd60b89d01bdf5441d2bc83a12e749
+    role: context
+  - path: data/aio/EvolutionaryLLM.yaml
+    sha256: d3db6adea3d8d58096c9fb5abef67273489ee719ab900b2d4adbb129e4f7362f
+    role: context
+  - path: data/aio/ExponentialFunction.yaml
+    sha256: a9e6fe9954dee5c61f799631c1892a99a891468e81e725e584d1a3dc06d84239
+    role: context
+  - path: data/aio/Layer.yaml
+    sha256: 46b533d2f0afcbdeadb7c35f8c382d66e51e0f5edf90b0c3552767687d34fa87
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MarkovChain.yaml
+    sha256: 6a75421c39c34870654b6fff197be8f670b7d03e173f1cdcb85109c208efe67b
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetaLearning.yaml
+    sha256: 4a1835675f779c8f924cfe085f1b5def3b5c6a2c111596385c61063056f3b8a6
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomForest.yaml
+    sha256: cfdce4625131a8da239adf1b3957fadbc5433ddc8fc4ac8a3be5fe9018ce66ab
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/RestrictedBoltzmannMachine.yaml
+    sha256: 322fcb3b1f6064d944379ed79ffdcb7360fc2c3edd300c0a5a3f46be1f48df43
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AnnealedImportanceSampling.yaml
+    sha256: 94c7b8e597f3551b2b804778e11385d6ec9137515bc44a9c9d429268869f7e68
+    role: context
+  - path: data/curated/CrossEntropyImportanceSampling.yaml
+    sha256: a92a5e3eb125c8c8df512ebccc97b3fccb18f15abae44b1f154770cb3753a788
+    role: target
+  - path: data/curated/CrossEntropyOptimization.yaml
+    sha256: b2d993224f56b48738bbecc23df28fe0bc1e16e54c658979fdd28fc1924ba269
+    role: context
+  - path: data/curated/DeepSets.yaml
+    sha256: 1009394d5958652d5205e366e127c24ec43652232c9a837c52635c225bc5cba8
+    role: context
+  - path: data/curated/EstimationOfDistributionAlgorithms.yaml
+    sha256: 0d7d85458e63ef3ad8032b26e0b25b9b3ee1c0e494c63cf660bcb8c9bcc4711d
+    role: context
+  - path: data/curated/FullyAdaptiveCrossEntropyOptimization.yaml
+    sha256: b210971b9855c8c9a677e49e5e4754def440d67de2565ad9a97f9b4eba0b339f
+    role: target
+  - path: data/curated/InformationGeometricOptimization.yaml
+    sha256: ef55808962485da0302293b2110ff61ed153c76b6e5da5c570f189dafc66282f
+    role: context
+  - path: data/curated/InteractionNetwork.yaml
+    sha256: 4d20b7990c1854c6d10b0a35d95d81095b2842c94af14b3cee7fe3c198e7b3d0
+    role: context
+  - path: data/curated/NonLocalBlock.yaml
+    sha256: 180ecca21c251528bc2385e3fd2d687025e4646aff37528070193b76927434c2
+    role: context
+  - path: data/curated/PopulationBasedIncrementalLearning.yaml
+    sha256: fb2500f70c8a0cf57639b33f7f89acf9f141adf75a238aa248e784afc09866d2
+    role: context
+  - path: data/curated/RelationNetwork.yaml
+    sha256: c894ce86816c62015f0a5cb97d7cba86c354b076a46d534deefef916af29b754
+    role: target
+  - path: data/curated/SetTransformer.yaml
+    sha256: 8c20fa1dbeb0add989673a24a446bb55bc5ca94130bd95939cc1b16f959690bf
+    role: context
+  - path: data/curated/UnivariateMarginalDistributionAlgorithm.yaml
+    sha256: 9d8845b9c2b7e6806168bf31d0c7a837ef463dcbc6c3fbc386961aee3618c04a
+    role: context
+  - path: data/curated/VertexAttentionInteractionNetwork.yaml
+    sha256: 2bb93bb8bc9f67a49a58fd62a87702e5989192466aa1ebffda0d8192b84b7317
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 1a3db0915791b0e90b02cd1f83c35850bfc3c97b18edfd8b946c91030578ccb8
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/records/FullyAdaptiveCrossEntropyOptimization/2026-10-15T121426Z-codex-2efd14.yaml
+    sha256: 9203b3951c588b3b37ab130b1576b38bab7bcb84df77b613a504c5d417cae4c2
+    role: context
+  - path: history/reports/relation-network-and-cross-entropy-methods/2026-10-15T115924Z-codex-704413.yaml
+    sha256: b20544273fce3281e500f6fab03fb0795edd8d8244a371838ce524e13a29ebc1
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261015T115901Z-relation-network-and-cross-entropy-methods.json
+    sha256: 146298da2b8bd7393b04c8f3950387ded3a3928a4dd398d5df95ffe3a1ffae16
+    role: context
+  - path: research/discovery/20261015T115901Z-relation-network-and-cross-entropy-methods.md
+    sha256: 56a8481f96b70ff676be80d8a6d4d24c6c2459ad2ac27df4c49b5cf9141ebe1c
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:RelationNetwork
+  path: data/curated/RelationNetwork.yaml
+  label: Relation network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/RelationNetwork.yaml
+    role: maintained native concept record
+- target_id: AIMech:CrossEntropyImportanceSampling
+  path: data/curated/CrossEntropyImportanceSampling.yaml
+  label: Cross-entropy rare-event importance sampling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/CrossEntropyImportanceSampling.yaml
+    role: maintained native concept record
+- target_id: AIMech:FullyAdaptiveCrossEntropyOptimization
+  path: data/curated/FullyAdaptiveCrossEntropyOptimization.yaml
+  label: Fully adaptive cross-entropy optimization
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/FullyAdaptiveCrossEntropyOptimization.yaml
+    role: maintained native concept record
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: just check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: just vendored-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: just render
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: just render-check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual command completed with exit0; exact output is retained.
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  command: git diff --check
+  exit_code: 0
+  expected_exit_code: 0
+  evidence_ids:
+  - check-diff
+evidence:
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-corrected-capture.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual canonical inspect output; all captured input hashes rechecked. Inspection
+    alone is not scientific approval.
+  snapshot_sha256: 7c91d0f2d8e0fdfb9349a1ff049b917535c6f07f5f216aa5b5b60f8c9bb0b321
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-corrected-root-reading.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual root full-target assessment after capture and completed checks;
+    selective primary scopes are stated separately.
+  snapshot_sha256: def6e6668c0cfa847f6e587748e000b2d7f5a3684836156d3850351477d629ce
+- evidence_id: scientific-support
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-face-correction-consumers-20261015/scientific-support.corrected.structure.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Attributed same-author support of all 18 accepted claims and 18 individual
+    limitations. This is preparation DATA, not itself an actual canonical capture.
+  snapshot_sha256: 8aa55925ee6a6a98ff81b3fd5f6e54e53bc463107aa460f5f34ef53a9eb386d7
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-state.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Consolidated actual post-correction state binds three records, report pair
+    and both CREATE/EDIT histories. This is not a second ordinary creation invocation.
+  snapshot_sha256: 5ba24d237b0cb697943c3a5cc7101a67f953f8903ec2c936f9cdec35f26ae39a
+- evidence_id: original-creation-write
+  kind: record_content
+  reference: /private/tmp/aimech-rn-ce-cohort340-write.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Immutable original creation receipt; its two changed output hashes are
+    verified against retained preimages, not falsely rebound to current files.
+  snapshot_sha256: 702d680a9a90376e7dd286cdc4e2eef37f2b6e18653e2e8ed3a53927869c8491
+- evidence_id: postcreation-context-correction
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-face-context-correction-20261015/correction-receipt.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual completed issue 380 correction replaces the inaccurate FACE identity
+    wording with a fixed elite count and adaptive sample size. Definitions, all claims,
+    limitations, sources, mappings and created_at remain exact.
+  snapshot_sha256: 5b3b11b6da20325ba45a511aa5efd9dadf0e80b890ef6d7e28a6abfab6be0686
+- evidence_id: correction-guard
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-face-correction-guard.py
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Exact current-state delta and two-stage provenance guard used by this generator.
+  snapshot_sha256: 7671d2e0d71a7bb1c40c8e47413e01785268521d2a1949c0cc5673299f12025a
+- evidence_id: context-finding
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-face-context-correction-20261015/finding.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual minor context finding, retained despite its later correction. Empty
+    current findings do not erase it.
+  snapshot_sha256: 19899a4b5dfe519d2f7052f70e98614452b608a87df92e92d3907b43a641c168
+- evidence_id: original-capture
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-capture.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Historical pre-correction capture retained as provenance; the new capture
+    is current review evidence.
+  snapshot_sha256: a9babc0eba9583ec56d60b43bb43a3abe4c6e84c54f2573b952693d2b4c88e8a
+- evidence_id: context-issue
+  kind: record_content
+  reference: https://github.com/CultureBotAI/AIMech/issues/380
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: GitHub issue 380 records the actual inaccurate identity context. The runtime
+    correction and new captured state establish the addressed wording; no independent
+    approval is asserted.
+- evidence_id: discovery-report
+  kind: record_content
+  reference: research/discovery/20261015T115901Z-relation-network-and-cross-entropy-methods.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Record mirrors are exact. Only existing owners 241, 244 and 245 changed;
+    all 906 other prior main and 393 nested objects are unchanged. Each target reuses
+    its existing pending owner; no new frontier leaf was appended.
+  snapshot_sha256: 146298da2b8bd7393b04c8f3950387ded3a3928a4dd398d5df95ffe3a1ffae16
+- evidence_id: creation-history
+  kind: record_content
+  reference: history/reports/relation-network-and-cross-entropy-methods/2026-10-15T115924Z-codex-704413.yaml
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Original append-only CREATE sidecar retained as historical creation evidence.
+  snapshot_sha256: b20544273fce3281e500f6fab03fb0795edd8d8244a371838ce524e13a29ebc1
+- evidence_id: correction-history
+  kind: record_content
+  reference: history/records/FullyAdaptiveCrossEntropyOptimization/2026-10-15T121426Z-codex-2efd14.yaml
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual append-only EDIT sidecar records issue 380 and the fixed-elite context
+    correction.
+  snapshot_sha256: 9203b3951c588b3b37ab130b1576b38bab7bcb84df77b613a504c5d417cae4c2
+- evidence_id: pinned-aio
+  kind: database
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Exact snapshot supports one qualified related Layer mapping and two explicit
+    fourteen-target CE no-match assessments; no upstream equivalence or subclass assertion.
+  locator: Exact AIO:Layer plus all fourteen accepted CE rejected targets and retained
+    incident-edge contexts. Positive mapping directions and no-match reasons retain
+    their distinct meanings.
+  snapshot_sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+- evidence_id: identity-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort340-face-context-correction-20261015/root-decisions-corrected.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual root decisions bind fresh ignored/hidden-inclusive scans and existing
+    owners 241/244/245, including any explicitly assessed context-only matches; no
+    manual rereading of every hit by this generator is claimed.
+  snapshot_sha256: 668e05f2c77da52428688ba638fa401658e0ec662fc67b17f64343516ae121d5
+  search_scope: Exact captured inventory, full carried frontier and four retained
+    checkouts searched including ignored and hidden files; no worldwide absence or
+    exhaustion claim.
+- evidence_id: ce-schema-correction
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/correction.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: The original rare-event native preview failed on an empty positive mapping
+    field. Both v2 modules omit exactly that one field while retaining all scientific
+    values and explicit no-match. Actual successful successor previews and distinct
+    root acceptance receipts are preserved; no original FACE invocation or canonical
+    finding is invented.
+  locator: Exact original/successor references, actual receipt and retained difference;
+    preparation lineage only.
+  snapshot_sha256: 17401c7593504bfec8e441fcf8de06a473feb6a8563329ed636788cb0dc43007
+- evidence_id: ce-original-preview-failure
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-draft-preparation-20261015/rare-event/native-preview-receipt.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Actual original rare-event native-schema failure is retained with its failed
+    payload and exact error; this is TEMP preparation provenance, not a failed canonical
+    gate or a resolved formal finding.
+  locator: Exact original/successor references, actual receipt and retained difference;
+    preparation lineage only.
+  snapshot_sha256: af568b4abc3369d280102b781a5cd57344d7e2cb1f8d1b10073286598118b63b
+- evidence_id: rn-support-locator-refinement
+  kind: record_content
+  reference: /private/tmp/aimech-relation-network-draft-preparation-20261015/final-readback-refinement.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Historical supporting locator refined to Sections 5.3–5.4 with the recorded
+    page 8 reread; accepted module unchanged.
+  locator: Exact original/successor references, actual receipt and retained difference;
+    preparation lineage only.
+  snapshot_sha256: 612e4f708654f020da3691aa068eb978afe5ea273a114f09f711f843b4a7d14e
+- evidence_id: collector-path-normalization
+  kind: record_content
+  reference: /private/tmp/aimech-cohort340-collector-preparation-20261015/created-path-normalization-correction.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Pre-invocation collector guard correction normalizes relative created_paths
+    against the repository root before comparison with absolute output refs. Original
+    code and exact diff remain retained; no canonical or scientific defect is asserted.
+  locator: Exact original/successor references, actual receipt and retained difference;
+    preparation lineage only.
+  snapshot_sha256: 305870efb12bd0894debb80d4b169d90f414ece0b394573ce654946f63302b8f
+- evidence_id: src-santoro2017
+  kind: primary_source
+  reference: https://papers.nips.cc/paper_files/paper/2017/file/e6acf4b0f69f6f6e60e9a815938aa1ff-Paper.pdf
+  accessed_at: '2026-10-15T10:24:24Z'
+  support: supports
+  summary: NIPS 2017 proceedings, volume 30, pp. 4967–4976; ten-page official PDF;
+    locators use printed/local pages 1–10. PDF modification metadata is a later build
+    event, not a publication day. Acquisition time is access metadata, not a claim
+    of full reading.
+  locator: 'Source agent: native text 1–10, visuals 2, 3, 5, 6. Root: native text
+    1–10, visuals 2, 3, 5. Draft preparation: fresh text 2, 3, 5, 6, 8, 9; historical
+    scopes remain separate.'
+  snapshot_sha256: 9bf31d4b2fbca28441a0b467a337c78d7e790834bdd2bd3d7ed07bffaf211c0e
+- evidence_id: src-deboer2005
+  kind: primary_source
+  reference: https://people.smp.uq.edu.au/DirkKroese/ps/aortut.pdf
+  accessed_at: '2026-10-11T12:53:34Z'
+  support: supports
+  summary: Annals of Operations Research 134:19–67 (2005); retained 49-page published
+    article hosted by Dirk Kroese. Printed page = PDF page + 18. Distinct from the
+    separate 47-page 2003 manuscript; manuscript received/revised/accepted dates and
+    PDF build metadata are not publication or new-access dates. Acquisition time is
+    access metadata, not a claim of full reading.
+  locator: Defining static rare-event and FACE passages were read by all attributed
+    reviewers at the distinct scopes in reading.json; no full application/proof/code
+    reading is claimed.
+  snapshot_sha256: f68c734c278951aef659e8e4a984af80390c83daf06f76b500c6a37f10b3ff78
+- evidence_id: record-rn
+  kind: record_content
+  reference: data/curated/RelationNetwork.yaml
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: c894ce86816c62015f0a5cb97d7cba86c354b076a46d534deefef916af29b754
+- evidence_id: preview-acceptance-rn
+  kind: record_content
+  reference: /private/tmp/aimech-relation-network-preview-root-acceptance-20261015.json
+  accessed_at: '2026-10-15T10:52:54.501475Z'
+  support: context_only
+  summary: 'Root read the full actual successful native preview: six claims, six limits,
+    definition and evidence, qualified Layer mapping, historical identity notes, sole
+    primary source and actual curation time. Exact static-data correspondence was
+    checked during invocation; no payload correction needed. Historical TEMP acceptance
+    is separate from the actual postcapture review; no independent approval.'
+  snapshot_sha256: a09d1d1f23d5205869c9397ddad6ec7d4e4e08d2683f2dc7abd8e28f5dcee241
+- evidence_id: supporting-context-rn
+  kind: record_content
+  reference: /private/tmp/aimech-relation-network-supporting-draft-audit-20261015/assessment.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Later bounded draft assessment with selective primary rereading; six claims
+    and six limitations assessed.
+  snapshot_sha256: aa8d39df538136189d60c75ac8f93946fd69644d14f9a1afc159a32e2f4031f9
+- evidence_id: record-rare-event
+  kind: record_content
+  reference: data/curated/CrossEntropyImportanceSampling.yaml
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: a92a5e3eb125c8c8df512ebccc97b3fccb18f15abae44b1f154770cb3753a788
+- evidence_id: preview-acceptance-rare-event
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/rare-event/root-preview-acceptance.json
+  accessed_at: '2026-10-15T11:18:15.981741Z'
+  support: context_only
+  summary: Root fully read the original static science and all unique supporting narratives,
+    read the exact one-line schema correction, and assessed the actual complete preview
+    by exact comparison of every scientific/identity/source/mapping field to those
+    read inputs. Actual curation metadata and native validation result were separately
+    read. No claim of a second verbatim printing/read of all repeated preview text.
+    Historical TEMP acceptance is separate from the actual postcapture review; no
+    independent approval.
+  snapshot_sha256: 342257011712d7906d26532e8553ac0cfa0a3013321ca7a826598ed04c861729
+- evidence_id: supporting-context-rare-event
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-research-20261015/supporting-source-assessment/handoff.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Historical bounded primary-method and hand-mathematics assessment; not
+    a later full-preview reading or canonical review.
+  snapshot_sha256: cf060f0af03a9bb6dbfc843d527b78179a367a3d7d0b9cd5cad394c108162382
+- evidence_id: record-face
+  kind: record_content
+  reference: data/curated/FullyAdaptiveCrossEntropyOptimization.yaml
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: supports
+  summary: Complete maintained DRAFT record assessed by root after capture and matched
+    to accepted scientific support.
+  snapshot_sha256: b210971b9855c8c9a677e49e5e4754def440d67de2565ad9a97f9b4eba0b339f
+- evidence_id: preview-acceptance-face
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-schema-successor-20261015/face/root-preview-acceptance.json
+  accessed_at: '2026-10-15T11:18:15.987227Z'
+  support: context_only
+  summary: Root fully read the original static science and all unique supporting narratives,
+    read the exact one-line schema correction, and assessed the actual complete preview
+    by exact comparison of every scientific/identity/source/mapping field to those
+    read inputs. Actual curation metadata and native validation result were separately
+    read. No claim of a second verbatim printing/read of all repeated preview text.
+    Historical TEMP acceptance is separate from the actual postcapture review; no
+    independent approval.
+  snapshot_sha256: b241fe8186792dd6772ede7703619287ac580c668c99c46c9013e0fd6b8ddf02
+- evidence_id: supporting-context-face
+  kind: record_content
+  reference: /private/tmp/aimech-ce-rare-event-face-research-20261015/supporting-source-assessment/handoff.json
+  accessed_at: '2026-10-15T12:33:14.942617Z'
+  support: context_only
+  summary: Historical bounded primary-method and hand-mathematics assessment; not
+    a later full-preview reading or canonical review.
+  snapshot_sha256: cf060f0af03a9bb6dbfc843d527b78179a367a3d7d0b9cd5cad394c108162382
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-gate.json
+  accessed_at: '2026-10-15T12:32:16.731905Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 244808cec4786f9cbe26a709b5b961f640135851ae3777c2ca2b9370e5307485
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-vendor.json
+  accessed_at: '2026-10-15T12:17:53.826408Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: bc366724c1f91ac59d751438c7c9316d14ef98c31f22d6f890605d6e4e8fbbf6
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-check-source.json
+  accessed_at: '2026-10-15T12:17:50.701879Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 2236fbd7b9f91cf00b7210523ccf0eb01045dd54a7f21ff31be7b6856ad29322
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-render.json
+  accessed_at: '2026-10-15T12:16:21.632067Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: 8dc97506cb5c6925b49b7df900b1b66e3c9d3feb99136fb3f71492272d162a3b
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-render-check.json
+  accessed_at: '2026-10-15T12:25:20.707556Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: d78c4ec1535c605f43585a7cdd894496b90d15bf3800750c7d122a7246c15246
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-corrected-check-diff.json
+  accessed_at: '2026-10-15T12:25:03.344823Z'
+  support: context_only
+  summary: Actual completed command and retained output before this new review was
+    saved.
+  snapshot_sha256: e7c5bb8bd2ca37acb2ddf1faaea259418ea8831b79f63cb58590b89b5b93cc0e
+- evidence_id: historical-baseline-check-1
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-gate.json
+  accessed_at: '2026-10-15T12:12:43.984824Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 316fe30146614f6b7b9f25b6dbfab644541a99468e1865272da6eac53aa4cb7d
+- evidence_id: historical-baseline-check-2
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-vendor.json
+  accessed_at: '2026-10-15T12:01:48.732992Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 4955003b42c8ef31f3f57b8da5a746c7d84cfeab1f5e46abdf4b59fd082190e8
+- evidence_id: historical-baseline-check-3
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-check-source.json
+  accessed_at: '2026-10-15T12:01:41.004386Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 4d766baea38b858ed31fd2279efc19ba1e5045d3ca9bf967ac78b0b772dddbfd
+- evidence_id: historical-baseline-check-4
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-render.json
+  accessed_at: '2026-10-15T11:59:59.736664Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 1e11e2bf932613da0fd32a2f1db45b2dcd2c9e4031ff85df1ade6843257ee496
+- evidence_id: historical-baseline-check-5
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-render-check.json
+  accessed_at: '2026-10-15T12:02:32.809969Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 1124860bc60128753ad2b82198d1a71d222783fdee382e1272eeda1b412a9606
+- evidence_id: historical-baseline-check-6
+  kind: validation
+  reference: /private/tmp/aimech-rn-ce-cohort340-check-diff.json
+  accessed_at: '2026-10-15T12:02:13.187425Z'
+  support: context_only
+  summary: Actual pre-correction baseline command with exit code 0. Preserved for
+    provenance only; it does not satisfy a current post-correction required check.
+  snapshot_sha256: 26969a071aab184c9557fae03e3552bff2bf90527af9225e08245c4193babe9e
+assessments:
+- assessment_id: rn-shared-pairwise-neural-computation
+  area: evidence
+  topic: Claim shared-pairwise-neural-computation
+  outcome: supported
+  summary: Equation 1 and the immediately following paragraph specify the shared pair-function,
+    global sum and output function. Figure 2 identifies the composite as a reusable
+    module. The implementation paragraph supports MLPs/backpropagation without a global
+    smoothness claim.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-all-pairs-and-selected-pairs
+  area: evidence
+  topic: Claim all-pairs-and-selected-pairs
+  outcome: supported
+  summary: The complete-directed-graph discussion, unrestricted double sum and explicit
+    n^2 pass count support ordered all-pairs processing. The source separately allows
+    an input pair list. No inspected implementation or hidden diagonal mask is asserted.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-permutation-invariant-global-readout
+  area: evidence
+  topic: Claim permutation-invariant-global-readout
+  outcome: supported
+  summary: A finite permutation bijectively reindexes all ordered pairs. The proof
+    requires neither pair symmetry nor semantic object identity. The fixed query,
+    unchanged tags and exact-arithmetic restrictions prevent stronger coordinate,
+    cardinality or floating-point claims.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-question-conditioned-relations
+  area: evidence
+  topic: Claim question-conditioned-relations
+  outcome: supported
+  summary: The unnumbered Section 4 formula conditions every pair on q, and its prose
+    gives the upstream LSTM final-state example. The reusable equation does not intrinsically
+    require recurrence or attention normalization.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-object-representation-interfaces
+  area: evidence
+  topic: Claim object-representation-interfaces
+  outcome: supported
+  summary: The three Section 4 interfaces explicitly cover CNN cells with coordinates,
+    state descriptions and independently encoded tagged support sentences. The source
+    itself allows background, texture and object conjunctions; no discovered-object
+    guarantee is inferred.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-shared-parameters-and-quadratic-work
+  area: evidence
+  topic: Claim shared-parameters-and-quadratic-work
+  outcome: supported
+  summary: The paper distinguishes sharing g from n^2 forward passes and later explicitly
+    calls the relation count quadratic. The restriction/downsampling suggestions bound
+    a changed input or pair set, not a proved exact acceleration of every full-sum
+    output.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - preview-acceptance-rn
+  - src-santoro2017
+- assessment_id: rn-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: The definition retains the original reusable shared-pair/sum/readout module
+    and optional common-query conditioning. It does not claim that the NIPS paper
+    first introduced the core, require its complete visual QA wrapper, or conflate
+    the later few-shot homonym.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: The reusable relation module takes object representations from upstream
+    processing and passes an aggregated learned representation or readout onward,
+    supporting a qualified relationship to the pinned Layer topology. It is a composite
+    of shared pair computations, aggregation and an output network, not an exact synonym
+    for every layer or a single elementary dense operation.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - pinned-aio
+- assessment_id: rn-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared primary source santoro2017 supports the definition and
+    all six claims. Actual whole-second access is projected from the retained fractional
+    acquisition. The official supplement, selected June version, February precursor
+    and few-shot abstract remain separately attributed context rather than uncited
+    native evidence-source entries.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: Enumeration invariance fixes the tagged object vectors, query and consistently
+    selected pair multiset. Multiplicity, quadratic work, antisymmetric cancellation
+    and functional coordinate ambiguity remain distinct boundaries. Finite experiments
+    and optional wrappers do not establish universal reasoning or a recurrent core;
+    source versions and unread software remain explicit.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted layer scope with its exact
+    accepted aliases []. Actual root decisions retain owner 241 and distinct residuals.
+    The supporting historical identity scope is: This record denotes the reusable
+    relational-reasoning module described by the 2017 Santoro/Raposo source family,
+    with shared pair computation, global aggregation and a learned readout. It does
+    not denote the whole surrounding question-answering network or the 2018 few-shot
+    homonym. The February 2017 precursor already gives the same core and is not a
+    separate proposed identity. Historical research on 15 October 2026 at 10:24:01.611955–10:24:19.120099
+    UTC inventoried 751 native and 442 pinned AIO records. All 1,193 identity rows
+    were normalized and their file hashes verified; the chosen identifier and singular/plural
+    names had no normalized collision. Four fixed-string word-boundary scans included
+    ignored and hidden files and returned 87, 88, 256 and 274 occurrences, all 705
+    occurrences being one repeated pending-owner label content. Exact order and multiplicity
+    were reconstructed. Every string field of 909 main and 393 nested frontier objects
+    was queried mechanically; 25 relevant complete objects and 16 selected definitions
+    were read, not every unrelated full object. Five complete native neighbor records
+    and all 16 exact AIO nodes with 154 incident-edge entries were inspected. These
+    conclusions describe that historical snapshot only. Existing owner 241 is the
+    appropriate research owner; its Wang 2018 URL and carried-from provenance remain
+    historical neural context rather than the defining primary source. The addressed
+    Interaction Network and VAIN owner contexts remain distinct. The short acronym
+    RN is not an alias because the pinned RecurrentNeuralNetwork already uses it.
+    No duplicate frontier leaf, future-base absence or saturation is implied.'
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: rn-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: Reindexing fixes vectors and query. The duplication witness and selector
+    consistency condition are mathematical consequences, not empirical failure claims.
+    Numerical reduction order is a separate implementation issue.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The antisymmetric contribution sums to zero over all ordered pairs. A linear
+    invertible output change can be absorbed at a flexible functional level; no universal
+    fixed-width realization is claimed. Neither observation identifies a particular
+    trained model or a causal relation.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: Sharing parameter values and performing pair calls are different resources.
+    No implementation memory layout was inspected. The main paper’s n^2-copy MLP rhetoric
+    is not adopted as an impossibility theorem; the earlier source expressly allows
+    a sufficiently large deep network in principle.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: Finite benchmark outcomes and a single bAbI seed do not entail universal
+    reasoning, calibration or generalization. ReLU is piecewise differentiable, and
+    training through the module is not a global optimization guarantee.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: Retain the explicit module construction rather than lumping related whole
+    networks or homonyms. These are named construction boundaries, not assertions
+    of disjoint function classes. The RN lexical collision is exact in the pinned
+    recurrent-network context.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rn-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The sole declared source supports all six formal claims. The precursor,
+    supplement, earlier version and abstract-only homonym are attributed context with
+    incomplete scopes made explicit. No code or benchmark execution is claimed. Initial
+    acquisition failures and later successful downloads remain separate immutable
+    receipts.
+  target_ids:
+  - AIMech:RelationNetwork
+  evidence_ids:
+  - record-rn
+  - scientific-support
+  - src-santoro2017
+- assessment_id: rare-event-fixed-nominal-event-and-ideal-proposal
+  area: evidence
+  topic: Claim fixed-nominal-event-and-ideal-proposal
+  outcome: supported
+  summary: The support condition and ideal conditional-event density are explicit.
+    ell>0 prevents division by zero; the unknown normalizer remains a limitation of
+    the ideal, not an available fitted guarantee.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-forward-kl-weighted-proposal-fit
+  area: evidence
+  topic: Claim forward-kl-weighted-proposal-fit
+  outcome: supported
+  summary: Equations 11–16 fix the KL direction and the nominal numerator; Equations
+    21–22 specialize the pilot fit. The separate variance objective is explicitly
+    distinguished on page 14.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-multilevel-pilot-thresholds
+  area: evidence
+  topic: Claim multilevel-pilot-thresholds
+  outcome: supported
+  summary: The finite quantile, cap and reuse of the current pilot sample are literal
+    Algorithm 2.1 steps. The unchanged final target and original nominal numerator
+    prevent confusing fitting levels with a new estimand.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-exponential-mean-fit-example
+  area: evidence
+  topic: Claim exponential-mean-fit-example
+  outcome: supported
+  summary: Equation 24 is supported for independent exponential means. The positive-weight/domain
+    and sufficient-statistic wording avoids importing the following overbroad raw-coordinate
+    claim.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-fresh-final-likelihood-ratio-estimate
+  area: evidence
+  topic: Claim fresh-final-likelihood-ratio-estimate
+  outcome: supported
+  summary: Algorithm 1.1 explicitly generates the final sample. Its iid IS identity
+    gives the stated conditional and tower-expectation argument only under the stated
+    learned-proposal sampling law; no exact fit or finite-variance guarantee is added.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-probability-estimation-versus-optimization
+  area: evidence
+  topic: Claim probability-estimation-versus-optimization
+  outcome: supported
+  summary: Algorithm 2.3 explicitly sets W=1, whereas the rare-event estimator retains
+    a nominal probability and final LR average. The broader identity distinctions
+    are scoped curator interpretation, not a claim of disjoint fitting subroutines.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - preview-acceptance-rare-event
+  - src-deboer2005
+- assessment_id: rare-event-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: This identity denotes the tutorial’s static fixed-nominal rare-event estimator
+    with weighted pilot proposal fitting and a fresh final LR estimate. It remains
+    distinct from the existing unit-weight CrossEntropyOptimization record and from
+    FACE, AIS and generic or self-normalized importance sampling.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: Root accepted the bounded fourteen-target no-match for the whole algorithms.
+    The draft’s MathematicalFunction reason explicitly recognizes its generic rule
+    scope rather than a scalar-only restriction; the original research reasons and
+    exact refinement are separately retained.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - pinned-aio
+- assessment_id: rare-event-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared source deboer2005 supports the definition and all six
+    claims. It is the retained published tutorial; no unused source entry or new download
+    is invented. Specific source discrepancies are preserved in the native limitations
+    and individual assessments.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: Proposal support, conditional fresh sampling, finite second moments and
+    admissible weighted fits remain separate conditions. Restricted KL fitting is
+    not generic variance minimization; unadjusted pilot reuse and adaptive final stopping
+    require separate analysis. Curvature, sufficient-statistic and empirical-quantile
+    qualifications preserve the source discrepancies without a universal convergence
+    claim.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with its exact
+    accepted aliases []. Actual root decisions retain owner 244 and distinct residuals.
+    The supporting historical identity scope is: This identity denotes the tutorial’s
+    static fixed-nominal rare-event estimator with weighted pilot proposal fitting
+    and a fresh final LR estimate. It remains distinct from the existing unit-weight
+    CrossEntropyOptimization record and from FACE, AIS and generic or self-normalized
+    importance sampling. Historical research on 15 October 2026 at 10:42:32–10:42:48
+    UTC covered 751 native and 442 pinned AIO records. Four hidden- and ignored-inclusive
+    checkout scans retained 7,246 occurrences, 215 exact contents and 133 decoded
+    matching contexts. The research agent read those contexts and selected semantic
+    definitions; it did not claim every unrelated serialized report body was read.
+    All string fields of 909 main and 393 nested objects were queried mechanically,
+    with eight substantive objects read. Six complete native neighbors and fourteen
+    exact AIO contexts with 53 incident rows were assessed by that agent; root’s separately
+    recorded neighbor scope is identity/definition/claim projections, with the existing
+    CrossEntropyOptimization read fully. Four supplementary fully automated-name scans
+    returned no matches. These are historical observations, not future-base clearance
+    or saturation. Existing owner 244 supplies this lead with its tutorial URL and
+    carried provenance retained; no new leaf or automatic resolution of other importance-sampling
+    owners is implied.'
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: rare-event-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The change of measure requires support for its actual event. The retained
+    exponential example has full support but infinite second moment, separating unbiasedness
+    from variance and CE from variance minimization.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The Bernoulli pilot-reuse witness has expectation 5/18 instead of 1/2 despite
+    full proposal support. It challenges only the unadjusted reused-sample formula,
+    not all adaptive importance sampling.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: The source’s convexity and universal coordinate-mean wording is not adopted.
+    Domain/existence conditions and appropriate sufficient statistics are explicit;
+    the one-parameter exponential calculation does not establish a generic fit theorem.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: Finite quantiles and tied inclusive thresholds differ from deterministic
+    population quantities. The source says the next fit will hopefully make the event
+    less rare; no universal monotone empirical trajectory is asserted.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: The estimator, optimizer and other adaptive-sampling constructions retain
+    task and weighting distinctions. Source-specific numerical examples do not justify
+    an application-independent efficiency claim.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: rare-event-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The original whole-second 11 October acquisition is unchanged. Neither
+    extraction of 49 pages nor selective reading establishes a complete applications/proof/software
+    audit; historical owner and absence scope stay bounded.
+  target_ids:
+  - AIMech:CrossEntropyImportanceSampling
+  evidence_ids:
+  - record-rare-event
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-named-adaptive-optimization-controller
+  area: evidence
+  topic: Claim named-adaptive-optimization-controller
+  outcome: supported
+  summary: Section 4.2 explicitly names FACE and describes the fixed elite count with
+    adaptive sample size. Both source expansions are preserved without claiming complete
+    automation.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-dedicated-top-k-likelihood-fit
+  area: evidence
+  topic: Claim dedicated-top-k-likelihood-fit
+  outcome: supported
+  summary: The dedicated page-35 formulas are unweighted top-K likelihood fitting.
+    The exact occurrence count and ties are separated from the conflicting equation
+    cross-reference.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-within-iteration-adaptive-sampling
+  area: evidence
+  topic: Claim within-iteration-adaptive-sampling
+  outcome: supported
+  summary: The chart and accompanying text support the comparison, within-iteration
+    growth and current-sample maximum. No best-so-far archive or fully specified sample-reuse
+    policy is invented.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-flowchart-update-and-reset-transition
+  area: evidence
+  topic: Claim flowchart-update-and-reset-transition
+  outcome: supported
+  summary: The iteration increment and reset are visible in Figure 8. This is explicitly
+    a chart-based interpretation, with numbered Step 4 retained as incomplete control-flow
+    context.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-source-named-stagnation-outcomes
+  area: evidence
+  topic: Claim source-named-stagnation-outcomes
+  outcome: supported
+  summary: The reported reliable/unreliable branches and literal equality are source
+    names. Page 47 and the bounded finite-cap reasoning prevent elevating them to
+    certificates.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-configured-budget-and-ce-specialization
+  area: evidence
+  topic: Claim configured-budget-and-ce-specialization
+  outcome: supported
+  summary: All listed budgets and initialization remain supplied. The exact-reduction
+    statement is qualified by matched conventions because the dedicated and generic
+    indices differ; no universal speedup is claimed.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - preview-acceptance-face
+  - src-deboer2005
+- assessment_id: face-definition-assessment
+  area: evidence
+  topic: definition assessment
+  outcome: supported
+  summary: This identity denotes the source-named FACE optimization controller, selecting
+    its dedicated top-K definition and attributing outer control to Figure 8 while
+    retaining numbered-pseudocode conflicts. It is a named specialization, not an
+    alias of every CE optimizer. FACE is retained as source terminology; this draft
+    adds no acronym alias.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-mapping-assessment
+  area: grounding
+  topic: mapping assessment
+  outcome: supported
+  summary: Root accepted the bounded fourteen-target no-match for the whole algorithms.
+    The draft’s MathematicalFunction reason explicitly recognizes its generic rule
+    scope rather than a scalar-only restriction; the original research reasons and
+    exact refinement are separately retained.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - pinned-aio
+- assessment_id: face-source-assessment
+  area: provenance
+  topic: source assessment
+  outcome: supported
+  summary: The sole declared source deboer2005 supports the definition and all six
+    claims. It is the retained published tutorial; no unused source entry or new download
+    is invented. Specific source discrepancies are preserved in the native limitations
+    and individual assessments.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitations-assessment
+  area: scope
+  topic: limitations assessment
+  outcome: supported
+  summary: The dedicated top-K fit and explicit flowchart define the selected description
+    while the generic quantile discrepancy, numbered-step reset gap, inclusive history
+    count, ties and sampling/smoothing details remain visible. Finite stagnation and
+    capped budgets are heuristic; fixed-size reduction requires matched conventions.
+    The source-scoped controller is not a certified executable reconstruction.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-identity
+  area: identity
+  topic: Concept boundary and actual owner
+  outcome: supported
+  summary: 'The maintained concept retains its accepted algorithm scope with its exact
+    accepted aliases []. Actual root decisions retain owner 245 and distinct residuals.
+    The supporting historical identity scope is: This identity denotes the source-named
+    FACE optimization controller, selecting its dedicated top-K definition and attributing
+    outer control to Figure 8 while retaining numbered-pseudocode conflicts. It is
+    a named specialization, not an alias of every CE optimizer. FACE is retained as
+    source terminology; this draft adds no acronym alias. Historical research on 15
+    October 2026 at 10:42:32–10:42:48 UTC covered 751 native and 442 pinned AIO records.
+    Four hidden- and ignored-inclusive checkout scans retained 7,246 occurrences,
+    215 exact contents and 133 decoded matching contexts. The research agent read
+    those contexts and selected semantic definitions; it did not claim every unrelated
+    serialized report body was read. All string fields of 909 main and 393 nested
+    objects were queried mechanically, with eight substantive objects read. Six complete
+    native neighbors and fourteen exact AIO contexts with 53 incident rows were assessed
+    by that agent; root’s separately recorded neighbor scope is identity/definition/claim
+    projections, with the existing CrossEntropyOptimization read fully. Four supplementary
+    fully automated-name scans returned no matches. These are historical observations,
+    not future-base clearance or saturation. Existing owner 245 supplies this lead
+    with its tutorial URL and carried provenance retained; no new leaf or automatic
+    resolution of other importance-sampling owners is implied.'
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - identity-assessment
+  - postcapture-reading
+- assessment_id: face-limitation-1
+  area: scope
+  topic: Retained limitation 1
+  outcome: supported
+  summary: The exact N=10,K=2 hand witness selects two values at index 9 versus three
+    at index 8 under >=. Ties and K=N add separate boundaries. No source code or repaired
+    implementation is claimed.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitation-2
+  area: scope
+  topic: Retained limitation 2
+  outcome: supported
+  summary: The displayed increment/reset and the numbered return target differ. Literal
+    t through t-d includes d+1 indices; prior-history conventions remain unspecified
+    rather than silently filled in.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitation-3
+  area: scope
+  topic: Retained limitation 3
+  outcome: supported
+  summary: A finite conditional independent budget can miss improvements with positive
+    probability. The source itself states its heuristic may stop away from a local
+    optimum; no complete trajectory probability is derived.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitation-4
+  area: scope
+  topic: Retained limitation 4
+  outcome: supported
+  summary: The dimensional suggestions need integer/domain conventions. Naming alpha
+    does not specify an operational smoothing schedule, and a separately introduced
+    score-weighted modification is not automatically included.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitation-5
+  area: scope
+  topic: Retained limitation 5
+  outcome: supported
+  summary: Fixed-K adaptive allocation is a named specialization. Matching some fitted
+    product-distribution substeps does not establish complete-procedure equality.
+    The generic reduction requires conventions that the conflicting indices do not
+    themselves fix.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: face-limitation-6
+  area: scope
+  topic: Retained limitation 6
+  outcome: supported
+  summary: The primary supports a source-scoped controller and empirical suggestions.
+    Partial earlier-version/proof/code scopes remain explicit; historical repository
+    absence is not projected into a future creation state.
+  target_ids:
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - record-face
+  - scientific-support
+  - src-deboer2005
+- assessment_id: actual-correspondence
+  area: consistency
+  topic: Captured bytes, accepted science and frontier accounting
+  outcome: supported
+  summary: 'All three captured records equal the actual write payloads and report
+    entries. Exact support covers 18 claims and 18 limitations. Only existing owners
+    241, 244 and 245 changed; all 906 other prior main and 393 nested values remain
+    unchanged. All three accepted method scopes reuse their existing owners, with
+    no appended leaf. The real minor issue 380 was corrected after original creation:
+    FACE keeps a fixed elite count and adapts sample size. Its original finding, preimages,
+    creation receipt and prior capture remain historical; the current exact science
+    and context are bound by the new capture, CREATE and EDIT histories, and six post-correction
+    required checks. No global exhaustion or DRAFT promotion is inferred.'
+  target_ids:
+  - AIMech:RelationNetwork
+  - AIMech:CrossEntropyImportanceSampling
+  - AIMech:FullyAdaptiveCrossEntropyOptimization
+  evidence_ids:
+  - captured-inputs
+  - postcapture-reading
+  - discovery-report
+  - creation-history
+  - correction-history
+  - original-creation-write
+  - postcreation-context-correction
+  - correction-guard
+  - context-finding
+  - context-issue
+  - ce-schema-correction
+  - ce-original-preview-failure
+  - rn-support-locator-refinement
+  - collector-path-normalization
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+notes:
+- 'Retain the reusable global relation module, fixed-nominal cross-entropy rare-event
+  estimator and named FACE optimization controller separately as DRAFT. Current related
+  Layer and two explicit fourteen-target no-match assessments are appropriately qualified.
+  All claims and limitations are supported within their declared primary scopes; no
+  new or unresolved finding remains in this corrected state. Real issue380 corrected
+  a root-authored identity-context error: FACE fixes elite K and adapts sample size.
+  The original clean audit missed it; original decisions/write/capture/preimages and
+  the successor finding remain retained. Actual EDIT history, corrected capture and
+  six fresh completed checks support the fix; earlier passing checks are historical
+  only. All906 unrelated main and393 nested frontier objects remain unchanged and
+  no new leaf was appended. This is author scientific review with attributed supporting
+  agents, not independent approval or global saturation.'
+- Issue 380 was an actual postcreation identity-context finding and was corrected
+  before this new capture/review. It is acknowledged in evidence and the correspondence
+  assessment; no prior saved formal occurrence is invented and no pre-correction capture
+  is presented as current.
+```

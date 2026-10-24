@@ -1,0 +1,152 @@
+id: AIMech:FlattenedSliceSampling
+name: Flattened slice sampling
+concept_kind: algorithm
+definition: A finite categorical conditional-update algorithm that splits excess probability from a maximum-probability
+  state into additional bars and samples a directed move to the preceding bar intersecting a random height,
+  while retaining the given state order.
+definition_evidence:
+- source_id: neal2024
+  locator: Section 11, PDF pp. 41–43, finite bar construction and Figure 10; Algorithm 8, pp. 44–45, ZERO
+    false
+  relation: supports
+claims:
+- claim_id: ordered-bar-flattening
+  kind: mechanism
+  statement: Use a fixed ordered list of finite states with nonnegative conditional probabilities pi summing
+    to one. In the regular case max(pi)<1/2 and pi(k)>0, choose the first maximum a in that order. Let
+    h=pi(a), let s be the second largest probability, and let b be the cyclic predecessor of a. Shorten
+    the original a bar to height s and append an additional a-labelled bar after each original bar j other
+    than a and b, with height f*pi(j), where f=(h-s)/(1-h-pi(b)). The denominator is positive and 0<=f<1
+    in this case; tied maxima give f=0. FSS retains the original ordering. For the current symbol, choose
+    one of its bars in proportion to its height, draw a uniform height within that bar, and move left
+    with wraparound to the next bar intersecting the height. The destination bar label is the new state.
+  evidence:
+  - source_id: neal2024
+    locator: Section 11, PDF pp. 41–43, geometry; Algorithm 8, pp. 44–45, ZERO false
+    relation: supports
+- claim_id: invariant-conditional-and-joint-target
+  kind: mechanism
+  statement: The total height of all bars labelled a remains s+f*(1-h-pi(b))=h; other symbols retain their
+    probability mass. At each fixed height, moving to the preceding active bar cyclically permutes the
+    active bars and preserves their uniform distribution. Integrating over height therefore preserves
+    pi after projecting back to symbols. Using such a kernel for a valid full conditional while leaving
+    other coordinates unchanged preserves the joint target. Fixed mixtures and fixed sequential compositions
+    of these updates also preserve that target. This is an invariance statement, not a guarantee of independent
+    draws, reversibility or convergence from every initial state.
+  evidence:
+  - source_id: neal2024
+    locator: Section 11, PDF pp. 41–43, invariant slice construction; Section 2, pp. 2–3, Equations 2–4
+      and fixed update compositions; geometric integration in research/discovery/fss-zfss-boundaries.py
+    relation: supports
+- claim_id: dominant-mass-and-zero-state-conventions
+  kind: scope
+  statement: 'Algorithm 8 handles pi(k)=0 first by assigning the outgoing row pi. This is a convention
+    for a zero-probability value of an otherwise defined conditional; it does not define a conditional
+    law for a conditioning context with zero total mass. If h=max(pi)>=1/2 and k has positive mass, use
+    the common kernel that moves every nonmaximum state to a and assigns P(a,a)=(2h-1)/h and P(a,j)=pi(j)/h
+    for j!=a. At h=1/2 the maximum has zero self probability; at h=1 it is absorbing. This kernel is reversible
+    and has overall self probability 2h-1. Its uniqueness is restricted to positive-support rows. Zero-probability
+    labels remain part of the given ordering: for ordered pi=(0,3/7,2/7,2/7), FSS has self probability
+    1/6 at the 3/7 state, whereas deleting the first zero label changes that probability to zero. Both
+    kernels preserve their respective target law.'
+  evidence:
+  - source_id: neal2024
+    locator: Algorithm 8 Part 1, PDF p. 44, zero-current and dominant-mass branches; Section 13, p. 51,
+      Equations 112–114; exact support and order examples in research/discovery/fss-zfss-extra-boundaries.py
+    relation: supports
+- claim_id: finite-kernel-comparisons
+  kind: scope
+  statement: Curator exact rational calculations compare Algorithm 8 flow accumulation, explicit geometric
+    bar integration and a separately written interpretation of Algorithm 9. Across 4,450 ordered finite
+    target vectors, the 8,900 paired FSS and ZFSS kernels agree between these constructions on 48,580
+    rows and preserve their targets. The cases include ties, zeros, half-mass boundaries and point masses.
+    FSS and ZFSS differ for 297 targets in this suite, where FSS retains avoidable self mass. For Figure
+    10 target (1/10,1/5,1/5,1/20,9/20), the FSS self probability at the last state is 1/9 and its stationary
+    overall self probability is 1/20. The printed FSS matrix agrees with the calculations. These bounded
+    checks do not prove general numerical stability or a runtime advantage.
+  evidence:
+  - source_id: neal2024
+    locator: Figure 10, PDF p. 42; Algorithms 8–9, pp. 44–47; original curator calculations in research/discovery/fss-zfss-boundaries.py
+      and research/discovery/fss-zfss-extra-boundaries.py
+    relation: supports
+- claim_id: periodicity-and-composed-scan-limits
+  kind: limitation
+  statement: FSS does not always minimize self transitions and is generally nonreversible. Removing self
+    transitions does not establish ergodicity. For m equally probable states, FSS is a deterministic predecessor
+    cycle with period m. For two independent uniform three-state coordinates, a full fixed scan maps (a,b)
+    to (a-1 mod 3,b-1 mod 3), giving three closed classes indexed by a-b mod 3. The uniform joint target
+    remains invariant, but a chain started in one class does not explore the other classes. No universal
+    asymptotic-variance, finite-run accuracy or wall-clock improvement follows from a lower self-transition
+    probability.
+  evidence:
+  - source_id: neal2024
+    locator: Section 11, PDF p. 43, directed movement; Section 13, pp. 49–51, uniform cycles and boundary
+      comparisons; curator joint-scan example in research/discovery/fss-zfss-extra-boundaries.py
+    relation: supports
+- claim_id: printed-sampler-and-example-caveats
+  kind: limitation
+  statement: 'Algorithm 8 defines the maintained transition probabilities. The exact comparison with Algorithm
+    9 interprets its zero-current branch as one inverse-CDF traversal; the printed outer loop line there
+    reuses an index that is immediately reset and is not claimed as a verified literal implementation.
+    The printed closed-uniform endpoint guarantee also needs qualification: with pi=(1/4,1/4,1/2), current
+    state 3 and r=1, its dominant-mass branch returns state 3 although P(3,3)=0. This endpoint has zero
+    probability under an ideal continuous uniform law. Figure 10 also contains a nonstationary printed
+    ZFSS comparison matrix; that matrix is retained as a source caveat, not evidence against the verified
+    FSS matrix or a claimed author-issued correction. No author implementation was executed.'
+  evidence:
+  - source_id: neal2024
+    locator: Algorithm 9 Part 1, PDF p. 46, zero-current loop and dominant-mass CDF; Figure 10, p. 42,
+      rightmost comparison matrix; exact negative controls in research/discovery/fss-zfss-boundaries.py
+      and research/discovery/fss-zfss-extra-boundaries.py
+    relation: supports
+identity_notes: The post312 assessment covers all 442 pinned AIO and 706 native IDs, names, aliases and
+  scoped synonyms, plus four complete checkout searches including ignored and hidden files. The maintained
+  identity is a finite ordered conditional kernel, distinct from generic slice/Gibbs, interval and elliptical
+  slice procedures, MH-within-Gibbs and persistent-sign/pair-state samplers. Earlier 703-native searches
+  and 18 exact AIO contexts are preserved with their reading scopes; the three actual batch312 native
+  neighbors were assessed for this identity comparison. AIO:MarkovChain is related_match at a different
+  abstraction level; no neural Network or ProbabilisticHiddenLayer inheritance is implied. FSS denotes
+  the supplied-order ZERO=false kernel, including zero-probability label positions; ZFSS is a distinct
+  blocker-relocation policy. Shared boundary behavior and a shared implementation routine do not establish
+  exact equivalence. FSS/ZFSS abbreviations are search probes, not adopted aliases.
+evidence_sources:
+- source_id: neal2024
+  title: Modifying Gibbs Sampling to Avoid Self Transitions
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://glizen.com/radfordneal/ftp/gibbs-self.pdf
+  persistent_id: arxiv:2403.18054
+  version: Author-hosted technical report dated 26 March 2024; 84 PDF pages. Independently pinned from
+    arXiv:2403.18054v1; byte equivalence between versions is not asserted.
+  access_level: full_text
+  accessed_at: '2026-10-14T20:33:01Z'
+  sha256: 3d637d3eec046118a4c81d0d3824f387e1077d5ed8bd15d90a4db242c89d8bea
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: The algorithm specifies a conditional Markov transition with a preserved target distribution.
+    AIO MarkovChain describes a stochastic process/model; this is a method-to-process association without
+    equivalence, subclass membership or inheritance of its exported Network and ProbabilisticHiddenLayer
+    assertions.
+limitations:
+- This record denotes Neal’s finite FSS kernel with the supplied ordering. Generic slice sampling, Gibbs
+  sampling, shifted-tower sampling and ZFSS are not exact aliases.
+- The input must define a nonnegative normalized conditional distribution. Approximate normalization,
+  invalid conditioning contexts, adaptive order changes and countably infinite extensions are outside
+  this maintained finite scope.
+- Algorithm 9 was assessed through an explicitly documented interpretation, with its printed endpoint
+  and loop caveats retained. No floating-point or author-code correctness claim is made.
+- The inspected source is the pinned 2024 author report, read selectively. No complete 84-page empirical
+  review, benchmark reproduction or universal efficiency claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T21:38:22Z'
+  updated_at: '2026-10-14T21:38:22Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

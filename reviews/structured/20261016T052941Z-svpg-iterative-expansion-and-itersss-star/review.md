@@ -1,0 +1,6946 @@
+# Scientific self-review of SVPG, iterative expansion and ITERSSS*
+
+- Review: 20261016T052941Z-svpg-iterative-expansion-and-itersss-star
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-16T05:29:25.207332Z
+- Finished UTC: 2026-10-16T05:29:41.191055Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain SVPG, iterative expansion and ITERSSS* as three source-scoped DRAFT algorithms. Twenty-one claims and 32 limitations preserve distinct policy-distribution optimization, recursive search and finite uniform minimax procedures. Five artifacts represent four works with explicit comparison/version roles. Current and inherited source questions remain pending where appropriate.
+
+## Scope And Provenance
+
+Three exact current native records from accepted cohort361 creation; all selected claims and limitations assessed. Historical source and neighbor readings remain separately attributed.
+
+Selection: Exact AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar.
+Coverage: full; 3 reviewed / 3 in the declared population.
+Source: working_tree at Git base add2c806f6729c8599f4d5cfd6d75c7decde006c.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:SteinVariationalPolicyGradient | data/curated/SteinVariationalPolicyGradient.yaml | maintained | Stein Variational Policy Gradient |
+| AIMech:IterativeExpansion | data/curated/IterativeExpansion.yaml | maintained | Iterative expansion |
+| AIMech:ITERSSSStar | data/curated/ITERSSSStar.yaml | maintained | ITERSSS* |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| just vendored-check | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| uv run --locked aimech check-source | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| just render | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| just render-check | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| git diff --check | passed | True | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Actual completed command exited0; exact output and timing retained. |
+| just vendored-check (retained earlier attempt) | failed | False | AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar | Historical unsuccessful attempt retained; later exact required command passed. |
+
+## Scientific And Domain Assessments
+
+### SVPG claim: parameter-distribution-objective
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Eq5 explicitly optimizes a distribution over policy parameters with a relative-entropy penalty; Eq6 is its formal flat-reference entropy form. Keep the variable distinct from state-conditional action distributions. The probability/KL interpretation needs the normalization qualifications retained in the limitations.
+
+### SVPG claim: normalized-tilted-target
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Eq7 gives the exponential tilt. Positive alpha and a finite positive partition function are explicit curator conditions accepted by root; they are not established merely by the stationary variational calculation. The improper experimental prior is not promoted to a normalized posterior.
+
+### SVPG claim: interacting-policy-update
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Eqs8–9 supply the averaged target-score/kernel-gradient field on policy-parameter particles. The derivative acts in the first kernel argument and the particle step has the positive sign. The earlier arXiv source is a version comparison, not a second independent replication. No exact finite-step KL theorem or certified pseudocode implementation is claimed.
+
+### SVPG claim: return-gradient-inputs
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Section2.2 presents finite-difference and likelihood-ratio gradient inputs; Section5 instantiates REINFORCE and A2C. Compatibility is scoped to usable return-gradient estimates. It does not assert unconditional unbiasedness, finite-difference accuracy, or implemented TRPO/natural-gradient variants.
+
+### SVPG claim: actor-critic-update-scope
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The Section5 implementation explicitly updates policy parameters with SVPG and critic parameters with ordinary TD-error gradients. This is an implementation scope, not a claim that critics are policy particles or that every actor-critic scheme is interchangeable.
+
+### SVPG claim: experimental-comparison-design
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The experimental protocol compares interacting policies, independent policies and a pooled-data single policy on four configured tasks with matched total transitions per iteration. This is study-design evidence, not an asserted performance result, equal runtime or uniform episode-count superiority.
+
+### SVPG limitation 1
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Parameter entropy and action entropy concern different random variables; shared Stein machinery does not identify policy particles with sampled actions or sampler-parameter fitting.
+
+### SVPG limitation 2
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The flat improper prior and a usable score do not establish a probability distribution. The conditional divergence calculation requires a uniform lower bound on J over an unbounded parameter domain; no claim is made that this condition has been proved for every experimental task.
+
+### SVPG limitation 3
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The population transport calculation and finite empirical update have different scopes. Finite atomic particles have infinite ordinary KL to a continuous target; noisy return estimates, finite steps and ADAM do not inherit a general monotone-KL or global-convergence guarantee.
+
+### SVPG limitation 4
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+This is the first separately documented refinement: multiplying Eq9 by alpha leaves a kernel-coupled gradient field in the limit. Independence needs negligible aggregate off-diagonal weighted-gradient contributions. Uniform geometric scaling cancels in the median-adaptive RBF ratio, so separation alone is insufficient.
+
+### SVPG limitation 5
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+This is the second separately documented refinement: the empirical bandwidth equals zero at a zero median; the printed RBF expression and its derivative then contain division by zero without a safeguard. RBF first-argument derivatives are outward for a fixed chosen positive h; positive definiteness alone does not force Euclidean repulsion for every kernel.
+
+### SVPG limitation 6
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The source explicitly acknowledges t-SNE projection artifacts for the chosen top-four state-visitation comparison. Parameter distances and this visualization do not establish useful behavioral diversity in general.
+
+### SVPG limitation 7
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Transition-count matching is different from wall-clock matching, and selecting the best agent for multi-policy methods differs from training one pooled-data policy. Preserve the actual comparison protocol.
+
+### SVPG limitation 8
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Table1 visually reports46 Joint versus199 SVPG episodes for A2C Double Pendulum, so a blanket every-column superiority claim is contradicted by the table. The threshold is relative to each policy’s own best return; negative-return wording does not define a common performance target. This is a retained source inconsistency, not a new benchmark.
+
+### SVPG limitation 9
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The four environments, five reruns, architecture, estimators,16 agents and hyperparameters limit empirical generalization. No universal reinforcement-learning benefit follows from these experiments.
+
+### SVPG limitation 10
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The official UAI page6 specifies a linear-function log-standard-deviation parameterization while arXivv1 page6 specifies a vector. Both exact versions are retained. No source-code resolution or independent replication is claimed.
+
+### SVPG limitation 11
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+For a flat prior, the UAI Section5.4 display equals n*alpha times Eq9’s direction, while the earlier display omits only the averaging factor. A positive scale describes relative weighting; fixed-step Euler equivalence requires a matched step and does not automatically yield identical ADAM/annealing trajectories.
+
+### SVPG limitation 12
+
+scope: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Natural-policy-gradient/TRPO variants, layer-wise kernels and adaptive temperatures appear as future directions in Section6. Broad compatibility prose is not evidence that these implementations or guarantees were demonstrated.
+
+### SVPG source-defined mechanism
+
+evidence: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+Direct official full-method support. Policy-parameter distribution and interacting update define the method; experimental neural policies do not become a required architecture. Formal probability interpretation remains qualified.
+
+### SVPG algorithm scope
+
+representation: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+A source-defined interacting policy-optimization algorithm with explicit target-score and kernel update. It is not a trained model, task, benchmark result or mandatory neural architecture.
+
+### Historical identity and method distinctions only
+
+identity: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The preview explicitly limits its identity claims to the captured historical snapshot and distinguishes policy-particle optimization from generic SVGD, Soft Q-learning action sampling and amortized generator fitting. REINFORCE and A2C are gradient-estimator contexts. This entry supports the truthfulness of those scope boundaries; current deduplication, owner assignment and alias acceptance have not been assessed by this preparation.
+
+### Preparation-stage related reinforcement-learning task mapping
+
+grounding: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The single related_match links an algorithm to the pinned reinforcement-learning task class. It asserts neither equivalence, subclass membership nor broad_match, and it does not require the neural policy architecture used in experiments. This is the accepted historical-context recommendation; current mapping reconciliation remains outside this fragment.
+
+### Official defining and experimental source
+
+provenance: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The official UAI 2017 PDF supports all six positive claims and the definition, with exact method and experimental locators. Its byte-identical PMLR reissue is a mirror, not another independent artifact or a new scientific publication date. Accepted claims describe the mechanism and study design without claiming universal performance. This static review preparation does not implement a policy optimizer.
+
+### Earlier same-work source-version comparison
+
+provenance: supported. Targets: AIMech:SteinVariationalPolicyGradient.
+
+The arXiv v1 PDF is a distinct earlier version of the same work. Its native C3 relation is context; limitation support explicitly compares policy parameterization and the exploration/exploitation display across versions. No implementation-code resolution or independent replication is claimed. Source acquisition timestamps remain the exact historical values.
+
+### Iterative expansion: unconditional-inherited-evaluation
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+Russell explicitly reuses the SMA* pathmax scheme for IE, and Korf’s discussion identifies unconditional inheritance. The formulation names stored rather than immutable parent evaluation and does not import SMA* incremental generation or deletion.
+
+When generating a child, IE applies pathmax: in the paper’s cost-based formulation, the child’s stored evaluation is the maximum of the parent’s stored evaluation and the child’s g+h value. This inheritance is used both on initial generation and when children are regenerated; it is not conditioned on detecting an earlier visit.
+
+### Iterative expansion: caller-and-competing-child-bound
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+The source cutoff precedes the goal test; the competing-child expression bounds a recursive branch. This claim describes the intended inclusive bounded traversal while the literal loop and empty-alternative qualifications remain in the limitations.
+
+At entry, the displayed IE procedure cuts off when the node’s stored evaluation exceeds the supplied bound, then tests the node for a goal. For an expanded node with children, it selects a child of minimum stored value and recurses with the smaller of the caller’s bound and the other children’s stored values. Equal-bound values remain eligible under the intended inclusive continuation test.
+
+### Iterative expansion: displayed-parent-backup
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+The post-call minimum assignment is printed, but a fully specified return-to-child interface is not. The claim deliberately identifies the intended mutable-state reading and retains that gap instead of silently adding Korf’s return assignment.
+
+After the recursive call on the selected child, the IE outline assigns the parent’s stored evaluation to the minimum of its children’s stored evaluations and continues the bounded search. This describes its intended mutable-value backup: the printed call itself has no assignment of a returned value, so complete propagation and success conventions remain qualified rather than silently supplied.
+
+### Iterative expansion: conditional-monotonic-rbfs-correspondence
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+Korf’s explicit monotonic statement is narrowed by distinguishing static evaluations from pathmax-modified values. On first visits the max is redundant only under the stated nondecreasing static condition; on raised-value regeneration the full RBFS branch agrees locally. Neither fact alone is a full implementation-equivalence proof.
+
+Korf explicitly describes IE as independently developed and reports correspondence with full RBFS when the supplied static evaluation is monotonic. On a first visit with stored parent V equal to its static value f0, nondecreasing child f0 makes IE’s max(V, f0(child)) redundant. After V rises above the parent’s static value, full RBFS also uses max(V, f0(child)); SRBFS instead resets children to their static values. These local comparisons and the source statement do not assert identical procedure-call traces or an unrestricted alias.
+
+### Iterative expansion: first-visit-nonmonotonic-boundary
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+The 5/2/1 example is transparent substitution in the two printed initialization rules. It is a hand calculation explaining possible ties/selection differences; no algorithm was executed and no assertion about all final solutions is derived.
+
+For a first visit with stored and static parent values both 5 and child static values 2 and 1, the printed rules give child values 5 and 5 in IE but 2 and 1 in full RBFS and SRBFS. This source-guided hand calculation shows how unconditional inheritance can create ties and alter first-visit selection when static evaluations decrease. It is not an algorithm execution or a claim that every nonmonotonic instance returns a different solution.
+
+### Iterative expansion: path-and-sibling-storage
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+Path/sibling retention and linear-in-depth terminology occur in Russell; Korf supplies the b*d accounting for the corresponding recursive representation. This is a conditional structural inference with bounded branching/node data, distinct from a fixed MAX budget or empirical memory measurement.
+
+IE’s recursive representation retains the current path and sibling alternatives instead of the complete best-first frontier. With maximum retained depth d, branching bounded by b and bounded-size node data, this representation has O(b*d) node storage. The linear-in-depth description is conditional on bounded branching; IE has no fixed MAX node-budget parameter like the separate SMA* procedure.
+
+### Iterative expansion: limitation 1
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Keep static f0 separate from Russell’s evolving f/V. The hand example supports a possible ordering distinction, not a different-answer theorem.
+
+The monotonic correspondence concerns the static evaluation supplied to both procedures, not merely stored values after IE has raised them through pathmax. Full RBFS uses conditional inheritance and SRBFS uses static reinitialization; local overlap does not make IE a global alias or establish equality on every nonmonotonic instance.
+
+### Iterative expansion: limitation 2
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+This is the literal interface qualification identified in the original comparison and independent source review. Korf’s explicit assignment is a comparison, not a repair inserted into IE.
+
+The outline returns infinity when a node has no children, but the caller shows a bare recursive call followed by a minimum over mutable child values. How that infinity is stored back in the child and how successful return propagates are not fully specified. Preserve the no-children guard before child selection; no corrected executable assignment or actual implementation failure is asserted.
+
+### Iterative expansion: limitation 3
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+The parent-versus-child guard hand case is conditional on the natural source interpretation; it is not evidence of a bug in an inspected program.
+
+The printed do-until/or-while wording is not a precise programming-language loop. Under its bounded-search reading, IE tests the parent’s stored value before backing it up, whereas Korf tests the best child before recursion; an immediate cutoff call can therefore occur in IE when the returned bound agrees. Exact call-trace equivalence is not claimed.
+
+### Iterative expansion: limitation 4
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Separate the explicit SMA* tie rule from the absent complete IE equal-child rule. No tie policy is invented in the draft.
+
+Equal-value child ordering is not fully specified in the IE outline. An exact expansion trace or choice among tied goals requires an explicit shared tie and successor order; SMA*’s deepest-leaf rule must not be transferred to IE merely because it appears in the same paper.
+
+### Iterative expansion: limitation 5
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Korf explicitly supplies the missing second-child infinity convention; using it as an explanatory comparison does not certify Russell’s literal interface. Empty child sets remain distinct from one-child alternatives.
+
+For a single child, the minimum over other children needs an empty-alternative convention so the recursive bound remains the caller’s bound. The outline also does not fully specify failure after an exhausted root with an infinite bound; infinity &lt;= infinity does not itself signal failure. No unrestricted unsolvable-instance termination guarantee follows.
+
+### Iterative expansion: limitation 6
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Retain tree scope, distinguish state identity from path identity, and do not transplant a complete graph-search guarantee.
+
+The source treatment excludes graph-transposition complications. The IE outline supplies no general closed-list, duplicate-state or reopening policy. Korf’s current-path cycle check for nonincreasing evaluation is a separate scoped condition, not a global duplicate-elimination guarantee for IE.
+
+### Iterative expansion: limitation 7
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Possible sufficient assumptions are not silently attributed as printed premises; the draft retains mechanism and conditional comparison rather than promoting broad optimality claims.
+
+Ordering nodes by an evaluation function does not alone establish minimum path cost, completeness or termination. Stronger results require appropriate cost/admissibility, goal and finiteness assumptions. Korf’s summary omits full proofs, and no general theorem is certified here for infinite spaces, zero-cost cycles, arbitrary negative costs or unqualified unsolvable instances.
+
+### Iterative expansion: limitation 8
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+O(b*d) is a conditional representation bound, not a measured runtime result or a fixed allocator budget.
+
+The storage bound counts retained node information in a path-and-sibling representation. It does not bound all bytes, heuristic tables, call-stack overhead or temporary allocations, and it is not independent of branching or attained depth. Reduced storage can require regeneration of earlier paths.
+
+### Iterative expansion: limitation 9
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+No performance-kind claim or evaluation result is introduced; source comparisons are limitations, not empirical transfer.
+
+The papers’ puzzle comparisons do not establish universal speed or node-count equality between IE and RBFS. Korf’s related-work expectation about IE is not a reported direct IE-versus-RBFS benchmark. No runtime ratio, performance dominance, implementation equivalence or benchmark reproduction is claimed.
+
+### Iterative expansion: limitation 10
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Exact original objects and historical reading/owner fields remain unchanged in the source-continuity payload. This statement does not deny other separately attributed research on a cited work.
+
+Evidence is limited to Russell’s inspected five-page 1992 manuscript and Korf’s six-page 1992 proceedings summary. The Korf 1991 predecessors, 1993 journal article, mismatched Bratko citations, later RBFS paper and 1992 ITS report remain separate source/version questions. All 30 bibliography occurrences and seven pending questions are retained without asserting that every cited original was read or any source family is exhausted.
+
+### Iterative expansion: defining procedure
+
+evidence: supported. Targets: AIMech:IterativeExpansion.
+
+Exact root-accepted narrow definition, directly supported by Russell’s IE procedure. Korf is retained separately for explicit comparison claims, not substituted as the defining implementation.
+
+A recursive heuristic tree-search procedure that repeatedly explores a lowest-valued child within a bound set by its caller and competing children, initializes each generated child with the maximum of its static evaluation and the parent’s stored evaluation, and backs up the minimum child value.
+
+### Iterative expansion: algorithm kind
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+The candidate denotes a recursive heuristic tree-search procedure with generated-child initialization, caller/competitor bounds and backed-up mutable values. It is an algorithm, rather than a trained model, benchmark, task or fixed MAX-memory variant. The representation bound is conditional on branching, attained depth and bounded node data.
+
+Do not import SMA* incremental generation, deepest-leaf ties or deletion merely because its description shares Russell’s paper. No runtime behavior, allocator limit or implementation certification is inferred.
+
+### Iterative expansion: source-local name and historical identity
+
+identity: supported. Targets: AIMech:IterativeExpansion.
+
+Retain Iterative expansion with aliases empty. Russell’s abbreviation IE is source-local and has unrelated matches, including Internet Explorer, Ireland, information extraction and a classifier; it is not a safe unqualified alias. Korf’s monotonic correspondence and local initialization comparisons do not make the procedure a global RBFS or SRBFS alias.
+
+The accepted historical proposal used 1,239 records (797 native and 442 pinned AIO), 4,913 identity-field occurrences and ignored/hidden-inclusive searches across four roots. This fragment does not rerun those searches, claim current noncollision, assign an owner or allocate a future cohort/base. Any eventual addition must inspect its actual current inventory and source owners. The proposed scope is Russell1992 iterative expansion, abbreviated IE within that paper. Bare IE is not proposed as an unqualified alias: ignored-inclusive matches also use it for Internet Explorer, Ireland, information extraction and an unrelated classifier. The algorithm always imposes the parent stored value when initializing generated children. Korf’s full RBFS instead uses parent inheritance only when the stored parent value exceeds its static evaluation; SRBFS resets generated children to static evaluations. Korf explicitly reports IE/RBFS correspondence under monotonic evaluation, while decreasing static evaluations can distinguish their first-visit initialization and ordering. This conditional relationship is not a global RBFS/SRBFS alias or complete execution-trace equivalence. The mutable-value/return, loop, tie, dead-end, exhausted-root and graph conventions of the printed IE outline remain explicit source limits. Historical inventory noncollision and bounded neighbor comparison do not establish global novelty or future ownership clearance.
+
+### Iterative expansion: bounded AIO no-match
+
+grounding: supported. Targets: AIMech:IterativeExpansion.
+
+Retain the bounded aio_no_match proposal and all 14 exact rejection reasons. Recursion, tree representation, cost evaluation and per-search backup do not alone identify a recursive neural architecture, language model, probabilistic graphical model, training strategy or learning task. No inspected target supplied a defensible exact, broader, narrower or specifically related mapping.
+
+Historical prospective snapshot captured2026-10-16T03:26:58–03:27:16UTC: complete1,239-record identity inventory (797native/442pinnedAIO),4,913field occurrences including local IDs, mechanically compared.49 selected AIO lexical/definition candidate projections were read in the paused preparation;14 exact CLASS nodes with all synonyms/metadata and all71 direct edge occurrences (68distinct triples) were read in full in this resumed mapping proposal. Four roots were searched with explicit ignored/hidden inclusion. This is a bounded pinned-snapshot assessment, not all-ontology semantic absence or future current-state clearance. IE is Russell’s recursive heuristic search-control procedure. No inspected class provides a defensible exact, broader, narrower or specifically related mapping. Recursion, tree/graph representations, scalar evaluation functions and per-search value backup do not by themselves establish a neural architecture, language model, learning task, probabilistic graphical model or training strategy.
+
+### Iterative expansion: defining and comparison primary sources
+
+provenance: supported. Targets: AIMech:IterativeExpansion.
+
+Russell’s five-page 1992 university-mirrored manuscript defines IE; Korf’s official six-page 1992 proceedings summary supplies primary RBFS/SRBFS algorithms and the explicit conditional IE comparison. Korf is positive evidence for the corresponding comparison claims, not a context-only row or a replacement defining implementation.
+
+Exact PDF hashes, URLs, version descriptions, original acquisition receipts and whole-second historical access times remain bound. These times are source acquisition, not a future review timestamp. Later journal/predecessor versions, the Bratko citation mismatch and all 30 bibliography occurrences/seven source questions remain separately retained. No claim is made that every cited original was read.
+
+### Iterative expansion: retain conditional algorithm boundary
+
+scope: supported. Targets: AIMech:IterativeExpansion.
+
+Retain IE as Russell’s source-defined tree-search procedure. Its unconditional child inheritance differs from full RBFS first-visit conditional inheritance and SRBFS static reinitialization. Correspondence is restricted to monotonic static evaluations; the 5/2/1 hand substitution demonstrates possible first-visit ties and ordering changes, not a theorem that every nonmonotonic instance has a different answer. Preserve bare recursive-return/in-place-value, loop, tie, no-children, single-child, exhausted-root and graph-interface limitations without silently repairing an implementation.
+
+The accepted source-local scope remains separate from SMA*, MREC, IDA* and real-time heuristic learning. Historical main 912 responsibility is context only; this fragment assigns or closes no owner. All 30 original bibliography occurrences and seven questions retain their exact historical fields, even if separately attributed later research exists.
+
+### ITERSSS* claim: open-entry-budget
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The inclusive premise and initialized SPACE are literal procedure details. The threshold formula is tied to the uniform MAX-rooted setting; abstract entry units and exceptional tree shapes remain qualified below.
+
+### ITERSSS* claim: flag-restricted-selection
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+This distinguishes the initial memory-filling phase from later active-only selection. Suspended inactive entries remain explicit members of OPEN; the source does not select them indiscriminately during the active phase.
+
+### ITERSSS* claim: terminal-and-min-advance
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The terminal evaluation is a fixed supplied score, not a learned value. MIN expansion inserts one child rather than all children, preserving the source’s sequential minimax control flow.
+
+### ITERSSS* claim: capacity-gated-max-expansion
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The guard is inclusive. The blocked branch changes type and phase without deleting a worst node, revising a numerical bound or claiming a separate beam-search policy.
+
+### ITERSSS* claim: solved-max-sibling-progression
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The sibling transition copies the current bound and advances in the fixed child order. The root exclusion is retained, and this case does not stand in for the separate solved-MIN purge operation.
+
+### ITERSSS* claim: solved-min-purge-and-reactivation
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The paper’s successor wording is interpreted as descendant scope using the greatest-depth helper and subtree explanation; this interpretation is explicit in the limitations. Retained x is excluded from purge. Ties among equally deep inactive entries are not invented.
+
+### ITERSSS* claim: abstract-space-bookkeeping
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+This is the author’s limited arithmetic derivation from the displayed cases, also checked in the prior independent control-flow review. It is not presented as a source-stated complete liveness, allocation or correctness proof.
+
+### ITERSSS* claim: source-stated-pruning-scope
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The definitions and common order are part of the claim. The ITERSSS* implication is not an iff rule, the SSS* right-side condition is not imported, and the statement is explicitly attributed to the source whose proofs are omitted.
+
+### ITERSSS* claim: source-stated-sss-endpoint
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The endpoint remains conditional on the source presentation. Example 2.2 attains the same terminal count at a smaller M, so equality of a count cannot identify an instance-minimal operational threshold or justify a universal alias.
+
+### ITERSSS* limitation 1
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The source presents uniform branching explicitly. The draft retains a reusable procedure at that scope and leaves general graph and nonuniform implementations unresolved.
+
+### ITERSSS* limitation 2
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The SPACE invariant has a narrower conclusion than whole-program memory or progress. Inclusive M0 is supported by the procedure premise and the source’s minimum-memory example.
+
+### ITERSSS* limitation 3
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+Two distinct tie/relationship conventions are kept separate. No implementation policy is invented to make the outline executable.
+
+### ITERSSS* limitation 4
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+This is a source-interface qualification, not a demonstrated algorithm failure. The earlier bounded review checked local transitions without certifying all progress cases.
+
+### ITERSSS* limitation 5
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The source itself identifies the ACTIVE-subset limitation. This draft describes source statements and local logic without manufacturing an independent theorem proof.
+
+### ITERSSS* limitation 6
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The one-way implication and common-order premises are necessary to the limited terminal-set inference. They do not imply a general elapsed-time ordering.
+
+### ITERSSS* limitation 7
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+Keep the parameterized mechanism, conditional endpoint and empirical trend distinct. No cross-method alias is created from an endpoint or a count equality.
+
+### ITERSSS* limitation 8
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+This preserves what the source measured without creating a performance claim or projecting the table onto modern implementations or real games.
+
+### ITERSSS* limitation 9
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The experimental limits stay source-scoped. No numeric table transcription is promoted into independently reproduced evidence.
+
+### ITERSSS* limitation 10
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+The metadata crosswalk is explicit, and the original ledger is preserved byte-for-byte with per-item origin bindings. Search-only later variants are not primary mechanism evidence for this draft.
+
+### Source-defined minimax solution-tree procedure
+
+evidence: supported. Targets: AIMech:ITERSSSStar.
+
+Exact root-accepted narrow definition. Section2 supplies active/inactive entry control and bounded MAX expansion; Section4 frames minimax solution-tree evaluation. No learned model or arbitrary graph generalization is inferred.
+
+### Algorithm and representation boundary
+
+representation: supported. Targets: AIMech:ITERSSSStar.
+
+The finite uniform alternating-tree procedure specifies OPEN entry states, FLAG phases, capacity-gated expansion, sibling progression, pruning and reactivation. These control rules support the accepted algorithm kind; the entry is not a learned model, graph representation or experiment result.
+
+### Historical identity scope only
+
+identity: supported. Targets: AIMech:ITERSSSStar.
+
+The accepted preview identifies ITERSSS* as its own source-defined memory-bounded minimax procedure. Its empty aliases do not equate SSS*, alpha-beta, PARSSS*, MemSSS*, RecSSS*/RecDual* or other memory-search methods with this algorithm. The identity note reports the captured historical inventory and comparisons; this fragment does not repeat a current deduplication scan, allocate a record or assign source responsibility.
+
+### Historical target-specific AIO no-match assessment
+
+grounding: supported. Targets: AIMech:ITERSSSStar.
+
+The accepted historical proposal supplies 25 target-specific AIO rejection reasons. Deterministic minimax evaluation with supplied terminal scores does not itself establish learning, a learned neural architecture, graph reasoning class membership or an appropriate task-level equivalence. The exact no-match object and pinned snapshot are retained; the 25 full nodes and edges were not freshly re-read for this fragment, and future mapping reconciliation remains pending.
+
+### One official defining proceedings artifact
+
+provenance: supported. Targets: AIMech:ITERSSSStar.
+
+The single evidence source is the official five-page AAAI-86 paper, printed pages 163–167. It directly supports the procedure and source-stated theoretical scope at the retained locators. Later PDF creation/modification dates describe digitization rather than another algorithm version. The earlier MA*/MAO* bibliography spelling and title discrepancy remain explicit in the metadata crosswalk; the original citation is not silently rewritten. Later search-only variants and unread bibliography originals are retained questions rather than defining evidence.
+
+### Source guarantees and implementation limits
+
+representation: supported. Targets: AIMech:ITERSSSStar.
+
+The draft retains the finite uniform MAX-rooted tree, fixed ordering, terminal-score and OPEN-entry accounting assumptions. The ITERSSS* pruning statement remains source-attributed and one-way sufficient; omitted proofs, inactive-descendant tie handling, null interface behavior and exceptional tree shapes are not repaired or certified here. M=b^ceil(d/2) is a sufficient SSS* endpoint, not a minimum per-instance budget or general alias. The table reports terminal evaluations, not running time or a universal monotonic improvement theorem.
+
+### Actual current records, source responsibilities and publication checks
+
+provenance: supported. Targets: AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion, AIMech:ITERSSSStar.
+
+Actual three records retain 21 claims and 32 limitations across five source artifacts representing four works. Three artifacts define their respective methods, Korf1992 provides positive algorithm-comparison evidence and SVPG arXivv1 is an earlier same-work version. Six exclusive creation outputs and one CREATE event are bound. Current owner changes follow the accepted plan: {"additional_source_question_count": 2, "changed_main_indexes": [909, 911, 912], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows": 0, "new_nested_rows": 0, "retained_source_objects": 165, "separate_post360_discovery_questions": 3, "source_object_counts": {"ie": {"bibliography_occurrences": 30, "historical_source_responsibilities": 1, "source_questions": 7}, "itersss": {"additional_source_questions": 3, "historical_source_responsibilities": 1, "original_paper_references": 4, "retrieved_followup_groups": 3}, "svpg": {"additional_source_questions": 5, "bibliography_families": 36, "bibliography_occurrences": 71, "historical_source_responsibilities": 1, "search_only_leads": 3}}}. Exact 165 original source objects, three separate post-360 discovery questions and all dynamic current leads remain queryable. The complete actual 360 predecessor projection preserves source-manifest/100asset durability and older issue/source scopes. 95 unique captured inputs, parsed generated pages and six successful required checks are bound. No source exhaustion, independent approval, issue closure or publication result is implied.
+
+Actual canonical records, 165 source objects, three separate discovery questions, inherited source responsibilities and inherited manifest/100asset metadata plus capture/check receipts were assessed at their recorded times. Historical source reading remains separately attributed. Review save, exact-head review, publication and merge are subsequent steps.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:IterativeExpansion. Retain IE as Russell’s source-defined tree-search procedure. Its unconditional child inheritance differs from full RBFS first-visit conditional inheritance and SRBFS static reinitialization. Correspondence is restricted to monotonic static evaluations; the 5/2/1 hand substitution demonstrates possible first-visit ties and ordering changes, not a theorem that every nonmonotonic instance has a different answer. Preserve bare recursive-return/in-place-value, loop, tie, no-children, single-child, exhausted-root and graph-interface limitations without silently repairing an implementation.
+- retain: AIMech:SteinVariationalPolicyGradient. A source-defined interacting policy-optimization algorithm with explicit target-score and kernel update. It is not a trained model, task, benchmark result or mandatory neural architecture.
+- retain: AIMech:ITERSSSStar. The draft retains the finite uniform MAX-rooted tree, fixed ordering, terminal-score and OPEN-entry accounting assumptions. The ITERSSS* pruning statement remains source-attributed and one-way sufficient; omitted proofs, inactive-descendant tie handling, null interface behavior and exceptional tree shapes are not repaired or certified here. M=b^ceil(d/2) is a sufficient SSS* endpoint, not a minimum per-instance budget or general alias. The table reports terminal evaluations, not running time or a universal monotonic improvement theorem.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| src-svpg-uai2017 | /private/tmp/aimech-svpg-research-20261016/uai2017.pdf; PDF pp.1–9; method pp.2–4, experiments pp.5–7, discussion/conclusion pp.7–8, bibliography pp.8–9. | supports | Official nine-page UAI 2017 defining and experimental paper. Complete text and visual reading are attributed to the bound original research receipt; the current fragment reuses that accepted reading and does not claim a new download or experiment. |
+| src-svpg-arxiv-v1 | /private/tmp/aimech-svpg-research-20261016/arxiv-v1.pdf; PDF pp.3–4, Eqs.8–9 and Algorithm1; p.6 policy parameterization; p.7 exploration/exploitation display; pp.8–9 bibliography. | partial | Earlier nine-page version of the same work. Prior complete text-diff reading, visual pages 3, 4, 6 and 7, and separately read bibliography are attributed to the research receipt. It is a source-version comparison, not independent replication. |
+| svpg-native-preview | /private/tmp/aimech-svpg-native-preview-20261016/native-preview.json | context_only | Exact root-generated TEMP native preview, including its actual historical curation timestamp. No canonical-record or current-identity acceptance is inferred. |
+| svpg-native-validation | /private/tmp/aimech-svpg-native-preview-20261016/native-validation.json | context_only | Root performed the standalone curated-record schema/semantic validation and recorded passed=true with no errors. This fragment does not rerun validation or treat it as a scientific or ownership pass. |
+| svpg-corrected-support | /private/tmp/aimech-svpg-prospective-draft-data-20261016/native-shaped-v3/scientific-support.json | context_only | Exact accepted six-claim/twelve-limitation support, including the retained zero-bandwidth correction. Assessment narratives remain source scoped. |
+| svpg-original-reading | /private/tmp/aimech-svpg-research-20261016/reading-receipt.json | context_only | Prior research author receipt: all official UAI pages textually and visually read; arXiv complete text comparison with selected visual pages and bibliography. This fragment is prepared by the same research author; no new independent full-paper reading is claimed. |
+| svpg-root-science | /private/tmp/aimech-svpg-research-20261016/root-bounded-scientific-reading.json | context_only | Root bounded scientific reading and accepted refinements. Its exact declared page/derivation scope remains attributed to that receipt. |
+| svpg-root-content | /private/tmp/aimech-svpg-prospective-draft-data-20261016/root-static-native-content-acceptance.json | context_only | Root static native-content acceptance after complete core and eighteen narrative/locator reading, with bounded source-page and mapping context review. Native/current identity and owner acceptance were separate. |
+| svpg-independent-math | /private/tmp/aimech-svpg-independent-math-audit-20261016/assessment.json | context_only | Independent bounded mathematical review of the research dossier, including finite-particle, bandwidth and rescaling scope. Original mathematical notes require the separately bound zero-bandwidth clarification. |
+| svpg-bandwidth-clarification | /private/tmp/aimech-svpg-prospective-draft-data-20261016/native-shaped-v3/zero-bandwidth-clarification.json | context_only | Retained support/math-note correction: for positive particle count a zero median gives h=0; the printed RBF and derivative then divide by zero without a safeguard. Core statements are unchanged. |
+| svpg-historical-identity | /private/tmp/aimech-svpg-identity-context-audit-20261016/assessment.json | context_only | Bounded ignored-inclusive historical identity/context assessment at db32c7ac, with transition to dd7a5a99 and unchanged inventoried record bytes. It is not a new current identity search. |
+| svpg-aio-context | /private/tmp/aimech-svpg-research-20261016/aio-contexts.json | context_only | Exact nine-node AIO context and outgoing edges used by the accepted preparation-stage algorithm-to-task mapping assessment. No new mapping acceptance is inferred. |
+| svpg-source-accounting | /private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json | context_only | All 71 bibliography occurrences, 36 source families, five additional questions, three search-only leads and original source responsibility are retained exactly with original provenance. Original pending flags are historical, not newly resolved. |
+| ie-accepted-preview | /private/tmp/aimech-ie-native-preview-20261016/native-preview.json; complete prospective native preview | context_only | Accepted TEMP preview, with actual historical curation; not a future canonical record or current identity clearance. |
+| ie-accepted-core | /private/tmp/aimech-ie-scientific-data-draft-20261016/IterativeExpansion.scientific-core.v2.json; complete scientific core | context_only | Exact accepted six-claim/ten-limitation prospective scientific content; current review-fragment author also authored this core. |
+| ie-accepted-support | /private/tmp/aimech-ie-scientific-data-draft-20261016/scientific-support.v2.json; records[0] | context_only | Exact per-claim/per-limitation source support, preserving source interface and theorem qualifications. |
+| ie-source-roles | /private/tmp/aimech-ie-scientific-data-draft-20261016/source-metadata-and-roles.json; source_rows | context_only | Russell1992 defining primary; Korf1992 primary algorithm comparison. Neither row is context-only. |
+| ie-source-questions | /private/tmp/aimech-ie-review-fragments-20261016/source-question-continuity.original.json; bibliography_occurrences and pending_questions | context_only | Exact 30 bibliography occurrence objects and seven source questions; historical ownership remains context, with no status rewrite or future owner allocation. |
+| ie-identity-mapping | /private/tmp/aimech-ie-identity-mapping-proposal-20261016/candidate-identity-mapping.proposed.json; proposed identity, aliases and bounded no-match | context_only | Historical prospective inventory/mapping proposal. Bare IE is source-local only; no future absence or ownership acceptance. |
+| ie-root-identity-mapping | /private/tmp/aimech-ie-identity-mapping-proposal-20261016/root-prospective-identity-reading.json; root prospective reading | context_only | Root acceptance for bounded prospective identity/scientific drafting, not a future canonical addition. |
+| ie-root-preview-readback | /private/tmp/aimech-ie-native-preview-20261016/root-preview-readback.json; complete root readback | context_only | Prior root exact-core TEMP preview readback; no current runtime checks inferred. |
+| ie-independent-draft-audit | /private/tmp/aimech-ie-scientific-data-independent-draft-audit-20261016/assessment.json; bounded source/core/support review | context_only | Separately attributed independent draft review; earlier source/proposal contributions are disclosed in that receipt. |
+| ie-primary-1 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4 and Section 4.1, manuscript/PDF pp. 3–4; pathmax formula in Section 3.1 on PDF p. 3; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-2 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4.1, manuscript/PDF p. 4; IE(n, bound) entry tests, best-child selection and new-bound expression | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-3 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4.1, manuscript/PDF p. 4; bare IE(best, new-bound) call followed by the parent minimum assignment; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-4 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; SRBFS and Full Recursive Best-First Search, printed p. 535 / PDF p. 3; Related Work, printed p. 537 / PDF p. 5 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-5 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Figures 1 and 3, printed pp. 534–535 / PDF pp. 2–3; full RBFS conditional child initialization on p. 535; Related Work on p. 537 / PDF p. 5 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-6 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4, manuscript/PDF pp. 3–4; linear-space recursion and retained descendants along the path | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-7 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; SRBFS storage explanation, printed pp. 534–535 / PDF pp. 2–3; Related Work on IE, printed p. 537 / PDF p. 5 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-8 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4.1, manuscript/PDF p. 4; no-children infinity return, goal return, bare recursive call and parent backup | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-9 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4.1, manuscript/PDF p. 4; loop guard and backup order | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-10 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; SRBFS/RBFS while guards and return, printed p. 535 / PDF p. 3 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-11 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 3.1 versus Section 4.1, manuscript/PDF pp. 3–4 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-12 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Sorting/reinsertion in pseudocode, printed p. 535 / PDF p. 3 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-13 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4.1, manuscript/PDF p. 4; other-child minimum and stopping outline | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-14 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Single-child second-value initialization and infinite top-bound call, printed p. 535 / PDF p. 3 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-15 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Footnote 6, manuscript/PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-16 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Cycle checking paragraph, printed p. 535 / PDF p. 3 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-17 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Introductory search assumptions, manuscript/PDF pp. 1–2; Section 4.1 on p. 4 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-18 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Theoretical Results, printed p. 536 / PDF p. 4 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-19 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4, manuscript/PDF pp. 3–4 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-20 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; SRBFS memory and regeneration discussion, printed pp. 534–535 / PDF pp. 2–3 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-21 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 5, manuscript/PDF pp. 4–5; Figure 5 on PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-22 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Experimental Results and Related Work, printed pp. 536–537 / PDF pp. 4–5 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-23 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; References, manuscript/PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-24 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; References, printed p. 538 / PDF p. 6 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| ie-primary-25 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Section 4 and Section 4.1, manuscript/PDF pp. 3–4; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-26 | /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf; Complete manuscript/PDF pp. 1–5; IE in Section 4 on pp. 3–4 and Section 4.2/Figure 3 on pp. 4–5 | supports | Defining IE procedure and source scope in Russell1992; prior primary reading is attributed. |
+| ie-primary-27 | /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf; Complete proceedings printed pp. 533–538 / PDF pp. 1–6; algorithms p. 535 and Related Work p. 537 | supports | Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not a substitute defining IE implementation. |
+| itersss-preview | /private/tmp/aimech-itersss-native-preview-20261016/native-preview.json | context_only | TEMP native preview with real historical curation, not a canonical record. |
+| itersss-support | /private/tmp/aimech-itersss-scientific-data-draft-20261016/scientific-support.json | context_only | Accepted nine-claim/ten-limitation scientific support, with exact locators and qualifications. |
+| itersss-root-static | /private/tmp/aimech-itersss-scientific-data-draft-20261016/root-static-scientific-data-acceptance.json | context_only | Root acceptance for static scientific preparation and TEMP native preview only. |
+| itersss-prior-independent-source | /private/tmp/aimech-itersss-star-independent-controlflow-audit-20261016/assessment.json | context_only | Prior independent complete five-page source/control-flow reading, not a new proof or source run. |
+| itersss-draft-readback | /private/tmp/aimech-itersss-scientific-data-draft-20261016/draft-author-readback.json | context_only | Draft-author clarification: the SPACE arithmetic is the draft author’s derivation, not a separately printed theorem. |
+| itersss-historical-identity | /private/tmp/aimech-itersss-identity-mapping-proposal-20261016/candidate-identity-mapping.proposed.json | context_only | Historical identity and pinned mapping proposal; future collection and ownership are outside scope. |
+| itersss-source-accounting | /private/tmp/aimech-itersss-review-fragments-20261016/historical-source-accounting.json | context_only | All four bibliography, three retrieval and three additional source questions preserved with exact origin objects. |
+| itersss-source-metadata | /private/tmp/aimech-itersss-scientific-data-draft-20261016/source-metadata-and-roles.json | context_only | Original official proceedings artifact, access receipt, citation crosswalk and source role retained. |
+| itersss-native-validation | /private/tmp/aimech-itersss-native-preview-20261016/validation.json | context_only | Prior one-call standalone native record validation passed; no new validator invoked by this preparation. |
+| itersss-primary-01 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 1 and Section 2, printed pp. 163–164 / PDF pp. 1–2; inclusive M &gt;= M0 premise on printed p. 164 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-02 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 2, ITERSSS* initialization on printed p. 164 / PDF p. 2; first(OPEN, FLAG) and phase description on printed p. 165 / PDF p. 3 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-03 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 2, ITERSSS* nonterminal LIVE MAX branch, printed p. 164 / PDF p. 2 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-04 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 2, ITERSSS* LIVE terminal, LIVE MIN and SOLVED MAX cases, printed pp. 164–165 / PDF pp. 2–3 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-05 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 2, SOLVED MIN branch and inactivesucc helper, printed p. 165 / PDF p. 3; explanatory paragraph on printed p. 166 / PDF p. 4 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-06 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 4, Definition 4.1 on printed p. 166 / PDF p. 4; Definitions 4.2–4.4, Theorems 4.1–4.4 and omitted-proof statement on printed p. 167 / PDF p. 5 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-07 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 1, printed p. 163 / PDF p. 1; Example 2.2 and Table 1, printed p. 166 / PDF p. 4; Section 5, printed p. 167 / PDF p. 5 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-08 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; Section 3 and Table 1, printed p. 166 / PDF p. 4; Section 5, printed p. 167 / PDF p. 5 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| itersss-primary-09 | /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf; References and Section 5, printed p. 167 / PDF p. 5; original source artifact title and author line on printed p. 163 / PDF p. 1 | supports | Exact primary-paper locator retained from accepted scientific support; prior full five-page reading is attributed, not newly performed in this static fragment preparation. |
+| actual-write | /private/tmp/aimech-cohort361-write.json | context_only | Actual exclusive creation of three native records, report pair and CREATE history. |
+| captured-inputs | /private/tmp/aimech-cohort361-postwrite-20261016/actual-capture.json | context_only | Actual canonical input-byte and maintained-target capture. |
+| postcapture-reading | /private/tmp/aimech-cohort361-postwrite-20261016/root-generation-reading.json | context_only | Actual root reading of source-scoped canonical records, metadata and all retained question objects; historical source reading stays separately attributed. |
+| governance-assessment | /private/tmp/aimech-cohort361-governance-20261016/assessment.json | context_only | Actual byte preservation, dynamic owner-plan reconstruction, inherited metadata and parsed-page audit. |
+| rendered-pages | /private/tmp/aimech-cohort361-governance-20261016/rendered-pages.json | context_only | Actual generated-page bytes and parsed content; no visual/layout inspection. |
+| actual-scientific-assessment | /private/tmp/aimech-cohort361-actual-adversarial-review-20261016/assessment.preliminary.json | context_only | Actual record scientific assessment with its own attributed source-reading scope. |
+| current-identity-collection | /private/tmp/aimech-cohort361-current-collection-20261016/collection.json | context_only | Actual scoped ignored-inclusive identity collection; mechanical capture is distinct from human semantic reading. |
+| current-context-assessment | /private/tmp/aimech-cohort361-postwrite-20261016/current-collection-assessment.json | context_only | Actual attributed current identity and source-question assessment. |
+| root-decisions | /private/tmp/aimech-cohort361-final-inputs-20261016/decisions.final.json | context_only | Exact current record identity decisions, dynamic accepted ownership and retained source questions. |
+| ownership-plan | /private/tmp/aimech-cohort361-current-ownership-proposal-20261016/ownership-plan.proposed.json | context_only | Exact three source responsibilities retain165 original objects and three separate post-360 retrieval/version questions; current additional questions remain explicit. |
+| ownership-plan-acceptance | /private/tmp/aimech-cohort361-final-inputs-20261016/ownership-plan-acceptance.json | context_only | Actual root acceptance of current source responsibility; no whole-issue closure. |
+| current-discovery-report | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.json | context_only | Canonical durable report containing the exact recursively queryable predecessor_state bundle and separate current source responsibilities. |
+| inherited-source-durability | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.json | context_only | The current canonical predecessor bundle preserves actual360 source_durability with the reconstructible exact JSON manifest and all 100 original asset metadata/provenance objects. This inherited SHA-256 does not identify a publisher PDF. |
+| creation-history | /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/svpg-iterative-expansion-and-itersss-star/2026-10-16T051524Z-codex-b162ee.yaml | context_only | Actual single CREATE event for the report. |
+| review-support | /private/tmp/aimech-cohort361-consumer-preparation-20261016/review-support.v2.prepared.json | context_only | Exact historical per-claim and per-limitation narrative support. |
+| check-gate | /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-gate.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-vendor | /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-vendor.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-check-source | /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-check-source.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-render | /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-render.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-render-check | /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-render-check.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| check-diff | /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-diff.json | context_only | Actual completed required command, exit0; scope is its recorded output. |
+| historical-failed-check-1 | /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-vendor.json | context_only | Retained unsuccessful earlier command attempt; successful later exact command is separately bound. |
+
+## Limits And Additional Notes
+
+- The 71 scientific narratives retain accepted static-fragment content and its explicitly historical source/identity scope. Current-record corroboration is supplied separately by actual evidence.
+- SVPG probability/kernel/version qualifications, IE conditional inheritance/return-interface limits, and ITERSSS finite uniform game-tree/OPEN-entry/proof boundaries remain exact.
+- Five artifacts represent four works: official SVPG plus earlier same-work arXiv, Russell1992 defining IE plus Korf1992 positive primary comparison, and one defining ITERSSS1986 paper.
+- The 165 retained original objects include36 SVPG bibliography grouping families, not extra citation occurrences or concepts. Three post-360 access-limited questions are separately retained.
+- Full inherited360 projection preserves exact scan-manifest/100asset provenance and all earlier issue/source scopes. Source-reading attribution does not imply a fresh reading of every cited original.
+- Actual six creation outputs, one CREATE history, 95 capture inputs and 8 parsed generated pages are bound. Six required commands passed; earlier failed attempts remain explicit. Canonical review save/check and publication are subsequent operations.
+- The 71 scientific assessments and 67 evidence templates retain accepted static-fragment science. The 72nd assessment records actual current governance; one historical search_scope field is supplied from its exact source proposal for formal metadata completeness.
+- Local evidence access instants are filled from the actual attributed postcapture reading. Primary acquisition times preserve their historical instants and are normalized to UTC Z. References to preparation in the retained scientific limitations describe the historical fragment scope.
+- Any source fragment language about preparation describes its historical attributed scope. The assembled actual review adds current evidence without silently rewriting accepted science.
+- All current and inherited source-accounting notes must be rendered and verified, including three separate post-360 discovery questions.
+- Three source-specific responsibilities retain 165 original objects: SVPG 71 citation occurrences, 36 bibliography grouping families, 5 questions, 3 retrieval leads and 1 historical responsibility; IE 30 citation occurrences, 7 questions and 1 historical responsibility; ITERSSS 4 bibliography entries, 3 retrieval groups, 3 questions and 1 historical responsibility. Grouping families are not additional citation occurrences or inferred concepts.
+- {"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source question; no standalone method or trained-model record follows from this citation.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 3293, "character_start": 3096, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B01", "pdf_page": 8, "raw_citation": "Beattie, C., Leibo, J. Z., Teplyashin, D., Ward, T., Wain-\nwright, M., K¨ uttler, H., Lefrancq, A., Green, S., Vald´\nes,\nV., Sadik, A., et al. (2016). Deepmind lab. arXiv preprint\narXiv:1612.03801.", "raw_citation_sha256": "95b7a2182ab5a01e7b9c63e2fa7d7d548195b59077e5568cba53c9696bc9509c", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 0, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "85f46b31ecac9cabe5732d69bb6f0a4713b584320d764a5dc4cedf7a61c7f5aa", "pointer": "/bibliography_occurrences/0", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation construction remains a source-specific question.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 3517, "character_start": 3294, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B02", "pdf_page": 8, "raw_citation": "Bellemare, M., Srinivasan, S., Ostrovski, G., Schaul, T.,\nSaxton, D., and Munos, R. (2016). Unifying count-\nbased exploration and intrinsic motivation. In Advances\nin Neural Information Processing Systems, pages 1471–\n1479.", "raw_citation_sha256": "f848635751eb810be58a852fbc0c368d849c3fc4f4e585593d9df3c9e6dc68ff", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 1, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "5638dbe7cc7c8a81733d08f6f0dd9427f89e008c5694998266189656e473a08a", "pointer": "/bibliography_occurrences/1", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods are benchmark contexts; the 2016 benchmark protocol/version remains distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3734, "character_start": 3518, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B03", "pdf_page": 8, "raw_citation": "Duan, Y., Chen, X., Houthooft, R., Schulman, J., and\nAbbeel, P. (2016). Benchmarking deep reinforcement\nlearning for continuous control. In Proceedings of the\n33rd International Conference on Machine Learning\n(ICML).", "raw_citation_sha256": "8e10680f2fb292f6310dcba415b28e84fe9f7247ab8ebba2c5dfebaae793028c", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 2, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "4ac323095dec23ecb67b77372227d05514d71d0d01a8f56e742ecf60a1541284", "pointer": "/bibliography_occurrences/2", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate source question; neither contextual estimator nor actor-critic record establishes its exact procedure.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3914, "character_start": 3735, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B04", "pdf_page": 8, "raw_citation": "Gu, S., Lillicrap, T., Ghahramani, Z., Turner, R. E.,\nand Levine, S. (2016). Q-prop: Sample-efficient pol-\nicy gradient with an off-policy critic. arXiv preprint\narXiv:1611.02247.", "raw_citation_sha256": "99293df7294b90c9813da2758dfc83270bac3512be36a5956b0f5b015ec3c1a6", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 3, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "64720972e1f6b8741536f463889a7a168ee322ef67383b22b6720fe300c95c79", "pointer": "/bibliography_occurrences/3", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper family; retain the cited arXiv/publication version and experiment scope rather than asserting every passage represented.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4064, "character_start": 3915, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B05", "pdf_page": 8, "raw_citation": "Haarnoja, T., Tang, H., Abbeel, P., and Levine, S. (2017).\nReinforcement learning with deep energy-based poli-\ncies. arXiv preprint arXiv:1702.08165.", "raw_citation_sha256": "d51acbeb01e414239066f41c8db98539e73e420a3ccf8f7886b4e85fc151e073", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 4, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "e272a7bfa0a31613a03d064d72b2772d8c24a8cbbfdedbca0561ce57d576ecd5", "pointer": "/bibliography_occurrences/4", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific 2006 comparing review and its variant coverage remain source questions.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4200, "character_start": 4065, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B06", "pdf_page": 8, "raw_citation": "Hansen, N. (2006). The cma evolution strategy: a compar-\ning review. In Towards a new evolutionary computation,\npages 75–102. Springer.", "raw_citation_sha256": "25f9196f3121a9d87ca588d15b65d16cd3fab28a2c86b88286fc5362572c93f1", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 5, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "e2fef9bf6be1a67dabb2ee879d40762f0725d8463a3f198b18a2ca1abc7a8f63", "pointer": "/bibliography_occurrences/5", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration requires its own original method and estimator scope; shared variational terminology is insufficient.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 4413, "character_start": 4201, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B07", "pdf_page": 8, "raw_citation": "Houthooft, R., Chen, X., Duan, Y., Schulman, J., De Turck,\nF., and Abbeel, P. (2016). Vime: Variational information\nmaximizing exploration. In Advances in Neural Infor-\nmation Processing Systems, pages 1109–1117.", "raw_citation_sha256": "0bb2955fc3f1368b76588db5f739007b99ba2eb8bd6d89462223d3bf01c8de40", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 6, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "e3a1428c17bbded81fd05194592eaf74c533499b27923f4cbb0b579e84b6377a", "pointer": "/bibliography_occurrences/6", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task learning source is retained without treating every task or implementation as a separate concept.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 4615, "character_start": 4414, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B08", "pdf_page": 8, "raw_citation": "Jaderberg, M., Mnih, V., Czarnecki, W. M., Schaul, T.,\nLeibo, J. Z., Silver, D., and Kavukcuoglu, K. (2016). Re-\ninforcement learning with unsupervised auxiliary tasks.\narXiv preprint arXiv:1611.05397.", "raw_citation_sha256": "208e915ed6c313cfafff8cb9c829ac3892622f762b8444d5143650ace413379a", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 7, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "ea3fe91298fd3d8850df8b9f753fa0713fc3aef962a820a58b2fd380f2e3e4e6", "pointer": "/bibliography_occurrences/7", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not equated to either.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4725, "character_start": 4616, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B09", "pdf_page": 8, "raw_citation": "Kakade, S. (2002). A natural policy gradient. Advances in\nneural information processing systems, 2:1531–1538.", "raw_citation_sha256": "3b9a6b339c73448945670033484066e41b602f0a48a4410c16a1f2e62cc1fb69", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 8, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "dfc2c31e10109e6de34a11871e061e977bf110c89cfefc6d1d2ee8826fcf9de8", "pointer": "/bibliography_occurrences/8", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited source version and the SVPG experiment optimizer scaling remain distinct responsibilities.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4831, "character_start": 4726, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B10", "pdf_page": 8, "raw_citation": "Kingma, D. and Ba, J. (2014). Adam: A method\nfor stochastic optimization. arXiv preprint\narXiv:1412.6980.", "raw_citation_sha256": "cf571e851738cee65c0e16d4f238576b873163601eb7789df6216696fdbd78cd", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:Adam"], "group": "svpg", "index": 9, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "ca7e0b962575a6d054799e54c37e34f4f13108978f2f81d55fd2ecfd7ecd3fcd", "pointer": "/bibliography_occurrences/9", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component is maintained; its source limitations and the policy-objective specialization remain distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 5017, "character_start": 4832, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B11", "pdf_page": 8, "raw_citation": "Liu, Q. and Wang, D. (2016). Stein variational gradient de-\nscent: A general purpose bayesian inference algorithm.\nIn Advances In Neural Information Processing Systems,\npages 2370–2378.", "raw_citation_sha256": "c65971c3bca79aa4d56369fead47e29263d779726a1f6048eb5c81010338175a", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 10, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "97811d7586170bfbabb06d47bf1f8556be45dd0d87fdbe63102fe675698eb03f", "pointer": "/bibliography_occurrences/10", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad visualization context, not an audit of the 2008 source or SVPG behavioral-diversity interpretation.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 5143, "character_start": 5018, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt", "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B12", "pdf_page": 8, "raw_citation": "Maaten, L. v. d. and Hinton, G. (2008). Visualizing data\nusing t-sne. Journal of Machine Learning Research,\n9(Nov):2579–2605.", "raw_citation_sha256": "a96da604845c548e908a6c06de1cbf0830484c8471a90ef8899a5884b6712045", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 11, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "2330882f031155b9d3a51960b9e4eecde5116e52aee12c5e1aaae9c95161a879", "pointer": "/bibliography_occurrences/11", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization is maintained; the 2003 policy-search realization remains a narrower original-source question.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 123, "character_start": 0, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B13", "pdf_page": 9, "raw_citation": "Mannor, S., Rubinstein, R. Y., and Gat, Y. (2003). The\ncross entropy method for fast policy search. In ICML,\npages 512–519.", "raw_citation_sha256": "ca38133bc456c3dd7c79c680679776c900e1862a67a633a8f7e0e6257bcee5e4", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization"], "group": "svpg", "index": 12, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "89a4df484d7d7c57983ef874026edfdae0164fbc5864bf68ccdf62ce510dde00", "pointer": "/bibliography_occurrences/12", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation application and its learning components require original inspection.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 346, "character_start": 124, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B14", "pdf_page": 9, "raw_citation": "Mirowski, P., Pascanu, R., Viola, F., Soyer, H., Bal-\nlard, A., Banino, A., Denil, M., Goroshin, R., Sifre,\nL., Kavukcuoglu, K., et al. (2016). Learning to\nnavigate in complex environments. arXiv preprint\narXiv:1611.03673.", "raw_citation_sha256": "f38044978c6c8427778550579bd7f7ad015ae5b84c1f34ad6e70e7e2d71b77ba", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 13, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "5ec2e975c4735a91bf1df8b3eea925d5f9e46b5f1e5d13eadd627e9f3b5d106c", "pointer": "/bibliography_occurrences/13", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper and A2C/A3C realization require original inspection; the maintained score-function family alone does not identify those controllers.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 566, "character_start": 347, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B15", "pdf_page": 9, "raw_citation": "Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap,\nT. P., Harley, T., Silver, D., and Kavukcuoglu, K. (2016).\nAsynchronous methods for deep reinforcement learning.\nIn International Conference on Machine Learning.", "raw_citation_sha256": "d3f3c7b5b320d695a49658750bc2c99e51d461a1bccea4c5c400de15656c3d29", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 14, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d62583f22d28468447ac711aa8180caa43a1f10df6af24bc30e10f3fb4683fc7", "pointer": "/bibliography_occurrences/14", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation for intrinsic motivation remains a distinct source question, not the generic variational-inference label.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 769, "character_start": 567, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B16", "pdf_page": 9, "raw_citation": "Mohamed, S. and Rezende, D. J. (2015). Variational in-\nformation maximisation for intrinsically motivated rein-\nforcement learning. In Advances in neural information\nprocessing systems, pages 2125–2133.", "raw_citation_sha256": "b6a5dfc1656702e76b78679c826d27ad950ea2336f54012fd1f57d91d3275a65", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 15, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "cd86061b4a041e759561d8bbe5504a1890e1256f3e1f9dd2da9588d4a45bf21d", "pointer": "/bibliography_occurrences/15", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration is a policy-gradient source question; REINFORCE is estimator context only.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 922, "character_start": 770, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B17", "pdf_page": 9, "raw_citation": "Nachum, O., Norouzi, M., and Schuurmans, D. (2016). Im-\nproving policy gradient by exploring under-appreciated\nrewards. arXiv preprint arXiv:1611.09321.", "raw_citation_sha256": "ef05e94b8423dfdb1e44f9d9c045979d1b5f200648ce795beb2506e3c0ea4a4f", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 16, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "b96928752d83f8eaee12b9fc7b4c9d3dd7f78f5367ebe857b723ea398d733dcd", "pointer": "/bibliography_occurrences/16", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training has DQN context, but its parallel procedure and version are unresolved here.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1171, "character_start": 923, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B18", "pdf_page": 9, "raw_citation": "Nair, A., Srinivasan, P., Blackwell, S., Alcicek, C., Fearon,\nR., De Maria, A., Panneershelvam, V., Suleyman, M.,\nBeattie, C., Petersen, S., et al. (2015). Massively parallel\nmethods for deep reinforcement learning. arXiv preprint\narXiv:1507.04296.", "raw_citation_sha256": "27706778859e9aa548fa251ee9f8939d1b82c671cc29315cdbbaaf9112aca7b0", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 17, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "78cfaa8a6e7b2c6889cddb6d601d4216fa1d88f5b885c4ad32fa0ad81a61d031", "pointer": "/bibliography_occurrences/17", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance assumptions remain source questions; generic Q-learning does not establish the shaping theorem.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1347, "character_start": 1172, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B19", "pdf_page": 9, "raw_citation": "Ng, A. Y., Harada, D., and Russell, S. (1999). Policy in-\nvariance under reward transformations: Theory and ap-\nplication to reward shaping. In ICML, volume 99, pages\n278–287.", "raw_citation_sha256": "a9b0bdf91868f9791a87ae390ba6e516d6888fccddd440481d13a5fcfcd7512c", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:QLearning"], "group": "svpg", "index": 18, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "6ee7c50fab30ad6c2c0f138affd49e933869effa334fe8d09839d921f5a93fae", "pointer": "/bibliography_occurrences/18", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality discussion is conceptual context for regularized control, not equivalent to the maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1521, "character_start": 1348, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B20", "pdf_page": 9, "raw_citation": "Ortega, D. A. and Braun, P. A. (2011). Information, utility\nand bounded rationality. In International Conference on\nArtificial General Intelligence, pages 269–274. Springer.", "raw_citation_sha256": "4db78a5658c64e69643d1672263174f03fae2a03df31ed6a79e825355f84d341", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 19, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "ec6a6af2e1d9552a862535afaf3c50ff1984beb34a04959a373f703807bc0bcb", "pointer": "/bibliography_occurrences/19", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1696, "character_start": 1522, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B21", "pdf_page": 9, "raw_citation": "Osband, I., Blundell, C., Pritzel, A., and Van Roy, B.\n(2016). Deep exploration via bootstrapped dqn. In Ad-\nvances In Neural Information Processing Systems, pages\n4026–4034.", "raw_citation_sha256": "683c6cb9ad45f79c8f94861d32be676c0fdff33e4bc39ae9eb4c1ab9cd433981", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 20, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d0b9ac63d7a29c9437abe5dcf37ef1eb6d44a20b324413a219b168db62054c68", "pointer": "/bibliography_occurrences/20", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration requires its own original source and estimator; DQN supplies surrounding control context only.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1852, "character_start": 1697, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B22", "pdf_page": 9, "raw_citation": "Ostrovski, G., Bellemare, M. G., Oord, A. v. d., and Munos,\nR. (2017). Count-based exploration with neural density\nmodels. arXiv preprint arXiv:1703.01310.", "raw_citation_sha256": "0c1a18d6ceb9abf46f05b14e3d37823f3dfeda7248c4415b7ab02c8e525a9d6c", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 21, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "3e05e529da9b9aa78f50f868e6d7e8433d0b85f6d8829a796a6f3c8ebfc167f5", "pointer": "/bibliography_occurrences/21", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies RL realization is not identified with NES or CMA-ES from the shared family vocabulary.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2019, "character_start": 1853, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B23", "pdf_page": 9, "raw_citation": "Salimans, T., Ho, J., Chen, X., and Sutskever, I. (2017).\nEvolution strategies as a scalable alternative to reinforce-\nment learning. arXiv preprint arXiv:1703.03864.", "raw_citation_sha256": "f1d8742b2312e846250de2e4c861ad03d1ada97bf1e4018ab84e6ded655a171f", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies", "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 22, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "c5efbebc5e4684b777fae85164dd3fc3d6fbb325cefbf469764f42dfa0a5cad3", "pointer": "/bibliography_occurrences/22", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only proposes related extensions, so this citation does not establish an implemented Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2156, "character_start": 2020, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B24", "pdf_page": 9, "raw_citation": "Schulman, J., Levine, S., Abbeel, P., Jordan, M. I., and\nMoritz, P. (2015a). Trust region policy optimization. In\nICML, pages 1889–1897.", "raw_citation_sha256": "d1560b4529cb4e36429cc82779359d2e94370e4f5fcf701526640e24ed78d76d", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 23, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "bfc1fcfda4d37f00d36f8e9b0a9232622022eefdb161372ecd91f91c1e61bb70", "pointer": "/bibliography_occurrences/23", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact source version and the particular estimator use in policy optimization.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2341, "character_start": 2157, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B25", "pdf_page": 9, "raw_citation": "Schulman, J., Moritz, P., Levine, S., Jordan, M., and\nAbbeel, P. (2015b). High-dimensional continuous con-\ntrol using generalized advantage estimation. arXiv\npreprint arXiv:1506.02438.", "raw_citation_sha256": "3cd9620b98f97aa977850c364352ae57922b66fb165dd1787f168c4d604e47a6", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:GeneralizedAdvantageEstimation"], "group": "svpg", "index": 24, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "3eb05db34a3c331e3b64bc2c24a0b76fff7edf313e4c9cb7608e886f54b12a52", "pointer": "/bibliography_occurrences/24", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients require their original parameter-distribution and gradient rules; contextual score estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2510, "character_start": 2342, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B26", "pdf_page": 9, "raw_citation": "Sehnke, F., Osendorfer, C., R¨ uckstieß, T., Graves, A.,\nPeters, J., and Schmidhuber, J. (2010). Parameter-\nexploring policy gradients. Neural Networks, 23(4):551–\n559.", "raw_citation_sha256": "e45da46abbb6fb3a4a5185bda55611ff1536461da8519069ecdd77601a0fc2e9", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 25, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "4c65c6fc14b5b434708b60aaef9bcda3ee134616b88cdbea24ae7ff920027cde", "pointer": "/bibliography_occurrences/25", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains a source and framework question, not a new concept by citation count.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2651, "character_start": 2511, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B27", "pdf_page": 9, "raw_citation": "Singh, S. P., Barto, A. G., and Chentanez, N. (2004). In-\ntrinsically motivated reinforcement learning. In NIPS,\nvolume 17, pages 1281–1288.", "raw_citation_sha256": "ea63396a16e6a01d4ec8dd66a548f2eb673052533f2b365cca3df00cb3574703", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 26, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "78db839770036f30b2c7f7b4892953289f25f7173796c0f55bb5dfde83ee7e43", "pointer": "/bibliography_occurrences/26", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation overview requires exact original algorithm/assumption inspection before any additional identity claim.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2805, "character_start": 2652, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B28", "pdf_page": 9, "raw_citation": "Spall, J. C. (1998). An overview of the simultaneous pertur-\nbation method for efficient optimization. Johns Hopkins\napl technical digest, 19(4):482–492.", "raw_citation_sha256": "79504a8444bc6884699e5641f3d49a1225dda300b759ece43fcd76f7d4a9bdc8", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 27, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "1619858286ff00c4b51ec00926854af7427e564b28b24307aaa749ac158657a3", "pointer": "/bibliography_occurrences/27", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information acquisition remains a source-specific information-seeking question.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 3064, "character_start": 2806, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B29", "pdf_page": 9, "raw_citation": "Storck, J., Hochreiter, S., and Schmidhuber, J. (1995).\nReinforcement driven information acquisition in non-\ndeterministic environments. In Proceedings of the inter-\nnational conference on artificial neural networks, Paris,\nvolume 2, pages 159–164. Citeseer.", "raw_citation_sha256": "eecfe2897dbea9144e38cf7ed992a3119cd1db8405f87c1054730486272b94db", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 28, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a0cc5f21be6fd4db84ba8d93542bd03ed60f9c755d10578d6778be604419cb0b", "pointer": "/bibliography_occurrences/28", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling and repository route remain exact; implementation/version inspection is separate from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3148, "character_start": 3065, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B30", "pdf_page": 9, "raw_citation": "Ulyanov, D. (2016). Muticore-tsne. https://github.\ncom/DmitryUlyanov/Muticore-TSNE.", "raw_citation_sha256": "f255e2198fc94098a5ed2f8d69dba0c8b7916978ed013b6bc4344d092d4bb799", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 29, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "313533c411dd77fdcb0ec1723a9bd5839dde81ec359c2789a6a8989f165d0636", "pointer": "/bibliography_occurrences/29", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific algorithm/implementation question, not established by the broad AIO label.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3279, "character_start": 3149, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B31", "pdf_page": 9, "raw_citation": "Van Der Maaten, L. (2014). Accelerating t-sne using tree-\nbased algorithms. Journal of machine learning research,\n15(1):3221–3245.", "raw_citation_sha256": "ce7ea328eca3863e25931cd65930bc17e66ff3c26d220b6161578a97e5fa854c", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 30, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "274b59a99d76fc75e32a3974c080986e477e22b71aa913f914a0c63dac5eb12f", "pointer": "/bibliography_occurrences/30", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay source is not identified with either contextual estimator or deterministic actor-critic method.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3465, "character_start": 3280, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B32", "pdf_page": 9, "raw_citation": "Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R.,\nKavukcuoglu, K., and de Freitas, N. (2016). Sample ef-\nficient actor-critic with experience replay. arXiv preprint\narXiv:1611.01224.", "raw_citation_sha256": "d8003f6cbf6cbc0c2ef8a7b87e785b230b1466210d3524ff494a06d88201b5d2", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 31, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "7c055f331c3be05a868e6d6ebb89a45fbc467efa14f4489e4e38dcda0668d754", "pointer": "/bibliography_occurrences/31", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B33: SGLD uses stochastic-gradient posterior sampling context; the maintained full-gradient ULA record does not establish its minibatch construction or guarantees.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3659, "character_start": 3466, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B33", "pdf_page": 9, "raw_citation": "Welling, M. and Teh, Y. W. (2011). Bayesian learning via\nstochastic gradient langevin dynamics. In Proceedings of\nthe 28th International Conference on Machine Learning\n(ICML-11), pages 681–688.", "raw_citation_sha256": "f79400b2912da147d6993df789ce4c8a36d97de5555b7fab3479bd3383204fa2", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"], "group": "svpg", "index": 32, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "8855de493bb3e284c51e369776e0711fe4d6d809b948464b20821df900488553", "pointer": "/bibliography_occurrences/32", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family is maintained; retain the precise source/variant and baseline qualifications.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3809, "character_start": 3660, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B34", "pdf_page": 9, "raw_citation": "Williams, R. J. (1992). Simple statistical gradient-\nfollowing algorithms for connectionist reinforcement\nlearning. Machine learning, 8(3-4):229–256.", "raw_citation_sha256": "b525d7fa026ebbbc5213a8e24ce748d4e3b3a65e811a2f2a49ae1c61bd88ca37", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 33, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "5eb298793b40f382c100d8305f3b26189b75772fa2173e17410f90b3f76f69bc", "pointer": "/bibliography_occurrences/33", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization is retained as its own source/version question; the later REINFORCE family is related context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3957, "character_start": 3810, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B35", "pdf_page": 9, "raw_citation": "Williams, R. J. and Peng, J. (1991). Function optimization\nusing connectionist reinforcement learning algorithms.\nConnection Science, 3(3):241–268.", "raw_citation_sha256": "3e0a7508a7d5fa93619ee8062869f7ea383d29008fbee95f35250249aec6c93f", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 34, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "64f69efacbb0e8a769ad8dadeb338850eee598a60df36f2d9d0af96ba902dafd", "pointer": "/bibliography_occurrences/34", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics bridge is conceptual/source context; it is not resolved by a modern regularized-control record.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4133, "character_start": 3958, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt", "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-uai2017-B36", "pdf_page": 9, "raw_citation": "Wolpert, D. H. (2006). Information theorythe bridge con-\nnecting bounded rational game theory and statistical\nphysics. In Complex Engineered Systems, pages 262–\n290. Springer.", "raw_citation_sha256": "c1fe6e174f525130eb565af6c75662e62698b57b4c53bfdb26eb5ff7b6fa53a5", "source_version": "uai2017", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 35, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d2af1528bda8474edc310a0fd0f73fa9bd5fa6bea2ebfe7d8de6a61f66140dd7", "pointer": "/bibliography_occurrences/35", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source question; no standalone method or trained-model record follows from this citation.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2766, "character_start": 2569, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B01", "pdf_page": 8, "raw_citation": "Beattie, C., Leibo, J. Z., Teplyashin, D., Ward, T., Wain-\nwright, M., K¨ uttler, H., Lefrancq, A., Green, S., Vald´\nes,\nV., Sadik, A., et al. (2016). Deepmind lab. arXiv preprint\narXiv:1612.03801.", "raw_citation_sha256": "95b7a2182ab5a01e7b9c63e2fa7d7d548195b59077e5568cba53c9696bc9509c", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 36, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "be757980a97b23b4b8357b2b1b3d3814f2db56a8fd5886be958321ec96f7b31c", "pointer": "/bibliography_occurrences/36", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation construction remains a source-specific question.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2990, "character_start": 2767, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B02", "pdf_page": 8, "raw_citation": "Bellemare, M., Srinivasan, S., Ostrovski, G., Schaul, T.,\nSaxton, D., and Munos, R. (2016). Unifying count-\nbased exploration and intrinsic motivation. In Advances\nin Neural Information Processing Systems, pages 1471–\n1479.", "raw_citation_sha256": "f848635751eb810be58a852fbc0c368d849c3fc4f4e585593d9df3c9e6dc68ff", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 37, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "decb3106a48a725651d577fba2f2069d7e65f4a29ab34b702c294cea21edc4ec", "pointer": "/bibliography_occurrences/37", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods are benchmark contexts; the 2016 benchmark protocol/version remains distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3207, "character_start": 2991, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B03", "pdf_page": 8, "raw_citation": "Duan, Y., Chen, X., Houthooft, R., Schulman, J., and\nAbbeel, P. (2016). Benchmarking deep reinforcement\nlearning for continuous control. In Proceedings of the\n33rd International Conference on Machine Learning\n(ICML).", "raw_citation_sha256": "8e10680f2fb292f6310dcba415b28e84fe9f7247ab8ebba2c5dfebaae793028c", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 38, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "25a1822be13646cdb9003c73facf76daa2e52a084511243ccbca9f055ba19d2a", "pointer": "/bibliography_occurrences/38", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate source question; neither contextual estimator nor actor-critic record establishes its exact procedure.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3387, "character_start": 3208, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B04", "pdf_page": 8, "raw_citation": "Gu, S., Lillicrap, T., Ghahramani, Z., Turner, R. E.,\nand Levine, S. (2016). Q-prop: Sample-efficient pol-\nicy gradient with an off-policy critic. arXiv preprint\narXiv:1611.02247.", "raw_citation_sha256": "99293df7294b90c9813da2758dfc83270bac3512be36a5956b0f5b015ec3c1a6", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 39, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "2d255218ddee51dfece63349adbbee4eb57229ae42ea781b767752de1739d458", "pointer": "/bibliography_occurrences/39", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper family; retain the cited arXiv/publication version and experiment scope rather than asserting every passage represented.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3537, "character_start": 3388, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B05", "pdf_page": 8, "raw_citation": "Haarnoja, T., Tang, H., Abbeel, P., and Levine, S. (2017).\nReinforcement learning with deep energy-based poli-\ncies. arXiv preprint arXiv:1702.08165.", "raw_citation_sha256": "d51acbeb01e414239066f41c8db98539e73e420a3ccf8f7886b4e85fc151e073", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 40, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "1f5eb0419bf0c4dab33a89f57fe02197951be747c8c17f14d43177b1e1de42b3", "pointer": "/bibliography_occurrences/40", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific 2006 comparing review and its variant coverage remain source questions.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3673, "character_start": 3538, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B06", "pdf_page": 8, "raw_citation": "Hansen, N. (2006). The cma evolution strategy: a compar-\ning review. In Towards a new evolutionary computation,\npages 75–102. Springer.", "raw_citation_sha256": "25f9196f3121a9d87ca588d15b65d16cd3fab28a2c86b88286fc5362572c93f1", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 41, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "7e5683aaf90817359087c985760ef8394cca77bf2af614c485f910abacd0e862", "pointer": "/bibliography_occurrences/41", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration requires its own original method and estimator scope; shared variational terminology is insufficient.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 3886, "character_start": 3674, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B07", "pdf_page": 8, "raw_citation": "Houthooft, R., Chen, X., Duan, Y., Schulman, J., De Turck,\nF., and Abbeel, P. (2016). Vime: Variational information\nmaximizing exploration. In Advances in Neural Infor-\nmation Processing Systems, pages 1109–1117.", "raw_citation_sha256": "0bb2955fc3f1368b76588db5f739007b99ba2eb8bd6d89462223d3bf01c8de40", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 42, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "90cc06ce97ac2dfeddc82b0ccda377f728e238073889ae1b27c4009dd8371f44", "pointer": "/bibliography_occurrences/42", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task learning source is retained without treating every task or implementation as a separate concept.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 4088, "character_start": 3887, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B08", "pdf_page": 8, "raw_citation": "Jaderberg, M., Mnih, V., Czarnecki, W. M., Schaul, T.,\nLeibo, J. Z., Silver, D., and Kavukcuoglu, K. (2016). Re-\ninforcement learning with unsupervised auxiliary tasks.\narXiv preprint arXiv:1611.05397.", "raw_citation_sha256": "208e915ed6c313cfafff8cb9c829ac3892622f762b8444d5143650ace413379a", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 43, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "abc993e827d4ca7e7bca8751583485d4af330c2e910e0cf1317a0fd348ca1189", "pointer": "/bibliography_occurrences/43", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not equated to either.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4198, "character_start": 4089, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B09", "pdf_page": 8, "raw_citation": "Kakade, S. (2002). A natural policy gradient. Advances in\nneural information processing systems, 2:1531–1538.", "raw_citation_sha256": "3b9a6b339c73448945670033484066e41b602f0a48a4410c16a1f2e62cc1fb69", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 44, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "015f7c6d5637fcb56387187264eb7e4b41a50adff225ecb536d6c0797ce9d96e", "pointer": "/bibliography_occurrences/44", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited source version and the SVPG experiment optimizer scaling remain distinct responsibilities.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4304, "character_start": 4199, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B10", "pdf_page": 8, "raw_citation": "Kingma, D. and Ba, J. (2014). Adam: A method\nfor stochastic optimization. arXiv preprint\narXiv:1412.6980.", "raw_citation_sha256": "cf571e851738cee65c0e16d4f238576b873163601eb7789df6216696fdbd78cd", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:Adam"], "group": "svpg", "index": 45, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "54647b7dd795daac99d2188a6f5b4c32cd18a16c657347d22360d77129937507", "pointer": "/bibliography_occurrences/45", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component is maintained; its source limitations and the policy-objective specialization remain distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4490, "character_start": 4305, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B11", "pdf_page": 8, "raw_citation": "Liu, Q. and Wang, D. (2016). Stein variational gradient de-\nscent: A general purpose bayesian inference algorithm.\nIn Advances In Neural Information Processing Systems,\npages 2370–2378.", "raw_citation_sha256": "c65971c3bca79aa4d56369fead47e29263d779726a1f6048eb5c81010338175a", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 46, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "cb96b4db62a73b9145ad113f9b609f088ce5781a6bde4e12a8cb33d6f26d0ec7", "pointer": "/bibliography_occurrences/46", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad visualization context, not an audit of the 2008 source or SVPG behavioral-diversity interpretation.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4616, "character_start": 4491, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B12", "pdf_page": 8, "raw_citation": "Maaten, L. v. d. and Hinton, G. (2008). Visualizing data\nusing t-sne. Journal of Machine Learning Research,\n9(Nov):2579–2605.", "raw_citation_sha256": "a96da604845c548e908a6c06de1cbf0830484c8471a90ef8899a5884b6712045", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 47, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a14961c0121b03835ebbefe1f997e65d3f92efcf08dd0e8c54130f12b482d650", "pointer": "/bibliography_occurrences/47", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization is maintained; the 2003 policy-search realization remains a narrower original-source question.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 4740, "character_start": 4617, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B13", "pdf_page": 8, "raw_citation": "Mannor, S., Rubinstein, R. Y., and Gat, Y. (2003). The\ncross entropy method for fast policy search. In ICML,\npages 512–519.", "raw_citation_sha256": "ca38133bc456c3dd7c79c680679776c900e1862a67a633a8f7e0e6257bcee5e4", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization"], "group": "svpg", "index": 48, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "0affa14cdf16e40ede9ac894c257bb9ac8f80ec9ece552853f28dafb74f672da", "pointer": "/bibliography_occurrences/48", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation application and its learning components require original inspection.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 4963, "character_start": 4741, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B14", "pdf_page": 8, "raw_citation": "Mirowski, P., Pascanu, R., Viola, F., Soyer, H., Bal-\nlard, A., Banino, A., Denil, M., Goroshin, R., Sifre,\nL., Kavukcuoglu, K., et al. (2016). Learning to\nnavigate in complex environments. arXiv preprint\narXiv:1611.03673.", "raw_citation_sha256": "f38044978c6c8427778550579bd7f7ad015ae5b84c1f34ad6e70e7e2d71b77ba", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 49, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "f06657b427190283239ad092e91d20332ac757ebef60ec948ddee7464db711eb", "pointer": "/bibliography_occurrences/49", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper and A2C/A3C realization require original inspection; the maintained score-function family alone does not identify those controllers.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 5183, "character_start": 4964, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt", "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B15", "pdf_page": 8, "raw_citation": "Mnih, V., Badia, A. P., Mirza, M., Graves, A., Lillicrap,\nT. P., Harley, T., Silver, D., and Kavukcuoglu, K. (2016).\nAsynchronous methods for deep reinforcement learning.\nIn International Conference on Machine Learning.", "raw_citation_sha256": "d3f3c7b5b320d695a49658750bc2c99e51d461a1bccea4c5c400de15656c3d29", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 50, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "b7911d0806f076528fa960f3933e7ff6cfa38447e67f1fee0d4b4e55a6dc85cf", "pointer": "/bibliography_occurrences/50", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation for intrinsic motivation remains a distinct source question, not the generic variational-inference label.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 202, "character_start": 0, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B16", "pdf_page": 9, "raw_citation": "Mohamed, S. and Rezende, D. J. (2015). Variational in-\nformation maximisation for intrinsically motivated rein-\nforcement learning. In Advances in neural information\nprocessing systems, pages 2125–2133.", "raw_citation_sha256": "b6a5dfc1656702e76b78679c826d27ad950ea2336f54012fd1f57d91d3275a65", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 51, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "42aa02912eef7eac94b0f5570675a0fa66415457ce6ee8c603e9ad9391c91311", "pointer": "/bibliography_occurrences/51", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration is a policy-gradient source question; REINFORCE is estimator context only.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 355, "character_start": 203, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B17", "pdf_page": 9, "raw_citation": "Nachum, O., Norouzi, M., and Schuurmans, D. (2016). Im-\nproving policy gradient by exploring under-appreciated\nrewards. arXiv preprint arXiv:1611.09321.", "raw_citation_sha256": "ef05e94b8423dfdb1e44f9d9c045979d1b5f200648ce795beb2506e3c0ea4a4f", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 52, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "f323ecbc23586ebb3318faaaedbc67e1b33f7335128ba806e629ef3fffcc4591", "pointer": "/bibliography_occurrences/52", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training has DQN context, but its parallel procedure and version are unresolved here.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 604, "character_start": 356, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B18", "pdf_page": 9, "raw_citation": "Nair, A., Srinivasan, P., Blackwell, S., Alcicek, C., Fearon,\nR., De Maria, A., Panneershelvam, V., Suleyman, M.,\nBeattie, C., Petersen, S., et al. (2015). Massively parallel\nmethods for deep reinforcement learning. arXiv preprint\narXiv:1507.04296.", "raw_citation_sha256": "27706778859e9aa548fa251ee9f8939d1b82c671cc29315cdbbaaf9112aca7b0", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 53, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "7ae5068a471c200ceb63f80a4fbfd9747934f0fa3afb61a49a53a17ed81d04c6", "pointer": "/bibliography_occurrences/53", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance assumptions remain source questions; generic Q-learning does not establish the shaping theorem.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 780, "character_start": 605, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B19", "pdf_page": 9, "raw_citation": "Ng, A. Y., Harada, D., and Russell, S. (1999). Policy in-\nvariance under reward transformations: Theory and ap-\nplication to reward shaping. In ICML, volume 99, pages\n278–287.", "raw_citation_sha256": "a9b0bdf91868f9791a87ae390ba6e516d6888fccddd440481d13a5fcfcd7512c", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:QLearning"], "group": "svpg", "index": 54, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "7c86c98eac9f68e94f5965b20228c1bbf07e81130b9ad87cb11954259b6e9c1c", "pointer": "/bibliography_occurrences/54", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality discussion is conceptual context for regularized control, not equivalent to the maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 954, "character_start": 781, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B20", "pdf_page": 9, "raw_citation": "Ortega, D. A. and Braun, P. A. (2011). Information, utility\nand bounded rationality. In International Conference on\nArtificial General Intelligence, pages 269–274. Springer.", "raw_citation_sha256": "4db78a5658c64e69643d1672263174f03fae2a03df31ed6a79e825355f84d341", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 55, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "20482f131aac74b98cbb1ed997b28e288621f3763f09adb606f9560dd155bb87", "pointer": "/bibliography_occurrences/55", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1129, "character_start": 955, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B21", "pdf_page": 9, "raw_citation": "Osband, I., Blundell, C., Pritzel, A., and Van Roy, B.\n(2016). Deep exploration via bootstrapped dqn. In Ad-\nvances In Neural Information Processing Systems, pages\n4026–4034.", "raw_citation_sha256": "683c6cb9ad45f79c8f94861d32be676c0fdff33e4bc39ae9eb4c1ab9cd433981", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 56, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "1cc08f4f62c9d6932a976cabf2718352da94c4cb7a988f2c32640773d66f7b80", "pointer": "/bibliography_occurrences/56", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration requires its own original source and estimator; DQN supplies surrounding control context only.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1285, "character_start": 1130, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B22", "pdf_page": 9, "raw_citation": "Ostrovski, G., Bellemare, M. G., Oord, A. v. d., and Munos,\nR. (2017). Count-based exploration with neural density\nmodels. arXiv preprint arXiv:1703.01310.", "raw_citation_sha256": "0c1a18d6ceb9abf46f05b14e3d37823f3dfeda7248c4415b7ab02c8e525a9d6c", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 57, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "303cd1b0ead22de08f38fc7a1f9be08c885589ccb90f161bf1fbc2d0f1e34e5d", "pointer": "/bibliography_occurrences/57", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies RL realization is not identified with NES or CMA-ES from the shared family vocabulary.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1452, "character_start": 1286, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B23", "pdf_page": 9, "raw_citation": "Salimans, T., Ho, J., Chen, X., and Sutskever, I. (2017).\nEvolution strategies as a scalable alternative to reinforce-\nment learning. arXiv preprint arXiv:1703.03864.", "raw_citation_sha256": "f1d8742b2312e846250de2e4c861ad03d1ada97bf1e4018ab84e6ded655a171f", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies", "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 58, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "ec3c0a19afcdb0dc9f2adbac6d32017f48505ac15405a0d9d47e7c2c599b5b6c", "pointer": "/bibliography_occurrences/58", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only proposes related extensions, so this citation does not establish an implemented Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1589, "character_start": 1453, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B24", "pdf_page": 9, "raw_citation": "Schulman, J., Levine, S., Abbeel, P., Jordan, M. I., and\nMoritz, P. (2015a). Trust region policy optimization. In\nICML, pages 1889–1897.", "raw_citation_sha256": "d1560b4529cb4e36429cc82779359d2e94370e4f5fcf701526640e24ed78d76d", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 59, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "499448f85fbf0448b602637dcd7a60c62f4f348e46c865dcccfe854cc2699b21", "pointer": "/bibliography_occurrences/59", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact source version and the particular estimator use in policy optimization.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1774, "character_start": 1590, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B25", "pdf_page": 9, "raw_citation": "Schulman, J., Moritz, P., Levine, S., Jordan, M., and\nAbbeel, P. (2015b). High-dimensional continuous con-\ntrol using generalized advantage estimation. arXiv\npreprint arXiv:1506.02438.", "raw_citation_sha256": "3cd9620b98f97aa977850c364352ae57922b66fb165dd1787f168c4d604e47a6", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:GeneralizedAdvantageEstimation"], "group": "svpg", "index": 60, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "973fcc866afd9915eb85a7a8f55b59e1572e7ef639a0bd8cd1a48e26bf2ed0bd", "pointer": "/bibliography_occurrences/60", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients require their original parameter-distribution and gradient rules; contextual score estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 1943, "character_start": 1775, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B26", "pdf_page": 9, "raw_citation": "Sehnke, F., Osendorfer, C., R¨ uckstieß, T., Graves, A.,\nPeters, J., and Schmidhuber, J. (2010). Parameter-\nexploring policy gradients. Neural Networks, 23(4):551–\n559.", "raw_citation_sha256": "e45da46abbb6fb3a4a5185bda55611ff1536461da8519069ecdd77601a0fc2e9", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 61, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "151612a0a8ca43f112bdf510e5673a0ab4c6e5462beade601a05dc80dd350b85", "pointer": "/bibliography_occurrences/61", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains a source and framework question, not a new concept by citation count.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2084, "character_start": 1944, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B27", "pdf_page": 9, "raw_citation": "Singh, S. P., Barto, A. G., and Chentanez, N. (2004). In-\ntrinsically motivated reinforcement learning. In NIPS,\nvolume 17, pages 1281–1288.", "raw_citation_sha256": "ea63396a16e6a01d4ec8dd66a548f2eb673052533f2b365cca3df00cb3574703", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 62, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "239a256be9a6504da6ef0dd17827e621e7e1b826e0fb945a45a9c2337f30e8d3", "pointer": "/bibliography_occurrences/62", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation overview requires exact original algorithm/assumption inspection before any additional identity claim.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2238, "character_start": 2085, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B28", "pdf_page": 9, "raw_citation": "Spall, J. C. (1998). An overview of the simultaneous pertur-\nbation method for efficient optimization. Johns Hopkins\napl technical digest, 19(4):482–492.", "raw_citation_sha256": "79504a8444bc6884699e5641f3d49a1225dda300b759ece43fcd76f7d4a9bdc8", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 63, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "b24612c7feea07f9102760b87c95a609a2a914379ebd6f6720666f0b14ab9f07", "pointer": "/bibliography_occurrences/63", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information acquisition remains a source-specific information-seeking question.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive": 2497, "character_start": 2239, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B29", "pdf_page": 9, "raw_citation": "Storck, J., Hochreiter, S., and Schmidhuber, J. (1995).\nReinforcement driven information acquisition in non-\ndeterministic environments. In Proceedings of the inter-\nnational conference on artificial neural networks, Paris,\nvolume 2, pages 159–164. Citeseer.", "raw_citation_sha256": "eecfe2897dbea9144e38cf7ed992a3119cd1db8405f87c1054730486272b94db", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index": 64, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "29fcc1d554e2f8771b27b59cd2af8fc4befb590ee3fd86af784a8709ff45adb3", "pointer": "/bibliography_occurrences/64", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling and repository route remain exact; implementation/version inspection is separate from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2581, "character_start": 2498, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B30", "pdf_page": 9, "raw_citation": "Ulyanov, D. (2016). Muticore-tsne. https://github.\ncom/DmitryUlyanov/Muticore-TSNE.", "raw_citation_sha256": "f255e2198fc94098a5ed2f8d69dba0c8b7916978ed013b6bc4344d092d4bb799", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 65, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "0d08d8c9e543415b4ccd581397b3d266b4fb29de3a6343432372fbc9c348180c", "pointer": "/bibliography_occurrences/65", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific algorithm/implementation question, not established by the broad AIO label.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2712, "character_start": 2582, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B31", "pdf_page": 9, "raw_citation": "Van Der Maaten, L. (2014). Accelerating t-sne using tree-\nbased algorithms. Journal of machine learning research,\n15(1):3221–3245.", "raw_citation_sha256": "ce7ea328eca3863e25931cd65930bc17e66ff3c26d220b6161578a97e5fa854c", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 66, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "5ea783b07cffc69634add8c2f9a890172dc08255b7236e0b4f66e4c27ce35447", "pointer": "/bibliography_occurrences/66", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay source is not identified with either contextual estimator or deterministic actor-critic method.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 2898, "character_start": 2713, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B32", "pdf_page": 9, "raw_citation": "Wang, Z., Bapst, V., Heess, N., Mnih, V., Munos, R.,\nKavukcuoglu, K., and de Freitas, N. (2016). Sample ef-\nficient actor-critic with experience replay. arXiv preprint\narXiv:1611.01224.", "raw_citation_sha256": "d8003f6cbf6cbc0c2ef8a7b87e785b230b1466210d3524ff494a06d88201b5d2", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 67, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d5fdcf1808d50fd46ca1016245e0998479f1ff9148ef63eabdd4b1415342131a", "pointer": "/bibliography_occurrences/67", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family is maintained; retain the precise source/variant and baseline qualifications.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3048, "character_start": 2899, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B33", "pdf_page": 9, "raw_citation": "Williams, R. J. (1992). Simple statistical gradient-\nfollowing algorithms for connectionist reinforcement\nlearning. Machine learning, 8(3-4):229–256.", "raw_citation_sha256": "b525d7fa026ebbbc5213a8e24ce748d4e3b3a65e811a2f2a49ae1c61bd88ca37", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 68, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "8feecc35decc1c34e908821aa56d97c0865f8e659454ebc46105d18980bd21f1", "pointer": "/bibliography_occurrences/68", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization is retained as its own source/version question; the later REINFORCE family is related context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3196, "character_start": 3049, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B34", "pdf_page": 9, "raw_citation": "Williams, R. J. and Peng, J. (1991). Function optimization\nusing connectionist reinforcement learning algorithms.\nConnection Science, 3(3):241–268.", "raw_citation_sha256": "3e0a7508a7d5fa93619ee8062869f7ea383d29008fbee95f35250249aec6c93f", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 69, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "f10122bf547977a66e29fbdf230c1639cf27e325d93e07d725f4ebe3f2988a49", "pointer": "/bibliography_occurrences/69", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics bridge is conceptual/source context; it is not resolved by a modern regularized-control record.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive": 3372, "character_start": 3197, "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt", "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted": false, "occurrence_id": "SVPG-arxiv-v1-B35", "pdf_page": 9, "raw_citation": "Wolpert, D. H. (2006). Information theorythe bridge con-\nnecting bounded rational game theory and statistical\nphysics. In Complex Engineered Systems, pages 262–\n290. Springer.", "raw_citation_sha256": "c1fe6e174f525130eb565af6c75662e62698b57b4c53bfdb26eb5ff7b6fa53a5", "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question; original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 70, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "27bc761e679cf825915bd817ca01da07123d9da03679cc50c8f7860e60e4909e", "pointer": "/bibliography_occurrences/70", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source question; no standalone method or trained-model record follows from this citation.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "DeepMind Lab", "disposition": "pending_source_triage", "family_id": "SVPG-B01", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B01", "SVPG-arxiv-v1-B01"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 0, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "6a4d444efaff18b3528ece20d61fccc8eaa7bd18995ec932907b5892091b02a4", "pointer": "/bibliography_families/0", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation construction remains a source-specific question.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Unifying count-based exploration and intrinsic motivation", "disposition": "pending_source_triage", "family_id": "SVPG-B02", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B02", "SVPG-arxiv-v1-B02"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 1, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a735d72641919408524981be7a8bac88eda6426c24b33faf4a5d58d5486ad77d", "pointer": "/bibliography_families/1", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods are benchmark contexts; the 2016 benchmark protocol/version remains distinct.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Benchmarking deep reinforcement learning for continuous control", "disposition": "pending_source_triage", "family_id": "SVPG-B03", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B03", "SVPG-arxiv-v1-B03"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 2, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d3ecb23a7964c5c003db2c5db96bf1842b2b9809abc4912f4e13f2c8e60c5c33", "pointer": "/bibliography_families/2", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate source question; neither contextual estimator nor actor-critic record establishes its exact procedure.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Q-Prop: Sample-efficient policy gradient with an off-policy critic", "disposition": "pending_source_triage", "family_id": "SVPG-B04", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B04", "SVPG-arxiv-v1-B04"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 3, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d3c9e60ea40145e2cd33bbf1b5c8a59610f307d68be755b63010241806fdd7db", "pointer": "/bibliography_families/3", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper family; retain the cited arXiv/publication version and experiment scope rather than asserting every passage represented.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Reinforcement learning with deep energy-based policies", "disposition": "pending_source_triage", "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/SoftQLearning.yaml", "sha256": "30a9c92eac4e3169d040b64230b7efd6ec8d9685ea58cd5136f4a2d7fa895dca"}, "record_id": "AIMech:SoftQLearning", "relation": "related maintained source/method context; original cited-paper/version question not thereby closed"}, "family_id": "SVPG-B05", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B05", "SVPG-arxiv-v1-B05"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 4, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "f72df04e444527f17c57e6b32080d8a7ed9bc0d52b7f4fedd89a2f187d478c75", "pointer": "/bibliography_families/4", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific 2006 comparing review and its variant coverage remain source questions.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "The CMA evolution strategy: a comparing review", "disposition": "pending_source_triage", "family_id": "SVPG-B06", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B06", "SVPG-arxiv-v1-B06"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 5, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "d2a62cb7485387b1a333a054c71a6a144ff067fcb9799dedf7f48f1e383d6520", "pointer": "/bibliography_families/5", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration requires its own original method and estimator scope; shared variational terminology is insufficient.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "VIME: Variational information maximizing exploration", "disposition": "pending_source_triage", "family_id": "SVPG-B07", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B07", "SVPG-arxiv-v1-B07"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 6, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "02debb0f63ddf9359a0533797c1f64b96b971fa3029e6ee3b007e4fe7000b0df", "pointer": "/bibliography_families/6", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task learning source is retained without treating every task or implementation as a separate concept.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Reinforcement learning with unsupervised auxiliary tasks", "disposition": "pending_source_triage", "family_id": "SVPG-B08", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B08", "SVPG-arxiv-v1-B08"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 7, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "be24890c7c6e2072bc37ba661b73e781b35ddae9d9ba2fa88e50fea55a176e2a", "pointer": "/bibliography_families/7", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not equated to either.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "A natural policy gradient", "disposition": "pending_source_triage", "family_id": "SVPG-B09", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B09", "SVPG-arxiv-v1-B09"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:NaturalGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 8, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "051ea5f8e2bd4c10c483ece4fde6ecac48ccff84d5cb48254d6addfaa8199cca", "pointer": "/bibliography_families/8", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited source version and the SVPG experiment optimizer scaling remain distinct responsibilities.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Adam: A method for stochastic optimization", "disposition": "pending_source_triage", "family_id": "SVPG-B10", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B10", "SVPG-arxiv-v1-B10"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:Adam"], "group": "svpg", "index": 9, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "25c6d57bdbb7f55dafbe5c6214b02c6e2f16a87e0da84dbb041e375bd5140513", "pointer": "/bibliography_families/9", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component is maintained; its source limitations and the policy-objective specialization remain distinct.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Stein variational gradient descent: A general purpose Bayesian inference algorithm", "disposition": "pending_source_triage", "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/SteinVariationalGradientDescent.yaml", "sha256": "306808b660d4ce0880599e6acc901c5352c8a92d3ed6db58f89bd2b3c107d2b0"}, "record_id": "AIMech:SteinVariationalGradientDescent", "relation": "related maintained source/method context; original cited-paper/version question not thereby closed"}, "family_id": "SVPG-B11", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B11", "SVPG-arxiv-v1-B11"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 10, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "df137d99df6c0ea0fd1546b8ce000aadc49a4911e99153d4d4b1d64182ace5ff", "pointer": "/bibliography_families/10", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad visualization context, not an audit of the 2008 source or SVPG behavioral-diversity interpretation.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Visualizing data using t-SNE", "disposition": "pending_source_triage", "family_id": "SVPG-B12", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B12", "SVPG-arxiv-v1-B12"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 11, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a7ab9fe7e4fce5d88d17b98ae7df4526dfb1ff8e7dd544c171bc2dd86892baae", "pointer": "/bibliography_families/11", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization is maintained; the 2003 policy-search realization remains a narrower original-source question.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "The cross entropy method for fast policy search", "disposition": "pending_source_triage", "family_id": "SVPG-B13", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B13", "SVPG-arxiv-v1-B13"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization"], "group": "svpg", "index": 12, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "3306796e05cef952caab34734c01d3708dd899ff6a3fff7d5f16d0bf2a657380", "pointer": "/bibliography_families/12", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation application and its learning components require original inspection.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Learning to navigate in complex environments", "disposition": "pending_source_triage", "family_id": "SVPG-B14", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B14", "SVPG-arxiv-v1-B14"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 13, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "23ae20f636e5072cbbde7ce41e7f94e091189e01157bff4255ba4a21f25cb82a", "pointer": "/bibliography_families/13", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper and A2C/A3C realization require original inspection; the maintained score-function family alone does not identify those controllers.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Asynchronous methods for deep reinforcement learning", "disposition": "pending_source_triage", "family_id": "SVPG-B15", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B15", "SVPG-arxiv-v1-B15"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 14, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "71fdb00ad18e6bd6551cfc472a1b822098c50baa51ddaa85a491689a306ea0e8", "pointer": "/bibliography_families/14", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation for intrinsic motivation remains a distinct source question, not the generic variational-inference label.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Variational information maximisation for intrinsically motivated reinforcement learning", "disposition": "pending_source_triage", "family_id": "SVPG-B16", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B16", "SVPG-arxiv-v1-B16"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 15, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a16370e7496f6f9bb7960f839880c496b240c5e83e4bf4ec02d6455771f71c9d", "pointer": "/bibliography_families/15", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration is a policy-gradient source question; REINFORCE is estimator context only.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Improving policy gradient by exploring under-appreciated rewards", "disposition": "pending_source_triage", "family_id": "SVPG-B17", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B17", "SVPG-arxiv-v1-B17"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 16, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "b482b0809496dde2c32e0475703bf973bd272bfdda8c623f12b74867045c4a07", "pointer": "/bibliography_families/16", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training has DQN context, but its parallel procedure and version are unresolved here.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Massively parallel methods for deep reinforcement learning", "disposition": "pending_source_triage", "family_id": "SVPG-B18", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B18", "SVPG-arxiv-v1-B18"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 17, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "69e5f56a1e1a0f642d46590517fe5457b792f508c971fbbab63e3933bbf5d36f", "pointer": "/bibliography_families/17", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance assumptions remain source questions; generic Q-learning does not establish the shaping theorem.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Policy invariance under reward transformations: Theory and application to reward shaping", "disposition": "pending_source_triage", "family_id": "SVPG-B19", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B19", "SVPG-arxiv-v1-B19"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:QLearning"], "group": "svpg", "index": 18, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "52c6eb84dd99bd0c27e488880e094733e406935f9cb4da517db3dbf4eba63ac3", "pointer": "/bibliography_families/18", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality discussion is conceptual context for regularized control, not equivalent to the maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Information, utility and bounded rationality", "disposition": "pending_source_triage", "family_id": "SVPG-B20", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B20", "SVPG-arxiv-v1-B20"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 19, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "7a23bf37ae90c1ed563f6ec42a001d6fff79185015bed182dfb7e93e8b1e7743", "pointer": "/bibliography_families/19", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Deep exploration via bootstrapped DQN", "disposition": "pending_source_triage", "family_id": "SVPG-B21", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B21", "SVPG-arxiv-v1-B21"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 20, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "11163893c553d66386680d798528245cebd8b8b1753bd44d4c79fef228c946f5", "pointer": "/bibliography_families/20", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration requires its own original source and estimator; DQN supplies surrounding control context only.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Count-based exploration with neural density models", "disposition": "pending_source_triage", "family_id": "SVPG-B22", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B22", "SVPG-arxiv-v1-B22"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg", "index": 21, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "162027285a9f7f79415096917732ddf5994049fd3d79fb0707123429028e183c", "pointer": "/bibliography_families/21", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies RL realization is not identified with NES or CMA-ES from the shared family vocabulary.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Evolution strategies as a scalable alternative to reinforcement learning", "disposition": "pending_source_triage", "family_id": "SVPG-B23", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B23", "SVPG-arxiv-v1-B23"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies", "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index": 22, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "9bc8c680c8d2504ac88cfb4e0b8d0a0a01578d49d9f3edc0db79ef5bf2d6b2da", "pointer": "/bibliography_families/22", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only proposes related extensions, so this citation does not establish an implemented Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Trust region policy optimization", "disposition": "pending_source_triage", "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/TrustRegionPolicyOptimization.yaml", "sha256": "4e19ec80fb483591f74353a182d6c99c47005274ff3814b26a07adfb047d8a9b"}, "record_id": "AIMech:TrustRegionPolicyOptimization", "relation": "related maintained source/method context; original cited-paper/version question not thereby closed"}, "family_id": "SVPG-B24", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B24", "SVPG-arxiv-v1-B24"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 23, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "775ddf7efa8b434f1b71d2c4c4e3d4159141f1ad77c8b1f06385f1e9680794d2", "pointer": "/bibliography_families/23", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact source version and the particular estimator use in policy optimization.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "High-dimensional continuous control using generalized advantage estimation", "disposition": "pending_source_triage", "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/GeneralizedAdvantageEstimation.yaml", "sha256": "635b1bffb626af1c9eff6e17f1fda088aed1d05b55abc0fd4fd7be3ccf19ee77"}, "record_id": "AIMech:GeneralizedAdvantageEstimation", "relation": "related maintained source/method context; original cited-paper/version question not thereby closed"}, "family_id": "SVPG-B25", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B25", "SVPG-arxiv-v1-B25"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:GeneralizedAdvantageEstimation"], "group": "svpg", "index": 24, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "ba900607c50cea68ffbd7faf3c17faf14395b9f0abf0455912cea609dd05758b", "pointer": "/bibliography_families/24", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients require their original parameter-distribution and gradient rules; contextual score estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Parameter-exploring policy gradients", "disposition": "pending_source_triage", "family_id": "SVPG-B26", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B26", "SVPG-arxiv-v1-B26"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 25, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "e534da7e2afa66202a1ac7d3fdbfdfcfcda18e932b952075aaff88480f2eaa82", "pointer": "/bibliography_families/25", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains a source and framework question, not a new concept by citation count.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Intrinsically motivated reinforcement learning", "disposition": "pending_source_triage", "family_id": "SVPG-B27", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B27", "SVPG-arxiv-v1-B27"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 26, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "c8c16e2ca99d2a3499c4bf1ba6083e253bc21e2d63cc09ac909435ef61c11a3a", "pointer": "/bibliography_families/26", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation overview requires exact original algorithm/assumption inspection before any additional identity claim.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "An overview of the simultaneous perturbation method for efficient optimization", "disposition": "pending_source_triage", "family_id": "SVPG-B28", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B28", "SVPG-arxiv-v1-B28"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 27, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "3f3a4ca8f89db04035b89a73b52c5416e4860f64863a1ba31bbf87321b59cc8c", "pointer": "/bibliography_families/27", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information acquisition remains a source-specific information-seeking question.", "disposition": "pending_inspection", "exact_original_object": {"display_title": "Reinforcement driven information acquisition in non-deterministic environments", "disposition": "pending_source_triage", "family_id": "SVPG-B29", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B29", "SVPG-arxiv-v1-B29"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 28, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a19ee06e182239fc3a2aed545841049f511906c142dfaf006a5d29a26ecbd182", "pointer": "/bibliography_families/28", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling and repository route remain exact; implementation/version inspection is separate from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Muticore-TSNE", "disposition": "pending_source_triage", "family_id": "SVPG-B30", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B30", "SVPG-arxiv-v1-B30"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 29, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "b77a5c755b218e1e97148aaa0dba8e6449e51b019b0171b221bac4df1a950373", "pointer": "/bibliography_families/29", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific algorithm/implementation question, not established by the broad AIO label.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Accelerating t-SNE using tree-based algorithms", "disposition": "pending_source_triage", "family_id": "SVPG-B31", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B31", "SVPG-arxiv-v1-B31"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 30, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "e7d0523b086b5a822f852e3b5244a27866cc7cc839803c0f7b3bf4123da36d90", "pointer": "/bibliography_families/30", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay source is not identified with either contextual estimator or deterministic actor-critic method.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Sample efficient actor-critic with experience replay", "disposition": "pending_source_triage", "family_id": "SVPG-B32", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B32", "SVPG-arxiv-v1-B32"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 31, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "367b6045cb50b4a7e198d7a8235def00485954ba474180b20af761aef02a059e", "pointer": "/bibliography_families/31", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B33: SGLD uses stochastic-gradient posterior sampling context; the maintained full-gradient ULA record does not establish its minibatch construction or guarantees.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Bayesian learning via stochastic gradient Langevin dynamics", "disposition": "pending_source_triage", "family_id": "SVPG-B33", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B33"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"], "group": "svpg", "index": 32, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "bba44a7db9b3d804c6af6948906f0d2912debbe933fbb89a8e9e1b58ae452542", "pointer": "/bibliography_families/32", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family is maintained; retain the precise source/variant and baseline qualifications.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Simple statistical gradient-following algorithms for connectionist reinforcement learning", "disposition": "pending_source_triage", "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/REINFORCE.yaml", "sha256": "2f579286d88446d0b18e4988873a6b274d3ad24be48e6f58b716edaf9d68f514"}, "record_id": "AIMech:REINFORCE", "relation": "related maintained source/method context; original cited-paper/version question not thereby closed"}, "family_id": "SVPG-B34", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B34", "SVPG-arxiv-v1-B33"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 33, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "a2ef5867f5c134bed5c7579c6dba8fb83f13d36d6126810fce1e0c41cd60a571", "pointer": "/bibliography_families/33", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization is retained as its own source/version question; the later REINFORCE family is related context.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Function optimization using connectionist reinforcement learning algorithms", "disposition": "pending_source_triage", "family_id": "SVPG-B35", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B35", "SVPG-arxiv-v1-B34"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg", "index": 34, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "c3fc8a50b8799fb07c4b21b1a66cc336a46fb1ce554c3609841631575112f1f2", "pointer": "/bibliography_families/34", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics bridge is conceptual/source context; it is not resolved by a modern regularized-control record.", "disposition": "existing_record_context", "exact_original_object": {"display_title": "Information theory: the bridge connecting bounded rational game theory and statistical physics", "disposition": "pending_source_triage", "family_id": "SVPG-B36", "next_check": "Reconcile exact cited work/version and semantic scope against maintained records/frontier before any source-based addition; citation alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B36", "SVPG-arxiv-v1-B35"], "title_status": "normalized display label; exact original citation strings and offsets remain in occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg", "index": 35, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version and original spelling. Inspect the cited original and reconcile the narrower source responsibility before any new identity, equivalence or closure; this current context assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "5926c2065e8549fd3c719538b2179ed2cdfd12e92db9e35111c7f3b72858f17f", "pointer": "/bibliography_families/35", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking home for this explicitly unresolved SVPG question; original access limits remain exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Printed URL read; resource not fetched in this task.", "disposition": "pending_source_research", "next_check": "Retrieve a versioned author artifact and inspect its actual experiments before claiming SVPG-versus-SGLD results.", "novel_concept_asserted": false, "origin": "UAI PDF6 footnote1; absent from arXivv1", "owner_assignment": null, "question_id": "SVPG-Q1", "topic": "Additional SGLD comparison", "url": "https://github.com/largelymfs/svpg_REINFORCE/blob/master/uai.pdf"}, "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"], "group": "svpg", "index": 0, "kind": "additional_source_questions", "next_check": "Retrieve a versioned author artifact and inspect its actual experiments before claiming SVPG-versus-SGLD results.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "67bddb425490d369026c065890af8f906f5c1fa48f17cf0fef89a3b9e5778dd4", "pointer": "/additional_source_questions/0", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking home for this explicitly unresolved SVPG question; original access limits remain exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Repository routes read from primary paper; code not inspected or executed.", "disposition": "pending_source_research", "next_check": "Pin original implementation/protocol commits and resolve vector-versus-linear log-standard-deviation parameterization, episode-threshold calculation, optimizer scaling and bandwidth edge cases.", "novel_concept_asserted": false, "origin": "UAI PDF6 footnotes1–2 and Section5.1; arXiv PDF6 Section5.1", "owner_assignment": null, "question_id": "SVPG-Q2", "topic": "Implementation and experiment version", "urls": ["https://github.com/largelymfs/svpg_REINFORCE", "https://github.com/openai/rllab"]}, "existing_record_ids": ["AIMech:Adam"], "group": "svpg", "index": 1, "kind": "additional_source_questions", "next_check": "Pin original implementation/protocol commits and resolve vector-versus-linear log-standard-deviation parameterization, episode-threshold calculation, optimizer scaling and bandwidth edge cases.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "cd9300ceec61de92daf72664f4800431448578d562329db7c5f8a5c4d11ef77d", "pointer": "/additional_source_questions/1", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking home for this explicitly unresolved SVPG question; original access limits remain exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Primary method read; mathematical conditions stated as curator inferences, not paper theorems.", "disposition": "pending_source_research", "next_check": "Retain explicit normalizability and positive-temperature conditions; inspect any later formal analysis before stronger convergence/sampling/limit claims.", "novel_concept_asserted": false, "origin": "Both versions PDF3 Eqs5–7, PDF4 Eq9; UAI PDF6 flat-prior setting; UAI PDF7–8 Section5.4", "owner_assignment": null, "question_id": "SVPG-Q3", "topic": "Scope of Bayesian and low-temperature interpretations"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 2, "kind": "additional_source_questions", "next_check": "Retain explicit normalizability and positive-temperature conditions; inspect any later formal analysis before stronger convergence/sampling/limit claims.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "86b8c20cd01ee69c3bc8bf8f594f522541fc55d05aa271158e69acacaacbb00e", "pointer": "/additional_source_questions/2", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking home for this explicitly unresolved SVPG question; original access limits remain exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Citations and SVPG discussion read; cited primary works not read here.", "bibliography_families": ["SVPG-B13", "SVPG-B23", "SVPG-B26"], "disposition": "pending_source_research", "next_check": "Inspect original cross-entropy policy search, evolution strategies and parameter-exploring policy-gradient papers before any fine-grained equivalence or additional-concept decision.", "novel_concept_asserted": false, "origin": "UAI PDF2 finite-difference paragraph and PDF3 discussion after Eq7", "owner_assignment": null, "question_id": "SVPG-Q4", "topic": "Parameter-exploration neighboring methods"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization", "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 3, "kind": "additional_source_questions", "next_check": "Inspect original cross-entropy policy search, evolution strategies and parameter-exploring policy-gradient papers before any fine-grained equivalence or additional-concept decision.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "8ccf9cc0b5836a24cb70182fd92454b340399d9efb4c8c094ca444c0aa211383", "pointer": "/additional_source_questions/3", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking home for this explicitly unresolved SVPG question; original access limits remain exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Future-work prose read; no extension implemented or newly asserted.", "bibliography_families": ["SVPG-B09", "SVPG-B24"], "disposition": "pending_source_research", "next_check": "Separate implemented REINFORCE/A2C instances from proposed natural-gradient/TRPO, layer-wise kernels and adaptive schedules; require original evidence for any later extension.", "novel_concept_asserted": false, "origin": "UAI PDF7 t-SNE caveat and PDF8 future directions", "owner_assignment": null, "question_id": "SVPG-Q5", "topic": "Proposed extensions and behavioral diversity"}, "existing_record_ids": ["AIMech:NaturalGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 4, "kind": "additional_source_questions", "next_check": "Separate implemented REINFORCE/A2C instances from proposed natural-gradient/TRPO, layer-wise kernels and adaptive schedules; require original evidence for any later extension.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "60819bc9eb2ee0479c8938a570cc904e2fbcfb330047c7dee0f7a69b40d052aa", "pointer": "/additional_source_questions/4", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Search-only source/application lead remains uninspected; sharing the SVPG name does not establish a separate method.", "disposition": "pending_inspection", "exact_original_object": {"access_scope": "Search result describes a Jensen-Shannon-kernel SVPG extension; original source not opened/read.", "disposition": "search_only_pending", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "novel_concept_asserted": false, "owner_assignment": null, "question_id": "SVPG-S1", "title": "Learning Self-Imitating Diverse Policies", "url": "https://arxiv.org/abs/1805.10309"}, "existing_record_ids": [], "group": "svpg", "index": 0, "kind": "search_only_leads", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "1621fff17a48e1d81e46effb7e1d325cd7fefdfc310730b26007aa2559362569", "pointer": "/search_only_leads/0", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Search-only source/application lead remains uninspected; sharing the SVPG name does not establish a separate method.", "disposition": "existing_record_context", "exact_original_object": {"access_scope": "Search result describes an amortized variational policy-gradient relation; original source not opened/read.", "disposition": "search_only_pending", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "novel_concept_asserted": false, "owner_assignment": null, "question_id": "SVPG-S2", "title": "Variational Inference for Policy Gradient", "url": "https://arxiv.org/abs/1802.07833"}, "existing_record_ids": ["AIMech:AmortizedSteinVariationalGradientDescent"], "group": "svpg", "index": 1, "kind": "search_only_leads", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "1e7fbf791870a520867a0b555845fb160cd9b474dcca1278917947dd8b3e1693", "pointer": "/search_only_leads/1", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Search-only source/application lead remains uninspected; sharing the SVPG name does not establish a separate method.", "disposition": "pending_inspection", "exact_original_object": {"access_scope": "Search result reports an SVPG application; application does not automatically imply a separate method concept; original source not opened/read.", "disposition": "search_only_pending", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "novel_concept_asserted": false, "owner_assignment": null, "question_id": "SVPG-S3", "title": "Application of variational policy gradient to atomic-scale materials synthesis", "url": "https://arxiv.org/abs/2006.15644"}, "existing_record_ids": [], "group": "svpg", "index": 2, "kind": "search_only_leads", "next_check": "Inspect exact source identity/full method and current maintained context before deciding relevance or novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "73ebada0526e8da65cccc8423dee1fccd5b36055ef5e975f84840a48584a55e0", "pointer": "/search_only_leads/2", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": ["AIMech:SteinVariationalPolicyGradient"], "assessment": "The exact policy-particle citation is represented by the proposed source-scoped SVPG record, distinct from direct SVGD and amortized sampler fitting. Historical citation-only access and cohort355/359 objects remain verbatim.", "disposition": "represented_by_added_record", "exact_original_object": {"access_scope": "Citation-only lead; no original full-method reading or semantic ownership clearance is asserted by this cohort.", "candidate": "Stein Variational Policy Gradient", "disposition": "pending_inspection", "key": "stein_variational_policy_gradient", "next_check": "Inspect original policy-particle method and compare it with amortized action sampling; no identity decision from the shared Stein name.", "original_citation": {"authors_as_cited": "Y. Liu, P. Ramachandran, Q. Liu and J. Peng", "identifier": "arXiv:1704.02399", "next_check": "Inspect original policy-particle method and compare it with amortized action sampling; no identity decision from the shared Stein name.", "origin": "Main PDF p. 9 bibliography", "title": "Stein Variational Policy Gradient", "year_as_cited": 2017}, "record_ids": [], "source": {"citation_ledger": {"path": "/private/tmp/aimech-soft-q-research-20261015/citation-leads.json", "sha256": "ff8ba8586defbf9bfa950127764c5ec12426c9eccf87aa255ace12e46102e107"}, "origin": "Main PDF p. 9 bibliography", "pointer": "/leads/2"}, "url": "https://arxiv.org/abs/1704.02399"}, "existing_record_ids": [], "group": "svpg", "index": 0, "kind": "historical_source_responsibilities", "next_check": "Retain all independent bibliography, version, implementation and theorem-scope questions in this source group; no broad owner exhaustion or automatic issue closure.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256": "4c9e46da54276dd2d42f131dd0a95ccd6703e1797c303b136178f047c52bbd1c", "pointer": "/original_source_responsibility/original_object", "responsible_owner": {"family": "main", "index": 909}}
+- {"added_record_ids": [], "assessment": "Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve the historical unread statement and source/variant questions; this current context does not rewrite earlier provenance.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "2", "source_id": "sma1992"}], "original_ledger_index": 1, "original_object": {"authors": "P.P. Chakrabarti, S. Ghose, A. Acharya and S.C. de Sarkar", "candidate": "Heuristic search in restricted memory", "citation_key": "chakrabarti1989", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Acquire and fully read MA*/MAO* original, retaining the minimum-memory qualification and source-specific variants.", "owner_links": [], "publication": "Artificial Intelligence41(2),197–221,1989", "source_occurrences": [{"pdf_page": 6, "reference_label": "Chakrabarti et al., 1989", "source_id": "mrec1989"}, {"pdf_page": 5, "reference_label": "2", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label": "1", "source_id": "its1994"}], "source_title_matches": []}}, "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "group": "ie", "index": 0, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve the historical unread statement and source/variant questions; this current context does not rewrite earlier provenance. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "90577fe0cf77915d40c3f83c8424f4d5006b42f65442551306c53e39d2767a10", "pointer": "/russell_original_objects/0", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Existing iterative-deepening records provide precise method context; the erratum/version and proof assumptions remain pending.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "6", "source_id": "sma1992"}], "original_ledger_index": 2, "original_object": {"authors": "Richard E. Korf", "candidate": "Depth-first iterative-deepening: An optimal admissible tree search", "citation_key": "korf1985", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Existing AIMech:IterativeDeepeningAStar and DepthFirstIterativeDeepening cover their specific methods. The maintained erratum-access residual remains; this dossier does not settle it.", "owner_links": [], "publication": "Artificial Intelligence27(1),97–109,1985", "source_occurrences": [{"pdf_page": 6, "reference_label": "Korf, 1985", "source_id": "mrec1989"}, {"pdf_page": 5, "reference_label": "6", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label": "6", "source_id": "its1994"}], "source_title_matches": [{"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id": "AIMech:DepthFirstIterativeDeepening", "similarity": 1.0, "source_title": "Depth-First Iterative-Deepening: An Optimal Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"}, {"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id": "AIMech:DepthFirstSearch", "similarity": 1.0, "source_title": "Depth-First Iterative-Deepening: An Optimal Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"}, {"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id": "AIMech:IterativeDeepeningAStar", "similarity": 1.0, "source_title": "Depth-First Iterative-Deepening: An Optimal Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"}]}}, "existing_record_ids": ["AIMech:DepthFirstIterativeDeepening", "AIMech:IterativeDeepeningAStar"], "group": "ie", "index": 1, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Existing iterative-deepening records provide precise method context; the erratum/version and proof assumptions remain pending. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "db23bf31f83df045e538bf279327d076b1fb9c60c64a96dc63c5834890156d37", "pointer": "/russell_original_objects/1", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Retain both conflicting printed book titles/publishers/editions; recursive A* equivalence requires the original pages.", "disposition": "pending_inspection", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "1", "source_id": "sma1992"}], "original_ledger_index": 7, "original_object": {"authors": "Ivan Bratko", "candidate": "The art of PROLOG programming", "citation_key": "bratko1986", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Resolve exact book edition/title and recursive A* implementation before equivalence claims; Russell cites its competing-path bound relation.", "owner_links": [], "publication": "Academic Press,1986,as cited by Russell", "source_occurrences": [{"pdf_page": 5, "reference_label": "1", "source_id": "sma1992"}], "source_title_matches": []}}, "existing_record_ids": [], "group": "ie", "index": 2, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Retain both conflicting printed book titles/publishers/editions; recursive A* equivalence requires the original pages. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "ad87477edce2954444cc54375e2178a9a2154f296861d9d145b97c7ae57003ce", "pointer": "/russell_original_objects/2", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "A* context does not establish an unrestricted expansion-optimality theorem; inspect exact theoretical premises.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "3", "source_id": "sma1992"}], "original_ledger_index": 8, "original_object": {"authors": "Rina Dechter and Judea Pearl", "candidate": "Generalized best-first search strategies and the optimality of A*", "citation_key": "dechter1985", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Retain theoretical efficiency/optimality source with its assumptions; the current generic A* record does not assert universal minimum expansions.", "owner_links": [], "publication": "JACM32,505–536,1985", "source_occurrences": [{"pdf_page": 5, "reference_label": "3", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label": "2", "source_id": "its1994"}], "source_title_matches": []}}, "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index": 3, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. A* context does not establish an unrestricted expansion-optimality theorem; inspect exact theoretical premises. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "db7acbb94ef09b5577e0eccd20e07efc4521df188762b4fe61170802135ce22d", "pointer": "/russell_original_objects/3", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Graph-traverser stages and commitments need the original source; no new method identity is asserted.", "disposition": "pending_inspection", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "4", "source_id": "sma1992"}], "original_ledger_index": 9, "original_object": {"authors": "J. Doran and D. Michie", "candidate": "Experiments with the graph traverser", "citation_key": "doran1966", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Read original staged commitment rules and reconcile any existing owner before a graph-traverser concept proposal.", "owner_links": [], "publication": "Proceedings of the Royal Society A294,235–259,1966", "source_occurrences": [{"pdf_page": 5, "reference_label": "4", "source_id": "sma1992"}], "source_title_matches": []}}, "existing_record_ids": [], "group": "ie", "index": 4, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Graph-traverser stages and commitments need the original source; no new method identity is asserted. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "8303699f9c93c4e7228a3d27c9891e39a271621ec13c9f5dbfbca13d356052f1", "pointer": "/russell_original_objects/4", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained A* core is context; the 1972 correction and efficiency qualifications remain distinct.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "5", "source_id": "sma1992"}], "original_ledger_index": 10, "original_object": {"authors": "P.E. Hart, N.J. Nilsson and B. Raphael", "candidate": "A formal basis for the heuristic determination of minimum cost paths", "citation_key": "hart1968", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Existing AIMech:AStarSearch covers the core procedure. Its 1972 correction and efficiency-analysis residuals remain separate.", "owner_links": [], "publication": "IEEE Transactions on Systems Science and Cybernetics SSC4(2),100–107,1968", "source_occurrences": [{"pdf_page": 5, "reference_label": "5", "source_id": "sma1992"}], "source_title_matches": [{"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id": "AIMech:AStarSearch", "similarity": 1.0, "source_title": "A Formal Basis for the Heuristic Determination of Minimum Cost Paths", "source_url": "https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/astar.pdf"}]}}, "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index": 5, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The maintained A* core is context; the 1972 correction and efficiency qualifications remain distinct. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "4fdab2458857e26b8056971b479609ee5fa0518105ccaf50f3a7407b8910d81e", "pointer": "/russell_original_objects/5", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The cited UCLA report is a version question relative to the maintained 1992 procedures, not a proved duplicate publication.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "7", "source_id": "sma1992"}], "original_ledger_index": 11, "original_object": {"authors": "Richard E. Korf", "candidate": "Best-first search with limited memory", "citation_key": "korf1991", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Resolve this predecessor report against the maintained RBFS/SRBFS 1992 primary paper; shared algorithm family does not establish exact publication or unconditional alias identity.", "owner_links": [], "publication": "UCLA Computer Science technical report,1991,as cited by Russell", "source_occurrences": [{"pdf_page": 5, "reference_label": "7", "source_id": "sma1992"}], "source_title_matches": []}}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 6, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The cited UCLA report is a version question relative to the maintained 1992 procedures, not a proved duplicate publication. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "d38fd0f8f0eaedc7a29bf3bcc11d9379a59a03afbbcf1b3ff1f6d235fef78267", "pointer": "/russell_original_objects/6", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "DTA* and computational-value control remain separate from ordinary real-time A* and IE.", "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label": "8", "source_id": "sma1992"}], "original_ledger_index": 12, "original_object": {"authors": "E. Wefald and S.J. Russell", "candidate": "Estimating the value of computation: The case of real-time search", "citation_key": "wefald1989", "disposition": "retained_source_question", "full_text_read_in_this_dossier": false, "next_check": "Inspect DTA* and the computational-value mechanism; distinguish it from existing RTA*/LRTA* and the IE recursion.", "owner_links": [], "publication": "AAAI Spring Symposium on AI and Limited Rationality,1989", "source_occurrences": [{"pdf_page": 5, "reference_label": "8", "source_id": "sma1992"}], "source_title_matches": []}}, "existing_record_ids": ["AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "group": "ie", "index": 7, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. DTA* and computational-value control remain separate from ordinary real-time A* and IE. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "a9e8a7dfe4d186c5cac916fc22a5887c139f88a7b4d7692b920152abe8c30971", "pointer": "/russell_original_objects/7", "responsible_owner": {"family": "main", "index": 8}}
+- {"added_record_ids": [], "assessment": "Retain both conflicting printed book titles/publishers/editions; recursive A* equivalence requires the original pages.", "disposition": "pending_inspection", "exact_original_object": {"authors": "Ivan Bratko", "citation_key": "bratko1986", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B01", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Addison-Wesley,1986,pp.265–273", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "PROLOG: Programming for Artificial Intelligence"}, "existing_record_ids": [], "group": "ie", "index": 8, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Retain both conflicting printed book titles/publishers/editions; recursive A* equivalence requires the original pages. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "73d89e7aac884b1e89a6beb78ed44e59f3c4a8674a8ca262e3d9a636aeb95b36", "pointer": "/korf_occurrences/0", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve the historical unread statement and source/variant questions; this current context does not rewrite earlier provenance.", "disposition": "existing_record_context", "exact_original_object": {"authors": "P.P.Chakrabarti;S.Ghose;A.Acharya;S.C.de Sarkar", "citation_key": "chakrabarti1989", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B02", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Artificial Intelligence41(2),197–221,1989", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Heuristic search in restricted memory"}, "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "group": "ie", "index": 9, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve the historical unread statement and source/variant questions; this current context does not rewrite earlier provenance. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "972c3d6783cfe07884cd6767675bb115a28d51de3d301614f0a30a3234a409d1", "pointer": "/korf_occurrences/1", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Depth/breadth component combinations require exact primary mechanism/assumption inspection.", "disposition": "pending_inspection", "exact_original_object": {"authors": "H.W.Davis;A.Bramanti-Gregor;J.Wang", "citation_key": "davis1989", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B03", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Methodologies for Intelligent Systems3,19–28,1989", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "The advantages of using depth and breadth components in heuristic search"}, "existing_record_ids": [], "group": "ie", "index": 10, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Depth/breadth component combinations require exact primary mechanism/assumption inspection. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "e71c54a3233a76f59a3f5e6de0dc62d66ba650697a4e873afa4324e264056cae", "pointer": "/korf_occurrences/2", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained nonnegative-edge shortest-path method is relevant context; the full cited source is not freshly reread here.", "disposition": "existing_record_context", "exact_original_object": {"authors": "E.W.Dijkstra", "citation_key": "dijkstra1959", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B04", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Numerische Mathematik1,269–271,1959", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "A note on two problems in connexion with graphs"}, "existing_record_ids": ["AIMech:DijkstraShortestPath"], "group": "ie", "index": 11, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The maintained nonnegative-edge shortest-path method is relevant context; the full cited source is not freshly reread here. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "d16554e8092dfa3350b3f80554dfa74b9a248032a03d9d3d84c61656a67563bf", "pointer": "/korf_occurrences/3", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The thesis may contain several algorithms and analyses; retain the exact thesis responsibility rather than infer one concept.", "disposition": "pending_inspection", "exact_original_object": {"authors": "John Gaschnig", "citation_key": "gaschnig1979", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B05", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "PhD thesis,Carnegie-Mellon University,1979", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Performance measurement and analysis of certain search algorithms"}, "existing_record_ids": [], "group": "ie", "index": 12, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The thesis may contain several algorithms and analyses; retain the exact thesis responsibility rather than infer one concept. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "8c8f595dec6733f81783711c1573bbefea501c8d108d584466d2dbd18cab381d", "pointer": "/korf_occurrences/4", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained A* core is context; the 1972 correction and efficiency qualifications remain distinct.", "disposition": "existing_record_context", "exact_original_object": {"authors": "P.E.Hart;N.J.Nilsson;B.Raphael", "citation_key": "hart1968", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B06", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "IEEE Transactions on Systems Science and Cybernetics4(2),100–107,1968", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "A formal basis for the heuristic determination of minimum cost paths"}, "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index": 13, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The maintained A* core is context; the 1972 correction and efficiency qualifications remain distinct. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "696e256264b31e1655c8b14c42df4d6cea671289962eeaddeeab00e29af1549e", "pointer": "/korf_occurrences/5", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Existing iterative-deepening records provide precise method context; the erratum/version and proof assumptions remain pending.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1985", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B07", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Artificial Intelligence27(1),97–109,1985", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Depth-first iterative-deepening: An optimal admissible tree search"}, "existing_record_ids": ["AIMech:DepthFirstIterativeDeepening", "AIMech:IterativeDeepeningAStar"], "group": "ie", "index": 14, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Existing iterative-deepening records provide precise method context; the erratum/version and proof assumptions remain pending. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "67d2f102c558cea007dfc483946660f6350522677a7c4db75451db09d73f59ce", "pointer": "/korf_occurrences/6", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained RTA*/LRTA* core provides context; retain source-specific dynamic/lookahead assumptions.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1990a", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B08", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Artificial Intelligence42(2–3),189–211,1990", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Real-time heuristic search"}, "existing_record_ids": ["AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "group": "ie", "index": 15, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The maintained RTA*/LRTA* core provides context; retain source-specific dynamic/lookahead assumptions. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "d7b35615f9b843dcec409573c3521721b0842314d56be6ff7d63987ec9916d76", "pointer": "/korf_occurrences/7", "responsible_owner": {"family": "main", "index": 8}}
+- {"added_record_ids": [], "assessment": "The dynamic-planning symposium item remains a distinct source-version/application question.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1990b", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B09", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "AAAI Symposium on Planning in Uncertain, Unpredictable, or Changing Environments,72–76,1990", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Real-Time search for dynamic planning"}, "existing_record_ids": ["AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"], "group": "ie", "index": 16, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The dynamic-planning symposium item remains a distinct source-version/application question. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "cba93c532a8cb911e06e780677b4f614b36af294d0925e9239dcc55d2df3bbb6", "pointer": "/korf_occurrences/8", "responsible_owner": {"family": "main", "index": 8}}
+- {"added_record_ids": [], "assessment": "Retain the April 1991 UCLA Annual item independently from the other 1991 and 1992 publications.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1991a", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B10", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "UCLA Computer Science Annual,5–22,April1991", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Best-first search in limited memory"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 17, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Retain the April 1991 UCLA Annual item independently from the other 1991 and 1992 publications. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "3328694fd1b46ac6ebcd160817548b63dce40720c7e256d32a350f8437377ab0", "pointer": "/korf_occurrences/9", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Retain the October 1991 extended abstract and venue independently; no version equivalence is asserted.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1991b", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B11", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Sixth International Symposium on Computer and Information Sciences,581–584,October30,1991", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Linear-Space Best-First Search: Extended Abstract"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 18, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Retain the October 1991 extended abstract and venue independently; no version equivalence is asserted. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "b202bd459c6c3d88f75870ead9cd843f2590235224249543b684c6b0d57d1217", "pointer": "/korf_occurrences/10", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Retain the August 1991 submission citation; the later journal identity/control/proof correspondence remains pending.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1991c", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B12", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Submitted for publication,August1991", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Linear-space best-first search"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 19, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Retain the August 1991 submission citation; the later journal identity/control/proof correspondence remains pending. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "22e621046a5b37bba21c53ea7abe485a827a7fc3b2a6a807fe13e6fcf30efaf5", "pointer": "/korf_occurrences/11", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained ITS record uses the 1994 paper; the exact 1992 technical-report version remains uninspected.", "disposition": "existing_record_context", "exact_original_object": {"authors": "A.Mahanti;D.S.Nau;S.Ghosh;L.N.Kanal", "citation_key": "mahanti1992", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B13", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "UMIACS TR92-29;CS TR2853,University of Maryland,March1992", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "An Efficient Iterative Threshold Heuristic Tree Search Algorithm"}, "existing_record_ids": ["AIMech:IterativeThresholdSearch"], "group": "ie", "index": 20, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The maintained ITS record uses the 1994 paper; the exact 1992 technical-report version remains uninspected. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "d16a7b772ca62ed3ec7427115f8d4298a25236a17ad0365044a46843d05b234e", "pointer": "/korf_occurrences/12", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "The IDA* complexity-bound source remains a theorem/assumption question, not resolved by an algorithm record.", "disposition": "existing_record_context", "exact_original_object": {"authors": "B.G.Patrick;M.Almulla;M.M.Newborn", "citation_key": "patrick1989", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B14", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Symposium on Artificial Intelligence and Mathematics,Fort Lauderdale,December1989", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "An upper bound on the complexity of iterative-deepening-A*"}, "existing_record_ids": ["AIMech:IterativeDeepeningAStar"], "group": "ie", "index": 21, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The IDA* complexity-bound source remains a theorem/assumption question, not resolved by an algorithm record. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "049b7eb192ba4933c6d50a037afb64a7c8e1d64e331c305eceab1f0528f401b1", "pointer": "/korf_occurrences/13", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Heuristics is a broad source covering multiple methods; contextual A* is not book-wide coverage.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Judea Pearl", "citation_key": "pearl1984", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B15", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Addison-Wesley,1984", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Heuristics"}, "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index": 22, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Heuristics is a broad source covering multiple methods; contextual A* is not book-wide coverage. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "76c5cc334b8d279faad0ab8d6439e68ca118f4126c27d85b702fc1900c3ea1de", "pointer": "/korf_occurrences/14", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Weighted heuristic search gives context; the exact 1970 path-finding formulation and assumptions remain pending.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Ira Pohl", "citation_key": "pohl1970", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B16", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Artificial Intelligence1,193–204,1970", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Heuristic search viewed as path finding in a graph"}, "existing_record_ids": ["AIMech:WeightedAStar"], "group": "ie", "index": 23, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Weighted heuristic search gives context; the exact 1970 path-finding formulation and assumptions remain pending. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "90abf14675e727448fbfc05ba35e08e1a9af75eb1924b2e990a50c32d4736c25", "pointer": "/korf_occurrences/15", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The depth-first/best-first comparison is a theoretical source question; named procedures do not settle the comparison.", "disposition": "existing_record_context", "exact_original_object": {"authors": "V.N.Rao;V.Kumar;R.E.Korf", "citation_key": "rao1991", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B17", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "AAAI1991,434–440", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Depth-first vs. best-first search"}, "existing_record_ids": ["AIMech:DepthFirstSearch", "AIMech:AStarSearch"], "group": "ie", "index": 24, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The depth-first/best-first comparison is a theoretical source question; named procedures do not settle the comparison. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "94a808c596f3e1779fd6f808d4ee5ebb7f091804ff39973e1a8684ae133414a8", "pointer": "/korf_occurrences/16", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Learning subgoal sequences is a separate planning/learning source question; no IE/RBFS identity follows.", "disposition": "pending_inspection", "exact_original_object": {"authors": "D.Ruby;D.Kibler", "citation_key": "ruby1989", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B18", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "IJCAI1989,609–614", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Learning subgoal sequences for planning"}, "existing_record_ids": [], "group": "ie", "index": 25, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Learning subgoal sequences is a separate planning/learning source question; no IE/RBFS identity follows. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "92d9ba1351b17a3abc19a1e5e4815801f96422dab206bc5fd29f79c205079d81", "pointer": "/korf_occurrences/17", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The selected Russell article supports IE comparison and maintained SMA*, but its ECAI citation/version metadata and other procedures remain source-scoped.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Stuart Russell", "citation_key": "russell1992", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B19", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "ECAI1992,Vienna,August1992", "reading_status": "Full source read here", "title": "Efficient memory-bounded search methods"}, "existing_record_ids": ["AIMech:SimplifiedMemoryBoundedAStar"], "group": "ie", "index": 26, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. The selected Russell article supports IE comparison and maintained SMA*, but its ECAI citation/version metadata and other procedures remain source-scoped. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "1bd46c5da1dd62a6046d3401f00ce815f88015af39f8dbc7a074d23888285bbf", "pointer": "/korf_occurrences/18", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Existing main7 explicitly retains IDA-CR/IDA-CRA source responsibility; ordinary IDA* is context, not a substitute.", "disposition": "existing_record_context", "exact_original_object": {"authors": "U.K.Sarkar;P.P.Chakrabarti;S.Ghose;S.C.de Sarkar", "citation_key": "sarkar1991", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B20", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "Artificial Intelligence50(2),207–221,1991", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Reducing reexpansions in iterative-deepening search by controlling cutoff bounds"}, "existing_record_ids": ["AIMech:IterativeDeepeningAStar"], "group": "ie", "index": 27, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. Existing main7 explicitly retains IDA-CR/IDA-CRA source responsibility; ordinary IDA* is context, not a substitute. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "98db5d923425e8069921bef7be98664708abe36977d1384cb803286fd0093c96", "pointer": "/korf_occurrences/19", "responsible_owner": {"family": "main", "index": 7}}
+- {"added_record_ids": [], "assessment": "MREC is maintained from the 1989 primary procedure; its control/memory and other source residuals remain.", "disposition": "existing_record_context", "exact_original_object": {"authors": "A.K.Sen;A.Bagchi", "citation_key": "sen1989", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B21", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "IJCAI1989,297–302", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "Fast recursive formulations for best-first search that allow controlled use of memory"}, "existing_record_ids": ["AIMech:MREC"], "group": "ie", "index": 28, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. MREC is maintained from the 1989 primary procedure; its control/memory and other source residuals remain. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "1a4747d5f5cf99850cc85fcfc267f9727982971f8700f79b55fd38079ecf706e", "pointer": "/korf_occurrences/20", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "MIDA* dynamic control is not equated to base IDA* or the later learned incremental model; inspect the technical report.", "disposition": "existing_record_context", "exact_original_object": {"authors": "Benjamin W.Wah", "citation_key": "wah1991", "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B22", "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png", "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment": null, "publication_as_cited_normalized": "UILU-ENG-91-2216;CRHC-91-9,University of Illinois,April1991", "reading_status": "Citation metadata read; cited full source not read in this comparison", "title": "MIDA*, An IDA* search with dynamic control"}, "existing_record_ids": ["AIMech:IterativeDeepeningAStar", "AIMech:IDAStarIncrementalModel"], "group": "ie", "index": 29, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version and original historical reading scope. MIDA* dynamic control is not equated to base IDA* or the later learned incremental model; inspect the technical report. No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json", "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256": "9eff0fa0b6ba7aed91974c48b3f1ab37a3f3265145c4590c6d7e77133f22259e", "pointer": "/korf_occurrences/21", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The three 1991 predecessor publications retain separate version responsibilities.", "disposition": "existing_record_context", "exact_original_object": {"locators_or_routes": ["Russell1992 PDF p.5 ref7", "Korf1992 PDF p.6 refs Korf1991a/b/c"], "owner_assignment": null, "question": "Russell reference7 names a UCLA technical report with limited-memory wording; Korf1992 separately cites the UCLA annual article, a1991 conference extended abstract and an August1991 submission. Reconcile actual originals before collapsing their versions.", "question_id": "IE-Q1", "status": "pending", "topic": "Korf1991 predecessor identity"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 0, "kind": "source_questions", "next_check": "Russell reference7 names a UCLA technical report with limited-memory wording; Korf1992 separately cites the UCLA annual article, a1991 conference extended abstract and an August1991 submission. Reconcile actual originals before collapsing their versions.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "bff93505ac09ce63dc4bef75816d8395be2fdc4fd3596753e9e2b224fab3d19e", "pointer": "/questions/0", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The 1993 journal access/control/proof question remains pending; the 1992 paper is not its automatic substitute.", "disposition": "existing_record_context", "exact_original_object": {"locators_or_routes": ["https://web.cs.ucla.edu/~korf/publications.html", "https://www.sciencedirect.com/science/article/pii/000437029390045D"], "owner_assignment": null, "question": "Author-institution metadata confirms Linear-space best-first search, Artificial Intelligence62(1),41–78,1993. Publisher URL returned403 in this task. Acquire legal primary full text and compare control/termination and proofs; no version-equivalence or full-reading claim.", "question_id": "IE-Q2", "status": "pending", "topic": "1993 full journal version"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 1, "kind": "source_questions", "next_check": "Author-institution metadata confirms Linear-space best-first search, Artificial Intelligence62(1),41–78,1993. Publisher URL returned403 in this task. Acquire legal primary full text and compare control/termination and proofs; no version-equivalence or full-reading claim.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "c2a7e6f66e5143d0098441330bbb3c13403d8da2518efa0ff844bb4a929f07bf", "pointer": "/questions/1", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Both Bratko title/edition forms remain exact and unresolved.", "disposition": "pending_inspection", "exact_original_object": {"locators_or_routes": ["Russell1992 PDF p.5 ref1", "Korf1992 PDF p.6 Bratko1986"], "owner_assignment": null, "question": "Russell cites The art of PROLOG programming / Academic Press; Korf cites PROLOG: Programming for Artificial Intelligence / Addison-Wesley,pp.265–273. Retain both printed citations, resolve exact book/edition and read relevant procedure before any equivalence claim.", "question_id": "IE-Q3", "status": "pending", "topic": "Bratko title/edition mismatch"}, "existing_record_ids": [], "group": "ie", "index": 2, "kind": "source_questions", "next_check": "Russell cites The art of PROLOG programming / Academic Press; Korf cites PROLOG: Programming for Artificial Intelligence / Addison-Wesley,pp.265–273. Retain both printed citations, resolve exact book/edition and read relevant procedure before any equivalence claim.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "db0356a223ad290081f23782c7734ca1819829f9cb07485918e14994e6510900", "pointer": "/questions/2", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The literal IE return, infinity and exhausted-root interface remains qualified; adding IE does not certify an implementation.", "disposition": "pending_inspection", "exact_original_object": {"locators_or_routes": ["Russell1992 PDF p.4 §4.1"], "owner_assignment": null, "question": "A full implementation or clearer primary version could settle how dead-end infinity propagates through mutable values, empty sibling minima, loop wording and failure on exhausted root. These are unresolved literal-interface questions, not evidence of a faulty actual implementation.", "question_id": "IE-Q4", "status": "pending", "topic": "Printed IE return and exhausted-root conventions"}, "existing_record_ids": [], "group": "ie", "index": 3, "kind": "source_questions", "next_check": "A full implementation or clearer primary version could settle how dead-end infinity propagates through mutable values, empty sibling minima, loop wording and failure on exhausted root. These are unresolved literal-interface questions, not evidence of a faulty actual implementation.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "5a560cfb0ac8c780a6e877721c9e6022620cfc259462a1328a90654e6023163b", "pointer": "/questions/3", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The maintained 2015 controlled-reexpansion method is context; this current source-plan review does not claim fresh full-paper reinspection.", "disposition": "existing_record_context", "exact_original_object": {"locators_or_routes": ["https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf"], "owner_assignment": null, "question": "The maintained RBFS record cites the2015 bounded-overhead paper. This comparison read the record but did not retrieve/reread that paper; retain its existing scope and examine it separately if exact later code conventions are used.", "question_id": "IE-Q5", "status": "pending", "topic": "Later RBFS corroboration already cited by maintained record"}, "existing_record_ids": ["AIMech:RBFSControlledReexpansion", "AIMech:RecursiveBestFirstSearch"], "group": "ie", "index": 4, "kind": "source_questions", "next_check": "The maintained RBFS record cites the2015 bounded-overhead paper. This comparison read the record but did not retrieve/reread that paper; retain its existing scope and examine it separately if exact later code conventions are used.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "4055182ba2ca28f20abf8a4f25a94aba65e565a46e95ddfb0db4c3e5de6d8746", "pointer": "/questions/4", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "The 1992 report remains distinct from the maintained 1994 ITS source.", "disposition": "existing_record_context", "exact_original_object": {"locators_or_routes": ["Korf1992 PDF p.6 Mahanti et al.1992"], "owner_assignment": null, "question": "Korf1992 cites the1992 Maryland technical report; accepted memory-search ITS used the1994 conference paper. Preserve the1992 source version as an uninspected cited original, not an automatic duplicate publication or new concept.", "question_id": "IE-Q6", "status": "pending", "topic": "1992 versus1994 ITS report version"}, "existing_record_ids": ["AIMech:IterativeThresholdSearch"], "group": "ie", "index": 5, "kind": "source_questions", "next_check": "Korf1992 cites the1992 Maryland technical report; accepted memory-search ITS used the1994 conference paper. Preserve the1992 source version as an uninspected cited original, not an automatic duplicate publication or new concept.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "fd9ab2daa1293611e1b5cb9b090b2e3670c4bcb08ae20294fdd1879313b6bb0f", "pointer": "/questions/5", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "All 30 exact citation occurrences remain available, including source versions beyond the maintained methods.", "disposition": "existing_record_context", "exact_original_object": {"locators_or_routes": ["bibliography-accounting.json"], "owner_assignment": null, "question": "All30 citation occurrences remain available for source-level reconciliation. Current existing records are possible contexts, not proof that every cited paper or variant has been fully inspected. No question is closed by listing it.", "question_id": "IE-Q7", "status": "pending", "topic": "Remaining bibliography responsibilities"}, "existing_record_ids": ["AIMech:MREC", "AIMech:MAStar", "AIMech:MAOStar", "AIMech:SimplifiedMemoryBoundedAStar"], "group": "ie", "index": 6, "kind": "source_questions", "next_check": "All30 citation occurrences remain available for source-level reconciliation. Current existing records are possible contexts, not proof that every cited paper or variant has been fully inspected. No question is closed by listing it.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json", "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256": "1dfafbbe7a7cc547e6e177325b58ba56176a9a1a5c05d7698fe1c301481152d4", "pointer": "/questions/6", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": ["AIMech:IterativeExpansion"], "assessment": "The exact Russell iterative-expansion responsibility is represented by the proposed IE record. Unconditional first-visit inherited values distinguish it from conditional Korf RBFS for nonmonotonic evaluations; monotonic correspondence is qualified, not a global alias.", "disposition": "represented_by_added_record", "exact_original_object": {"candidate": "Iterative expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"}, "existing_record_ids": [], "group": "ie", "index": 0, "kind": "historical_source_responsibilities", "next_check": "Retain all independent bibliography, version, implementation and theorem-scope questions in this source group; no broad owner exhaustion or automatic issue closure.", "origin": {"path": "/private/tmp/aimech-ie-identity-mapping-proposal-20261016/historical-owner-context.json", "sha256": "2e79ff82c5ce814cf9b3fb8f8e27226dfe7617cdd7401428be27055b8d37fb91"}, "original_sha256": "bd7596d61aeec2adf3a9fba972f8d7db4e8b4a2844bd29c1c8639a605fe8affe", "pointer": "/exact_original_object", "responsible_owner": {"family": "main", "index": 912}}
+- {"added_record_ids": [], "assessment": "Baudet alpha-beta branching/theory source remains uninspected; minimin alpha pruning is not the same two-player method.", "disposition": "pending_inspection", "exact_original_object": {"authors": "G.M. Baudet", "future_owner": null, "number": 1, "publication": "Artificial Intelligence10(2),173–199,1978", "question": "Original alpha-beta pruning/theory context; source not newlyread.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected", "title": "On the Branching Factor of the Alpha-Beta Pruning Algorithm"}, "existing_record_ids": [], "group": "itersss", "index": 0, "kind": "original_paper_references", "next_check": "Original alpha-beta pruning/theory context; source not newlyread.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "4b3cdd2c574e3b71f2ee063e065bc47a359e3052ee51e8b319f049408fc97f0b", "pointer": "/original_paper_references/0", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Knuth–Moore alpha-beta comparator ordering and theorem premises require original inspection.", "disposition": "pending_inspection", "exact_original_object": {"authors": "D.E. Knuth; R.W. Moore", "future_owner": null, "number": 2, "publication": "Artificial Intelligence6(4),293–326,1975", "question": "Inspect the specified comparator implementation/order before independent dominance proof or replication.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected", "title": "An Analysis of Alpha-Beta Pruning"}, "existing_record_ids": [], "group": "itersss", "index": 1, "kind": "original_paper_references", "next_check": "Inspect the specified comparator implementation/order before independent dominance proof or replication.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "7a35b5a24abe7625e54588b39c50d5e1f8f3b0be4510419d0d48f7c49e65b3b4", "pointer": "/original_paper_references/1", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Pearl’s book is broad solution-tree/pruning context and does not become fully covered through ITERSSS*.", "disposition": "pending_inspection", "exact_original_object": {"authors": "J. Pearl", "future_owner": null, "number": 3, "publication": "Addison-Wesley,1984", "question": "Imported solution-tree/pruning context; booknotnewlyread.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected", "title": "Heuristics: Intelligent Search Strategies for Computer Problem Solving"}, "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "original_paper_references", "next_check": "Imported solution-tree/pruning context; booknotnewlyread.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "eef58f202d828888f73be4f30c48fbdbe817168e80cf7a182fe693480e913565", "pointer": "/original_paper_references/2", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Stockman SSS* is a distinct defining source; ITERSSS* must not silently absorb the original SSS* procedure.", "disposition": "pending_inspection", "exact_original_object": {"authors": "G. Stockman", "future_owner": null, "number": 4, "publication": "Artificial Intelligence12(2),179–196,1979", "question": "Defining SSS* and proposedhybrid context; preserve distinct from1986ITERSSS*.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected", "title": "A Minimax Algorithm Better than Alpha-Beta?"}, "existing_record_ids": [], "group": "itersss", "index": 3, "kind": "original_paper_references", "next_check": "Defining SSS* and proposedhybrid context; preserve distinct from1986ITERSSS*.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "5528b346ee28c7427e91c94a71e7694b49a2b737ece06b4731dcb3ba60c65346", "pointer": "/original_paper_references/3", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "The exact PARSSS* / Searching Game Trees in Parallel Using SSS* retrieval route is retained under the existing main911 source umbrella. Original search-result-only access remains historical; this plan does not claim the full follow-up method was read or resolve its identity.", "disposition": "pending_inspection", "exact_original_object": {"access": "Primary-paper search-result abstract only; not downloaded/read", "label": "PARSSS* / Searching Game Trees in Parallel Using SSS*", "question": "Resolve originalvenue/version and the PARSSS*/ITERSSS* combination before anymechanism or identity decision.", "url": "https://citeseerx.ist.psu.edu/document?doi=b86161f3fdcf90e96bc0397aef7952f61994edde&amp;repid=rep1&amp;type=pdf"}, "existing_record_ids": [], "group": "itersss", "index": 0, "kind": "retrieved_followup_groups", "next_check": "Resolve originalvenue/version and the PARSSS*/ITERSSS* combination before anymechanism or identity decision.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "2b0f23049ea06b3d051ecbee026e1ce5d6d5d6d9c94425b6fad81d458719e17c", "pointer": "/retrieved_followup_groups/0", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "The exact MemSSS* / Searching Game Trees Under Memory Constraints retrieval route is retained under the existing main911 source umbrella. Original search-result-only access remains historical; this plan does not claim the full follow-up method was read or resolve its identity.", "disposition": "pending_inspection", "exact_original_object": {"access": "Official primary searchresult text only; not downloaded/read", "label": "MemSSS* / Searching Game Trees Under Memory Constraints", "question": "Inspect original1996 procedure and memoryunits; its comparison suggests OPEN bookkeeping can dominate runtime. Do not import unseenMemSSS*/MGame/QuickGame/RecSSS* details into1986.", "url": "https://cdn.aaai.org/AAAI/1996/AAAI96-033.pdf"}, "existing_record_ids": [], "group": "itersss", "index": 1, "kind": "retrieved_followup_groups", "next_check": "Inspect original1996 procedure and memoryunits; its comparison suggests OPEN bookkeeping can dominate runtime. Do not import unseenMemSSS*/MGame/QuickGame/RecSSS* details into1986.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "b616a536ea265aa045087f6808feb0cde430e0b2fdab276aafee1a971f39658f", "pointer": "/retrieved_followup_groups/1", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "The exact RecSSS*/RecDual* time-efficient state-space-search paper retrieval route is retained under the existing main911 source umbrella. Original search-result-only access remains historical; this plan does not claim the full follow-up method was read or resolve its identity.", "disposition": "pending_inspection", "exact_original_object": {"access": "Searchresult excerpt only, displaying ArtificialIntelligence71(2),397–408,1994; complete title/primary provenance not resolved", "label": "RecSSS*/RecDual* time-efficient state-space-search paper", "question": "Resolve exact article/author/version and compare recursive representations, phasedsearch andRSEARCH only after reading originals.", "url": "https://citeseerx.ist.psu.edu/document?doi=68a24881564e7c4027bac40498045e4ab08f6f09&amp;repid=rep1&amp;type=pdf"}, "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "retrieved_followup_groups", "next_check": "Resolve exact article/author/version and compare recursive representations, phasedsearch andRSEARCH only after reading originals.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "7ee002666f79ea401cf78ce6910ba0478f05b6369c111b877a6d6872755137d2", "pointer": "/retrieved_followup_groups/2", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Retain the source-local Exact activation/tie conventions qualification independently of adding the narrow 1986 algorithm.", "disposition": "pending_inspection", "exact_original_object": {"label": "Exact activation/tie conventions", "locator": "Printed165", "question": "Resolve tie-breaking among deepest inactive candidates and safe null handling before literal implementation certification; no defect proven."}, "existing_record_ids": [], "group": "itersss", "index": 0, "kind": "additional_source_questions", "next_check": "Resolve tie-breaking among deepest inactive candidates and safe null handling before literal implementation certification; no defect proven.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "f143217d3312ff39d8aad30234e8981abff063ef988ba50bbfc909b52e344932", "pointer": "/additional_source_questions/0", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Retain the source-local Complete ITERSSS* theorem proofs qualification independently of adding the narrow 1986 algorithm.", "disposition": "pending_inspection", "exact_original_object": {"label": "Complete ITERSSS* theorem proofs", "locator": "Printed167", "question": "Seek a fuller authorversion/technicalreport; distinguish sufficient pruning condition from iff and retain fixedorder/finite-tree premises."}, "existing_record_ids": [], "group": "itersss", "index": 1, "kind": "additional_source_questions", "next_check": "Seek a fuller authorversion/technicalreport; distinguish sufficient pruning condition from iff and retain fixedorder/finite-tree premises.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "8ee816250b85aa8b48cea1786efefde07f193150bba77c0aa29fe623e653d5ab", "pointer": "/additional_source_questions/1", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": [], "assessment": "Retain the source-local Nonuniform-tree extension qualification independently of adding the narrow 1986 algorithm.", "disposition": "pending_inspection", "exact_original_object": {"label": "Nonuniform-tree extension", "locator": "Printed164", "question": "The source says node coding generalizes; inspect a complete memorythreshold and branchdependent implementation before extending claims."}, "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "additional_source_questions", "next_check": "The source says node coding generalizes; inspect a complete memorythreshold and branchdependent implementation before extending claims.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json", "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256": "ebf72ecbd6a820251421ffdb7117932522dbc1d4ea75cd7ce0d84db4bf5d0097", "pointer": "/additional_source_questions/2", "responsible_owner": {"family": "main", "index": 911}}
+- {"added_record_ids": ["AIMech:ITERSSSStar"], "assessment": "The exact 1986 ITERSSS* citation in the MA*/MAO* bibliography is represented by the proposed source-scoped iterative solution-tree game-search record. Main911 supplies existing citation provenance, not algorithm equivalence with MA*/MAO*.", "disposition": "represented_by_added_record", "exact_original_object": {"authors": "S. Bhattacharyya; A. Bagchi", "future_owner": null, "next_check": "ITERSSS* source question; inspect defining paper before identity or relation decision.", "publication": "AAAI1986,163–167", "reference_number": 2, "source_locator": "journalp.221 / readerpage25", "status": "retained_bibliographic_context_or_source_question", "title": "Making the best use of available memory when searching game trees"}, "existing_record_ids": [], "group": "itersss", "index": 0, "kind": "historical_source_responsibilities", "next_check": "Retain all independent bibliography, version, implementation and theorem-scope questions in this source group; no broad owner exhaustion or automatic issue closure.", "origin": {"path": "/private/tmp/aimech-itersss-review-fragments-20261016/historical-source-accounting.json", "sha256": "a52aff7a3e6e4c181b4123ad29ced0579138449f1899a706705b0d8e361d33b3"}, "original_sha256": "02fae9f8e3daa3cf432043822f1a63d13a2121a683fc75d6e43731f80750c3d6", "pointer": "/exact_continuity/source_origin/object", "responsible_owner": {"family": "main", "index": 911}}
+- Separate post-360 pending source discovery: {"added_record_ids": [], "assessment": "Retain this access-limited source question under proposed source-tracking responsibility main911, arising from the MA bibliography. Original pending status and exact source provenance remain unchanged; none of the cohort361 triple resolves it. The 1985 multi-method abstract does not establish five executable method identities.", "disposition": "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "next_check": "Obtain and read the exact original, retain access failures and version distinctions, then reconcile mechanism and any existing owner before proposing records. Do not infer resolution from the existing memory-search records.", "original": {"exact_original_object": {"id": "BAGCHI1985-FULLTEXT", "question": "Acquire the exact 1985 article from an authorized public or institutional source; read C, PropA, PropC and MarkA definitions, cost updates, tie/duplicate conditions and admissible/inadmissible theorem assumptions. Do not define five new concepts from the abstract.", "status": "pending_access"}, "index": 0, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json", "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256": "54f54c9d3ee2e3705617474a3922ea0095c3a93ba109e1a7d733d9332ab7c8dc", "pointer": "/new_retrieval_questions/0"}, "responsible_owner": {"family": "main", "index": 911}}
+- Separate post-360 pending source discovery: {"added_record_ids": [], "assessment": "Retain this access-limited source question under proposed source-tracking responsibility main911, arising from the MA bibliography. Original pending status and exact source provenance remain unchanged; none of the cohort361 triple resolves it. The 1978 depth-m branch-and-bound source and resource claims need full text.", "disposition": "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "next_check": "Obtain and read the exact original, retain access failures and version distinctions, then reconcile mechanism and any existing owner before proposing records. Do not infer resolution from the existing memory-search records.", "original": {"exact_original_object": {"id": "IBARAKI1978-FULLTEXT", "question": "Acquire the exact 1978 article and inspect Depth-m scheduling, branch-and-bound state, memory definition and conditions for endpoint/O(n^m) statements before any curated claims.", "status": "pending_access"}, "index": 1, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json", "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256": "345d8cb33881fc481481607d5491600789021f18fc0b187b93878da8fd060220", "pointer": "/new_retrieval_questions/1"}, "responsible_owner": {"family": "main", "index": 911}}
+- Separate post-360 pending source discovery: {"added_record_ids": [], "assessment": "Retain this access-limited source question under proposed source-tracking responsibility main911, arising from the MA bibliography. Original pending status and exact source provenance remain unchanged; none of the cohort361 triple resolves it. The 1974 Kyoto working-paper witness does not establish byte or method equivalence to the 1978 paper.", "disposition": "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "next_check": "Obtain and read the exact original, retain access failures and version distinctions, then reconcile mechanism and any existing owner before proposing records. Do not infer resolution from the existing memory-search records.", "original": {"exact_original_object": {"id": "IBARAKI1974-VERSION", "locator": "PDF p.33 / printed p.91, reference6", "question": "Locate the 1974 Kyoto working paper cited by Ibaraki and coauthors in 1978, compare it to the journal version if both become available; citation alone does not establish byte or method equivalence.", "status": "pending_retrieval", "target_full_text_acquired": false, "witness_pdf": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/ibaraki-et-al1978-multiple-choice-knapsack-reference-witness.pdf", "sha256": "ffd78c58c37272a79fbf33466564fe30c2e530b3dea498b9e5b8a9caec2c9823"}}, "index": 2, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json", "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256": "351fc7ffd823287c463e798bf574945d75312069d409f45d65a590b5c9d53eae", "pointer": "/new_retrieval_questions/2"}, "responsible_owner": {"family": "main", "index": 911}}
+- Additional source question: {"disposition": "pending_inspection", "exact_original_object": {"candidate": "Iterative linear best-first search", "disposition": "pending_inspection", "next_check": "Inspect 2024 full method and compare to RBFS and memory-bounded variants.", "url": "https://arxiv.org/abs/2407.01637"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch", "AIMech:RBFSControlledReexpansion"], "issue_scope": "Potential new bounded accounting repair; existing 402/404/406 objects remain unchanged and open. Root may bind a new issue separately.", "locator": "/new_frontier/14", "next_check": "Inspect 2024 full method and compare to RBFS and memory-bounded variants. Proposed tracking under main912 groups source follow-up only; no claim of an earlier exact owner, primary reading, method equivalence or resolution.", "question": "Iterative linear best-first search: retain the exact historical pending source question; current exact spelling/identifier checks did not identify a retained current accounting row, which is not a novelty or semantic-absence assertion.", "question_id": "H361-SEARCH-2024", "responsible_owner": {"family": "main", "index": 912}, "source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}}
+- Additional source question: {"disposition": "pending_inspection", "exact_original_object": {"candidate": "RBFS-epsilon and RBFS-kth-root", "disposition": "pending_inspection", "next_check": "Full paper read; curate separately after exact tolerance, transformed-weight and quality-bound assumptions are checked against all identities.", "url": "https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch", "AIMech:RBFSControlledReexpansion"], "issue_scope": "Potential new bounded accounting repair; existing 402/404/406 objects remain unchanged and open. Root may bind a new issue separately.", "locator": "/new_frontier/0", "next_check": "Full paper read; curate separately after exact tolerance, transformed-weight and quality-bound assumptions are checked against all identities. Proposed tracking under main912 groups source follow-up only; no claim of an earlier exact owner, primary reading, method equivalence or resolution.", "question": "RBFS-epsilon and RBFS-kth-root: retain the exact historical pending source question; current exact spelling/identifier checks did not identify a retained current accounting row, which is not a novelty or semantic-absence assertion.", "question_id": "H361-RBFS-VARIANTS", "responsible_owner": {"family": "main", "index": 912}, "source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json", "sha256": "4d527783af0e0f75abe1179df198f3c219ac161d272bb0f5316a329e8e6dd122"}}
+- The inherited actual 360 projection retains source_durability with reconstructible exact 38,592-byte JSON manifest and all 100 asset metadata/provenance objects. This historical source is a scan-manifest, not a publisher PDF; the new triple uses five separately bound PDF artifacts.
+- Exact inherited source scopes are recursively retained under predecessor_state/projection; actual 360 report {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T042347Z-ma-star-and-mao-star.json", "sha256": "4575b88d2f6496e13bfa1772ea3ec12371289f8ffa8e25afa07a8f250eda818c"}. No original 402/404/406 closure or family exhaustion is asserted.
+- Inherited predecessor_state: exact object SHA256 bf88d061c6539ab1c2cf96197b549225e8c099c49796d770c874a8a798be9ef9; original source references remain inside predecessor_state/projection/predecessor_state.
+- Inherited predecessor_state_sha256: exact object SHA256 17049a906dc43843fe4dca17aa0aaad96b13b5f71c85b91189e24926f55150ba; original source references remain inside predecessor_state/projection/predecessor_state_sha256.
+- Inherited pair_source_accounting: exact object SHA256 be382479424fc0707cd98296f750f93696c0294c4e0939087d77609961de32ae; original source references remain inside predecessor_state/projection/pair_source_accounting.
+- Inherited frontier_result: exact object SHA256 f33c5808676ffb55c315cf7adef685371f4ffc35f59058d1047a4400a9a829a2; original source references remain inside predecessor_state/projection/frontier_result.
+- Inherited source_durability: exact object SHA256 b4e81c552086b6f7a5d7c3ffbe3157a380962cb4d17deb6b5bee3c5ce87cca3f; original source references remain inside predecessor_state/projection/source_durability.
+- Inherited source_durability_sha256: exact object SHA256 c319b2fb42e6280fd0f368ebaf6afc94f0ccdd187179cc604721de4229fad418; original source references remain inside predecessor_state/projection/source_durability_sha256.
+- Actual owner-plan/frontier outcome: {"additional_source_question_count": 2, "changed_main_indexes": [909, 911, 912], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows": 0, "new_nested_rows": 0, "retained_source_objects": 165, "separate_post360_discovery_questions": 3, "source_object_counts": {"ie": {"bibliography_occurrences": 30, "historical_source_responsibilities": 1, "source_questions": 7}, "itersss": {"additional_source_questions": 3, "historical_source_responsibilities": 1, "original_paper_references": 4, "retrieved_followup_groups": 3}, "svpg": {"additional_source_questions": 5, "bibliography_families": 36, "bibliography_occurrences": 71, "historical_source_responsibilities": 1, "search_only_leads": 3}}}
+- Actual source accounting digest (sorted compact JSON UTF-8): 3c799e0ff4dbba661b0deeba8848727d6127ee0fb1d1c914df8d848fd574df29
+- Actual historical/current identity changes: [{"id": "AIMech:SteinVariationalPolicyGradient", "field": "identity_notes", "historical": "Preparation-only historical identity assessment: at snapshot db32c7ac6abf5977e980b5dea2a9d213f76976e7, the inventory contained794 native and442 pinned AIO records; four ignored/hidden-inclusive exact-query roots yielded10 distinct contents and26 occurrences. The values-only projection contains4903 ID/local-ID/name/alias/scoped-synonym occurrences and found no exact candidate title, SVPG acronym or proposed local-ID match in that bounded snapshot. The checkout moved to merged head dd7a5a99eb412b5b587efb1e598cbb760a9bba0d during assessment, with all1236 inventoried record hashes unchanged. These are historical observations, not current or future identity clearance. The method updates interacting policy-parameter particles using expected-return/prior scores; it is distinct from generic particle SVGD, Soft Q-learning’s amortized action sampler and generic amortized generator fitting. REINFORCE and A2C supply estimators/implementation contexts, rather than names for this complete interacting-policy procedure. The historical main909 citation_entries[2] remains a source responsibility with no new canonical disposition assigned here. All71 bibliography occurrences across36 families, five additional questions and three search-only leads remain retained; cited source names are not new-concept counts. The preparation-stage related mapping to AIO:ReinforcementLearning links this algorithm to the pinned task class, not to an identical class or superclass, and does not require neural-network policy architecture. UAI Algorithm1 prints particle loops0..n while Eq9 averages1..n; the Eq9 method scope is retained without silently certifying the displayed indexing or update-order presentation as an executable implementation.", "current": "The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field occurrences and 3,766 normalized values. Candidate-normalized identity matches were empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced 6,732 occurrences across 1,557 distinct matching contents, assessed through three attributed reader scopes and exact inherited-wrapper reconstruction. SVPG denotes the source-scoped interacting-policy-particle optimizer, distinct from direct SVGD target approximation, amortized differentiable-sampler fitting, SoftQ action sampling, REINFORCE, GAE and TRPO. Its policy-objective gradient and kernel interaction do not imply an unrestricted KL guarantee, exact samples or mandatory neural architecture. Main909 retains 71 citation occurrences, 36 family groupings, five questions and three search-only leads, together with original cohort355/359 provenance. The AIO reinforcement-learning related_match expresses a task relationship rather than algorithm equivalence.", "root_decision": "records/AIMech:SteinVariationalPolicyGradient/identity_notes"}, {"id": "AIMech:IterativeExpansion", "field": "identity_notes", "historical": "The proposed scope is Russell1992 iterative expansion, abbreviated IE within that paper. Bare IE is not proposed as an unqualified alias: ignored-inclusive matches also use it for Internet Explorer, Ireland, information extraction and an unrelated classifier. The algorithm always imposes the parent stored value when initializing generated children. Korf’s full RBFS instead uses parent inheritance only when the stored parent value exceeds its static evaluation; SRBFS resets generated children to static evaluations. Korf explicitly reports IE/RBFS correspondence under monotonic evaluation, while decreasing static evaluations can distinguish their first-visit initialization and ordering. This conditional relationship is not a global RBFS/SRBFS alias or complete execution-trace equivalence. The mutable-value/return, loop, tie, dead-end, exhausted-root and graph conventions of the printed IE outline remain explicit source limits. Historical inventory noncollision and bounded neighbor comparison do not establish global novelty or future ownership clearance.", "current": "The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field occurrences and 3,766 normalized values. Candidate-normalized identity matches were empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced 6,732 occurrences across 1,557 distinct matching contents, assessed through three attributed reader scopes and exact inherited-wrapper reconstruction. Iterative expansion is Russell1992 source-scoped IE with unconditional max(parent stored value, static child value) inheritance. Korf RBFS conditionally inherits backed-up values, while SRBFS resets children to static values; their monotonic-evaluation correspondence is conditional, not a global alias. Generic iterative-expansion wording, IDA* learned incremental thresholds and RBFS controlled re-expansion are distinct contexts. No global IE abbreviation alias is introduced. Main912 retains 30 citation occurrences, seven version/interface questions and two recovered historical search pointers as source tracking. Ties, dead ends, exhausted-root behavior, graph/cycle assumptions and proof limitations remain explicit.", "root_decision": "records/AIMech:IterativeExpansion/identity_notes"}, {"id": "AIMech:ITERSSSStar", "field": "identity_notes", "historical": "ITERSSS* denotes the specific 1986 memory-controlled SSS*-style procedure over the finite uniform alternating game-tree presentation. It is distinct from shortest-path memory-bounded search and from a generic game-tree, minimax objective, learned evaluator or neural model. Active/inactive OPEN entries, the inclusive M &gt;= M0 premise, capacity-gated MAX expansion and bound-dependent purge/reactivation define the retained scope. Conditional SSS* endpoint and alpha-beta terminal-set statements do not establish global aliases. The exact source has one-way pruning conditions, omitted proofs, descendant/tie/null-interface qualifications and OPEN-entry rather than byte-level memory accounting. The accepted historical branch359 comparison covered 1,241 record identities (799 native and 442 AIO), 53 selected native definitions, 15 detailed native contexts and four ignored-inclusive search roots; it is not a fresh future-base identity or ownership clearance. No unqualified alias is proposed.", "current": "The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field occurrences and 3,766 normalized values. Candidate-normalized identity matches were empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced 6,732 occurrences across 1,557 distinct matching contents, assessed through three attributed reader scopes and exact inherited-wrapper reconstruction. ITERSSS* denotes the 1986 finite uniform alternating game-tree procedure with active/inactive OPEN entries, solution-tree pruning and memory-controlled passes. It differs from single-agent A*/IDA*/IE, MA*/MAO*/SMA*/MREC/ITS, original Stockman SSS* and the uninspected PARSSS*/MemSSS*/RecSSS*/RecDual* followups. Main911 carries the exact 1986 bibliography responsibility while retaining earlier memory-search scopes, four original references, three followup routes and three source-interface questions. Fixed-order, finite-tree, theorem-proof, tie and nonuniform-extension limits remain explicit.", "root_decision": "records/AIMech:ITERSSSStar/identity_notes"}]
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261016T052941Z-svpg-iterative-expansion-and-itersss-star
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of SVPG, iterative expansion and ITERSSS*
+started_at: '2026-10-16T05:29:25.207332Z'
+finished_at: '2026-10-16T05:29:41.191055Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Author self-review with separately attributed primary-source,
+    current-data and mathematical reviews. Earlier scientific and helper authorship
+    is disclosed in those receipts; this is not independent approval of the whole
+    workflow.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain SVPG, iterative expansion and ITERSSS* as three source-scoped DRAFT
+  algorithms. Twenty-one claims and 32 limitations preserve distinct policy-distribution
+  optimization, recursive search and finite uniform minimax procedures. Five artifacts
+  represent four works with explicit comparison/version roles. Current and inherited
+  source questions remain pending where appropriate.
+source:
+  git_revision: add2c806f6729c8599f4d5cfd6d75c7decde006c
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/ActiveLearning.yaml
+    sha256: a4d5b2c82df6f586fedc7290261bc978e7c8d17f1d844c5ee9efc8243e46bbaf
+    role: context
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Classification.yaml
+    sha256: d97da621c5052c7ab913cda95184ea2cca274f803298fd5f2c1273a22a211219
+    role: context
+  - path: data/aio/DecisionTree.yaml
+    sha256: 4c2a5ed08c585f8912d66e3629aaa20e93c46ab49cfb2d128001fcd019c81bfc
+    role: context
+  - path: data/aio/GraphConvolutionalNetwork.yaml
+    sha256: 644b6187436c10693cb547dbaa809b8c00c97ad198db201342e5bc0780c78d44
+    role: context
+  - path: data/aio/GraphConvolutionalPolicyNetwork.yaml
+    sha256: c8a6e283e5d6c5ebc59e1db234d174dc3be79dd0f4a30cdb74e6494e65507d79
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/KernelLayer.yaml
+    sha256: 0723e7f15d57807a1f922cd87b878593fb167757c7429dd06e99bde723290d43
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MaximumLayer.yaml
+    sha256: 7e034921f50c25cba46a261fc2f30b638ec7c5129fb150ee8d26373b4a6f3d54
+    role: context
+  - path: data/aio/MemoryAugmentedLLM.yaml
+    sha256: 8727073cb355b965f54a2f0e58997f862f6b734c9143511008c26f9d31a965fd
+    role: context
+  - path: data/aio/MemoryCellLayer.yaml
+    sha256: 290f04d7838e185381b29b22e67f8765de74242d687d23b0ffae2dad9d3f7237
+    role: context
+  - path: data/aio/MinimumLayer.yaml
+    sha256: 4765d394b6b8c98e13ff0babd273d0da05c863cb469bc7f8c33ac35e19c432cd
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/Network.yaml
+    sha256: ec24eb397241fe903137b2d8c8f4081d0f9d246c296c247864f199e160a3ee30
+    role: context
+  - path: data/aio/NeuralTuringMachineNetwork.yaml
+    sha256: bb483a9f90d767bcae50856c6084f31fe855d510d352419a5130fa4fc036be79
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/PolicyLayer.yaml
+    sha256: 5bd260a08b56658940d21561cad7ee515e2f031ea860cb040406f102d98252bf
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/RandomForest.yaml
+    sha256: cfdce4625131a8da239adf1b3957fadbc5433ddc8fc4ac8a3be5fe9018ce66ab
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/RecursiveLLM.yaml
+    sha256: f483ebcf26ac7bea6c0ae9aba097e94813654a063cd0bbee3cf3b0c89de29d81
+    role: context
+  - path: data/aio/RecursiveLanguageModel.yaml
+    sha256: 617d0f86964cea89a7259598acad60a111f6044fb10db598f060d42aaaecff02
+    role: context
+  - path: data/aio/RecursiveNeuralNetwork.yaml
+    sha256: fc7949310ee18ab614ad18b837bb4722e694ae86de5e300e841bf555bbcf4ba6
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/ReinforcementLearningLLM.yaml
+    sha256: e386376b9b1a9c78349d66e8609a655e273620d8bc607978c728ac3b7ce3808a
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/ANDORAbstractionSampling.yaml
+    sha256: 556f32f65f14c2e5525ec84aa2d40977a03a70353d7ea9982e12b9d509aaccfd
+    role: context
+  - path: data/curated/AStarSearch.yaml
+    sha256: 685cfd5d6b4eaf0811d597e93e117ad065857d5707f0040420d3e6885f520b8d
+    role: context
+  - path: data/curated/AmortizedSteinVariationalGradientDescent.yaml
+    sha256: 9432b34f9db5c87440ad62e1822882d72999da00b9eb7b9a636acb723e2895d9
+    role: context
+  - path: data/curated/BULB.yaml
+    sha256: daac190f8e4e5c66eb9ed6a4a32eee911fc756b8fc068b47522a34814ae6df50
+    role: context
+  - path: data/curated/BeamSearch.yaml
+    sha256: aec9aab4ec700ecfc6aa4b71c98f33bdbb456d131748729a98480abef34875bc
+    role: context
+  - path: data/curated/BeamStackSearch.yaml
+    sha256: 161a74d1afbe844b276989df5e068268ffa239e62799523221b56a626b4f4861
+    role: context
+  - path: data/curated/BestFirstSearch.yaml
+    sha256: d43811f831e3a4d2c08e861f5a973c03ec481c1b406d724c042847b7dbb426bf
+    role: context
+  - path: data/curated/DeepDeterministicPolicyGradient.yaml
+    sha256: 17a2f2205f1928697e5dac816484819fbbe7d23b67d3f5dce09c469790c970ec
+    role: context
+  - path: data/curated/DepthFirstIterativeDeepening.yaml
+    sha256: 2e01d2da093397d74a7647e624015b8b0f54d14c7420e00d3ded18a576ce605d
+    role: context
+  - path: data/curated/DepthFirstSearch.yaml
+    sha256: 060134862e6bb35089311a0fc2b1c7cd91f408556660f856d11e8bc4762ab6a6
+    role: context
+  - path: data/curated/DijkstraShortestPath.yaml
+    sha256: 071e00cd1f866ecf4ac09bb8da375a6bb6c576d6453dd70ad062058b9278e496
+    role: context
+  - path: data/curated/GlobalFrontierBeamSearch.yaml
+    sha256: 9aab298f05ea47fadb17df3bc0cc536ea954777aa47f9ee1e231937c8443ea6b
+    role: context
+  - path: data/curated/ITERSSSStar.yaml
+    sha256: 76789b35fdc3e67755797f732549ee0e54ab0083146c285fb04bff8a1f7b2b58
+    role: target
+  - path: data/curated/IterativeBroadening.yaml
+    sha256: 64a82bfd9daef91902e8f4d1985ea1d727b18a094bb7027d8743ce701b1586e5
+    role: context
+  - path: data/curated/IterativeDeepeningAStar.yaml
+    sha256: 0a9b9b571f3e7179658db63ce60f2e4febac10c4470212b5b0270b86b9eeac6c
+    role: context
+  - path: data/curated/IterativeExpansion.yaml
+    sha256: a3ede1d96513b14a11b2aec2763d24137b95a3bcfd7e14a342a62fdb257720a8
+    role: target
+  - path: data/curated/IterativeThresholdSearch.yaml
+    sha256: bd24d2cd8bf58105833b7fde36a5ba43da19e1bb8425ccff2bc8aefe68cc62ac
+    role: context
+  - path: data/curated/LearningRealTimeAStar.yaml
+    sha256: 189cfd138de434f3bf350bcf5a18684712c602fc96b3f4ba0abeed5f80e65ceb
+    role: context
+  - path: data/curated/MAOStar.yaml
+    sha256: 8856d812fbfad12e40bd79f321cc935ed2166d60dc044bf164cb24328c1f9477
+    role: context
+  - path: data/curated/MAStar.yaml
+    sha256: b92ce9ec4eed5198b58a24d1d256c7287c734a47219c4922dde36aa05640b66c
+    role: context
+  - path: data/curated/MREC.yaml
+    sha256: 0a6b229e7b98ddc60d52843f82f1d344374136f2ff4e870238358dd51e2f785b
+    role: context
+  - path: data/curated/MiniminAlphaPruning.yaml
+    sha256: 505221f4325e60c6de5494ccd0afac193b394c57bf3687d334741327eeb461a3
+    role: context
+  - path: data/curated/ProximalPolicyOptimization.yaml
+    sha256: 073aed5362b80546287548c4a1520105bb228b146a751cbccc879429f22b3661
+    role: context
+  - path: data/curated/QLearning.yaml
+    sha256: bcbd0f51f46e91ba6d88c9dc84baa9656aef82282c5c56d887ca81ff5182eb95
+    role: context
+  - path: data/curated/RBFSControlledReexpansion.yaml
+    sha256: 6ed34a212cc75612117ef1daf276ba4b5e7a65eeb3c7fbb4a2a9890adccef8e4
+    role: context
+  - path: data/curated/REINFORCE.yaml
+    sha256: 2f579286d88446d0b18e4988873a6b274d3ad24be48e6f58b716edaf9d68f514
+    role: context
+  - path: data/curated/RecursiveBestFirstSearch.yaml
+    sha256: 8ec921263592df64c798eed093ffc2b454c5e1c79c915edcb154bef63dbae6ab
+    role: context
+  - path: data/curated/SimpleRecursiveBestFirstSearch.yaml
+    sha256: ed513766e81bbf1801453eb8053bf999bc91666bcbae5bb7fd48f20bc2052c19
+    role: context
+  - path: data/curated/SimplifiedMemoryBoundedAStar.yaml
+    sha256: d4aa8a11ebc00d66ca19371add0b1ea2b10ad674fbc16aa75a33ce4d8424cac6
+    role: context
+  - path: data/curated/SoftActorCritic.yaml
+    sha256: fd4dd468f1b4a139c0166eab39944608314e42e7cf4dc0f8d750d3cf4802fe85
+    role: context
+  - path: data/curated/SoftQLearning.yaml
+    sha256: 30a9c92eac4e3169d040b64230b7efd6ec8d9685ea58cd5136f4a2d7fa895dca
+    role: context
+  - path: data/curated/SteinVariationalGradientDescent.yaml
+    sha256: 306808b660d4ce0880599e6acc901c5352c8a92d3ed6db58f89bd2b3c107d2b0
+    role: context
+  - path: data/curated/SteinVariationalPolicyGradient.yaml
+    sha256: 1e5e3012bb7e666a56df3551122d7b3bc266e0d1cbe60ef3ea2e39f2aaec98fa
+    role: target
+  - path: data/curated/TrustRegionPolicyOptimization.yaml
+    sha256: 4e19ec80fb483591f74353a182d6c99c47005274ff3814b26a07adfb047d8a9b
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/svpg-iterative-expansion-and-itersss-star/2026-10-16T051524Z-codex-b162ee.yaml
+    sha256: 9d354646b8198b6350d3003f2e0373999e4642113b54ea28aedf98f75e1e930e
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261011T034528Z-reinforcement-learning-methods.json
+    sha256: 77986405a5635886714741dba5154ac6b6b3aa3e73e7db09269a2cf2782e1c68
+    role: context
+  - path: research/discovery/20261011T035430Z-attribution-methods.json
+    sha256: 8d0137e23ddc9f28ed1c1026d6bcf6310b82a5a11ea447477e0165a98c446500
+    role: context
+  - path: research/discovery/20261011T044233Z-flow-and-consistency-methods.json
+    sha256: 1efa09e3896278d035b838cf5ee1152a70ea383c014c93d3763b6482f41b1d0b
+    role: context
+  - path: research/discovery/20261012T071653Z-support-vector-sphere.json
+    sha256: 26a5c75316bf7ab14b402cc64e1369c50418cf1e1a8570955fe5cf655bc8c95d
+    role: context
+  - path: research/discovery/20261012T073618Z-support-description.json
+    sha256: 641021eca5b4c440875934019acbbd46fdca5c084ed5688990fc1fba16e9ebb8
+    role: context
+  - path: research/discovery/20261015T220733Z-lpga-minimin-and-restored-historical-pointers.json
+    sha256: 70390ddcefe988c8db1883ad3c798d430425ca4d9c487ea0944de8bce5b9fa32
+    role: context
+  - path: research/discovery/20261015T225549Z-autowalksat-fixed-noise-controller.json
+    sha256: 7ebc4da1f0029b920b1a71a484cd4bec3af9ac92c34894a06103c3ab247621d4
+    role: context
+  - path: research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.json
+    sha256: cfb1da2d42702cf571b4b3594c8f408f33392a02bc7dd8b79c50a9b09adb279f
+    role: context
+  - path: research/discovery/20261015T233554Z-hrsat-tsat-and-restored-search-pointers.md
+    sha256: 220b798255e6e9d71006e704b007bbddd8838693efd1c16dd901253d8640d9e6
+    role: context
+  - path: research/discovery/20261016T010736Z-enforced-hill-climbing-and-local-search-space-lrta.json
+    sha256: 516283d10873d36554792b9cc6aac0352cdb000badd1dda54110a330fbd712b7
+    role: context
+  - path: research/discovery/20261016T020317Z-ritter-gallegos-two-stage-fitting-and-ieco-classification.json
+    sha256: a2bf46b1870ccc44138e7c4a5f7a968bf9257a73beea87cbd9471b1177253a04
+    role: context
+  - path: research/discovery/20261016T025054Z-mrec-sma-star-and-iterative-threshold-search.json
+    sha256: 24cac330ffb11e5a38b61d5926488b5332040a1b908f2451697a619a4bf4528c
+    role: context
+  - path: research/discovery/20261016T034316Z-amortized-svgd-and-real-time-adaptive-a-star.json
+    sha256: 5aaa5f8a608224430161ccddacc1cc2cbd7ecedba79e8cec86b52ee81ec4056d
+    role: context
+  - path: research/discovery/20261016T042347Z-ma-star-and-mao-star.json
+    sha256: 4575b88d2f6496e13bfa1772ea3ec12371289f8ffa8e25afa07a8f250eda818c
+    role: context
+  - path: research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.json
+    sha256: 19ea70c53bdcf7cce15313526f3cfc28e1ad5c9c9f5b157af56b90ce2a0aecea
+    role: context
+  - path: research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.md
+    sha256: 142605571c891124284a7d8745bb9b335299b8fe301732adb1fc7303eb244293
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+scope:
+  description: Three exact current native records from accepted cohort361 creation;
+    all selected claims and limitations assessed. Historical source and neighbor readings
+    remain separately attributed.
+  selection: Exact AIMech:SteinVariationalPolicyGradient, AIMech:IterativeExpansion,
+    AIMech:ITERSSSStar.
+  coverage: full
+  population_size: 3
+  reviewed_target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  exclusions:
+  - target: SVPG source variants and other policy/inference methods
+    reason: The earlier arXiv artifact is the same work; generic SVGD, Soft Q-learning
+      and amortized generator fitting are distinct contexts.
+  - target: RBFS/SRBFS, SSS* and later memory-search variants
+    reason: Conditional control-flow and source-local endpoint relationships do not
+      establish aliases.
+  - target: Uninspected bibliography originals and three access-limited MA retrieval/version
+      questions
+    reason: Source questions remain pending with exact originals; they are not automatically
+      concepts.
+  - target: Whole inherited issues and source families
+    reason: Original402/404/406 and later responsibilities remain recursively retained;
+      no closure or exhaustion is inferred.
+checks:
+- check_id: check-gate
+  name: just check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: just check
+  exit_code: 0
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: just vendored-check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: just vendored-check
+  exit_code: 0
+  evidence_ids:
+  - check-vendor
+- check_id: check-check-source
+  name: uv run --locked aimech check-source
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: uv run --locked aimech check-source
+  exit_code: 0
+  evidence_ids:
+  - check-check-source
+- check_id: check-render
+  name: just render
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: just render
+  exit_code: 0
+  evidence_ids:
+  - check-render
+- check_id: check-render-check
+  name: just render-check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: just render-check
+  exit_code: 0
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: git diff --check
+  status: passed
+  required: true
+  summary: Actual completed command exited0; exact output and timing retained.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: git diff --check
+  exit_code: 0
+  evidence_ids:
+  - check-diff
+- check_id: historical-failed-check-1
+  name: just vendored-check (retained earlier attempt)
+  status: failed
+  required: false
+  summary: Historical unsuccessful attempt retained; later exact required command
+    passed.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  command: just vendored-check
+  exit_code: 1
+  evidence_ids:
+  - historical-failed-check-1
+evidence:
+- evidence_id: src-svpg-uai2017
+  kind: primary_source
+  reference: /private/tmp/aimech-svpg-research-20261016/uai2017.pdf
+  snapshot_sha256: c59f60fe4c2f28ba2dacb78b0c37783e5860cef327fb35529962b6038206f341
+  accessed_at: '2026-10-16T02:34:36Z'
+  support: supports
+  summary: Official nine-page UAI 2017 defining and experimental paper. Complete text
+    and visual reading are attributed to the bound original research receipt; the
+    current fragment reuses that accepted reading and does not claim a new download
+    or experiment.
+  locator: PDF pp.1–9; method pp.2–4, experiments pp.5–7, discussion/conclusion pp.7–8,
+    bibliography pp.8–9.
+- evidence_id: src-svpg-arxiv-v1
+  kind: primary_source
+  reference: /private/tmp/aimech-svpg-research-20261016/arxiv-v1.pdf
+  snapshot_sha256: 0a1e2e5b220b1273cbec8fc0b93db22cf39ddc09681215921682d87018c74ea7
+  accessed_at: '2026-10-16T02:34:36Z'
+  support: partial
+  summary: Earlier nine-page version of the same work. Prior complete text-diff reading,
+    visual pages 3, 4, 6 and 7, and separately read bibliography are attributed to
+    the research receipt. It is a source-version comparison, not independent replication.
+  locator: PDF pp.3–4, Eqs.8–9 and Algorithm1; p.6 policy parameterization; p.7 exploration/exploitation
+    display; pp.8–9 bibliography.
+- evidence_id: svpg-native-preview
+  kind: record_content
+  reference: /private/tmp/aimech-svpg-native-preview-20261016/native-preview.json
+  snapshot_sha256: c11b1ae0df26de2b81df397cee7e119ec98ade2004f4f21bc3ebf38d0c56d118
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Exact root-generated TEMP native preview, including its actual historical
+    curation timestamp. No canonical-record or current-identity acceptance is inferred.
+- evidence_id: svpg-native-validation
+  kind: validation
+  reference: /private/tmp/aimech-svpg-native-preview-20261016/native-validation.json
+  snapshot_sha256: bfe4eba877ed1a703b95d75faf57ccc135c170680c42f887e1d8b6ad77838f98
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Root performed the standalone curated-record schema/semantic validation
+    and recorded passed=true with no errors. This fragment does not rerun validation
+    or treat it as a scientific or ownership pass.
+- evidence_id: svpg-corrected-support
+  kind: record_content
+  reference: /private/tmp/aimech-svpg-prospective-draft-data-20261016/native-shaped-v3/scientific-support.json
+  snapshot_sha256: 549aa357f5ca9ef25632fafa4c5a2575a6e40c23ee899f3ae266e9c19a9d1b74
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Exact accepted six-claim/twelve-limitation support, including the retained
+    zero-bandwidth correction. Assessment narratives remain source scoped.
+- evidence_id: svpg-original-reading
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-research-20261016/reading-receipt.json
+  snapshot_sha256: 0cb24f088d775cf68b2b8efdd0301a528291c7902659d32e1457509fad8fe36f
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: 'Prior research author receipt: all official UAI pages textually and visually
+    read; arXiv complete text comparison with selected visual pages and bibliography.
+    This fragment is prepared by the same research author; no new independent full-paper
+    reading is claimed.'
+- evidence_id: svpg-root-science
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-research-20261016/root-bounded-scientific-reading.json
+  snapshot_sha256: 8a36a8f2c337ed14db0b7cf1a17f07c95118ecf6e792ea9bf04f7774c212d96b
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Root bounded scientific reading and accepted refinements. Its exact declared
+    page/derivation scope remains attributed to that receipt.
+- evidence_id: svpg-root-content
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-prospective-draft-data-20261016/root-static-native-content-acceptance.json
+  snapshot_sha256: 190db74ede7d2ce10cf6765f1429dfd4739b755be1fdf8974c9b34f4f853b90f
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Root static native-content acceptance after complete core and eighteen
+    narrative/locator reading, with bounded source-page and mapping context review.
+    Native/current identity and owner acceptance were separate.
+- evidence_id: svpg-independent-math
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-independent-math-audit-20261016/assessment.json
+  snapshot_sha256: b0734a39bbc65421147d97413b22c7ec433b762874f768e1fc57d9443f103af3
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Independent bounded mathematical review of the research dossier, including
+    finite-particle, bandwidth and rescaling scope. Original mathematical notes require
+    the separately bound zero-bandwidth clarification.
+- evidence_id: svpg-bandwidth-clarification
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-prospective-draft-data-20261016/native-shaped-v3/zero-bandwidth-clarification.json
+  snapshot_sha256: 86185106eb63a4b3567e10d9eadb2d1e1168a4c4e83f582123fd0088abc109c7
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: 'Retained support/math-note correction: for positive particle count a zero
+    median gives h=0; the printed RBF and derivative then divide by zero without a
+    safeguard. Core statements are unchanged.'
+- evidence_id: svpg-historical-identity
+  kind: prior_review
+  reference: /private/tmp/aimech-svpg-identity-context-audit-20261016/assessment.json
+  snapshot_sha256: 702e299b398708d885ab1544368a1eb3bc3d9f58f398c285e40629a466f908b8
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Bounded ignored-inclusive historical identity/context assessment at db32c7ac,
+    with transition to dd7a5a99 and unchanged inventoried record bytes. It is not
+    a new current identity search.
+- evidence_id: svpg-aio-context
+  kind: database
+  reference: /private/tmp/aimech-svpg-research-20261016/aio-contexts.json
+  snapshot_sha256: 2fa5a91e3fbab06b99a7bf3ec3cdc3c2a86ad66d92110f46d8109437d20e3abe
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: Exact nine-node AIO context and outgoing edges used by the accepted preparation-stage
+    algorithm-to-task mapping assessment. No new mapping acceptance is inferred.
+- evidence_id: svpg-source-accounting
+  kind: record_content
+  reference: /private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json
+  snapshot_sha256: 886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f
+  accessed_at: '2026-10-16T03:05:05.045783Z'
+  support: context_only
+  summary: All 71 bibliography occurrences, 36 source families, five additional questions,
+    three search-only leads and original source responsibility are retained exactly
+    with original provenance. Original pending flags are historical, not newly resolved.
+- evidence_id: ie-accepted-preview
+  kind: record_content
+  reference: /private/tmp/aimech-ie-native-preview-20261016/native-preview.json
+  locator: complete prospective native preview
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Accepted TEMP preview, with actual historical curation; not a future canonical
+    record or current identity clearance.
+  snapshot_sha256: ab8b2bd9c5da383ca6065d786009e4d0ec38054c22d505ca481a89897875645d
+- evidence_id: ie-accepted-core
+  kind: record_content
+  reference: /private/tmp/aimech-ie-scientific-data-draft-20261016/IterativeExpansion.scientific-core.v2.json
+  locator: complete scientific core
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Exact accepted six-claim/ten-limitation prospective scientific content;
+    current review-fragment author also authored this core.
+  snapshot_sha256: ab19403cc6692b51e6229fe99cdc84f0d8b1ed7c7d12d23bd4077d548526a4a8
+- evidence_id: ie-accepted-support
+  kind: record_content
+  reference: /private/tmp/aimech-ie-scientific-data-draft-20261016/scientific-support.v2.json
+  locator: records[0]
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Exact per-claim/per-limitation source support, preserving source interface
+    and theorem qualifications.
+  snapshot_sha256: 588277ea0955525868c3007a83cd32059f7becaddb37fe09405be90d756b4cab
+- evidence_id: ie-source-roles
+  kind: record_content
+  reference: /private/tmp/aimech-ie-scientific-data-draft-20261016/source-metadata-and-roles.json
+  locator: source_rows
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Russell1992 defining primary; Korf1992 primary algorithm comparison. Neither
+    row is context-only.
+  snapshot_sha256: 0e57e3907bd15aa21a40c44669e751498e34bd7fd1ddcf74bb4ea685d0f334ba
+- evidence_id: ie-source-questions
+  kind: record_content
+  reference: /private/tmp/aimech-ie-review-fragments-20261016/source-question-continuity.original.json
+  locator: bibliography_occurrences and pending_questions
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Exact 30 bibliography occurrence objects and seven source questions; historical
+    ownership remains context, with no status rewrite or future owner allocation.
+  snapshot_sha256: 5bd9c6466e5462dc1784ea919f984a0f4669bfaabc8574a206dd85296de2c629
+- evidence_id: ie-identity-mapping
+  kind: record_content
+  reference: /private/tmp/aimech-ie-identity-mapping-proposal-20261016/candidate-identity-mapping.proposed.json
+  locator: proposed identity, aliases and bounded no-match
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Historical prospective inventory/mapping proposal. Bare IE is source-local
+    only; no future absence or ownership acceptance.
+  snapshot_sha256: 5f3a62431e63691fdfa1b38d5546837c01fac000686caac7853dce13047a7d2f
+- evidence_id: ie-root-identity-mapping
+  kind: record_content
+  reference: /private/tmp/aimech-ie-identity-mapping-proposal-20261016/root-prospective-identity-reading.json
+  locator: root prospective reading
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Root acceptance for bounded prospective identity/scientific drafting, not
+    a future canonical addition.
+  snapshot_sha256: 3e2088458bbc6cb46bc5bc94f7757f4b6bbd334435bb856003043a3e7de1f167
+- evidence_id: ie-root-preview-readback
+  kind: record_content
+  reference: /private/tmp/aimech-ie-native-preview-20261016/root-preview-readback.json
+  locator: complete root readback
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Prior root exact-core TEMP preview readback; no current runtime checks
+    inferred.
+  snapshot_sha256: e4b76ca5ebaac8d863950ac6afbfb54e6c9df8cd0447135b95eb8ded8259f11a
+- evidence_id: ie-independent-draft-audit
+  kind: record_content
+  reference: /private/tmp/aimech-ie-scientific-data-independent-draft-audit-20261016/assessment.json
+  locator: bounded source/core/support review
+  accessed_at: '2026-10-16T05:19:15.528328Z'
+  support: context_only
+  summary: Separately attributed independent draft review; earlier source/proposal
+    contributions are disclosed in that receipt.
+  snapshot_sha256: 1c43bf87271f3951f37bb37211840320f44dee1bae0ef3e49072a0f974f3ed8b
+- evidence_id: ie-primary-1
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; pathmax formula in Section
+    3.1 on PDF p. 3; Section 4.2 on PDF p. 4 and Figure 3 on PDF p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-2
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4.1, manuscript/PDF p. 4; IE(n, bound) entry tests, best-child
+    selection and new-bound expression
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-3
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4.1, manuscript/PDF p. 4; bare IE(best, new-bound) call followed
+    by the parent minimum assignment; Section 4.2 on PDF p. 4 and Figure 3 on PDF
+    p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-4
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: SRBFS and Full Recursive Best-First Search, printed p. 535 / PDF p. 3;
+    Related Work, printed p. 537 / PDF p. 5
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-5
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Figures 1 and 3, printed pp. 534–535 / PDF pp. 2–3; full RBFS conditional
+    child initialization on p. 535; Related Work on p. 537 / PDF p. 5
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-6
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4, manuscript/PDF pp. 3–4; linear-space recursion and retained
+    descendants along the path
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-7
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: SRBFS storage explanation, printed pp. 534–535 / PDF pp. 2–3; Related Work
+    on IE, printed p. 537 / PDF p. 5
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-8
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4.1, manuscript/PDF p. 4; no-children infinity return, goal return,
+    bare recursive call and parent backup
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-9
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4.1, manuscript/PDF p. 4; loop guard and backup order
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-10
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: SRBFS/RBFS while guards and return, printed p. 535 / PDF p. 3
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-11
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 3.1 versus Section 4.1, manuscript/PDF pp. 3–4
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-12
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Sorting/reinsertion in pseudocode, printed p. 535 / PDF p. 3
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-13
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4.1, manuscript/PDF p. 4; other-child minimum and stopping outline
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-14
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Single-child second-value initialization and infinite top-bound call, printed
+    p. 535 / PDF p. 3
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-15
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Footnote 6, manuscript/PDF p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-16
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Cycle checking paragraph, printed p. 535 / PDF p. 3
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-17
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Introductory search assumptions, manuscript/PDF pp. 1–2; Section 4.1 on
+    p. 4
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-18
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Theoretical Results, printed p. 536 / PDF p. 4
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-19
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4, manuscript/PDF pp. 3–4
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-20
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: SRBFS memory and regeneration discussion, printed pp. 534–535 / PDF pp.
+    2–3
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-21
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 5, manuscript/PDF pp. 4–5; Figure 5 on PDF p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-22
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Experimental Results and Related Work, printed pp. 536–537 / PDF pp. 4–5
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-23
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: References, manuscript/PDF p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-24
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: References, printed p. 538 / PDF p. 6
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: ie-primary-25
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Section 4 and Section 4.1, manuscript/PDF pp. 3–4; Section 4.2 on PDF p.
+    4 and Figure 3 on PDF p. 5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-26
+  kind: primary_source
+  reference: /private/tmp/aimech-memory-bounded-search-research-20261015/sma1992.pdf
+  locator: Complete manuscript/PDF pp. 1–5; IE in Section 4 on pp. 3–4 and Section
+    4.2/Figure 3 on pp. 4–5
+  accessed_at: '2026-10-15T23:35:14Z'
+  support: supports
+  summary: Defining IE procedure and source scope in Russell1992; prior primary reading
+    is attributed.
+  snapshot_sha256: 32d207859056ec8c75a49ead8cd732a8b393020ab777c39e54e1ab19195dd635
+- evidence_id: ie-primary-27
+  kind: primary_source
+  reference: /private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992.pdf
+  locator: Complete proceedings printed pp. 533–538 / PDF pp. 1–6; algorithms p. 535
+    and Related Work p. 537
+  accessed_at: '2026-10-16T03:15:26Z'
+  support: supports
+  summary: Primary SRBFS/RBFS procedure and explicit IE comparison in Korf1992; not
+    a substitute defining IE implementation.
+  snapshot_sha256: f30adb0c2776cc24fe49192bf49151cd4d52303019cca8b2d941bc7e7a118987
+- evidence_id: itersss-preview
+  kind: record_content
+  reference: /private/tmp/aimech-itersss-native-preview-20261016/native-preview.json
+  snapshot_sha256: 2419f347cb7a9b59803a15e6aa240686027eba8afe07259990259ff44ec9563b
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: TEMP native preview with real historical curation, not a canonical record.
+- evidence_id: itersss-support
+  kind: record_content
+  reference: /private/tmp/aimech-itersss-scientific-data-draft-20261016/scientific-support.json
+  snapshot_sha256: 6ad676922f3a2d2af9477b47f84b81bf3b7401cc66f793f4ebba506238ee20dd
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Accepted nine-claim/ten-limitation scientific support, with exact locators
+    and qualifications.
+- evidence_id: itersss-root-static
+  kind: authority
+  reference: /private/tmp/aimech-itersss-scientific-data-draft-20261016/root-static-scientific-data-acceptance.json
+  snapshot_sha256: 369228e0921647c5d897f238ef457be547100692ad587306eebcf2aad63bb03b
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Root acceptance for static scientific preparation and TEMP native preview
+    only.
+- evidence_id: itersss-prior-independent-source
+  kind: prior_review
+  reference: /private/tmp/aimech-itersss-star-independent-controlflow-audit-20261016/assessment.json
+  snapshot_sha256: fb0a8706571a58e0705fd748488fdc08c12dc9088a4a3010c284c397eb84080c
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Prior independent complete five-page source/control-flow reading, not a
+    new proof or source run.
+- evidence_id: itersss-draft-readback
+  kind: record_content
+  reference: /private/tmp/aimech-itersss-scientific-data-draft-20261016/draft-author-readback.json
+  snapshot_sha256: f73df1095b9b7cb50508b21a76e930e79ae5e3ea890fad9f760dd6df2d60eea8
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: 'Draft-author clarification: the SPACE arithmetic is the draft author’s
+    derivation, not a separately printed theorem.'
+- evidence_id: itersss-historical-identity
+  kind: search
+  reference: /private/tmp/aimech-itersss-identity-mapping-proposal-20261016/candidate-identity-mapping.proposed.json
+  snapshot_sha256: ff027668c18bd0cabf81c55101bcc89ee95dfde4bd125a82db7bf232614a5c24
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Historical identity and pinned mapping proposal; future collection and
+    ownership are outside scope.
+  search_scope: Historical prospective ITERSSS identity and mapping assessment only.
+    No exact normalized candidate identity match and no textual occurrence of the
+    selected name/ID/title/author/SSS-family probes in the four searched roots. The
+    53 selected native definitions and 15 detailed scientific contexts support a distinct
+    candidate in this bounded observed snapshot. This does not establish absence under
+    every unqueried paraphrase or whole-frontier responsibility clearance.
+- evidence_id: itersss-source-accounting
+  kind: record_content
+  reference: /private/tmp/aimech-itersss-review-fragments-20261016/historical-source-accounting.json
+  snapshot_sha256: a52aff7a3e6e4c181b4123ad29ced0579138449f1899a706705b0d8e361d33b3
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: All four bibliography, three retrieval and three additional source questions
+    preserved with exact origin objects.
+- evidence_id: itersss-source-metadata
+  kind: record_content
+  reference: /private/tmp/aimech-itersss-scientific-data-draft-20261016/source-metadata-and-roles.json
+  snapshot_sha256: 1837603a7f494a121de64703c4bfd02a0a2f556f8f40320a2e6cf28ca0428f77
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Original official proceedings artifact, access receipt, citation crosswalk
+    and source role retained.
+- evidence_id: itersss-native-validation
+  kind: validation
+  reference: /private/tmp/aimech-itersss-native-preview-20261016/validation.json
+  snapshot_sha256: be9fbed2be049d2657c62760613332ef89686ff5bab694ec655c68e43d4e087f
+  accessed_at: '2026-10-16T04:18:57.594347Z'
+  support: context_only
+  summary: Prior one-call standalone native record validation passed; no new validator
+    invoked by this preparation.
+- evidence_id: itersss-primary-01
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 1 and Section 2, printed pp. 163–164 / PDF pp. 1–2; inclusive M
+    >= M0 premise on printed p. 164
+- evidence_id: itersss-primary-02
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 2, ITERSSS* initialization on printed p. 164 / PDF p. 2; first(OPEN,
+    FLAG) and phase description on printed p. 165 / PDF p. 3
+- evidence_id: itersss-primary-03
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 2, ITERSSS* nonterminal LIVE MAX branch, printed p. 164 / PDF p.
+    2
+- evidence_id: itersss-primary-04
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 2, ITERSSS* LIVE terminal, LIVE MIN and SOLVED MAX cases, printed
+    pp. 164–165 / PDF pp. 2–3
+- evidence_id: itersss-primary-05
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 2, SOLVED MIN branch and inactivesucc helper, printed p. 165 /
+    PDF p. 3; explanatory paragraph on printed p. 166 / PDF p. 4
+- evidence_id: itersss-primary-06
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 4, Definition 4.1 on printed p. 166 / PDF p. 4; Definitions 4.2–4.4,
+    Theorems 4.1–4.4 and omitted-proof statement on printed p. 167 / PDF p. 5
+- evidence_id: itersss-primary-07
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 1, printed p. 163 / PDF p. 1; Example 2.2 and Table 1, printed
+    p. 166 / PDF p. 4; Section 5, printed p. 167 / PDF p. 5
+- evidence_id: itersss-primary-08
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: Section 3 and Table 1, printed p. 166 / PDF p. 4; Section 5, printed p.
+    167 / PDF p. 5
+- evidence_id: itersss-primary-09
+  kind: primary_source
+  reference: /private/tmp/aimech-itersss-star-original-source-research-20261016/itersss1986.pdf
+  snapshot_sha256: 90bfd737475f883138fc8f34a0bcd56392f30c751332fd0af45bfec05fde9180
+  accessed_at: '2026-10-16T03:23:47Z'
+  support: supports
+  summary: Exact primary-paper locator retained from accepted scientific support;
+    prior full five-page reading is attributed, not newly performed in this static
+    fragment preparation.
+  locator: References and Section 5, printed p. 167 / PDF p. 5; original source artifact
+    title and author line on printed p. 163 / PDF p. 1
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-write.json
+  snapshot_sha256: 6bde375df938a79c69d22408f40aeab801074de4ab0438d4557b48ce17e9b7f2
+  accessed_at: '2026-10-16T05:29:41.096595Z'
+  support: context_only
+  summary: Actual exclusive creation of three native records, report pair and CREATE
+    history.
+- evidence_id: captured-inputs
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/actual-capture.json
+  snapshot_sha256: 1586e3c8faad3efbf46a318423c53ec4f10335768e0fd39b01c4ab63fcc43594
+  accessed_at: '2026-10-16T05:29:41.096920Z'
+  support: context_only
+  summary: Actual canonical input-byte and maintained-target capture.
+- evidence_id: postcapture-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/root-generation-reading.json
+  snapshot_sha256: a3e58c123375960e4bb490f6da5f4e4edb04a51a21459c46351906a3592715d6
+  accessed_at: '2026-10-16T05:29:41.097160Z'
+  support: context_only
+  summary: Actual root reading of source-scoped canonical records, metadata and all
+    retained question objects; historical source reading stays separately attributed.
+- evidence_id: governance-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-governance-20261016/assessment.json
+  snapshot_sha256: 708a4343070759ca1e22f754d6b54361fb17a37fdaa1cbed9dde39b0e651471c
+  accessed_at: '2026-10-16T05:29:41.102179Z'
+  support: context_only
+  summary: Actual byte preservation, dynamic owner-plan reconstruction, inherited
+    metadata and parsed-page audit.
+- evidence_id: rendered-pages
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-governance-20261016/rendered-pages.json
+  snapshot_sha256: e515e07fda447b99285c7f4587bbdf56df9efd339a9d432c572b1d909e05dcf1
+  accessed_at: '2026-10-16T05:29:41.102461Z'
+  support: context_only
+  summary: Actual generated-page bytes and parsed content; no visual/layout inspection.
+- evidence_id: actual-scientific-assessment
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-actual-adversarial-review-20261016/assessment.preliminary.json
+  snapshot_sha256: a97af0731869323e8a2e5eff03e5b64fb3d8b4d3e221964487a64bd7781404cf
+  accessed_at: '2026-10-16T05:29:41.102689Z'
+  support: context_only
+  summary: Actual record scientific assessment with its own attributed source-reading
+    scope.
+- evidence_id: current-identity-collection
+  kind: search
+  reference: /private/tmp/aimech-cohort361-current-collection-20261016/collection.json
+  snapshot_sha256: b0434a827c617f8c6cd98fb52271a506ec79b9084f858e5c31d408b6f61881f7
+  accessed_at: '2026-10-16T05:29:41.106439Z'
+  support: context_only
+  summary: Actual scoped ignored-inclusive identity collection; mechanical capture
+    is distinct from human semantic reading.
+  search_scope: Four captured roots with ignored and hidden files included;6732 occurrences1557
+    unique contents with explicitly attributed complete matching-content coverage.1243
+    identity rows4927 field occurrences3766 normalized values; bounded candidate absence
+    only.
+- evidence_id: current-context-assessment
+  kind: search
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/current-collection-assessment.json
+  snapshot_sha256: d9132fe5c55b064d11c39d52e566e2da08396a488a45ed42911f933d9fe437f8
+  accessed_at: '2026-10-16T05:29:41.106654Z'
+  support: context_only
+  summary: Actual attributed current identity and source-question assessment.
+  search_scope: Four captured roots with ignored and hidden files included;6732 occurrences1557
+    unique contents with explicitly attributed complete matching-content coverage.1243
+    identity rows4927 field occurrences3766 normalized values; bounded candidate absence
+    only.
+- evidence_id: root-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-final-inputs-20261016/decisions.final.json
+  snapshot_sha256: 0e4f4a0fea999a7c6ecd51e6461a44b0b6508ee9b514073fdb749f3806e4ca40
+  accessed_at: '2026-10-16T05:29:41.108298Z'
+  support: context_only
+  summary: Exact current record identity decisions, dynamic accepted ownership and
+    retained source questions.
+- evidence_id: ownership-plan
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-current-ownership-proposal-20261016/ownership-plan.proposed.json
+  snapshot_sha256: 4471c78603c7d25ed5bb17af99cb435f8a3b0fdfde1446c394dcbe744cbf4b3f
+  accessed_at: '2026-10-16T05:29:41.109376Z'
+  support: context_only
+  summary: Exact three source responsibilities retain165 original objects and three
+    separate post-360 retrieval/version questions; current additional questions remain
+    explicit.
+- evidence_id: ownership-plan-acceptance
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-final-inputs-20261016/ownership-plan-acceptance.json
+  snapshot_sha256: 8ac61a77e4d3d55211c57878c2467366867edc7e2fce00457b9ca8a1084db410
+  accessed_at: '2026-10-16T05:29:41.109567Z'
+  support: context_only
+  summary: Actual root acceptance of current source responsibility; no whole-issue
+    closure.
+- evidence_id: current-discovery-report
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.json
+  snapshot_sha256: 19ea70c53bdcf7cce15313526f3cfc28e1ad5c9c9f5b157af56b90ce2a0aecea
+  accessed_at: '2026-10-16T05:29:41.123808Z'
+  support: context_only
+  summary: Canonical durable report containing the exact recursively queryable predecessor_state
+    bundle and separate current source responsibilities.
+- evidence_id: inherited-source-durability
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T051456Z-svpg-iterative-expansion-and-itersss-star.json
+  snapshot_sha256: 19ea70c53bdcf7cce15313526f3cfc28e1ad5c9c9f5b157af56b90ce2a0aecea
+  accessed_at: '2026-10-16T05:29:41.138120Z'
+  support: context_only
+  summary: The current canonical predecessor bundle preserves actual360 source_durability
+    with the reconstructible exact JSON manifest and all 100 original asset metadata/provenance
+    objects. This inherited SHA-256 does not identify a publisher PDF.
+- evidence_id: creation-history
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/history/reports/svpg-iterative-expansion-and-itersss-star/2026-10-16T051524Z-codex-b162ee.yaml
+  snapshot_sha256: 9d354646b8198b6350d3003f2e0373999e4642113b54ea28aedf98f75e1e930e
+  accessed_at: '2026-10-16T05:29:41.138455Z'
+  support: context_only
+  summary: Actual single CREATE event for the report.
+- evidence_id: review-support
+  kind: record_content
+  reference: /private/tmp/aimech-cohort361-consumer-preparation-20261016/review-support.v2.prepared.json
+  snapshot_sha256: 25c009d316d3444ea4cc0be4a4e4627e97114843fe0e16bea998a22b9d480294
+  accessed_at: '2026-10-16T05:29:41.139458Z'
+  support: context_only
+  summary: Exact historical per-claim and per-limitation narrative support.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-gate.json
+  snapshot_sha256: b182446e7013ea0cd566c7160fb973a16132255ce5b698b4d4537ae948e8d62d
+  accessed_at: '2026-10-16T05:25:14.667465Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-vendor.json
+  snapshot_sha256: cf23dfbc70ea6a188ab4b74425b76d3ceb11673e96756d03cf57474569cbb818
+  accessed_at: '2026-10-16T05:29:03.591675Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-check-source
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-check-source.json
+  snapshot_sha256: 001ead86a2b583be0eeaf792e73ca7b55cbb47b1338bbff2628f47944ef9c653
+  accessed_at: '2026-10-16T05:29:05.279426Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-render.json
+  snapshot_sha256: a97687162a01adeccf59e6bf3cf94df2247ba6666a76c5a69261ddf861984a9d
+  accessed_at: '2026-10-16T05:16:53.310943Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-render-check.json
+  snapshot_sha256: c4761f17cca6d2d2d21418d258d2bd803c33ab0c3fef44b5947ecb3dd7db8570
+  accessed_at: '2026-10-16T05:29:15.463226Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/retry-check-diff.json
+  snapshot_sha256: 94b54ca23740275722f0310fe839c3305336394c939bb2f866b9ad3f54cff9c8
+  accessed_at: '2026-10-16T05:29:15.609235Z'
+  support: context_only
+  summary: Actual completed required command, exit0; scope is its recorded output.
+- evidence_id: historical-failed-check-1
+  kind: validation
+  reference: /private/tmp/aimech-cohort361-postwrite-20261016/actual-check-vendor.json
+  snapshot_sha256: 72220c871229ff9585195328bf1831f92c7be9832808f44201ff8168ce919a81
+  accessed_at: '2026-10-16T05:25:15.012829Z'
+  support: context_only
+  summary: Retained unsuccessful earlier command attempt; successful later exact command
+    is separately bound.
+assessments:
+- assessment_id: svpg-claim-parameter-distribution-objective
+  area: evidence
+  topic: 'SVPG claim: parameter-distribution-objective'
+  outcome: supported
+  summary: Eq5 explicitly optimizes a distribution over policy parameters with a relative-entropy
+    penalty; Eq6 is its formal flat-reference entropy form. Keep the variable distinct
+    from state-conditional action distributions. The probability/KL interpretation
+    needs the normalization qualifications retained in the limitations.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-claim-normalized-tilted-target
+  area: evidence
+  topic: 'SVPG claim: normalized-tilted-target'
+  outcome: supported
+  summary: Eq7 gives the exponential tilt. Positive alpha and a finite positive partition
+    function are explicit curator conditions accepted by root; they are not established
+    merely by the stationary variational calculation. The improper experimental prior
+    is not promoted to a normalized posterior.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-claim-interacting-policy-update
+  area: evidence
+  topic: 'SVPG claim: interacting-policy-update'
+  outcome: supported
+  summary: Eqs8–9 supply the averaged target-score/kernel-gradient field on policy-parameter
+    particles. The derivative acts in the first kernel argument and the particle step
+    has the positive sign. The earlier arXiv source is a version comparison, not a
+    second independent replication. No exact finite-step KL theorem or certified pseudocode
+    implementation is claimed.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - src-svpg-arxiv-v1
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-claim-return-gradient-inputs
+  area: evidence
+  topic: 'SVPG claim: return-gradient-inputs'
+  outcome: supported
+  summary: Section2.2 presents finite-difference and likelihood-ratio gradient inputs;
+    Section5 instantiates REINFORCE and A2C. Compatibility is scoped to usable return-gradient
+    estimates. It does not assert unconditional unbiasedness, finite-difference accuracy,
+    or implemented TRPO/natural-gradient variants.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-claim-actor-critic-update-scope
+  area: evidence
+  topic: 'SVPG claim: actor-critic-update-scope'
+  outcome: supported
+  summary: The Section5 implementation explicitly updates policy parameters with SVPG
+    and critic parameters with ordinary TD-error gradients. This is an implementation
+    scope, not a claim that critics are policy particles or that every actor-critic
+    scheme is interchangeable.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-claim-experimental-comparison-design
+  area: evidence
+  topic: 'SVPG claim: experimental-comparison-design'
+  outcome: supported
+  summary: The experimental protocol compares interacting policies, independent policies
+    and a pooled-data single policy on four configured tasks with matched total transitions
+    per iteration. This is study-design evidence, not an asserted performance result,
+    equal runtime or uniform episode-count superiority.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-1
+  area: scope
+  topic: SVPG limitation 1
+  outcome: supported
+  summary: Parameter entropy and action entropy concern different random variables;
+    shared Stein machinery does not identify policy particles with sampled actions
+    or sampler-parameter fitting.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-2
+  area: scope
+  topic: SVPG limitation 2
+  outcome: supported
+  summary: The flat improper prior and a usable score do not establish a probability
+    distribution. The conditional divergence calculation requires a uniform lower
+    bound on J over an unbounded parameter domain; no claim is made that this condition
+    has been proved for every experimental task.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-3
+  area: scope
+  topic: SVPG limitation 3
+  outcome: supported
+  summary: The population transport calculation and finite empirical update have different
+    scopes. Finite atomic particles have infinite ordinary KL to a continuous target;
+    noisy return estimates, finite steps and ADAM do not inherit a general monotone-KL
+    or global-convergence guarantee.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-4
+  area: scope
+  topic: SVPG limitation 4
+  outcome: supported
+  summary: 'This is the first separately documented refinement: multiplying Eq9 by
+    alpha leaves a kernel-coupled gradient field in the limit. Independence needs
+    negligible aggregate off-diagonal weighted-gradient contributions. Uniform geometric
+    scaling cancels in the median-adaptive RBF ratio, so separation alone is insufficient.'
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-5
+  area: scope
+  topic: SVPG limitation 5
+  outcome: supported
+  summary: 'This is the second separately documented refinement: the empirical bandwidth
+    equals zero at a zero median; the printed RBF expression and its derivative then
+    contain division by zero without a safeguard. RBF first-argument derivatives are
+    outward for a fixed chosen positive h; positive definiteness alone does not force
+    Euclidean repulsion for every kernel.'
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - svpg-bandwidth-clarification
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-6
+  area: scope
+  topic: SVPG limitation 6
+  outcome: supported
+  summary: The source explicitly acknowledges t-SNE projection artifacts for the chosen
+    top-four state-visitation comparison. Parameter distances and this visualization
+    do not establish useful behavioral diversity in general.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-7
+  area: scope
+  topic: SVPG limitation 7
+  outcome: supported
+  summary: Transition-count matching is different from wall-clock matching, and selecting
+    the best agent for multi-policy methods differs from training one pooled-data
+    policy. Preserve the actual comparison protocol.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-8
+  area: scope
+  topic: SVPG limitation 8
+  outcome: supported
+  summary: Table1 visually reports46 Joint versus199 SVPG episodes for A2C Double
+    Pendulum, so a blanket every-column superiority claim is contradicted by the table.
+    The threshold is relative to each policy’s own best return; negative-return wording
+    does not define a common performance target. This is a retained source inconsistency,
+    not a new benchmark.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-9
+  area: scope
+  topic: SVPG limitation 9
+  outcome: supported
+  summary: The four environments, five reruns, architecture, estimators,16 agents
+    and hyperparameters limit empirical generalization. No universal reinforcement-learning
+    benefit follows from these experiments.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-10
+  area: scope
+  topic: SVPG limitation 10
+  outcome: supported
+  summary: The official UAI page6 specifies a linear-function log-standard-deviation
+    parameterization while arXivv1 page6 specifies a vector. Both exact versions are
+    retained. No source-code resolution or independent replication is claimed.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - src-svpg-arxiv-v1
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-11
+  area: scope
+  topic: SVPG limitation 11
+  outcome: supported
+  summary: For a flat prior, the UAI Section5.4 display equals n*alpha times Eq9’s
+    direction, while the earlier display omits only the averaging factor. A positive
+    scale describes relative weighting; fixed-step Euler equivalence requires a matched
+    step and does not automatically yield identical ADAM/annealing trajectories.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - src-svpg-arxiv-v1
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-limit-12
+  area: scope
+  topic: SVPG limitation 12
+  outcome: supported
+  summary: Natural-policy-gradient/TRPO variants, layer-wise kernels and adaptive
+    temperatures appear as future directions in Section6. Broad compatibility prose
+    is not evidence that these implementations or guarantees were demonstrated.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - svpg-independent-math
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-definition
+  area: evidence
+  topic: SVPG source-defined mechanism
+  outcome: supported
+  summary: Direct official full-method support. Policy-parameter distribution and
+    interacting update define the method; experimental neural policies do not become
+    a required architecture. Formal probability interpretation remains qualified.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-kind
+  area: representation
+  topic: SVPG algorithm scope
+  outcome: supported
+  summary: A source-defined interacting policy-optimization algorithm with explicit
+    target-score and kernel update. It is not a trained model, task, benchmark result
+    or mandatory neural architecture.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-historical-identity-scope
+  area: identity
+  topic: Historical identity and method distinctions only
+  outcome: supported
+  summary: The preview explicitly limits its identity claims to the captured historical
+    snapshot and distinguishes policy-particle optimization from generic SVGD, Soft
+    Q-learning action sampling and amortized generator fitting. REINFORCE and A2C
+    are gradient-estimator contexts. This entry supports the truthfulness of those
+    scope boundaries; current deduplication, owner assignment and alias acceptance
+    have not been assessed by this preparation.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-historical-identity
+  - svpg-source-accounting
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-related-task-mapping
+  area: grounding
+  topic: Preparation-stage related reinforcement-learning task mapping
+  outcome: supported
+  summary: The single related_match links an algorithm to the pinned reinforcement-learning
+    task class. It asserts neither equivalence, subclass membership nor broad_match,
+    and it does not require the neural policy architecture used in experiments. This
+    is the accepted historical-context recommendation; current mapping reconciliation
+    remains outside this fragment.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-aio-context
+  - svpg-root-content
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-official-source-role
+  area: provenance
+  topic: Official defining and experimental source
+  outcome: supported
+  summary: The official UAI 2017 PDF supports all six positive claims and the definition,
+    with exact method and experimental locators. Its byte-identical PMLR reissue is
+    a mirror, not another independent artifact or a new scientific publication date.
+    Accepted claims describe the mechanism and study design without claiming universal
+    performance. This static review preparation does not implement a policy optimizer.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-original-reading
+  - svpg-root-content
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: svpg-earlier-source-role
+  area: provenance
+  topic: Earlier same-work source-version comparison
+  outcome: supported
+  summary: The arXiv v1 PDF is a distinct earlier version of the same work. Its native
+    C3 relation is context; limitation support explicitly compares policy parameterization
+    and the exploration/exploitation display across versions. No implementation-code
+    resolution or independent replication is claimed. Source acquisition timestamps
+    remain the exact historical values.
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  evidence_ids:
+  - src-svpg-arxiv-v1
+  - svpg-native-preview
+  - svpg-corrected-support
+  - src-svpg-uai2017
+  - svpg-original-reading
+  - svpg-root-content
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: ie-claim-unconditional-inherited-evaluation
+  area: evidence
+  topic: 'Iterative expansion: unconditional-inherited-evaluation'
+  outcome: supported
+  summary: Russell explicitly reuses the SMA* pathmax scheme for IE, and Korf’s discussion
+    identifies unconditional inheritance. The formulation names stored rather than
+    immutable parent evaluation and does not import SMA* incremental generation or
+    deletion.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-1
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: 'When generating a child, IE applies pathmax: in the paper’s cost-based
+    formulation, the child’s stored evaluation is the maximum of the parent’s stored
+    evaluation and the child’s g+h value. This inheritance is used both on initial
+    generation and when children are regenerated; it is not conditioned on detecting
+    an earlier visit.'
+- assessment_id: ie-claim-caller-and-competing-child-bound
+  area: evidence
+  topic: 'Iterative expansion: caller-and-competing-child-bound'
+  outcome: supported
+  summary: The source cutoff precedes the goal test; the competing-child expression
+    bounds a recursive branch. This claim describes the intended inclusive bounded
+    traversal while the literal loop and empty-alternative qualifications remain in
+    the limitations.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-2
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: At entry, the displayed IE procedure cuts off when the node’s stored evaluation
+    exceeds the supplied bound, then tests the node for a goal. For an expanded node
+    with children, it selects a child of minimum stored value and recurses with the
+    smaller of the caller’s bound and the other children’s stored values. Equal-bound
+    values remain eligible under the intended inclusive continuation test.
+- assessment_id: ie-claim-displayed-parent-backup
+  area: evidence
+  topic: 'Iterative expansion: displayed-parent-backup'
+  outcome: supported
+  summary: The post-call minimum assignment is printed, but a fully specified return-to-child
+    interface is not. The claim deliberately identifies the intended mutable-state
+    reading and retains that gap instead of silently adding Korf’s return assignment.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-3
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: 'After the recursive call on the selected child, the IE outline assigns
+    the parent’s stored evaluation to the minimum of its children’s stored evaluations
+    and continues the bounded search. This describes its intended mutable-value backup:
+    the printed call itself has no assignment of a returned value, so complete propagation
+    and success conventions remain qualified rather than silently supplied.'
+- assessment_id: ie-claim-conditional-monotonic-rbfs-correspondence
+  area: evidence
+  topic: 'Iterative expansion: conditional-monotonic-rbfs-correspondence'
+  outcome: supported
+  summary: Korf’s explicit monotonic statement is narrowed by distinguishing static
+    evaluations from pathmax-modified values. On first visits the max is redundant
+    only under the stated nondecreasing static condition; on raised-value regeneration
+    the full RBFS branch agrees locally. Neither fact alone is a full implementation-equivalence
+    proof.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-1
+  - ie-primary-4
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Korf explicitly describes IE as independently developed and reports correspondence
+    with full RBFS when the supplied static evaluation is monotonic. On a first visit
+    with stored parent V equal to its static value f0, nondecreasing child f0 makes
+    IE’s max(V, f0(child)) redundant. After V rises above the parent’s static value,
+    full RBFS also uses max(V, f0(child)); SRBFS instead resets children to their
+    static values. These local comparisons and the source statement do not assert
+    identical procedure-call traces or an unrestricted alias.
+- assessment_id: ie-claim-first-visit-nonmonotonic-boundary
+  area: evidence
+  topic: 'Iterative expansion: first-visit-nonmonotonic-boundary'
+  outcome: supported
+  summary: The 5/2/1 example is transparent substitution in the two printed initialization
+    rules. It is a hand calculation explaining possible ties/selection differences;
+    no algorithm was executed and no assertion about all final solutions is derived.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-1
+  - ie-primary-5
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: For a first visit with stored and static parent values both 5 and child
+    static values 2 and 1, the printed rules give child values 5 and 5 in IE but 2
+    and 1 in full RBFS and SRBFS. This source-guided hand calculation shows how unconditional
+    inheritance can create ties and alter first-visit selection when static evaluations
+    decrease. It is not an algorithm execution or a claim that every nonmonotonic
+    instance returns a different solution.
+- assessment_id: ie-claim-path-and-sibling-storage
+  area: evidence
+  topic: 'Iterative expansion: path-and-sibling-storage'
+  outcome: supported
+  summary: Path/sibling retention and linear-in-depth terminology occur in Russell;
+    Korf supplies the b*d accounting for the corresponding recursive representation.
+    This is a conditional structural inference with bounded branching/node data, distinct
+    from a fixed MAX budget or empirical memory measurement.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-6
+  - ie-primary-7
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: IE’s recursive representation retains the current path and sibling alternatives
+    instead of the complete best-first frontier. With maximum retained depth d, branching
+    bounded by b and bounded-size node data, this representation has O(b*d) node storage.
+    The linear-in-depth description is conditional on bounded branching; IE has no
+    fixed MAX node-budget parameter like the separate SMA* procedure.
+- assessment_id: ie-limitation-1
+  area: scope
+  topic: 'Iterative expansion: limitation 1'
+  outcome: supported
+  summary: Keep static f0 separate from Russell’s evolving f/V. The hand example supports
+    a possible ordering distinction, not a different-answer theorem.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-1
+  - ie-primary-4
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The monotonic correspondence concerns the static evaluation supplied to
+    both procedures, not merely stored values after IE has raised them through pathmax.
+    Full RBFS uses conditional inheritance and SRBFS uses static reinitialization;
+    local overlap does not make IE a global alias or establish equality on every nonmonotonic
+    instance.
+- assessment_id: ie-limitation-2
+  area: scope
+  topic: 'Iterative expansion: limitation 2'
+  outcome: supported
+  summary: This is the literal interface qualification identified in the original
+    comparison and independent source review. Korf’s explicit assignment is a comparison,
+    not a repair inserted into IE.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-8
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The outline returns infinity when a node has no children, but the caller
+    shows a bare recursive call followed by a minimum over mutable child values. How
+    that infinity is stored back in the child and how successful return propagates
+    are not fully specified. Preserve the no-children guard before child selection;
+    no corrected executable assignment or actual implementation failure is asserted.
+- assessment_id: ie-limitation-3
+  area: scope
+  topic: 'Iterative expansion: limitation 3'
+  outcome: supported
+  summary: The parent-versus-child guard hand case is conditional on the natural source
+    interpretation; it is not evidence of a bug in an inspected program.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-9
+  - ie-primary-10
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The printed do-until/or-while wording is not a precise programming-language
+    loop. Under its bounded-search reading, IE tests the parent’s stored value before
+    backing it up, whereas Korf tests the best child before recursion; an immediate
+    cutoff call can therefore occur in IE when the returned bound agrees. Exact call-trace
+    equivalence is not claimed.
+- assessment_id: ie-limitation-4
+  area: scope
+  topic: 'Iterative expansion: limitation 4'
+  outcome: supported
+  summary: Separate the explicit SMA* tie rule from the absent complete IE equal-child
+    rule. No tie policy is invented in the draft.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-11
+  - ie-primary-12
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Equal-value child ordering is not fully specified in the IE outline. An
+    exact expansion trace or choice among tied goals requires an explicit shared tie
+    and successor order; SMA*’s deepest-leaf rule must not be transferred to IE merely
+    because it appears in the same paper.
+- assessment_id: ie-limitation-5
+  area: scope
+  topic: 'Iterative expansion: limitation 5'
+  outcome: supported
+  summary: Korf explicitly supplies the missing second-child infinity convention;
+    using it as an explanatory comparison does not certify Russell’s literal interface.
+    Empty child sets remain distinct from one-child alternatives.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-13
+  - ie-primary-14
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: For a single child, the minimum over other children needs an empty-alternative
+    convention so the recursive bound remains the caller’s bound. The outline also
+    does not fully specify failure after an exhausted root with an infinite bound;
+    infinity <= infinity does not itself signal failure. No unrestricted unsolvable-instance
+    termination guarantee follows.
+- assessment_id: ie-limitation-6
+  area: scope
+  topic: 'Iterative expansion: limitation 6'
+  outcome: supported
+  summary: Retain tree scope, distinguish state identity from path identity, and do
+    not transplant a complete graph-search guarantee.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-15
+  - ie-primary-16
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The source treatment excludes graph-transposition complications. The IE
+    outline supplies no general closed-list, duplicate-state or reopening policy.
+    Korf’s current-path cycle check for nonincreasing evaluation is a separate scoped
+    condition, not a global duplicate-elimination guarantee for IE.
+- assessment_id: ie-limitation-7
+  area: scope
+  topic: 'Iterative expansion: limitation 7'
+  outcome: supported
+  summary: Possible sufficient assumptions are not silently attributed as printed
+    premises; the draft retains mechanism and conditional comparison rather than promoting
+    broad optimality claims.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-17
+  - ie-primary-18
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Ordering nodes by an evaluation function does not alone establish minimum
+    path cost, completeness or termination. Stronger results require appropriate cost/admissibility,
+    goal and finiteness assumptions. Korf’s summary omits full proofs, and no general
+    theorem is certified here for infinite spaces, zero-cost cycles, arbitrary negative
+    costs or unqualified unsolvable instances.
+- assessment_id: ie-limitation-8
+  area: scope
+  topic: 'Iterative expansion: limitation 8'
+  outcome: supported
+  summary: O(b*d) is a conditional representation bound, not a measured runtime result
+    or a fixed allocator budget.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-19
+  - ie-primary-20
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The storage bound counts retained node information in a path-and-sibling
+    representation. It does not bound all bytes, heuristic tables, call-stack overhead
+    or temporary allocations, and it is not independent of branching or attained depth.
+    Reduced storage can require regeneration of earlier paths.
+- assessment_id: ie-limitation-9
+  area: scope
+  topic: 'Iterative expansion: limitation 9'
+  outcome: supported
+  summary: No performance-kind claim or evaluation result is introduced; source comparisons
+    are limitations, not empirical transfer.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-21
+  - ie-primary-22
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The papers’ puzzle comparisons do not establish universal speed or node-count
+    equality between IE and RBFS. Korf’s related-work expectation about IE is not
+    a reported direct IE-versus-RBFS benchmark. No runtime ratio, performance dominance,
+    implementation equivalence or benchmark reproduction is claimed.
+- assessment_id: ie-limitation-10
+  area: scope
+  topic: 'Iterative expansion: limitation 10'
+  outcome: supported
+  summary: Exact original objects and historical reading/owner fields remain unchanged
+    in the source-continuity payload. This statement does not deny other separately
+    attributed research on a cited work.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-23
+  - ie-primary-24
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Evidence is limited to Russell’s inspected five-page 1992 manuscript and
+    Korf’s six-page 1992 proceedings summary. The Korf 1991 predecessors, 1993 journal
+    article, mismatched Bratko citations, later RBFS paper and 1992 ITS report remain
+    separate source/version questions. All 30 bibliography occurrences and seven pending
+    questions are retained without asserting that every cited original was read or
+    any source family is exhausted.
+- assessment_id: ie-definition
+  area: evidence
+  topic: 'Iterative expansion: defining procedure'
+  outcome: supported
+  summary: Exact root-accepted narrow definition, directly supported by Russell’s
+    IE procedure. Korf is retained separately for explicit comparison claims, not
+    substituted as the defining implementation.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-25
+  - ie-accepted-preview
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: A recursive heuristic tree-search procedure that repeatedly explores a
+    lowest-valued child within a bound set by its caller and competing children, initializes
+    each generated child with the maximum of its static evaluation and the parent’s
+    stored evaluation, and backs up the minimum child value.
+- assessment_id: ie-concept-kind
+  area: scope
+  topic: 'Iterative expansion: algorithm kind'
+  outcome: supported
+  summary: The candidate denotes a recursive heuristic tree-search procedure with
+    generated-child initialization, caller/competitor bounds and backed-up mutable
+    values. It is an algorithm, rather than a trained model, benchmark, task or fixed
+    MAX-memory variant. The representation bound is conditional on branching, attained
+    depth and bounded node data.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-25
+  - ie-accepted-core
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Do not import SMA* incremental generation, deepest-leaf ties or deletion
+    merely because its description shares Russell’s paper. No runtime behavior, allocator
+    limit or implementation certification is inferred.
+- assessment_id: ie-historical-identity
+  area: identity
+  topic: 'Iterative expansion: source-local name and historical identity'
+  outcome: supported
+  summary: Retain Iterative expansion with aliases empty. Russell’s abbreviation IE
+    is source-local and has unrelated matches, including Internet Explorer, Ireland,
+    information extraction and a classifier; it is not a safe unqualified alias. Korf’s
+    monotonic correspondence and local initialization comparisons do not make the
+    procedure a global RBFS or SRBFS alias.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-accepted-preview
+  - ie-identity-mapping
+  - ie-root-identity-mapping
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: 'The accepted historical proposal used 1,239 records (797 native and 442
+    pinned AIO), 4,913 identity-field occurrences and ignored/hidden-inclusive searches
+    across four roots. This fragment does not rerun those searches, claim current
+    noncollision, assign an owner or allocate a future cohort/base. Any eventual addition
+    must inspect its actual current inventory and source owners. The proposed scope
+    is Russell1992 iterative expansion, abbreviated IE within that paper. Bare IE
+    is not proposed as an unqualified alias: ignored-inclusive matches also use it
+    for Internet Explorer, Ireland, information extraction and an unrelated classifier.
+    The algorithm always imposes the parent stored value when initializing generated
+    children. Korf’s full RBFS instead uses parent inheritance only when the stored
+    parent value exceeds its static evaluation; SRBFS resets generated children to
+    static evaluations. Korf explicitly reports IE/RBFS correspondence under monotonic
+    evaluation, while decreasing static evaluations can distinguish their first-visit
+    initialization and ordering. This conditional relationship is not a global RBFS/SRBFS
+    alias or complete execution-trace equivalence. The mutable-value/return, loop,
+    tie, dead-end, exhausted-root and graph conventions of the printed IE outline
+    remain explicit source limits. Historical inventory noncollision and bounded neighbor
+    comparison do not establish global novelty or future ownership clearance.'
+- assessment_id: ie-aio-no-match
+  area: grounding
+  topic: 'Iterative expansion: bounded AIO no-match'
+  outcome: supported
+  summary: Retain the bounded aio_no_match proposal and all 14 exact rejection reasons.
+    Recursion, tree representation, cost evaluation and per-search backup do not alone
+    identify a recursive neural architecture, language model, probabilistic graphical
+    model, training strategy or learning task. No inspected target supplied a defensible
+    exact, broader, narrower or specifically related mapping.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-accepted-preview
+  - ie-identity-mapping
+  - ie-root-identity-mapping
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: 'Historical prospective snapshot captured2026-10-16T03:26:58–03:27:16UTC:
+    complete1,239-record identity inventory (797native/442pinnedAIO),4,913field occurrences
+    including local IDs, mechanically compared.49 selected AIO lexical/definition
+    candidate projections were read in the paused preparation;14 exact CLASS nodes
+    with all synonyms/metadata and all71 direct edge occurrences (68distinct triples)
+    were read in full in this resumed mapping proposal. Four roots were searched with
+    explicit ignored/hidden inclusion. This is a bounded pinned-snapshot assessment,
+    not all-ontology semantic absence or future current-state clearance. IE is Russell’s
+    recursive heuristic search-control procedure. No inspected class provides a defensible
+    exact, broader, narrower or specifically related mapping. Recursion, tree/graph
+    representations, scalar evaluation functions and per-search value backup do not
+    by themselves establish a neural architecture, language model, learning task,
+    probabilistic graphical model or training strategy.'
+- assessment_id: ie-primary-source-roles
+  area: provenance
+  topic: 'Iterative expansion: defining and comparison primary sources'
+  outcome: supported
+  summary: Russell’s five-page 1992 university-mirrored manuscript defines IE; Korf’s
+    official six-page 1992 proceedings summary supplies primary RBFS/SRBFS algorithms
+    and the explicit conditional IE comparison. Korf is positive evidence for the
+    corresponding comparison claims, not a context-only row or a replacement defining
+    implementation.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-26
+  - ie-primary-27
+  - ie-source-roles
+  - ie-source-questions
+  - ie-accepted-support
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: Exact PDF hashes, URLs, version descriptions, original acquisition receipts
+    and whole-second historical access times remain bound. These times are source
+    acquisition, not a future review timestamp. Later journal/predecessor versions,
+    the Bratko citation mismatch and all 30 bibliography occurrences/seven source
+    questions remain separately retained. No claim is made that every cited original
+    was read.
+- assessment_id: ie-boundary
+  area: scope
+  topic: 'Iterative expansion: retain conditional algorithm boundary'
+  outcome: supported
+  summary: Retain IE as Russell’s source-defined tree-search procedure. Its unconditional
+    child inheritance differs from full RBFS first-visit conditional inheritance and
+    SRBFS static reinitialization. Correspondence is restricted to monotonic static
+    evaluations; the 5/2/1 hand substitution demonstrates possible first-visit ties
+    and ordering changes, not a theorem that every nonmonotonic instance has a different
+    answer. Preserve bare recursive-return/in-place-value, loop, tie, no-children,
+    single-child, exhausted-root and graph-interface limitations without silently
+    repairing an implementation.
+  target_ids:
+  - AIMech:IterativeExpansion
+  evidence_ids:
+  - ie-primary-1
+  - ie-primary-4
+  - ie-accepted-preview
+  - ie-accepted-support
+  - ie-source-questions
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+  details: The accepted source-local scope remains separate from SMA*, MREC, IDA*
+    and real-time heuristic learning. Historical main 912 responsibility is context
+    only; this fragment assigns or closes no owner. All 30 original bibliography occurrences
+    and seven questions retain their exact historical fields, even if separately attributed
+    later research exists.
+- assessment_id: itersss-claim-open-entry-budget
+  area: evidence
+  topic: 'ITERSSS* claim: open-entry-budget'
+  outcome: supported
+  summary: The inclusive premise and initialized SPACE are literal procedure details.
+    The threshold formula is tied to the uniform MAX-rooted setting; abstract entry
+    units and exceptional tree shapes remain qualified below.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-02
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-flag-restricted-selection
+  area: evidence
+  topic: 'ITERSSS* claim: flag-restricted-selection'
+  outcome: supported
+  summary: This distinguishes the initial memory-filling phase from later active-only
+    selection. Suspended inactive entries remain explicit members of OPEN; the source
+    does not select them indiscriminately during the active phase.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-02
+  - itersss-primary-03
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-terminal-and-min-advance
+  area: evidence
+  topic: 'ITERSSS* claim: terminal-and-min-advance'
+  outcome: supported
+  summary: The terminal evaluation is a fixed supplied score, not a learned value.
+    MIN expansion inserts one child rather than all children, preserving the source’s
+    sequential minimax control flow.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-04
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-capacity-gated-max-expansion
+  area: evidence
+  topic: 'ITERSSS* claim: capacity-gated-max-expansion'
+  outcome: supported
+  summary: The guard is inclusive. The blocked branch changes type and phase without
+    deleting a worst node, revising a numerical bound or claiming a separate beam-search
+    policy.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-03
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-solved-max-sibling-progression
+  area: evidence
+  topic: 'ITERSSS* claim: solved-max-sibling-progression'
+  outcome: supported
+  summary: The sibling transition copies the current bound and advances in the fixed
+    child order. The root exclusion is retained, and this case does not stand in for
+    the separate solved-MIN purge operation.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-04
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-solved-min-purge-and-reactivation
+  area: evidence
+  topic: 'ITERSSS* claim: solved-min-purge-and-reactivation'
+  outcome: supported
+  summary: The paper’s successor wording is interpreted as descendant scope using
+    the greatest-depth helper and subtree explanation; this interpretation is explicit
+    in the limitations. Retained x is excluded from purge. Ties among equally deep
+    inactive entries are not invented.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-abstract-space-bookkeeping
+  area: evidence
+  topic: 'ITERSSS* claim: abstract-space-bookkeeping'
+  outcome: supported
+  summary: This is the author’s limited arithmetic derivation from the displayed cases,
+    also checked in the prior independent control-flow review. It is not presented
+    as a source-stated complete liveness, allocation or correctness proof.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-02
+  - itersss-primary-04
+  - itersss-primary-03
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-draft-readback
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-source-stated-pruning-scope
+  area: evidence
+  topic: 'ITERSSS* claim: source-stated-pruning-scope'
+  outcome: supported
+  summary: The definitions and common order are part of the claim. The ITERSSS* implication
+    is not an iff rule, the SSS* right-side condition is not imported, and the statement
+    is explicitly attributed to the source whose proofs are omitted.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-06
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-claim-source-stated-sss-endpoint
+  area: evidence
+  topic: 'ITERSSS* claim: source-stated-sss-endpoint'
+  outcome: supported
+  summary: The endpoint remains conditional on the source presentation. Example 2.2
+    attains the same terminal count at a smaller M, so equality of a count cannot
+    identify an instance-minimal operational threshold or justify a universal alias.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-07
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-01
+  area: evidence
+  topic: ITERSSS* limitation 1
+  outcome: supported
+  summary: The source presents uniform branching explicitly. The draft retains a reusable
+    procedure at that scope and leaves general graph and nonuniform implementations
+    unresolved.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-06
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-02
+  area: evidence
+  topic: ITERSSS* limitation 2
+  outcome: supported
+  summary: The SPACE invariant has a narrower conclusion than whole-program memory
+    or progress. Inclusive M0 is supported by the procedure premise and the source’s
+    minimum-memory example.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-02
+  - itersss-primary-03
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-03
+  area: evidence
+  topic: ITERSSS* limitation 3
+  outcome: supported
+  summary: Two distinct tie/relationship conventions are kept separate. No implementation
+    policy is invented to make the outline executable.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-05
+  - itersss-primary-02
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-04
+  area: evidence
+  topic: ITERSSS* limitation 4
+  outcome: supported
+  summary: This is a source-interface qualification, not a demonstrated algorithm
+    failure. The earlier bounded review checked local transitions without certifying
+    all progress cases.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-02
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-05
+  area: evidence
+  topic: ITERSSS* limitation 5
+  outcome: supported
+  summary: The source itself identifies the ACTIVE-subset limitation. This draft describes
+    source statements and local logic without manufacturing an independent theorem
+    proof.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-06
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-06
+  area: evidence
+  topic: ITERSSS* limitation 6
+  outcome: supported
+  summary: The one-way implication and common-order premises are necessary to the
+    limited terminal-set inference. They do not imply a general elapsed-time ordering.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-06
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-07
+  area: evidence
+  topic: ITERSSS* limitation 7
+  outcome: supported
+  summary: Keep the parameterized mechanism, conditional endpoint and empirical trend
+    distinct. No cross-method alias is created from an endpoint or a count equality.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-07
+  - itersss-primary-08
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-08
+  area: evidence
+  topic: ITERSSS* limitation 8
+  outcome: supported
+  summary: This preserves what the source measured without creating a performance
+    claim or projecting the table onto modern implementations or real games.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-08
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-09
+  area: evidence
+  topic: ITERSSS* limitation 9
+  outcome: supported
+  summary: The experimental limits stay source-scoped. No numeric table transcription
+    is promoted into independently reproduced evidence.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-08
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-limitation-10
+  area: evidence
+  topic: ITERSSS* limitation 10
+  outcome: supported
+  summary: The metadata crosswalk is explicit, and the original ledger is preserved
+    byte-for-byte with per-item origin bindings. Search-only later variants are not
+    primary mechanism evidence for this draft.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-09
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-source-accounting
+  - itersss-source-metadata
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-definition
+  area: evidence
+  topic: Source-defined minimax solution-tree procedure
+  outcome: supported
+  summary: Exact root-accepted narrow definition. Section2 supplies active/inactive
+    entry control and bounded MAX expansion; Section4 frames minimax solution-tree
+    evaluation. No learned model or arbitrary graph generalization is inferred.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-02
+  - itersss-primary-03
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-kind
+  area: representation
+  topic: Algorithm and representation boundary
+  outcome: supported
+  summary: The finite uniform alternating-tree procedure specifies OPEN entry states,
+    FLAG phases, capacity-gated expansion, sibling progression, pruning and reactivation.
+    These control rules support the accepted algorithm kind; the entry is not a learned
+    model, graph representation or experiment result.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-02
+  - itersss-primary-03
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-historical-identity
+  area: identity
+  topic: Historical identity scope only
+  outcome: supported
+  summary: The accepted preview identifies ITERSSS* as its own source-defined memory-bounded
+    minimax procedure. Its empty aliases do not equate SSS*, alpha-beta, PARSSS*,
+    MemSSS*, RecSSS*/RecDual* or other memory-search methods with this algorithm.
+    The identity note reports the captured historical inventory and comparisons; this
+    fragment does not repeat a current deduplication scan, allocate a record or assign
+    source responsibility.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-historical-identity
+  - itersss-source-accounting
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-no-match
+  area: grounding
+  topic: Historical target-specific AIO no-match assessment
+  outcome: supported
+  summary: The accepted historical proposal supplies 25 target-specific AIO rejection
+    reasons. Deterministic minimax evaluation with supplied terminal scores does not
+    itself establish learning, a learned neural architecture, graph reasoning class
+    membership or an appropriate task-level equivalence. The exact no-match object
+    and pinned snapshot are retained; the 25 full nodes and edges were not freshly
+    re-read for this fragment, and future mapping reconciliation remains pending.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-historical-identity
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-source-role
+  area: provenance
+  topic: One official defining proceedings artifact
+  outcome: supported
+  summary: The single evidence source is the official five-page AAAI-86 paper, printed
+    pages 163–167. It directly supports the procedure and source-stated theoretical
+    scope at the retained locators. Later PDF creation/modification dates describe
+    digitization rather than another algorithm version. The earlier MA*/MAO* bibliography
+    spelling and title discrepancy remain explicit in the metadata crosswalk; the
+    original citation is not silently rewritten. Later search-only variants and unread
+    bibliography originals are retained questions rather than defining evidence.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-01
+  - itersss-primary-02
+  - itersss-primary-03
+  - itersss-primary-05
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-source-metadata
+  - itersss-source-accounting
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: itersss-boundaries
+  area: representation
+  topic: Source guarantees and implementation limits
+  outcome: supported
+  summary: The draft retains the finite uniform MAX-rooted tree, fixed ordering, terminal-score
+    and OPEN-entry accounting assumptions. The ITERSSS* pruning statement remains
+    source-attributed and one-way sufficient; omitted proofs, inactive-descendant
+    tie handling, null interface behavior and exceptional tree shapes are not repaired
+    or certified here. M=b^ceil(d/2) is a sufficient SSS* endpoint, not a minimum
+    per-instance budget or general alias. The table reports terminal evaluations,
+    not running time or a universal monotonic improvement theorem.
+  target_ids:
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - itersss-primary-06
+  - itersss-primary-07
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-draft-readback
+  - actual-write
+  - postcapture-reading
+  - actual-scientific-assessment
+- assessment_id: actual-current-governance
+  area: provenance
+  topic: Actual current records, source responsibilities and publication checks
+  outcome: supported
+  summary: 'Actual three records retain 21 claims and 32 limitations across five source
+    artifacts representing four works. Three artifacts define their respective methods,
+    Korf1992 provides positive algorithm-comparison evidence and SVPG arXivv1 is an
+    earlier same-work version. Six exclusive creation outputs and one CREATE event
+    are bound. Current owner changes follow the accepted plan: {"additional_source_question_count":
+    2, "changed_main_indexes": [909, 911, 912], "changed_nested_indexes": [], "main":
+    914, "nested": 394, "new_main_rows": 0, "new_nested_rows": 0, "retained_source_objects":
+    165, "separate_post360_discovery_questions": 3, "source_object_counts": {"ie":
+    {"bibliography_occurrences": 30, "historical_source_responsibilities": 1, "source_questions":
+    7}, "itersss": {"additional_source_questions": 3, "historical_source_responsibilities":
+    1, "original_paper_references": 4, "retrieved_followup_groups": 3}, "svpg": {"additional_source_questions":
+    5, "bibliography_families": 36, "bibliography_occurrences": 71, "historical_source_responsibilities":
+    1, "search_only_leads": 3}}}. Exact 165 original source objects, three separate
+    post-360 discovery questions and all dynamic current leads remain queryable. The
+    complete actual 360 predecessor projection preserves source-manifest/100asset
+    durability and older issue/source scopes. 95 unique captured inputs, parsed generated
+    pages and six successful required checks are bound. No source exhaustion, independent
+    approval, issue closure or publication result is implied.'
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  - AIMech:IterativeExpansion
+  - AIMech:ITERSSSStar
+  evidence_ids:
+  - actual-write
+  - captured-inputs
+  - postcapture-reading
+  - governance-assessment
+  - rendered-pages
+  - actual-scientific-assessment
+  - creation-history
+  - current-discovery-report
+  - inherited-source-durability
+  - root-decisions
+  - ownership-plan
+  - ownership-plan-acceptance
+  - check-gate
+  - check-vendor
+  - check-check-source
+  - check-render
+  - check-render-check
+  - check-diff
+  details: Actual canonical records, 165 source objects, three separate discovery
+    questions, inherited source responsibilities and inherited manifest/100asset metadata
+    plus capture/check receipts were assessed at their recorded times. Historical
+    source reading remains separately attributed. Review save, exact-head review,
+    publication and merge are subsequent steps.
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:IterativeExpansion
+  rationale: Retain IE as Russell’s source-defined tree-search procedure. Its unconditional
+    child inheritance differs from full RBFS first-visit conditional inheritance and
+    SRBFS static reinitialization. Correspondence is restricted to monotonic static
+    evaluations; the 5/2/1 hand substitution demonstrates possible first-visit ties
+    and ordering changes, not a theorem that every nonmonotonic instance has a different
+    answer. Preserve bare recursive-return/in-place-value, loop, tie, no-children,
+    single-child, exhausted-root and graph-interface limitations without silently
+    repairing an implementation.
+  evidence_ids:
+  - ie-accepted-preview
+  - ie-accepted-support
+  - ie-source-questions
+  - ie-identity-mapping
+  - actual-write
+  - root-decisions
+  - postcapture-reading
+- action: retain
+  target_ids:
+  - AIMech:SteinVariationalPolicyGradient
+  rationale: A source-defined interacting policy-optimization algorithm with explicit
+    target-score and kernel update. It is not a trained model, task, benchmark result
+    or mandatory neural architecture.
+  evidence_ids:
+  - src-svpg-uai2017
+  - svpg-native-preview
+  - svpg-corrected-support
+  - svpg-root-content
+  - actual-write
+  - root-decisions
+  - postcapture-reading
+- action: retain
+  target_ids:
+  - AIMech:ITERSSSStar
+  rationale: The draft retains the finite uniform MAX-rooted tree, fixed ordering,
+    terminal-score and OPEN-entry accounting assumptions. The ITERSSS* pruning statement
+    remains source-attributed and one-way sufficient; omitted proofs, inactive-descendant
+    tie handling, null interface behavior and exceptional tree shapes are not repaired
+    or certified here. M=b^ceil(d/2) is a sufficient SSS* endpoint, not a minimum
+    per-instance budget or general alias. The table reports terminal evaluations,
+    not running time or a universal monotonic improvement theorem.
+  evidence_ids:
+  - itersss-primary-06
+  - itersss-primary-07
+  - itersss-preview
+  - itersss-support
+  - itersss-root-static
+  - itersss-prior-independent-source
+  - itersss-draft-readback
+  - actual-write
+  - root-decisions
+  - postcapture-reading
+targets:
+- target_id: AIMech:SteinVariationalPolicyGradient
+  label: Stein Variational Policy Gradient
+  path: data/curated/SteinVariationalPolicyGradient.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/SteinVariationalPolicyGradient.yaml
+    role: maintained native concept record
+- target_id: AIMech:IterativeExpansion
+  label: Iterative expansion
+  path: data/curated/IterativeExpansion.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/IterativeExpansion.yaml
+    role: maintained native concept record
+- target_id: AIMech:ITERSSSStar
+  label: ITERSSS*
+  path: data/curated/ITERSSSStar.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ITERSSSStar.yaml
+    role: maintained native concept record
+limitations:
+- The 71 scientific narratives retain accepted static-fragment content and its explicitly
+  historical source/identity scope. Current-record corroboration is supplied separately
+  by actual evidence.
+- SVPG probability/kernel/version qualifications, IE conditional inheritance/return-interface
+  limits, and ITERSSS finite uniform game-tree/OPEN-entry/proof boundaries remain
+  exact.
+- 'Five artifacts represent four works: official SVPG plus earlier same-work arXiv,
+  Russell1992 defining IE plus Korf1992 positive primary comparison, and one defining
+  ITERSSS1986 paper.'
+- The 165 retained original objects include36 SVPG bibliography grouping families,
+  not extra citation occurrences or concepts. Three post-360 access-limited questions
+  are separately retained.
+- Full inherited360 projection preserves exact scan-manifest/100asset provenance and
+  all earlier issue/source scopes. Source-reading attribution does not imply a fresh
+  reading of every cited original.
+- Actual six creation outputs, one CREATE history, 95 capture inputs and 8 parsed
+  generated pages are bound. Six required commands passed; earlier failed attempts
+  remain explicit. Canonical review save/check and publication are subsequent operations.
+tags:
+- source-scoped
+- policy-optimization
+- heuristic-search
+- game-tree-search
+notes:
+- The 71 scientific assessments and 67 evidence templates retain accepted static-fragment
+  science. The 72nd assessment records actual current governance; one historical search_scope
+  field is supplied from its exact source proposal for formal metadata completeness.
+- Local evidence access instants are filled from the actual attributed postcapture
+  reading. Primary acquisition times preserve their historical instants and are normalized
+  to UTC Z. References to preparation in the retained scientific limitations describe
+  the historical fragment scope.
+- Any source fragment language about preparation describes its historical attributed
+  scope. The assembled actual review adds current evidence without silently rewriting
+  accepted science.
+- All current and inherited source-accounting notes must be rendered and verified,
+  including three separate post-360 discovery questions.
+- 'Three source-specific responsibilities retain 165 original objects: SVPG 71 citation
+  occurrences, 36 bibliography grouping families, 5 questions, 3 retrieval leads and
+  1 historical responsibility; IE 30 citation occurrences, 7 questions and 1 historical
+  responsibility; ITERSSS 4 bibliography entries, 3 retrieval groups, 3 questions
+  and 1 historical responsibility. Grouping families are not additional citation occurrences
+  or inferred concepts.'
+- '{"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source
+  question; no standalone method or trained-model record follows from this citation.",
+  "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  3293, "character_start": 3096, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B01", "pdf_page": 8, "raw_citation": "Beattie,
+  C., Leibo, J. Z., Teplyashin, D., Ward, T., Wain-\nwright, M., K¨ uttler, H., Lefrancq,
+  A., Green, S., Vald´\nes,\nV., Sadik, A., et al. (2016). Deepmind lab. arXiv preprint\narXiv:1612.03801.",
+  "raw_citation_sha256": "95b7a2182ab5a01e7b9c63e2fa7d7d548195b59077e5568cba53c9696bc9509c",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 0, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "85f46b31ecac9cabe5732d69bb6f0a4713b584320d764a5dc4cedf7a61c7f5aa", "pointer": "/bibliography_occurrences/0",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation
+  construction remains a source-specific question.", "disposition": "pending_inspection",
+  "exact_original_object": {"character_end_exclusive": 3517, "character_start": 3294,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B02", "pdf_page": 8, "raw_citation": "Bellemare,
+  M., Srinivasan, S., Ostrovski, G., Schaul, T.,\nSaxton, D., and Munos, R. (2016).
+  Unifying count-\nbased exploration and intrinsic motivation. In Advances\nin Neural
+  Information Processing Systems, pages 1471–\n1479.", "raw_citation_sha256": "f848635751eb810be58a852fbc0c368d849c3fc4f4e585593d9df3c9e6dc68ff",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 1, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "5638dbe7cc7c8a81733d08f6f0dd9427f89e008c5694998266189656e473a08a", "pointer": "/bibliography_occurrences/1",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods
+  are benchmark contexts; the 2016 benchmark protocol/version remains distinct.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3734, "character_start": 3518, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B03", "pdf_page": 8, "raw_citation": "Duan,
+  Y., Chen, X., Houthooft, R., Schulman, J., and\nAbbeel, P. (2016). Benchmarking
+  deep reinforcement\nlearning for continuous control. In Proceedings of the\n33rd
+  International Conference on Machine Learning\n(ICML).", "raw_citation_sha256": "8e10680f2fb292f6310dcba415b28e84fe9f7247ab8ebba2c5dfebaae793028c",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 2, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "4ac323095dec23ecb67b77372227d05514d71d0d01a8f56e742ecf60a1541284", "pointer": "/bibliography_occurrences/2",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate
+  source question; neither contextual estimator nor actor-critic record establishes
+  its exact procedure.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 3914, "character_start": 3735, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B04", "pdf_page": 8, "raw_citation": "Gu,
+  S., Lillicrap, T., Ghahramani, Z., Turner, R. E.,\nand Levine, S. (2016). Q-prop:
+  Sample-efficient pol-\nicy gradient with an off-policy critic. arXiv preprint\narXiv:1611.02247.",
+  "raw_citation_sha256": "99293df7294b90c9813da2758dfc83270bac3512be36a5956b0f5b015ec3c1a6",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 3, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "64720972e1f6b8741536f463889a7a168ee322ef67383b22b6720fe300c95c79", "pointer": "/bibliography_occurrences/3",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper
+  family; retain the cited arXiv/publication version and experiment scope rather than
+  asserting every passage represented.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 4064, "character_start": 3915,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B05", "pdf_page": 8, "raw_citation": "Haarnoja,
+  T., Tang, H., Abbeel, P., and Levine, S. (2017).\nReinforcement learning with deep
+  energy-based poli-\ncies. arXiv preprint arXiv:1702.08165.", "raw_citation_sha256":
+  "d51acbeb01e414239066f41c8db98539e73e420a3ccf8f7886b4e85fc151e073", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group":
+  "svpg", "index": 4, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "e272a7bfa0a31613a03d064d72b2772d8c24a8cbbfdedbca0561ce57d576ecd5", "pointer": "/bibliography_occurrences/4",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific
+  2006 comparing review and its variant coverage remain source questions.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4200, "character_start": 4065, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B06", "pdf_page": 8, "raw_citation": "Hansen,
+  N. (2006). The cma evolution strategy: a compar-\ning review. In Towards a new evolutionary
+  computation,\npages 75–102. Springer.", "raw_citation_sha256": "25f9196f3121a9d87ca588d15b65d16cd3fab28a2c86b88286fc5362572c93f1",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"],
+  "group": "svpg", "index": 5, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact occurrence/version and original spelling. Inspect the cited original and
+  reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "e2fef9bf6be1a67dabb2ee879d40762f0725d8463a3f198b18a2ca1abc7a8f63", "pointer": "/bibliography_occurrences/5",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration
+  requires its own original method and estimator scope; shared variational terminology
+  is insufficient.", "disposition": "pending_inspection", "exact_original_object":
+  {"character_end_exclusive": 4413, "character_start": 4201, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B07", "pdf_page": 8, "raw_citation": "Houthooft,
+  R., Chen, X., Duan, Y., Schulman, J., De Turck,\nF., and Abbeel, P. (2016). Vime:
+  Variational information\nmaximizing exploration. In Advances in Neural Infor-\nmation
+  Processing Systems, pages 1109–1117.", "raw_citation_sha256": "0bb2955fc3f1368b76588db5f739007b99ba2eb8bd6d89462223d3bf01c8de40",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 6, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "e3a1428c17bbded81fd05194592eaf74c533499b27923f4cbb0b579e84b6377a", "pointer": "/bibliography_occurrences/6",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task
+  learning source is retained without treating every task or implementation as a separate
+  concept.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  4615, "character_start": 4414, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B08", "pdf_page": 8, "raw_citation": "Jaderberg,
+  M., Mnih, V., Czarnecki, W. M., Schaul, T.,\nLeibo, J. Z., Silver, D., and Kavukcuoglu,
+  K. (2016). Re-\ninforcement learning with unsupervised auxiliary tasks.\narXiv preprint
+  arXiv:1611.05397.", "raw_citation_sha256": "208e915ed6c313cfafff8cb9c829ac3892622f762b8444d5143650ace413379a",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 7, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "ea3fe91298fd3d8850df8b9f753fa0713fc3aef962a820a58b2fd380f2e3e4e6", "pointer": "/bibliography_occurrences/7",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and
+  TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not
+  equated to either.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 4725, "character_start": 4616, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B09", "pdf_page": 8, "raw_citation": "Kakade,
+  S. (2002). A natural policy gradient. Advances in\nneural information processing
+  systems, 2:1531–1538.", "raw_citation_sha256": "3b9a6b339c73448945670033484066e41b602f0a48a4410c16a1f2e62cc1fb69",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 8, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "dfc2c31e10109e6de34a11871e061e977bf110c89cfefc6d1d2ee8826fcf9de8", "pointer": "/bibliography_occurrences/8",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited
+  source version and the SVPG experiment optimizer scaling remain distinct responsibilities.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4831, "character_start": 4726, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B10", "pdf_page": 8, "raw_citation": "Kingma,
+  D. and Ba, J. (2014). Adam: A method\nfor stochastic optimization. arXiv preprint\narXiv:1412.6980.",
+  "raw_citation_sha256": "cf571e851738cee65c0e16d4f238576b873163601eb7789df6216696fdbd78cd",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:Adam"],
+  "group": "svpg", "index": 9, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact occurrence/version and original spelling. Inspect the cited original and
+  reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "ca7e0b962575a6d054799e54c37e34f4f13108978f2f81d55fd2ecfd7ecd3fcd", "pointer": "/bibliography_occurrences/9",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component
+  is maintained; its source limitations and the policy-objective specialization remain
+  distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  5017, "character_start": 4832, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B11", "pdf_page": 8, "raw_citation": "Liu,
+  Q. and Wang, D. (2016). Stein variational gradient de-\nscent: A general purpose
+  bayesian inference algorithm.\nIn Advances In Neural Information Processing Systems,\npages
+  2370–2378.", "raw_citation_sha256": "c65971c3bca79aa4d56369fead47e29263d779726a1f6048eb5c81010338175a",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"],
+  "group": "svpg", "index": 10, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "97811d7586170bfbabb06d47bf1f8556be45dd0d87fdbe63102fe675698eb03f", "pointer": "/bibliography_occurrences/10",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad
+  visualization context, not an audit of the 2008 source or SVPG behavioral-diversity
+  interpretation.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 5143, "character_start": 5018, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-08.txt",
+  "sha256": "280497c276bec42d4615a17883e9c015e09f03c0c4fac85954e8a5386759c952"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B12", "pdf_page": 8, "raw_citation": "Maaten,
+  L. v. d. and Hinton, G. (2008). Visualizing data\nusing t-sne. Journal of Machine
+  Learning Research,\n9(Nov):2579–2605.", "raw_citation_sha256": "a96da604845c548e908a6c06de1cbf0830484c8471a90ef8899a5884b6712045",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 11, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "2330882f031155b9d3a51960b9e4eecde5116e52aee12c5e1aaae9c95161a879", "pointer": "/bibliography_occurrences/11",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization
+  is maintained; the 2003 policy-search realization remains a narrower original-source
+  question.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  123, "character_start": 0, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B13", "pdf_page": 9, "raw_citation": "Mannor,
+  S., Rubinstein, R. Y., and Gat, Y. (2003). The\ncross entropy method for fast policy
+  search. In ICML,\npages 512–519.", "raw_citation_sha256": "ca38133bc456c3dd7c79c680679776c900e1862a67a633a8f7e0e6257bcee5e4",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization"],
+  "group": "svpg", "index": 12, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "89a4df484d7d7c57983ef874026edfdae0164fbc5864bf68ccdf62ce510dde00", "pointer": "/bibliography_occurrences/12",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation
+  application and its learning components require original inspection.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 346,
+  "character_start": 124, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B14", "pdf_page": 9, "raw_citation": "Mirowski,
+  P., Pascanu, R., Viola, F., Soyer, H., Bal-\nlard, A., Banino, A., Denil, M., Goroshin,
+  R., Sifre,\nL., Kavukcuoglu, K., et al. (2016). Learning to\nnavigate in complex
+  environments. arXiv preprint\narXiv:1611.03673.", "raw_citation_sha256": "f38044978c6c8427778550579bd7f7ad015ae5b84c1f34ad6e70e7e2d71b77ba",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 13, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "5ec2e975c4735a91bf1df8b3eea925d5f9e46b5f1e5d13eadd627e9f3b5d106c", "pointer": "/bibliography_occurrences/13",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper
+  and A2C/A3C realization require original inspection; the maintained score-function
+  family alone does not identify those controllers.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 566, "character_start": 347,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B15", "pdf_page": 9, "raw_citation": "Mnih,
+  V., Badia, A. P., Mirza, M., Graves, A., Lillicrap,\nT. P., Harley, T., Silver,
+  D., and Kavukcuoglu, K. (2016).\nAsynchronous methods for deep reinforcement learning.\nIn
+  International Conference on Machine Learning.", "raw_citation_sha256": "d3f3c7b5b320d695a49658750bc2c99e51d461a1bccea4c5c400de15656c3d29",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"],
+  "group": "svpg", "index": 14, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d62583f22d28468447ac711aa8180caa43a1f10df6af24bc30e10f3fb4683fc7", "pointer": "/bibliography_occurrences/14",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation
+  for intrinsic motivation remains a distinct source question, not the generic variational-inference
+  label.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  769, "character_start": 567, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B16", "pdf_page": 9, "raw_citation": "Mohamed,
+  S. and Rezende, D. J. (2015). Variational in-\nformation maximisation for intrinsically
+  motivated rein-\nforcement learning. In Advances in neural information\nprocessing
+  systems, pages 2125–2133.", "raw_citation_sha256": "b6a5dfc1656702e76b78679c826d27ad950ea2336f54012fd1f57d91d3275a65",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 15, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "cd86061b4a041e759561d8bbe5504a1890e1256f3e1f9dd2da9588d4a45bf21d", "pointer": "/bibliography_occurrences/15",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration
+  is a policy-gradient source question; REINFORCE is estimator context only.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  922, "character_start": 770, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B17", "pdf_page": 9, "raw_citation": "Nachum,
+  O., Norouzi, M., and Schuurmans, D. (2016). Im-\nproving policy gradient by exploring
+  under-appreciated\nrewards. arXiv preprint arXiv:1611.09321.", "raw_citation_sha256":
+  "ef05e94b8423dfdb1e44f9d9c045979d1b5f200648ce795beb2506e3c0ea4a4f", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 16, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "b96928752d83f8eaee12b9fc7b4c9d3dd7f78f5367ebe857b723ea398d733dcd", "pointer": "/bibliography_occurrences/16",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training
+  has DQN context, but its parallel procedure and version are unresolved here.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  1171, "character_start": 923, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B18", "pdf_page": 9, "raw_citation": "Nair,
+  A., Srinivasan, P., Blackwell, S., Alcicek, C., Fearon,\nR., De Maria, A., Panneershelvam,
+  V., Suleyman, M.,\nBeattie, C., Petersen, S., et al. (2015). Massively parallel\nmethods
+  for deep reinforcement learning. arXiv preprint\narXiv:1507.04296.", "raw_citation_sha256":
+  "27706778859e9aa548fa251ee9f8939d1b82c671cc29315cdbbaaf9112aca7b0", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group":
+  "svpg", "index": 17, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "78cfaa8a6e7b2c6889cddb6d601d4216fa1d88f5b885c4ad32fa0ad81a61d031", "pointer": "/bibliography_occurrences/17",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance
+  assumptions remain source questions; generic Q-learning does not establish the shaping
+  theorem.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  1347, "character_start": 1172, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B19", "pdf_page": 9, "raw_citation": "Ng,
+  A. Y., Harada, D., and Russell, S. (1999). Policy in-\nvariance under reward transformations:
+  Theory and ap-\nplication to reward shaping. In ICML, volume 99, pages\n278–287.",
+  "raw_citation_sha256": "a9b0bdf91868f9791a87ae390ba6e516d6888fccddd440481d13a5fcfcd7512c",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:QLearning"],
+  "group": "svpg", "index": 18, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "6ee7c50fab30ad6c2c0f138affd49e933869effa334fe8d09839d921f5a93fae", "pointer": "/bibliography_occurrences/18",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality
+  discussion is conceptual context for regularized control, not equivalent to the
+  maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 1521, "character_start": 1348, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B20", "pdf_page": 9, "raw_citation": "Ortega,
+  D. A. and Braun, P. A. (2011). Information, utility\nand bounded rationality. In
+  International Conference on\nArtificial General Intelligence, pages 269–274. Springer.",
+  "raw_citation_sha256": "4db78a5658c64e69643d1672263174f03fae2a03df31ed6a79e825355f84d341",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"],
+  "group": "svpg", "index": 19, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "ec6a6af2e1d9552a862535afaf3c50ff1984beb34a04959a373f703807bc0bcb", "pointer": "/bibliography_occurrences/19",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not
+  identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 1696, "character_start": 1522,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B21", "pdf_page": 9, "raw_citation": "Osband,
+  I., Blundell, C., Pritzel, A., and Van Roy, B.\n(2016). Deep exploration via bootstrapped
+  dqn. In Ad-\nvances In Neural Information Processing Systems, pages\n4026–4034.",
+  "raw_citation_sha256": "683c6cb9ad45f79c8f94861d32be676c0fdff33e4bc39ae9eb4c1ab9cd433981",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"],
+  "group": "svpg", "index": 20, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d0b9ac63d7a29c9437abe5dcf37ef1eb6d44a20b324413a219b168db62054c68", "pointer": "/bibliography_occurrences/20",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration
+  requires its own original source and estimator; DQN supplies surrounding control
+  context only.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 1852, "character_start": 1697, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B22", "pdf_page": 9, "raw_citation": "Ostrovski,
+  G., Bellemare, M. G., Oord, A. v. d., and Munos,\nR. (2017). Count-based exploration
+  with neural density\nmodels. arXiv preprint arXiv:1703.01310.", "raw_citation_sha256":
+  "0c1a18d6ceb9abf46f05b14e3d37823f3dfeda7248c4415b7ab02c8e525a9d6c", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group":
+  "svpg", "index": 21, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "3e05e529da9b9aa78f50f868e6d7e8433d0b85f6d8829a796a6f3c8ebfc167f5", "pointer": "/bibliography_occurrences/21",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies
+  RL realization is not identified with NES or CMA-ES from the shared family vocabulary.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  2019, "character_start": 1853, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B23", "pdf_page": 9, "raw_citation": "Salimans,
+  T., Ho, J., Chen, X., and Sutskever, I. (2017).\nEvolution strategies as a scalable
+  alternative to reinforce-\nment learning. arXiv preprint arXiv:1703.03864.", "raw_citation_sha256":
+  "f1d8742b2312e846250de2e4c861ad03d1ada97bf1e4018ab84e6ded655a171f", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies",
+  "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index":
+  22, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "c5efbebc5e4684b777fae85164dd3fc3d6fbb325cefbf469764f42dfa0a5cad3", "pointer": "/bibliography_occurrences/22",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only
+  proposes related extensions, so this citation does not establish an implemented
+  Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 2156, "character_start": 2020, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B24", "pdf_page": 9, "raw_citation": "Schulman,
+  J., Levine, S., Abbeel, P., Jordan, M. I., and\nMoritz, P. (2015a). Trust region
+  policy optimization. In\nICML, pages 1889–1897.", "raw_citation_sha256": "d1560b4529cb4e36429cc82779359d2e94370e4f5fcf701526640e24ed78d76d",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:TrustRegionPolicyOptimization"],
+  "group": "svpg", "index": 23, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "bfc1fcfda4d37f00d36f8e9b0a9232622022eefdb161372ecd91f91c1e61bb70", "pointer": "/bibliography_occurrences/23",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact
+  source version and the particular estimator use in policy optimization.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  2341, "character_start": 2157, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B25", "pdf_page": 9, "raw_citation": "Schulman,
+  J., Moritz, P., Levine, S., Jordan, M., and\nAbbeel, P. (2015b). High-dimensional
+  continuous con-\ntrol using generalized advantage estimation. arXiv\npreprint arXiv:1506.02438.",
+  "raw_citation_sha256": "3cd9620b98f97aa977850c364352ae57922b66fb165dd1787f168c4d604e47a6",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:GeneralizedAdvantageEstimation"],
+  "group": "svpg", "index": 24, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "3eb05db34a3c331e3b64bc2c24a0b76fff7edf313e4c9cb7608e886f54b12a52", "pointer": "/bibliography_occurrences/24",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients
+  require their original parameter-distribution and gradient rules; contextual score
+  estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 2510, "character_start": 2342, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B26", "pdf_page": 9, "raw_citation": "Sehnke,
+  F., Osendorfer, C., R¨ uckstieß, T., Graves, A.,\nPeters, J., and Schmidhuber, J.
+  (2010). Parameter-\nexploring policy gradients. Neural Networks, 23(4):551–\n559.",
+  "raw_citation_sha256": "e45da46abbb6fb3a4a5185bda55611ff1536461da8519069ecdd77601a0fc2e9",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 25, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "4c65c6fc14b5b434708b60aaef9bcda3ee134616b88cdbea24ae7ff920027cde", "pointer": "/bibliography_occurrences/25",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains
+  a source and framework question, not a new concept by citation count.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 2651,
+  "character_start": 2511, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B27", "pdf_page": 9, "raw_citation": "Singh,
+  S. P., Barto, A. G., and Chentanez, N. (2004). In-\ntrinsically motivated reinforcement
+  learning. In NIPS,\nvolume 17, pages 1281–1288.", "raw_citation_sha256": "ea63396a16e6a01d4ec8dd66a548f2eb673052533f2b365cca3df00cb3574703",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 26, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "78db839770036f30b2c7f7b4892953289f25f7173796c0f55bb5dfde83ee7e43", "pointer": "/bibliography_occurrences/26",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation
+  overview requires exact original algorithm/assumption inspection before any additional
+  identity claim.", "disposition": "pending_inspection", "exact_original_object":
+  {"character_end_exclusive": 2805, "character_start": 2652, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B28", "pdf_page": 9, "raw_citation": "Spall,
+  J. C. (1998). An overview of the simultaneous pertur-\nbation method for efficient
+  optimization. Johns Hopkins\napl technical digest, 19(4):482–492.", "raw_citation_sha256":
+  "79504a8444bc6884699e5641f3d49a1225dda300b759ece43fcd76f7d4a9bdc8", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index":
+  27, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "1619858286ff00c4b51ec00926854af7427e564b28b24307aaa749ac158657a3", "pointer": "/bibliography_occurrences/27",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information
+  acquisition remains a source-specific information-seeking question.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 3064,
+  "character_start": 2806, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B29", "pdf_page": 9, "raw_citation": "Storck,
+  J., Hochreiter, S., and Schmidhuber, J. (1995).\nReinforcement driven information
+  acquisition in non-\ndeterministic environments. In Proceedings of the inter-\nnational
+  conference on artificial neural networks, Paris,\nvolume 2, pages 159–164. Citeseer.",
+  "raw_citation_sha256": "eecfe2897dbea9144e38cf7ed992a3119cd1db8405f87c1054730486272b94db",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 28, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a0cc5f21be6fd4db84ba8d93542bd03ed60f9c755d10578d6778be604419cb0b", "pointer": "/bibliography_occurrences/28",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling
+  and repository route remain exact; implementation/version inspection is separate
+  from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 3148, "character_start": 3065, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B30", "pdf_page": 9, "raw_citation": "Ulyanov,
+  D. (2016). Muticore-tsne. https://github.\ncom/DmitryUlyanov/Muticore-TSNE.", "raw_citation_sha256":
+  "f255e2198fc94098a5ed2f8d69dba0c8b7916978ed013b6bc4344d092d4bb799", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 29, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "313533c411dd77fdcb0ec1723a9bd5839dde81ec359c2789a6a8989f165d0636", "pointer": "/bibliography_occurrences/29",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific
+  algorithm/implementation question, not established by the broad AIO label.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3279, "character_start": 3149, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B31", "pdf_page": 9, "raw_citation": "Van
+  Der Maaten, L. (2014). Accelerating t-sne using tree-\nbased algorithms. Journal
+  of machine learning research,\n15(1):3221–3245.", "raw_citation_sha256": "ce7ea328eca3863e25931cd65930bc17e66ff3c26d220b6161578a97e5fa854c",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 30, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "274b59a99d76fc75e32a3974c080986e477e22b71aa913f914a0c63dac5eb12f", "pointer": "/bibliography_occurrences/30",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay
+  source is not identified with either contextual estimator or deterministic actor-critic
+  method.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3465, "character_start": 3280, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B32", "pdf_page": 9, "raw_citation": "Wang,
+  Z., Bapst, V., Heess, N., Mnih, V., Munos, R.,\nKavukcuoglu, K., and de Freitas,
+  N. (2016). Sample ef-\nficient actor-critic with experience replay. arXiv preprint\narXiv:1611.01224.",
+  "raw_citation_sha256": "d8003f6cbf6cbc0c2ef8a7b87e785b230b1466210d3524ff494a06d88201b5d2",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 31, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "7c055f331c3be05a868e6d6ebb89a45fbc467efa14f4489e4e38dcda0668d754", "pointer": "/bibliography_occurrences/31",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B33: SGLD uses stochastic-gradient
+  posterior sampling context; the maintained full-gradient ULA record does not establish
+  its minibatch construction or guarantees.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 3659, "character_start": 3466,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B33", "pdf_page": 9, "raw_citation": "Welling,
+  M. and Teh, Y. W. (2011). Bayesian learning via\nstochastic gradient langevin dynamics.
+  In Proceedings of\nthe 28th International Conference on Machine Learning\n(ICML-11),
+  pages 681–688.", "raw_citation_sha256": "f79400b2912da147d6993df789ce4c8a36d97de5555b7fab3479bd3383204fa2",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"],
+  "group": "svpg", "index": 32, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "8855de493bb3e284c51e369776e0711fe4d6d809b948464b20821df900488553", "pointer": "/bibliography_occurrences/32",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family
+  is maintained; retain the precise source/variant and baseline qualifications.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3809, "character_start": 3660, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B34", "pdf_page": 9, "raw_citation": "Williams,
+  R. J. (1992). Simple statistical gradient-\nfollowing algorithms for connectionist
+  reinforcement\nlearning. Machine learning, 8(3-4):229–256.", "raw_citation_sha256":
+  "b525d7fa026ebbbc5213a8e24ce748d4e3b3a65e811a2f2a49ae1c61bd88ca37", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 33, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "5eb298793b40f382c100d8305f3b26189b75772fa2173e17410f90b3f76f69bc", "pointer": "/bibliography_occurrences/33",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization
+  is retained as its own source/version question; the later REINFORCE family is related
+  context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3957, "character_start": 3810, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B35", "pdf_page": 9, "raw_citation": "Williams,
+  R. J. and Peng, J. (1991). Function optimization\nusing connectionist reinforcement
+  learning algorithms.\nConnection Science, 3(3):241–268.", "raw_citation_sha256":
+  "3e0a7508a7d5fa93619ee8062869f7ea383d29008fbee95f35250249aec6c93f", "source_version":
+  "uai2017", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 34, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "64f69efacbb0e8a769ad8dadeb338850eee598a60df36f2d9d0af96ba902dafd", "pointer": "/bibliography_occurrences/34",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics
+  bridge is conceptual/source context; it is not resolved by a modern regularized-control
+  record.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4133, "character_start": 3958, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/uai2017-extracted/page-09.txt",
+  "sha256": "4e35f362c80767f07c19ecc23967c7828aefe99171055efb21ecc97c63bcd05f"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-uai2017-B36", "pdf_page": 9, "raw_citation": "Wolpert,
+  D. H. (2006). Information theorythe bridge con-\nnecting bounded rational game theory
+  and statistical\nphysics. In Complex Engineered Systems, pages 262–\n290. Springer.",
+  "raw_citation_sha256": "c1fe6e174f525130eb565af6c75662e62698b57b4c53bfdb26eb5ff7b6fa53a5",
+  "source_version": "uai2017", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"],
+  "group": "svpg", "index": 35, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d2af1528bda8474edc310a0fd0f73fa9bd5fa6bea2ebfe7d8de6a61f66140dd7", "pointer": "/bibliography_occurrences/35",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source
+  question; no standalone method or trained-model record follows from this citation.",
+  "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  2766, "character_start": 2569, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B01", "pdf_page": 8, "raw_citation": "Beattie,
+  C., Leibo, J. Z., Teplyashin, D., Ward, T., Wain-\nwright, M., K¨ uttler, H., Lefrancq,
+  A., Green, S., Vald´\nes,\nV., Sadik, A., et al. (2016). Deepmind lab. arXiv preprint\narXiv:1612.03801.",
+  "raw_citation_sha256": "95b7a2182ab5a01e7b9c63e2fa7d7d548195b59077e5568cba53c9696bc9509c",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 36, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "be757980a97b23b4b8357b2b1b3d3814f2db56a8fd5886be958321ec96f7b31c", "pointer": "/bibliography_occurrences/36",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation
+  construction remains a source-specific question.", "disposition": "pending_inspection",
+  "exact_original_object": {"character_end_exclusive": 2990, "character_start": 2767,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B02", "pdf_page": 8, "raw_citation": "Bellemare,
+  M., Srinivasan, S., Ostrovski, G., Schaul, T.,\nSaxton, D., and Munos, R. (2016).
+  Unifying count-\nbased exploration and intrinsic motivation. In Advances\nin Neural
+  Information Processing Systems, pages 1471–\n1479.", "raw_citation_sha256": "f848635751eb810be58a852fbc0c368d849c3fc4f4e585593d9df3c9e6dc68ff",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 37, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "decb3106a48a725651d577fba2f2069d7e65f4a29ab34b702c294cea21edc4ec", "pointer": "/bibliography_occurrences/37",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods
+  are benchmark contexts; the 2016 benchmark protocol/version remains distinct.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3207, "character_start": 2991, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B03", "pdf_page": 8, "raw_citation": "Duan,
+  Y., Chen, X., Houthooft, R., Schulman, J., and\nAbbeel, P. (2016). Benchmarking
+  deep reinforcement\nlearning for continuous control. In Proceedings of the\n33rd
+  International Conference on Machine Learning\n(ICML).", "raw_citation_sha256": "8e10680f2fb292f6310dcba415b28e84fe9f7247ab8ebba2c5dfebaae793028c",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 38, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "25a1822be13646cdb9003c73facf76daa2e52a084511243ccbca9f055ba19d2a", "pointer": "/bibliography_occurrences/38",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate
+  source question; neither contextual estimator nor actor-critic record establishes
+  its exact procedure.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 3387, "character_start": 3208, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B04", "pdf_page": 8, "raw_citation": "Gu,
+  S., Lillicrap, T., Ghahramani, Z., Turner, R. E.,\nand Levine, S. (2016). Q-prop:
+  Sample-efficient pol-\nicy gradient with an off-policy critic. arXiv preprint\narXiv:1611.02247.",
+  "raw_citation_sha256": "99293df7294b90c9813da2758dfc83270bac3512be36a5956b0f5b015ec3c1a6",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 39, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "2d255218ddee51dfece63349adbbee4eb57229ae42ea781b767752de1739d458", "pointer": "/bibliography_occurrences/39",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper
+  family; retain the cited arXiv/publication version and experiment scope rather than
+  asserting every passage represented.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 3537, "character_start": 3388,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B05", "pdf_page": 8, "raw_citation": "Haarnoja,
+  T., Tang, H., Abbeel, P., and Levine, S. (2017).\nReinforcement learning with deep
+  energy-based poli-\ncies. arXiv preprint arXiv:1702.08165.", "raw_citation_sha256":
+  "d51acbeb01e414239066f41c8db98539e73e420a3ccf8f7886b4e85fc151e073", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group":
+  "svpg", "index": 40, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "1f5eb0419bf0c4dab33a89f57fe02197951be747c8c17f14d43177b1e1de42b3", "pointer": "/bibliography_occurrences/40",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific
+  2006 comparing review and its variant coverage remain source questions.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3673, "character_start": 3538, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B06", "pdf_page": 8, "raw_citation": "Hansen,
+  N. (2006). The cma evolution strategy: a compar-\ning review. In Towards a new evolutionary
+  computation,\npages 75–102. Springer.", "raw_citation_sha256": "25f9196f3121a9d87ca588d15b65d16cd3fab28a2c86b88286fc5362572c93f1",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"],
+  "group": "svpg", "index": 41, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "7e5683aaf90817359087c985760ef8394cca77bf2af614c485f910abacd0e862", "pointer": "/bibliography_occurrences/41",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration
+  requires its own original method and estimator scope; shared variational terminology
+  is insufficient.", "disposition": "pending_inspection", "exact_original_object":
+  {"character_end_exclusive": 3886, "character_start": 3674, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B07", "pdf_page": 8, "raw_citation": "Houthooft,
+  R., Chen, X., Duan, Y., Schulman, J., De Turck,\nF., and Abbeel, P. (2016). Vime:
+  Variational information\nmaximizing exploration. In Advances in Neural Infor-\nmation
+  Processing Systems, pages 1109–1117.", "raw_citation_sha256": "0bb2955fc3f1368b76588db5f739007b99ba2eb8bd6d89462223d3bf01c8de40",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 42, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "90cc06ce97ac2dfeddc82b0ccda377f728e238073889ae1b27c4009dd8371f44", "pointer": "/bibliography_occurrences/42",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task
+  learning source is retained without treating every task or implementation as a separate
+  concept.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  4088, "character_start": 3887, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B08", "pdf_page": 8, "raw_citation": "Jaderberg,
+  M., Mnih, V., Czarnecki, W. M., Schaul, T.,\nLeibo, J. Z., Silver, D., and Kavukcuoglu,
+  K. (2016). Re-\ninforcement learning with unsupervised auxiliary tasks.\narXiv preprint
+  arXiv:1611.05397.", "raw_citation_sha256": "208e915ed6c313cfafff8cb9c829ac3892622f762b8444d5143650ace413379a",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 43, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "abc993e827d4ca7e7bca8751583485d4af330c2e910e0cf1317a0fd348ca1189", "pointer": "/bibliography_occurrences/43",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and
+  TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not
+  equated to either.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 4198, "character_start": 4089, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B09", "pdf_page": 8, "raw_citation": "Kakade,
+  S. (2002). A natural policy gradient. Advances in\nneural information processing
+  systems, 2:1531–1538.", "raw_citation_sha256": "3b9a6b339c73448945670033484066e41b602f0a48a4410c16a1f2e62cc1fb69",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:NaturalGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 44, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "015f7c6d5637fcb56387187264eb7e4b41a50adff225ecb536d6c0797ce9d96e", "pointer": "/bibliography_occurrences/44",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited
+  source version and the SVPG experiment optimizer scaling remain distinct responsibilities.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4304, "character_start": 4199, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B10", "pdf_page": 8, "raw_citation": "Kingma,
+  D. and Ba, J. (2014). Adam: A method\nfor stochastic optimization. arXiv preprint\narXiv:1412.6980.",
+  "raw_citation_sha256": "cf571e851738cee65c0e16d4f238576b873163601eb7789df6216696fdbd78cd",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:Adam"],
+  "group": "svpg", "index": 45, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "54647b7dd795daac99d2188a6f5b4c32cd18a16c657347d22360d77129937507", "pointer": "/bibliography_occurrences/45",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component
+  is maintained; its source limitations and the policy-objective specialization remain
+  distinct.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4490, "character_start": 4305, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B11", "pdf_page": 8, "raw_citation": "Liu,
+  Q. and Wang, D. (2016). Stein variational gradient de-\nscent: A general purpose
+  bayesian inference algorithm.\nIn Advances In Neural Information Processing Systems,\npages
+  2370–2378.", "raw_citation_sha256": "c65971c3bca79aa4d56369fead47e29263d779726a1f6048eb5c81010338175a",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SteinVariationalGradientDescent"],
+  "group": "svpg", "index": 46, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "cb96b4db62a73b9145ad113f9b609f088ce5781a6bde4e12a8cb33d6f26d0ec7", "pointer": "/bibliography_occurrences/46",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad
+  visualization context, not an audit of the 2008 source or SVPG behavioral-diversity
+  interpretation.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 4616, "character_start": 4491, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B12", "pdf_page": 8, "raw_citation": "Maaten,
+  L. v. d. and Hinton, G. (2008). Visualizing data\nusing t-sne. Journal of Machine
+  Learning Research,\n9(Nov):2579–2605.", "raw_citation_sha256": "a96da604845c548e908a6c06de1cbf0830484c8471a90ef8899a5884b6712045",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 47, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a14961c0121b03835ebbefe1f997e65d3f92efcf08dd0e8c54130f12b482d650", "pointer": "/bibliography_occurrences/47",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization
+  is maintained; the 2003 policy-search realization remains a narrower original-source
+  question.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  4740, "character_start": 4617, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B13", "pdf_page": 8, "raw_citation": "Mannor,
+  S., Rubinstein, R. Y., and Gat, Y. (2003). The\ncross entropy method for fast policy
+  search. In ICML,\npages 512–519.", "raw_citation_sha256": "ca38133bc456c3dd7c79c680679776c900e1862a67a633a8f7e0e6257bcee5e4",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:CrossEntropyOptimization"],
+  "group": "svpg", "index": 48, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "0affa14cdf16e40ede9ac894c257bb9ac8f80ec9ece552853f28dafb74f672da", "pointer": "/bibliography_occurrences/48",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation
+  application and its learning components require original inspection.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 4963,
+  "character_start": 4741, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B14", "pdf_page": 8, "raw_citation": "Mirowski,
+  P., Pascanu, R., Viola, F., Soyer, H., Bal-\nlard, A., Banino, A., Denil, M., Goroshin,
+  R., Sifre,\nL., Kavukcuoglu, K., et al. (2016). Learning to\nnavigate in complex
+  environments. arXiv preprint\narXiv:1611.03673.", "raw_citation_sha256": "f38044978c6c8427778550579bd7f7ad015ae5b84c1f34ad6e70e7e2d71b77ba",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 49, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "f06657b427190283239ad092e91d20332ac757ebef60ec948ddee7464db711eb", "pointer": "/bibliography_occurrences/49",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper
+  and A2C/A3C realization require original inspection; the maintained score-function
+  family alone does not identify those controllers.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 5183, "character_start": 4964,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-08.txt",
+  "sha256": "fd134ad16b55cecaf3d07547139b3ed71634781c2b668144e55cc4e46a109183"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B15", "pdf_page": 8, "raw_citation": "Mnih,
+  V., Badia, A. P., Mirza, M., Graves, A., Lillicrap,\nT. P., Harley, T., Silver,
+  D., and Kavukcuoglu, K. (2016).\nAsynchronous methods for deep reinforcement learning.\nIn
+  International Conference on Machine Learning.", "raw_citation_sha256": "d3f3c7b5b320d695a49658750bc2c99e51d461a1bccea4c5c400de15656c3d29",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"],
+  "group": "svpg", "index": 50, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "b7911d0806f076528fa960f3933e7ff6cfa38447e67f1fee0d4b4e55a6dc85cf", "pointer": "/bibliography_occurrences/50",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation
+  for intrinsic motivation remains a distinct source question, not the generic variational-inference
+  label.", "disposition": "pending_inspection", "exact_original_object": {"character_end_exclusive":
+  202, "character_start": 0, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B16", "pdf_page": 9, "raw_citation": "Mohamed,
+  S. and Rezende, D. J. (2015). Variational in-\nformation maximisation for intrinsically
+  motivated rein-\nforcement learning. In Advances in neural information\nprocessing
+  systems, pages 2125–2133.", "raw_citation_sha256": "b6a5dfc1656702e76b78679c826d27ad950ea2336f54012fd1f57d91d3275a65",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 51, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "42aa02912eef7eac94b0f5570675a0fa66415457ce6ee8c603e9ad9391c91311", "pointer": "/bibliography_occurrences/51",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration
+  is a policy-gradient source question; REINFORCE is estimator context only.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  355, "character_start": 203, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B17", "pdf_page": 9, "raw_citation": "Nachum,
+  O., Norouzi, M., and Schuurmans, D. (2016). Im-\nproving policy gradient by exploring
+  under-appreciated\nrewards. arXiv preprint arXiv:1611.09321.", "raw_citation_sha256":
+  "ef05e94b8423dfdb1e44f9d9c045979d1b5f200648ce795beb2506e3c0ea4a4f", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 52, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "f323ecbc23586ebb3318faaaedbc67e1b33f7335128ba806e629ef3fffcc4591", "pointer": "/bibliography_occurrences/52",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training
+  has DQN context, but its parallel procedure and version are unresolved here.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  604, "character_start": 356, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B18", "pdf_page": 9, "raw_citation": "Nair,
+  A., Srinivasan, P., Blackwell, S., Alcicek, C., Fearon,\nR., De Maria, A., Panneershelvam,
+  V., Suleyman, M.,\nBeattie, C., Petersen, S., et al. (2015). Massively parallel\nmethods
+  for deep reinforcement learning. arXiv preprint\narXiv:1507.04296.", "raw_citation_sha256":
+  "27706778859e9aa548fa251ee9f8939d1b82c671cc29315cdbbaaf9112aca7b0", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group":
+  "svpg", "index": 53, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "7ae5068a471c200ceb63f80a4fbfd9747934f0fa3afb61a49a53a17ed81d04c6", "pointer": "/bibliography_occurrences/53",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance
+  assumptions remain source questions; generic Q-learning does not establish the shaping
+  theorem.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  780, "character_start": 605, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B19", "pdf_page": 9, "raw_citation": "Ng,
+  A. Y., Harada, D., and Russell, S. (1999). Policy in-\nvariance under reward transformations:
+  Theory and ap-\nplication to reward shaping. In ICML, volume 99, pages\n278–287.",
+  "raw_citation_sha256": "a9b0bdf91868f9791a87ae390ba6e516d6888fccddd440481d13a5fcfcd7512c",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:QLearning"],
+  "group": "svpg", "index": 54, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "7c86c98eac9f68e94f5965b20228c1bbf07e81130b9ad87cb11954259b6e9c1c", "pointer": "/bibliography_occurrences/54",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality
+  discussion is conceptual context for regularized control, not equivalent to the
+  maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 954, "character_start": 781, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B20", "pdf_page": 9, "raw_citation": "Ortega,
+  D. A. and Braun, P. A. (2011). Information, utility\nand bounded rationality. In
+  International Conference on\nArtificial General Intelligence, pages 269–274. Springer.",
+  "raw_citation_sha256": "4db78a5658c64e69643d1672263174f03fae2a03df31ed6a79e825355f84d341",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"],
+  "group": "svpg", "index": 55, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "20482f131aac74b98cbb1ed997b28e288621f3763f09adb606f9560dd155bb87", "pointer": "/bibliography_occurrences/55",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not
+  identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context",
+  "exact_original_object": {"character_end_exclusive": 1129, "character_start": 955,
+  "disposition": "pending_source_triage", "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B21", "pdf_page": 9, "raw_citation": "Osband,
+  I., Blundell, C., Pritzel, A., and Van Roy, B.\n(2016). Deep exploration via bootstrapped
+  dqn. In Ad-\nvances In Neural Information Processing Systems, pages\n4026–4034.",
+  "raw_citation_sha256": "683c6cb9ad45f79c8f94861d32be676c0fdff33e4bc39ae9eb4c1ab9cd433981",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"],
+  "group": "svpg", "index": 56, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "1cc08f4f62c9d6932a976cabf2718352da94c4cb7a988f2c32640773d66f7b80", "pointer": "/bibliography_occurrences/56",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration
+  requires its own original source and estimator; DQN supplies surrounding control
+  context only.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 1285, "character_start": 1130, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B22", "pdf_page": 9, "raw_citation": "Ostrovski,
+  G., Bellemare, M. G., Oord, A. v. d., and Munos,\nR. (2017). Count-based exploration
+  with neural density\nmodels. arXiv preprint arXiv:1703.01310.", "raw_citation_sha256":
+  "0c1a18d6ceb9abf46f05b14e3d37823f3dfeda7248c4415b7ab02c8e525a9d6c", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group":
+  "svpg", "index": 57, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "303cd1b0ead22de08f38fc7a1f9be08c885589ccb90f161bf1fbc2d0f1e34e5d", "pointer": "/bibliography_occurrences/57",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies
+  RL realization is not identified with NES or CMA-ES from the shared family vocabulary.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  1452, "character_start": 1286, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B23", "pdf_page": 9, "raw_citation": "Salimans,
+  T., Ho, J., Chen, X., and Sutskever, I. (2017).\nEvolution strategies as a scalable
+  alternative to reinforce-\nment learning. arXiv preprint arXiv:1703.03864.", "raw_citation_sha256":
+  "f1d8742b2312e846250de2e4c861ad03d1ada97bf1e4018ab84e6ded655a171f", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies",
+  "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index":
+  58, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "ec3c0a19afcdb0dc9f2adbac6d32017f48505ac15405a0d9d47e7c2c599b5b6c", "pointer": "/bibliography_occurrences/58",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only
+  proposes related extensions, so this citation does not establish an implemented
+  Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 1589, "character_start": 1453, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B24", "pdf_page": 9, "raw_citation": "Schulman,
+  J., Levine, S., Abbeel, P., Jordan, M. I., and\nMoritz, P. (2015a). Trust region
+  policy optimization. In\nICML, pages 1889–1897.", "raw_citation_sha256": "d1560b4529cb4e36429cc82779359d2e94370e4f5fcf701526640e24ed78d76d",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:TrustRegionPolicyOptimization"],
+  "group": "svpg", "index": 59, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "499448f85fbf0448b602637dcd7a60c62f4f348e46c865dcccfe854cc2699b21", "pointer": "/bibliography_occurrences/59",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact
+  source version and the particular estimator use in policy optimization.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  1774, "character_start": 1590, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B25", "pdf_page": 9, "raw_citation": "Schulman,
+  J., Moritz, P., Levine, S., Jordan, M., and\nAbbeel, P. (2015b). High-dimensional
+  continuous con-\ntrol using generalized advantage estimation. arXiv\npreprint arXiv:1506.02438.",
+  "raw_citation_sha256": "3cd9620b98f97aa977850c364352ae57922b66fb165dd1787f168c4d604e47a6",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:GeneralizedAdvantageEstimation"],
+  "group": "svpg", "index": 60, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "973fcc866afd9915eb85a7a8f55b59e1572e7ef639a0bd8cd1a48e26bf2ed0bd", "pointer": "/bibliography_occurrences/60",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients
+  require their original parameter-distribution and gradient rules; contextual score
+  estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 1943, "character_start": 1775, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B26", "pdf_page": 9, "raw_citation": "Sehnke,
+  F., Osendorfer, C., R¨ uckstieß, T., Graves, A.,\nPeters, J., and Schmidhuber, J.
+  (2010). Parameter-\nexploring policy gradients. Neural Networks, 23(4):551–\n559.",
+  "raw_citation_sha256": "e45da46abbb6fb3a4a5185bda55611ff1536461da8519069ecdd77601a0fc2e9",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index": 61, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "151612a0a8ca43f112bdf510e5673a0ab4c6e5462beade601a05dc80dd350b85", "pointer": "/bibliography_occurrences/61",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains
+  a source and framework question, not a new concept by citation count.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 2084,
+  "character_start": 1944, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B27", "pdf_page": 9, "raw_citation": "Singh,
+  S. P., Barto, A. G., and Chentanez, N. (2004). In-\ntrinsically motivated reinforcement
+  learning. In NIPS,\nvolume 17, pages 1281–1288.", "raw_citation_sha256": "ea63396a16e6a01d4ec8dd66a548f2eb673052533f2b365cca3df00cb3574703",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 62, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "239a256be9a6504da6ef0dd17827e621e7e1b826e0fb945a45a9c2337f30e8d3", "pointer": "/bibliography_occurrences/62",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation
+  overview requires exact original algorithm/assumption inspection before any additional
+  identity claim.", "disposition": "pending_inspection", "exact_original_object":
+  {"character_end_exclusive": 2238, "character_start": 2085, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B28", "pdf_page": 9, "raw_citation": "Spall,
+  J. C. (1998). An overview of the simultaneous pertur-\nbation method for efficient
+  optimization. Johns Hopkins\napl technical digest, 19(4):482–492.", "raw_citation_sha256":
+  "79504a8444bc6884699e5641f3d49a1225dda300b759ece43fcd76f7d4a9bdc8", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": [], "group": "svpg", "index":
+  63, "kind": "bibliography_occurrences", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "b24612c7feea07f9102760b87c95a609a2a914379ebd6f6720666f0b14ab9f07", "pointer": "/bibliography_occurrences/63",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information
+  acquisition remains a source-specific information-seeking question.", "disposition":
+  "pending_inspection", "exact_original_object": {"character_end_exclusive": 2497,
+  "character_start": 2239, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B29", "pdf_page": 9, "raw_citation": "Storck,
+  J., Hochreiter, S., and Schmidhuber, J. (1995).\nReinforcement driven information
+  acquisition in non-\ndeterministic environments. In Proceedings of the inter-\nnational
+  conference on artificial neural networks, Paris,\nvolume 2, pages 159–164. Citeseer.",
+  "raw_citation_sha256": "eecfe2897dbea9144e38cf7ed992a3119cd1db8405f87c1054730486272b94db",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": [], "group":
+  "svpg", "index": 64, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "29fcc1d554e2f8771b27b59cd2af8fc4befb590ee3fd86af784a8709ff45adb3", "pointer": "/bibliography_occurrences/64",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling
+  and repository route remain exact; implementation/version inspection is separate
+  from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object":
+  {"character_end_exclusive": 2581, "character_start": 2498, "disposition": "pending_source_triage",
+  "extracted_text": {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B30", "pdf_page": 9, "raw_citation": "Ulyanov,
+  D. (2016). Muticore-tsne. https://github.\ncom/DmitryUlyanov/Muticore-TSNE.", "raw_citation_sha256":
+  "f255e2198fc94098a5ed2f8d69dba0c8b7916978ed013b6bc4344d092d4bb799", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 65, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "0d08d8c9e543415b4ccd581397b3d266b4fb29de3a6343432372fbc9c348180c", "pointer": "/bibliography_occurrences/65",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific
+  algorithm/implementation question, not established by the broad AIO label.", "disposition":
+  "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  2712, "character_start": 2582, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B31", "pdf_page": 9, "raw_citation": "Van
+  Der Maaten, L. (2014). Accelerating t-sne using tree-\nbased algorithms. Journal
+  of machine learning research,\n15(1):3221–3245.", "raw_citation_sha256": "ce7ea328eca3863e25931cd65930bc17e66ff3c26d220b6161578a97e5fa854c",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIO:tDistributedStochasticNeighborembedding"],
+  "group": "svpg", "index": 66, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "5ea783b07cffc69634add8c2f9a890172dc08255b7236e0b4f66e4c27ce35447", "pointer": "/bibliography_occurrences/66",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay
+  source is not identified with either contextual estimator or deterministic actor-critic
+  method.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  2898, "character_start": 2713, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B32", "pdf_page": 9, "raw_citation": "Wang,
+  Z., Bapst, V., Heess, N., Mnih, V., Munos, R.,\nKavukcuoglu, K., and de Freitas,
+  N. (2016). Sample ef-\nficient actor-critic with experience replay. arXiv preprint\narXiv:1611.01224.",
+  "raw_citation_sha256": "d8003f6cbf6cbc0c2ef8a7b87e785b230b1466210d3524ff494a06d88201b5d2",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE",
+  "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg", "index": 67, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d5fdcf1808d50fd46ca1016245e0998479f1ff9148ef63eabdd4b1415342131a", "pointer": "/bibliography_occurrences/67",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family
+  is maintained; retain the precise source/variant and baseline qualifications.",
+  "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3048, "character_start": 2899, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B33", "pdf_page": 9, "raw_citation": "Williams,
+  R. J. (1992). Simple statistical gradient-\nfollowing algorithms for connectionist
+  reinforcement\nlearning. Machine learning, 8(3-4):229–256.", "raw_citation_sha256":
+  "b525d7fa026ebbbc5213a8e24ce748d4e3b3a65e811a2f2a49ae1c61bd88ca37", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 68, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "8feecc35decc1c34e908821aa56d97c0865f8e659454ebc46105d18980bd21f1", "pointer": "/bibliography_occurrences/68",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization
+  is retained as its own source/version question; the later REINFORCE family is related
+  context.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3196, "character_start": 3049, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B34", "pdf_page": 9, "raw_citation": "Williams,
+  R. J. and Peng, J. (1991). Function optimization\nusing connectionist reinforcement
+  learning algorithms.\nConnection Science, 3(3):241–268.", "raw_citation_sha256":
+  "3e0a7508a7d5fa93619ee8062869f7ea383d29008fbee95f35250249aec6c93f", "source_version":
+  "arxiv-v1", "title_identity_status": "bibliographic source question; original cited
+  work not read in this task"}, "existing_record_ids": ["AIMech:REINFORCE"], "group":
+  "svpg", "index": 69, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact occurrence/version and original spelling. Inspect the cited original and reconcile
+  the narrower source responsibility before any new identity, equivalence or closure;
+  this current context assessment does not claim a fresh full-paper reading.", "origin":
+  {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "f10122bf547977a66e29fbdf230c1639cf27e325d93e07d725f4ebe3f2988a49", "pointer": "/bibliography_occurrences/69",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics
+  bridge is conceptual/source context; it is not resolved by a modern regularized-control
+  record.", "disposition": "existing_record_context", "exact_original_object": {"character_end_exclusive":
+  3372, "character_start": 3197, "disposition": "pending_source_triage", "extracted_text":
+  {"path": "/private/tmp/aimech-svpg-research-20261016/arxiv-v1-extracted/page-09.txt",
+  "sha256": "e9bfd32a52764f817ab300f63f3eb1a9de2076126f05e236cc93969f053a1aa8"}, "novel_concept_asserted":
+  false, "occurrence_id": "SVPG-arxiv-v1-B35", "pdf_page": 9, "raw_citation": "Wolpert,
+  D. H. (2006). Information theorythe bridge con-\nnecting bounded rational game theory
+  and statistical\nphysics. In Complex Engineered Systems, pages 262–\n290. Springer.",
+  "raw_citation_sha256": "c1fe6e174f525130eb565af6c75662e62698b57b4c53bfdb26eb5ff7b6fa53a5",
+  "source_version": "arxiv-v1", "title_identity_status": "bibliographic source question;
+  original cited work not read in this task"}, "existing_record_ids": ["AIMech:SoftQLearning"],
+  "group": "svpg", "index": 70, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "27bc761e679cf825915bd817ca01da07123d9da03679cc50c8f7860e60e4909e", "pointer": "/bibliography_occurrences/70",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B01: DeepMind Lab is an environment/source
+  question; no standalone method or trained-model record follows from this citation.",
+  "disposition": "pending_inspection", "exact_original_object": {"display_title":
+  "DeepMind Lab", "disposition": "pending_source_triage", "family_id": "SVPG-B01",
+  "next_check": "Reconcile exact cited work/version and semantic scope against maintained
+  records/frontier before any source-based addition; citation alone is not a concept.",
+  "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B01", "SVPG-arxiv-v1-B01"],
+  "title_status": "normalized display label; exact original citation strings and offsets
+  remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index":
+  0, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "6a4d444efaff18b3528ece20d61fccc8eaa7bd18995ec932907b5892091b02a4", "pointer": "/bibliography_families/0",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B02: Count-based exploration and intrinsic-motivation
+  construction remains a source-specific question.", "disposition": "pending_inspection",
+  "exact_original_object": {"display_title": "Unifying count-based exploration and
+  intrinsic motivation", "disposition": "pending_source_triage", "family_id": "SVPG-B02",
+  "next_check": "Reconcile exact cited work/version and semantic scope against maintained
+  records/frontier before any source-based addition; citation alone is not a concept.",
+  "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B02", "SVPG-arxiv-v1-B02"],
+  "title_status": "normalized display label; exact original citation strings and offsets
+  remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index":
+  1, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a735d72641919408524981be7a8bac88eda6426c24b33faf4a5d58d5486ad77d", "pointer": "/bibliography_families/1",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B03: The maintained control methods
+  are benchmark contexts; the 2016 benchmark protocol/version remains distinct.",
+  "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Benchmarking deep reinforcement learning for continuous control", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B03", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B03", "SVPG-arxiv-v1-B03"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:DeepDeterministicPolicyGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 2, "kind": "bibliography_families",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d3ecb23a7964c5c003db2c5db96bf1842b2b9809abc4912f4e13f2c8e60c5c33", "pointer": "/bibliography_families/2",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B04: Q-Prop is an off-policy-critic/control-variate
+  source question; neither contextual estimator nor actor-critic record establishes
+  its exact procedure.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Q-Prop: Sample-efficient policy gradient with an off-policy critic",
+  "disposition": "pending_source_triage", "family_id": "SVPG-B04", "next_check": "Reconcile
+  exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B04", "SVPG-arxiv-v1-B04"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"],
+  "group": "svpg", "index": 3, "kind": "bibliography_families", "next_check": "Retain
+  the exact occurrence/version and original spelling. Inspect the cited original and
+  reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d3c9e60ea40145e2cd33bbf1b5c8a59610f307d68be755b63010241806fdd7db", "pointer": "/bibliography_families/3",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B05: The title is the SoftQ defining-paper
+  family; retain the cited arXiv/publication version and experiment scope rather than
+  asserting every passage represented.", "disposition": "existing_record_context",
+  "exact_original_object": {"display_title": "Reinforcement learning with deep energy-based
+  policies", "disposition": "pending_source_triage", "existing_context": {"record":
+  {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/SoftQLearning.yaml",
+  "sha256": "30a9c92eac4e3169d040b64230b7efd6ec8d9685ea58cd5136f4a2d7fa895dca"}, "record_id":
+  "AIMech:SoftQLearning", "relation": "related maintained source/method context; original
+  cited-paper/version question not thereby closed"}, "family_id": "SVPG-B05", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B05", "SVPG-arxiv-v1-B05"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg",
+  "index": 4, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "f72df04e444527f17c57e6b32080d8a7ed9bc0d52b7f4fedd89a2f187d478c75", "pointer": "/bibliography_families/4",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B06: CMA-ES is maintained; the specific
+  2006 comparing review and its variant coverage remain source questions.", "disposition":
+  "existing_record_context", "exact_original_object": {"display_title": "The CMA evolution
+  strategy: a comparing review", "disposition": "pending_source_triage", "family_id":
+  "SVPG-B06", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B06",
+  "SVPG-arxiv-v1-B06"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index":
+  5, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "d2a62cb7485387b1a333a054c71a6a144ff067fcb9799dedf7f48f1e383d6520", "pointer": "/bibliography_families/5",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B07: VIME information-gain exploration
+  requires its own original method and estimator scope; shared variational terminology
+  is insufficient.", "disposition": "pending_inspection", "exact_original_object":
+  {"display_title": "VIME: Variational information maximizing exploration", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B07", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B07", "SVPG-arxiv-v1-B07"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 6, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "02debb0f63ddf9359a0533797c1f64b96b971fa3029e6ee3b007e4fe7000b0df", "pointer": "/bibliography_families/6",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B08: The unsupervised auxiliary-task
+  learning source is retained without treating every task or implementation as a separate
+  concept.", "disposition": "pending_inspection", "exact_original_object": {"display_title":
+  "Reinforcement learning with unsupervised auxiliary tasks", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B08", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B08",
+  "SVPG-arxiv-v1-B08"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  [], "group": "svpg", "index": 7, "kind": "bibliography_families", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "be24890c7c6e2072bc37ba661b73e781b35ddae9d9ba2fa88e50fea55a176e2a", "pointer": "/bibliography_families/7",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B09: Natural-gradient geometry and
+  TRPO are contextual; Kakade’s specified natural-policy-gradient procedure is not
+  equated to either.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "A natural policy gradient", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B09", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B09",
+  "SVPG-arxiv-v1-B09"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:NaturalGradient", "AIMech:TrustRegionPolicyOptimization"], "group": "svpg",
+  "index": 8, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "051ea5f8e2bd4c10c483ece4fde6ecac48ccff84d5cb48254d6addfaa8199cca", "pointer": "/bibliography_families/8",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B10: Adam is maintained; exact cited
+  source version and the SVPG experiment optimizer scaling remain distinct responsibilities.",
+  "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Adam: A method for stochastic optimization", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B10", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B10",
+  "SVPG-arxiv-v1-B10"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:Adam"], "group": "svpg", "index": 9, "kind": "bibliography_families", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "25c6d57bdbb7f55dafbe5c6214b02c6e2f16a87e0da84dbb041e375bd5140513", "pointer": "/bibliography_families/9",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B11: The direct SVGD transport component
+  is maintained; its source limitations and the policy-objective specialization remain
+  distinct.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Stein variational gradient descent: A general purpose Bayesian inference algorithm",
+  "disposition": "pending_source_triage", "existing_context": {"record": {"path":
+  "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/SteinVariationalGradientDescent.yaml",
+  "sha256": "306808b660d4ce0880599e6acc901c5352c8a92d3ed6db58f89bd2b3c107d2b0"}, "record_id":
+  "AIMech:SteinVariationalGradientDescent", "relation": "related maintained source/method
+  context; original cited-paper/version question not thereby closed"}, "family_id":
+  "SVPG-B11", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B11",
+  "SVPG-arxiv-v1-B11"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 10, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "df137d99df6c0ea0fd1546b8ce000aadc49a4911e99153d4d4b1d64182ace5ff", "pointer": "/bibliography_families/10",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B12: Pinned AIO t-SNE supplies broad
+  visualization context, not an audit of the 2008 source or SVPG behavioral-diversity
+  interpretation.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Visualizing data using t-SNE", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B12", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B12",
+  "SVPG-arxiv-v1-B12"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 11, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a7ab9fe7e4fce5d88d17b98ae7df4526dfb1ff8e7dd544c171bc2dd86892baae", "pointer": "/bibliography_families/11",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B13: Generic cross-entropy optimization
+  is maintained; the 2003 policy-search realization remains a narrower original-source
+  question.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "The cross entropy method for fast policy search", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B13", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B13",
+  "SVPG-arxiv-v1-B13"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:CrossEntropyOptimization"], "group": "svpg", "index": 12, "kind": "bibliography_families",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "3306796e05cef952caab34734c01d3708dd899ff6a3fff7d5f16d0bf2a657380", "pointer": "/bibliography_families/12",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B14: The complex-environment navigation
+  application and its learning components require original inspection.", "disposition":
+  "pending_inspection", "exact_original_object": {"display_title": "Learning to navigate
+  in complex environments", "disposition": "pending_source_triage", "family_id": "SVPG-B14",
+  "next_check": "Reconcile exact cited work/version and semantic scope against maintained
+  records/frontier before any source-based addition; citation alone is not a concept.",
+  "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B14", "SVPG-arxiv-v1-B14"],
+  "title_status": "normalized display label; exact original citation strings and offsets
+  remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index":
+  13, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "23ae20f636e5072cbbde7ce41e7f94e091189e01157bff4255ba4a21f25cb82a", "pointer": "/bibliography_families/13",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B15: The asynchronous deep-RL paper
+  and A2C/A3C realization require original inspection; the maintained score-function
+  family alone does not identify those controllers.", "disposition": "existing_record_context",
+  "exact_original_object": {"display_title": "Asynchronous methods for deep reinforcement
+  learning", "disposition": "pending_source_triage", "family_id": "SVPG-B15", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B15", "SVPG-arxiv-v1-B15"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg",
+  "index": 14, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "71fdb00ad18e6bd6551cfc472a1b822098c50baa51ddaa85a491689a306ea0e8", "pointer": "/bibliography_families/14",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B16: Variational information maximisation
+  for intrinsic motivation remains a distinct source question, not the generic variational-inference
+  label.", "disposition": "pending_inspection", "exact_original_object": {"display_title":
+  "Variational information maximisation for intrinsically motivated reinforcement
+  learning", "disposition": "pending_source_triage", "family_id": "SVPG-B16", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B16", "SVPG-arxiv-v1-B16"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 15, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a16370e7496f6f9bb7960f839880c496b240c5e83e4bf4ec02d6455771f71c9d", "pointer": "/bibliography_families/15",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B17: Under-appreciated-reward exploration
+  is a policy-gradient source question; REINFORCE is estimator context only.", "disposition":
+  "existing_record_context", "exact_original_object": {"display_title": "Improving
+  policy gradient by exploring under-appreciated rewards", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B17", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B17",
+  "SVPG-arxiv-v1-B17"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:REINFORCE"], "group": "svpg", "index": 16, "kind": "bibliography_families",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "b482b0809496dde2c32e0475703bf973bd272bfdda8c623f12b74867045c4a07", "pointer": "/bibliography_families/16",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B18: Massively parallel deep-RL training
+  has DQN context, but its parallel procedure and version are unresolved here.", "disposition":
+  "existing_record_context", "exact_original_object": {"display_title": "Massively
+  parallel methods for deep reinforcement learning", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B18", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B18",
+  "SVPG-arxiv-v1-B18"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:DeepQNetwork"], "group": "svpg", "index": 17, "kind": "bibliography_families",
+  "next_check": "Retain the exact occurrence/version and original spelling. Inspect
+  the cited original and reconcile the narrower source responsibility before any new
+  identity, equivalence or closure; this current context assessment does not claim
+  a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "69e5f56a1e1a0f642d46590517fe5457b792f508c971fbbab63e3933bbf5d36f", "pointer": "/bibliography_families/17",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B19: Reward transformations and policy-invariance
+  assumptions remain source questions; generic Q-learning does not establish the shaping
+  theorem.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Policy invariance under reward transformations: Theory and application to reward
+  shaping", "disposition": "pending_source_triage", "family_id": "SVPG-B19", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B19", "SVPG-arxiv-v1-B19"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:QLearning"], "group": "svpg",
+  "index": 18, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "52c6eb84dd99bd0c27e488880e094733e406935f9cb4da517db3dbf4eba63ac3", "pointer": "/bibliography_families/18",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B20: Information/utility/bounded-rationality
+  discussion is conceptual context for regularized control, not equivalent to the
+  maintained SoftQ algorithm.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Information, utility and bounded rationality", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B20", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B20", "SVPG-arxiv-v1-B20"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg",
+  "index": 19, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "7a23bf37ae90c1ed563f6ec42a001d6fff79185015bed182dfb7e93e8b1e7743", "pointer": "/bibliography_families/19",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B21: Bootstrapped exploration is not
+  identified with base DQN merely because DQN is maintained.", "disposition": "existing_record_context",
+  "exact_original_object": {"display_title": "Deep exploration via bootstrapped DQN",
+  "disposition": "pending_source_triage", "family_id": "SVPG-B21", "next_check": "Reconcile
+  exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B21", "SVPG-arxiv-v1-B21"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg",
+  "index": 20, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "11163893c553d66386680d798528245cebd8b8b1753bd44d4c79fef228c946f5", "pointer": "/bibliography_families/20",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B22: Neural-density count-based exploration
+  requires its own original source and estimator; DQN supplies surrounding control
+  context only.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Count-based exploration with neural density models", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B22", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B22", "SVPG-arxiv-v1-B22"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:DeepQNetwork"], "group": "svpg",
+  "index": 21, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "162027285a9f7f79415096917732ddf5994049fd3d79fb0707123429028e183c", "pointer": "/bibliography_families/21",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B23: The 2017 evolution-strategies
+  RL realization is not identified with NES or CMA-ES from the shared family vocabulary.",
+  "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Evolution strategies as a scalable alternative to reinforcement learning", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B23", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B23", "SVPG-arxiv-v1-B23"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:NaturalEvolutionStrategies",
+  "AIMech:CovarianceMatrixAdaptationEvolutionStrategy"], "group": "svpg", "index":
+  22, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "9bc8c680c8d2504ac88cfb4e0b8d0a0a01578d49d9f3edc0db79ef5bf2d6b2da", "pointer": "/bibliography_families/22",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B24: TRPO is maintained; SVPG only
+  proposes related extensions, so this citation does not establish an implemented
+  Stein-TRPO variant.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Trust region policy optimization", "disposition": "pending_source_triage",
+  "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/TrustRegionPolicyOptimization.yaml",
+  "sha256": "4e19ec80fb483591f74353a182d6c99c47005274ff3814b26a07adfb047d8a9b"}, "record_id":
+  "AIMech:TrustRegionPolicyOptimization", "relation": "related maintained source/method
+  context; original cited-paper/version question not thereby closed"}, "family_id":
+  "SVPG-B24", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B24",
+  "SVPG-arxiv-v1-B24"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 23, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "775ddf7efa8b434f1b71d2c4c4e3d4159141f1ad77c8b1f06385f1e9680794d2", "pointer": "/bibliography_families/23",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B25: GAE is maintained; preserve exact
+  source version and the particular estimator use in policy optimization.", "disposition":
+  "existing_record_context", "exact_original_object": {"display_title": "High-dimensional
+  continuous control using generalized advantage estimation", "disposition": "pending_source_triage",
+  "existing_context": {"record": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/GeneralizedAdvantageEstimation.yaml",
+  "sha256": "635b1bffb626af1c9eff6e17f1fda088aed1d05b55abc0fd4fd7be3ccf19ee77"}, "record_id":
+  "AIMech:GeneralizedAdvantageEstimation", "relation": "related maintained source/method
+  context; original cited-paper/version question not thereby closed"}, "family_id":
+  "SVPG-B25", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B25",
+  "SVPG-arxiv-v1-B25"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:GeneralizedAdvantageEstimation"], "group": "svpg", "index": 24, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "ba900607c50cea68ffbd7faf3c17faf14395b9f0abf0455912cea609dd05758b", "pointer": "/bibliography_families/24",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B26: Parameter-exploring policy gradients
+  require their original parameter-distribution and gradient rules; contextual score
+  estimators/NES are not aliases.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Parameter-exploring policy gradients", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B26", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B26",
+  "SVPG-arxiv-v1-B26"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:REINFORCE", "AIMech:NaturalEvolutionStrategies"], "group": "svpg", "index":
+  25, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "e534da7e2afa66202a1ac7d3fdbfdfcfcda18e932b952075aaff88480f2eaa82", "pointer": "/bibliography_families/25",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B27: Intrinsically motivated RL remains
+  a source and framework question, not a new concept by citation count.", "disposition":
+  "pending_inspection", "exact_original_object": {"display_title": "Intrinsically
+  motivated reinforcement learning", "disposition": "pending_source_triage", "family_id":
+  "SVPG-B27", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B27",
+  "SVPG-arxiv-v1-B27"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  [], "group": "svpg", "index": 26, "kind": "bibliography_families", "next_check":
+  "Retain the exact occurrence/version and original spelling. Inspect the cited original
+  and reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "c8c16e2ca99d2a3499c4bf1ba6083e253bc21e2d63cc09ac909435ef61c11a3a", "pointer": "/bibliography_families/26",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B28: The simultaneous-perturbation
+  overview requires exact original algorithm/assumption inspection before any additional
+  identity claim.", "disposition": "pending_inspection", "exact_original_object":
+  {"display_title": "An overview of the simultaneous perturbation method for efficient
+  optimization", "disposition": "pending_source_triage", "family_id": "SVPG-B28",
+  "next_check": "Reconcile exact cited work/version and semantic scope against maintained
+  records/frontier before any source-based addition; citation alone is not a concept.",
+  "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B28", "SVPG-arxiv-v1-B28"],
+  "title_status": "normalized display label; exact original citation strings and offsets
+  remain in occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index":
+  27, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "3f3a4ca8f89db04035b89a73b52c5416e4860f64863a1ba31bbf87321b59cc8c", "pointer": "/bibliography_families/27",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B29: Reinforcement-driven information
+  acquisition remains a source-specific information-seeking question.", "disposition":
+  "pending_inspection", "exact_original_object": {"display_title": "Reinforcement
+  driven information acquisition in non-deterministic environments", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B29", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B29", "SVPG-arxiv-v1-B29"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": [], "group": "svpg", "index": 28, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a19ee06e182239fc3a2aed545841049f511906c142dfaf006a5d29a26ecbd182", "pointer": "/bibliography_families/28",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B30: The printed Muticore-TSNE spelling
+  and repository route remain exact; implementation/version inspection is separate
+  from the broad AIO t-SNE context.", "disposition": "existing_record_context", "exact_original_object":
+  {"display_title": "Muticore-TSNE", "disposition": "pending_source_triage", "family_id":
+  "SVPG-B30", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B30",
+  "SVPG-arxiv-v1-B30"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 29, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "b77a5c755b218e1e97148aaa0dba8e6449e51b019b0171b221bac4df1a950373", "pointer": "/bibliography_families/29",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B31: Tree-accelerated t-SNE is a source-specific
+  algorithm/implementation question, not established by the broad AIO label.", "disposition":
+  "existing_record_context", "exact_original_object": {"display_title": "Accelerating
+  t-SNE using tree-based algorithms", "disposition": "pending_source_triage", "family_id":
+  "SVPG-B31", "next_check": "Reconcile exact cited work/version and semantic scope
+  against maintained records/frontier before any source-based addition; citation alone
+  is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B31",
+  "SVPG-arxiv-v1-B31"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIO:tDistributedStochasticNeighborembedding"], "group": "svpg", "index": 30, "kind":
+  "bibliography_families", "next_check": "Retain the exact occurrence/version and
+  original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "e7d0523b086b5a822f852e3b5244a27866cc7cc839803c0f7b3bf4123da36d90", "pointer": "/bibliography_families/30",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B32: The actor-critic with experience-replay
+  source is not identified with either contextual estimator or deterministic actor-critic
+  method.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Sample efficient actor-critic with experience replay", "disposition": "pending_source_triage",
+  "family_id": "SVPG-B32", "next_check": "Reconcile exact cited work/version and semantic
+  scope against maintained records/frontier before any source-based addition; citation
+  alone is not a concept.", "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B32",
+  "SVPG-arxiv-v1-B32"], "title_status": "normalized display label; exact original
+  citation strings and offsets remain in occurrence ledger"}, "existing_record_ids":
+  ["AIMech:REINFORCE", "AIMech:DeepDeterministicPolicyGradient"], "group": "svpg",
+  "index": 31, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "367b6045cb50b4a7e198d7a8235def00485954ba474180b20af761aef02a059e", "pointer": "/bibliography_families/31",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B33: SGLD uses stochastic-gradient
+  posterior sampling context; the maintained full-gradient ULA record does not establish
+  its minibatch construction or guarantees.", "disposition": "existing_record_context",
+  "exact_original_object": {"display_title": "Bayesian learning via stochastic gradient
+  Langevin dynamics", "disposition": "pending_source_triage", "family_id": "SVPG-B33",
+  "next_check": "Reconcile exact cited work/version and semantic scope against maintained
+  records/frontier before any source-based addition; citation alone is not a concept.",
+  "novel_concept_asserted": false, "occurrence_ids": ["SVPG-uai2017-B33"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"],
+  "group": "svpg", "index": 32, "kind": "bibliography_families", "next_check": "Retain
+  the exact occurrence/version and original spelling. Inspect the cited original and
+  reconcile the narrower source responsibility before any new identity, equivalence
+  or closure; this current context assessment does not claim a fresh full-paper reading.",
+  "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "bba44a7db9b3d804c6af6948906f0d2912debbe933fbb89a8e9e1b58ae452542", "pointer": "/bibliography_families/32",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B34: The Williams 1992 REINFORCE family
+  is maintained; retain the precise source/variant and baseline qualifications.",
+  "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Simple statistical gradient-following algorithms for connectionist reinforcement
+  learning", "disposition": "pending_source_triage", "existing_context": {"record":
+  {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/data/curated/REINFORCE.yaml",
+  "sha256": "2f579286d88446d0b18e4988873a6b274d3ad24be48e6f58b716edaf9d68f514"}, "record_id":
+  "AIMech:REINFORCE", "relation": "related maintained source/method context; original
+  cited-paper/version question not thereby closed"}, "family_id": "SVPG-B34", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B34", "SVPG-arxiv-v1-B33"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg",
+  "index": 33, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "a2ef5867f5c134bed5c7579c6dba8fb83f13d36d6126810fce1e0c41cd60a571", "pointer": "/bibliography_families/33",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B35: Williams–Peng 1991 function optimization
+  is retained as its own source/version question; the later REINFORCE family is related
+  context.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Function optimization using connectionist reinforcement learning algorithms", "disposition":
+  "pending_source_triage", "family_id": "SVPG-B35", "next_check": "Reconcile exact
+  cited work/version and semantic scope against maintained records/frontier before
+  any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B35", "SVPG-arxiv-v1-B34"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:REINFORCE"], "group": "svpg",
+  "index": 34, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "c3fc8a50b8799fb07c4b21b1a66cc336a46fb1ce554c3609841631575112f1f2", "pointer": "/bibliography_families/34",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "SVPG-B36: The bounded-rational game/statistical-physics
+  bridge is conceptual/source context; it is not resolved by a modern regularized-control
+  record.", "disposition": "existing_record_context", "exact_original_object": {"display_title":
+  "Information theory: the bridge connecting bounded rational game theory and statistical
+  physics", "disposition": "pending_source_triage", "family_id": "SVPG-B36", "next_check":
+  "Reconcile exact cited work/version and semantic scope against maintained records/frontier
+  before any source-based addition; citation alone is not a concept.", "novel_concept_asserted":
+  false, "occurrence_ids": ["SVPG-uai2017-B36", "SVPG-arxiv-v1-B35"], "title_status":
+  "normalized display label; exact original citation strings and offsets remain in
+  occurrence ledger"}, "existing_record_ids": ["AIMech:SoftQLearning"], "group": "svpg",
+  "index": 35, "kind": "bibliography_families", "next_check": "Retain the exact occurrence/version
+  and original spelling. Inspect the cited original and reconcile the narrower source
+  responsibility before any new identity, equivalence or closure; this current context
+  assessment does not claim a fresh full-paper reading.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "5926c2065e8549fd3c719538b2179ed2cdfd12e92db9e35111c7f3b72858f17f", "pointer": "/bibliography_families/35",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking
+  home for this explicitly unresolved SVPG question; original access limits remain
+  exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope":
+  "Printed URL read; resource not fetched in this task.", "disposition": "pending_source_research",
+  "next_check": "Retrieve a versioned author artifact and inspect its actual experiments
+  before claiming SVPG-versus-SGLD results.", "novel_concept_asserted": false, "origin":
+  "UAI PDF6 footnote1; absent from arXivv1", "owner_assignment": null, "question_id":
+  "SVPG-Q1", "topic": "Additional SGLD comparison", "url": "https://github.com/largelymfs/svpg_REINFORCE/blob/master/uai.pdf"},
+  "existing_record_ids": ["AIMech:UnadjustedLangevinAlgorithm"], "group": "svpg",
+  "index": 0, "kind": "additional_source_questions", "next_check": "Retrieve a versioned
+  author artifact and inspect its actual experiments before claiming SVPG-versus-SGLD
+  results.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "67bddb425490d369026c065890af8f906f5c1fa48f17cf0fef89a3b9e5778dd4", "pointer": "/additional_source_questions/0",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking
+  home for this explicitly unresolved SVPG question; original access limits remain
+  exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope":
+  "Repository routes read from primary paper; code not inspected or executed.", "disposition":
+  "pending_source_research", "next_check": "Pin original implementation/protocol commits
+  and resolve vector-versus-linear log-standard-deviation parameterization, episode-threshold
+  calculation, optimizer scaling and bandwidth edge cases.", "novel_concept_asserted":
+  false, "origin": "UAI PDF6 footnotes1–2 and Section5.1; arXiv PDF6 Section5.1",
+  "owner_assignment": null, "question_id": "SVPG-Q2", "topic": "Implementation and
+  experiment version", "urls": ["https://github.com/largelymfs/svpg_REINFORCE", "https://github.com/openai/rllab"]},
+  "existing_record_ids": ["AIMech:Adam"], "group": "svpg", "index": 1, "kind": "additional_source_questions",
+  "next_check": "Pin original implementation/protocol commits and resolve vector-versus-linear
+  log-standard-deviation parameterization, episode-threshold calculation, optimizer
+  scaling and bandwidth edge cases.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "cd9300ceec61de92daf72664f4800431448578d562329db7c5f8a5c4d11ef77d", "pointer": "/additional_source_questions/1",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking
+  home for this explicitly unresolved SVPG question; original access limits remain
+  exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope":
+  "Primary method read; mathematical conditions stated as curator inferences, not
+  paper theorems.", "disposition": "pending_source_research", "next_check": "Retain
+  explicit normalizability and positive-temperature conditions; inspect any later
+  formal analysis before stronger convergence/sampling/limit claims.", "novel_concept_asserted":
+  false, "origin": "Both versions PDF3 Eqs5–7, PDF4 Eq9; UAI PDF6 flat-prior setting;
+  UAI PDF7–8 Section5.4", "owner_assignment": null, "question_id": "SVPG-Q3", "topic":
+  "Scope of Bayesian and low-temperature interpretations"}, "existing_record_ids":
+  ["AIMech:SteinVariationalGradientDescent"], "group": "svpg", "index": 2, "kind":
+  "additional_source_questions", "next_check": "Retain explicit normalizability and
+  positive-temperature conditions; inspect any later formal analysis before stronger
+  convergence/sampling/limit claims.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "86b8c20cd01ee69c3bc8bf8f594f522541fc55d05aa271158e69acacaacbb00e", "pointer": "/additional_source_questions/2",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking
+  home for this explicitly unresolved SVPG question; original access limits remain
+  exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope":
+  "Citations and SVPG discussion read; cited primary works not read here.", "bibliography_families":
+  ["SVPG-B13", "SVPG-B23", "SVPG-B26"], "disposition": "pending_source_research",
+  "next_check": "Inspect original cross-entropy policy search, evolution strategies
+  and parameter-exploring policy-gradient papers before any fine-grained equivalence
+  or additional-concept decision.", "novel_concept_asserted": false, "origin": "UAI
+  PDF2 finite-difference paragraph and PDF3 discussion after Eq7", "owner_assignment":
+  null, "question_id": "SVPG-Q4", "topic": "Parameter-exploration neighboring methods"},
+  "existing_record_ids": ["AIMech:CrossEntropyOptimization", "AIMech:NaturalEvolutionStrategies"],
+  "group": "svpg", "index": 3, "kind": "additional_source_questions", "next_check":
+  "Inspect original cross-entropy policy search, evolution strategies and parameter-exploring
+  policy-gradient papers before any fine-grained equivalence or additional-concept
+  decision.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "8ccf9cc0b5836a24cb70182fd92454b340399d9efb4c8c094ca444c0aa211383", "pointer": "/additional_source_questions/3",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current main909 is proposed as the source-tracking
+  home for this explicitly unresolved SVPG question; original access limits remain
+  exact.", "disposition": "existing_record_context", "exact_original_object": {"access_scope":
+  "Future-work prose read; no extension implemented or newly asserted.", "bibliography_families":
+  ["SVPG-B09", "SVPG-B24"], "disposition": "pending_source_research", "next_check":
+  "Separate implemented REINFORCE/A2C instances from proposed natural-gradient/TRPO,
+  layer-wise kernels and adaptive schedules; require original evidence for any later
+  extension.", "novel_concept_asserted": false, "origin": "UAI PDF7 t-SNE caveat and
+  PDF8 future directions", "owner_assignment": null, "question_id": "SVPG-Q5", "topic":
+  "Proposed extensions and behavioral diversity"}, "existing_record_ids": ["AIMech:NaturalGradient",
+  "AIMech:TrustRegionPolicyOptimization"], "group": "svpg", "index": 4, "kind": "additional_source_questions",
+  "next_check": "Separate implemented REINFORCE/A2C instances from proposed natural-gradient/TRPO,
+  layer-wise kernels and adaptive schedules; require original evidence for any later
+  extension.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "60819bc9eb2ee0479c8938a570cc904e2fbcfb330047c7dee0f7a69b40d052aa", "pointer": "/additional_source_questions/4",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Search-only source/application lead remains
+  uninspected; sharing the SVPG name does not establish a separate method.", "disposition":
+  "pending_inspection", "exact_original_object": {"access_scope": "Search result describes
+  a Jensen-Shannon-kernel SVPG extension; original source not opened/read.", "disposition":
+  "search_only_pending", "next_check": "Inspect exact source identity/full method
+  and current maintained context before deciding relevance or novelty.", "novel_concept_asserted":
+  false, "owner_assignment": null, "question_id": "SVPG-S1", "title": "Learning Self-Imitating
+  Diverse Policies", "url": "https://arxiv.org/abs/1805.10309"}, "existing_record_ids":
+  [], "group": "svpg", "index": 0, "kind": "search_only_leads", "next_check": "Inspect
+  exact source identity/full method and current maintained context before deciding
+  relevance or novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "1621fff17a48e1d81e46effb7e1d325cd7fefdfc310730b26007aa2559362569", "pointer": "/search_only_leads/0",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Search-only source/application lead remains
+  uninspected; sharing the SVPG name does not establish a separate method.", "disposition":
+  "existing_record_context", "exact_original_object": {"access_scope": "Search result
+  describes an amortized variational policy-gradient relation; original source not
+  opened/read.", "disposition": "search_only_pending", "next_check": "Inspect exact
+  source identity/full method and current maintained context before deciding relevance
+  or novelty.", "novel_concept_asserted": false, "owner_assignment": null, "question_id":
+  "SVPG-S2", "title": "Variational Inference for Policy Gradient", "url": "https://arxiv.org/abs/1802.07833"},
+  "existing_record_ids": ["AIMech:AmortizedSteinVariationalGradientDescent"], "group":
+  "svpg", "index": 1, "kind": "search_only_leads", "next_check": "Inspect exact source
+  identity/full method and current maintained context before deciding relevance or
+  novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "1e7fbf791870a520867a0b555845fb160cd9b474dcca1278917947dd8b3e1693", "pointer": "/search_only_leads/1",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Search-only source/application lead remains
+  uninspected; sharing the SVPG name does not establish a separate method.", "disposition":
+  "pending_inspection", "exact_original_object": {"access_scope": "Search result reports
+  an SVPG application; application does not automatically imply a separate method
+  concept; original source not opened/read.", "disposition": "search_only_pending",
+  "next_check": "Inspect exact source identity/full method and current maintained
+  context before deciding relevance or novelty.", "novel_concept_asserted": false,
+  "owner_assignment": null, "question_id": "SVPG-S3", "title": "Application of variational
+  policy gradient to atomic-scale materials synthesis", "url": "https://arxiv.org/abs/2006.15644"},
+  "existing_record_ids": [], "group": "svpg", "index": 2, "kind": "search_only_leads",
+  "next_check": "Inspect exact source identity/full method and current maintained
+  context before deciding relevance or novelty.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "73ebada0526e8da65cccc8423dee1fccd5b36055ef5e975f84840a48584a55e0", "pointer": "/search_only_leads/2",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": ["AIMech:SteinVariationalPolicyGradient"], "assessment": "The
+  exact policy-particle citation is represented by the proposed source-scoped SVPG
+  record, distinct from direct SVGD and amortized sampler fitting. Historical citation-only
+  access and cohort355/359 objects remain verbatim.", "disposition": "represented_by_added_record",
+  "exact_original_object": {"access_scope": "Citation-only lead; no original full-method
+  reading or semantic ownership clearance is asserted by this cohort.", "candidate":
+  "Stein Variational Policy Gradient", "disposition": "pending_inspection", "key":
+  "stein_variational_policy_gradient", "next_check": "Inspect original policy-particle
+  method and compare it with amortized action sampling; no identity decision from
+  the shared Stein name.", "original_citation": {"authors_as_cited": "Y. Liu, P. Ramachandran,
+  Q. Liu and J. Peng", "identifier": "arXiv:1704.02399", "next_check": "Inspect original
+  policy-particle method and compare it with amortized action sampling; no identity
+  decision from the shared Stein name.", "origin": "Main PDF p. 9 bibliography", "title":
+  "Stein Variational Policy Gradient", "year_as_cited": 2017}, "record_ids": [], "source":
+  {"citation_ledger": {"path": "/private/tmp/aimech-soft-q-research-20261015/citation-leads.json",
+  "sha256": "ff8ba8586defbf9bfa950127764c5ec12426c9eccf87aa255ace12e46102e107"}, "origin":
+  "Main PDF p. 9 bibliography", "pointer": "/leads/2"}, "url": "https://arxiv.org/abs/1704.02399"},
+  "existing_record_ids": [], "group": "svpg", "index": 0, "kind": "historical_source_responsibilities",
+  "next_check": "Retain all independent bibliography, version, implementation and
+  theorem-scope questions in this source group; no broad owner exhaustion or automatic
+  issue closure.", "origin": {"path": "/private/tmp/aimech-svpg-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "886d261c4a5b7d47ebb3c81eb26a51a46a3046ffb7fbc2e68c59e151c10bd62f"}, "original_sha256":
+  "4c9e46da54276dd2d42f131dd0a95ccd6703e1797c303b136178f047c52bbd1c", "pointer": "/original_source_responsibility/original_object",
+  "responsible_owner": {"family": "main", "index": 909}}'
+- '{"added_record_ids": [], "assessment": "Current MA*/MAO* records represent the
+  narrow 1989 journal procedures. Preserve the historical unread statement and source/variant
+  questions; this current context does not rewrite earlier provenance.", "disposition":
+  "existing_record_context", "exact_original_object": {"current_comparison_occurrences":
+  [{"pdf_page": 5, "reference_label": "2", "source_id": "sma1992"}], "original_ledger_index":
+  1, "original_object": {"authors": "P.P. Chakrabarti, S. Ghose, A. Acharya and S.C.
+  de Sarkar", "candidate": "Heuristic search in restricted memory", "citation_key":
+  "chakrabarti1989", "disposition": "retained_source_question", "full_text_read_in_this_dossier":
+  false, "next_check": "Acquire and fully read MA*/MAO* original, retaining the minimum-memory
+  qualification and source-specific variants.", "owner_links": [], "publication":
+  "Artificial Intelligence41(2),197–221,1989", "source_occurrences": [{"pdf_page":
+  6, "reference_label": "Chakrabarti et al., 1989", "source_id": "mrec1989"}, {"pdf_page":
+  5, "reference_label": "2", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label":
+  "1", "source_id": "its1994"}], "source_title_matches": []}}, "existing_record_ids":
+  ["AIMech:MAStar", "AIMech:MAOStar"], "group": "ie", "index": 0, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve
+  the historical unread statement and source/variant questions; this current context
+  does not rewrite earlier provenance. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "90577fe0cf77915d40c3f83c8424f4d5006b42f65442551306c53e39d2767a10", "pointer": "/russell_original_objects/0",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Existing iterative-deepening records provide
+  precise method context; the erratum/version and proof assumptions remain pending.",
+  "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences":
+  [{"pdf_page": 5, "reference_label": "6", "source_id": "sma1992"}], "original_ledger_index":
+  2, "original_object": {"authors": "Richard E. Korf", "candidate": "Depth-first iterative-deepening:
+  An optimal admissible tree search", "citation_key": "korf1985", "disposition": "retained_source_question",
+  "full_text_read_in_this_dossier": false, "next_check": "Existing AIMech:IterativeDeepeningAStar
+  and DepthFirstIterativeDeepening cover their specific methods. The maintained erratum-access
+  residual remains; this dossier does not settle it.", "owner_links": [], "publication":
+  "Artificial Intelligence27(1),97–109,1985", "source_occurrences": [{"pdf_page":
+  6, "reference_label": "Korf, 1985", "source_id": "mrec1989"}, {"pdf_page": 5, "reference_label":
+  "6", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label": "6", "source_id":
+  "its1994"}], "source_title_matches": [{"assessment": "mechanical title-similarity
+  lead, not identity acceptance", "record_id": "AIMech:DepthFirstIterativeDeepening",
+  "similarity": 1.0, "source_title": "Depth-First Iterative-Deepening: An Optimal
+  Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"},
+  {"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id":
+  "AIMech:DepthFirstSearch", "similarity": 1.0, "source_title": "Depth-First Iterative-Deepening:
+  An Optimal Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"},
+  {"assessment": "mechanical title-similarity lead, not identity acceptance", "record_id":
+  "AIMech:IterativeDeepeningAStar", "similarity": 1.0, "source_title": "Depth-First
+  Iterative-Deepening: An Optimal Admissible Tree Search", "source_url": "https://cse.sc.edu/~mgv/csce580f12/gradPres/korf_IDAStar_1985.pdf"}]}},
+  "existing_record_ids": ["AIMech:DepthFirstIterativeDeepening", "AIMech:IterativeDeepeningAStar"],
+  "group": "ie", "index": 1, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. Existing iterative-deepening
+  records provide precise method context; the erratum/version and proof assumptions
+  remain pending. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "db23bf31f83df045e538bf279327d076b1fb9c60c64a96dc63c5834890156d37", "pointer": "/russell_original_objects/1",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Retain both conflicting printed book titles/publishers/editions;
+  recursive A* equivalence requires the original pages.", "disposition": "pending_inspection",
+  "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label":
+  "1", "source_id": "sma1992"}], "original_ledger_index": 7, "original_object": {"authors":
+  "Ivan Bratko", "candidate": "The art of PROLOG programming", "citation_key": "bratko1986",
+  "disposition": "retained_source_question", "full_text_read_in_this_dossier": false,
+  "next_check": "Resolve exact book edition/title and recursive A* implementation
+  before equivalence claims; Russell cites its competing-path bound relation.", "owner_links":
+  [], "publication": "Academic Press,1986,as cited by Russell", "source_occurrences":
+  [{"pdf_page": 5, "reference_label": "1", "source_id": "sma1992"}], "source_title_matches":
+  []}}, "existing_record_ids": [], "group": "ie", "index": 2, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Retain both conflicting printed book titles/publishers/editions; recursive
+  A* equivalence requires the original pages. No bibliography row is resolved by the
+  IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "ad87477edce2954444cc54375e2178a9a2154f296861d9d145b97c7ae57003ce", "pointer": "/russell_original_objects/2",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "A* context does not establish an unrestricted
+  expansion-optimality theorem; inspect exact theoretical premises.", "disposition":
+  "existing_record_context", "exact_original_object": {"current_comparison_occurrences":
+  [{"pdf_page": 5, "reference_label": "3", "source_id": "sma1992"}], "original_ledger_index":
+  8, "original_object": {"authors": "Rina Dechter and Judea Pearl", "candidate": "Generalized
+  best-first search strategies and the optimality of A*", "citation_key": "dechter1985",
+  "disposition": "retained_source_question", "full_text_read_in_this_dossier": false,
+  "next_check": "Retain theoretical efficiency/optimality source with its assumptions;
+  the current generic A* record does not assert universal minimum expansions.", "owner_links":
+  [], "publication": "JACM32,505–536,1985", "source_occurrences": [{"pdf_page": 5,
+  "reference_label": "3", "source_id": "sma1992"}, {"pdf_page": 6, "reference_label":
+  "2", "source_id": "its1994"}], "source_title_matches": []}}, "existing_record_ids":
+  ["AIMech:AStarSearch"], "group": "ie", "index": 3, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. A* context does not establish an unrestricted expansion-optimality theorem;
+  inspect exact theoretical premises. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "db7acbb94ef09b5577e0eccd20e07efc4521df188762b4fe61170802135ce22d", "pointer": "/russell_original_objects/3",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Graph-traverser stages and commitments
+  need the original source; no new method identity is asserted.", "disposition": "pending_inspection",
+  "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label":
+  "4", "source_id": "sma1992"}], "original_ledger_index": 9, "original_object": {"authors":
+  "J. Doran and D. Michie", "candidate": "Experiments with the graph traverser", "citation_key":
+  "doran1966", "disposition": "retained_source_question", "full_text_read_in_this_dossier":
+  false, "next_check": "Read original staged commitment rules and reconcile any existing
+  owner before a graph-traverser concept proposal.", "owner_links": [], "publication":
+  "Proceedings of the Royal Society A294,235–259,1966", "source_occurrences": [{"pdf_page":
+  5, "reference_label": "4", "source_id": "sma1992"}], "source_title_matches": []}},
+  "existing_record_ids": [], "group": "ie", "index": 4, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Graph-traverser stages and commitments need the original source; no new method
+  identity is asserted. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "8303699f9c93c4e7228a3d27c9891e39a271621ec13c9f5dbfbca13d356052f1", "pointer": "/russell_original_objects/4",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained A* core is context; the
+  1972 correction and efficiency qualifications remain distinct.", "disposition":
+  "existing_record_context", "exact_original_object": {"current_comparison_occurrences":
+  [{"pdf_page": 5, "reference_label": "5", "source_id": "sma1992"}], "original_ledger_index":
+  10, "original_object": {"authors": "P.E. Hart, N.J. Nilsson and B. Raphael", "candidate":
+  "A formal basis for the heuristic determination of minimum cost paths", "citation_key":
+  "hart1968", "disposition": "retained_source_question", "full_text_read_in_this_dossier":
+  false, "next_check": "Existing AIMech:AStarSearch covers the core procedure. Its
+  1972 correction and efficiency-analysis residuals remain separate.", "owner_links":
+  [], "publication": "IEEE Transactions on Systems Science and Cybernetics SSC4(2),100–107,1968",
+  "source_occurrences": [{"pdf_page": 5, "reference_label": "5", "source_id": "sma1992"}],
+  "source_title_matches": [{"assessment": "mechanical title-similarity lead, not identity
+  acceptance", "record_id": "AIMech:AStarSearch", "similarity": 1.0, "source_title":
+  "A Formal Basis for the Heuristic Determination of Minimum Cost Paths", "source_url":
+  "https://ai.stanford.edu/~nilsson/OnlinePubs-Nils/PublishedPapers/astar.pdf"}]}},
+  "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index": 5, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact cited source/version
+  and original historical reading scope. The maintained A* core is context; the 1972
+  correction and efficiency qualifications remain distinct. No bibliography row is
+  resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "4fdab2458857e26b8056971b479609ee5fa0518105ccaf50f3a7407b8910d81e", "pointer": "/russell_original_objects/5",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The cited UCLA report is a version question
+  relative to the maintained 1992 procedures, not a proved duplicate publication.",
+  "disposition": "existing_record_context", "exact_original_object": {"current_comparison_occurrences":
+  [{"pdf_page": 5, "reference_label": "7", "source_id": "sma1992"}], "original_ledger_index":
+  11, "original_object": {"authors": "Richard E. Korf", "candidate": "Best-first search
+  with limited memory", "citation_key": "korf1991", "disposition": "retained_source_question",
+  "full_text_read_in_this_dossier": false, "next_check": "Resolve this predecessor
+  report against the maintained RBFS/SRBFS 1992 primary paper; shared algorithm family
+  does not establish exact publication or unconditional alias identity.", "owner_links":
+  [], "publication": "UCLA Computer Science technical report,1991,as cited by Russell",
+  "source_occurrences": [{"pdf_page": 5, "reference_label": "7", "source_id": "sma1992"}],
+  "source_title_matches": []}}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 6, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. The cited UCLA report is a version question relative to the maintained 1992
+  procedures, not a proved duplicate publication. No bibliography row is resolved
+  by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "d38fd0f8f0eaedc7a29bf3bcc11d9379a59a03afbbcf1b3ff1f6d235fef78267", "pointer": "/russell_original_objects/6",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "DTA* and computational-value control remain
+  separate from ordinary real-time A* and IE.", "disposition": "existing_record_context",
+  "exact_original_object": {"current_comparison_occurrences": [{"pdf_page": 5, "reference_label":
+  "8", "source_id": "sma1992"}], "original_ledger_index": 12, "original_object": {"authors":
+  "E. Wefald and S.J. Russell", "candidate": "Estimating the value of computation:
+  The case of real-time search", "citation_key": "wefald1989", "disposition": "retained_source_question",
+  "full_text_read_in_this_dossier": false, "next_check": "Inspect DTA* and the computational-value
+  mechanism; distinguish it from existing RTA*/LRTA* and the IE recursion.", "owner_links":
+  [], "publication": "AAAI Spring Symposium on AI and Limited Rationality,1989", "source_occurrences":
+  [{"pdf_page": 5, "reference_label": "8", "source_id": "sma1992"}], "source_title_matches":
+  []}}, "existing_record_ids": ["AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"],
+  "group": "ie", "index": 7, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. DTA* and computational-value
+  control remain separate from ordinary real-time A* and IE. No bibliography row is
+  resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "a9e8a7dfe4d186c5cac916fc22a5887c139f88a7b4d7692b920152abe8c30971", "pointer": "/russell_original_objects/7",
+  "responsible_owner": {"family": "main", "index": 8}}'
+- '{"added_record_ids": [], "assessment": "Retain both conflicting printed book titles/publishers/editions;
+  recursive A* equivalence requires the original pages.", "disposition": "pending_inspection",
+  "exact_original_object": {"authors": "Ivan Bratko", "citation_key": "bratko1986",
+  "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992
+  printed p.538 / PDF p.6, References", "occurrence_id": "K92-B01", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Addison-Wesley,1986,pp.265–273", "reading_status":
+  "Citation metadata read; cited full source not read in this comparison", "title":
+  "PROLOG: Programming for Artificial Intelligence"}, "existing_record_ids": [], "group":
+  "ie", "index": 8, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact cited source/version and original historical reading scope. Retain both conflicting
+  printed book titles/publishers/editions; recursive A* equivalence requires the original
+  pages. No bibliography row is resolved by the IE addition.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "73d89e7aac884b1e89a6beb78ed44e59f3c4a8674a8ca262e3d9a636aeb95b36", "pointer": "/korf_occurrences/0",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Current MA*/MAO* records represent the
+  narrow 1989 journal procedures. Preserve the historical unread statement and source/variant
+  questions; this current context does not rewrite earlier provenance.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "P.P.Chakrabarti;S.Ghose;A.Acharya;S.C.de
+  Sarkar", "citation_key": "chakrabarti1989", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B02",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Artificial Intelligence41(2),197–221,1989",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Heuristic search in restricted memory"}, "existing_record_ids": ["AIMech:MAStar",
+  "AIMech:MAOStar"], "group": "ie", "index": 9, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Current MA*/MAO* records represent the narrow 1989 journal procedures. Preserve
+  the historical unread statement and source/variant questions; this current context
+  does not rewrite earlier provenance. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "972c3d6783cfe07884cd6767675bb115a28d51de3d301614f0a30a3234a409d1", "pointer": "/korf_occurrences/1",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Depth/breadth component combinations require
+  exact primary mechanism/assumption inspection.", "disposition": "pending_inspection",
+  "exact_original_object": {"authors": "H.W.Davis;A.Bramanti-Gregor;J.Wang", "citation_key":
+  "davis1989", "disposition": "source_question_retained_not_new_concept", "locator":
+  "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B03", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Methodologies for Intelligent Systems3,19–28,1989",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "The advantages of using depth and breadth components in heuristic search"},
+  "existing_record_ids": [], "group": "ie", "index": 10, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Depth/breadth component combinations require exact primary mechanism/assumption
+  inspection. No bibliography row is resolved by the IE addition.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "e71c54a3233a76f59a3f5e6de0dc62d66ba650697a4e873afa4324e264056cae", "pointer": "/korf_occurrences/2",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained nonnegative-edge shortest-path
+  method is relevant context; the full cited source is not freshly reread here.",
+  "disposition": "existing_record_context", "exact_original_object": {"authors": "E.W.Dijkstra",
+  "citation_key": "dijkstra1959", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B04",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Numerische Mathematik1,269–271,1959",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "A note on two problems in connexion with graphs"}, "existing_record_ids":
+  ["AIMech:DijkstraShortestPath"], "group": "ie", "index": 11, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. The maintained nonnegative-edge shortest-path method is relevant context;
+  the full cited source is not freshly reread here. No bibliography row is resolved
+  by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "d16554e8092dfa3350b3f80554dfa74b9a248032a03d9d3d84c61656a67563bf", "pointer": "/korf_occurrences/3",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The thesis may contain several algorithms
+  and analyses; retain the exact thesis responsibility rather than infer one concept.",
+  "disposition": "pending_inspection", "exact_original_object": {"authors": "John
+  Gaschnig", "citation_key": "gaschnig1979", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B05",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "PhD thesis,Carnegie-Mellon University,1979",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Performance measurement and analysis of certain search algorithms"}, "existing_record_ids":
+  [], "group": "ie", "index": 12, "kind": "bibliography_occurrences", "next_check":
+  "Retain the exact cited source/version and original historical reading scope. The
+  thesis may contain several algorithms and analyses; retain the exact thesis responsibility
+  rather than infer one concept. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "8c8f595dec6733f81783711c1573bbefea501c8d108d584466d2dbd18cab381d", "pointer": "/korf_occurrences/4",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained A* core is context; the
+  1972 correction and efficiency qualifications remain distinct.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "P.E.Hart;N.J.Nilsson;B.Raphael",
+  "citation_key": "hart1968", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B06",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "IEEE Transactions on Systems Science and
+  Cybernetics4(2),100–107,1968", "reading_status": "Citation metadata read; cited
+  full source not read in this comparison", "title": "A formal basis for the heuristic
+  determination of minimum cost paths"}, "existing_record_ids": ["AIMech:AStarSearch"],
+  "group": "ie", "index": 13, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. The maintained
+  A* core is context; the 1972 correction and efficiency qualifications remain distinct.
+  No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "696e256264b31e1655c8b14c42df4d6cea671289962eeaddeeab00e29af1549e", "pointer": "/korf_occurrences/5",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Existing iterative-deepening records provide
+  precise method context; the erratum/version and proof assumptions remain pending.",
+  "disposition": "existing_record_context", "exact_original_object": {"authors": "Richard
+  E.Korf", "citation_key": "korf1985", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B07",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Artificial Intelligence27(1),97–109,1985",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Depth-first iterative-deepening: An optimal admissible tree search"},
+  "existing_record_ids": ["AIMech:DepthFirstIterativeDeepening", "AIMech:IterativeDeepeningAStar"],
+  "group": "ie", "index": 14, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. Existing iterative-deepening
+  records provide precise method context; the erratum/version and proof assumptions
+  remain pending. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "67d2f102c558cea007dfc483946660f6350522677a7c4db75451db09d73f59ce", "pointer": "/korf_occurrences/6",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained RTA*/LRTA* core provides
+  context; retain source-specific dynamic/lookahead assumptions.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf",
+  "citation_key": "korf1990a", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B08",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Artificial Intelligence42(2–3),189–211,1990",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Real-time heuristic search"}, "existing_record_ids": ["AIMech:RealTimeAStar",
+  "AIMech:LearningRealTimeAStar"], "group": "ie", "index": 15, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. The maintained RTA*/LRTA* core provides context; retain source-specific dynamic/lookahead
+  assumptions. No bibliography row is resolved by the IE addition.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "d7b35615f9b843dcec409573c3521721b0842314d56be6ff7d63987ec9916d76", "pointer": "/korf_occurrences/7",
+  "responsible_owner": {"family": "main", "index": 8}}'
+- '{"added_record_ids": [], "assessment": "The dynamic-planning symposium item remains
+  a distinct source-version/application question.", "disposition": "existing_record_context",
+  "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1990b",
+  "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992
+  printed p.538 / PDF p.6, References", "occurrence_id": "K92-B09", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "AAAI Symposium on Planning in Uncertain,
+  Unpredictable, or Changing Environments,72–76,1990", "reading_status": "Citation
+  metadata read; cited full source not read in this comparison", "title": "Real-Time
+  search for dynamic planning"}, "existing_record_ids": ["AIMech:RealTimeAStar", "AIMech:LearningRealTimeAStar"],
+  "group": "ie", "index": 16, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. The dynamic-planning
+  symposium item remains a distinct source-version/application question. No bibliography
+  row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "cba93c532a8cb911e06e780677b4f614b36af294d0925e9239dcc55d2df3bbb6", "pointer": "/korf_occurrences/8",
+  "responsible_owner": {"family": "main", "index": 8}}'
+- '{"added_record_ids": [], "assessment": "Retain the April 1991 UCLA Annual item
+  independently from the other 1991 and 1992 publications.", "disposition": "existing_record_context",
+  "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1991a",
+  "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992
+  printed p.538 / PDF p.6, References", "occurrence_id": "K92-B10", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "UCLA Computer Science Annual,5–22,April1991",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Best-first search in limited memory"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 17, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Retain the April 1991 UCLA Annual item independently from the other 1991
+  and 1992 publications. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "3328694fd1b46ac6ebcd160817548b63dce40720c7e256d32a350f8437377ab0", "pointer": "/korf_occurrences/9",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Retain the October 1991 extended abstract
+  and venue independently; no version equivalence is asserted.", "disposition": "existing_record_context",
+  "exact_original_object": {"authors": "Richard E.Korf", "citation_key": "korf1991b",
+  "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992
+  printed p.538 / PDF p.6, References", "occurrence_id": "K92-B11", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Sixth International Symposium on Computer
+  and Information Sciences,581–584,October30,1991", "reading_status": "Citation metadata
+  read; cited full source not read in this comparison", "title": "Linear-Space Best-First
+  Search: Extended Abstract"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 18, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Retain the October 1991 extended abstract and venue independently; no version
+  equivalence is asserted. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "b202bd459c6c3d88f75870ead9cd843f2590235224249543b684c6b0d57d1217", "pointer": "/korf_occurrences/10",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Retain the August 1991 submission citation;
+  the later journal identity/control/proof correspondence remains pending.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "Richard E.Korf",
+  "citation_key": "korf1991c", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B12",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Submitted for publication,August1991",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Linear-space best-first search"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 19, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Retain the August 1991 submission citation; the later journal identity/control/proof
+  correspondence remains pending. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "22e621046a5b37bba21c53ea7abe485a827a7fc3b2a6a807fe13e6fcf30efaf5", "pointer": "/korf_occurrences/11",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained ITS record uses the 1994
+  paper; the exact 1992 technical-report version remains uninspected.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "A.Mahanti;D.S.Nau;S.Ghosh;L.N.Kanal",
+  "citation_key": "mahanti1992", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B13",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "UMIACS TR92-29;CS TR2853,University of
+  Maryland,March1992", "reading_status": "Citation metadata read; cited full source
+  not read in this comparison", "title": "An Efficient Iterative Threshold Heuristic
+  Tree Search Algorithm"}, "existing_record_ids": ["AIMech:IterativeThresholdSearch"],
+  "group": "ie", "index": 20, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. The maintained
+  ITS record uses the 1994 paper; the exact 1992 technical-report version remains
+  uninspected. No bibliography row is resolved by the IE addition.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "d16a7b772ca62ed3ec7427115f8d4298a25236a17ad0365044a46843d05b234e", "pointer": "/korf_occurrences/12",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "The IDA* complexity-bound source remains
+  a theorem/assumption question, not resolved by an algorithm record.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "B.G.Patrick;M.Almulla;M.M.Newborn",
+  "citation_key": "patrick1989", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B14",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Symposium on Artificial Intelligence and
+  Mathematics,Fort Lauderdale,December1989", "reading_status": "Citation metadata
+  read; cited full source not read in this comparison", "title": "An upper bound on
+  the complexity of iterative-deepening-A*"}, "existing_record_ids": ["AIMech:IterativeDeepeningAStar"],
+  "group": "ie", "index": 21, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. The IDA* complexity-bound
+  source remains a theorem/assumption question, not resolved by an algorithm record.
+  No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "049b7eb192ba4933c6d50a037afb64a7c8e1d64e331c305eceab1f0528f401b1", "pointer": "/korf_occurrences/13",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Heuristics is a broad source covering multiple
+  methods; contextual A* is not book-wide coverage.", "disposition": "existing_record_context",
+  "exact_original_object": {"authors": "Judea Pearl", "citation_key": "pearl1984",
+  "disposition": "source_question_retained_not_new_concept", "locator": "Korf1992
+  printed p.538 / PDF p.6, References", "occurrence_id": "K92-B15", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Addison-Wesley,1984", "reading_status":
+  "Citation metadata read; cited full source not read in this comparison", "title":
+  "Heuristics"}, "existing_record_ids": ["AIMech:AStarSearch"], "group": "ie", "index":
+  22, "kind": "bibliography_occurrences", "next_check": "Retain the exact cited source/version
+  and original historical reading scope. Heuristics is a broad source covering multiple
+  methods; contextual A* is not book-wide coverage. No bibliography row is resolved
+  by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "76c5cc334b8d279faad0ab8d6439e68ca118f4126c27d85b702fc1900c3ea1de", "pointer": "/korf_occurrences/14",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Weighted heuristic search gives context;
+  the exact 1970 path-finding formulation and assumptions remain pending.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "Ira Pohl", "citation_key":
+  "pohl1970", "disposition": "source_question_retained_not_new_concept", "locator":
+  "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B16", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Artificial Intelligence1,193–204,1970",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Heuristic search viewed as path finding in a graph"}, "existing_record_ids":
+  ["AIMech:WeightedAStar"], "group": "ie", "index": 23, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. Weighted heuristic search gives context; the exact 1970 path-finding formulation
+  and assumptions remain pending. No bibliography row is resolved by the IE addition.",
+  "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "90abf14675e727448fbfc05ba35e08e1a9af75eb1924b2e990a50c32d4736c25", "pointer": "/korf_occurrences/15",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The depth-first/best-first comparison is
+  a theoretical source question; named procedures do not settle the comparison.",
+  "disposition": "existing_record_context", "exact_original_object": {"authors": "V.N.Rao;V.Kumar;R.E.Korf",
+  "citation_key": "rao1991", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B17",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "AAAI1991,434–440", "reading_status": "Citation
+  metadata read; cited full source not read in this comparison", "title": "Depth-first
+  vs. best-first search"}, "existing_record_ids": ["AIMech:DepthFirstSearch", "AIMech:AStarSearch"],
+  "group": "ie", "index": 24, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. The depth-first/best-first
+  comparison is a theoretical source question; named procedures do not settle the
+  comparison. No bibliography row is resolved by the IE addition.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "94a808c596f3e1779fd6f808d4ee5ebb7f091804ff39973e1a8684ae133414a8", "pointer": "/korf_occurrences/16",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Learning subgoal sequences is a separate
+  planning/learning source question; no IE/RBFS identity follows.", "disposition":
+  "pending_inspection", "exact_original_object": {"authors": "D.Ruby;D.Kibler", "citation_key":
+  "ruby1989", "disposition": "source_question_retained_not_new_concept", "locator":
+  "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B18", "original_page":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "IJCAI1989,609–614", "reading_status":
+  "Citation metadata read; cited full source not read in this comparison", "title":
+  "Learning subgoal sequences for planning"}, "existing_record_ids": [], "group":
+  "ie", "index": 25, "kind": "bibliography_occurrences", "next_check": "Retain the
+  exact cited source/version and original historical reading scope. Learning subgoal
+  sequences is a separate planning/learning source question; no IE/RBFS identity follows.
+  No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "92d9ba1351b17a3abc19a1e5e4815801f96422dab206bc5fd29f79c205079d81", "pointer": "/korf_occurrences/17",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The selected Russell article supports IE
+  comparison and maintained SMA*, but its ECAI citation/version metadata and other
+  procedures remain source-scoped.", "disposition": "existing_record_context", "exact_original_object":
+  {"authors": "Stuart Russell", "citation_key": "russell1992", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B19",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "ECAI1992,Vienna,August1992", "reading_status":
+  "Full source read here", "title": "Efficient memory-bounded search methods"}, "existing_record_ids":
+  ["AIMech:SimplifiedMemoryBoundedAStar"], "group": "ie", "index": 26, "kind": "bibliography_occurrences",
+  "next_check": "Retain the exact cited source/version and original historical reading
+  scope. The selected Russell article supports IE comparison and maintained SMA*,
+  but its ECAI citation/version metadata and other procedures remain source-scoped.
+  No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "1bd46c5da1dd62a6046d3401f00ce815f88015af39f8dbc7a074d23888285bbf", "pointer": "/korf_occurrences/18",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Existing main7 explicitly retains IDA-CR/IDA-CRA
+  source responsibility; ordinary IDA* is context, not a substitute.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "U.K.Sarkar;P.P.Chakrabarti;S.Ghose;S.C.de
+  Sarkar", "citation_key": "sarkar1991", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B20",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "Artificial Intelligence50(2),207–221,1991",
+  "reading_status": "Citation metadata read; cited full source not read in this comparison",
+  "title": "Reducing reexpansions in iterative-deepening search by controlling cutoff
+  bounds"}, "existing_record_ids": ["AIMech:IterativeDeepeningAStar"], "group": "ie",
+  "index": 27, "kind": "bibliography_occurrences", "next_check": "Retain the exact
+  cited source/version and original historical reading scope. Existing main7 explicitly
+  retains IDA-CR/IDA-CRA source responsibility; ordinary IDA* is context, not a substitute.
+  No bibliography row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "98db5d923425e8069921bef7be98664708abe36977d1384cb803286fd0093c96", "pointer": "/korf_occurrences/19",
+  "responsible_owner": {"family": "main", "index": 7}}'
+- '{"added_record_ids": [], "assessment": "MREC is maintained from the 1989 primary
+  procedure; its control/memory and other source residuals remain.", "disposition":
+  "existing_record_context", "exact_original_object": {"authors": "A.K.Sen;A.Bagchi",
+  "citation_key": "sen1989", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B21",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "IJCAI1989,297–302", "reading_status":
+  "Citation metadata read; cited full source not read in this comparison", "title":
+  "Fast recursive formulations for best-first search that allow controlled use of
+  memory"}, "existing_record_ids": ["AIMech:MREC"], "group": "ie", "index": 28, "kind":
+  "bibliography_occurrences", "next_check": "Retain the exact cited source/version
+  and original historical reading scope. MREC is maintained from the 1989 primary
+  procedure; its control/memory and other source residuals remain. No bibliography
+  row is resolved by the IE addition.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "1a4747d5f5cf99850cc85fcfc267f9727982971f8700f79b55fd38079ecf706e", "pointer": "/korf_occurrences/20",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "MIDA* dynamic control is not equated to
+  base IDA* or the later learned incremental model; inspect the technical report.",
+  "disposition": "existing_record_context", "exact_original_object": {"authors": "Benjamin
+  W.Wah", "citation_key": "wah1991", "disposition": "source_question_retained_not_new_concept",
+  "locator": "Korf1992 printed p.538 / PDF p.6, References", "occurrence_id": "K92-B22",
+  "original_page": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/korf1992-pages/page-06.png",
+  "sha256": "70e7c01e6f77f437cab900828111f73538ecf4b39f6dccbde521b2db9fd13656"}, "owner_assignment":
+  null, "publication_as_cited_normalized": "UILU-ENG-91-2216;CRHC-91-9,University
+  of Illinois,April1991", "reading_status": "Citation metadata read; cited full source
+  not read in this comparison", "title": "MIDA*, An IDA* search with dynamic control"},
+  "existing_record_ids": ["AIMech:IterativeDeepeningAStar", "AIMech:IDAStarIncrementalModel"],
+  "group": "ie", "index": 29, "kind": "bibliography_occurrences", "next_check": "Retain
+  the exact cited source/version and original historical reading scope. MIDA* dynamic
+  control is not equated to base IDA* or the later learned incremental model; inspect
+  the technical report. No bibliography row is resolved by the IE addition.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/bibliography-accounting.json",
+  "sha256": "59ccd4856eeed01b8da4886f8a9bde2604e95152fe809ad6e395301eb2a0473a"}, "original_sha256":
+  "9eff0fa0b6ba7aed91974c48b3f1ab37a3f3265145c4590c6d7e77133f22259e", "pointer": "/korf_occurrences/21",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The three 1991 predecessor publications
+  retain separate version responsibilities.", "disposition": "existing_record_context",
+  "exact_original_object": {"locators_or_routes": ["Russell1992 PDF p.5 ref7", "Korf1992
+  PDF p.6 refs Korf1991a/b/c"], "owner_assignment": null, "question": "Russell reference7
+  names a UCLA technical report with limited-memory wording; Korf1992 separately cites
+  the UCLA annual article, a1991 conference extended abstract and an August1991 submission.
+  Reconcile actual originals before collapsing their versions.", "question_id": "IE-Q1",
+  "status": "pending", "topic": "Korf1991 predecessor identity"}, "existing_record_ids":
+  ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch"], "group":
+  "ie", "index": 0, "kind": "source_questions", "next_check": "Russell reference7
+  names a UCLA technical report with limited-memory wording; Korf1992 separately cites
+  the UCLA annual article, a1991 conference extended abstract and an August1991 submission.
+  Reconcile actual originals before collapsing their versions.", "origin": {"path":
+  "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "bff93505ac09ce63dc4bef75816d8395be2fdc4fd3596753e9e2b224fab3d19e", "pointer": "/questions/0",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The 1993 journal access/control/proof question
+  remains pending; the 1992 paper is not its automatic substitute.", "disposition":
+  "existing_record_context", "exact_original_object": {"locators_or_routes": ["https://web.cs.ucla.edu/~korf/publications.html",
+  "https://www.sciencedirect.com/science/article/pii/000437029390045D"], "owner_assignment":
+  null, "question": "Author-institution metadata confirms Linear-space best-first
+  search, Artificial Intelligence62(1),41–78,1993. Publisher URL returned403 in this
+  task. Acquire legal primary full text and compare control/termination and proofs;
+  no version-equivalence or full-reading claim.", "question_id": "IE-Q2", "status":
+  "pending", "topic": "1993 full journal version"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch"], "group": "ie", "index": 1, "kind": "source_questions",
+  "next_check": "Author-institution metadata confirms Linear-space best-first search,
+  Artificial Intelligence62(1),41–78,1993. Publisher URL returned403 in this task.
+  Acquire legal primary full text and compare control/termination and proofs; no version-equivalence
+  or full-reading claim.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "c2a7e6f66e5143d0098441330bbb3c13403d8da2518efa0ff844bb4a929f07bf", "pointer": "/questions/1",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Both Bratko title/edition forms remain
+  exact and unresolved.", "disposition": "pending_inspection", "exact_original_object":
+  {"locators_or_routes": ["Russell1992 PDF p.5 ref1", "Korf1992 PDF p.6 Bratko1986"],
+  "owner_assignment": null, "question": "Russell cites The art of PROLOG programming
+  / Academic Press; Korf cites PROLOG: Programming for Artificial Intelligence / Addison-Wesley,pp.265–273.
+  Retain both printed citations, resolve exact book/edition and read relevant procedure
+  before any equivalence claim.", "question_id": "IE-Q3", "status": "pending", "topic":
+  "Bratko title/edition mismatch"}, "existing_record_ids": [], "group": "ie", "index":
+  2, "kind": "source_questions", "next_check": "Russell cites The art of PROLOG programming
+  / Academic Press; Korf cites PROLOG: Programming for Artificial Intelligence / Addison-Wesley,pp.265–273.
+  Retain both printed citations, resolve exact book/edition and read relevant procedure
+  before any equivalence claim.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "db0356a223ad290081f23782c7734ca1819829f9cb07485918e14994e6510900", "pointer": "/questions/2",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The literal IE return, infinity and exhausted-root
+  interface remains qualified; adding IE does not certify an implementation.", "disposition":
+  "pending_inspection", "exact_original_object": {"locators_or_routes": ["Russell1992
+  PDF p.4 §4.1"], "owner_assignment": null, "question": "A full implementation or
+  clearer primary version could settle how dead-end infinity propagates through mutable
+  values, empty sibling minima, loop wording and failure on exhausted root. These
+  are unresolved literal-interface questions, not evidence of a faulty actual implementation.",
+  "question_id": "IE-Q4", "status": "pending", "topic": "Printed IE return and exhausted-root
+  conventions"}, "existing_record_ids": [], "group": "ie", "index": 3, "kind": "source_questions",
+  "next_check": "A full implementation or clearer primary version could settle how
+  dead-end infinity propagates through mutable values, empty sibling minima, loop
+  wording and failure on exhausted root. These are unresolved literal-interface questions,
+  not evidence of a faulty actual implementation.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "5a560cfb0ac8c780a6e877721c9e6022620cfc259462a1328a90654e6023163b", "pointer": "/questions/3",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The maintained 2015 controlled-reexpansion
+  method is context; this current source-plan review does not claim fresh full-paper
+  reinspection.", "disposition": "existing_record_context", "exact_original_object":
+  {"locators_or_routes": ["https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf"],
+  "owner_assignment": null, "question": "The maintained RBFS record cites the2015
+  bounded-overhead paper. This comparison read the record but did not retrieve/reread
+  that paper; retain its existing scope and examine it separately if exact later code
+  conventions are used.", "question_id": "IE-Q5", "status": "pending", "topic": "Later
+  RBFS corroboration already cited by maintained record"}, "existing_record_ids":
+  ["AIMech:RBFSControlledReexpansion", "AIMech:RecursiveBestFirstSearch"], "group":
+  "ie", "index": 4, "kind": "source_questions", "next_check": "The maintained RBFS
+  record cites the2015 bounded-overhead paper. This comparison read the record but
+  did not retrieve/reread that paper; retain its existing scope and examine it separately
+  if exact later code conventions are used.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "4055182ba2ca28f20abf8a4f25a94aba65e565a46e95ddfb0db4c3e5de6d8746", "pointer": "/questions/4",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "The 1992 report remains distinct from the
+  maintained 1994 ITS source.", "disposition": "existing_record_context", "exact_original_object":
+  {"locators_or_routes": ["Korf1992 PDF p.6 Mahanti et al.1992"], "owner_assignment":
+  null, "question": "Korf1992 cites the1992 Maryland technical report; accepted memory-search
+  ITS used the1994 conference paper. Preserve the1992 source version as an uninspected
+  cited original, not an automatic duplicate publication or new concept.", "question_id":
+  "IE-Q6", "status": "pending", "topic": "1992 versus1994 ITS report version"}, "existing_record_ids":
+  ["AIMech:IterativeThresholdSearch"], "group": "ie", "index": 5, "kind": "source_questions",
+  "next_check": "Korf1992 cites the1992 Maryland technical report; accepted memory-search
+  ITS used the1994 conference paper. Preserve the1992 source version as an uninspected
+  cited original, not an automatic duplicate publication or new concept.", "origin":
+  {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "fd9ab2daa1293611e1b5cb9b090b2e3670c4bcb08ae20294fdd1879313b6bb0f", "pointer": "/questions/5",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "All 30 exact citation occurrences remain
+  available, including source versions beyond the maintained methods.", "disposition":
+  "existing_record_context", "exact_original_object": {"locators_or_routes": ["bibliography-accounting.json"],
+  "owner_assignment": null, "question": "All30 citation occurrences remain available
+  for source-level reconciliation. Current existing records are possible contexts,
+  not proof that every cited paper or variant has been fully inspected. No question
+  is closed by listing it.", "question_id": "IE-Q7", "status": "pending", "topic":
+  "Remaining bibliography responsibilities"}, "existing_record_ids": ["AIMech:MREC",
+  "AIMech:MAStar", "AIMech:MAOStar", "AIMech:SimplifiedMemoryBoundedAStar"], "group":
+  "ie", "index": 6, "kind": "source_questions", "next_check": "All30 citation occurrences
+  remain available for source-level reconciliation. Current existing records are possible
+  contexts, not proof that every cited paper or variant has been fully inspected.
+  No question is closed by listing it.", "origin": {"path": "/private/tmp/aimech-ie-rbfs-comparison-20261016/pending-source-questions.json",
+  "sha256": "3bb3dd7a66670a6a3de158d35a0acfa6969bab6ffa4121e2ab71ad6543af3fb6"}, "original_sha256":
+  "1dfafbbe7a7cc547e6e177325b58ba56176a9a1a5c05d7698fe1c301481152d4", "pointer": "/questions/6",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": ["AIMech:IterativeExpansion"], "assessment": "The exact Russell
+  iterative-expansion responsibility is represented by the proposed IE record. Unconditional
+  first-visit inherited values distinguish it from conditional Korf RBFS for nonmonotonic
+  evaluations; monotonic correspondence is qualified, not a global alias.", "disposition":
+  "represented_by_added_record", "exact_original_object": {"candidate": "Iterative
+  expansion", "disposition": "pending_inspection", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/9", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "next_check": "Inspect Russell 1992; distinguish unconditional inherited parent
+  cost from Korf RBFS and consider the scope where they coincide.", "url": "https://cdn.aaai.org/AAAI/1992/AAAI92-082.pdf"},
+  "existing_record_ids": [], "group": "ie", "index": 0, "kind": "historical_source_responsibilities",
+  "next_check": "Retain all independent bibliography, version, implementation and
+  theorem-scope questions in this source group; no broad owner exhaustion or automatic
+  issue closure.", "origin": {"path": "/private/tmp/aimech-ie-identity-mapping-proposal-20261016/historical-owner-context.json",
+  "sha256": "2e79ff82c5ce814cf9b3fb8f8e27226dfe7617cdd7401428be27055b8d37fb91"}, "original_sha256":
+  "bd7596d61aeec2adf3a9fba972f8d7db4e8b4a2844bd29c1c8639a605fe8affe", "pointer": "/exact_original_object",
+  "responsible_owner": {"family": "main", "index": 912}}'
+- '{"added_record_ids": [], "assessment": "Baudet alpha-beta branching/theory source
+  remains uninspected; minimin alpha pruning is not the same two-player method.",
+  "disposition": "pending_inspection", "exact_original_object": {"authors": "G.M.
+  Baudet", "future_owner": null, "number": 1, "publication": "Artificial Intelligence10(2),173–199,1978",
+  "question": "Original alpha-beta pruning/theory context; source not newlyread.",
+  "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected",
+  "title": "On the Branching Factor of the Alpha-Beta Pruning Algorithm"}, "existing_record_ids":
+  [], "group": "itersss", "index": 0, "kind": "original_paper_references", "next_check":
+  "Original alpha-beta pruning/theory context; source not newlyread.", "origin": {"path":
+  "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "4b3cdd2c574e3b71f2ee063e065bc47a359e3052ee51e8b319f049408fc97f0b", "pointer": "/original_paper_references/0",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Knuth–Moore alpha-beta comparator ordering
+  and theorem premises require original inspection.", "disposition": "pending_inspection",
+  "exact_original_object": {"authors": "D.E. Knuth; R.W. Moore", "future_owner": null,
+  "number": 2, "publication": "Artificial Intelligence6(4),293–326,1975", "question":
+  "Inspect the specified comparator implementation/order before independent dominance
+  proof or replication.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected",
+  "title": "An Analysis of Alpha-Beta Pruning"}, "existing_record_ids": [], "group":
+  "itersss", "index": 1, "kind": "original_paper_references", "next_check": "Inspect
+  the specified comparator implementation/order before independent dominance proof
+  or replication.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "7a35b5a24abe7625e54588b39c50d5e1f8f3b0be4510419d0d48f7c49e65b3b4", "pointer": "/original_paper_references/1",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Pearl’s book is broad solution-tree/pruning
+  context and does not become fully covered through ITERSSS*.", "disposition": "pending_inspection",
+  "exact_original_object": {"authors": "J. Pearl", "future_owner": null, "number":
+  3, "publication": "Addison-Wesley,1984", "question": "Imported solution-tree/pruning
+  context; booknotnewlyread.", "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected",
+  "title": "Heuristics: Intelligent Search Strategies for Computer Problem Solving"},
+  "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "original_paper_references",
+  "next_check": "Imported solution-tree/pruning context; booknotnewlyread.", "origin":
+  {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "eef58f202d828888f73be4f30c48fbdbe817168e80cf7a182fe693480e913565", "pointer": "/original_paper_references/2",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Stockman SSS* is a distinct defining source;
+  ITERSSS* must not silently absorb the original SSS* procedure.", "disposition":
+  "pending_inspection", "exact_original_object": {"authors": "G. Stockman", "future_owner":
+  null, "number": 4, "publication": "Artificial Intelligence12(2),179–196,1979", "question":
+  "Defining SSS* and proposedhybrid context; preserve distinct from1986ITERSSS*.",
+  "source_locator": "Printed167 / PDF5", "status": "citation_read_original_not_freshly_inspected",
+  "title": "A Minimax Algorithm Better than Alpha-Beta?"}, "existing_record_ids":
+  [], "group": "itersss", "index": 3, "kind": "original_paper_references", "next_check":
+  "Defining SSS* and proposedhybrid context; preserve distinct from1986ITERSSS*.",
+  "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "5528b346ee28c7427e91c94a71e7694b49a2b737ece06b4731dcb3ba60c65346", "pointer": "/original_paper_references/3",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "The exact PARSSS* / Searching Game Trees
+  in Parallel Using SSS* retrieval route is retained under the existing main911 source
+  umbrella. Original search-result-only access remains historical; this plan does
+  not claim the full follow-up method was read or resolve its identity.", "disposition":
+  "pending_inspection", "exact_original_object": {"access": "Primary-paper search-result
+  abstract only; not downloaded/read", "label": "PARSSS* / Searching Game Trees in
+  Parallel Using SSS*", "question": "Resolve originalvenue/version and the PARSSS*/ITERSSS*
+  combination before anymechanism or identity decision.", "url": "https://citeseerx.ist.psu.edu/document?doi=b86161f3fdcf90e96bc0397aef7952f61994edde&repid=rep1&type=pdf"},
+  "existing_record_ids": [], "group": "itersss", "index": 0, "kind": "retrieved_followup_groups",
+  "next_check": "Resolve originalvenue/version and the PARSSS*/ITERSSS* combination
+  before anymechanism or identity decision.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "2b0f23049ea06b3d051ecbee026e1ce5d6d5d6d9c94425b6fad81d458719e17c", "pointer": "/retrieved_followup_groups/0",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "The exact MemSSS* / Searching Game Trees
+  Under Memory Constraints retrieval route is retained under the existing main911
+  source umbrella. Original search-result-only access remains historical; this plan
+  does not claim the full follow-up method was read or resolve its identity.", "disposition":
+  "pending_inspection", "exact_original_object": {"access": "Official primary searchresult
+  text only; not downloaded/read", "label": "MemSSS* / Searching Game Trees Under
+  Memory Constraints", "question": "Inspect original1996 procedure and memoryunits;
+  its comparison suggests OPEN bookkeeping can dominate runtime. Do not import unseenMemSSS*/MGame/QuickGame/RecSSS*
+  details into1986.", "url": "https://cdn.aaai.org/AAAI/1996/AAAI96-033.pdf"}, "existing_record_ids":
+  [], "group": "itersss", "index": 1, "kind": "retrieved_followup_groups", "next_check":
+  "Inspect original1996 procedure and memoryunits; its comparison suggests OPEN bookkeeping
+  can dominate runtime. Do not import unseenMemSSS*/MGame/QuickGame/RecSSS* details
+  into1986.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "b616a536ea265aa045087f6808feb0cde430e0b2fdab276aafee1a971f39658f", "pointer": "/retrieved_followup_groups/1",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "The exact RecSSS*/RecDual* time-efficient
+  state-space-search paper retrieval route is retained under the existing main911
+  source umbrella. Original search-result-only access remains historical; this plan
+  does not claim the full follow-up method was read or resolve its identity.", "disposition":
+  "pending_inspection", "exact_original_object": {"access": "Searchresult excerpt
+  only, displaying ArtificialIntelligence71(2),397–408,1994; complete title/primary
+  provenance not resolved", "label": "RecSSS*/RecDual* time-efficient state-space-search
+  paper", "question": "Resolve exact article/author/version and compare recursive
+  representations, phasedsearch andRSEARCH only after reading originals.", "url":
+  "https://citeseerx.ist.psu.edu/document?doi=68a24881564e7c4027bac40498045e4ab08f6f09&repid=rep1&type=pdf"},
+  "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "retrieved_followup_groups",
+  "next_check": "Resolve exact article/author/version and compare recursive representations,
+  phasedsearch andRSEARCH only after reading originals.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "7ee002666f79ea401cf78ce6910ba0478f05b6369c111b877a6d6872755137d2", "pointer": "/retrieved_followup_groups/2",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Retain the source-local Exact activation/tie
+  conventions qualification independently of adding the narrow 1986 algorithm.", "disposition":
+  "pending_inspection", "exact_original_object": {"label": "Exact activation/tie conventions",
+  "locator": "Printed165", "question": "Resolve tie-breaking among deepest inactive
+  candidates and safe null handling before literal implementation certification; no
+  defect proven."}, "existing_record_ids": [], "group": "itersss", "index": 0, "kind":
+  "additional_source_questions", "next_check": "Resolve tie-breaking among deepest
+  inactive candidates and safe null handling before literal implementation certification;
+  no defect proven.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "f143217d3312ff39d8aad30234e8981abff063ef988ba50bbfc909b52e344932", "pointer": "/additional_source_questions/0",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Retain the source-local Complete ITERSSS*
+  theorem proofs qualification independently of adding the narrow 1986 algorithm.",
+  "disposition": "pending_inspection", "exact_original_object": {"label": "Complete
+  ITERSSS* theorem proofs", "locator": "Printed167", "question": "Seek a fuller authorversion/technicalreport;
+  distinguish sufficient pruning condition from iff and retain fixedorder/finite-tree
+  premises."}, "existing_record_ids": [], "group": "itersss", "index": 1, "kind":
+  "additional_source_questions", "next_check": "Seek a fuller authorversion/technicalreport;
+  distinguish sufficient pruning condition from iff and retain fixedorder/finite-tree
+  premises.", "origin": {"path": "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "8ee816250b85aa8b48cea1786efefde07f193150bba77c0aa29fe623e653d5ab", "pointer": "/additional_source_questions/1",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": [], "assessment": "Retain the source-local Nonuniform-tree
+  extension qualification independently of adding the narrow 1986 algorithm.", "disposition":
+  "pending_inspection", "exact_original_object": {"label": "Nonuniform-tree extension",
+  "locator": "Printed164", "question": "The source says node coding generalizes; inspect
+  a complete memorythreshold and branchdependent implementation before extending claims."},
+  "existing_record_ids": [], "group": "itersss", "index": 2, "kind": "additional_source_questions",
+  "next_check": "The source says node coding generalizes; inspect a complete memorythreshold
+  and branchdependent implementation before extending claims.", "origin": {"path":
+  "/private/tmp/aimech-itersss-star-original-source-research-20261016/bibliography-and-followups.json",
+  "sha256": "9f5062cf8894ab5ad3c07f8a0d131b685c0822924149dcf87d9e39593458235a"}, "original_sha256":
+  "ebf72ecbd6a820251421ffdb7117932522dbc1d4ea75cd7ce0d84db4bf5d0097", "pointer": "/additional_source_questions/2",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- '{"added_record_ids": ["AIMech:ITERSSSStar"], "assessment": "The exact 1986 ITERSSS*
+  citation in the MA*/MAO* bibliography is represented by the proposed source-scoped
+  iterative solution-tree game-search record. Main911 supplies existing citation provenance,
+  not algorithm equivalence with MA*/MAO*.", "disposition": "represented_by_added_record",
+  "exact_original_object": {"authors": "S. Bhattacharyya; A. Bagchi", "future_owner":
+  null, "next_check": "ITERSSS* source question; inspect defining paper before identity
+  or relation decision.", "publication": "AAAI1986,163–167", "reference_number": 2,
+  "source_locator": "journalp.221 / readerpage25", "status": "retained_bibliographic_context_or_source_question",
+  "title": "Making the best use of available memory when searching game trees"}, "existing_record_ids":
+  [], "group": "itersss", "index": 0, "kind": "historical_source_responsibilities",
+  "next_check": "Retain all independent bibliography, version, implementation and
+  theorem-scope questions in this source group; no broad owner exhaustion or automatic
+  issue closure.", "origin": {"path": "/private/tmp/aimech-itersss-review-fragments-20261016/historical-source-accounting.json",
+  "sha256": "a52aff7a3e6e4c181b4123ad29ced0579138449f1899a706705b0d8e361d33b3"}, "original_sha256":
+  "02fae9f8e3daa3cf432043822f1a63d13a2121a683fc75d6e43731f80750c3d6", "pointer": "/exact_continuity/source_origin/object",
+  "responsible_owner": {"family": "main", "index": 911}}'
+- 'Separate post-360 pending source discovery: {"added_record_ids": [], "assessment":
+  "Retain this access-limited source question under proposed source-tracking responsibility
+  main911, arising from the MA bibliography. Original pending status and exact source
+  provenance remain unchanged; none of the cohort361 triple resolves it. The 1985
+  multi-method abstract does not establish five executable method identities.", "disposition":
+  "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"],
+  "next_check": "Obtain and read the exact original, retain access failures and version
+  distinctions, then reconcile mechanism and any existing owner before proposing records.
+  Do not infer resolution from the existing memory-search records.", "original": {"exact_original_object":
+  {"id": "BAGCHI1985-FULLTEXT", "question": "Acquire the exact 1985 article from an
+  authorized public or institutional source; read C, PropA, PropC and MarkA definitions,
+  cost updates, tie/duplicate conditions and admissible/inadmissible theorem assumptions.
+  Do not define five new concepts from the abstract.", "status": "pending_access"},
+  "index": 0, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json",
+  "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256":
+  "54f54c9d3ee2e3705617474a3922ea0095c3a93ba109e1a7d733d9332ab7c8dc", "pointer": "/new_retrieval_questions/0"},
+  "responsible_owner": {"family": "main", "index": 911}}'
+- 'Separate post-360 pending source discovery: {"added_record_ids": [], "assessment":
+  "Retain this access-limited source question under proposed source-tracking responsibility
+  main911, arising from the MA bibliography. Original pending status and exact source
+  provenance remain unchanged; none of the cohort361 triple resolves it. The 1978
+  depth-m branch-and-bound source and resource claims need full text.", "disposition":
+  "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar", "AIMech:MAOStar"],
+  "next_check": "Obtain and read the exact original, retain access failures and version
+  distinctions, then reconcile mechanism and any existing owner before proposing records.
+  Do not infer resolution from the existing memory-search records.", "original": {"exact_original_object":
+  {"id": "IBARAKI1978-FULLTEXT", "question": "Acquire the exact 1978 article and inspect
+  Depth-m scheduling, branch-and-bound state, memory definition and conditions for
+  endpoint/O(n^m) statements before any curated claims.", "status": "pending_access"},
+  "index": 1, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json",
+  "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256":
+  "345d8cb33881fc481481607d5491600789021f18fc0b187b93878da8fd060220", "pointer": "/new_retrieval_questions/1"},
+  "responsible_owner": {"family": "main", "index": 911}}'
+- 'Separate post-360 pending source discovery: {"added_record_ids": [], "assessment":
+  "Retain this access-limited source question under proposed source-tracking responsibility
+  main911, arising from the MA bibliography. Original pending status and exact source
+  provenance remain unchanged; none of the cohort361 triple resolves it. The 1974
+  Kyoto working-paper witness does not establish byte or method equivalence to the
+  1978 paper.", "disposition": "existing_pending_owner", "existing_record_ids": ["AIMech:MAStar",
+  "AIMech:MAOStar"], "next_check": "Obtain and read the exact original, retain access
+  failures and version distinctions, then reconcile mechanism and any existing owner
+  before proposing records. Do not infer resolution from the existing memory-search
+  records.", "original": {"exact_original_object": {"id": "IBARAKI1974-VERSION", "locator":
+  "PDF p.33 / printed p.91, reference6", "question": "Locate the 1974 Kyoto working
+  paper cited by Ibaraki and coauthors in 1978, compare it to the journal version
+  if both become available; citation alone does not establish byte or method equivalence.",
+  "status": "pending_retrieval", "target_full_text_acquired": false, "witness_pdf":
+  {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/ibaraki-et-al1978-multiple-choice-knapsack-reference-witness.pdf",
+  "sha256": "ffd78c58c37272a79fbf33466564fe30c2e530b3dea498b9e5b8a9caec2c9823"}},
+  "index": 2, "origin": {"path": "/private/tmp/aimech-ma-bibliography-source-access-20261016/assessment.json",
+  "sha256": "f04905dbb26d0de4f82c6af6ac9d1c630cfceed37ce1fd1e57f661a8836f70d8"}, "original_object_sha256":
+  "351fc7ffd823287c463e798bf574945d75312069d409f45d65a590b5c9d53eae", "pointer": "/new_retrieval_questions/2"},
+  "responsible_owner": {"family": "main", "index": 911}}'
+- 'Additional source question: {"disposition": "pending_inspection", "exact_original_object":
+  {"candidate": "Iterative linear best-first search", "disposition": "pending_inspection",
+  "next_check": "Inspect 2024 full method and compare to RBFS and memory-bounded variants.",
+  "url": "https://arxiv.org/abs/2407.01637"}, "existing_record_ids": ["AIMech:RecursiveBestFirstSearch",
+  "AIMech:SimpleRecursiveBestFirstSearch", "AIMech:RBFSControlledReexpansion"], "issue_scope":
+  "Potential new bounded accounting repair; existing 402/404/406 objects remain unchanged
+  and open. Root may bind a new issue separately.", "locator": "/new_frontier/14",
+  "next_check": "Inspect 2024 full method and compare to RBFS and memory-bounded variants.
+  Proposed tracking under main912 groups source follow-up only; no claim of an earlier
+  exact owner, primary reading, method equivalence or resolution.", "question": "Iterative
+  linear best-first search: retain the exact historical pending source question; current
+  exact spelling/identifier checks did not identify a retained current accounting
+  row, which is not a novelty or semantic-absence assertion.", "question_id": "H361-SEARCH-2024",
+  "responsible_owner": {"family": "main", "index": 912}, "source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T053332Z-foundational-search.json",
+  "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}}'
+- 'Additional source question: {"disposition": "pending_inspection", "exact_original_object":
+  {"candidate": "RBFS-epsilon and RBFS-kth-root", "disposition": "pending_inspection",
+  "next_check": "Full paper read; curate separately after exact tolerance, transformed-weight
+  and quality-bound assumptions are checked against all identities.", "url": "https://www.cs.unh.edu/~ruml/papers/rbfscr-aaai-15.pdf"},
+  "existing_record_ids": ["AIMech:RecursiveBestFirstSearch", "AIMech:SimpleRecursiveBestFirstSearch",
+  "AIMech:RBFSControlledReexpansion"], "issue_scope": "Potential new bounded accounting
+  repair; existing 402/404/406 objects remain unchanged and open. Root may bind a
+  new issue separately.", "locator": "/new_frontier/0", "next_check": "Full paper
+  read; curate separately after exact tolerance, transformed-weight and quality-bound
+  assumptions are checked against all identities. Proposed tracking under main912
+  groups source follow-up only; no claim of an earlier exact owner, primary reading,
+  method equivalence or resolution.", "question": "RBFS-epsilon and RBFS-kth-root:
+  retain the exact historical pending source question; current exact spelling/identifier
+  checks did not identify a retained current accounting row, which is not a novelty
+  or semantic-absence assertion.", "question_id": "H361-RBFS-VARIANTS", "responsible_owner":
+  {"family": "main", "index": 912}, "source": {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261011T054555Z-best-first-search.json",
+  "sha256": "4d527783af0e0f75abe1179df198f3c219ac161d272bb0f5316a329e8e6dd122"}}'
+- The inherited actual 360 projection retains source_durability with reconstructible
+  exact 38,592-byte JSON manifest and all 100 asset metadata/provenance objects. This
+  historical source is a scan-manifest, not a publisher PDF; the new triple uses five
+  separately bound PDF artifacts.
+- 'Exact inherited source scopes are recursively retained under predecessor_state/projection;
+  actual 360 report {"path": "/private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T042347Z-ma-star-and-mao-star.json",
+  "sha256": "4575b88d2f6496e13bfa1772ea3ec12371289f8ffa8e25afa07a8f250eda818c"}. No
+  original 402/404/406 closure or family exhaustion is asserted.'
+- 'Inherited predecessor_state: exact object SHA256 bf88d061c6539ab1c2cf96197b549225e8c099c49796d770c874a8a798be9ef9;
+  original source references remain inside predecessor_state/projection/predecessor_state.'
+- 'Inherited predecessor_state_sha256: exact object SHA256 17049a906dc43843fe4dca17aa0aaad96b13b5f71c85b91189e24926f55150ba;
+  original source references remain inside predecessor_state/projection/predecessor_state_sha256.'
+- 'Inherited pair_source_accounting: exact object SHA256 be382479424fc0707cd98296f750f93696c0294c4e0939087d77609961de32ae;
+  original source references remain inside predecessor_state/projection/pair_source_accounting.'
+- 'Inherited frontier_result: exact object SHA256 f33c5808676ffb55c315cf7adef685371f4ffc35f59058d1047a4400a9a829a2;
+  original source references remain inside predecessor_state/projection/frontier_result.'
+- 'Inherited source_durability: exact object SHA256 b4e81c552086b6f7a5d7c3ffbe3157a380962cb4d17deb6b5bee3c5ce87cca3f;
+  original source references remain inside predecessor_state/projection/source_durability.'
+- 'Inherited source_durability_sha256: exact object SHA256 c319b2fb42e6280fd0f368ebaf6afc94f0ccdd187179cc604721de4229fad418;
+  original source references remain inside predecessor_state/projection/source_durability_sha256.'
+- 'Actual owner-plan/frontier outcome: {"additional_source_question_count": 2, "changed_main_indexes":
+  [909, 911, 912], "changed_nested_indexes": [], "main": 914, "nested": 394, "new_main_rows":
+  0, "new_nested_rows": 0, "retained_source_objects": 165, "separate_post360_discovery_questions":
+  3, "source_object_counts": {"ie": {"bibliography_occurrences": 30, "historical_source_responsibilities":
+  1, "source_questions": 7}, "itersss": {"additional_source_questions": 3, "historical_source_responsibilities":
+  1, "original_paper_references": 4, "retrieved_followup_groups": 3}, "svpg": {"additional_source_questions":
+  5, "bibliography_families": 36, "bibliography_occurrences": 71, "historical_source_responsibilities":
+  1, "search_only_leads": 3}}}'
+- 'Actual source accounting digest (sorted compact JSON UTF-8): 3c799e0ff4dbba661b0deeba8848727d6127ee0fb1d1c914df8d848fd574df29'
+- 'Actual historical/current identity changes: [{"id": "AIMech:SteinVariationalPolicyGradient",
+  "field": "identity_notes", "historical": "Preparation-only historical identity assessment:
+  at snapshot db32c7ac6abf5977e980b5dea2a9d213f76976e7, the inventory contained794
+  native and442 pinned AIO records; four ignored/hidden-inclusive exact-query roots
+  yielded10 distinct contents and26 occurrences. The values-only projection contains4903
+  ID/local-ID/name/alias/scoped-synonym occurrences and found no exact candidate title,
+  SVPG acronym or proposed local-ID match in that bounded snapshot. The checkout moved
+  to merged head dd7a5a99eb412b5b587efb1e598cbb760a9bba0d during assessment, with
+  all1236 inventoried record hashes unchanged. These are historical observations,
+  not current or future identity clearance. The method updates interacting policy-parameter
+  particles using expected-return/prior scores; it is distinct from generic particle
+  SVGD, Soft Q-learning’s amortized action sampler and generic amortized generator
+  fitting. REINFORCE and A2C supply estimators/implementation contexts, rather than
+  names for this complete interacting-policy procedure. The historical main909 citation_entries[2]
+  remains a source responsibility with no new canonical disposition assigned here.
+  All71 bibliography occurrences across36 families, five additional questions and
+  three search-only leads remain retained; cited source names are not new-concept
+  counts. The preparation-stage related mapping to AIO:ReinforcementLearning links
+  this algorithm to the pinned task class, not to an identical class or superclass,
+  and does not require neural-network policy architecture. UAI Algorithm1 prints particle
+  loops0..n while Eq9 averages1..n; the Eq9 method scope is retained without silently
+  certifying the displayed indexing or update-order presentation as an executable
+  implementation.", "current": "The current cohort361 prewrite comparison at base
+  add2c806f6729c8599f4d5cfd6d75c7decde006c covered 1,243 maintained records (801 native
+  and 442 pinned AIO), 4,927 identity-field occurrences and 3,766 normalized values.
+  Candidate-normalized identity matches were empty. Four ignored- and hidden-inclusive
+  fixed-string/word-boundary scans produced 6,732 occurrences across 1,557 distinct
+  matching contents, assessed through three attributed reader scopes and exact inherited-wrapper
+  reconstruction. SVPG denotes the source-scoped interacting-policy-particle optimizer,
+  distinct from direct SVGD target approximation, amortized differentiable-sampler
+  fitting, SoftQ action sampling, REINFORCE, GAE and TRPO. Its policy-objective gradient
+  and kernel interaction do not imply an unrestricted KL guarantee, exact samples
+  or mandatory neural architecture. Main909 retains 71 citation occurrences, 36 family
+  groupings, five questions and three search-only leads, together with original cohort355/359
+  provenance. The AIO reinforcement-learning related_match expresses a task relationship
+  rather than algorithm equivalence.", "root_decision": "records/AIMech:SteinVariationalPolicyGradient/identity_notes"},
+  {"id": "AIMech:IterativeExpansion", "field": "identity_notes", "historical": "The
+  proposed scope is Russell1992 iterative expansion, abbreviated IE within that paper.
+  Bare IE is not proposed as an unqualified alias: ignored-inclusive matches also
+  use it for Internet Explorer, Ireland, information extraction and an unrelated classifier.
+  The algorithm always imposes the parent stored value when initializing generated
+  children. Korf’s full RBFS instead uses parent inheritance only when the stored
+  parent value exceeds its static evaluation; SRBFS resets generated children to static
+  evaluations. Korf explicitly reports IE/RBFS correspondence under monotonic evaluation,
+  while decreasing static evaluations can distinguish their first-visit initialization
+  and ordering. This conditional relationship is not a global RBFS/SRBFS alias or
+  complete execution-trace equivalence. The mutable-value/return, loop, tie, dead-end,
+  exhausted-root and graph conventions of the printed IE outline remain explicit source
+  limits. Historical inventory noncollision and bounded neighbor comparison do not
+  establish global novelty or future ownership clearance.", "current": "The current
+  cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c covered
+  1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field occurrences
+  and 3,766 normalized values. Candidate-normalized identity matches were empty. Four
+  ignored- and hidden-inclusive fixed-string/word-boundary scans produced 6,732 occurrences
+  across 1,557 distinct matching contents, assessed through three attributed reader
+  scopes and exact inherited-wrapper reconstruction. Iterative expansion is Russell1992
+  source-scoped IE with unconditional max(parent stored value, static child value)
+  inheritance. Korf RBFS conditionally inherits backed-up values, while SRBFS resets
+  children to static values; their monotonic-evaluation correspondence is conditional,
+  not a global alias. Generic iterative-expansion wording, IDA* learned incremental
+  thresholds and RBFS controlled re-expansion are distinct contexts. No global IE
+  abbreviation alias is introduced. Main912 retains 30 citation occurrences, seven
+  version/interface questions and two recovered historical search pointers as source
+  tracking. Ties, dead ends, exhausted-root behavior, graph/cycle assumptions and
+  proof limitations remain explicit.", "root_decision": "records/AIMech:IterativeExpansion/identity_notes"},
+  {"id": "AIMech:ITERSSSStar", "field": "identity_notes", "historical": "ITERSSS*
+  denotes the specific 1986 memory-controlled SSS*-style procedure over the finite
+  uniform alternating game-tree presentation. It is distinct from shortest-path memory-bounded
+  search and from a generic game-tree, minimax objective, learned evaluator or neural
+  model. Active/inactive OPEN entries, the inclusive M >= M0 premise, capacity-gated
+  MAX expansion and bound-dependent purge/reactivation define the retained scope.
+  Conditional SSS* endpoint and alpha-beta terminal-set statements do not establish
+  global aliases. The exact source has one-way pruning conditions, omitted proofs,
+  descendant/tie/null-interface qualifications and OPEN-entry rather than byte-level
+  memory accounting. The accepted historical branch359 comparison covered 1,241 record
+  identities (799 native and 442 AIO), 53 selected native definitions, 15 detailed
+  native contexts and four ignored-inclusive search roots; it is not a fresh future-base
+  identity or ownership clearance. No unqualified alias is proposed.", "current":
+  "The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c
+  covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field
+  occurrences and 3,766 normalized values. Candidate-normalized identity matches were
+  empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced
+  6,732 occurrences across 1,557 distinct matching contents, assessed through three
+  attributed reader scopes and exact inherited-wrapper reconstruction. ITERSSS* denotes
+  the 1986 finite uniform alternating game-tree procedure with active/inactive OPEN
+  entries, solution-tree pruning and memory-controlled passes. It differs from single-agent
+  A*/IDA*/IE, MA*/MAO*/SMA*/MREC/ITS, original Stockman SSS* and the uninspected PARSSS*/MemSSS*/RecSSS*/RecDual*
+  followups. Main911 carries the exact 1986 bibliography responsibility while retaining
+  earlier memory-search scopes, four original references, three followup routes and
+  three source-interface questions. Fixed-order, finite-tree, theorem-proof, tie and
+  nonuniform-extension limits remain explicit.", "root_decision": "records/AIMech:ITERSSSStar/identity_notes"}]'
+```

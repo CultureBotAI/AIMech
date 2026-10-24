@@ -1,0 +1,527 @@
+# Scientific author self-review of Learning Hidden Unit Contributions
+
+- Review: 20261013T153055Z-learning-hidden-unit-contributions
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T15:25:38Z
+- Finished UTC: 2026-10-13T15:30:55Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Learning Hidden Unit Contributions as a DRAFT native algorithm with explicit related AIO mappings. All maintained fields were assessed against complete primary evidence and constructed mathematical examples. No actionable maintained-record defect identified; this is author self-review only.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:LearningHiddenUnitContributions
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 1233c428e0e0f21e942c184e77af84eb6da23ec0.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LearningHiddenUnitContributions | data/curated/LearningHiddenUnitContributions.yaml | maintained | Learning Hidden Unit Contributions |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LearningHiddenUnitContributions | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 185.90s (0:03:05)<br>Checked 442 record(s); 0 failed.<br>Checked 628 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 304 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 301,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:LearningHiddenUnitContributions | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:LearningHiddenUnitContributions | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:LearningHiddenUnitContributions | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:LearningHiddenUnitContributions | {"constant_basis_predictions": [5.0, 5.0], "expected_selected_objective": 1.6, "exponentiated_interpolated_latents": 2.0, "finite_difference": [-0.1344285482096641, 0.21449533086359548], "interpolated_amplitudes": 2.5, "lhuc_gradient": [-0.13442854821610697, 0.21449533085784], "lower_scaling_changes_deep_activation": [0.6547534606063191, 0.6726070170677604], "routed_transform_gradients": [0.3, 0.2, 0], "si_probability": 0.6} |
+
+## Scientific And Domain Assessments
+
+### Learning Hidden Unit Contributions
+
+identity: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Retain this distinct DRAFT algorithm.
+
+Retain LHUC hidden-activation adaptation with its scoped alias. Pooling-parameter adaptation fits a different computation; LoRA learns low-rank weight changes; LARS modifies optimization rates; BalancedAttention computes input-dependent modulation rather than a fixed target-speaker transform.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+The declared AIO mapping is supported.
+
+KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts. They are not asserted as algorithm equivalence or direct superclasses. Six complete AIO node/edge/YAML contexts and four full native neighbors were inspected; RescalingLayer preprocesses image inputs and is not this hidden acoustic adaptation method.
+
+### hidden-activation-scaling
+
+evidence: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Supported within the stated primary-source and mathematical scope.
+
+LHUC multiplies selected hidden outputs by speaker/environment-specific transformed parameters. Fixed affine weights do not fix numerical deeper activations; the two-layer constructed example confirms this distinction.
+
+### decoded-target-adaptation
+
+evidence: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Supported within the stated primary-source and mathematical scope.
+
+First-pass decoded acoustic targets support unsupervised adaptation while the base model was supervised. Reference-aligned targets are explicitly a separate supervised oracle comparison; test-time adaptation fits amplitudes rather than all base parameters.
+
+### parameterization-and-gradients
+
+evidence: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Supported within the stated primary-source and mathematical scope.
+
+The paper compares sigmoid, exponential, ReLU and identity transforms. Positivity and boundedness depend on that choice. The incoming activation derivative is multiplied by xi for lower layers and by xi_prime times unscaled activation for amplitude parameters. Finite differences verify the exponential case.
+
+### finite-capacity-and-training-boundary
+
+evidence: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Supported within the stated primary-source and mathematical scope.
+
+A fixed finite representation need not span an arbitrary target. A constant-basis example demonstrates failure. SAT-LHUC learns a different shared base and transforms during training; ordinary test-time LHUC retains fixed base weights.
+
+### acoustic-scope-and-reuse
+
+evidence: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Supported within the stated primary-source and mathematical scope.
+
+Finite corpus/feature/decoder settings bound empirical results. One-shot means estimating once and reusing a known speaker transform across meetings, not one example or one update. Sequence-trained base adaptation and speaker identities are qualified without universal guarantees.
+
+### activation-multiplier gradients, frozen-parameter scope, finite basis capacity, SAT separation and reuse semantics
+
+consistency: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Constructed calculations support the stated distinctions.
+
+Finite differences verify an exponential-multiplier amplitude gradient. Constructed examples distinguish frozen parameters from frozen deep activations and arbitrary function approximation, as well as separate SAT routing and factorized-amplitude boundaries. These are mathematical examples, not acoustic experiments.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:LearningHiddenUnitContributions.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed ID/name/alias, algorithm kind, definition and evidence, every claim/locator, full source identity/version/access/hash, AIO pin and mapping direction, limitations and actual timestamps. Challenged frozen weights versus changed deep activations, decoder-derived supervision, multiplier ranges, finite capacity, SAT separation and one-shot reuse.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T152535Z-learning-hidden-unit-contributions.json | supports | Compared all 442 pinned AIO and 627 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 69, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 37 AIO and 87 native definitions, with every matched definition read. 6 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. Retain test-time hidden-activation contribution adaptation. It differs from pool-shape parameter adaptation, input-dependent attention gates, low-rank weight updates and layer-wise learning-rate scaling. SAT-LHUC separately changes how the shared base and training-speaker transforms are learned. LHUC is a scoped method alias, not a trained speaker model. |
+| mapping | sources/aio/aio.json | supports | KnowledgeTransfer and DeepTransferLearning are related strategy/network contexts. They are not asserted as algorithm equivalence or direct superclasses. Six complete AIO node/edge/YAML contexts and four full native neighbors were inspected; RescalingLayer preprocesses image inputs and is not this hidden acoustic adaptation method. |
+| swietojanski2016lhuc | https://arxiv.org/pdf/1601.02828v2; Complete fourteen-page arXiv1601.02828v2 visually inspected, including14tables,11figures,84references and biographies. Author implementation, other versions and empirical replication are excluded. FiLM and IA3/T-Few readings remain distinct future-lead evidence. | supports | arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534 agrees with primary metadata. All pages visually inspected, including Equations 1–10, Figures 1–11, Tables I–XIV, footnotes, 84 references and biographies. Metadata says nine tables, but the inspected PDF contains fourteen. Other versions and author implementation not inspected. |
+| calculation | research/discovery/lhuc-boundaries.py | supports | Finite differences verify an exponential-multiplier amplitude gradient. Constructed examples distinguish frozen parameters from frozen deep activations and arbitrary function approximation, as well as separate SAT routing and factorized-amplitude boundaries. These are mathematical examples, not acoustic experiments. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 628 native and 442 unchanged generated records. The 813-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Complete14-pageversionedprimarypaper visually inspected; equations,figures,tables,footnotes,referencesandbiographies included. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T153055Z-learning-hidden-unit-contributions
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Learning Hidden Unit Contributions
+started_at: '2026-10-13T15:25:38Z'
+finished_at: '2026-10-13T15:30:55Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged activation-multiplier gradients, frozen-parameter
+    scope, finite basis capacity, SAT separation and reuse semantics. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Learning Hidden Unit Contributions as a DRAFT native algorithm with
+  explicit related AIO mappings. All maintained fields were assessed against complete
+  primary evidence and constructed mathematical examples. No actionable maintained-record
+  defect identified; this is author self-review only.
+source:
+  git_revision: 1233c428e0e0f21e942c184e77af84eb6da23ec0
+  state: working_tree
+  inputs:
+  - path: data/aio/AdaptiveAvgPool1DLayer.yaml
+    sha256: cc1c60e6772048410efe406b9dca4783d5c241eb337fe32bf8b5f4106975a3bc
+    role: context
+  - path: data/aio/DeepTransferLearning.yaml
+    sha256: 642bd64f7e13092ffc855f2d44afa5822aa2714996a000f21e092b697725dc08
+    role: context
+  - path: data/aio/KnowledgeTransfer.yaml
+    sha256: d9c3efd84c05da8efb7b8eb46e15d64a1ea18fd0816c96cba9bcad85619c57bb
+    role: context
+  - path: data/aio/RescalingLayer.yaml
+    sha256: d819303cefc3a220baf09d788a6d39505e53d21b63242e5874b7abd5084ea6d8
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/aio/TransferLearning.yaml
+    sha256: 0f44626d372842fdb5c1b07c00ab48ab87302ed1229b0fda95adbfdef6568e3c
+    role: context
+  - path: data/curated/BalancedAttentionMechanism.yaml
+    sha256: 81a15c5f706655cd3a88a47b7a3b5a592b638350205f8db0d336669ffda4f513
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: context
+  - path: data/curated/LearningHiddenUnitContributions.yaml
+    sha256: 6b1934004475e048e761316d27b4629080fec2e719154bca49dd7ab001f29f94
+    role: target
+  - path: data/curated/LoRA.yaml
+    sha256: 8642959e7dd4ca6630720e78771b6e7b825336c967f0663f125c1a23aee7ae49
+    role: context
+  - path: data/curated/SpeakerDependentPoolingAdaptation.yaml
+    sha256: 615e72953bfc57eadfa3268b782766f4c355ab8fbbe76af3e17fbc1b4a0585f2
+    role: context
+  - path: research/discovery/20261013T152535Z-learning-hidden-unit-contributions.json
+    sha256: 6f3143ee18e05edcc2320870112054cd66e7dcc47db06e5d7f8df52c9783b71f
+    role: context
+  - path: research/discovery/lhuc-boundaries.py
+    sha256: 9ab8ceebae9381b2b7726c650c0cfbb036c54def682e43e07261782dd8c959ce
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LearningHiddenUnitContributions
+  path: data/curated/LearningHiddenUnitContributions.yaml
+  label: Learning Hidden Unit Contributions
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LearningHiddenUnitContributions.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:LearningHiddenUnitContributions'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete fourteen-page arXiv1601.02828v2 visually inspected, including14tables,11figures,84references
+      and biographies. Author implementation, other versions and empirical replication
+      are excluded. FiLM and IA3/T-Few readings remain distinct future-lead evidence.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 185.90s (0:03:05)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 628 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 304 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 301,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/lhuc-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"constant_basis_predictions": [5.0, 5.0], "expected_selected_objective":
+    1.6, "exponentiated_interpolated_latents": 2.0, "finite_difference": [-0.1344285482096641,
+    0.21449533086359548], "interpolated_amplitudes": 2.5, "lhuc_gradient": [-0.13442854821610697,
+    0.21449533085784], "lower_scaling_changes_deep_activation": [0.6547534606063191,
+    0.6726070170677604], "routed_transform_gradients": [0.3, 0.2, 0], "si_probability":
+    0.6}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T152535Z-learning-hidden-unit-contributions.json
+  accessed_at: '2026-10-13T15:25:38Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 627 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    69, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 37 AIO and 87 native definitions, with every matched definition read.
+    6 full annotated AIO node/edge/generated contexts and 4 full native records were
+    inspected. Retain test-time hidden-activation contribution adaptation. It differs
+    from pool-shape parameter adaptation, input-dependent attention gates, low-rank
+    weight updates and layer-wise learning-rate scaling. SAT-LHUC separately changes
+    how the shared base and training-speaker transforms are learned. LHUC is a scoped
+    method alias, not a trained speaker model.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T15:25:38Z'
+  support: supports
+  summary: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts. They are not asserted as algorithm equivalence or direct superclasses.
+    Six complete AIO node/edge/YAML contexts and four full native neighbors were inspected;
+    RescalingLayer preprocesses image inputs and is not this hidden acoustic adaptation
+    method.
+- evidence_id: swietojanski2016lhuc
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1601.02828v2
+  locator: Complete fourteen-page arXiv1601.02828v2 visually inspected, including14tables,11figures,84references
+    and biographies. Author implementation, other versions and empirical replication
+    are excluded. FiLM and IA3/T-Few readings remain distinct future-lead evidence.
+  accessed_at: '2026-10-13T14:38:16Z'
+  snapshot_sha256: d9732801becdcbfc57c96ac6f53e66869cdca819aa22a5aae941799dc63423b4
+  support: supports
+  summary: arXiv:1601.02828v2, 13 July 2016, fourteen PDF pages. Printed DOI 10.1109/TASLP.2016.2560534
+    agrees with primary metadata. All pages visually inspected, including Equations
+    1–10, Figures 1–11, Tables I–XIV, footnotes, 84 references and biographies. Metadata
+    says nine tables, but the inspected PDF contains fourteen. Other versions and
+    author implementation not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/lhuc-boundaries.py
+  accessed_at: '2026-10-13T15:26:20Z'
+  snapshot_sha256: 9ab8ceebae9381b2b7726c650c0cfbb036c54def682e43e07261782dd8c959ce
+  support: supports
+  summary: Finite differences verify an exponential-multiplier amplitude gradient.
+    Constructed examples distinguish frozen parameters from frozen deep activations
+    and arbitrary function approximation, as well as separate SAT routing and factorized-amplitude
+    boundaries. These are mathematical examples, not acoustic experiments.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Learning Hidden Unit Contributions
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - identity
+  - swietojanski2016lhuc
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain LHUC hidden-activation adaptation with its scoped alias. Pooling-parameter
+    adaptation fits a different computation; LoRA learns low-rank weight changes;
+    LARS modifies optimization rates; BalancedAttention computes input-dependent modulation
+    rather than a fixed target-speaker transform.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - mapping
+  - swietojanski2016lhuc
+  summary: The declared AIO mapping is supported.
+  details: KnowledgeTransfer and DeepTransferLearning are related strategy/network
+    contexts. They are not asserted as algorithm equivalence or direct superclasses.
+    Six complete AIO node/edge/YAML contexts and four full native neighbors were inspected;
+    RescalingLayer preprocesses image inputs and is not this hidden acoustic adaptation
+    method.
+- assessment_id: hidden-activation-scaling
+  area: evidence
+  topic: hidden-activation-scaling
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: LHUC multiplies selected hidden outputs by speaker/environment-specific
+    transformed parameters. Fixed affine weights do not fix numerical deeper activations;
+    the two-layer constructed example confirms this distinction.
+- assessment_id: decoded-target-adaptation
+  area: evidence
+  topic: decoded-target-adaptation
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: First-pass decoded acoustic targets support unsupervised adaptation while
+    the base model was supervised. Reference-aligned targets are explicitly a separate
+    supervised oracle comparison; test-time adaptation fits amplitudes rather than
+    all base parameters.
+- assessment_id: parameterization-and-gradients
+  area: evidence
+  topic: parameterization-and-gradients
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The paper compares sigmoid, exponential, ReLU and identity transforms.
+    Positivity and boundedness depend on that choice. The incoming activation derivative
+    is multiplied by xi for lower layers and by xi_prime times unscaled activation
+    for amplitude parameters. Finite differences verify the exponential case.
+- assessment_id: finite-capacity-and-training-boundary
+  area: evidence
+  topic: finite-capacity-and-training-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: A fixed finite representation need not span an arbitrary target. A constant-basis
+    example demonstrates failure. SAT-LHUC learns a different shared base and transforms
+    during training; ordinary test-time LHUC retains fixed base weights.
+- assessment_id: acoustic-scope-and-reuse
+  area: evidence
+  topic: acoustic-scope-and-reuse
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Finite corpus/feature/decoder settings bound empirical results. One-shot
+    means estimating once and reusing a known speaker transform across meetings, not
+    one example or one update. Sequence-trained base adaptation and speaker identities
+    are qualified without universal guarantees.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: activation-multiplier gradients, frozen-parameter scope, finite basis capacity,
+    SAT separation and reuse semantics
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - swietojanski2016lhuc
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Finite differences verify an exponential-multiplier amplitude gradient.
+    Constructed examples distinguish frozen parameters from frozen deep activations
+    and arbitrary function approximation, as well as separate SAT routing and factorized-amplitude
+    boundaries. These are mathematical examples, not acoustic experiments.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:LearningHiddenUnitContributions
+  evidence_ids:
+  - identity
+  - mapping
+  - swietojanski2016lhuc
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed ID/name/alias, algorithm kind, definition
+    and evidence, every claim/locator, full source identity/version/access/hash, AIO
+    pin and mapping direction, limitations and actual timestamps. Challenged frozen
+    weights versus changed deep activations, decoder-derived supervision, multiplier
+    ranges, finite capacity, SAT separation and one-shot reuse.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 628 native and 442 unchanged generated records.
+  The 813-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Complete14-pageversionedprimarypaper visually inspected; equations,figures,tables,footnotes,referencesandbiographies
+  included. No author code or empirical replication.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

@@ -1,0 +1,551 @@
+# Scientific author self-review of Clockwork RNN
+
+- Review: 20261013T055043Z-clockwork-recurrent-neural-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T05:44:15Z
+- Finished UTC: 2026-10-13T05:50:43Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Clockwork RNN as a distinct DRAFT architecture with a broader recurrent-network mapping. All fields and six claims have support with explicit prescribed clocks, directed connectivity, inactive carry, exact finite-count and conditional evaluation boundaries. No actionable record defect found; no author implementation or training execution occurred.
+
+## Scope And Provenance
+
+All fields of the maintained Clockwork RNN and complete primary conference paper.
+
+Selection: Exact maintained ID: AIMech:ClockworkRecurrentNeuralNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base ad51f25aadec1d16f60d1fb225a41e7e47a76ce2.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ClockworkRecurrentNeuralNetwork | data/curated/ClockworkRecurrentNeuralNetwork.yaml | maintained | Clockwork recurrent neural network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ClockworkRecurrentNeuralNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 144.14s (0:02:24)<br>Checked 442 record(s); 0 failed.<br>Checked 577 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 233 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 231,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ClockworkRecurrentNeuralNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ClockworkRecurrentNeuralNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ClockworkRecurrentNeuralNetwork | Exited0 without output. |
+| Constructed clockwork boundaries | passed | True | AIMech:ClockworkRecurrentNeuralNetwork | {"recurrent_parameters": 24, "dense_recurrent_parameters": 36, "operations_by_phase": [24, 12, 20, 12], "average_recurrent_operations": 17.0, "appendix_intermediate_expression": 16, "positive_remainder": 1.0, "distinct_input_paths": [[0.46231336189907785, 0.197375320224904], [0.5356068267548758, 0.197375320224904]], "active_scalar_derivative": 3.999999999978667, "interpretation": "Whole clock-cycle recurrence counts exclude input/output, nonlinear, copy and hardware costs; the unobserved transient affects the fast state but not this slow module."} |
+
+## Scientific And Domain Assessments
+
+### Prescribed clocks and constrained inter-module recurrence
+
+identity: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Retain Clockwork RNN as a distinct DRAFT architecture.
+
+No normalized maintained identity matched. Ignored-inclusive hits were inspected as pending frontier leads and GF-RNN comparison/search context. Prescribed module updates differ from learned pair gates, continuously decaying SCRN context, initialized identity recurrence and stochastic Zoneout. The existing main frontier identity is resolved without adding a duplicate.
+
+### Broader recurrent architecture
+
+grounding: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+The broader mapping is supported.
+
+The network has temporal recurrence with scheduled module updates. The pinned recurrent category is broader. LSTM gate structure, fully connected simple-layer scope and echo-state reservoir constraints do not define this architecture or establish exact equivalence.
+
+### scheduled-transition-and-topology
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+Directed connection text p3 and the upper-triangular matrix make block rows destinations and columns sources: slower sources influence faster destinations. Modules update at t modulo T_i=0 and otherwise retain values. General prescribed periods are distinguished from the evaluated exponential schedule.
+
+### inactive-carry-and-active-jacobian
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+Equation4 only selects computed blocks; surrounding text explicitly retains inactive outputs and copies their errors backward. Direct inactive derivatives are identity, while active learned transitions remain unconstrained. No whole-network permanent gradient or contraction guarantee follows.
+
+### sampling-and-input-boundaries
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+Slow modules have neither intervening direct input nor faster-to-slower state input in the baseline. The explicit two-history construction preserves slow state but changes the fast state. Future-work offsets, buffering, transforms and learned periods are proposals, not established baseline features.
+
+### recurrent-parameter-count
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+Summing the triangular block sizes yields k-squared*g*(g+1)/2 and ratio(g+1)/(2*g). This is recurrent-weight accounting for equal modules, not exact halving of all weights. Unequal sizes need different counts.
+
+### average-operation-count-and-remainder
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+The exact geometric finite sum equals2*g-2+2^(1-g). For g3,k2 the cycle average is17, exceeding the printed intermediate expression16; all-active phase costs24. The draft correctly rejects that source intermediate inequality and avoids turning average matrix-product counts into per-step or hardware guarantees.
+
+### conditional-evaluation-and-run-selection
+
+evidence: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Supported with schedule, count and evaluation qualifications.
+
+The source tasks are selected audio memorization,25-word TIMIT classification and bidirectional CTC handwriting. Table3 shows small Clockwork worse than simple RNN and LSTM better at each reported size. Three handwriting repetitions exclude poor early optima before averaging. Capacity, timing, task and run-selection limits remain explicit without importing numerical benchmarks.
+
+### Clock-cycle counts, missed input and active derivative
+
+consistency: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+Constructed algebra confirms the stated distinctions.
+
+The three-module count is24 weights versus36 dense; phase costs24,12,20,12 average17, retaining the positive finite remainder1. Two input histories yield equal slow but different fast states. An active tanh(4h) example has derivative4 at zero. These calculations are curator constructions, not source-code execution, measured speed or trained-model evidence.
+
+### Complete maintained record and inspected-source scope
+
+provenance: supported. Targets: AIMech:ClockworkRecurrentNeuralNetwork.
+
+All maintained fields inspected; DRAFT remains.
+
+Read ID/name/two aliases, kind, definition/citation, identity context, six claims and locators, source identity/version/access/hash, AIO pin/mapping, six limitations and actual curation times. Source/context/capture hashes and report mirror agree. The paper Appendix issue was accounted for before curation; no actionable record defect found.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T054406Z-clockwork-recurrent-neural-network.json | supports | Compared all 442 pinned AIO and 576 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 137, 90, 89 lines. All distinct match contents were read: prior Clockwork RNN frontier entries, the new GF-RNN comparison and discovery/search context, rather than an existing Clockwork record. Semantic matching inspected 63 AIO and145 native definitions, with unchanged preceding rows verified and new matches read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected. RecurrentNeuralNetwork is the broader architecture mapping. LongShortTermMemory uses a different gated memory formulation; SimpleRNNLayer is a component-level, fully connected recurrent layer rather than this modular clocked architecture; EchoStateNetwork describes reservoir/training constraints not entailed by prescribed module clocks. Fixed clock periods and copied inactive states differ from GF-RNN input-dependent pair gates, SCRN continuous decaying context, identity initialization and Zoneout stochastic state preservation. Period schedules and proposed input-buffer/phase variants do not establish separate supported concept identities here. |
+| mapping | sources/aio/aio.json | supports | Sixty-three AIO and145 native semantic rows read or verified unchanged; four full annotated AIO contexts and four full native records inspected. RecurrentNeuralNetwork is broader. LSTM gates, a component-level simple recurrent layer and echo-state reservoir constraints do not establish the clocked modular identity. |
+| koutnik2014 | https://proceedings.mlr.press/v32/koutnik14.pdf; Complete nine-page conference paper visually read; method, evaluation and Appendix pp3–4,6–8 reread after capture. | supports | ICML2014, PMLR32(2):1863–1871. All nine conference PDF pages, Figures1–5, Tables1–3, Equations1–4, Appendix and references visually inspected; locators use PDF page order. |
+| calculation | research/discovery/clockwork-boundaries.py | supports | Constructed triangular parameter counts, cycle-varying operation counts and exact finite-sum remainder; two input histories with matching slow state but differing fast state; active-step derivative above one. No author code execution, training, runtime measurement or benchmark reproduction. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- The three-record batch shares one complete repository gate run; this does not represent three independent gate executions.
+- One new DRAFT concept, yielding 577 native and 442 unchanged generated records. The 761-entry main frontier retains 481 pending and 57 partly addressed cohorts; discovery is incomplete.
+- All nine primary conference-paper pages were read, including the Appendix. No author implementation, training, runtime audit or empirical replication was inspected.
+- All nine conference-paper pages were read, including Appendix, figures, tables and negative results. No author implementation, training, runtime audit or empirical replication inspected.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T055043Z-clockwork-recurrent-neural-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Clockwork RNN
+started_at: '2026-10-13T05:44:15Z'
+finished_at: '2026-10-13T05:50:43Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged clocked-versus-gated identity, connection
+    direction, skipped updates, sampling gaps, source operation-count arithmetic and
+    adverse/selected-run evidence. This is adversarial author self-review, not independent
+    approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Clockwork RNN as a distinct DRAFT architecture with a broader recurrent-network
+  mapping. All fields and six claims have support with explicit prescribed clocks,
+  directed connectivity, inactive carry, exact finite-count and conditional evaluation
+  boundaries. No actionable record defect found; no author implementation or training
+  execution occurred.
+source:
+  git_revision: ad51f25aadec1d16f60d1fb225a41e7e47a76ce2
+  state: working_tree
+  inputs:
+  - path: data/aio/EchoStateNetwork.yaml
+    sha256: f15649d74702c61b11a09550e5c5e75f6ccde67089135a4b4adb5fc9c6610905
+    role: context
+  - path: data/aio/LongShortTermMemory.yaml
+    sha256: c78f9d7cd7fa61ec26d6964fbdd8dd17302480984df521b1a1c2b336f9768093
+    role: context
+  - path: data/aio/RecurrentNeuralNetwork.yaml
+    sha256: 1ebef94d2014e9a19d4bb3ed0fed6c5d77098a5a44e00e2cbd1cfe682dfcd892
+    role: context
+  - path: data/aio/SimpleRNNLayer.yaml
+    sha256: 6e93e3bd5702eb0a1109a12526138ae8aed009f30cc7cb764b0c7db4fa3f0bbe
+    role: context
+  - path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+    sha256: 465373ea285a9c4102069b1cef3023c52328a10ccc526855aea218bcec3f41fa
+    role: target
+  - path: data/curated/GatedFeedbackRecurrentNeuralNetwork.yaml
+    sha256: 7b26adbe3234f94c69012c3be72a9d3ca0e63ee1652caf7f2030e47566fc943b
+    role: context
+  - path: data/curated/IdentityInitializedRecurrentNeuralNetwork.yaml
+    sha256: cfa1543605f0046f0c2bbbffc294d7cead0a444f1db5cb955bdf8971a7ae9d62
+    role: context
+  - path: data/curated/StructurallyConstrainedRecurrentNeuralNetwork.yaml
+    sha256: 03df44109ede633bd0f41cf2b7b355ac0708ff53411e5ef1a9f69d131380f6bc
+    role: context
+  - path: data/curated/Zoneout.yaml
+    sha256: 25f1c0e8bfaa491a871c780730358be99aa37f44933aefc466b1ca0024563ae6
+    role: context
+  - path: research/discovery/20261013T054406Z-clockwork-recurrent-neural-network.json
+    sha256: 67704b2a147e4188272fd726b030b7c360018fe982eb8f01f6ab55735d5b6ab4
+    role: context
+  - path: research/discovery/clockwork-boundaries.py
+    sha256: be81512cc8d721a71719c12e03e0dc21b169e9fae639e1c63b9aaeea72aa06ec
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ClockworkRecurrentNeuralNetwork
+  path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+  label: Clockwork recurrent neural network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ClockworkRecurrentNeuralNetwork.yaml
+    role: maintained
+scope:
+  description: All fields of the maintained Clockwork RNN and complete primary conference
+    paper.
+  selection: 'Exact maintained ID: AIMech:ClockworkRecurrentNeuralNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Author implementation and dependencies
+    reason: No code, runtime, backward implementation or training implementation inspected.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No model execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 144.14s (0:02:24)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 577 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 233 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 231,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed clockwork boundaries
+  command: python3 research/discovery/clockwork-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"recurrent_parameters": 24, "dense_recurrent_parameters": 36, "operations_by_phase":
+    [24, 12, 20, 12], "average_recurrent_operations": 17.0, "appendix_intermediate_expression":
+    16, "positive_remainder": 1.0, "distinct_input_paths": [[0.46231336189907785,
+    0.197375320224904], [0.5356068267548758, 0.197375320224904]], "active_scalar_derivative":
+    3.999999999978667, "interpretation": "Whole clock-cycle recurrence counts exclude
+    input/output, nonlinear, copy and hardware costs; the unobserved transient affects
+    the fast state but not this slow module."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T054406Z-clockwork-recurrent-neural-network.json
+  accessed_at: '2026-10-13T05:44:15Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 576 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    137, 90, 89 lines. All distinct match contents were read: prior Clockwork RNN
+    frontier entries, the new GF-RNN comparison and discovery/search context, rather
+    than an existing Clockwork record. Semantic matching inspected 63 AIO and145 native
+    definitions, with unchanged preceding rows verified and new matches read. Four
+    full annotated AIO node/edge/generated contexts and four full native records were
+    inspected. RecurrentNeuralNetwork is the broader architecture mapping. LongShortTermMemory
+    uses a different gated memory formulation; SimpleRNNLayer is a component-level,
+    fully connected recurrent layer rather than this modular clocked architecture;
+    EchoStateNetwork describes reservoir/training constraints not entailed by prescribed
+    module clocks. Fixed clock periods and copied inactive states differ from GF-RNN
+    input-dependent pair gates, SCRN continuous decaying context, identity initialization
+    and Zoneout stochastic state preservation. Period schedules and proposed input-buffer/phase
+    variants do not establish separate supported concept identities here.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T05:44:15Z'
+  support: supports
+  summary: Sixty-three AIO and145 native semantic rows read or verified unchanged;
+    four full annotated AIO contexts and four full native records inspected. RecurrentNeuralNetwork
+    is broader. LSTM gates, a component-level simple recurrent layer and echo-state
+    reservoir constraints do not establish the clocked modular identity.
+- evidence_id: koutnik2014
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v32/koutnik14.pdf
+  locator: Complete nine-page conference paper visually read; method, evaluation and
+    Appendix pp3–4,6–8 reread after capture.
+  accessed_at: '2026-10-13T05:20:58Z'
+  snapshot_sha256: a991ba1c812d9c8f72fb71d8e8a5fbc3a47fc59a3bda92f5a0bf043310bf1b64
+  support: supports
+  summary: ICML2014, PMLR32(2):1863–1871. All nine conference PDF pages, Figures1–5,
+    Tables1–3, Equations1–4, Appendix and references visually inspected; locators
+    use PDF page order.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/clockwork-boundaries.py
+  accessed_at: '2026-10-13T05:45:55Z'
+  snapshot_sha256: be81512cc8d721a71719c12e03e0dc21b169e9fae639e1c63b9aaeea72aa06ec
+  support: supports
+  summary: Constructed triangular parameter counts, cycle-varying operation counts
+    and exact finite-sum remainder; two input histories with matching slow state but
+    differing fast state; active-step derivative above one. No author code execution,
+    training, runtime measurement or benchmark reproduction.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Prescribed clocks and constrained inter-module recurrence
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - koutnik2014
+  summary: Retain Clockwork RNN as a distinct DRAFT architecture.
+  details: No normalized maintained identity matched. Ignored-inclusive hits were
+    inspected as pending frontier leads and GF-RNN comparison/search context. Prescribed
+    module updates differ from learned pair gates, continuously decaying SCRN context,
+    initialized identity recurrence and stochastic Zoneout. The existing main frontier
+    identity is resolved without adding a duplicate.
+- assessment_id: mapping
+  area: grounding
+  topic: Broader recurrent architecture
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - mapping
+  - koutnik2014
+  summary: The broader mapping is supported.
+  details: The network has temporal recurrence with scheduled module updates. The
+    pinned recurrent category is broader. LSTM gate structure, fully connected simple-layer
+    scope and echo-state reservoir constraints do not define this architecture or
+    establish exact equivalence.
+- assessment_id: scheduled-transition-and-topology
+  area: evidence
+  topic: scheduled-transition-and-topology
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: 'Directed connection text p3 and the upper-triangular matrix make block
+    rows destinations and columns sources: slower sources influence faster destinations.
+    Modules update at t modulo T_i=0 and otherwise retain values. General prescribed
+    periods are distinguished from the evaluated exponential schedule.'
+- assessment_id: inactive-carry-and-active-jacobian
+  area: evidence
+  topic: inactive-carry-and-active-jacobian
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: Equation4 only selects computed blocks; surrounding text explicitly retains
+    inactive outputs and copies their errors backward. Direct inactive derivatives
+    are identity, while active learned transitions remain unconstrained. No whole-network
+    permanent gradient or contraction guarantee follows.
+- assessment_id: sampling-and-input-boundaries
+  area: evidence
+  topic: sampling-and-input-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: Slow modules have neither intervening direct input nor faster-to-slower
+    state input in the baseline. The explicit two-history construction preserves slow
+    state but changes the fast state. Future-work offsets, buffering, transforms and
+    learned periods are proposals, not established baseline features.
+- assessment_id: recurrent-parameter-count
+  area: evidence
+  topic: recurrent-parameter-count
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: Summing the triangular block sizes yields k-squared*g*(g+1)/2 and ratio(g+1)/(2*g).
+    This is recurrent-weight accounting for equal modules, not exact halving of all
+    weights. Unequal sizes need different counts.
+- assessment_id: average-operation-count-and-remainder
+  area: evidence
+  topic: average-operation-count-and-remainder
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: The exact geometric finite sum equals2*g-2+2^(1-g). For g3,k2 the cycle
+    average is17, exceeding the printed intermediate expression16; all-active phase
+    costs24. The draft correctly rejects that source intermediate inequality and avoids
+    turning average matrix-product counts into per-step or hardware guarantees.
+- assessment_id: conditional-evaluation-and-run-selection
+  area: evidence
+  topic: conditional-evaluation-and-run-selection
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Supported with schedule, count and evaluation qualifications.
+  details: The source tasks are selected audio memorization,25-word TIMIT classification
+    and bidirectional CTC handwriting. Table3 shows small Clockwork worse than simple
+    RNN and LSTM better at each reported size. Three handwriting repetitions exclude
+    poor early optima before averaging. Capacity, timing, task and run-selection limits
+    remain explicit without importing numerical benchmarks.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Clock-cycle counts, missed input and active derivative
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - koutnik2014
+  - calculation
+  summary: Constructed algebra confirms the stated distinctions.
+  details: The three-module count is24 weights versus36 dense; phase costs24,12,20,12
+    average17, retaining the positive finite remainder1. Two input histories yield
+    equal slow but different fast states. An active tanh(4h) example has derivative4
+    at zero. These calculations are curator constructions, not source-code execution,
+    measured speed or trained-model evidence.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete maintained record and inspected-source scope
+  outcome: supported
+  target_ids:
+  - AIMech:ClockworkRecurrentNeuralNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - koutnik2014
+  - calculation
+  summary: All maintained fields inspected; DRAFT remains.
+  details: Read ID/name/two aliases, kind, definition/citation, identity context,
+    six claims and locators, source identity/version/access/hash, AIO pin/mapping,
+    six limitations and actual curation times. Source/context/capture hashes and report
+    mirror agree. The paper Appendix issue was accounted for before curation; no actionable
+    record defect found.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- The three-record batch shares one complete repository gate run; this does not represent
+  three independent gate executions.
+- One new DRAFT concept, yielding 577 native and 442 unchanged generated records.
+  The 761-entry main frontier retains 481 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- All nine primary conference-paper pages were read, including the Appendix. No author
+  implementation, training, runtime audit or empirical replication was inspected.
+- All nine conference-paper pages were read, including Appendix, figures, tables and
+  negative results. No author implementation, training, runtime audit or empirical
+  replication inspected.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- recurrent-architectures
+- self-review
+- discovery-ongoing
+```

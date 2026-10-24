@@ -1,0 +1,128 @@
+id: AIMech:KleinbergNonprincipalHubAuthorityExtraction
+name: Kleinberg nonprincipal hub-authority extraction
+aliases:
+- Nonprincipal eigenvector hub-authority extraction
+concept_kind: algorithm
+definition: A link-analysis procedure that uses paired nonprincipal eigenvectors of the authority and
+  hub Gram matrices of a query-focused directed page graph, selecting extreme coordinates to obtain additional
+  hub and authority lists that implicitly summarize different linked topics.
+definition_evidence:
+- source_id: kleinberg1999
+  locator: Section 6, Proposition 6.1 and coordinate-selection discussion, printed pp. 20–22 / PDF pp.
+    21–23
+  relation: supports
+claims:
+- claim_id: paired-modes
+  kind: mechanism
+  statement: For directed adjacency A, consider nonprincipal eigenvectors x of A^T A and their corresponding
+    hub directions in A A^T. For positive eigenvalue lambda and unit x, the unit paired vector is y=A
+    x/sqrt(lambda). Applying the authority or hub propagation keeps these paired directions invariant
+    up to scalar multiplication. The source uses modes beyond the principal pair to obtain additional
+    strongly linked collections.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 6 and Proposition 6.1, printed p. 21 / PDF p. 22; unit-eigenvector convention in
+      Section 3, printed p. 10 / PDF p. 11; curator normalization qualification
+    relation: supports
+- claim_id: coordinate-selection
+  kind: mechanism
+  statement: For each selected pair, the source takes the c most positive and c most negative coordinates
+    as hub and authority summaries. These are extrema-based representatives, not a full geometric embedding
+    followed by a required partition. Sign reversal of both paired vectors exchanges the two ends without
+    changing the represented pair of collections. When a mode has only one nonzero sign, the paper does
+    not provide a meaningful second signed group or a zero-coordinate tie policy.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 6, printed pp. 21–22 / PDF pp. 22–23; sign qualification illustrated in research/discovery/hits-boundaries.py
+    relation: supports
+- claim_id: normalization-and-sign-boundaries
+  kind: limitation
+  statement: 'Proposition 6.1 prints y=A x although the earlier notation specifies unit eigenvectors.
+    Positive modes require division by sqrt(lambda) for a unit pair; a zero mode maps to zero and cannot
+    supply a nonzero paired eigenvector through this formula. The statement that every nonprincipal vector
+    has both signs also needs qualification for reducible Gram matrices: an eleven-vertex example with
+    nonzero eigenvalues 9 and 4 has a nonnegative secondary eigenvector. These are explicit curator algebraic
+    qualifications, not claims about an inspected author implementation.'
+  evidence:
+  - source_id: kleinberg1999
+    locator: Section 3 unit-basis convention and Section 6 Proposition 6.1/sign assertion, printed pp.
+      10,21 / PDF pp. 11,22; exact arithmetic in research/discovery/hits-boundaries.py
+    relation: supports
+- claim_id: implicit-cluster-scope
+  kind: scope
+  statement: The extracted lists are intended as compact topic summaries of large clusters that are not
+    explicitly represented. Different modes can repeat the same highly ranked pages, and the illustrated
+    distinct collections were selected by hand from several modes. There is no guarantee of a disjoint
+    partition, exhaustive query-sense coverage, unique semantic labeling or a prescribed number of distinct
+    clusters. Bases within repeated eigenspaces are not uniquely determined by the eigenproblem.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Sections 5–6, printed pp. 18–23 / PDF pp. 19–24; eigenbasis qualification is curator linear-algebra
+      context
+    relation: supports
+- claim_id: historical-evaluation
+  kind: limitation
+  statement: The manuscript illustrates multiple senses and related communities using ranked URL lists
+    and describes a narrow-query example selected by keyword counts among early nonprincipal-mode lists.
+    These demonstrations do not establish universal semantic separation or measured clustering accuracy.
+    The Section 8 human studies use enhanced systems and are not direct evidence for this extension alone;
+    the sign of an eigenvector carries no inherent social or normative meaning.
+  evidence:
+  - source_id: kleinberg1999
+    locator: Sections 6–8, printed pp. 22–27 / PDF pp. 23–28
+    relation: supports
+aio_mappings:
+- target: AIO:Clustering
+  relation: related_match
+  rationale: The source explicitly treats additional hub/authority lists as implicit summaries of different
+    linked topic clusters. This algorithm-to-task association retains a clustering relationship without
+    asserting a complete partition, exact identity with the task or an AIO subclass axiom.
+limitations:
+- The record denotes the Section 6 extension, not principal HITS ranking, all spectral graph partitioning,
+  PCA or a trained model instance.
+- The positive-mode normalization and reducible-matrix sign boundaries qualify broad printed statements.
+  No author-code defect, repaired implementation or universal semantic guarantee is inferred.
+- Mode selection, coordinate cutoffs, degeneracies and repeated leading pages affect summaries. Zero eigenvalues
+  and one-sided modes do not provide the unqualified two-sided construction described in the source prose.
+- Historical hand-selected examples and finite arithmetic do not certify recovery of real communities,
+  exhaustive retrieval or current-web effectiveness. Enhanced-system user-study results remain separate.
+- The full 34-page author manuscript and relevant rendered mathematics/results were inspected. No author
+  software, historical graphs, live crawl or training was executed. Source pagination differs from journal
+  metadata; DRAFT remains.
+identity_notes: 'Compared all 442 pinned AIO and 681 native identities before either cohort write; no
+  normalized match. Ignored- and hidden-inclusive searches of three checkouts returned 419,78,76 lines.
+  All 23 nonembedded unique payloads were read; six embedded matches were decoded and verified byte-identical
+  to previously read search payloads. These were prior pending leads and contrasts, not existing maintained
+  identities. Semantic assessment covered 127 AIO and 450 native definitions: 127/439 prior rows verified
+  unchanged, eleven new native rows read. Fourteen complete AIO nodes/incident-edge/generated-record contexts
+  and full PowerIterationClustering, LaplacianEigenmaps, KernelPCA, ChakrabartiFocusedCrawler and RelevanceWeightedTopicDistillation
+  records were assessed. The original principal ranking and nonprincipal extraction were compared directly.
+  The concept is the Section 6 nonprincipal paired-eigenvector extraction of additional hub/authority
+  summaries, distinct from principal ranking, centered PCA and Laplacian embeddings. It does not supply
+  a complete disjoint partition.'
+evidence_sources:
+- source_id: kleinberg1999
+  title: Authoritative Sources in a Hyperlinked Environment
+  authors:
+  - Jon M. Kleinberg
+  source_type: primary_paper
+  access_level: full_text
+  version: 'Author-hosted extended manuscript associated with JACM 46(5):604–632 (1999), 34 PDF pages:
+    unnumbered cover then printed pages 1–33. All text and 58 references read; rendered mathematical/algorithm/result
+    pages inspected. Cover identifies preliminary SODA 1998 and IBM RJ10076 May 1997 versions. Locators
+    use this author copy; byte identity with the journal PDF is not asserted.'
+  persistent_id: doi:10.1145/324133.324140
+  url: https://www.cs.cornell.edu/home/kleinber/auth.pdf
+  accessed_at: '2026-10-14T02:45:46Z'
+  sha256: a8503fe2c089deae3f32c7c8970935b0d0a560f3f558f72d09426513cb95bea5
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T03:04:24Z'
+  updated_at: '2026-10-14T03:04:24Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

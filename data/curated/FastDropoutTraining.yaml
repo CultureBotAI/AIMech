@@ -1,0 +1,160 @@
+id: AIMech:FastDropoutTraining
+name: Fast Dropout Training
+aliases:
+- Fast dropout
+concept_kind: algorithm
+definition: A dropout approximation procedure that replaces masked weighted sums by Gaussian distributions
+  with matched means and variances, using Gaussian sampling or moment integration to approximate training
+  and prediction computations.
+identity_notes: Compared all 442 pinned AIO and 619 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match.  Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 181, 90, 89 lines. All distinct match contents were
+  inspected. Semantic matching covered 34 AIO and 119 native definitions, with every matched definition
+  read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Fast
+  dropout denotes Wang and Manning’s Gaussian approximation algorithm, including sampling and moment-integration
+  variants and the inspected recurrent application. It is not the Bernoulli masking layer itself, a fixed
+  Gaussian-noise layer, a recurrent architecture or the original DropConnect layer’s connection-masked
+  training. DropConnect shares a Gaussian moment approximation at inference, which does not identify its
+  full procedure with fast-dropout training. Recurrent use is kept within this method; no duplicate recurrent-method
+  ID is created.
+definition_evidence:
+- source_id: wang2013
+  locator: Sections 2.1–2.4, PDF pp. 2–4; neural-network extension, Section 4, p. 5
+  relation: supports
+claims:
+- claim_id: masked-sum-moments
+  kind: mechanism
+  statement: For fixed input coordinates x_i, weights w_i and independent Bernoulli retention masks z_i
+    with probabilities p_i, the masked preactivation has mean sum(p_i*w_i*x_i) and variance sum(p_i*(1-p_i)*(w_i*x_i)^2).
+    These moments are exact under those assumptions, but the Gaussian distribution replacing the masked
+    sum is generally approximate. Central-limit reasoning additionally needs conditions such as no dominant
+    contribution; arbitrary finite width or independence alone does not ensure a good Gaussian approximation.
+  evidence:
+  - source_id: wang2013
+    locator: Section 2.2, PDF p. 2; limitations and sparse features, Section 6.2, p. 6; direct moment
+      algebra
+    relation: supports
+- claim_id: sampling-integration-and-loss
+  kind: scope
+  statement: 'The procedure includes a Gaussian-sampling route and approximations that integrate nonlinear
+    responses. Sigmoid-Gaussian and expected log-sigmoid expressions in the paper are approximations;
+    evaluating a nonlinear loss at a mean is generally different from its expectation. Squared-error expectation
+    is a special exact moment identity: variance plus squared error of the mean. Replacing Bernoulli masks
+    by a matched Gaussian does not preserve the complete distribution or every expected loss, and the
+    sampled and closed-form gradient approximations are not interchangeable exact gradients.'
+  evidence:
+  - source_id: wang2013
+    locator: Sections 2.3–2.4, PDF pp. 3–4, Equations 5–8; Section 3.1, Equation 9, p. 4
+    relation: supports
+- claim_id: propagated-variance-and-recurrence
+  kind: mechanism
+  statement: For independent random input coordinates with means mu_i and variances sigma_i^2, independent
+    of a common-probability retention mask p, the preactivation variance is sum(w_i^2*(p*(1-p)*mu_i^2+p*sigma_i^2)).
+    The original neural-network formulation displays incoming variance before simplifying it away in a
+    practical approximation. The recurrent followup retains it and concatenates the previous hidden state
+    with the current input for the recurrent transform. This does not make recurrent hidden components
+    independent or their nonlinear joint distribution exactly Gaussian. Omitting final-layer variance
+    propagation differs from merely setting its dropout probability to zero.
+  evidence:
+  - source_id: wang2013
+    locator: Sections 4.1–4.2, PDF p. 5, displayed hidden mean/variance and practical simplification
+    relation: supports
+  - source_id: bayer2014
+    locator: Section 2.2.1, PDF pp. 3–4, Equations 1–2 and Fast Dropout for RNNs; Section 2.3, pp. 7–8
+    relation: supports
+- claim_id: local-regularization-boundary
+  kind: limitation
+  statement: The recurrent paper decomposes the derivative through a unit into mean and variance paths.
+    Holding incoming moments fixed, the variance contribution for weight w_i is 2*w_i*(p*(1-p)*mu_i^2+p*sigma_i^2)
+    times the loss derivative with respect to preactivation variance. Its sign can encourage shrinkage,
+    growth or neither. This is a local derivative interpretation, not an established global positive quadratic
+    penalty, a guarantee that each contribution vanishes at every parameter-space stationary point, or
+    a proof of stable recurrent dynamics.
+  evidence:
+  - source_id: bayer2014
+    locator: Section 2.2.2, PDF pp. 4–7, Gaussian approximation and explicit local-at-a qualification
+      on p. 5; Section 2.3, p. 7; direct variance differentiation
+    relation: supports
+- claim_id: evaluation-and-version-scope
+  kind: limitation
+  statement: The original paper evaluates selected document classifiers, digit networks and smaller classification/regression
+    datasets, with different optimizers and additional-noise settings. It reports no gain with its original
+    minibatch schedule and unfavorable linear-regression comparisons, so speed and accuracy gains are
+    not universal. The recurrent followup evaluates four polyphonic-music datasets using validation-selected
+    random-search configurations with several optimization aids; its comparison is not an isolated test
+    of one variance term. The inspected v7 version removes the earlier erroneous Penn Treebank experiments,
+    which supply no retained language-modeling result here.
+  evidence:
+  - source_id: wang2013
+    locator: Sections 6.1–6.5, PDF pp. 6–8, Figures 5–6 and Tables 1–5
+    relation: supports
+  - source_id: bayer2014
+    locator: Sections 2.3 and 3.1, PDF pp. 7–9; Appendix 5.1, pp. 11–12; primary arXiv v7 version comments
+    relation: supports
+evidence_sources:
+- source_id: wang2013
+  title: Fast dropout training
+  authors:
+  - Sida I. Wang
+  - Christopher D. Manning
+  persistent_id: PMLR:wang13a
+  version: ICML2013, PMLR28(2):118–126, nine-page proceedings PDF. All pages visually read. Locators use
+    PDF pages1–9; no author implementation executed.
+  source_type: primary_paper
+  url: https://proceedings.mlr.press/v28/wang13a.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T12:55:49Z'
+  sha256: a5a8f1efb4381963188ad3bcd5e0525d7f95e7106255c1019445ad16f6bb2c63
+- source_id: bayer2014
+  title: On Fast Dropout and its Applicability to Recurrent Networks
+  authors:
+  - Justin Bayer
+  - Christian Osendorfer
+  - Daniela Korhammer
+  - Nutan Chen
+  - Sebastian Urban
+  - Patrick van der Smagt
+  persistent_id: arXiv:1311.0701v7
+  version: arXiv1311.0701v7,5March2014,12pages; all pages visually read, including appendix. The primary
+    version comments state that erroneous Penn Treebank experiments were removed. Earlier versions and
+    author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1311.0701v7
+  access_level: full_text
+  accessed_at: '2026-10-13T12:55:49Z'
+  sha256: d447d6f4ca5c298af5315d2f1bd680d19bb20d52bbe600a9317b7fefd3092992
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:DropoutLayer
+  relation: related_match
+  rationale: The procedure approximates computations under Bernoulli dropout, whereas the pinned layer
+    actually samples masks and rescales retained inputs. Algorithm and layer are related without equivalence
+    or subclass assertion.
+- target: AIO:GaussianDropoutLayer
+  relation: related_match
+  rationale: Both involve Gaussian approximations to multiplicative dropout effects, but fast dropout
+    also includes moment integration and variance propagation; it is not identical to the pinned training-only
+    layer that injects one-centered Gaussian noise.
+limitations:
+- Retention probability p in the moment formulas is one minus the dropout probability. Scaling conventions
+  must be reconciled before comparing with an inverted-dropout implementation.
+- Means and variances do not identify every non-Gaussian distribution. Cross-coordinate or temporal correlations
+  and nonlinear moment closure can invalidate an independent Gaussian approximation.
+- Fast dropout denotes an approximation algorithm, not every Gaussian-noise layer, a new recurrent architecture,
+  or a fixed optimizer. Its recurrent application is retained within this method record.
+- Source notation and broad regularization/stability claims are qualified by the actual moment formulas
+  and local derivative scope. No exact Bayesian posterior, universal generalization improvement or hardware
+  speedup is asserted.
+- The complete 9-page original and 12-page v7 recurrent followup were visually inspected. Constructed
+  finite calculations check mathematical boundaries only; author code, training and empirical replication
+  were not performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T13:12:05Z'
+  updated_at: '2026-10-13T13:21:19Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,569 @@
+# Scientific author self-review of Vertex Attention Interaction Network
+
+- Review: 20261013T091623Z-vertex-attention-interaction-network
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T09:11:15Z
+- Finished UTC: 2026-10-13T09:16:23Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain VAIN as a DRAFT architecture broadly mapped to ArtificialNeuralNetwork. Six claims preserve explicit source conflicts, aggregation variants and computational/evaluation limits; adversarial author self-review found no actionable defect.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:VertexAttentionInteractionNetwork
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 60c68a75f948fe44ff8d479de146f5fa3fe4d97d.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:VertexAttentionInteractionNetwork | data/curated/VertexAttentionInteractionNetwork.yaml | maintained | Vertex Attention Interaction Network |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:VertexAttentionInteractionNetwork | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 128.00s (0:02:07)<br>Checked 442 record(s); 0 failed.<br>Checked 597 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 257 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 256,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:VertexAttentionInteractionNetwork | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:VertexAttentionInteractionNetwork | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:VertexAttentionInteractionNetwork | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:VertexAttentionInteractionNetwork | {"scope": "Three fixed agents, equal-address and singleton cases; no learned encoders, training or timing.", "post_softmax_mask": {"weights": [[0, 0.2689171597187139, 9.021165708731927e-05], [0.26538792877224193, 0, 0.013212886953789414], [0.00012117544417123203, 0.017984030475110446, 0]], "row_sums": [0.2690073713758012, 0.27860081572603135, 0.018105205919281678], "pooled": [1.3455781268215299, 0.6761176140361674, 0.09016250326389469]}, "pre_softmax_exclusion": {"weights": [[0, 0.9996646498695334, 0.0003353501304664781], [0.9525741268224333, 0, 0.047425873177566774], [0.006692850924284856, 0.993307149075715, 0]], "pooled": [5.002012100782799, 2.426832858598101, 4.979921447227145]}, "unnormalized_physical": {"weights": [[0, 0.36787944117144233, 0.00012340980408667956], [0.36787944117144233, 0, 0.01831563888873418], [0.00012340980408667956, 0.01831563888873418, 0]], "pooled": [1.8407547137021651, 0.9372309101189606, 0.09182501405184425]}, "permutation_equivariance": true, "sign_reversal_changes_distance_preference": true, "identical_address_row_sum": 0.6666666666666666, "singleton_pool": [0.0], "operation_counts": [{"agents": 2, "shared_encoder_calls": 4, "full_pairwise_scores": 4, "offdiagonal_messages": 2}, {"agents": 4, "shared_encoder_calls": 8, "full_pairwise_scores": 16, "offdiagonal_messages": 12}, {"agents": 8, "shared_encoder_calls": 16, "full_pairwise_scores": 64, "offdiagonal_messages": 56}]} |
+
+## Scientific And Domain Assessments
+
+### Vertex Attention Interaction Network
+
+identity: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Retain this distinct DRAFT architecture.
+
+VAIN is the named learned-address multi-agent predictor with separate singleton/communication encodings. It is distinct from GAT/GATv2, Set Transformer and PointNet, and from autonomous LLM agents. A scoped formal convention is explicit rather than silently repairing conflicting paper notation.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+The declared broad AIO mapping is supported.
+
+Four full annotated AIO nodes, edges and generated YAMLs were inspected. ArtificialNeuralNetwork is a justified broad target for shared learned encoders and decoder. Named GCN/Transformer equivalence and an individual dot-product attention-layer identity are not asserted.
+
+### per-agent-factorization
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Figure1 and Equations6–11 specify shared singleton/communication encoders, learned addresses, pooled messages, singleton concatenation and per-agent decoding. The record follows the formal encoding convention despite p5 prose referring to original features.
+
+### negative-distance-source-convention
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+The p3 informal equations visibly use positive squared-distance exponents; Figure1/Eq8p4 and Eq12p7 use negative distances. Separate contradictory evidence preserves that discrepancy. Chosen addresses demonstrate that the two signs reverse distance preference.
+
+### self-mask-and-normalization
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation8 places the diagonal mask outside softmax. The record labels this a literal interpretation and disclaims implementation confirmation. For three equal addresses it yields row sum2/3; pre-exclusion renormalizes to1 and differs on the chosen distinct-address example.
+
+### physical-aggregation-variant
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation12 subtracts the diagonal indicator from an unnormalized negative-distance exponential kernel. Exact zero self-weight, additive pooling and symmetric raw offdiagonal weights are distinct from normalized social/chess weights.
+
+### computation-boundary
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Section3 explicitly acknowledges quadratic dense attention despite linear neural encoder calls. Direct counts distinguish these quantities and do not infer a timing theorem. Nearest-neighbor restriction is an approximation suggestion, not proof of exact sparsity or universal linear total cost.
+
+### evaluation-and-representation-limits
+
+evidence: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Supported within the stated primary-source and mathematical scope.
+
+Chess predicts next piece identity rather than a full optimal move. Soccer uses sensor features and shows ties; balls use50simulatedobjects and the additive variant. Budget-adjusted network widths and the paper’s sparse/mean-field limits are retained, with no universal accuracy or causal interpretation.
+
+### source sign conflict, normalization and self-masking, physical aggregation and linear encoder counts versus quadratic dense attention
+
+consistency: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Constructed calculations support the stated distinctions.
+
+Small chosen addresses/messages distinguish negative from positive distance preference, post-softmax masking from self-excluded normalization and unnormalized physical aggregation. Equal-address and singleton cases, permutation equivariance and direct encoder/pair counts are checked. No trained networks or performance experiment.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:VertexAttentionInteractionNetwork.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all six claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Read every maintained field and four mapping-context YAMLs after capture. Reread formal and informal attention equations, the sign conflict, literal self-mask order, physical variant, complexity qualification and all evaluation boundaries. Recomputed small fixed attention examples.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T090327Z-vertex-attention-interaction-network.json | supports | Compared all 442 pinned AIO and 596 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 299, 177, 175 lines. All distinct match contents were inspected. Semantic matching covered 23 AIO and 49 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. VAIN denotes Hoshen’s learned-address multi-agent architecture, with per-agent communication vectors and separate singleton features. The source’s agents are modeled objects, not LLM agents. Its negative-distance architectural convention, literal self-mask order and physical aggregation variant are explicit. Generic graph attention, GAT/GATv2, Set Transformer and PointNet are distinct; AIO ArtificialNeuralNetwork provides a justified broad mapping. |
+| mapping | sources/aio/aio.json | supports | Four full annotated AIO nodes, edges and generated YAMLs were inspected. ArtificialNeuralNetwork is a justified broad target for shared learned encoders and decoder. Named GCN/Transformer equivalence and an individual dot-product attention-layer identity are not asserted. |
+| hoshen2017 | https://papers.neurips.cc/paper/6863-vain-attentional-multi-agent-predictive-modeling.pdf; All11 NIPS2017 proceedings pages read before curation. Selected formal-method and evaluation pages reread after capture. Author code and other manuscript versions uninspected; formula-order ambiguity remains, and no benchmark or runtime replication is claimed. | supports | NIPS 2017 proceedings PDF, 11 pages, all visually read including equations, figures, tables and references. Locators are PDF/printed pages 1–11. The selected architectural negative-distance convention differs from the positive exponent printed in informal Equations 3–5. Author code and other manuscript versions not inspected. |
+| positive-exponent-conflict | https://papers.neurips.cc/paper/6863-vain-attentional-multi-agent-predictive-modeling.pdf; Section2, PDFp3, Equations3–5 | refutes | The informal formulas print positive squared-distance exponents, conflicting with the negative-distance architectural Figure1/Equation8 selected in this scoped record. The discrepancy remains explicit; no author-code resolution is claimed. |
+| calculation | research/discovery/vertex-attention-boundaries.py | supports | Small chosen addresses/messages distinguish negative from positive distance preference, post-softmax masking from self-excluded normalization and unnormalized physical aggregation. Equal-address and singleton cases, permutation equivariance and direct encoder/pair counts are checked. No trained networks or performance experiment. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these are not independent gate runs.
+- One new DRAFT concept, yielding 597 native and 442 unchanged generated records. The 781-entry main frontier retains 478 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All11 proceedings PDF pages visually read, including four figures, three tables, equations, experiments and full references. No author code or empirical experiment executed.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T091623Z-vertex-attention-interaction-network
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Vertex Attention Interaction Network
+started_at: '2026-10-13T09:11:15Z'
+finished_at: '2026-10-13T09:16:23Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged source sign conflict, normalization and
+    self-masking, physical aggregation and linear encoder counts versus quadratic
+    dense attention. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain VAIN as a DRAFT architecture broadly mapped to ArtificialNeuralNetwork.
+  Six claims preserve explicit source conflicts, aggregation variants and computational/evaluation
+  limits; adversarial author self-review found no actionable defect.
+source:
+  git_revision: 60c68a75f948fe44ff8d479de146f5fa3fe4d97d
+  state: working_tree
+  inputs:
+  - path: data/aio/ArtificialNeuralNetwork.yaml
+    sha256: 718528c2d43f98b200c7656e9844890e9b445bbff53d3286cb22af39f34c69ce
+    role: context
+  - path: data/aio/AttentionLayer.yaml
+    sha256: ace47f724bab8a1aec9f963f7d8121f148134e5bbcce7c23a3a1f62c9c83619b
+    role: context
+  - path: data/aio/GraphConvolutionalNetwork.yaml
+    sha256: 644b6187436c10693cb547dbaa809b8c00c97ad198db201342e5bc0780c78d44
+    role: context
+  - path: data/aio/TransformerNetwork.yaml
+    sha256: fa6c2b7fa53bc85f7d5a202afaaac0071fdb275240fad6421c1c0c9b8abdcb81
+    role: context
+  - path: data/curated/GATv2.yaml
+    sha256: 39c3a33eb76df005b72c7ee32f7dd057e65e56a5bcdd5b12bd5886f4c260d91e
+    role: context
+  - path: data/curated/GraphAttentionNetwork.yaml
+    sha256: d0c81e5f4484619861b11d40a48c4ddd2a1b677b6ad8f01b2e92ba80648af860
+    role: context
+  - path: data/curated/PointNet.yaml
+    sha256: b2292a45d360ee989f143838b4ca9008033e69d63c5b578e7e2ab45fb6ee80dd
+    role: context
+  - path: data/curated/SetTransformer.yaml
+    sha256: 8c20fa1dbeb0add989673a24a446bb55bc5ca94130bd95939cc1b16f959690bf
+    role: context
+  - path: data/curated/VertexAttentionInteractionNetwork.yaml
+    sha256: 2bb93bb8bc9f67a49a58fd62a87702e5989192466aa1ebffda0d8192b84b7317
+    role: target
+  - path: research/discovery/20261013T090327Z-vertex-attention-interaction-network.json
+    sha256: 49fcd51185741746f3b9b8f79aaeb0c171c56814ac96659634864d50878bd3cc
+    role: context
+  - path: research/discovery/vertex-attention-boundaries.py
+    sha256: b6fb740facfc5737485b8de552a8951015736902c89c3ebd930f37423bc96a00
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:VertexAttentionInteractionNetwork
+  path: data/curated/VertexAttentionInteractionNetwork.yaml
+  label: Vertex Attention Interaction Network
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/VertexAttentionInteractionNetwork.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:VertexAttentionInteractionNetwork'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: All11 NIPS2017 proceedings pages read before curation. Selected formal-method
+      and evaluation pages reread after capture. Author code and other manuscript
+      versions uninspected; formula-order ambiguity remains, and no benchmark or runtime
+      replication is claimed.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 128.00s (0:02:07)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 597 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 257 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 256,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/vertex-attention-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"scope": "Three fixed agents, equal-address and singleton cases; no learned
+    encoders, training or timing.", "post_softmax_mask": {"weights": [[0, 0.2689171597187139,
+    9.021165708731927e-05], [0.26538792877224193, 0, 0.013212886953789414], [0.00012117544417123203,
+    0.017984030475110446, 0]], "row_sums": [0.2690073713758012, 0.27860081572603135,
+    0.018105205919281678], "pooled": [1.3455781268215299, 0.6761176140361674, 0.09016250326389469]},
+    "pre_softmax_exclusion": {"weights": [[0, 0.9996646498695334, 0.0003353501304664781],
+    [0.9525741268224333, 0, 0.047425873177566774], [0.006692850924284856, 0.993307149075715,
+    0]], "pooled": [5.002012100782799, 2.426832858598101, 4.979921447227145]}, "unnormalized_physical":
+    {"weights": [[0, 0.36787944117144233, 0.00012340980408667956], [0.36787944117144233,
+    0, 0.01831563888873418], [0.00012340980408667956, 0.01831563888873418, 0]], "pooled":
+    [1.8407547137021651, 0.9372309101189606, 0.09182501405184425]}, "permutation_equivariance":
+    true, "sign_reversal_changes_distance_preference": true, "identical_address_row_sum":
+    0.6666666666666666, "singleton_pool": [0.0], "operation_counts": [{"agents": 2,
+    "shared_encoder_calls": 4, "full_pairwise_scores": 4, "offdiagonal_messages":
+    2}, {"agents": 4, "shared_encoder_calls": 8, "full_pairwise_scores": 16, "offdiagonal_messages":
+    12}, {"agents": 8, "shared_encoder_calls": 16, "full_pairwise_scores": 64, "offdiagonal_messages":
+    56}]}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T090327Z-vertex-attention-interaction-network.json
+  accessed_at: '2026-10-13T09:11:15Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 596 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    299, 177, 175 lines. All distinct match contents were inspected. Semantic matching
+    covered 23 AIO and 49 native definitions, with every matched definition read.
+    4 full annotated AIO node/edge/generated contexts and 4 full native records were
+    inspected. VAIN denotes Hoshen’s learned-address multi-agent architecture, with
+    per-agent communication vectors and separate singleton features. The source’s
+    agents are modeled objects, not LLM agents. Its negative-distance architectural
+    convention, literal self-mask order and physical aggregation variant are explicit.
+    Generic graph attention, GAT/GATv2, Set Transformer and PointNet are distinct;
+    AIO ArtificialNeuralNetwork provides a justified broad mapping.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T09:11:15Z'
+  support: supports
+  summary: Four full annotated AIO nodes, edges and generated YAMLs were inspected.
+    ArtificialNeuralNetwork is a justified broad target for shared learned encoders
+    and decoder. Named GCN/Transformer equivalence and an individual dot-product attention-layer
+    identity are not asserted.
+- evidence_id: hoshen2017
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper/6863-vain-attentional-multi-agent-predictive-modeling.pdf
+  locator: All11 NIPS2017 proceedings pages read before curation. Selected formal-method
+    and evaluation pages reread after capture. Author code and other manuscript versions
+    uninspected; formula-order ambiguity remains, and no benchmark or runtime replication
+    is claimed.
+  accessed_at: '2026-10-13T08:49:50Z'
+  snapshot_sha256: 0eed9ed9c19f9e0002b01fdf2a97e5f2612237f9a5d6844fa3df751f25da500e
+  support: supports
+  summary: NIPS 2017 proceedings PDF, 11 pages, all visually read including equations,
+    figures, tables and references. Locators are PDF/printed pages 1–11. The selected
+    architectural negative-distance convention differs from the positive exponent
+    printed in informal Equations 3–5. Author code and other manuscript versions not
+    inspected.
+- evidence_id: positive-exponent-conflict
+  kind: primary_source
+  reference: https://papers.neurips.cc/paper/6863-vain-attentional-multi-agent-predictive-modeling.pdf
+  locator: Section2, PDFp3, Equations3–5
+  accessed_at: '2026-10-13T08:49:50Z'
+  snapshot_sha256: 0eed9ed9c19f9e0002b01fdf2a97e5f2612237f9a5d6844fa3df751f25da500e
+  support: refutes
+  summary: The informal formulas print positive squared-distance exponents, conflicting
+    with the negative-distance architectural Figure1/Equation8 selected in this scoped
+    record. The discrepancy remains explicit; no author-code resolution is claimed.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/vertex-attention-boundaries.py
+  accessed_at: '2026-10-13T09:12:36Z'
+  snapshot_sha256: b6fb740facfc5737485b8de552a8951015736902c89c3ebd930f37423bc96a00
+  support: supports
+  summary: Small chosen addresses/messages distinguish negative from positive distance
+    preference, post-softmax masking from self-excluded normalization and unnormalized
+    physical aggregation. Equal-address and singleton cases, permutation equivariance
+    and direct encoder/pair counts are checked. No trained networks or performance
+    experiment.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Vertex Attention Interaction Network
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - identity
+  - hoshen2017
+  summary: Retain this distinct DRAFT architecture.
+  details: VAIN is the named learned-address multi-agent predictor with separate singleton/communication
+    encodings. It is distinct from GAT/GATv2, Set Transformer and PointNet, and from
+    autonomous LLM agents. A scoped formal convention is explicit rather than silently
+    repairing conflicting paper notation.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - mapping
+  - hoshen2017
+  summary: The declared broad AIO mapping is supported.
+  details: Four full annotated AIO nodes, edges and generated YAMLs were inspected.
+    ArtificialNeuralNetwork is a justified broad target for shared learned encoders
+    and decoder. Named GCN/Transformer equivalence and an individual dot-product attention-layer
+    identity are not asserted.
+- assessment_id: per-agent-factorization
+  area: evidence
+  topic: per-agent-factorization
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Figure1 and Equations6–11 specify shared singleton/communication encoders,
+    learned addresses, pooled messages, singleton concatenation and per-agent decoding.
+    The record follows the formal encoding convention despite p5 prose referring to
+    original features.
+- assessment_id: negative-distance-source-convention
+  area: evidence
+  topic: negative-distance-source-convention
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  - calculation
+  - positive-exponent-conflict
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: The p3 informal equations visibly use positive squared-distance exponents;
+    Figure1/Eq8p4 and Eq12p7 use negative distances. Separate contradictory evidence
+    preserves that discrepancy. Chosen addresses demonstrate that the two signs reverse
+    distance preference.
+- assessment_id: self-mask-and-normalization
+  area: evidence
+  topic: self-mask-and-normalization
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation8 places the diagonal mask outside softmax. The record labels this
+    a literal interpretation and disclaims implementation confirmation. For three
+    equal addresses it yields row sum2/3; pre-exclusion renormalizes to1 and differs
+    on the chosen distinct-address example.
+- assessment_id: physical-aggregation-variant
+  area: evidence
+  topic: physical-aggregation-variant
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation12 subtracts the diagonal indicator from an unnormalized negative-distance
+    exponential kernel. Exact zero self-weight, additive pooling and symmetric raw
+    offdiagonal weights are distinct from normalized social/chess weights.
+- assessment_id: computation-boundary
+  area: evidence
+  topic: computation-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Section3 explicitly acknowledges quadratic dense attention despite linear
+    neural encoder calls. Direct counts distinguish these quantities and do not infer
+    a timing theorem. Nearest-neighbor restriction is an approximation suggestion,
+    not proof of exact sparsity or universal linear total cost.
+- assessment_id: evaluation-and-representation-limits
+  area: evidence
+  topic: evaluation-and-representation-limits
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Chess predicts next piece identity rather than a full optimal move. Soccer
+    uses sensor features and shows ties; balls use50simulatedobjects and the additive
+    variant. Budget-adjusted network widths and the paper’s sparse/mean-field limits
+    are retained, with no universal accuracy or causal interpretation.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: source sign conflict, normalization and self-masking, physical aggregation
+    and linear encoder counts versus quadratic dense attention
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - hoshen2017
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Small chosen addresses/messages distinguish negative from positive distance
+    preference, post-softmax masking from self-excluded normalization and unnormalized
+    physical aggregation. Equal-address and singleton cases, permutation equivariance
+    and direct encoder/pair counts are checked. No trained networks or performance
+    experiment.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:VertexAttentionInteractionNetwork
+  evidence_ids:
+  - identity
+  - mapping
+  - hoshen2017
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all six claims/locators, source identities/versions/access/hashes, AIO pin and
+    mapping, limitations and actual curation timestamps. Capture/source/context hashes
+    and exact report mirror agree. Read every maintained field and four mapping-context
+    YAMLs after capture. Reread formal and informal attention equations, the sign
+    conflict, literal self-mask order, physical variant, complexity qualification
+    and all evaluation boundaries. Recomputed small fixed attention examples.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Both records cite the same combined current-input repository gate execution; these
+  are not independent gate runs.
+- One new DRAFT concept, yielding 597 native and 442 unchanged generated records.
+  The 781-entry main frontier retains 478 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All11 proceedings PDF pages visually read, including four figures, three tables,
+  equations, experiments and full references. No author code or empirical experiment
+  executed.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

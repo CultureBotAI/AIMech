@@ -1,0 +1,226 @@
+id: AIMech:InformationGeometricOptimization
+name: Information-geometric optimization
+concept_kind: algorithm
+definition: A stochastic black-box optimization framework that adapts a parametrized sampling distribution
+  using objective ranks and Fisher natural gradients, defining a continuous flow with reference-frozen
+  quantile utilities and finite algorithms that approximate that flow by ranked sampling and Euler updates.
+definition_evidence:
+- source_id: ollivier2017
+  locator: Section 2.2, Definitions 3–5 and flow/algorithm distinction, PDF/printed pp. 9–13.
+  relation: supports
+claims:
+- claim_id: distribution-relative-rank-utility
+  kind: mechanism
+  statement: For minimization of a black-box objective f over a search space X, choose a parametrized
+    family of sampling distributions P_theta and a non-increasing selection function w on [0,1]. Define
+    the lower and upper probability levels of x using, respectively, objective values strictly below and
+    at or below f(x) under P_theta. When the two levels coincide, the utility W_theta(x) is w at that
+    level. For a positive-probability tie, it is the average of w over the whole interval between the
+    two levels. Averaging w over this interval is generally different from evaluating w at its midpoint.
+    This distribution-relative rank utility replaces raw objective magnitudes as the preference signal.
+  evidence:
+  - source_id: ollivier2017
+    locator: Section 2.2.1, Definition 3 and Equations 4–6, PDF/printed pp. 9–10.
+    relation: supports
+- claim_id: reference-frozen-natural-gradient-flow
+  kind: mechanism
+  statement: At a current parameter theta_t, freeze the reference utility W_theta_t while differentiating
+    its expectation under a variable P_theta. The IGO flow follows natural-gradient ascent of that expectation,
+    evaluated at theta_t. With a differentiable sampling family and a usable nonsingular Fisher information
+    matrix I, its velocity is I(theta_t)^(-1) times the expectation under P_theta_t of W_theta_t(x) times
+    the score gradient of log P_theta(x), evaluated at theta_t. Differentiation acts on the distribution
+    parameters, not on the black-box objective. Differentiating the utility and its averaging distribution
+    together would instead differentiate the constant integral of w and lose the intended preference update.
+  evidence:
+  - source_id: ollivier2017
+    locator: Section 2.1.2, PDF/printed p. 7; Section 2.2.2, Definition 4 and Equations 7–13, pp. 10–11;
+      fixed-reference explanation below Equation 7.
+    relation: supports
+- claim_id: sampled-euler-update-and-ties
+  kind: mechanism
+  statement: The finite IGO algorithm draws N independent samples from the current distribution, evaluates
+    f and ranks samples from best to worst for minimization. Without ties, a sample with zero-based rank
+    r receives weight (1/N) w((r + 1/2)/N). Tied samples receive the average of these weights over their
+    possible rank positions. The parameter update adds delta_t times the sum of each weight multiplied
+    by its natural score gradient at the current parameter. The factor 1/N is already in each weight.
+    This is a sampled Euler approximation, requiring a chosen distribution family, weighting scheme, coordinate
+    parametrization, sample size and step size; it is not an exact finite-time solution of the flow.
+  evidence:
+  - source_id: ollivier2017
+    locator: Section 2.2.3, Definition 5 and Equations 14, 16–18, PDF/printed pp. 11–13; tie convention
+      after Equation 14. Footnote 2, Equation 15, gives a separate integral-weight alternative.
+    relation: supports
+- claim_id: qualified-invariance-properties
+  kind: mechanism
+  statement: Strictly increasing transformations of objective values preserve the population probability
+    levels, sampled rankings and ties, so they preserve the IGO flow and the finite rule with corresponding
+    samples. A smooth invertible reparametrization preserves the continuous trajectory in distribution
+    space. Finite additive updates generally agree only to first order in delta_t, with local differences
+    of order delta_t squared under the stated regularity assumptions; affine parameter changes preserve
+    the finite rule exactly. A one-to-one search-space transformation also requires preservation of the
+    distribution family, a locally diffeomorphic induced parameter correspondence and transformed initialization.
+    Its finite-update equivariance has the same second-order qualification unless the induced parameter
+    map is affine.
+  evidence:
+  - source_id: ollivier2017
+    locator: Section 2.2.4, PDF/printed p. 13; Appendix C.1, Propositions 17–19 and their finite-step
+      qualifications, pp. 43–44.
+    relation: supports
+- claim_id: population-limit-and-quantile-improvement
+  kind: scope
+  statement: At a fixed parameter, independent sampling, square-integrable score components and a bounded
+    non-increasing selection function support almost-sure convergence of the rank-weighted empirical update
+    to the exact-population Euler update as N tends to infinity, with the stated tie averaging. This limit
+    alone does not remove the time-discretization error. For the ideal continuous IGO flow with truncation
+    weights w(u)=1 when u<=q and 0 otherwise, where 0<q<1, the source establishes non-increase of the
+    q-quantile of f under its regularity assumptions. Strict improvement additionally requires no objective
+    plateaus and a nonstationary trajectory. These are not finite-population monotonicity, finite-budget
+    accuracy or global-optimum guarantees.
+  evidence:
+  - source_id: ollivier2017
+    locator: Section 3.1, Theorem 6, PDF/printed p. 14; Appendix D.2, Proposition 27 and proof, pp. 52–54,
+      with its monotonicity-wording inconsistency retained below; Section 3.2, Proposition 7, p. 15, and
+      Appendix D.3, pp. 54–55.
+    relation: supports
+- claim_id: scoped-algorithm-correspondences
+  kind: scope
+  statement: The framework overlaps rank-shaped natural evolution strategies; it does not equate the rank
+    utility with raw expected fitness. For Gaussian distributions in mean/covariance coordinates, the
+    IGO update matches the displayed rank-mu CMA update when mean and covariance learning rates are equal
+    and evolution-path and step-size-control effects are disabled. For product Bernoulli distributions
+    in probability coordinates, a weight of one on the best sample and zero on the others recovers the
+    stated PBIL attraction update without probability mutation. The separate IGO-ML construction maximizes
+    a weighted likelihood objective; for an exponential family in expectation coordinates and sample weights
+    summing to one, it coincides with the corresponding IGO and smoothed cross-entropy updates when their
+    required maximizers exist. These special cases do not make the whole framework an exact alias of full
+    CMA-ES, mutated PBIL, generic NES or cross-entropy updates in arbitrary coordinates.
+  evidence:
+  - source_id: ollivier2017
+    locator: NES discussion following Definition 4, PDF/printed p. 11; Section 4, Definition 11, Equations
+      30–34 and Theorem 12, pp. 20–22; Section 5.1, Proposition 14 and best-sample/no-mutation case, pp.
+      23–24; Section 5.2.1, Proposition 15 and footnote 5, p. 25.
+    relation: supports
+identity_notes: IGO specifies quantile/rank utility, reference-frozen natural-gradient flow and a parameterized
+  sampled update across distribution families. It is not an exact alias of generic NES, xNES, SNES, full
+  maintained CMA-ES, CEM or PBIL. The scoped rank-mu/no-path Gaussian, normalized-weight ML and Bernoulli/no-mutation
+  correspondences do not equate the maintained whole methods. Current bounded identity assessment covers730native
+  and442pinnedAIO records and four ignored/hidden-inclusive checkout scans; all2900matches were reconciled.
+  Existing frontier owner203 is retained in place, without a duplicate leaf. The premerge collection and
+  actual creation freshness checks remain separately recorded.
+evidence_sources:
+- source_id: ollivier2017
+  title: 'Information-Geometric Optimization Algorithms: A Unifying Picture via Invariance Principles'
+  authors:
+  - Yann Ollivier
+  - Ludovic Arnold
+  - Anne Auger
+  - Nikolaus Hansen
+  source_type: primary_paper
+  url: https://jmlr.org/papers/volume18/14-467/14-467.pdf
+  version: Journal of Machine Learning Research 18(18):1–65 (2017); submitted November 2014, revised October
+    2016, published April 2017; official 65-page journal PDF.
+  access_level: full_text
+  accessed_at: '2026-10-15T03:35:33Z'
+  sha256: 9ae914cf439b379dda4cc9c149a0572d0487ed2ba32eccf3a43937f294c56b6b
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: On2026-10-15 the bounded current assessment covered730native and442pinned AIO identities,
+    aliases and scoped synonyms, with complete definition projections and focused semantic comparison
+    to NES, CMA-ES, cross-entropy optimization and PBIL. All908main and393nested frontier objects were
+    mechanically scanned; retained complete label/status coverage and17 freshly read relevant objects
+    identify owners193/194/203. Four rg --no-ignore --hidden checkout searches yielded2900occurrences
+    in18 exact contents, all reconciled and read, including explicit NES variant exclusions and four license-acronym
+    false positives. Fourteen exact AIO CLASS nodes and48 incident edges plus31 additional semantic rows
+    were inspected. The13 original rejected alternatives and ExponentialFunction are considered explicitly
+    below; scalar exponential updates are not mandatory for generic IGO. Supporting full-inventory reading
+    and root focused readings are separately attributed. Record/report bytes were verified at committed330head78f5e99222362867cab3990afd59485c58e18f8a;
+    merge-based creation freshness is recorded separately. This is scoped pinned-snapshot evidence, not
+    universal absence or literature saturation.
+  rationale: No inspected target establishes a sufficiently specific identity or defining-component relation
+    for the general rank-based natural-gradient optimization framework. Optional learning applications
+    and distribution families do not justify forcing a learning-task, network, model or scalar-function
+    mapping.
+  examined_targets:
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: This is a large language model class. Its related evolutionary-algorithms synonym
+      does not identify the general distribution-based optimizer.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned model-training and preprocessing scope does not identify a general black-box
+      optimization framework.
+  - target: AIO:MachineLearningTask
+    rejection_reason: A task defined by learning from data does not identify this general optimizer, even
+      though its sampling distribution adapts.
+  - target: AIO:MetaLearning
+    rejection_reason: IGO does not inherently use metadata over machine-learning experiments.
+  - target: AIO:ActiveLearning
+    rejection_reason: Black-box objective evaluations do not inherently require label queries or a predictive
+      surrogate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: An optional policy-search application does not make reward/environment learning
+      the defining identity.
+  - target: AIO:RandomForest
+    rejection_reason: No decision-tree ensemble or forest surrogate is required.
+  - target: AIO:EvaluationBias
+    rejection_reason: Bias in a testing population is not the rank-based optimizer; a possible limitation
+      is not a mapping.
+  - target: AIO:MarkovChain
+    rejection_reason: A generic stochastic-state representation does not identify the natural-gradient
+      search framework or establish a target-invariant sampler.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The concept is an iterative optimization framework, not merely a scalar function
+      or acquisition criterion.
+  - target: AIO:BayesianNetwork
+    rejection_reason: No directed acyclic graphical model is inherent to the chosen distribution family.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The pinned graph-expressed conditional-dependence task is not required by the IGO
+      construction.
+  - target: AIO:RestrictedBoltzmannMachine
+    rejection_reason: An optional distribution-family example does not identify the general framework
+      or give it a hidden-layer requirement.
+  - target: AIO:ExponentialFunction
+    rejection_reason: Scalar exponential scale updates define the selected xNES/SNES procedures, but are
+      not required by the general rank-based IGO flow or sampled Euler construction over arbitrary distribution
+      families.
+limitations:
+- The source is the official 2017 JMLR article. Supporting research read native text on pages 1–33, 39–45
+  and 52–55 and selected visuals; root reading has its own narrower ledger. This is not a full 65-page
+  proof audit. Earlier versions, author implementations and benchmark results were not reproduced.
+- 'The core score/Fisher formulas require a suitable regular sampling family and legitimate differentiation
+  under the integral. An empirical Fisher estimate can be singular: at least as many distinct samples
+  as parameter dimensions is necessary, not sufficient, for invertibility. Arbitrarily large finite steps
+  can leave the parameter domain or poorly approximate the flow; no automatic regularization or boundary
+  repair is supplied.'
+- The rank utility depends on the current distribution and the selected weight function. A constant weight
+  provides no population preference signal, although its finite-sample estimate can fluctuate. Finite
+  ties average weights over compatible ranks. The integral-weight alternative in footnote 2 is not silently
+  substituted for midpoint weights; they need not agree at finite sample size.
+- Definition 3 on page 9 uses a non-increasing weight for minimization. Proposition 27 on page 52 prints
+  non-decreasing, while its proof on pages 53–54 uses non-increasing inequalities. The record follows
+  the defining minimization convention and retains this source inconsistency; it does not claim an author-issued
+  erratum or certification of all proofs.
+- The introductory discussion on page 8 uses minimize/descent wording beside a plus-gradient update. Definitions
+  3–5 specify ascent of the transformed rank utility. The overview on page 17 also needs the detailed
+  finite-step invariance qualifications of Propositions 18–19 on pages 43–44; nonlinear coordinate changes
+  are not asserted to leave arbitrary finite updates identical.
+- Strictly increasing objective transformations preserve order and ties; a merely non-decreasing transformation
+  can create new ties. Search-space transformations must preserve the distribution family. Sampling consistency
+  is a fixed-parameter limit and supplies no explicit finite population threshold, high-probability trajectory
+  bound, finite-sample monotonicity or global convergence guarantee.
+- IGO-ML is a separately defined likelihood-maximization construction, not an automatic alias of the generic
+  sampled Euler rule. Its required maximizer must be well defined and tractable. Expectation coordinates,
+  mean/covariance coordinates and other smoothed cross-entropy parametrizations need not produce the same
+  finite update. No distinct IGO-ML, rank-mu CMA or PBIL variant record is created by this framework description.
+- Existing NES, CMA-ES, cross-entropy optimization and PBIL records remain distinct. The special-case
+  correspondences do not import complete evolution-path adaptation, probability-vector mutation, all raw-fitness
+  NES rules or every cross-entropy variant. No historical-priority, general superiority, diversity-optimality
+  or benchmark claim is made.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:48:29Z'
+  updated_at: '2026-10-15T04:48:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

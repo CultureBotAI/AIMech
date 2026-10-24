@@ -1,0 +1,145 @@
+id: AIMech:InteractionNetwork
+name: Interaction Network
+aliases:
+- Interaction Networks
+- IN (interaction network)
+concept_kind: architecture
+definition: A graph-based neural architecture that applies a shared relation model to supplied directed
+  attributed object relations, sums predicted effects for each receiver, and applies a shared object model
+  to predict object outputs, with an optional aggregated global readout.
+identity_notes: Compared all 442 pinned AIO and 597 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 331, 176, 174 lines. All distinct match contents
+  were inspected. Semantic matching covered 24 AIO and 50 native definitions, with every matched definition
+  read. 4 full annotated AIO node/edge/generated contexts and 4 full native records were inspected. The
+  named 2016 Interaction Network separately models supplied directed relation effects and object updates.
+  It is distinct from VAIN learned-address communication and the maintained GAT, GIN and GraphSAGE constructions.
+  The source matrix convention fixes receiver/sender ordering explicitly. The generic ANN target is a
+  justified broad mapping; a shared graph vocabulary does not establish a named GCN identity.
+definition_evidence:
+- source_id: battaglia2016
+  locator: Section 2, Definition and Implementation, PDF pp. 3–4, Equations 1–2; Figure 1, p. 2
+  relation: supports
+claims:
+- claim_id: directed-relational-object-factorization
+  kind: mechanism
+  statement: Given object states, explicit directed attributed relations and external effects, construct
+    one interaction input for each supplied relation, apply the same learned relation function to every
+    interaction, sum the resulting effects separately for each receiver, and apply the same object function
+    to each object together with its external and pooled effects. The curated binary-relation construction
+    allows parallel relations and excludes self-relations; it does not infer the input graph from observations.
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 2, Definition, PDF p. 3, Equations 1–2; Figure 1, p. 2
+    relation: supports
+- claim_id: receiver-first-matrix-convention
+  kind: scope
+  statement: 'This record follows the matrix implementation: concatenate receiver state, sender state
+    and relation attributes as B=[O R_r; O R_s; R_a], compute relation effects E, and aggregate incoming
+    effects as E R_r^T before concatenating them with O and X. R_r and R_s are receiver and sender incidence
+    matrices. The matrix formula and Figure 1 specify receiver-first ordering more clearly than the inconsistent
+    ordering language in the preceding definition; no author-code verification is claimed.'
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 2, Implementation, PDF p. 4, lines 124–146; Figure 1, p. 2; contrasting Definition
+      ordering, p. 3, lines 79–98
+    relation: supports
+- claim_id: permutation-and-aggregation-boundaries
+  kind: scope
+  statement: Shared edge/object functions and summation make the object-output map equivariant to consistent
+    object relabeling and invariant to relation-list ordering. Object outputs reorder with the objects;
+    they are not an unchanged ordered array. Sum aggregation counts repeated effects but is not generally
+    injective over different effect multisets. These algebraic properties permit variable graph sizes
+    without guaranteeing predictive accuracy on unseen sizes. Experimental invariance to absolute position
+    additionally uses relative-state preprocessing and is not a property of arbitrary core MLPs.
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 2, PDF pp. 3–4, lines 109–113 and 137–150; experimental preprocessing, p. 7, lines
+      229–235; direct constructed routing and sum examples
+    relation: supports
+- claim_id: edge-count-and-global-readout
+  kind: mechanism
+  statement: One forward step applies the relation function once per supplied edge and the object function
+    once per object. Complete directed graphs without self-edges have N(N-1) relations; sparse supplied
+    graphs need not. This count does not certify runtime or optimal complexity for dense incidence-matrix
+    implementations. An optional global-property variant sums object outputs and passes that aggregate
+    to a separate abstraction model; this readout is distinct from the basic per-object predictor.
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 2, PDF pp. 3–4, Equations 1–2 and lines 105–108, 137–150; domain relation counts,
+      p. 5
+    relation: supports
+- claim_id: physical-experiment-scope
+  kind: scope
+  statement: The main paper evaluates simulated two-dimensional n-body, bouncing-ball/wall and spring-string
+    systems using supplied object states, physical attributes, relations and external effects. It trains
+    on one-step velocity targets and rolls predictions forward with position updates. Training uses six
+    n-body objects, six balls with four walls, or fifteen string masses; tests vary object counts and
+    string pinning. These inputs are decomposed states, not raw images, and the surrounding learned model
+    is not guaranteed to discover objects or relations.
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 3, PDF pp. 4–5; Figure 2, p. 6; Discussion, p. 8, lines 297–299
+    relation: supports
+- claim_id: evaluation-and-conservation-limits
+  kind: limitation
+  statement: Table 1 reports task-specific next-step mean squared errors of 0.25, 0.0020 and 0.0011 for
+    n-body, balls and strings. The main paper samples separate training, validation and test data from
+    simulated scenes and uses selected MLP widths, preprocessing, optimization and regularization. Its
+    visually plausible long rollouts are not exact-trajectory guarantees; the text explicitly notes divergence
+    of trajectories. Potential-energy estimation uses the optional global readout and does not impose
+    or prove energy conservation. Supplementary details, trained models and author implementations were
+    not inspected.
+  evidence:
+  - source_id: battaglia2016
+    locator: Section 3, PDF pp. 5 and 7; Section 4, pp. 7–8, Figure 3 and Table 1; trajectory caveat,
+      p. 7, lines 267–274
+    relation: supports
+evidence_sources:
+- source_id: battaglia2016
+  title: Interaction Networks for Learning about Objects, Relations and Physics
+  authors:
+  - Peter Battaglia
+  - Razvan Pascanu
+  - Matthew Lai
+  - Danilo Jimenez Rezende
+  - Koray Kavukcuoglu
+  persistent_id: https://papers.nips.cc/paper_files/paper/2016/hash/3147da8ab4a0437c15ef51a5cc7f2dc4-Abstract.html
+  version: Nine-page PDF served by the primary NIPS2016 proceedings site, all pages visually read. The
+    PDF retains anonymous author placeholders, submission line numbers and a submission footer. Authorship
+    and proceedings identity are supplied by the primary landing metadata. Locators use PDF pages and
+    printed line numbers. Supplement, other versions and author code not inspected.
+  source_type: primary_paper
+  url: https://proceedings.neurips.cc/paper/2016/file/3147da8ab4a0437c15ef51a5cc7f2dc4-Paper.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T09:04:13Z'
+  sha256: 942fe7e7e5f7ca2b46036d4ec4821f066c1836f9f6cbbd3f90d7d17e55eb1ea2
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Shared learned multilayer relation and object functions make this a particular artificial
+    neural architecture. The target is broader. The graph-convolutional target references a distinct named
+    GCN construction; graph use alone does not establish equivalence. Temporal recurrence and probabilistic
+    graphical-model tasks are not required identities.
+limitations:
+- The primary proceedings-hosted nine-page PDF retains anonymous submission placeholders and line numbers.
+  Authors and NIPS 2016 identity come from the primary proceedings metadata; no unidentified PDF revision
+  is equated with an inspected author implementation.
+- The matrix receiver-first convention is explicit. Earlier sender/receiver notation is inconsistent;
+  the record does not silently claim all source expressions use the same order.
+- Supplied binary relations, shared functions and summation define the scoped neural architecture. Higher-order
+  relations, perceptual front ends and probabilistic inference are discussed as future work.
+- All nine main-paper pages were read; supplementary material, other versions and author code were not
+  inspected. Constructed algebra examples do not train a network, simulate the reported physics or replicate
+  benchmarks. DRAFT remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T09:29:34Z'
+  updated_at: '2026-10-13T09:29:34Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

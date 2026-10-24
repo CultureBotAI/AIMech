@@ -1,0 +1,618 @@
+# Scientific author self-review of Llama clustering
+
+- Review: 20261014T001030Z-llama-clustering
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T00:05:02Z
+- Finished UTC: 2026-10-14T00:10:30Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Llama clustering as a DRAFT algorithm with related AIO grouping tasks. Adversarial author self-review supports the overlapping nearest-neighbor construction while preserving stopping/cap boundaries, restricted theory, approximation and evaluation limits.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:LlamaClustering
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base fd68de60236e47bf8ebca8318afcc3d43d3f1a49.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LlamaClustering | data/curated/LlamaClustering.yaml | maintained | Llama clustering |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LlamaClustering | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 166.66s (0:02:46)<br>Checked 442 record(s); 0 failed.<br>Checked 662 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 346 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 344,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:LlamaClustering | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:LlamaClustering | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:LlamaClustering | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:LlamaClustering | {"one_round_clusters": [[0, 1], [1, 2]], "full_root_present": false, "overlap_exact_average": "3", "tree_update_average": "9/2", "literal_printed_purity": "2", "unordered_pair_purity": "1", "scope": "Finite arithmetic examples only; no model fitting, theorem refutation or author implementation execution."} |
+
+## Scientific And Domain Assessments
+
+### Llama clustering
+
+identity: supported. Targets: AIMech:LlamaClustering.
+
+Retain this distinct DRAFT algorithm.
+
+Retain nearest-neighbor union rounds that accumulate overlapping sets with multiple parents. This differs from reciprocal-pair batching, SCC weak-component partitions, GRINCH binary trees and PERCH geometry. The clustering full name and expanded alias do not denote a language model or a probabilistic/causal graphical model.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:LlamaClustering.
+
+The declared AIO mapping is supported.
+
+Related UnsupervisedClustering and HierarchicalClustering tasks reflect unlabeled grouping and the extension from cluster trees to overlapping DAGs. They do not assert tree/DAG equivalence or an algorithm-to-task is-a relationship. A nearest-neighbor classifier and Bayesian or causal graphical models have different defining semantics.
+
+### nearest-neighbor-unions
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations 5–6 and Algorithm 1 union each current cluster with a nearest other cluster under similarity linkage and deduplicate equal sets. Retaining nonreciprocal pair unions permits overlapping membership and multiple parents instead of a partition at every level.
+
+### size-and-round-controls
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Definition 2 requires singletons and the full-data root. A three-point, one-round example produces overlapping pairs but no root. Section 3.3 selects capped pairs through both endpoint parent sets and carries unmerged clusters, so finite limits/caps require separate qualification from unrestricted recovery.
+
+### conditional-separation
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Definitions 3–4 use an unobserved component graph and connected-union separation. The noisy model permits only specified singleton errors repaired by incoming within-component neighbors. Appendix B assumes symmetric tie-free linkage; enough rounds and these conditions are retained. The argmin/argmax proof discrepancy and singleton exception are disclosed without claiming a theorem refutation.
+
+### sparse-linkage-and-overlap
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Appendix A.1 uses zero for missing graph edges and graph-connected candidate clusters. Shared members make ordinary tree weighted average updates differ from true set-union averages; the exact scalar example gives 3 versus 9/2. The paper itself labels this an approximation and Table 2 compares it empirically.
+
+### complexity-scope
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Propositions 3–5 and Appendix B.3 bound nodes and linkage computations under the stated symmetry/tie assumptions. Linkage-call counts omit arbitrary linkage evaluation cost. K is maximum target-component size, not number of components. The record avoids unconditional wall-clock or tie-case claims.
+
+### evaluation-measures
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations 9–12 separately average best Jaccard matches over reference labels, point-memberships and predicted nodes. A powerset can have perfect recall and poor node precision. Supplement Equations 18–19 literally mix ordered pairs with an unordered-pair denominator; the exact calculation verifies the factor-two boundary while explicitly leaving author metric implementation unaudited.
+
+### empirical-scope
+
+evidence: supported. Targets: AIMech:LlamaClustering.
+
+Supported within the stated primary-source and mathematical scope.
+
+Tables 1–5 show metric- and dataset-dependent rankings, including reciprocal-neighbor advantages on some measures. Supplement C.2 specifies 1.2 million clustering inputs and a sampled 50,000-point evaluation. Timing uses precomputed graphs, 100 rounds, ten threads and approximate average linkage; these are conditions of reported experiments, not replicated or portable guarantees.
+
+### finite-round root absence, overlap double-counting, restricted graph separation and printed purity normalization
+
+consistency: supported. Targets: AIMech:LlamaClustering.
+
+Constructed calculations support the stated distinctions.
+
+Finite exact examples: one round lacks a full-data root; a weighted tree update double-counts an overlapping member; ordered-pair purity divided by an unordered-pair normalizer is 2 instead of 1. No author-code execution or general theorem refutation.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:LlamaClustering.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 7 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed all maintained fields, seven claims and both primary PDF sources. Examined restricted separation assumptions, the complete-DAG root condition, parent caps, sparse linkage and overlap, complexity units, printed metric normalization and source-specific evaluation. No repository correction was identified in this bounded review; DRAFT remains.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T000451Z-llama-clustering.json | supports | Compared all 442 pinned AIO and 661 native IDs, names, aliases and scoped synonyms for the full concept name, expanded method name and local ID; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 82, 0, 0 lines. All distinct match contents were read, including pending discovery entries and source-reading observations. Recovery hits concern pending Llama discovery and source-reading notes, plus the explicit provenance review of its handoff; none identifies an existing standalone Llama clustering record. Both other checkouts returned no matches including ignored and hidden files. Semantic matching covered 41 AIO and 224 native definitions, all read; unchanged definitions were byte-compared with the preceding full assessment. 11 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain nearest-neighbor union rounds that accumulate overlapping sets with multiple parents. This is distinct from disjoint reciprocal agglomeration, thresholded weak-component merging, grafted binary trees, learned probabilistic DAGs and language-model terminology. |
+| mapping | sources/aio/aio.json | supports | Related UnsupervisedClustering and HierarchicalClustering tasks reflect unlabeled grouping and the extension from cluster trees to overlapping DAGs. They do not assert tree/DAG equivalence or an algorithm-to-task is-a relationship. A nearest-neighbor classifier and Bayesian or causal graphical models have different defining semantics. |
+| llama2021 | https://proceedings.mlr.press/v130/monath21a/monath21a.pdf; Sections 3.1–3.3, Equations 5–6 and Algorithm 1, main PDF pp. 2–4; Section 3.2, Equations 5–6 and Algorithm 1, main PDF pp. 3–4; Definition 2, main PDF p. 2; Section 3.3 and Algorithm 1, pp. 3–4; Sections 4.1–4.3, Definitions 3–4, Theorem 1 and Propositions 1–5, main PDF pp. 4–5; Section 6.1 and Table 2, main PDF pp. 6–8; Section 4.3, Propositions 3–5, main PDF p. 5; Section 5, Equations 9–12, main PDF pp. 5–6; Sections 6.1–6.3, Tables 1–5 and Figure 3, main PDF pp. 6–9 | supports | PMLR 130:2854–2862, AISTATS 2021; all 12 main PDF pages read, including references. Author names follow the PDF; the landing page expands the third name. |
+| llama-supplement | https://proceedings.mlr.press/v130/monath21a/monath21a-supp.pdf; Appendix B.1–B.3, supplement PDF pp. 1–3; Appendix A.1, supplement PDF p. 1; Appendix B.3, supplement PDF p. 3; Appendix C.1, supplement PDF pp. 3–5; Appendix C.2–C.4, Tables 6–7 and Figure 6, supplement PDF pp. 5–6 | supports | PMLR accompanying supplement, 2021; all six PDF pages, Appendices A–C, proofs, figures and tables read. |
+| calculation | research/discovery/llama-clustering-boundaries.py | supports | Finite exact examples: one round lacks a full-data root; a weighted tree update double-counts an overlapping member; ordered-pair purity divided by an unordered-pair normalizer is 2 instead of 1. No author-code execution or general theorem refutation. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 662 native and 442 unchanged generated records. The 847-entry main frontier retains 473 pending and 58 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- Read all 12 main and six supplementary PDF pages, all references, six figures and seven tables. Visually inspected main pages1,3–5,7–9 and all six supplement pages. No author code executed or implementation-conformance assessment.
+- No author-code execution, training, paid service, hardware measurement or empirical replication. All cited sources were read in full; historical experiments and floating-point behavior were not reproduced. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T001030Z-llama-clustering
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Llama clustering
+started_at: '2026-10-14T00:05:02Z'
+finished_at: '2026-10-14T00:10:30Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged finite-round root absence, overlap double-counting,
+    restricted graph separation and printed purity normalization. This is adversarial
+    author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Llama clustering as a DRAFT algorithm with related AIO grouping tasks.
+  Adversarial author self-review supports the overlapping nearest-neighbor construction
+  while preserving stopping/cap boundaries, restricted theory, approximation and evaluation
+  limits.
+source:
+  git_revision: fd68de60236e47bf8ebca8318afcc3d43d3f1a49
+  state: working_tree
+  inputs:
+  - path: data/aio/BayesianNetwork.yaml
+    sha256: f195dcc9b03c06b65c8c95c246fc4a7f34d41de74afc226dfbbc3b223e7f8769
+    role: context
+  - path: data/aio/CausalGraphicalModel.yaml
+    sha256: 868d353893701f2b8bedc9a95ef3219c0659fe230dad792c1932be078874db8b
+    role: context
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/HierarchicalClassification.yaml
+    sha256: 5e1f65090a3a9e7842b57c12410a7279d02c60baef05844fa1dd73545f1cbfc7
+    role: context
+  - path: data/aio/HierarchicalClustering.yaml
+    sha256: 144deaecd150e22de207c11a62f19db5f8409443724bd4be4b5c95c53375b258
+    role: context
+  - path: data/aio/KnearestNeighborClassificationAlgorithm.yaml
+    sha256: c45f4eca7cc4e11444cc9be90d2622f8fd37c5296b0b01ffb7a0b7e7ac17af2a
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/MetricLearning.yaml
+    sha256: 9497c86ecf87bce4abc89095d2b6b3e9290c15ec8a853f4f9c91a3b8d041f3fc
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/BatchReciprocalNearestNeighborClustering.yaml
+    sha256: aa195a0676822c921f7e0d8a130797180c6df6a38c21ebea2c551b064956ad49
+    role: context
+  - path: data/curated/CHAMELEONClustering.yaml
+    sha256: 4e3440079afa10c2b7280c6c2c5073509039014a67a3a6fa71ca59a0117886e6
+    role: context
+  - path: data/curated/GRINCHClustering.yaml
+    sha256: aa6779d8b15e6dfa3360793c2327ef671f7776b9a1a0c25fc7c2e1ab94cb1d8f
+    role: context
+  - path: data/curated/LlamaClustering.yaml
+    sha256: 5976b079bdaf20aff6829dbc1dda7c9f591162c54b96db7621e5e7e703ced401
+    role: target
+  - path: data/curated/NearestNeighborChainClustering.yaml
+    sha256: 29edd6535409cbf8a1fb3c806de4d52f0f33473d597439c40af4c895fa49746a
+    role: context
+  - path: data/curated/SubClusterComponentClustering.yaml
+    sha256: 20b762d56a2a1d84c7ac911ee0616b114ad00e616cf54e3d35a1ccce1baf4015
+    role: context
+  - path: research/discovery/20261014T000451Z-llama-clustering.json
+    sha256: 1b5ec0c37c7e8ce6e7ce39934cfab22f495d08b54cf75eb69c6e69996b38092f
+    role: context
+  - path: research/discovery/llama-clustering-boundaries.py
+    sha256: 388b9090e0161316d228553869baf13f221f9d7f2732e1f14a9c4c29d0fe9701
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LlamaClustering
+  path: data/curated/LlamaClustering.yaml
+  label: Llama clustering
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LlamaClustering.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:LlamaClustering'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LlamaClustering
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: All 12 main and six supplement pages read. Author code, datasets and alternative
+      source revisions remain unaudited; no implementation conformance, model fitting,
+      benchmark replication or general correctness certification.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LlamaClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 166.66s (0:02:46)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 662 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 346 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 344,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LlamaClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LlamaClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LlamaClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/llama-clustering-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LlamaClustering
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"one_round_clusters": [[0, 1], [1, 2]], "full_root_present": false, "overlap_exact_average":
+    "3", "tree_update_average": "9/2", "literal_printed_purity": "2", "unordered_pair_purity":
+    "1", "scope": "Finite arithmetic examples only; no model fitting, theorem refutation
+    or author implementation execution."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T000451Z-llama-clustering.json
+  accessed_at: '2026-10-14T00:05:02Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 661 native IDs, names, aliases and scoped
+    synonyms for the full concept name, expanded method name and local ID; no normalized
+    identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery,
+    older discovery and original Documents checkouts returned 82, 0, 0 lines. All
+    distinct match contents were read, including pending discovery entries and source-reading
+    observations. Recovery hits concern pending Llama discovery and source-reading
+    notes, plus the explicit provenance review of its handoff; none identifies an
+    existing standalone Llama clustering record. Both other checkouts returned no
+    matches including ignored and hidden files. Semantic matching covered 41 AIO and
+    224 native definitions, all read; unchanged definitions were byte-compared with
+    the preceding full assessment. 11 full annotated AIO node/edge/generated contexts
+    and 5 full native records were inspected. Retain nearest-neighbor union rounds
+    that accumulate overlapping sets with multiple parents. This is distinct from
+    disjoint reciprocal agglomeration, thresholded weak-component merging, grafted
+    binary trees, learned probabilistic DAGs and language-model terminology.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T00:05:02Z'
+  support: supports
+  summary: Related UnsupervisedClustering and HierarchicalClustering tasks reflect
+    unlabeled grouping and the extension from cluster trees to overlapping DAGs. They
+    do not assert tree/DAG equivalence or an algorithm-to-task is-a relationship.
+    A nearest-neighbor classifier and Bayesian or causal graphical models have different
+    defining semantics.
+- evidence_id: llama2021
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v130/monath21a/monath21a.pdf
+  locator: Sections 3.1–3.3, Equations 5–6 and Algorithm 1, main PDF pp. 2–4; Section
+    3.2, Equations 5–6 and Algorithm 1, main PDF pp. 3–4; Definition 2, main PDF p.
+    2; Section 3.3 and Algorithm 1, pp. 3–4; Sections 4.1–4.3, Definitions 3–4, Theorem
+    1 and Propositions 1–5, main PDF pp. 4–5; Section 6.1 and Table 2, main PDF pp.
+    6–8; Section 4.3, Propositions 3–5, main PDF p. 5; Section 5, Equations 9–12,
+    main PDF pp. 5–6; Sections 6.1–6.3, Tables 1–5 and Figure 3, main PDF pp. 6–9
+  accessed_at: '2026-10-13T23:32:55Z'
+  snapshot_sha256: 88876e633ff19d41a4d8cccdcc3999807a7ee6eb36a3d645527b1a7f467bd3a5
+  support: supports
+  summary: PMLR 130:2854–2862, AISTATS 2021; all 12 main PDF pages read, including
+    references. Author names follow the PDF; the landing page expands the third name.
+- evidence_id: llama-supplement
+  kind: primary_source
+  reference: https://proceedings.mlr.press/v130/monath21a/monath21a-supp.pdf
+  locator: Appendix B.1–B.3, supplement PDF pp. 1–3; Appendix A.1, supplement PDF
+    p. 1; Appendix B.3, supplement PDF p. 3; Appendix C.1, supplement PDF pp. 3–5;
+    Appendix C.2–C.4, Tables 6–7 and Figure 6, supplement PDF pp. 5–6
+  accessed_at: '2026-10-13T23:32:57Z'
+  snapshot_sha256: 12f635c9983b993be77feda1231dc32797a69ca2d1852a96a8a68365d29c88b7
+  support: supports
+  summary: PMLR accompanying supplement, 2021; all six PDF pages, Appendices A–C,
+    proofs, figures and tables read.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/llama-clustering-boundaries.py
+  accessed_at: '2026-10-14T00:09:26Z'
+  snapshot_sha256: 388b9090e0161316d228553869baf13f221f9d7f2732e1f14a9c4c29d0fe9701
+  support: supports
+  summary: 'Finite exact examples: one round lacks a full-data root; a weighted tree
+    update double-counts an overlapping member; ordered-pair purity divided by an
+    unordered-pair normalizer is 2 instead of 1. No author-code execution or general
+    theorem refutation.'
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Llama clustering
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - identity
+  - llama2021
+  - llama-supplement
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain nearest-neighbor union rounds that accumulate overlapping sets with
+    multiple parents. This differs from reciprocal-pair batching, SCC weak-component
+    partitions, GRINCH binary trees and PERCH geometry. The clustering full name and
+    expanded alias do not denote a language model or a probabilistic/causal graphical
+    model.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - mapping
+  - llama2021
+  - llama-supplement
+  summary: The declared AIO mapping is supported.
+  details: Related UnsupervisedClustering and HierarchicalClustering tasks reflect
+    unlabeled grouping and the extension from cluster trees to overlapping DAGs. They
+    do not assert tree/DAG equivalence or an algorithm-to-task is-a relationship.
+    A nearest-neighbor classifier and Bayesian or causal graphical models have different
+    defining semantics.
+- assessment_id: nearest-neighbor-unions
+  area: evidence
+  topic: nearest-neighbor-unions
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations 5–6 and Algorithm 1 union each current cluster with a nearest
+    other cluster under similarity linkage and deduplicate equal sets. Retaining nonreciprocal
+    pair unions permits overlapping membership and multiple parents instead of a partition
+    at every level.
+- assessment_id: size-and-round-controls
+  area: evidence
+  topic: size-and-round-controls
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Definition 2 requires singletons and the full-data root. A three-point,
+    one-round example produces overlapping pairs but no root. Section 3.3 selects
+    capped pairs through both endpoint parent sets and carries unmerged clusters,
+    so finite limits/caps require separate qualification from unrestricted recovery.
+- assessment_id: conditional-separation
+  area: evidence
+  topic: conditional-separation
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - llama-supplement
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Definitions 3–4 use an unobserved component graph and connected-union separation.
+    The noisy model permits only specified singleton errors repaired by incoming within-component
+    neighbors. Appendix B assumes symmetric tie-free linkage; enough rounds and these
+    conditions are retained. The argmin/argmax proof discrepancy and singleton exception
+    are disclosed without claiming a theorem refutation.
+- assessment_id: sparse-linkage-and-overlap
+  area: evidence
+  topic: sparse-linkage-and-overlap
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama-supplement
+  - llama2021
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Appendix A.1 uses zero for missing graph edges and graph-connected candidate
+    clusters. Shared members make ordinary tree weighted average updates differ from
+    true set-union averages; the exact scalar example gives 3 versus 9/2. The paper
+    itself labels this an approximation and Table 2 compares it empirically.
+- assessment_id: complexity-scope
+  area: evidence
+  topic: complexity-scope
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - llama-supplement
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Propositions 3–5 and Appendix B.3 bound nodes and linkage computations
+    under the stated symmetry/tie assumptions. Linkage-call counts omit arbitrary
+    linkage evaluation cost. K is maximum target-component size, not number of components.
+    The record avoids unconditional wall-clock or tie-case claims.
+- assessment_id: evaluation-measures
+  area: evidence
+  topic: evaluation-measures
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - llama-supplement
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations 9–12 separately average best Jaccard matches over reference labels,
+    point-memberships and predicted nodes. A powerset can have perfect recall and
+    poor node precision. Supplement Equations 18–19 literally mix ordered pairs with
+    an unordered-pair denominator; the exact calculation verifies the factor-two boundary
+    while explicitly leaving author metric implementation unaudited.
+- assessment_id: empirical-scope
+  area: evidence
+  topic: empirical-scope
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - llama-supplement
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Tables 1–5 show metric- and dataset-dependent rankings, including reciprocal-neighbor
+    advantages on some measures. Supplement C.2 specifies 1.2 million clustering inputs
+    and a sampled 50,000-point evaluation. Timing uses precomputed graphs, 100 rounds,
+    ten threads and approximate average linkage; these are conditions of reported
+    experiments, not replicated or portable guarantees.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: finite-round root absence, overlap double-counting, restricted graph separation
+    and printed purity normalization
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - llama2021
+  - llama-supplement
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: 'Finite exact examples: one round lacks a full-data root; a weighted tree
+    update double-counts an overlapping member; ordered-pair purity divided by an
+    unordered-pair normalizer is 2 instead of 1. No author-code execution or general
+    theorem refutation.'
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:LlamaClustering
+  evidence_ids:
+  - identity
+  - mapping
+  - llama2021
+  - llama-supplement
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 7 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed all maintained fields, seven claims and both
+    primary PDF sources. Examined restricted separation assumptions, the complete-DAG
+    root condition, parent caps, sparse linkage and overlap, complexity units, printed
+    metric normalization and source-specific evaluation. No repository correction
+    was identified in this bounded review; DRAFT remains.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 662 native and 442 unchanged generated records.
+  The 847-entry main frontier retains 473 pending and 58 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- Read all 12 main and six supplementary PDF pages, all references, six figures and
+  seven tables. Visually inspected main pages1,3–5,7–9 and all six supplement pages.
+  No author code executed or implementation-conformance assessment.
+- No author-code execution, training, paid service, hardware measurement or empirical
+  replication. All cited sources were read in full; historical experiments and floating-point
+  behavior were not reproduced. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

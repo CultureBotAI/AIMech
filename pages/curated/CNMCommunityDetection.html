@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clauset–Newman–Moore community detection · Curated AI Concept · AIMech</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="../index.html">
+    AIMech <span class="brand-tag">AI</span>
+  </a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="../browse.html">Browse</a>
+    <a href="../map.html">Text map</a>
+    <a href="../graph.html">Network graph</a>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <a href="../browse.html?origin=aio">AIO Classes</a>
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+    <a href="https://github.com/CultureBotAI/AIMech" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+<main>
+<div class="page-top-bar">
+  <div class="breadcrumbs">
+    <a href="../index.html">Home</a>
+    <span>/</span>
+    <a href="../browse.html?origin=curated">Curated</a>
+    <span>/</span>
+    <a href="../kinds/algorithm.html">Algorithms</a>
+    <span>/</span>
+    <strong>Clauset–Newman–Moore community detection</strong>
+  </div>
+  <form class="page-search" action="../browse.html" method="get" role="search">
+    <input type="search" name="q" placeholder="Search concepts…" aria-label="Search AI concepts">
+    <button type="submit">Search</button>
+  </form>
+</div>
+
+<div class="detail-header">
+  <div class="detail-title-row">
+    <h1 class="detail-title">Clauset–Newman–Moore community detection</h1>
+    <span class="badge badge-curated">Algorithms</span>
+    <span class="detail-id">AIMech:CNMCommunityDetection</span>
+    <span class="badge badge-aio">DRAFT</span>
+  </div>
+
+    <div style="font-size: 0.9rem; color: var(--meta); margin-bottom: 0.5rem;">
+      <strong>Aliases:</strong> CNM, CNM community detection, fast modularity community detection
+    </div>
+
+  <div class="detail-desc">
+    A greedy community-detection algorithm that agglomerates graph vertices using modularity changes, with sparse change tables and heap-based maximum tracking to accelerate the construction of a merge hierarchy and selection of a partition by modularity.
+  </div>
+
+    <div class="identity-box">
+      <strong>Identity Notes & Concept Scope</strong>
+      Compared all 442 pinned AIO and 672 native IDs, names, aliases and scoped synonyms for CNM and publication identifiers; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 79, 0 and 0 lines. All 79 public matches were read and are existing HAC-Q/source/discovery context and rendered counterparts, not this maintained identity. Semantic assessment covered 46 AIO and 267 native definitions: all 46 AIO and 264 previous native rows were unchanged and three new variant definitions and full records were read. Sixteen complete annotated AIO node/edge/generated contexts were verified unchanged and candidate-specific native records assessed. The author catalog identifies CNM with the 2004 sparse greedy modularity method. It is distinct from the 2008 hierarchical random-graph model and the HAC-Q link-prediction variant. The record preserves the earlier greedy objective as context without treating every modularity optimizer as this algorithm.
+    </div>
+</div>
+
+<!-- Claims & Evidence -->
+<div class="section-header">
+  <h2>Claims & Grounded Evidence</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">7 Claims</span>
+</div>
+
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#modularity-agglomeration</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The procedure starts with singleton communities and greedily merges groups according to a degree-corrected modularity objective. For an undirected graph, the objective compares within-group observed edges with degree-product expectations. The merge sequence defines a dendrogram, and the largest modularity encountered selects a cut along that sequence. This is approximate optimization rather than a search over all possible partitions.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 2–3, Equations 4–7 and algorithm steps; Section III, p. 4 and Figure 1</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cnm-docs">Fast Modularity Community Structure Inference Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Mandatory file outputs: .info and .joins; optional .groups output</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-mechanism">Mechanism</span>
+      <code style="font-size: 0.8rem;">#sparse-update-structures</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The efficient formulation stores change entries only for pairs of communities joined by an edge. It uses balanced-tree sparse rows, row maxima and a global maximum heap, together with community degree fractions. Merging two communities changes their neighboring rows using different updates for common and one-sided neighbors. Sparse omission of a nonadjacent pair does not mean that its true modularity change is zero.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p. 3, three data structures and Equations 8–10</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#printed-normalization-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    In the inspected arXiv v2, the connected-pair initialization in Equation 8 is one half of the modularity change derived from Equations 4 and 7, while the later one-sided updates retain a factor of two. On a three-vertex path, the printed first gain is one eighth instead of one quarter, and the next printed update is zero instead of one eighth. Literal accumulation from the defined initial modularity ends at minus one quarter even though the one-block modularity is zero. The record preserves this printed mismatch without asserting that the authors’ software or experiments use it.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 2–3, Equations 4, 7, 8 and 10, algorithm step 2; curator calculation in research/discovery/cnm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#documented-input-and-output-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The author’s documentation requires the original unweighted program to receive a single connected undirected graph without self-loops or parallel edges. This restriction matters because the sparse adjacent-pair procedure can otherwise exhaust eligible merges before one community remains. The documentation exposes both merge/modularity history and communities at a selected step; a separately linked weighted version is outside this record’s inspected implementation scope.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-cnm-docs">Fast Modularity Community Structure Inference Algorithm</a></span>
+        <span>· <strong>Locator:</strong> Introduction and October 2008 update; Input file requirements; Common error messages; File outputs</span>
+      </div>
+    </li>
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p. 3, sparse support and stopping step; curator disconnected-components example in research/discovery/cnm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#complexity-and-ties</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The stated runtime bound is O(m d log n), where m is the edge count, n is the vertex count and d is the resulting dendrogram depth. The O(n log-squared n) specialization additionally assumes sparse input and roughly balanced depth. The paper also describes a row-scan implementation with a worse worst-case bound and notes that tie handling can change the hierarchy. These choices do not support universal linear runtime or identical outputs across every implementation.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF pp. 3–4, runtime argument and scan implementation; Conclusions, p. 5</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-limitation">Limitation</span>
+      <code style="font-size: 0.8rem;">#greedy-optimality-boundary</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    A small exact-definition reference calculation on a six-vertex path illustrates that the best cut encountered by greedy merging need not maximize modularity globally. With fixed lexicographic ties and gains recomputed from the objective, the trajectory peaks at thirteen fiftieths, while the partition into two consecutive triples scores three tenths. This example is separate from the printed initialization mismatch and does not execute author software.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section II, PDF p. 2, approximate optimization and Equation 4; curator reference calculation in research/discovery/cnm-boundaries.py</span>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="claim-card">
+  <div class="claim-header">
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span class="badge badge-scope">Scope</span>
+      <code style="font-size: 0.8rem;">#evaluation-scope</code>
+    </div>
+  </div>
+
+  <div class="claim-statement">
+    The demonstration uses the largest connected component of an August 2003 Amazon co-purchasing network after ignoring link direction. High modularity, an interpretable visualization and informal descriptions of product groups support a descriptive case study. They do not establish a universally correct community definition, recovery against comprehensive ground truth, or a general predictive-performance advantage. The exploratory community-size distribution is not adopted here as a universal law.
+  </div>
+
+
+  <ul class="evidence-list">
+    <li class="evidence-item">
+      <div class="evidence-meta">
+          <span class="badge badge-mechanism" style="font-size: 0.7rem;">supports</span>
+        <span><strong>Source:</strong> <a href="#source-clauset2004">Finding community structure in very large networks</a></span>
+        <span>· <strong>Locator:</strong> Section III and Conclusions, PDF pp. 4–5, Figures 1–3 and Table I; Reference note 14, p. 6</span>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Limitations -->
+<div class="limitations-box">
+  <h3>
+    <span>⚠️</span> Curated Limitations & Negative Results
+  </h3>
+  <ul>
+      <li>The record covers the 2004 CNM sparse greedy modularity algorithm and the explicitly scoped author documentation. It is not the 2008 Clauset–Moore–Newman hierarchical random-graph model or the full family of modularity-optimization methods.</li>
+      <li>The earlier Newman greedy method supplies algorithmic context, while the retained HAC-Q record concerns a related score used with hierarchical link-density estimates. Shared scores do not establish identical data structures, tie behavior or downstream representations.</li>
+      <li>A high objective value is not a biological, social or semantic truth certificate. The degree-product null term is an expected adjacency contribution, not necessarily a Bernoulli probability bounded by one.</li>
+      <li>The printed initialization discrepancy is scoped to the inspected arXiv v2. The journal PDF, earlier preprint, source archives and later library implementations were not compared; no author-code defect or experimental invalidity is asserted.</li>
+      <li>The author documentation snapshot has a 2005 footer and updates through 2009; these dates do not establish the revision of any uninspected code archive. Program-specific file-format requirements are not universal requirements of community-detection mathematics.</li>
+      <li>The original documented input is connected and simple, with a positive edge count needed by the modularity denominator. Weighted, directed, disconnected and signed variants require separate evidence and implementation conventions.</li>
+      <li>No author code, experimental data, model training or paid service was executed. Exact finite formula and reference-procedure checks are not benchmark replication or formal certification of every proof. The record remains DRAFT.</li>
+  </ul>
+</div>
+
+<!-- AIO Ontology Alignment -->
+<div class="section-header">
+  <h2>Artificial Intelligence Ontology (AIO) Grounding</h2>
+</div>
+
+<div class="callout" style="background: var(--card);">
+  <div class="callout-title">Mapped AIO Classes</div>
+  <div class="table-wrap" style="margin-top: 0.5rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>AIO Target Class</th>
+          <th>Mapping Relation</th>
+          <th>Mapping Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+              <a href="../aio/HierarchicalClustering.html" style="font-weight: 600;"><code>AIO:HierarchicalClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Hierarchical Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            The algorithm constructs an agglomerative hierarchy of vertex groups. The target is a related clustering task, not an equivalent named algorithm or asserted superclass.
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <a href="../aio/UnsupervisedClustering.html" style="font-weight: 600;"><code>AIO:UnsupervisedClustering</code></a>
+              <div style="font-size: 0.85rem; color: var(--meta);">Unsupervised Clustering</div>
+          </td>
+          <td>
+            <span class="badge badge-aio">related_match</span>
+          </td>
+          <td style="font-size: 0.88rem; line-height: 1.45;">
+            Graph topology and a prescribed objective determine the groups rather than supervised class labels. This task relation preserves the algorithm/task distinction.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Evidence Sources -->
+<div class="section-header">
+  <h2>Evidence Sources & Primary Literature</h2>
+  <span style="font-size: 0.9rem; color: var(--meta); font-weight: 600;">2 Sources</span>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Source ID</th>
+        <th>Publication / Document</th>
+        <th>Type / Access</th>
+        <th>Reference & Checksum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="source-clauset2004">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">clauset2004</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://arxiv.org/pdf/cond-mat/0408187v2" target="_blank" rel="noopener">Finding community structure in very large networks</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Clauset, M. E. J. Newman, Cristopher Moore
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">primary paper</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">full_text</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div><strong>ID:</strong> arxiv:cond-mat/0408187v2</div>
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:a0f3adfe111b…
+            </div>
+        </td>
+      </tr>
+      <tr id="source-cnm-docs">
+        <td>
+          <code style="font-size: 0.8rem; font-weight: 600;">cnm-docs</code>
+        </td>
+        <td>
+          <div style="font-weight: 600; font-size: 0.95rem;">
+              <a href="https://www.cs.unm.edu/~aaron/research/fastmodularity.htm" target="_blank" rel="noopener">Fast Modularity Community Structure Inference Algorithm</a>
+          </div>
+          <div style="font-size: 0.85rem; color: var(--meta); margin-top: 3px;">
+            Aaron Clauset
+          </div>
+        </td>
+        <td>
+          <span class="badge badge-curated" style="font-size: 0.72rem;">official documentation</span>
+          <div style="font-size: 0.75rem; color: var(--meta); margin-top: 3px;">documentation</div>
+        </td>
+        <td style="font-size: 0.8rem; font-family: var(--mono);">
+            <div style="color: var(--meta); word-break: break-all;" title="SHA-256 Checksum">
+              sha256:589febc76921…
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Ontology & Grounding Neighborhood Diagram -->
+<div class="section-header">
+  <h2>Ontology &amp; Grounding Topology</h2>
+  <a class="view-all" href="../graph.html?q=AIMech%3ACNMCommunityDetection">Open in interactive network graph →</a>
+</div>
+<div class="callout" style="background: var(--card); overflow-x: auto;">
+  <svg viewBox="0 0 760 120" width="100%" height="120" role="img" aria-label="Ontology grounding diagram for Clauset–Newman–Moore community detection" style="max-width: 760px; display: block; margin: 0 auto;">
+    <defs>
+      <marker id="arrow-ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+      </marker>
+    </defs>
+    <line x1="210" y1="60" x2="268" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <line x1="490" y1="60" x2="548" y2="60" stroke="var(--accent)" stroke-width="2" marker-end="url(#arrow-ai)" />
+    <rect x="12" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="111" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">CONCEPT KIND</text>
+    <text x="111" y="72" text-anchor="middle" fill="var(--ink)" font-size="13" font-weight="600">Algorithms</text>
+    <rect x="270" y="18" width="220" height="84" rx="10" fill="var(--pastel-a)" stroke="var(--accent)" stroke-width="2" />
+    <text x="380" y="44" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="700">AIMech:CNMCommunityDetection</text>
+    <text x="380" y="66" text-anchor="middle" fill="var(--ink)" font-size="14" font-weight="700">Clauset–Newman–Moore...</text>
+    <text x="380" y="86" text-anchor="middle" fill="var(--meta)" font-size="11">7 claims · 2 sources</text>
+    <rect x="550" y="24" width="198" height="72" rx="8" fill="var(--card-muted)" stroke="var(--line)" />
+    <text x="649" y="50" text-anchor="middle" fill="var(--meta)" font-size="11" font-weight="700">AIO GROUNDING</text>
+    <text x="649" y="72" text-anchor="middle" fill="var(--ink)" font-size="12" font-weight="600">AIO:HierarchicalClustering (2)</text>
+  </svg>
+</div>
+
+<!-- Curation Provenance -->
+<div class="section-header">
+  <h2>Curation Provenance</h2>
+</div>
+<div class="callout" style="font-size: 0.85rem; line-height: 1.6;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+    <div><strong>Curator:</strong> Codex</div>
+    <div><strong>Method:</strong> ai_assisted</div>
+<div><strong>Model:</strong> GPT-6</div>    <div><strong>Created:</strong> 2026-10-14T01:37:06Z</div>
+    <div><strong>Updated:</strong> 2026-10-14T01:37:06Z</div>
+  </div>
+  <div style="margin-top: 0.75rem; border-top: 1px solid var(--line); padding-top: 0.5rem;">
+    <strong>Source File:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/data/curated/CNMCommunityDetection.yaml" target="_blank" rel="noopener">
+      <code>data/curated/CNMCommunityDetection.yaml</code>
+    </a>
+    · <strong>Schema:</strong>
+    <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/curated_concept.yaml" target="_blank" rel="noopener">
+      <code>curated_concept.yaml</code>
+    </a>
+  </div>
+</div>
+
+<!-- Cross-Mech Navigation -->
+<div class="section-header">
+  <h2>Explore across X-Mech</h2>
+</div>
+<div class="callout" style="background: var(--card); display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+  <span style="font-size: 0.85rem; color: var(--meta); margin-right: 0.25rem;">Related computational &amp; biological Mechs:</span>
+  <a class="badge badge-curated" href="../map.html?q=Clauset%E2%80%93Newman%E2%80%93Moore%20community%20detection"> Embedding Map</a>
+  <a class="badge badge-curated" href="../graph.html?q=AIMech%3ACNMCommunityDetection"> Network Graph</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech (ESM-2 pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/DUFMech/">DUFMech (Domain pLM)</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/TraitMech/">TraitMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/CultureMech/">CultureMech</a>
+  <a class="badge badge-aio" href="https://culturebotai.github.io/mechs/">All 14 X-Mech Repositories</a>
+</div>
+</main>
+<footer>
+  <p><strong>AIMech</strong> · Artificial Intelligence Ontology Grounding &amp; Curated Claim Evidence · data: <a href="../index.json">index.json</a> · <a href="../corpus_map.json">corpus_map.json</a> · <a href="https://github.com/CultureBotAI/AIMech/blob/main/src/aimech/schema/aimech.yaml" target="_blank" rel="noopener">LinkML schema</a> · <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> / <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE-DATA">BSD-3-Clause</a> · code: <a href="https://github.com/CultureBotAI/AIMech/blob/main/LICENSE">BSD-3-Clause</a> · generated by <code>scripts/render_pages.py</code> · snapshot 2026-10-19 (<code>de5b593fee12</code>)</p>
+  <p class="fam">
+    <a href="https://culturebotai.github.io/CultureMech/">CultureMech</a> ·
+    <a href="https://culturebotai.github.io/MediaIngredientMech/">MediaIngredientMech</a> ·
+    <a href="https://culturebotai.github.io/CommunityMech/">CommunityMech</a> ·
+    <a href="https://culturebotai.github.io/TraitMech/">TraitMech</a> ·
+    <a href="https://culturebotai.github.io/proteintraitsmech/">ProteinTraitsMech</a> ·
+    <a href="https://culturebotai.github.io/AntibioticMech/">AntibioticMech</a> ·
+    <a href="https://culturebotai.github.io/CellStructureMech/">CellStructureMech</a> ·
+    <a href="https://culturebotai.github.io/NaturalProductMech/">NaturalProductMech</a> ·
+    <a href="https://culturebotai.github.io/DUFMech/">DUFMech</a> ·
+    <a href="https://culturebotai.github.io/PathwayMech/">PathwayMech</a> ·
+    <a href="https://culturebotai.github.io/TaxonMech/">TaxonMech</a> ·
+    <a href="https://culturebotai.github.io/HabitatMech/">HabitatMech</a> ·
+    <span class="self">AIMech</span> ·
+    <a href="https://culturebotai.github.io/CMMMech/">CMMMech</a>
+  </p>
+  <p class="fam">
+    <a href="https://github.com/berkeleybop/artificial-intelligence-ontology">berkeleybop/artificial-intelligence-ontology</a> ·
+    <a href="https://github.com/Knowledge-Graph-Hub/kg-microbe">kg-microbe</a> ·
+    <a href="https://culturebotai.github.io/mechs/">All Mech projects</a>
+  </p>
+</footer>
+</body>
+</html>

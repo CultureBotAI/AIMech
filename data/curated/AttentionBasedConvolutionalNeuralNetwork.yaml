@@ -1,0 +1,145 @@
+id: AIMech:AttentionBasedConvolutionalNeuralNetwork
+name: Attention-Based Convolutional Neural Network
+aliases:
+- ABCNN
+concept_kind: architecture
+definition: A sentence-pair neural architecture that uses cross-sentence distance affinities to add attention
+  feature channels before convolution, reweight local pooling after convolution, or combine both stages
+  when deriving pair-dependent sentence representations.
+identity_notes: Compared all 442 pinned AIO and 608 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 7, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 104 AIO and 66 native definitions, with every matched definition
+  read. 7 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. This
+  is Yin and colleagues’ named sentence-pair ABCNN, using reciprocal-distance affinities with input-feature
+  and pooling attention variants. It is not the bilinear/max/softmax Attentive Pooling Network, CBAM channel/spatial
+  refinement, PointNet set pooling, ABC-CNN visual QA or every later model reusing the acronym. ABCNN-1,
+  -2 and -3 remain explicitly different variants.
+definition_evidence:
+- source_id: yin2018
+  locator: Sections 3–4, PDF pp. 3–7, Figures 1–3 and Equation 1
+  relation: supports
+claims:
+- claim_id: shared-sentence-convolution
+  kind: mechanism
+  statement: The sentence-pair backbone shares convolutional parameters across the two inputs. Wide zero-padded
+    convolution with tanh produces local feature maps; window pooling returns a sequence of features for
+    another block, and global average pooling supplies sentence representations used for similarity features.
+    The formal presentation pads sentences to a common maximum length, while diagrams also illustrate
+    unequal sentence lengths. This is an order-sensitive sentence encoder rather than an unordered set
+    representation.
+  evidence:
+  - source_id: yin2018
+    locator: Section 3, PDF pp. 3–4, Figures 1–2; Section 4, pp. 5–7, Figure 3
+    relation: supports
+- claim_id: input-attention-variant
+  kind: mechanism
+  statement: ABCNN-1 computes cross-sentence affinities between input feature columns, using the reported
+    reciprocal-one-plus-Euclidean-distance match function. Learned projections of the affinity matrix
+    and its transpose produce attention feature maps. Each is stacked with its sentence representation
+    as an extra convolution input channel. Although the notation uses W0 and W1, footnote 1 says their
+    weights are shared in the implementation.
+  evidence:
+  - source_id: yin2018
+    locator: Section 4, PDF pp. 4–6, Equation 1, Figure 3(a) and footnote 1
+    relation: supports
+- claim_id: pool-attention-and-combined-variants
+  kind: mechanism
+  statement: ABCNN-2 computes affinities after convolution, sums each row or column to obtain per-unit
+    weights, and uses these in local weighted-sum pooling. The displayed formula includes no softmax or
+    division by the sum of weights, despite the attention-based average-pooling terminology. Duplicating
+    fixed counterpart feature columns can therefore scale the other sentence’s weights and pooled values.
+    ABCNN-3 combines the input-attention and pooling-attention stages. The printed square s-by-s affinity
+    shape in the ABCNN-2 paragraph does not match the expanded convolution lengths shown in Figure 3;
+    this record follows the dimensions of the compared feature maps and width-w pooling, without asserting
+    uninspected code conventions.
+  evidence:
+  - source_id: yin2018
+    locator: Section 4, PDF pp. 5–7, Figures 3(b)–3(c) and unnumbered attention-pooling formula; constructed
+      sum and dimension examples
+    relation: supports
+- claim_id: staged-training-and-feature-heads
+  kind: scope
+  statement: The reported experiments keep pretrained word embeddings fixed, train convolution-pooling
+    blocks layerwise while freezing preceding blocks, and collect similarity features from multiple representation
+    levels. Depending on the task, a separately trained linear SVM or logistic regression classifier uses
+    these neural features together with specified linguistic features. This staged, feature-augmented
+    protocol is not a claim that every reported result comes from one jointly trained neural head or from
+    word embeddings alone.
+  evidence:
+  - source_id: yin2018
+    locator: Section 5, PDF pp. 7–10, Common Training Setup and Layerwise Training; task-specific setups
+      in Sections 5.1–5.3 and Table 2
+    relation: supports
+- claim_id: task-specific-comparison-boundaries
+  kind: limitation
+  statement: WikiQA answer selection, MSRP paraphrase identification and SICK textual entailment have
+    different splits, filters, metrics and feature sets. WikiQA keeps questions with a correct answer
+    and truncates long answers; MSRP uses swapped-pair augmentation, and SICK uses original and non-overlapping
+    sentence versions. The strongest tabulated variants use extra features, and corresponding feature-removal
+    results are weaker. The reported MSRP improvement over its comparator is not statistically significant,
+    and additional depth is not uniformly better on every metric. These experiments do not establish universal
+    architectural superiority or unanswerable-question detection.
+  evidence:
+  - source_id: yin2018
+    locator: Sections 5.1–5.3, PDF pp. 8–10, Tables 2–6 and footnotes 4, 6 and 7
+    relation: supports
+- claim_id: attention-and-scope-limits
+  kind: limitation
+  statement: The attention values express cross-sentence similarity and feature weighting, not a normalized
+    one-to-one word alignment. Feature maps depend on the counterpart sentence, so the construction does
+    not guarantee independently precomputable sentence embeddings. The selected entailment visualization
+    illustrates learned responses but does not prove causal explanation or general coreference resolution.
+    ABCNN-1, ABCNN-2 and ABCNN-3 are variants of this named sentence-pair architecture; similarly named
+    visual-question-answering or later attention-CNN systems are not automatically the same concept.
+  evidence:
+  - source_id: yin2018
+    locator: Section 4, PDF pp. 5–7; Section 5.3 and Figure 4, pp. 10–11; Conclusions, pp. 11–12
+    relation: supports
+evidence_sources:
+- source_id: yin2018
+  title: 'ABCNN: Attention-Based Convolutional Neural Network for Modeling Sentence Pairs'
+  authors:
+  - Wenpeng Yin
+  - Hinrich Schütze
+  - Bing Xiang
+  - Bowen Zhou
+  persistent_id: arXiv:1512.05193v4
+  version: arXiv1512.05193v4,25 June2018, fourteen PDF pages. All pages visually read, including equations,
+    diagrams, tables, footnotes and references. Locators use PDF page order. Other versions and author
+    code not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1512.05193v4
+  access_level: full_text
+  accessed_at: '2026-10-13T10:40:35Z'
+  sha256: 46b9425267ae1c454af3708c0c52837aeadb341e1cbfc8fc39315febd5f43e3d
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ArtificialNeuralNetwork
+  relation: broad_match
+  rationale: Shared learned convolutional sentence encoders and attention-dependent feature computations
+    form a specific neural architecture; the target is broader.
+- target: AIO:ConvolutionalLayer
+  relation: related_match
+  rationale: Learned local convolutional filters are components of the architecture, not an equivalent
+    sentence-pair model.
+limitations:
+- This record denotes Yin and colleagues’ named sentence-pair ABCNN, not every attention-based CNN. Its
+  three numbered variants are not interchangeable aliases.
+- Printed attention-matrix shapes and pooling-index notation are interpreted using the declared feature
+  dimensions and window width. No author implementation was inspected to settle edge conventions.
+- Training stages, feature augmentation, task-specific splits and non-significant comparisons limit empirical
+  conclusions; attention visualization is not causal validation.
+- All fourteen pages of arXiv1512.05193v4 were visually read, including figures, tables, footnotes and
+  references. No author code, training, benchmark replication or other source version was inspected. DRAFT
+  remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T11:11:55Z'
+  updated_at: '2026-10-13T11:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,120 @@
+id: AIMech:LiuModifiedGibbsSampler
+name: Liu modified discrete-state Gibbs sampler
+concept_kind: algorithm
+definition: A discrete conditional sampling algorithm that proposes a category from the full conditional
+  distribution with the current category excluded, then applies a Metropolis correction to preserve the
+  original conditional distribution.
+definition_evidence:
+- source_id: neal2004
+  locator: Section 3, PDF p. 5, Liu conditional proposal and Equation 9
+  relation: supports
+claims:
+- claim_id: excluded-current-conditional-proposal
+  kind: mechanism
+  statement: Hold the other components fixed and let p be the normalized finite full-conditional probability
+    mass function for the selected component. At a current category a with p_a>0, if p_a<1, propose a
+    different category c with probability p_c/(1−p_a). Categories with zero conditional mass have zero
+    proposal probability. If p_a=1, retain a without evaluating the undefined excluded-current proposal.
+  evidence:
+  - source_id: neal2004
+    locator: Section 3, PDF p. 5, paragraph preceding Equation 9 and point-mass exception below it
+    relation: supports
+- claim_id: conditional-metropolis-correction
+  kind: mechanism
+  statement: Accept the proposed category c with probability min(1,(1−p_a)/(1−p_c)); otherwise retain
+    a. For distinct supported categories, the complete transition probability is U(a,c)=min(p_c/(1−p_a),p_c/(1−p_c)),
+    with U(a,a) completing the row to one. The Metropolis correction uses the original conditional masses,
+    not the proposed category probability after excluded-current renormalization. A proposal that differs
+    from the current category can still be rejected.
+  evidence:
+  - source_id: neal2004
+    locator: Section 3, PDF p. 5, Equation 9; Section 4, PDF p. 8, Equation 16 and diagonal completion
+    relation: supports
+- claim_id: conditional-balance-and-joint-invariance
+  kind: mechanism
+  statement: The update satisfies detailed balance with the selected full conditional. Its off-diagonal
+    probability U(a,c) is at least p_c, the corresponding exact-Gibbs transition probability; this is
+    a property of the conditional transition matrix. Holding the remaining components fixed therefore
+    preserves the joint target. This local reversible kernel does not require a persistent direction variable
+    or a stored preceding joint state.
+  evidence:
+  - source_id: neal2004
+    locator: Section 3, PDF pp. 5–6, Equation 9 and ensuing off-diagonal comparison; Section 4, PDF p.
+      8, Equation 16
+    relation: supports
+- claim_id: scan-schedule-and-comparison-boundary
+  kind: scope
+  statement: 'A fixed-probability mixture of these conditional kernels preserves the target and is reversible.
+    A fixed sequential sweep also preserves the target, but its composition need not be reversible. Neal
+    explicitly distinguishes random-scan and sequential updates when applying Peskun’s comparison: the
+    reversible-chain argument is not automatically a result for a systematic sweep, random-permutation
+    sweep, finite-run error, or computational cost.'
+  evidence:
+  - source_id: neal2004
+    locator: Section 3, PDF pp. 5–6, Peskun qualifications and scan-order discussion
+    relation: supports
+- claim_id: local-update-versus-pair-state-construction
+  kind: scope
+  statement: Neal subsequently applies this conditional kernel inside a separate construction that swaps
+    an ordered pair and updates its second component to reduce immediate backtracking. That augmented
+    pair-state algorithm is not the identity of Liu’s conditional update. In particular, forbidding the
+    present category in a proposal does not forbid all repeated values or eliminate rejection from the
+    resulting chain.
+  evidence:
+  - source_id: neal2004
+    locator: Section 3 conclusion and Section 4, PDF pp. 6–8, Equations 10–16
+    relation: supports
+identity_notes: Whole-corpus normalized checks cover every ID, name, alias and scoped synonym in 442 pinned
+  AIO and 703 native records; four complete checkouts, including ignored and hidden files, are searched
+  for final identities and researched labels. The finite excluded-current conditional proposal with its
+  specific acceptance correction is distinct from exact Gibbs, generic Metropolis-within-Gibbs, multiple-try
+  updates and Neal’s full ordered-pair construction. Bare metropolized Gibbs is a search probe, not an
+  exact alias. Existing source-frontier references are resolved in place. Related AIO:MarkovChain is supported
+  at a different abstraction level; all 18 candidate class contexts and 19 nearest native records are
+  preserved.
+evidence_sources:
+- source_id: neal2004
+  title: 'Improving Asymptotic Variance of MCMC Estimators: Non-reversible Chains are Better'
+  authors:
+  - Radford M. Neal
+  source_type: author_technical_report
+  url: https://arxiv.org/pdf/math/0407281v1
+  persistent_id: arxiv:math/0407281v1
+  version: arXiv:math/0407281v1, submitted 15 July 2004; Technical Report 0406, dated 15 July 2004; 25
+    PDF pages.
+  access_level: full_text
+  accessed_at: '2026-10-14T19:41:47Z'
+  sha256: b3f451ce72fb992aac2c98c7e3da317c34b0ba96ffacbff65f765632481b2eb3
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: This procedure constructs conditional Markov transitions for sampling a specified target.
+    AIO MarkovChain denotes a stochastic process/model and is exported beneath Network. The relation is
+    method-to-process association, not equivalence, subclass membership or inheritance of network and
+    hidden-layer assertions.
+limitations:
+- The maintained scope is a finite discrete full conditional with compatible joint target and a supported
+  current category. A point-mass conditional requires the explicit stay guard; zero-over-zero ratios are
+  not operational rules.
+- Conditional invariance does not establish irreducibility, aperiodicity or convergence of every joint
+  update schedule. Increased off-diagonal transition probabilities are not a universal mixing-time, finite-sample
+  accuracy or runtime guarantee.
+- The proposal must be sampled from the correctly normalized excluded-current conditional. Determining
+  its probabilities can be costly for many categories; an arbitrary categorical proposal is not covered
+  by the stated acceptance formula.
+- The inspected mathematical method is Neal’s 2004 report, which attributes the modification to Liu’s
+  1996 paper. The original Liu paper was available only through abstract and metadata; its full text was
+  not obtained. This access gap does not supply unseen original proofs.
+- The name does not denote all Metropolis-within-Gibbs methods or every method called metropolized Gibbs.
+  Neal’s pair-state backtracking construction and complete library sampler classes have separate identities.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T21:02:45Z'
+  updated_at: '2026-10-14T21:02:45Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

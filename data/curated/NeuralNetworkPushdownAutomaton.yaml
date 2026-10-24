@@ -1,0 +1,146 @@
+id: AIMech:NeuralNetworkPushdownAutomaton
+name: Neural network pushdown automaton
+aliases:
+- NNPDA
+concept_kind: architecture
+definition: A recurrent state-controller architecture whose signed action output pushes or removes fractional
+  quantities of input symbols on an external stack and whose read neurons return the symbol content within
+  a fixed depth at the stack top.
+identity_notes: Compared all 442 pinned AIO and 577 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 4, 0, 0 lines. All distinct match contents were
+  read and concern discovery leads and reviewed context, not an existing exact record. Semantic matching
+  inspected 63 AIO and 146 native definitions, with unchanged preceding rows verified and new matches
+  read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected.
+  NNPDA stores input-symbol quantities and uses one signed action and a top-unit-depth symbol read, unlike
+  the 2015 Stack RNN learned-value/softmax-mixture updates. List RNN uses movable-head insertion and bidirectional
+  movement; GF-RNN pair gates and Clockwork module schedules define different recurrent mechanisms. The
+  source first/second/third-order controllers and hinted settings remain configurations of one inspected
+  NNPDA family. RecurrentNeuralNetwork is the selected broader architecture mapping; none of the three
+  other full AIO contexts establishes exact identity or a better broader target.
+definition_evidence:
+- source_id: das1992
+  locator: Neural Network Pushdown Automaton and Stack Control, PDF pp. 1–2; Figure 1, p. 6
+  relation: supports
+claims:
+- claim_id: fractional-symbol-stack
+  kind: mechanism
+  statement: The inspected formulation stores ordered symbol labels with continuous quantities. A positive
+    action pushes the current input symbol with that quantity, a negative action removes its magnitude
+    across successive top entries, and a small action performs no operation. The reported simulations
+    use action thresholds above 0.1 for push, below -0.1 for pop and strictly between them for no-op.
+    Read neurons aggregate symbol quantities in the top unit of stack depth. This is a signed-operation
+    fractional stack, not a softmax-weighted average of separate push and pop state transitions. Exact
+    threshold endpoints and empty-stack or underflow behavior are not specified by this manuscript.
+  evidence:
+  - source_id: das1992
+    locator: Stack Control, Tables 1–3, PDF p. 2; Figure 1, p. 6
+    relation: supports
+- claim_id: controller-and-network-order
+  kind: mechanism
+  statement: State neurons receive recurrent state, input-symbol and stack-read information; a separate
+    nonrecurrent action neuron controls the stack. The manuscript describes first-order concatenated input/state/read
+    terms, second-order state-by-input/read interactions and third-order state-by-input-by-read interactions.
+    These are controller parameterization choices within NNPDA, not three different memory data structures.
+    An end marker supports final classification; state transitions and stack manipulation are learned
+    together.
+  evidence:
+  - source_id: das1992
+    locator: Neural Network Pushdown Automaton, PDF pp. 1–2; Equations 3–6 and end-marker discussion,
+      p. 3; Figure 1, p. 6
+    relation: supports
+- claim_id: joint-loss-and-rejection-boundary
+  kind: scope
+  statement: For legal strings the displayed terminal loss is one half of (1-S_out)^2+L^2, combining an
+    accepting output with empty stack length. For illegal strings Equation 2 is max(S_out-L,0). Its zero-loss
+    condition is L>=S_out; by itself this does not force S_out=0 or L>1, despite the more categorical
+    accompanying prose. For example, positive fractional S_out and a larger fractional L give zero illegal
+    loss. The objective alone therefore does not certify a discrete rejecting state or exact learned recognizer.
+  evidence:
+  - source_id: das1992
+    locator: Equations 1–2 and accompanying prose, PDF p. 2; curator direct substitution
+    relation: supports
+- claim_id: approximate-sensitivities-and-implementation-scope
+  kind: limitation
+  statement: Training propagates recurrent weight sensitivities and updates weights after a complete string,
+    extending real-time recurrent learning to stack feedback. The authors explicitly replace the history-dependent
+    stack-read derivative with a first-order approximation, justified heuristically when actions are large
+    and training is sufficiently advanced. The displayed stack-length increment also does not specify
+    all threshold and underflow cases. Continuous quantities do not establish a globally smooth, exact
+    gradient implementation. The manuscript describes signed actions separately from its logistic state
+    equations; no unreported signed-output transform or executable boundary policy is inferred.
+  evidence:
+  - source_id: das1992
+    locator: Training of the NNPDA, Equations 7–11, PDF pp. 3–4; Stack Control, p. 2
+    relation: supports
+- claim_id: dead-state-hints
+  kind: scope
+  statement: The optional hint protocol assumes a teacher or oracle that identifies prefixes which can
+    no longer extend to a legal string. It stops processing those examples, trains a designated dead-state
+    neuron and drops the stack-length penalty for them. An illegal string that could still extend to a
+    legal one does not receive that treatment. Such hints supply extra grammar information beyond whole-string
+    labels, so the hinted comparisons are not evidence for the same supervision setting as the unhinted
+    runs.
+  evidence:
+  - source_id: das1992
+    locator: Learning with Hints, PDF p. 4; Tables 4–6, p. 6
+    relation: supports
+- claim_id: extraction-and-evaluation-limits
+  kind: limitation
+  statement: The source trains incrementally from shorter to longer strings on selected small deterministic
+    context-free languages, comparing controller orders and hinted versus unhinted settings. Tables include
+    runs that did not converge, and the conclusion says third order is not invariably better or faster.
+    Quantizing learned states and actions is a separate extraction step; it is not automatic exactness
+    of the analog controller or a guarantee that arbitrary grammars will be learned. Reported finite-length
+    generalization and extracted-machine claims remain source-specific, and no benchmark result or independently
+    reproduced training is curated here.
+  evidence:
+  - source_id: das1992
+    locator: Simulations, PDF p. 4; Conclusions, p. 5; Tables 4–6, p. 6
+    relation: supports
+evidence_sources:
+- source_id: das1992
+  title: 'Learning Context-free Grammars: Capabilities and Limitations of a Recurrent Neural Network with
+    an External Stack Memory'
+  authors:
+  - Sreerupa Das
+  - C. Lee Giles
+  - Guo-Zheng Sun
+  source_type: primary_paper
+  url: https://clgiles.ist.psu.edu/papers/cogsci-nnpda-1992.pdf
+  version: Author-hosted manuscript for the Fourteenth Annual Conference of the Cognitive Science Society,
+    1992. All six PDF pages, Figure 1, Tables 1–6, Equations 1–11 and references visually read; manuscript
+    PDF page locators are used rather than final proceedings pagination.
+  access_level: full_text
+  accessed_at: '2026-10-13T05:49:30Z'
+  sha256: f9a7fe849cbc41a254054011c77d48e49b97583d7ea80323d76e8b85c0ae745f
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: NNPDA combines recurrent state dynamics with a particular external fractional stack and controller;
+    the AIO target is the broader recurrent architecture category.
+limitations:
+- This record covers the fractional-symbol stack formulation inspected in the 1992 author manuscript,
+  not every later neural pushdown automaton or all differentiable-stack architectures.
+- Simulation thresholds have unspecified exact endpoints, and empty-stack, underflow and signed-action
+  implementation details are not certified. No allocator or executable implementation was inspected.
+- The stack-read sensitivity is an explicit approximation. Analog quantities and a recursive derivative
+  expression do not certify a globally exact or smooth gradient computation.
+- A zero illegal-string surrogate loss does not alone enforce the stronger categorical rejection alternatives
+  stated in the source prose.
+- Hints add grammar information; quantization is an additional extraction step. Selected small-language
+  comparisons do not establish arbitrary-grammar learning or unlimited exact recognition.
+- All six pages of the author-hosted conference manuscript were read. No later version, author code, training,
+  runtime audit or empirical replication was inspected. Earlier work is acknowledged; historical priority
+  is not asserted.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T05:59:13Z'
+  updated_at: '2026-10-13T05:59:13Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,122 @@
+{
+  "report_id": "20261014T194609Z-ais-review-corrections",
+  "created_at": "2026-10-14T19:46:09Z",
+  "repository": "CultureBotAI/AIMech",
+  "initial_review": "reviews/structured/20261014T194501Z-ais-path-and-locators/review.yaml",
+  "issues": [
+    {
+      "key": "ais-zero-weight-path-convention",
+      "title": "AIS: define zero-weight path handling under nested supports",
+      "severity": "major",
+      "body": "The draft `data/curated/AnnealedImportanceSampling.yaml` on `goal/discover-ai-concepts-round308` permits nested supports but writes the raw density-ratio product without defining zero-weight paths. With f0=f1=(1,0), f2=(1,1), and identity T1, a base draw in state 1 encounters 0/1 followed by 0/0. The mathematically correct path contribution is zero.\n\nDefine zero-weight termination before later ratio evaluation, or explicitly narrow the maintained domain. Add a finite counterexample/guard check (expected mean weight 1/2), synchronize the report mirror, append history, and save a same-key successor review after required checks.\n\nEvidence: Neal, arXiv physics/9803008v2, Section 2, PDF pp. 4–6, Equations 4–11. Found in a supporting subagent mathematical audit and confirmed by the author; this is a local representation defect, not an allegation against the source.",
+      "url": "https://github.com/CultureBotAI/AIMech/issues/352"
+    },
+    {
+      "key": "ais-definition-equation-page",
+      "title": "AIS: correct Equation 2 definition locator to PDF page 2",
+      "severity": "minor",
+      "body": "The draft AIS definition evidence cites self-normalized Equation 2 on PDF page 3. In the exact inspected arXiv physics/9803008v2 PDF (SHA-256 6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc), Equation 2 is on printed/PDF page 2. The author visually confirmed that page.\n\nCorrect the maintained locator and report mirror, append actual history, and retain the issue key in a successor review. The concept identity and formula are unchanged.",
+      "url": "https://github.com/CultureBotAI/AIMech/issues/353"
+    },
+    {
+      "key": "ais-initial-state-index-exception",
+      "title": "AIS: qualify the intermediate-state indexing note at the initial draw",
+      "severity": "minor",
+      "body": "The draft AIS limitation repairs the source paragraph by saying x_j follows T_(j+1), but this only applies through j=n−2. The top state x_(n−1) is drawn directly from p_n, as the maintained main path correctly states; T_n is not applied.\n\nRestrict the note to 0<=j<=n−2 and explicitly retain the initial-draw exception. Synchronize its report mirror, append history, and save a same-key successor review. Evidence: Neal arXiv physics/9803008v2, Equation 4 on PDF page 5 and intermediate-distribution paragraph on page 6.",
+      "url": "https://github.com/CultureBotAI/AIMech/issues/354"
+    }
+  ],
+  "record": "data/curated/AnnealedImportanceSampling.yaml",
+  "before_sha256": "279fb7899a54df6206fbf1a2dd59168d6a1be426911d25b9c7de74d7c37006f2",
+  "after_sha256": "94c7b8e597f3551b2b804778e11385d6ec9137515bc44a9c9d429268869f7e68",
+  "source_pdf_sha256": "6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc",
+  "changed_fields": [
+    "definition_evidence[0].locator",
+    "claims[path-law-and-weight]",
+    "claims[finite-weight-law-checks]",
+    "limitations[1]"
+  ],
+  "calculation": {
+    "path": "research/discovery/ais-boundaries.py",
+    "sha256": "d72ed061089be457e8581a53b25a9966202b3ea2a2d0cd5f1118b5468703c59c",
+    "exit_code": 0,
+    "result": {
+      "nonreversible_example": {
+        "target": [
+          1,
+          2,
+          7
+        ],
+        "bridge": [
+          1,
+          1,
+          1
+        ],
+        "base": [
+          3,
+          2,
+          1
+        ],
+        "weighted_endpoint_mass": [
+          "1/6",
+          "1/3",
+          "7/6"
+        ],
+        "expected_weight": "5/3",
+        "unweighted_endpoint_probability": [
+          "1/6",
+          "1/2",
+          "1/3"
+        ],
+        "target_probability": [
+          "1/10",
+          "1/5",
+          "7/10"
+        ],
+        "self_normalized_indicator_expected_value": {
+          "one_run": "1/3",
+          "two_runs": "967/2025",
+          "target": "7/10"
+        },
+        "expected_log_weight": 0.21485510211104045,
+        "log_expected_weight": 0.5108256237659907
+      },
+      "identity_kernel_reduces_to_plain_importance_sampling": true,
+      "noninvariant_reset_expected_weight": "1/2",
+      "invariant_family_cases": 192,
+      "violated_support_example": {
+        "expected_weight": "1",
+        "actual_normalizing_ratio": "2"
+      },
+      "nested_support_zero_path": {
+        "functions": [
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "guarded_weights": [
+          "1",
+          "0"
+        ],
+        "ratio_evaluations": [
+          2,
+          1
+        ],
+        "expected_weight": "1/2",
+        "actual_normalizing_ratio": "1/2",
+        "zero_path_stops_before_undefined_ratio": true
+      },
+      "scope": "Finite exact laws and counterexamples only. No continuous-state theorem certification, variance bound, benchmark replication, author implementation, paid provider or training."
+    }
+  },
+  "scope": "Correct maintained AIS curation and its exact report/calculation mirrors. Initial review and supporting audit remain immutable. Final same-key dispositions await the full gate and source reassessment."
+}

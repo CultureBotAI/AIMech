@@ -1,0 +1,2595 @@
+# Scientific self-review of online hybrid temporal regression planning
+
+- Review: 20261016T084510Z-online-hybrid-temporal-regression-planning
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-16T08:45:10.403802Z
+- Finished UTC: 2026-10-16T08:45:10.757264Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain one source-scoped DRAFT algorithm for the common2004/2005 hybrid online planning/scheduling procedure. Eight claims and fourteen limitations distinguish per-job search quality, temporal-window premises, general versus simplified regression semantics and empirical scope.
+
+## Scope And Provenance
+
+One exact current native record, all claims and limitations, bounded identity/mapping and source responsibility.
+
+Selection: AIMech:OnlineHybridTemporalRegressionPlanning
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 3f75d017b53af1c74368bd17d23d1383e4f56cbd.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:OnlineHybridTemporalRegressionPlanning | data/curated/OnlineHybridTemporalRegressionPlanning.yaml | maintained | Online hybrid temporal regression planning |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| render | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+| source | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+| gate | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+| vendor | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+| render-check | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+| diff | passed | True | AIMech:OnlineHybridTemporalRegressionPlanning | Actual required command passed. |
+
+## Scientific And Domain Assessments
+
+### Online hybrid temporal regression planning: sequential-job-temporal-flexibility
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Both works directly describe this shared architecture. Retaining earlier action choices does not mean fixing all their times. The statement is about the greedy procedure, not a global schedule-optimality theorem.
+
+The common 2004/2005 procedure builds the schedule greedily one job at a time while retaining the selected action plans for previous jobs. A shared temporal constraint database keeps unreleased action times flexible, allowing a later job to start earlier and older actions to shift within their feasible windows while required within-batch completion order is preserved.
+
+### Online hybrid temporal regression planning: four-part-per-job-regression
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The four components and initial-state completion test are explicit. A* is a component of the combined online algorithm. No new general completeness or termination assertion is attached to the sketch.
+
+For each job, the inner A* search regresses from its desired final state using states containing logical literals, variable bindings, a temporal database and resource allocations. A plan is complete when the regressed literals unify with the desired initial state; the chosen bindings and temporal database are then passed back to the outer procedure for planning later jobs.
+
+### Online hybrid temporal regression planning: immediate-temporal-resource-branching
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This is direct procedural support. The version distinction avoids treating a pairwise two-order instruction as a claim that every multi-resource action has exactly two successors. Exhaustive local choices do not by themselves prove global state uniqueness.
+
+Regressing an applicable action introduces its duration, sequencing and resource-allocation constraints. Potential overlaps for the same resource are resolved immediately by branching over possible relative orders and propagating their temporal constraints; only feasible child states enter the search queue. The 2004 outline says to generate both orderings, while the expanded 2005 description enumerates available placements among existing allocations and combinations across resources.
+
+### Online hybrid temporal regression planning: imminent-release-and-clamping
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The source asserts the guarantee for its temporal-network maintenance, not arbitrary constraint propagation. This claim retains that premise and does not assert a hard deadline or fixed planning-time bound.
+
+After planning a job, the outer procedure checks whether a queued plan starts soon. To preserve submission-order release, it releases plans from the oldest unreleased one through that imminent plan, first fixing their time points to earliest feasible times. The papers justify this clamping using a complete algorithm for maintaining allowable temporal windows; outer-loop temporal constraints are added between individual-job searches so those updates do not invalidate search evaluations mid-search.
+
+### Online hybrid temporal regression planning: completion-time-ranking
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Ranking direction is explicit in both works; the three symbolic expressions are attributed only to the expanded 2005 figure. Larger realized makespan is a tie-breaker, not a separate maximization objective.
+
+Search favors the estimated earliest feasible completion time of the current job in the context of earlier jobs, then smaller predicted makespan and then larger already-realized makespan. In the 2005 Figure 7 notation these quantities are t7, t7−t3 and t7−t4, respectively. A relaxed remaining-duration estimate is inserted before the partial plan to tighten its feasible completion bound.
+
+### Online hybrid temporal regression planning: relaxed-achievement-lower-bound
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Both papers state fastest-achievement/lower-bound intent. The qualification is the curator inference preserved in the independent 2004 note and 2005 question MFG2005-Q04; it is not a claim that the authors implemented arbitrary first-producer traversal.
+
+The described heuristic starts from initial and background literals, propagates achievement-time labels through applicable actions while omitting mutex/resource contention, and uses the maximum required-literal achievement time as a remaining-duration lower bound, with infinity if a required literal cannot be produced. Its admissibility interpretation requires the intended minimum relaxed achievement times; the printed first-production description alone does not specify a complete minimum-label agenda or relaxation implementation.
+
+### Online hybrid temporal regression planning: expanded-general-regression-rule
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Directly supported by the general rule and its explanatory prose. Prime symbols clarify old versus new state rather than altering the mathematics. The text’s corresponding-precondition shortcut remains separately qualified; no silent repair of its simplified formulas is used here.
+
+The 2005 general logical representation distinguishes true, false and unknown atoms. Applicability requires effects consistent with the regressed state and preconditions unaffected by those effects also consistent with it. For an applicable action, writing primes for the new sets, the source update is Lt′=(Lt∖Add)∪Pre+, Lf′=(Lf∖Del)∪Pre− and Lu′=(Lu∪Add∪Del)∖(Pre+∪Pre−). These are the expanded paper’s general rules, not its later simplified effect-only rule and not equations printed in the 2004 paper.
+
+### Online hybrid temporal regression planning: resource-time-noop-relevance
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The relaxed relevance criterion is explicitly motivated by temporal resource interactions. The scope does not import it into all classical regression settings or add a novel completeness result.
+
+The 2005 discussion does not impose an additional requirement that an applicable action have an effect matching a required goal literal. It explains that a time-consuming no-op may let an existing resource allocation expire and thereby enable a better subsequent plan. This is a source-specific reason for retaining otherwise applicable actions, not a general proof that arbitrary irrelevant actions improve planning.
+
+### Online hybrid temporal regression planning: per-job-versus-global-quality
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This separates the explicit source claim from a stronger online-scheduling claim that is not established by the selected works.
+
+The papers attribute optimality to the search for the current job under its objective and existing-plan context, relying on heuristic admissibility and suitable feasible-state handling. Their greedy outer loop does not establish a globally optimal schedule over future arrivals, a competitive ratio, or optimal revision of earlier action choices.
+
+### Online hybrid temporal regression planning: heuristic-agenda-premise
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The independent note gives a bounded two-producer reasoning example. The draft retains minimum-time intent while withholding unconditional assurance for an unspecified queue discipline.
+
+The heuristic prose labels a previously unknown literal when produced, but does not give an explicit agenda or label-improvement rule ensuring minimum relaxed achievement times. Admissibility cannot be inferred for an arbitrary first-producer implementation; a fast and a slow producer can require different label handling. This is an exposition/premise limit, not an observed implementation failure.
+
+### Online hybrid temporal regression planning: clamping-propagator-premise
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The guarantee is conditional as printed. The independent note warns against converting that qualification into an unsupported counterexample for the intended temporal network.
+
+Earliest-time clamping is justified only with the source’s appropriate complete temporal-window maintenance and its domain assumptions. It is not a generic guarantee for arbitrary CSPs, approximate or stale windows, or an unspecified propagator. The comparison does not demonstrate that a correctly maintained simple temporal network becomes inconsistent merely by earliest-time clamping.
+
+### Online hybrid temporal regression planning: release-time-and-update-interface
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The algorithm outlines show an open loop without complete failure interfaces; the prose supplies qualified operational behavior. No stronger termination statement is inferred.
+
+The manually chosen imminence interval assumes sufficient time to plan the next job; the papers discuss interrupting and restarting when needed. Outer-loop temporal updates are restricted to between-job searches, while controller changes can abort a current search. These descriptions do not supply a general hard real-time guarantee or fully specified timeout, unreachable-job and empty-frontier behavior.
+
+### Online hybrid temporal regression planning: local-branching-not-general-uniqueness
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This preserves the source’s intended local argument without promoting it to a domain-independent theorem.
+
+The state-uniqueness argument appeals to irreversible logical or resource-order choices reflected in a plan. Local branching distinctions alone do not establish global semantic non-reconvergence, cycle freedom, or a general no-duplicate theorem for arbitrary action domains. No concrete duplicate execution of the authors’ implementation is asserted.
+
+### Online hybrid temporal regression planning: simplified-applicability-missing-compatibility
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The independent p.5 counterexample has target true {p,r}, false {q}, Add={p}, Del={}, positive precondition {q} and negative precondition {p}: effects match, but unaffected q conflicts. The conclusion concerns the printed sufficient-premise claim, not observed code.
+
+The 2005 simplified rule tests only whether effects match a fully specified state. Full specification plus corresponding effect preconditions does not alone ensure compatibility of preconditions on unaffected atoms. Such a precondition can contradict the target state even when the simplified effect test passes. The earlier general applicability rule retains the needed check; no implementation defect or author erratum is established.
+
+### Online hybrid temporal regression planning: simplified-toggle-polarity
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The independent note separates the unaffected-precondition issue from the polarity needed to derive a flip rule. The native mechanism claim uses the general equations only.
+
+The 2005 simplified update flips added/deleted atoms. That update needs opposite-polarity preconditions for the changed atoms and suitable treatment of other preconditions; the phrase corresponding preconditions does not itself specify those polarities. The general regression update is retained separately, and the simplified branch is not silently strengthened or treated as universally equivalent.
+
+### Online hybrid temporal regression planning: unknown-literal-presentation
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This is a source-local presentation boundary retained in MFG2005-Q02, not a demonstrated contradiction in runnable code.
+
+The 2005 paper explicitly supports unknown literals and describes storing true and unknown sets, but later calls the state fully specified and writes a two-set heuristic shorthand. The exact treatment of unknowns in that shorthand remains a source/interface question; this draft does not erase unknowns or claim an implementation-level equivalence of all these descriptions.
+
+### Online hybrid temporal regression planning: manufacturing-model-boundaries
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The native scope is a procedure instantiated with this model. Generalizations require further evidence; broad manufacturing application alone does not supply them.
+
+The shared procedure is described for the supplied symbolic manufacturing model: jobs are independent except for shared resources and explicit batch constraints, actions for one job are sequential and abut, and controller delay constrains starting times. These restrictions do not establish applicability to arbitrary interacting, stochastic, partially observable or general durative-planning domains.
+
+### Online hybrid temporal regression planning: duration-and-resource-version-details
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The direct implementation qualification is supported by 2004. The 2005 row supplies comparative context, not a blanket assertion that it has identical implementation restrictions.
+
+Representational flexibility is not the same as implemented support: the 2004 paper allows duration ranges but says its implementation uses fixed durations, and it describes additional resource-state compatibility restrictions. These details and the 2005 formal extensions remain version-local; this common record does not equate every modeling option or implementation across the two papers.
+
+### Online hybrid temporal regression planning: failure-recovery-assumptions
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This is an operational scope limit of the inspected applications, not a universal fault-tolerance property.
+
+The described failure handling assumes reliable transport along planned routes and destination diversion that can discard faulty material; affected jobs can then be replanned from scratch. This does not establish recovery for arbitrary mid-route failures, uncertain state estimation or all in-flight material. Controller-domain changes are handled by aborting the current search under the stated between-search model.
+
+### Online hybrid temporal regression planning: temporal-propagator-comparison
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The draft states the documented representational distinction and avoids transferring numerical timings or universal speed conclusions. Complete original reading is attributed to the prior source researcher; this drafting read freshly inspected p.5 text/image.
+
+The 2004 experiments distinguish incremental directed path consistency from an arc-consistency variant maintaining origin-relative time windows without adding arcs. The latter does not provide arbitrary pairwise time relations as easily. The comparison does not prove interchangeability of arbitrary AC-3 and IDPC implementations or transfer the reported timing advantage to every domain.
+
+### Online hybrid temporal regression planning: empirical-and-reproduction-boundaries
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+This limitation relies on the source-attributed full readings and comparison, not a fresh reread or digitization of every experimental figure during native DATA drafting.
+
+Physical-prototype operation, simulations on selected plant configurations and timing/quality comparisons are separate evidence roles. They do not establish universal throughput, hard deadlines or general optimality. This draft makes no numerical performance claim and has not executed an implementation or reproduced the experiments.
+
+### Online hybrid temporal regression planning: work-identity-and-pending-lineage
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The combined scope follows the root’s prospective decision after comparison, superseding the old proposal’s pending-2005 recommendation without rewriting that historical object. Future current identity/mapping and owner selection remain pending.
+
+One descriptive identity covers the common outer online coordination and inner temporal/resource regression procedure in these two inspected works, not separately originated A*, STRIPS, STN or propagator components. It does not equate all later printer-planning publications or use the filename token pns as an alias. The 2005 comparison is completed, while remaining cited-original, later-version and implementation questions stay separately tracked.
+
+### Online hybrid temporal regression planning: common source-scoped definition
+
+evidence: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Both primary works support the coupled online coordination, regression search and temporal/resource constraint architecture. The expanded 2005 formal rules remain separately attributed; the definition does not collapse every implementation or later publication.
+
+An online planning-and-scheduling procedure that plans successive jobs by goal-regression A* over logical conditions, variable bindings, shared temporal constraints and resource allocations, immediately branches on conflicting resource orders, and retains temporal flexibility until queued plans are clamped and released near execution.
+
+### Online hybrid temporal regression planning: algorithm kind
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Algorithm denotes the specified state, branching, ranking, propagation and plan-release procedure. The supplied plant/action model, temporal network and heuristic are components; the candidate is not only an application, model, score or manufacturing installation.
+
+Retain one algorithm. OnlinePlanner and PlanJob are coupled components sharing queued plans, bindings and temporal/resource state; their pseudocode labels do not by themselves justify two independent concepts.
+
+### Online hybrid temporal regression planning: attributed prospective identity
+
+identity: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The descriptive name and aliases[] identify one common 2004/2005 procedure. The historical source/identity search distinguishes maintained A*, STRIPS planning, real-time heuristic learners and Partially Informed NegaScout; filename pns is not an alias.
+
+The selected prospective core uses a descriptive common-procedure identity, with aliases[], coupled OnlinePlanner/PlanJob components and source-local formal details. Its historical ignored-inclusive identity/context screen remains tied to its captured snapshot. The earlier proposal’s pending 2005 comparison has now been advanced by the separate comparison and root scope decision. The original core’s no-validation sentence describes its drafting state: the later root TEMP validation has since passed, with its exact preview and scope separately bound. No canonical insertion, current owner acceptance or future write base is established by that schema result.
+
+Current canonical identity: This descriptive identity denotes the common 2004/2005 online hybrid temporal regression planning procedure, with separate source versions and explicit qualifications. OnlinePlanner and PlanJob are nested procedure labels, and PNS in the retrieval filename is not an alias. Current identity context was rebound at clean merged commit 3f75d017b53af1c74368bd17d23d1383e4f56cbd: 812 native and 442 pinned AIO records; all 1,254 record IDs, names, aliases and scoped synonyms participate in the 4,962-field/3,794-normalized-value screen, with no candidate collision. Four ignored- and hidden-inclusive roots returned 16 distinct matching contents and 36 occurrences. Eleven contents reuse exact historical semantic reading; all five new contents and their complete matching source-progress parents were read. The 1,252 historical records are byte-identical, and the two added CoPE record identity/definition/mapping contexts were freshly read as distinct. Historical 86-definition/nine-neighbor reading is attributed to its original receipt; the 15 selected AIO nodes and 68 incident edges were freshly read on the unchanged pin. The postmerge check found all record bytes and complete search match-event multisets identical to the just-read committed snapshot. Root accepts one DRAFT algorithm under existing main911 source responsibility; native creation, validation and saved review are separately recorded operations.
+
+### Online hybrid temporal regression planning: bounded AIO no-match
+
+grounding: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Retain the fifteen-target no-match. Symbolic backward regression is not statistical regression; temporal/resource constraints are not a learned model, language-model class, time-series task or generic graph identity. Per-search state maintenance does not make the entire procedure a machine-learning task.
+
+All pinned record IDs/names/aliases/scoped synonyms participated in the normalized inventory screen; 15 exact plausible AIO CLASS nodes and all 68 incident edges were freshly read for semantic mapping. No full semantic reading of all 442 classes is claimed. This is the attributed historical prospective screen at HEAD c222454fe2e2ce2b9be5fd78a01d47e9961d1f26, whose working tree included the three later cohort363 records; it is not a current or future insertion clearance. The 15 selected nodes/68 edges were read by the prior proposal author, not freshly reread as a whole during this draft. None of the inspected pinned classes identifies or usefully subsumes this symbolic online regression planning/scheduling procedure. Shared timing, regression, graph, model, control or physical application language is insufficient for a mapping. Exact target/rejection pairs remain in the core; this static fragment neither changes the pinned ontology nor performs a new current scan.
+
+Current mapping context: Bounded current no-match assessment at clean merged commit 3f75d017b53af1c74368bd17d23d1383e4f56cbd: all 442 pinned AIO identity fields are included in the complete record inventory screen, and the 15 selected full CLASS nodes with all 68 direct incident edges were freshly read. The same targets and rationale remain appropriate for the common 2004/2005 procedure. This is not a claim that all 442 definitions were freshly read or that shared task/application language supplies a method mapping.
+
+### Online hybrid temporal regression planning: source works, timestamps and reading roles
+
+provenance: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+The 2004 seven-page paper and 2005 ten-page expanded paper are two distinct primary works with separate author lists, titles, bytes and acquisition times. Both support the common mechanism; the 2005 general regression equations are version-local. Root’s actual TEMP schema validation is distinct from scientific or canonical approval.
+
+The source researcher 356 read the original artifacts and authored the source/identity dossiers, then separately reviewed the new 8/14 core/support with that role disclosed. Researcher 352 supplied bounded independent critical-method notes. This fragment author 354 authored the native core/support and accounting proposal, freshly read the critical method text/images during drafting, and now transfers their exact 22 support rows. Root’s separate receipt covers all 2004 pages/images,2005 images4–7 and the new 18 citation/five question texts, not all 2005 or cited-original papers. Source acquisition instants are retained from successful receipts; no paper access is filled from fragment assembly time. The source ledger retains all 52 original objects without closure.
+
+### Online hybrid temporal regression planning: cohesive procedure and qualifications
+
+scope: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+Retain one common procedure rather than separate outer/inner variants. Per-job A* quality, temporal-window clamping and heuristic lower bounds remain conditional; the 2005 simplified effect-only/toggle presentation is qualified independently from its general rule. No numerical performance or global online optimality is added.
+
+The record does not claim that arbitrary first-production labels are admissible, that local order branching guarantees global state uniqueness, or that arbitrary CSP windows may be clamped safely. Unknown-literal shorthand, unchanged-precondition compatibility and toggle polarity remain source questions. Plant/controller/failure assumptions and later-version responsibilities are retained separately; a source coordination umbrella does not equate distinct maintained methods.
+
+### Actual canonical correspondence, current source responsibility and checks
+
+provenance: supported. Targets: AIMech:OnlineHybridTemporalRegressionPlanning.
+
+One DRAFT algorithm retains8 claims,14 limitations and two distinct defining works. Current identity/no-match and exact main911 responsibility are accepted. All52 original source objects, current progress and the complete incoming364 projection remain queryable. Issue420 corrected obsolete current prerequisite wording after creation; the original finding and repair remain bound. No source-question closure, source exhaustion, algorithm execution or publication completion is claimed.
+
+The initial four creation outputs plus the native EDIT history, and 52 captured inputs are bound. Prior source and neighbor reading is attributed separately. The later2023CoPE prospective drafting decision is separate and supplies no maintained2023 concept in this cohort.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+- retain: AIMech:OnlineHybridTemporalRegressionPlanning. Retain one descriptive algorithm scope for the cohesive 2004/2005 online hybrid temporal regression procedure. The outer release loop and inner job search form one architecture; supplied action/plant models and A*/temporal propagator components are not separately originated here. Preserve version-local formal claims, pending source questions and the bounded no-match. Current canonical identity and source responsibility are accepted in the exact bound decisions; all residual source questions remain open.
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| mfg-core | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/OnlineHybridTemporalRegressionPlanning.native-core.json; Exact prospective core, 8 claims and 14 limitations. | context_only | Selected source-scoped core; no current canonical insertion. |
+| mfg-support | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/scientific-support.json; All claim/limitation narratives, evidence locators, source roles and original timestamps. | context_only | Native DATA author support, not an independent review. |
+| mfg-native-preview | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/preview.yaml; Exact TEMP preview including honest curation metadata. | context_only | Root-created TEMP record; no canonical creation. |
+| mfg-temp-validation | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/root-preview-validation.json; Actual root single-record validation, passed:true and problems:[]. | context_only | Structural and claim/source checks only; not scientific proof or current identity clearance. |
+| mfg-root-scope | /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/root-prospective-scope-decision.json; One cohesive common2004/2005 procedure for drafting; future identity/owner unselected. | context_only | Root prospective scope decision and qualified reading attribution. |
+| mfg-historical-proposal | /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/proposal.json; Historical identity, fifteen-target no-match and component boundaries. | context_only | Original2004-only proposal is historical; its pending2005 comparison was later advanced without rewriting it. |
+| mfg-native-contexts | /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/native-comparisons.json; Nine closer maintained concept comparisons and exact source hashes. | context_only | Historical attributed comparisons, not a new complete native inventory review. |
+| mfg-aio-contexts | /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/selected-aio-contexts.json; Fifteen pinned AIO nodes and68 incident edges. | context_only | Exact selected context supporting a bounded no-match; no whole-ontology semantic absence. |
+| mfg-native-schema | /private/tmp/aimech-discovery-recovery-worktree-20261012/src/aimech/schema/curated_concept.yaml; Concept-kind and source/claim metadata schema. | context_only | Schema context for algorithm and native evidence shape. |
+| mfg-source-continuity | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/source-continuity.json; All29 original objects,18 new2005 bibliography occurrences and5 questions, exact. | context_only | Immutable source obligations; historical statuses remain unchanged and current progress is separate. |
+| mfg-draft-reading | /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/draft-reading.json; Native DATA author critical text/image scope and attributed prior readings. | context_only | Author role and reading limits; not independent proof. |
+| mfg-original2004-reading | /private/tmp/aimech-online-manufacturing-source-research-20261016/reading.json; Original source researcher’s seven-page text/image reading. | context_only | Prior full2004 reading is attributed, not repeated by this fragment assembly. |
+| mfg-original2005-reading | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/reading.json; Original source researcher’s expanded2005 reading and version comparison. | context_only | Prior2005 reading scope is attributed exactly to its receipt. |
+| mfg-root-reading | /private/tmp/aimech-online-manufacturing-source-research-20261016/root-completed-2004-reading.json; Root all7pages/images2004, selected2005images4–7 and18+5 newsourceobjects. | context_only | Bounded root reading, not a full2005/cited-original claim. |
+| mfg-independent2004-note | /private/tmp/aimech-online-manufacturing-p4-independent-note-20261016/assessment.json; Critical2004pp3–5, minimum-label, clamping and state-uniqueness qualifications. | context_only | Bounded independent note; no executed implementation. |
+| mfg-independent2005-note | /private/tmp/aimech-manufacturing2005-regression-independent-note-20261016/assessment.json; General/simplified rule contrast and precise unaffected-precondition counterexample. | context_only | Independent source-premise reasoning, not an implementation failure. |
+| mfg-source-correspondence | /private/tmp/aimech-manufacturing-native-core-correspondence-20261016/assessment.json; Full8/14 core/support correspondence and scope-limited fresh critical pages. | context_only | New-core correspondence review by the original source/proposal author; role disclosure retained. |
+| mfg-comparison | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/comparison.json; Common architecture and source/version-local differences. | context_only | 2004/2005 comparison; no equivalence of every implementation or later work. |
+| mfg-comparison-qualification | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/comparison-qualification.json; Qualification of the2005 simplified regression presentation. | context_only | Retained premises and independent note; no silent source correction. |
+| mfg-acquisition2004 | /private/tmp/aimech-online-manufacturing-source-research-20261016/acquisition.json; Successful download with observed completion timestamp and exact artifact hash. | context_only | Use observed successful completion, not file mtime or this assembly time. |
+| mfg-acquisition2005 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/acquisition.network.json; HTTP200 acquisition, exact PDF hash and completed_at. | context_only | Successful2005 acquisition; earlier failed acquisition remains separate. |
+| mfg-historical-search | /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/collection.json; Historical identity inventory and ignored-inclusive four-root searches. | context_only | Historical lexical/semantic context only; no future insertion or owner clearance. |
+| mfg-ruml2004-locator-01 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–5, A Hybrid Planner, Figure 5 and continuation after Planning Individual Jobs. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-01 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.4–6, A Hybrid Planner, Figure 6, State Representation and end of Objective function. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-02 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.3 Figure 5; p.4 Planning Individual Jobs, four-tuple; p.5 first two paragraphs. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-02 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4 Figure 6 and Planning Individual Jobs; p.5 State Representation; p.6 final two paragraphs. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-03 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.3 Figure 5 steps 10–15; p.4 Planning Individual Jobs, temporal constraints and resource branching. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-03 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4 Figure 6 steps 10–15; p.5 Branching rule through p.6 continuation. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-04 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–4, Figure 5 steps 1–5 and A Hybrid Planner. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-04 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4 Figure 6 steps 1–5 and A Hybrid Planner, release and temporal-window paragraphs. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-05 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.4 final two paragraphs and p.5 opening paragraph. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-05 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.6, Figure 7 and Objective function. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-06 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.4, final two paragraphs of Planning Individual Jobs. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-06 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.6, Objective function, temporal-planning-graph and label paragraphs. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2005-locator-07 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.5, Regression Semantics, general Applicability and Update paragraphs. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2005-locator-08 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.5, Regression Semantics, paragraph following general Applicability. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-07 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–5, A Hybrid Planner and search evaluation; p.6, discussion of plan quality. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-09 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.1 and 4, greedy architecture; p.6, Objective function and per-job optimality sentence. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-08 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.4, lower-bound construction. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-10 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.6, temporal-planning-graph label construction. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-09 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.4, A Hybrid Planner, clamping paragraph. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-11 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4, A Hybrid Planner, allowable-window and clamping paragraph. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-10 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–4, Figure 5 and release timing; p.5, Additional Features. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-12 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4, Figure 6 and release timing; p.7, Additional Features. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-11 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.4, Planning Individual Jobs, state-uniqueness paragraph. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-13 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.6, paragraph before Objective function. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2005-locator-14 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.5, general Applicability versus simplified Applicability after the fully-specified-state paragraph. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2005-locator-15 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.5, general Update and fully-specified-state simplified Update. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2005-locator-16 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.5, Regression Semantics and stored Lt/Lu paragraph; p.6, state-based planner paragraph and heuristic L=〈Lt,Lf〉. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-12 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–4, problem description and temporal constraints. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-17 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.3–4, problem description and A Hybrid Planner; p.6, sequential actions and Figure 7. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-13 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.3, action duration bounds; p.5, Additional Features, resource-state constraints and fixed-duration implementation. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-18 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.3–5, domain/action representation and expanded state/regression semantics. | context_only | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-14 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.5, Additional Features, controller messages and failure handling. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-19 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.7, Additional Features, controller updates and execution failures. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-15 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.5, Empirical Evaluation and Figure 6; p.6 continuation. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2004-locator-16 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.5–7, Empirical Evaluation, Figures 6–8 and concluding discussion. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-20 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.7–10, empirical evaluation and conclusions. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-17 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF pp.3–5, Figure 5 and method description; p.7 bibliography. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-21 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF pp.4–6, Figure 6 and expanded method; p.10 bibliography. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| mfg-ruml2004-locator-18 | /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf; PDF p.3 Figure 5 and A Hybrid Planner; pp.4–5 Planning Individual Jobs. | supports | Exact ruml2004 primary artifact at the specified source-local locator. Source version: Author-hosted seven-page 2004 workshop paper, identified by exact PDF bytes. Workshop identity is separately retained in author-index metadata; no DOI or printed proceedings pagination is asserted. This is a distinct work from the expanded 2005 paper.. |
+| mfg-ruml2005-locator-22 | /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf; PDF p.4 Figure 6 and A Hybrid Planner; pp.5–6 state, regression and resource-order search. | supports | Exact ruml2005 primary artifact at the specified source-local locator. Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact PDF bytes. PDF-relative page locators are used; no DOI or official proceedings pagination is asserted. The expanded regression semantics and experiments remain source-local, not attributed retroactively to the 2004 paper.. |
+| actual-write | /private/tmp/aimech-cohort365-write.corrected.json | context_only | Actual write receipt, with source authorship and scope disclosed. |
+| actual-capture | /private/tmp/aimech-cohort365-checks-final-20261016/actual-capture.json | context_only | Actual capture receipt, with source authorship and scope disclosed. |
+| actual-reading | /private/tmp/aimech-cohort365-checks-final-20261016/root-actual-reading.json | context_only | Actual reading receipt, with source authorship and scope disclosed. |
+| actual-adversarial | /private/tmp/aimech-cohort365-actual-adversarial-review-20261016/assessment.corrected.json | context_only | Actual adversarial receipt, with source authorship and scope disclosed. |
+| actual-decisions | /private/tmp/aimech-cohort365-current-decisions.corrected.json | context_only | Current identity, bounded no-match, exact main911 postimage and52 source-progress decisions. |
+| actual-report | /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T081624Z-online-hybrid-temporal-regression-planning.json | context_only | Exact incoming364 five-field projection including issue418 correction;52 exact original objects and separate current progress. |
+| current-rebind | /private/tmp/aimech-manufacturing-current-identity-rebind-20261016/assessment.json | context_only | Actual merged-state ignored/hidden-inclusive identity and15-node/68-edge mapping context. |
+| reporting-repair | /private/tmp/aimech-cohort365-reporting-repair.json | context_only | Issue420 current-status correction with unchanged scientific record and exact historical source preservation. |
+| initial-adversarial-finding | /private/tmp/aimech-cohort365-actual-adversarial-review-20261016/assessment.initial.json | context_only | Initial minor current-status finding retained; successor adversarial disposition is separately bound. |
+| check-render | /private/tmp/aimech-cohort365-checks-final-20261016/render.json | context_only | Completed required command with exact output and timing. |
+| check-source | /private/tmp/aimech-cohort365-checks-final-20261016/source.json | context_only | Completed required command with exact output and timing. |
+| check-gate | /private/tmp/aimech-cohort365-checks-final-20261016/gate.json | context_only | Completed required command with exact output and timing. |
+| check-vendor | /private/tmp/aimech-cohort365-checks-final-20261016/vendor.json | context_only | Completed required command with exact output and timing. |
+| check-render-check | /private/tmp/aimech-cohort365-checks-final-20261016/render-check.json | context_only | Completed required command with exact output and timing. |
+| check-diff | /private/tmp/aimech-cohort365-checks-final-20261016/diff.json | context_only | Completed required command with exact output and timing. |
+
+## Limits And Additional Notes
+
+- Per-job optimality, heuristic lower bounds and temporal clamping retain their source premises. Simplified regression and unknown-state presentation remain qualified.
+- Historical source and neighbor readings retain original scope/authorship. No new whole-ontology or whole-corpus semantic reading is claimed.
+- Native checks establish structure and correspondence; canonical review save/check, committed-head review and publication are subsequent.
+- The28 scientific assessments retain their claims/support; current identity/mapping context and actual receipt links are appended. One boundary receives actual owner context.
+- Primary source timestamps remain their successful acquisition seconds. Null derived-evidence times use actual postcapture root reading.
+- Source researcher356 authored source/identity research and independently compared354’s new core with that role disclosed. Researcher352 supplied bounded critical-method notes.354 authored core/support/fragment and accounting/writer preparations. Root accepted scope/owner decisions and read actual canonical content. This aggregate review is self_review.
+- Current owner911 postimage: {"candidate": "MREC, MA-star, SMA-star and iterative threshold search", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf", "disposition": "partially_addressed", "next_check": "Retain every earlier cohort358/360/361 source obligation and historical resolution, including the distinct Bagchi1985/Nilsson1978/Michie1974 access questions and main7/main10/912 responsibilities. The Reinefeld–Schaeffer–Marsland1985 PNS original and the1987 journal original have now been read; their version/helper/retention boundaries and other cited originals remain pending. Preserve current journal1987 16 bibliography/9 questions/2 incidental routes and ijcai1985 7 bibliography/9 questions/3 added contexts, coordinating duplicate citation/ICAPS04 occurrences without deleting originals. Separately retain the CoPE2025 source family: 38 bibliography occurrences, nine method leads, 12 follow-up questions, the exact 2023 retrieval route and 12 source limitations. The 2025 full source now supports the distinct dual-queue planner and dispatch-dependent value functional; this source coordination does not equate either with the nine prior methods. The 2023 source research and four prospective scopes have been assessed; current insertion-state identity and canonical representation remain future work. Separate 2004/2005 manufacturing research and comparison, current merged-state identity/mapping, and creation of the common DRAFT record are complete; validation, saved review and delivery are separately recorded, and residual source questions remain open. Keep all historical retrieval/status wrappers and the separately attributed later route progress. The common2004/2005 online hybrid temporal regression procedure is represented by the created DRAFT record; retain all52 manufacturing source objects and14 source qualifications. Later2023CoPE four-scope drafting is separately accepted prospectively, with no maintained2023 records in this cohort.", "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json", "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"}, "record_ids": ["AIMech:MREC", "AIMech:SimplifiedMemoryBoundedAStar", "AIMech:IterativeThresholdSearch", "AIMech:MAStar", "AIMech:MAOStar", "AIMech:ITERSSSStar", "AIMech:InformedNegaScout", "AIMech:DUALStar", "AIMech:PartiallyInformedNegaScout", "AIMech:DispatchDependentDualQueuePlanning", "AIMech:DispatchDependentValueFunctional", "AIMech:OnlineHybridTemporalRegressionPlanning"], "cohort358_resolution": {"record_ids": ["AIMech:MREC", "AIMech:SimplifiedMemoryBoundedAStar", "AIMech:IterativeThresholdSearch"], "reason": "Add the independently evidenced MREC (1989), SMA* (1992) and ITS (1994) procedures under the existing memory-search source umbrella. This shared source responsibility does not merge their algorithm identities. Original MA*/MAO* full-text and identity questions remain unresolved; IE retains its separate unchanged owner 912.", "previous_sha256": "87406a76bde4d268904976b031bb2f71ab137c7b81e644d3fe1a66394ed80b4d", "ownership_plan": {"path": "/private/tmp/aimech-cohort358-current-ownership-proposal-20261016/ownership-plan.proposed.json", "sha256": "18880abb169b9d54e364184ff1b8653bcb90e14bd16c25a809959182a4c03f29"}, "source_question_origin": {"path": "/private/tmp/aimech-memory-search-scientific-review-preparation-20261016/historical-source-accounting.json", "sha256": "06a89daf0d68561a588803af11832c08df1f2ca7114d018f807bf403ca6cf614"}}, "cohort360_resolution": {"record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "reason": "Add the two distinct source-scoped 1989 procedures MA* and MAO* under the existing memory-search source owner. The subsequent public scan resolves the base-method source responsibility without merging the algorithms or erasing historical access gaps, cohort358 provenance, variant questions or source qualifications.", "previous_sha256": "06b2078e773673df8df2b9173f21e79f85c11dc4cb70a4d93bb8537d7298647b", "ownership_plan": {"path": "/private/tmp/aimech-cohort360-current-ownership-proposal-20261016/ownership-plan.proposed.json", "sha256": "3d9d9aaeb1d1f99de2f1a1c09de4d15cc8dac24f7b5a6fc60e72df0eff072369"}, "source_question_origin": {"path": "/private/tmp/aimech-ma-mao-cohort360-preparation-20261016/source-questions.structure.json", "sha256": "da8a647a62277aab382265bb9d6aa3a74d0e1ebc9d3c200cac04901a856decb8"}}, "cohort361_resolution": {"record_ids": ["AIMech:ITERSSSStar"], "reason": "Represent the exact Bhattacharyya–Bagchi1986 ITERSSS* bibliography responsibility under the existing memory-search source umbrella, distinct from MA*/MAO*,SMA*,MREC,ITS and StockmanSSS*.", "previous_sha256": "f74140b7cf9fcb1cf801c2dcb40babbd4540f8ecc012320dee621f98c264fca7", "ownership_plan": {"path": "/private/tmp/aimech-cohort361-current-ownership-proposal-20261016/ownership-plan.proposed.json", "sha256": "4471c78603c7d25ed5bb17af99cb435f8a3b0fdfde1446c394dcbe744cbf4b3f"}, "source_question_origin": {"path": "/private/tmp/aimech-svpg-ie-itersss-cohort361-preparation-20261016/source-questions.v2.structure.json", "sha256": "d3e0a339a6c9a440a81ccffa58b4b51fe82ee1add053f0f1ea6cb5eeff4859fa"}}, "cohort362_resolution": {"record_ids": ["AIMech:InformedNegaScout", "AIMech:DUALStar", "AIMech:PartiallyInformedNegaScout"], "reason": "Represent the exact inherited1987 low-overhead source responsibility with distinct INS and DUAL* records, and its separately read1985 PNS source question with Partially Informed NegaScout. This shared source owner does not merge the three algorithms or equate them to MA*/MAO*/ITERSSS*.", "previous_sha256": "2606450c020ef6913baafa9b79233e7d75773b47a61be3ef35bf30685817a153", "ownership_plan": {"path": "/private/tmp/aimech-cohort362-current-ownership-proposal-20261016/ownership-plan.proposed.v2.json", "sha256": "3ebf455f10f0a5eaab9200b751aa8c23c4a0b36ae665c9e783fc26ad01e11e95"}, "source_question_origin": {"path": "/private/tmp/aimech-ins-dual-pns-cohort362-preparation-20261016/source-question-inputs.proposed.json", "sha256": "5e521995a6c2567779cae0141f30291086cf821c18a2c18312574d0e5fa53a0a"}}, "cohort364_resolution": {"record_ids": ["AIMech:DispatchDependentDualQueuePlanning", "AIMech:DispatchDependentValueFunctional"], "reason": "Add the two distinct source-scoped CoPE2025 subjects under the already explicit main911 retrieval/source coordinator. The algorithm and mathematical functional are not aliases of each other, DUAL*, PNS or the earlier memory/search methods. No original source question is deleted or closed.", "previous_sha256": "493c34a0a84e8869b4725edb1ec9ba3ced0fbc401ac5e01058092907ebef8b33", "source_plan": {"path": "/private/tmp/aimech-cope-source-accounting-proposal-20261016/accounting-proposal.json", "sha256": "0374601e324367d49509a44677644c77bac382aab4680e74c8647bbbe4e826b0"}, "source_question_origin": {"path": "/private/tmp/aimech-cope-source-accounting-proposal-20261016/original-source-objects.json", "sha256": "cd9ab0e78e98d34b80aa92fbea0c977e4138ae6c854beed78ad66d4198cb7413"}, "current_source_progress_sha256": "f061cdf13c51a01d417321e21726dd2ff2ddbd6cf3d2524a81e7683932fa65a7", "current_route_progress_sha256": "52d1de20d0dddc3a04e481d72d7c7f605d61f4742f76e836c2f1802a28f321b4"}, "cohort365_resolution": {"record_ids": ["AIMech:OnlineHybridTemporalRegressionPlanning"], "status": "current_common_native_representation_with_residual_source_questions", "reason": "Root accepts the actual merged-state identity/mapping assessment and one common2004/2005 DRAFT algorithm. Reuse existing main911 for both historical manufacturing retrieval occurrences and all52 source questions; no algorithm equivalence or source closure is implied.", "previous_sha256": "bd69f0e209470f916a175deb8659be78a7a7f62b053600b7115f968b87182e5d", "source_objects": {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/original-source-objects.json", "sha256": "297e2c3db869c886b2811ad2b70f0cde74217da2e71845bd8d6bcf3b2cb67a23"}, "current_progress": {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/current-source-progress.proposed.json", "sha256": "1229a5eb2373de13ad5b5a9ff15369282371b3620ce8483adbbe3eef9ce1a2d5"}, "source_native_data": {"path": "/private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/handoff.json", "sha256": "fb208d7ca6c437393e82b416bfacd1b8257f6a21b52f69bdcfb7cf17186d4ed2"}, "closed_source_questions": [], "source_plan": {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/accounting-proposal.json", "sha256": "314ffba9b8e6936cd23c4b3c1449d93dc3b5a641d6d67f9fef7e34f7d15344b8"}}}
+- MFG2004-B01: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B02: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B03: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B04: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B05: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B06: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B07: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B08: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B09: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B10: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B11: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-B12: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2004-V01: expanded2005_work_represented_in_common_native_record_with_residual_questions. Retain the source-specific simplified regression, unknown-literal, agenda and implementation questions; representation does not close them.
+- MFG2004-V02: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-V03: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-V04: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-V05: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-V06: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-V07: pending_source_question. Acquire and read this exact later work if pursuing its lineage, compare source-local architecture/results with2004/2005 and current methods, and retain any distinct questions without assuming an alias.
+- MFG2004-Q01: common2004_2005_procedure_represented_later_lineage_pending. Inspect2011 and other later primary works before extending the record or assigning aliases; retain all source-local formal and empirical distinctions.
+- MFG2004-Q02: pending_source_question. Read the exact h1_T source and implementation/later derivation; establish minimum relaxed labels before extending admissibility claims.
+- MFG2004-Q03: pending_source_question. Inspect original propagator definitions and the exact sequential clamping implementation while retaining source-local assumptions.
+- MFG2004-Q04: pending_source_question. Assess exact state representation, action assumptions and implementation before claiming general uniqueness or identifying a concrete defect.
+- MFG2004-Q05: pending_source_question. Keep admissibility/fixed-context/feasibility premises explicit; do not infer a global future-arrival optimum or competitive guarantee.
+- MFG2004-Q06: pending_source_question. Inspect exact implementation or later primary work for unreachable jobs, timeout/restart, completed-job retention and in-flight failure behavior.
+- MFG2004-Q07: current_identity_and_granularity_accepted_remaining_scope_questions_open. Preserve coupled outer/inner architecture and component boundaries; reassess future versions with their own evidence rather than treating pseudocode names as independent concepts.
+- MFG2004-Q08: pending_source_question. Use original tables/figures and experimental premises for any later quantitative claim; do not promote the source’s reported scale or productivity targets to universal performance.
+- MFG2004-R01: exact_source_research_and_common_native_representation_completed_with_residuals. Retain the source qualifications and cited-original/later-version questions under existing main911; do not reacquire completed sources solely because historical status says unread.
+- MFG2004-R02: exact_source_research_and_common_native_representation_completed_with_residuals. Retain both route occurrences, source qualifications and later/cited-original obligations; source representation does not establish question closure.
+- MFG2005-B01: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B02: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B03: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B04: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B05: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B06: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B07: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B08: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B09: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B10: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B11: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B12: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B13: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B14: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B15: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B16: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B17: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-B18: pending_source_question. Inspect the cited original at its exact work/version, compare any relevant maintained method and source responsibilities, and curate only supported distinctions. Retain this occurrence even if another paper cites the same work.
+- MFG2005-Q01: pending_source_question. Seek a precise implementation, stronger model premises or later derivation; preserve the unaffected-precondition and polarity issues separately.
+- MFG2005-Q02: pending_source_question. Resolve the representation and heuristic convention from exact later derivation or implementation before extending assurance.
+- MFG2005-Q03: pending_source_question. Inspect an exact implementation convention and its assumptions before interpreting strict/nonstrict intervals or controller-delay limits.
+- MFG2005-Q04: pending_source_question. Coordinate the linked2004 questions without deleting either occurrence; verify exact label and duplicate-control mechanisms before stronger claims.
+- MFG2005-Q05: pending_source_question. Inspect the relevant original work and visual evidence for any later version or performance extension; do not infer a shared algorithm alias or numerical result from metadata.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261016T084510Z-online-hybrid-temporal-regression-planning
+kind: batch
+repository: CultureBotAI/AIMech
+title: Scientific self-review of online hybrid temporal regression planning
+started_at: '2026-10-16T08:45:10.403802Z'
+finished_at: '2026-10-16T08:45:10.757264Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: Root selected scientific scope, authored and accepted current
+    owner/identity decisions, reviewed writer, created canonical records, applied
+    issue420 reporting repair and read actual content.354 authored native core/support/fragments/source-accounting
+    proposal/writer.356 authored source/identity research and performed bounded independent
+    new-core/actualreport correspondence with that prior role disclosed.352 supplied
+    bounded critical-method source notes. Aggregate formalreview is self_review.
+skill: .claude/skills/review-category/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain one source-scoped DRAFT algorithm for the common2004/2005 hybrid online
+  planning/scheduling procedure. Eight claims and fourteen limitations distinguish
+  per-job search quality, temporal-window premises, general versus simplified regression
+  semantics and empirical scope.
+source:
+  git_revision: 3f75d017b53af1c74368bd17d23d1383e4f56cbd
+  state: working_tree
+  inputs:
+  - path: .claude/skills/review-category/SKILL.md
+    sha256: 553c3870c1dfc127f90f196b7b212b644706d4c26e2a578ab615ccce588070d7
+    role: context
+  - path: data/aio/DecisionTree.yaml
+    sha256: 4c2a5ed08c585f8912d66e3629aaa20e93c46ab49cfb2d128001fcd019c81bfc
+    role: context
+  - path: data/aio/EmbodiedLLM.yaml
+    sha256: 86623545536a35b0bce09846c809818e9ff92fc6963d9fdb553c01db7b6db7d8
+    role: context
+  - path: data/aio/GraphConvolutionalPolicyNetwork.yaml
+    sha256: c8a6e283e5d6c5ebc59e1db234d174dc3be79dd0f4a30cdb74e6494e65507d79
+    role: context
+  - path: data/aio/MachineLearningTask.yaml
+    sha256: 508870ec8844fc3b4cb76e7c074d655694e07c98bf741e7bba195f27dcf8df52
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/Model.yaml
+    sha256: 56b85d1c6d559d9ce4172dcf9c776126e91a03649c8f4d1fa8e3f5130f0ca73b
+    role: context
+  - path: data/aio/NeuroSymbolicLLM.yaml
+    sha256: d82fe65db45394cc57d77160a5a2176b1244d54000acff6f9362809c8c8524fb
+    role: context
+  - path: data/aio/PolicyLayer.yaml
+    sha256: 5bd260a08b56658940d21561cad7ee515e2f031ea860cb040406f102d98252bf
+    role: context
+  - path: data/aio/ProbabilisticGraphicalModel.yaml
+    sha256: 288c6df0138836e2fcf554982ffa00dc5b09e497a9a14c27dba64f2320b9eda4
+    role: context
+  - path: data/aio/ReasoningLLM.yaml
+    sha256: 5ceb143da4d5ac2c3bdc430596e21d48943caaa848ae20abf92c791d69a90bfd
+    role: context
+  - path: data/aio/RegressionAnalysis.yaml
+    sha256: 6f5d48096556a2ec31770aab306219e9020919940b4e80554639cc97aaa94bc6
+    role: context
+  - path: data/aio/ReinforcementLearning.yaml
+    sha256: dc8ad2a5e092e6ea34023f73574b3d436d895635690d9ef92202c2afa893bb9e
+    role: context
+  - path: data/aio/TemporalBias.yaml
+    sha256: 37057ec37a0e18218b6e40aef6596314fb1a0feb6748a7c6db0006742b24bb44
+    role: context
+  - path: data/aio/TimeSeriesAnalysis.yaml
+    sha256: c26b267d0f5fb895e9cb0eb587fe86a115d461dae4d70e0ac6baf1eefb1d4eff
+    role: context
+  - path: data/aio/TimeSeriesForecasting.yaml
+    sha256: 88bbef37663508cc885b40d258cdb6b720c627c0f73af1935c01a372c18b3863
+    role: context
+  - path: data/curated/AStarSearch.yaml
+    sha256: 685cfd5d6b4eaf0811d597e93e117ad065857d5707f0040420d3e6885f520b8d
+    role: context
+  - path: data/curated/BestFirstSearch.yaml
+    sha256: d43811f831e3a4d2c08e861f5a973c03ec481c1b406d724c042847b7dbb426bf
+    role: context
+  - path: data/curated/DispatchDependentDualQueuePlanning.yaml
+    sha256: a83c718591ddbde6605819a2fe05d47679a48b1124f3316688e683c8139a4625
+    role: context
+  - path: data/curated/DispatchDependentValueFunctional.yaml
+    sha256: 746046361ad3b018fd17b234bae5ea4bc9ced9ea498e9275f802d5b342ffb609
+    role: context
+  - path: data/curated/EnforcedHillClimbing.yaml
+    sha256: 897d9d1e6437d068a16e83e1bc6431683ac8de49e6ea82ad8a0b553df812a54c
+    role: context
+  - path: data/curated/LocalSearchSpaceLearningRealTimeAStar.yaml
+    sha256: 7ac410b5775e73d529bf5d98c93df6f90d187ee35ded28dcb773d4a2f7c461c2
+    role: context
+  - path: data/curated/MinConflicts.yaml
+    sha256: 12b23515b6d3d3ae662a67519dd0f0f15f10a7f2b5b7aa88815a76e4a8309512
+    role: context
+  - path: data/curated/OnlineHybridTemporalRegressionPlanning.yaml
+    sha256: fd0b1db160b2fa3f8124a2dffd6500a171511318dd3a60dd45c115a639fb6649
+    role: target
+  - path: data/curated/PartiallyInformedNegaScout.yaml
+    sha256: ffde7520ece1efaf8c26dc3186f8cd747e6255c369d6755cacb0da2c8cd1281a
+    role: context
+  - path: data/curated/RealTimeAdaptiveAStar.yaml
+    sha256: fd094b4cbc70d64f22498cffa10b5adf4b84b252f2a49cce8faa66d67f5651bc
+    role: context
+  - path: data/curated/STRIPSPlanning.yaml
+    sha256: 6b4e884b76dd3049bb7f3c8103738eafddfd8ed492587ca35adf9c846f49317d
+    role: context
+  - path: data/curated/WeightedAStar.yaml
+    sha256: a5bf05341f6076ecdd8f1ee22f4f6edb8fd87307320d2998a63bee1da8982ae2
+    role: context
+  - path: docs/curated-concepts.md
+    sha256: 79c497b615b9ba703d67ccfc1a925f5d5c3c527aff6ab323cd271aec8e5a40dc
+    role: context
+  - path: docs/record-review-profile.md
+    sha256: 2d3e3a73264523c78930d17b0812e2d22887e25423fe7c38e0ddce922d9cec9d
+    role: context
+  - path: docs/record-reviews.md
+    sha256: 452a19ab688276747b7c4308523a14d4d99c1c39ef6909ae8a90b85b7a9b3e9b
+    role: context
+  - path: history/reports/online-hybrid-temporal-regression-planning/2026-10-16T081629Z-codex-20b119.yaml
+    sha256: 862b8074bfa11648696e962b72d066968e8e43beb47b48b31018133e807ee535
+    role: context
+  - path: history/reports/online-hybrid-temporal-regression-planning/2026-10-16T083017Z-codex-10541a.yaml
+    sha256: cfd8f5c7988f606eaa01e0a1edc6d99a0f9c795fda9560047b9b54744e53106b
+    role: context
+  - path: justfile
+    sha256: 2d9c1b68c1c80d53aa44a6b8b5e916efe8b493650ff59a3fc7479a42be37f400
+    role: context
+  - path: research/discovery/20261011T054555Z-best-first-search.json
+    sha256: 4d527783af0e0f75abe1179df198f3c219ac161d272bb0f5316a329e8e6dd122
+    role: context
+  - path: research/discovery/20261016T061644Z-informed-negascout-dual-star-and-partially-informed-negascout.json
+    sha256: ae343443b190b59e9105d5f509b7f623d4bb5cbe48e8d95d0823dd168812fbe3
+    role: context
+  - path: research/discovery/20261016T061644Z-informed-negascout-dual-star-and-partially-informed-negascout.md
+    sha256: f4dde02e76eba4c9ec66a125a0a039d6c736929d4cc5bfd3a4888b980283e5c0
+    role: context
+  - path: research/discovery/20261016T065212Z-iterative-linear-best-first-search-rbfs-epsilon-and-rbfs-kth-root.json
+    sha256: 51ef12569ed3a7030a559d1192180881aa4d4c3630413b292f1c7e5e6c2436ed
+    role: context
+  - path: research/discovery/20261016T065212Z-iterative-linear-best-first-search-rbfs-epsilon-and-rbfs-kth-root.md
+    sha256: 82e941bdbfc64ce2470f20d3fd4fedbea4bfdab19579ea5802898c1ff6203707
+    role: context
+  - path: research/discovery/20261016T073716Z-dispatch-dependent-dual-queue-planning-and-value-functional.json
+    sha256: dd37059c78e9699ad1a4db48167f18d0455018e03ab295dcb829a5e2d9a66419
+    role: context
+  - path: research/discovery/20261016T073716Z-dispatch-dependent-dual-queue-planning-and-value-functional.md
+    sha256: 9ebff8edc7967e23b94161f9b3362f9ac81081166ff4cde093a0bb2a418cf5e7
+    role: context
+  - path: research/discovery/20261016T081624Z-online-hybrid-temporal-regression-planning.json
+    sha256: bbfcfe05cf0616b607eda56dcb2df4a41ff894714a702fe145d964688bbc4264
+    role: context
+  - path: research/discovery/20261016T081624Z-online-hybrid-temporal-regression-planning.md
+    sha256: 17353de55756a0eed7cab47426b14ed192655e3c2603a77edcbeac62968a0674
+    role: context
+  - path: schema/record_review.yaml
+    sha256: 229baf9b69118a1fe318e4c31085c0820e4e3d1365e7b04d6ace451b7c35f9bb
+    role: context
+  - path: scripts/record_review.py
+    sha256: 95a4ec41e38ec47ba3578e76838c46a0adbf47e49ad3636524735d08cfcb1c4d
+    role: context
+  - path: scripts/render_pages.py
+    sha256: 81fae327c4670e269e8928b53f0370e2853767ec8e1b495f6206216ac03f304a
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/importer.py
+    sha256: 7c2dd8e12f18b76cfb5ed4acc7e1901ae9a968b3a6c7a9d62cb260bc2f1ad3ab
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+    role: context
+  - path: src/aimech/validation.py
+    sha256: 274ed5e6bc97440515a1964b9b21927135a2e9a5a4808ae8daebccd3e172ffcc
+    role: context
+targets:
+- target_id: AIMech:OnlineHybridTemporalRegressionPlanning
+  label: Online hybrid temporal regression planning
+  path: data/curated/OnlineHybridTemporalRegressionPlanning.yaml
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/OnlineHybridTemporalRegressionPlanning.yaml
+    role: maintained native concept record
+scope:
+  description: One exact current native record, all claims and limitations, bounded
+    identity/mapping and source responsibility.
+  selection: AIMech:OnlineHybridTemporalRegressionPlanning
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  exclusions:
+  - target: Uninspected later and cited-original works
+    reason: Retained source questions are not completed research.
+  - target: Code executions and universal planning guarantees
+    reason: No implementation or benchmark was executed.
+checks:
+- check_id: check-render
+  name: render
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: /private/tmp/aimech-recovery-venv/bin/python -B scripts/render_pages.py
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-render
+- check_id: check-source
+  name: source
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: /private/tmp/aimech-recovery-venv/bin/python -B -m aimech check-source
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-source
+- check_id: check-gate
+  name: gate
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: just check
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-gate
+- check_id: check-vendor
+  name: vendor
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: just vendored-check
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-vendor
+- check_id: check-render-check
+  name: render-check
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: /private/tmp/aimech-recovery-venv/bin/python -B scripts/render_pages.py
+    --check
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-render-check
+- check_id: check-diff
+  name: diff
+  status: passed
+  required: true
+  summary: Actual required command passed.
+  command: git diff --check
+  exit_code: 0
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - check-diff
+evidence:
+- evidence_id: mfg-core
+  kind: record_content
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/OnlineHybridTemporalRegressionPlanning.native-core.json
+  locator: Exact prospective core, 8 claims and 14 limitations.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Selected source-scoped core; no current canonical insertion.
+  snapshot_sha256: 27d2e1506fbe5c24026eaffdb34ed08566bcc47db4c169c3c359643b27f9b7f8
+- evidence_id: mfg-support
+  kind: record_content
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/scientific-support.json
+  locator: All claim/limitation narratives, evidence locators, source roles and original
+    timestamps.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Native DATA author support, not an independent review.
+  snapshot_sha256: dc919a4753eaf90f69d8ee4b5f01d4c7d83643d6db6d34aae8201490ba064df8
+- evidence_id: mfg-native-preview
+  kind: record_content
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/preview.yaml
+  locator: Exact TEMP preview including honest curation metadata.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Root-created TEMP record; no canonical creation.
+  snapshot_sha256: 0f6c73ceb80fcf1f41db7aa0d89315d3845e6e4f31b030e8db8124ec66ea8329
+- evidence_id: mfg-temp-validation
+  kind: validation
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/root-preview-validation.json
+  locator: Actual root single-record validation, passed:true and problems:[].
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Structural and claim/source checks only; not scientific proof or current
+    identity clearance.
+  snapshot_sha256: 419d3812873ddc3bb3e4eaad9126ac4a739e9902384211b56ae134ea6f7689db
+- evidence_id: mfg-root-scope
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/root-prospective-scope-decision.json
+  locator: One cohesive common2004/2005 procedure for drafting; future identity/owner
+    unselected.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Root prospective scope decision and qualified reading attribution.
+  snapshot_sha256: 3e33c9f1ccf7cdd6f38391099fe1d30eed17c04093358ca2f479429422d51235
+- evidence_id: mfg-historical-proposal
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/proposal.json
+  locator: Historical identity, fifteen-target no-match and component boundaries.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Original2004-only proposal is historical; its pending2005 comparison was
+    later advanced without rewriting it.
+  snapshot_sha256: 19b82179fa49cda6d08644618453e0307a753cd3e6275f931bcf4f1ae93fbc3e
+- evidence_id: mfg-native-contexts
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/native-comparisons.json
+  locator: Nine closer maintained concept comparisons and exact source hashes.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Historical attributed comparisons, not a new complete native inventory
+    review.
+  snapshot_sha256: 4924c5edf23f79bbbd0ea773d3210faffa636254200ac2d1d82deeaed05aaa3f
+- evidence_id: mfg-aio-contexts
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/selected-aio-contexts.json
+  locator: Fifteen pinned AIO nodes and68 incident edges.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Exact selected context supporting a bounded no-match; no whole-ontology
+    semantic absence.
+  snapshot_sha256: fec97d055bebd98c4db2b45d4e2cc83b2e3a2bdae86e1ad6e9d1753c42d039bf
+- evidence_id: mfg-native-schema
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/src/aimech/schema/curated_concept.yaml
+  locator: Concept-kind and source/claim metadata schema.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Schema context for algorithm and native evidence shape.
+  snapshot_sha256: 3826f6a7643d6a0140cf60bb52a1d3ac2fbab4811b4fd8d1d178a13c3341fa3f
+- evidence_id: mfg-source-continuity
+  kind: record_content
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/source-continuity.json
+  locator: All29 original objects,18 new2005 bibliography occurrences and5 questions,
+    exact.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Immutable source obligations; historical statuses remain unchanged and
+    current progress is separate.
+  snapshot_sha256: 5d27ce94cfcac5a16d819ba4db49226e063ad3d13e6094c939e36ecfe9d54244
+- evidence_id: mfg-draft-reading
+  kind: prior_review
+  reference: /private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/draft-reading.json
+  locator: Native DATA author critical text/image scope and attributed prior readings.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Author role and reading limits; not independent proof.
+  snapshot_sha256: d8890f7ea80e39bd6e445c416c13f80cd94fad9d690f9339f5542db7cbdac321
+- evidence_id: mfg-original2004-reading
+  kind: prior_review
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/reading.json
+  locator: Original source researcher’s seven-page text/image reading.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Prior full2004 reading is attributed, not repeated by this fragment assembly.
+  snapshot_sha256: 90dd41c65e8638a36cd028f9aca6e6e652870148159ef2d20ac2e517414df7d1
+- evidence_id: mfg-original2005-reading
+  kind: prior_review
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/reading.json
+  locator: Original source researcher’s expanded2005 reading and version comparison.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Prior2005 reading scope is attributed exactly to its receipt.
+  snapshot_sha256: 3b991fe062b2185a87ec16343b93e27a4a50fa0725e94c69d5e8656a82f9bc7c
+- evidence_id: mfg-root-reading
+  kind: prior_review
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/root-completed-2004-reading.json
+  locator: Root all7pages/images2004, selected2005images4–7 and18+5 newsourceobjects.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Bounded root reading, not a full2005/cited-original claim.
+  snapshot_sha256: 4dd893f22f4d4559d4300f6c5bc2f53935c6ee0d1b900b882091495f9cf54de3
+- evidence_id: mfg-independent2004-note
+  kind: prior_review
+  reference: /private/tmp/aimech-online-manufacturing-p4-independent-note-20261016/assessment.json
+  locator: Critical2004pp3–5, minimum-label, clamping and state-uniqueness qualifications.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Bounded independent note; no executed implementation.
+  snapshot_sha256: ad54ef828df7721b05540896cfa63514c2571d8cbb59489cb52b17f1162e5383
+- evidence_id: mfg-independent2005-note
+  kind: prior_review
+  reference: /private/tmp/aimech-manufacturing2005-regression-independent-note-20261016/assessment.json
+  locator: General/simplified rule contrast and precise unaffected-precondition counterexample.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Independent source-premise reasoning, not an implementation failure.
+  snapshot_sha256: 3d1d7ac3e81f52849aa2477a04384d385db5e895d05e9b8d73428c092d63aaa9
+- evidence_id: mfg-source-correspondence
+  kind: prior_review
+  reference: /private/tmp/aimech-manufacturing-native-core-correspondence-20261016/assessment.json
+  locator: Full8/14 core/support correspondence and scope-limited fresh critical pages.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: New-core correspondence review by the original source/proposal author;
+    role disclosure retained.
+  snapshot_sha256: 30c2fdaabbf7802f325e3c8212c60b6c4e1a3b469b9124312a9b60b711cb8e16
+- evidence_id: mfg-comparison
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/comparison.json
+  locator: Common architecture and source/version-local differences.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: 2004/2005 comparison; no equivalence of every implementation or later work.
+  snapshot_sha256: 48edbcb3020d26bac33ef18715e5055f4b8834c8df67365531bde5377453d18c
+- evidence_id: mfg-comparison-qualification
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/comparison-qualification.json
+  locator: Qualification of the2005 simplified regression presentation.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Retained premises and independent note; no silent source correction.
+  snapshot_sha256: 10d48db1457a43c51e47ac8d0c1a5eaece9b9cfb8c2ba2547881264006181227
+- evidence_id: mfg-acquisition2004
+  kind: record_content
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/acquisition.json
+  locator: Successful download with observed completion timestamp and exact artifact
+    hash.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Use observed successful completion, not file mtime or this assembly time.
+  snapshot_sha256: 5c11de3ea579358648c60a830d5e8157a99b6eec24ac4c9500b26ef9d867f394
+- evidence_id: mfg-acquisition2005
+  kind: record_content
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/acquisition.network.json
+  locator: HTTP200 acquisition, exact PDF hash and completed_at.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Successful2005 acquisition; earlier failed acquisition remains separate.
+  snapshot_sha256: 7353b7d78aba28ada161beddc481170a2ab6ffe264866a66e28506b45f2a9862
+- evidence_id: mfg-historical-search
+  kind: search
+  reference: /private/tmp/aimech-manufacturing2004-identity-proposal-20261016/collection.json
+  locator: Historical identity inventory and ignored-inclusive four-root searches.
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Historical lexical/semantic context only; no future insertion or owner
+    clearance.
+  snapshot_sha256: f3b87714f379ee427196097bfd29e7ff6355c6b4c36fbf92c0ad1dcd7c771377
+  search_scope: Compared candidate ID/local ID/name against all 4958 identity-field
+    occurrences and 3790 normalized values from 1252 current records (810 native,442
+    AIO); no collision. All aliases/scoped synonyms present in records were included.
+    This is a lexical screen, not proof of universal semantic novelty. Four repository
+    roots included ignored and hidden files. Working-tree evidence includes the three
+    uncommitted cohort363 records at merged362 HEAD. Status and unchanged record bytes
+    are captured; this is not a clean merged future-write base. Prior source researcher
+    read11matching contents/24occurrences; this fragment does not repeat that search.
+- evidence_id: mfg-ruml2004-locator-01
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–5, A Hybrid Planner, Figure 5 and continuation after Planning
+    Individual Jobs.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-01
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.4–6, A Hybrid Planner, Figure 6, State Representation and end of
+    Objective function.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-02
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.3 Figure 5; p.4 Planning Individual Jobs, four-tuple; p.5 first two
+    paragraphs.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-02
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4 Figure 6 and Planning Individual Jobs; p.5 State Representation;
+    p.6 final two paragraphs.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-03
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.3 Figure 5 steps 10–15; p.4 Planning Individual Jobs, temporal constraints
+    and resource branching.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-03
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4 Figure 6 steps 10–15; p.5 Branching rule through p.6 continuation.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-04
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–4, Figure 5 steps 1–5 and A Hybrid Planner.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-04
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4 Figure 6 steps 1–5 and A Hybrid Planner, release and temporal-window
+    paragraphs.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-05
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.4 final two paragraphs and p.5 opening paragraph.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-05
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.6, Figure 7 and Objective function.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-06
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.4, final two paragraphs of Planning Individual Jobs.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-06
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.6, Objective function, temporal-planning-graph and label paragraphs.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2005-locator-07
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.5, Regression Semantics, general Applicability and Update paragraphs.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2005-locator-08
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.5, Regression Semantics, paragraph following general Applicability.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-07
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–5, A Hybrid Planner and search evaluation; p.6, discussion of
+    plan quality.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-09
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.1 and 4, greedy architecture; p.6, Objective function and per-job
+    optimality sentence.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-08
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.4, lower-bound construction.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-10
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.6, temporal-planning-graph label construction.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-09
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.4, A Hybrid Planner, clamping paragraph.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-11
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4, A Hybrid Planner, allowable-window and clamping paragraph.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-10
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–4, Figure 5 and release timing; p.5, Additional Features.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-12
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4, Figure 6 and release timing; p.7, Additional Features.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-11
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.4, Planning Individual Jobs, state-uniqueness paragraph.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-13
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.6, paragraph before Objective function.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2005-locator-14
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.5, general Applicability versus simplified Applicability after the
+    fully-specified-state paragraph.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2005-locator-15
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.5, general Update and fully-specified-state simplified Update.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2005-locator-16
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.5, Regression Semantics and stored Lt/Lu paragraph; p.6, state-based
+    planner paragraph and heuristic L=〈Lt,Lf〉.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-12
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–4, problem description and temporal constraints.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-17
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.3–4, problem description and A Hybrid Planner; p.6, sequential actions
+    and Figure 7.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-13
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.3, action duration bounds; p.5, Additional Features, resource-state
+    constraints and fixed-duration implementation.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-18
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.3–5, domain/action representation and expanded state/regression
+    semantics.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: context_only
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-14
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.5, Additional Features, controller messages and failure handling.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-19
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.7, Additional Features, controller updates and execution failures.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-15
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.5, Empirical Evaluation and Figure 6; p.6 continuation.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2004-locator-16
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.5–7, Empirical Evaluation, Figures 6–8 and concluding discussion.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-20
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.7–10, empirical evaluation and conclusions.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-17
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF pp.3–5, Figure 5 and method description; p.7 bibliography.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-21
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF pp.4–6, Figure 6 and expanded method; p.10 bibliography.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: mfg-ruml2004-locator-18
+  kind: primary_source
+  reference: /private/tmp/aimech-online-manufacturing-source-research-20261016/ruml-fromherz2004.pdf
+  locator: PDF p.3 Figure 5 and A Hybrid Planner; pp.4–5 Planning Individual Jobs.
+  accessed_at: '2026-10-16T06:33:09Z'
+  support: supports
+  summary: 'Exact ruml2004 primary artifact at the specified source-local locator.
+    Source version: Author-hosted seven-page 2004 workshop paper, identified by exact
+    PDF bytes. Workshop identity is separately retained in author-index metadata;
+    no DOI or printed proceedings pagination is asserted. This is a distinct work
+    from the expanded 2005 paper..'
+  snapshot_sha256: b25a8a6bba0e9ebe8cf0d01fdb99f51b733480c37f92371cac33291181d228d0
+- evidence_id: mfg-ruml2005-locator-22
+  kind: primary_source
+  reference: /private/tmp/aimech-manufacturing2005-lineage-research-20261016/ruml-do-fromherz2005.pdf
+  locator: PDF p.4 Figure 6 and A Hybrid Planner; pp.5–6 state, regression and resource-order
+    search.
+  accessed_at: '2026-10-16T07:14:03Z'
+  support: supports
+  summary: 'Exact ruml2005 primary artifact at the specified source-local locator.
+    Source version: Author-hosted ten-page revised ICAPS-05 paper, identified by exact
+    PDF bytes. PDF-relative page locators are used; no DOI or official proceedings
+    pagination is asserted. The expanded regression semantics and experiments remain
+    source-local, not attributed retroactively to the 2004 paper..'
+  snapshot_sha256: 83126b701cb925e1fa022880bababa494fcaebff0ab256457ff54a8926be8e4e
+- evidence_id: actual-write
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-write.corrected.json
+  snapshot_sha256: 52ec44fa76950607af5a25db57edb69ec97e4e6c93c17cac3f1bcac630920ce6
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Actual write receipt, with source authorship and scope disclosed.
+- evidence_id: actual-capture
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/actual-capture.json
+  snapshot_sha256: 5711f001383b9265bd771d8609ac89387b41c209a6b11b2b9d3307506ecd9495
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Actual capture receipt, with source authorship and scope disclosed.
+- evidence_id: actual-reading
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/root-actual-reading.json
+  snapshot_sha256: 8b3d3e936de087396f3906ef0ccc06663315bf9ec02aca1e29f4acdea52a32a9
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Actual reading receipt, with source authorship and scope disclosed.
+- evidence_id: actual-adversarial
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-actual-adversarial-review-20261016/assessment.corrected.json
+  snapshot_sha256: 645dc840882e3c5a5364fb493f6e48eaf9c6569f78749782a2eb543c4ee4d490
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Actual adversarial receipt, with source authorship and scope disclosed.
+- evidence_id: actual-decisions
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-current-decisions.corrected.json
+  snapshot_sha256: add0cd14a75c25a233a17b27cfa98da931af0ec592df1ed63586c3b968a218d0
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Current identity, bounded no-match, exact main911 postimage and52 source-progress
+    decisions.
+- evidence_id: actual-report
+  kind: record_content
+  reference: /private/tmp/aimech-discovery-recovery-worktree-20261012/research/discovery/20261016T081624Z-online-hybrid-temporal-regression-planning.json
+  snapshot_sha256: bbfcfe05cf0616b607eda56dcb2df4a41ff894714a702fe145d964688bbc4264
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Exact incoming364 five-field projection including issue418 correction;52
+    exact original objects and separate current progress.
+- evidence_id: current-rebind
+  kind: search
+  reference: /private/tmp/aimech-manufacturing-current-identity-rebind-20261016/assessment.json
+  snapshot_sha256: d39805c0824881a99e97eb6faf78c01c36c44c18d69f3ad50f3b29dc1117b4f9
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Actual merged-state ignored/hidden-inclusive identity and15-node/68-edge
+    mapping context.
+  search_scope: Actual merged365 baseline:812native/442AIO, all1254 identities, four
+    ignored/hidden-inclusive data/research/sources/docs roots,16matchingcontents/36occurrences.356
+    freshly read five newcontents/parents,twoCoPEneighborcontexts and15fullAIO nodes/68edges.
+    Eleven earliercontents,86definitions/nine-neighbor source reading remain exact
+    and attributed. No full semantic reading of all records/classes is claimed.
+- evidence_id: reporting-repair
+  kind: record_content
+  reference: /private/tmp/aimech-cohort365-reporting-repair.json
+  snapshot_sha256: d44346232dd1e663ef04cc575de3be8e47f3b27a08ca956aa76702df60158d46
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Issue420 current-status correction with unchanged scientific record and
+    exact historical source preservation.
+- evidence_id: initial-adversarial-finding
+  kind: prior_review
+  reference: /private/tmp/aimech-cohort365-actual-adversarial-review-20261016/assessment.initial.json
+  snapshot_sha256: 966fe6949c8cc3f1f2d183b5e870770403f7cea3a68bf5e4445576dbaa691418
+  accessed_at: '2026-10-16T08:36:10.440604Z'
+  support: context_only
+  summary: Initial minor current-status finding retained; successor adversarial disposition
+    is separately bound.
+- evidence_id: check-render
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/render.json
+  snapshot_sha256: 639242725432973cd3012e63f315836d680be90e6d06bd923275a6988771ec2a
+  accessed_at: '2026-10-16T08:30:55.300220Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+- evidence_id: check-source
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/source.json
+  snapshot_sha256: 84da3982de614d12d8bbe4149391aea95dee8590841ad2e8bd38badc0bdab539
+  accessed_at: '2026-10-16T08:30:57.029046Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+- evidence_id: check-gate
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/gate.json
+  snapshot_sha256: 61316d0fb35adf8831cbef1563283711730edee095aba351a6e58219e5b7fd6c
+  accessed_at: '2026-10-16T08:40:39.522818Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+- evidence_id: check-vendor
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/vendor.json
+  snapshot_sha256: b778d2c7296afdfe6a9a55cc5b118c9b7ac48002b0e192eb26e80e4e9f80334c
+  accessed_at: '2026-10-16T08:40:43.545369Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+- evidence_id: check-render-check
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/render-check.json
+  snapshot_sha256: bb4c03f5e2c6153edbe36efdb404ff3aacd689bd13a3a9cf04aec874041df892
+  accessed_at: '2026-10-16T08:40:57.060432Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+- evidence_id: check-diff
+  kind: validation
+  reference: /private/tmp/aimech-cohort365-checks-final-20261016/diff.json
+  snapshot_sha256: 7aaa3438c769833c622de989b9c817942722ea6bd8ba90d6197169e9f7c50eeb
+  accessed_at: '2026-10-16T08:40:57.789282Z'
+  support: context_only
+  summary: Completed required command with exact output and timing.
+assessments:
+- assessment_id: mfg-claim-sequential-job-temporal-flexibility
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: sequential-job-temporal-flexibility'
+  outcome: supported
+  summary: Both works directly describe this shared architecture. Retaining earlier
+    action choices does not mean fixing all their times. The statement is about the
+    greedy procedure, not a global schedule-optimality theorem.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-01
+  - mfg-ruml2005-locator-01
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The common 2004/2005 procedure builds the schedule greedily one job at
+    a time while retaining the selected action plans for previous jobs. A shared temporal
+    constraint database keeps unreleased action times flexible, allowing a later job
+    to start earlier and older actions to shift within their feasible windows while
+    required within-batch completion order is preserved.
+- assessment_id: mfg-claim-four-part-per-job-regression
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: four-part-per-job-regression'
+  outcome: supported
+  summary: The four components and initial-state completion test are explicit. A*
+    is a component of the combined online algorithm. No new general completeness or
+    termination assertion is attached to the sketch.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-02
+  - mfg-ruml2005-locator-02
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: For each job, the inner A* search regresses from its desired final state
+    using states containing logical literals, variable bindings, a temporal database
+    and resource allocations. A plan is complete when the regressed literals unify
+    with the desired initial state; the chosen bindings and temporal database are
+    then passed back to the outer procedure for planning later jobs.
+- assessment_id: mfg-claim-immediate-temporal-resource-branching
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: immediate-temporal-resource-branching'
+  outcome: supported
+  summary: This is direct procedural support. The version distinction avoids treating
+    a pairwise two-order instruction as a claim that every multi-resource action has
+    exactly two successors. Exhaustive local choices do not by themselves prove global
+    state uniqueness.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-03
+  - mfg-ruml2005-locator-03
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: Regressing an applicable action introduces its duration, sequencing and
+    resource-allocation constraints. Potential overlaps for the same resource are
+    resolved immediately by branching over possible relative orders and propagating
+    their temporal constraints; only feasible child states enter the search queue.
+    The 2004 outline says to generate both orderings, while the expanded 2005 description
+    enumerates available placements among existing allocations and combinations across
+    resources.
+- assessment_id: mfg-claim-imminent-release-and-clamping
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: imminent-release-and-clamping'
+  outcome: supported
+  summary: The source asserts the guarantee for its temporal-network maintenance,
+    not arbitrary constraint propagation. This claim retains that premise and does
+    not assert a hard deadline or fixed planning-time bound.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-04
+  - mfg-ruml2005-locator-04
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: After planning a job, the outer procedure checks whether a queued plan
+    starts soon. To preserve submission-order release, it releases plans from the
+    oldest unreleased one through that imminent plan, first fixing their time points
+    to earliest feasible times. The papers justify this clamping using a complete
+    algorithm for maintaining allowable temporal windows; outer-loop temporal constraints
+    are added between individual-job searches so those updates do not invalidate search
+    evaluations mid-search.
+- assessment_id: mfg-claim-completion-time-ranking
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: completion-time-ranking'
+  outcome: supported
+  summary: Ranking direction is explicit in both works; the three symbolic expressions
+    are attributed only to the expanded 2005 figure. Larger realized makespan is a
+    tie-breaker, not a separate maximization objective.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-05
+  - mfg-ruml2005-locator-05
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: Search favors the estimated earliest feasible completion time of the current
+    job in the context of earlier jobs, then smaller predicted makespan and then larger
+    already-realized makespan. In the 2005 Figure 7 notation these quantities are
+    t7, t7−t3 and t7−t4, respectively. A relaxed remaining-duration estimate is inserted
+    before the partial plan to tighten its feasible completion bound.
+- assessment_id: mfg-claim-relaxed-achievement-lower-bound
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: relaxed-achievement-lower-bound'
+  outcome: supported
+  summary: Both papers state fastest-achievement/lower-bound intent. The qualification
+    is the curator inference preserved in the independent 2004 note and 2005 question
+    MFG2005-Q04; it is not a claim that the authors implemented arbitrary first-producer
+    traversal.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-06
+  - mfg-ruml2005-locator-06
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The described heuristic starts from initial and background literals, propagates
+    achievement-time labels through applicable actions while omitting mutex/resource
+    contention, and uses the maximum required-literal achievement time as a remaining-duration
+    lower bound, with infinity if a required literal cannot be produced. Its admissibility
+    interpretation requires the intended minimum relaxed achievement times; the printed
+    first-production description alone does not specify a complete minimum-label agenda
+    or relaxation implementation.
+- assessment_id: mfg-claim-expanded-general-regression-rule
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: expanded-general-regression-rule'
+  outcome: supported
+  summary: Directly supported by the general rule and its explanatory prose. Prime
+    symbols clarify old versus new state rather than altering the mathematics. The
+    text’s corresponding-precondition shortcut remains separately qualified; no silent
+    repair of its simplified formulas is used here.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2005-locator-07
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2005 general logical representation distinguishes true, false and unknown
+    atoms. Applicability requires effects consistent with the regressed state and
+    preconditions unaffected by those effects also consistent with it. For an applicable
+    action, writing primes for the new sets, the source update is Lt′=(Lt∖Add)∪Pre+,
+    Lf′=(Lf∖Del)∪Pre− and Lu′=(Lu∪Add∪Del)∖(Pre+∪Pre−). These are the expanded paper’s
+    general rules, not its later simplified effect-only rule and not equations printed
+    in the 2004 paper.
+- assessment_id: mfg-claim-resource-time-noop-relevance
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: resource-time-noop-relevance'
+  outcome: supported
+  summary: The relaxed relevance criterion is explicitly motivated by temporal resource
+    interactions. The scope does not import it into all classical regression settings
+    or add a novel completeness result.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2005-locator-08
+  - mfg-core
+  - mfg-support
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2005 discussion does not impose an additional requirement that an applicable
+    action have an effect matching a required goal literal. It explains that a time-consuming
+    no-op may let an existing resource allocation expire and thereby enable a better
+    subsequent plan. This is a source-specific reason for retaining otherwise applicable
+    actions, not a general proof that arbitrary irrelevant actions improve planning.
+- assessment_id: mfg-limitation-per-job-versus-global-quality
+  area: scope
+  topic: 'Online hybrid temporal regression planning: per-job-versus-global-quality'
+  outcome: supported
+  summary: This separates the explicit source claim from a stronger online-scheduling
+    claim that is not established by the selected works.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-07
+  - mfg-ruml2005-locator-09
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The papers attribute optimality to the search for the current job under
+    its objective and existing-plan context, relying on heuristic admissibility and
+    suitable feasible-state handling. Their greedy outer loop does not establish a
+    globally optimal schedule over future arrivals, a competitive ratio, or optimal
+    revision of earlier action choices.
+- assessment_id: mfg-limitation-heuristic-agenda-premise
+  area: scope
+  topic: 'Online hybrid temporal regression planning: heuristic-agenda-premise'
+  outcome: supported
+  summary: The independent note gives a bounded two-producer reasoning example. The
+    draft retains minimum-time intent while withholding unconditional assurance for
+    an unspecified queue discipline.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-08
+  - mfg-ruml2005-locator-10
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-independent2004-note
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The heuristic prose labels a previously unknown literal when produced,
+    but does not give an explicit agenda or label-improvement rule ensuring minimum
+    relaxed achievement times. Admissibility cannot be inferred for an arbitrary first-producer
+    implementation; a fast and a slow producer can require different label handling.
+    This is an exposition/premise limit, not an observed implementation failure.
+- assessment_id: mfg-limitation-clamping-propagator-premise
+  area: scope
+  topic: 'Online hybrid temporal regression planning: clamping-propagator-premise'
+  outcome: supported
+  summary: The guarantee is conditional as printed. The independent note warns against
+    converting that qualification into an unsupported counterexample for the intended
+    temporal network.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-09
+  - mfg-ruml2005-locator-11
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-independent2004-note
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: Earliest-time clamping is justified only with the source’s appropriate
+    complete temporal-window maintenance and its domain assumptions. It is not a generic
+    guarantee for arbitrary CSPs, approximate or stale windows, or an unspecified
+    propagator. The comparison does not demonstrate that a correctly maintained simple
+    temporal network becomes inconsistent merely by earliest-time clamping.
+- assessment_id: mfg-limitation-release-time-and-update-interface
+  area: scope
+  topic: 'Online hybrid temporal regression planning: release-time-and-update-interface'
+  outcome: supported
+  summary: The algorithm outlines show an open loop without complete failure interfaces;
+    the prose supplies qualified operational behavior. No stronger termination statement
+    is inferred.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-10
+  - mfg-ruml2005-locator-12
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The manually chosen imminence interval assumes sufficient time to plan
+    the next job; the papers discuss interrupting and restarting when needed. Outer-loop
+    temporal updates are restricted to between-job searches, while controller changes
+    can abort a current search. These descriptions do not supply a general hard real-time
+    guarantee or fully specified timeout, unreachable-job and empty-frontier behavior.
+- assessment_id: mfg-limitation-local-branching-not-general-uniqueness
+  area: scope
+  topic: 'Online hybrid temporal regression planning: local-branching-not-general-uniqueness'
+  outcome: supported
+  summary: This preserves the source’s intended local argument without promoting it
+    to a domain-independent theorem.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-11
+  - mfg-ruml2005-locator-13
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-independent2004-note
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The state-uniqueness argument appeals to irreversible logical or resource-order
+    choices reflected in a plan. Local branching distinctions alone do not establish
+    global semantic non-reconvergence, cycle freedom, or a general no-duplicate theorem
+    for arbitrary action domains. No concrete duplicate execution of the authors’
+    implementation is asserted.
+- assessment_id: mfg-limitation-simplified-applicability-missing-compatibility
+  area: scope
+  topic: 'Online hybrid temporal regression planning: simplified-applicability-missing-compatibility'
+  outcome: supported
+  summary: 'The independent p.5 counterexample has target true {p,r}, false {q}, Add={p},
+    Del={}, positive precondition {q} and negative precondition {p}: effects match,
+    but unaffected q conflicts. The conclusion concerns the printed sufficient-premise
+    claim, not observed code.'
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2005-locator-14
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-independent2005-note
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2005 simplified rule tests only whether effects match a fully specified
+    state. Full specification plus corresponding effect preconditions does not alone
+    ensure compatibility of preconditions on unaffected atoms. Such a precondition
+    can contradict the target state even when the simplified effect test passes. The
+    earlier general applicability rule retains the needed check; no implementation
+    defect or author erratum is established.
+- assessment_id: mfg-limitation-simplified-toggle-polarity
+  area: scope
+  topic: 'Online hybrid temporal regression planning: simplified-toggle-polarity'
+  outcome: supported
+  summary: The independent note separates the unaffected-precondition issue from the
+    polarity needed to derive a flip rule. The native mechanism claim uses the general
+    equations only.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2005-locator-15
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-independent2005-note
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2005 simplified update flips added/deleted atoms. That update needs
+    opposite-polarity preconditions for the changed atoms and suitable treatment of
+    other preconditions; the phrase corresponding preconditions does not itself specify
+    those polarities. The general regression update is retained separately, and the
+    simplified branch is not silently strengthened or treated as universally equivalent.
+- assessment_id: mfg-limitation-unknown-literal-presentation
+  area: scope
+  topic: 'Online hybrid temporal regression planning: unknown-literal-presentation'
+  outcome: supported
+  summary: This is a source-local presentation boundary retained in MFG2005-Q02, not
+    a demonstrated contradiction in runnable code.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2005-locator-16
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2005 paper explicitly supports unknown literals and describes storing
+    true and unknown sets, but later calls the state fully specified and writes a
+    two-set heuristic shorthand. The exact treatment of unknowns in that shorthand
+    remains a source/interface question; this draft does not erase unknowns or claim
+    an implementation-level equivalence of all these descriptions.
+- assessment_id: mfg-limitation-manufacturing-model-boundaries
+  area: scope
+  topic: 'Online hybrid temporal regression planning: manufacturing-model-boundaries'
+  outcome: supported
+  summary: The native scope is a procedure instantiated with this model. Generalizations
+    require further evidence; broad manufacturing application alone does not supply
+    them.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-12
+  - mfg-ruml2005-locator-17
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: 'The shared procedure is described for the supplied symbolic manufacturing
+    model: jobs are independent except for shared resources and explicit batch constraints,
+    actions for one job are sequential and abut, and controller delay constrains starting
+    times. These restrictions do not establish applicability to arbitrary interacting,
+    stochastic, partially observable or general durative-planning domains.'
+- assessment_id: mfg-limitation-duration-and-resource-version-details
+  area: scope
+  topic: 'Online hybrid temporal regression planning: duration-and-resource-version-details'
+  outcome: supported
+  summary: The direct implementation qualification is supported by 2004. The 2005
+    row supplies comparative context, not a blanket assertion that it has identical
+    implementation restrictions.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-13
+  - mfg-ruml2005-locator-18
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: 'Representational flexibility is not the same as implemented support: the
+    2004 paper allows duration ranges but says its implementation uses fixed durations,
+    and it describes additional resource-state compatibility restrictions. These details
+    and the 2005 formal extensions remain version-local; this common record does not
+    equate every modeling option or implementation across the two papers.'
+- assessment_id: mfg-limitation-failure-recovery-assumptions
+  area: scope
+  topic: 'Online hybrid temporal regression planning: failure-recovery-assumptions'
+  outcome: supported
+  summary: This is an operational scope limit of the inspected applications, not a
+    universal fault-tolerance property.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-14
+  - mfg-ruml2005-locator-19
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The described failure handling assumes reliable transport along planned
+    routes and destination diversion that can discard faulty material; affected jobs
+    can then be replanned from scratch. This does not establish recovery for arbitrary
+    mid-route failures, uncertain state estimation or all in-flight material. Controller-domain
+    changes are handled by aborting the current search under the stated between-search
+    model.
+- assessment_id: mfg-limitation-temporal-propagator-comparison
+  area: scope
+  topic: 'Online hybrid temporal regression planning: temporal-propagator-comparison'
+  outcome: supported
+  summary: The draft states the documented representational distinction and avoids
+    transferring numerical timings or universal speed conclusions. Complete original
+    reading is attributed to the prior source researcher; this drafting read freshly
+    inspected p.5 text/image.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-15
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The 2004 experiments distinguish incremental directed path consistency
+    from an arc-consistency variant maintaining origin-relative time windows without
+    adding arcs. The latter does not provide arbitrary pairwise time relations as
+    easily. The comparison does not prove interchangeability of arbitrary AC-3 and
+    IDPC implementations or transfer the reported timing advantage to every domain.
+- assessment_id: mfg-limitation-empirical-and-reproduction-boundaries
+  area: scope
+  topic: 'Online hybrid temporal regression planning: empirical-and-reproduction-boundaries'
+  outcome: supported
+  summary: This limitation relies on the source-attributed full readings and comparison,
+    not a fresh reread or digitization of every experimental figure during native
+    DATA drafting.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-16
+  - mfg-ruml2005-locator-20
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: Physical-prototype operation, simulations on selected plant configurations
+    and timing/quality comparisons are separate evidence roles. They do not establish
+    universal throughput, hard deadlines or general optimality. This draft makes no
+    numerical performance claim and has not executed an implementation or reproduced
+    the experiments.
+- assessment_id: mfg-limitation-work-identity-and-pending-lineage
+  area: scope
+  topic: 'Online hybrid temporal regression planning: work-identity-and-pending-lineage'
+  outcome: supported
+  summary: The combined scope follows the root’s prospective decision after comparison,
+    superseding the old proposal’s pending-2005 recommendation without rewriting that
+    historical object. Future current identity/mapping and owner selection remain
+    pending.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-17
+  - mfg-ruml2005-locator-21
+  - mfg-core
+  - mfg-support
+  - mfg-source-continuity
+  - mfg-root-scope
+  - mfg-comparison
+  - mfg-comparison-qualification
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: One descriptive identity covers the common outer online coordination and
+    inner temporal/resource regression procedure in these two inspected works, not
+    separately originated A*, STRIPS, STN or propagator components. It does not equate
+    all later printer-planning publications or use the filename token pns as an alias.
+    The 2005 comparison is completed, while remaining cited-original, later-version
+    and implementation questions stay separately tracked.
+- assessment_id: mfg-definition
+  area: evidence
+  topic: 'Online hybrid temporal regression planning: common source-scoped definition'
+  outcome: supported
+  summary: Both primary works support the coupled online coordination, regression
+    search and temporal/resource constraint architecture. The expanded 2005 formal
+    rules remain separately attributed; the definition does not collapse every implementation
+    or later publication.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-18
+  - mfg-ruml2005-locator-22
+  - mfg-core
+  - mfg-support
+  - mfg-root-scope
+  - mfg-comparison
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: An online planning-and-scheduling procedure that plans successive jobs
+    by goal-regression A* over logical conditions, variable bindings, shared temporal
+    constraints and resource allocations, immediately branches on conflicting resource
+    orders, and retains temporal flexibility until queued plans are clamped and released
+    near execution.
+- assessment_id: mfg-concept-kind
+  area: scope
+  topic: 'Online hybrid temporal regression planning: algorithm kind'
+  outcome: supported
+  summary: Algorithm denotes the specified state, branching, ranking, propagation
+    and plan-release procedure. The supplied plant/action model, temporal network
+    and heuristic are components; the candidate is not only an application, model,
+    score or manufacturing installation.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-ruml2004-locator-18
+  - mfg-ruml2005-locator-22
+  - mfg-core
+  - mfg-native-schema
+  - mfg-root-scope
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: Retain one algorithm. OnlinePlanner and PlanJob are coupled components
+    sharing queued plans, bindings and temporal/resource state; their pseudocode labels
+    do not by themselves justify two independent concepts.
+- assessment_id: mfg-historical-identity
+  area: identity
+  topic: 'Online hybrid temporal regression planning: attributed prospective identity'
+  outcome: supported
+  summary: The descriptive name and aliases[] identify one common 2004/2005 procedure.
+    The historical source/identity search distinguishes maintained A*, STRIPS planning,
+    real-time heuristic learners and Partially Informed NegaScout; filename pns is
+    not an alias.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-core
+  - mfg-historical-proposal
+  - mfg-historical-search
+  - mfg-native-contexts
+  - mfg-comparison
+  - mfg-root-scope
+  - mfg-temp-validation
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  - actual-decisions
+  - current-rebind
+  details: 'The selected prospective core uses a descriptive common-procedure identity,
+    with aliases[], coupled OnlinePlanner/PlanJob components and source-local formal
+    details. Its historical ignored-inclusive identity/context screen remains tied
+    to its captured snapshot. The earlier proposal’s pending 2005 comparison has now
+    been advanced by the separate comparison and root scope decision. The original
+    core’s no-validation sentence describes its drafting state: the later root TEMP
+    validation has since passed, with its exact preview and scope separately bound.
+    No canonical insertion, current owner acceptance or future write base is established
+    by that schema result.
+
+
+    Current canonical identity: This descriptive identity denotes the common 2004/2005
+    online hybrid temporal regression planning procedure, with separate source versions
+    and explicit qualifications. OnlinePlanner and PlanJob are nested procedure labels,
+    and PNS in the retrieval filename is not an alias. Current identity context was
+    rebound at clean merged commit 3f75d017b53af1c74368bd17d23d1383e4f56cbd: 812 native
+    and 442 pinned AIO records; all 1,254 record IDs, names, aliases and scoped synonyms
+    participate in the 4,962-field/3,794-normalized-value screen, with no candidate
+    collision. Four ignored- and hidden-inclusive roots returned 16 distinct matching
+    contents and 36 occurrences. Eleven contents reuse exact historical semantic reading;
+    all five new contents and their complete matching source-progress parents were
+    read. The 1,252 historical records are byte-identical, and the two added CoPE
+    record identity/definition/mapping contexts were freshly read as distinct. Historical
+    86-definition/nine-neighbor reading is attributed to its original receipt; the
+    15 selected AIO nodes and 68 incident edges were freshly read on the unchanged
+    pin. The postmerge check found all record bytes and complete search match-event
+    multisets identical to the just-read committed snapshot. Root accepts one DRAFT
+    algorithm under existing main911 source responsibility; native creation, validation
+    and saved review are separately recorded operations.'
+- assessment_id: mfg-aio-no-match
+  area: grounding
+  topic: 'Online hybrid temporal regression planning: bounded AIO no-match'
+  outcome: supported
+  summary: Retain the fifteen-target no-match. Symbolic backward regression is not
+    statistical regression; temporal/resource constraints are not a learned model,
+    language-model class, time-series task or generic graph identity. Per-search state
+    maintenance does not make the entire procedure a machine-learning task.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-core
+  - mfg-historical-proposal
+  - mfg-aio-contexts
+  - mfg-native-contexts
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  - actual-decisions
+  - current-rebind
+  details: 'All pinned record IDs/names/aliases/scoped synonyms participated in the
+    normalized inventory screen; 15 exact plausible AIO CLASS nodes and all 68 incident
+    edges were freshly read for semantic mapping. No full semantic reading of all
+    442 classes is claimed. This is the attributed historical prospective screen at
+    HEAD c222454fe2e2ce2b9be5fd78a01d47e9961d1f26, whose working tree included the
+    three later cohort363 records; it is not a current or future insertion clearance.
+    The 15 selected nodes/68 edges were read by the prior proposal author, not freshly
+    reread as a whole during this draft. None of the inspected pinned classes identifies
+    or usefully subsumes this symbolic online regression planning/scheduling procedure.
+    Shared timing, regression, graph, model, control or physical application language
+    is insufficient for a mapping. Exact target/rejection pairs remain in the core;
+    this static fragment neither changes the pinned ontology nor performs a new current
+    scan.
+
+
+    Current mapping context: Bounded current no-match assessment at clean merged commit
+    3f75d017b53af1c74368bd17d23d1383e4f56cbd: all 442 pinned AIO identity fields are
+    included in the complete record inventory screen, and the 15 selected full CLASS
+    nodes with all 68 direct incident edges were freshly read. The same targets and
+    rationale remain appropriate for the common 2004/2005 procedure. This is not a
+    claim that all 442 definitions were freshly read or that shared task/application
+    language supplies a method mapping.'
+- assessment_id: mfg-source-roles
+  area: provenance
+  topic: 'Online hybrid temporal regression planning: source works, timestamps and
+    reading roles'
+  outcome: supported
+  summary: The 2004 seven-page paper and 2005 ten-page expanded paper are two distinct
+    primary works with separate author lists, titles, bytes and acquisition times.
+    Both support the common mechanism; the 2005 general regression equations are version-local.
+    Root’s actual TEMP schema validation is distinct from scientific or canonical
+    approval.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-core
+  - mfg-support
+  - mfg-native-preview
+  - mfg-temp-validation
+  - mfg-draft-reading
+  - mfg-original2004-reading
+  - mfg-original2005-reading
+  - mfg-root-reading
+  - mfg-independent2004-note
+  - mfg-independent2005-note
+  - mfg-source-correspondence
+  - mfg-source-continuity
+  - mfg-acquisition2004
+  - mfg-acquisition2005
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The source researcher 356 read the original artifacts and authored the
+    source/identity dossiers, then separately reviewed the new 8/14 core/support with
+    that role disclosed. Researcher 352 supplied bounded independent critical-method
+    notes. This fragment author 354 authored the native core/support and accounting
+    proposal, freshly read the critical method text/images during drafting, and now
+    transfers their exact 22 support rows. Root’s separate receipt covers all 2004
+    pages/images,2005 images4–7 and the new 18 citation/five question texts, not all
+    2005 or cited-original papers. Source acquisition instants are retained from successful
+    receipts; no paper access is filled from fragment assembly time. The source ledger
+    retains all 52 original objects without closure.
+- assessment_id: mfg-scope-boundary
+  area: scope
+  topic: 'Online hybrid temporal regression planning: cohesive procedure and qualifications'
+  outcome: supported
+  summary: Retain one common procedure rather than separate outer/inner variants.
+    Per-job A* quality, temporal-window clamping and heuristic lower bounds remain
+    conditional; the 2005 simplified effect-only/toggle presentation is qualified
+    independently from its general rule. No numerical performance or global online
+    optimality is added.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - mfg-core
+  - mfg-support
+  - mfg-root-scope
+  - mfg-independent2004-note
+  - mfg-independent2005-note
+  - mfg-comparison-qualification
+  - mfg-source-continuity
+  - actual-write
+  - actual-reading
+  - actual-adversarial
+  details: The record does not claim that arbitrary first-production labels are admissible,
+    that local order branching guarantees global state uniqueness, or that arbitrary
+    CSP windows may be clamped safely. Unknown-literal shorthand, unchanged-precondition
+    compatibility and toggle polarity remain source questions. Plant/controller/failure
+    assumptions and later-version responsibilities are retained separately; a source
+    coordination umbrella does not equate distinct maintained methods.
+- assessment_id: mfg-actual-governance
+  area: provenance
+  topic: Actual canonical correspondence, current source responsibility and checks
+  outcome: supported
+  summary: One DRAFT algorithm retains8 claims,14 limitations and two distinct defining
+    works. Current identity/no-match and exact main911 responsibility are accepted.
+    All52 original source objects, current progress and the complete incoming364 projection
+    remain queryable. Issue420 corrected obsolete current prerequisite wording after
+    creation; the original finding and repair remain bound. No source-question closure,
+    source exhaustion, algorithm execution or publication completion is claimed.
+  details: The initial four creation outputs plus the native EDIT history, and 52
+    captured inputs are bound. Prior source and neighbor reading is attributed separately.
+    The later2023CoPE prospective drafting decision is separate and supplies no maintained2023
+    concept in this cohort.
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  evidence_ids:
+  - actual-write
+  - actual-capture
+  - actual-reading
+  - actual-adversarial
+  - actual-decisions
+  - actual-report
+  - current-rebind
+  - reporting-repair
+  - initial-adversarial-finding
+  - check-render
+  - check-source
+  - check-gate
+  - check-vendor
+  - check-render-check
+  - check-diff
+findings: []
+actions: []
+boundary_decisions:
+- action: retain
+  target_ids:
+  - AIMech:OnlineHybridTemporalRegressionPlanning
+  rationale: Retain one descriptive algorithm scope for the cohesive 2004/2005 online
+    hybrid temporal regression procedure. The outer release loop and inner job search
+    form one architecture; supplied action/plant models and A*/temporal propagator
+    components are not separately originated here. Preserve version-local formal claims,
+    pending source questions and the bounded no-match. Current canonical identity
+    and source responsibility are accepted in the exact bound decisions; all residual
+    source questions remain open.
+  evidence_ids:
+  - mfg-core
+  - mfg-root-scope
+  - mfg-comparison
+  - mfg-independent2004-note
+  - mfg-independent2005-note
+  - mfg-source-continuity
+  - actual-decisions
+  - current-rebind
+  - actual-reading
+limitations:
+- Per-job optimality, heuristic lower bounds and temporal clamping retain their source
+  premises. Simplified regression and unknown-state presentation remain qualified.
+- Historical source and neighbor readings retain original scope/authorship. No new
+  whole-ontology or whole-corpus semantic reading is claimed.
+- Native checks establish structure and correspondence; canonical review save/check,
+  committed-head review and publication are subsequent.
+notes:
+- The28 scientific assessments retain their claims/support; current identity/mapping
+  context and actual receipt links are appended. One boundary receives actual owner
+  context.
+- Primary source timestamps remain their successful acquisition seconds. Null derived-evidence
+  times use actual postcapture root reading.
+- Source researcher356 authored source/identity research and independently compared354’s
+  new core with that role disclosed. Researcher352 supplied bounded critical-method
+  notes.354 authored core/support/fragment and accounting/writer preparations. Root
+  accepted scope/owner decisions and read actual canonical content. This aggregate
+  review is self_review.
+- 'Current owner911 postimage: {"candidate": "MREC, MA-star, SMA-star and iterative
+  threshold search", "url": "https://bayes.cs.ucla.edu/TRIBUTE/part1-heuristics-linked.pdf",
+  "disposition": "partially_addressed", "next_check": "Retain every earlier cohort358/360/361
+  source obligation and historical resolution, including the distinct Bagchi1985/Nilsson1978/Michie1974
+  access questions and main7/main10/912 responsibilities. The Reinefeld–Schaeffer–Marsland1985
+  PNS original and the1987 journal original have now been read; their version/helper/retention
+  boundaries and other cited originals remain pending. Preserve current journal1987
+  16 bibliography/9 questions/2 incidental routes and ijcai1985 7 bibliography/9 questions/3
+  added contexts, coordinating duplicate citation/ICAPS04 occurrences without deleting
+  originals. Separately retain the CoPE2025 source family: 38 bibliography occurrences,
+  nine method leads, 12 follow-up questions, the exact 2023 retrieval route and 12
+  source limitations. The 2025 full source now supports the distinct dual-queue planner
+  and dispatch-dependent value functional; this source coordination does not equate
+  either with the nine prior methods. The 2023 source research and four prospective
+  scopes have been assessed; current insertion-state identity and canonical representation
+  remain future work. Separate 2004/2005 manufacturing research and comparison, current
+  merged-state identity/mapping, and creation of the common DRAFT record are complete;
+  validation, saved review and delivery are separately recorded, and residual source
+  questions remain open. Keep all historical retrieval/status wrappers and the separately
+  attributed later route progress. The common2004/2005 online hybrid temporal regression
+  procedure is represented by the created DRAFT record; retain all52 manufacturing
+  source objects and14 source qualifications. Later2023CoPE four-scope drafting is
+  separately accepted prospectively, with no maintained2023 records in this cohort.",
+  "historical_origin": {"path": "research/discovery/20261011T053332Z-foundational-search.json",
+  "pointer": "/new_frontier/8", "sha256": "59f36ac0138b557643ee5368a129b73ceeb064c974192812da38faaaa051ee5f"},
+  "record_ids": ["AIMech:MREC", "AIMech:SimplifiedMemoryBoundedAStar", "AIMech:IterativeThresholdSearch",
+  "AIMech:MAStar", "AIMech:MAOStar", "AIMech:ITERSSSStar", "AIMech:InformedNegaScout",
+  "AIMech:DUALStar", "AIMech:PartiallyInformedNegaScout", "AIMech:DispatchDependentDualQueuePlanning",
+  "AIMech:DispatchDependentValueFunctional", "AIMech:OnlineHybridTemporalRegressionPlanning"],
+  "cohort358_resolution": {"record_ids": ["AIMech:MREC", "AIMech:SimplifiedMemoryBoundedAStar",
+  "AIMech:IterativeThresholdSearch"], "reason": "Add the independently evidenced MREC
+  (1989), SMA* (1992) and ITS (1994) procedures under the existing memory-search source
+  umbrella. This shared source responsibility does not merge their algorithm identities.
+  Original MA*/MAO* full-text and identity questions remain unresolved; IE retains
+  its separate unchanged owner 912.", "previous_sha256": "87406a76bde4d268904976b031bb2f71ab137c7b81e644d3fe1a66394ed80b4d",
+  "ownership_plan": {"path": "/private/tmp/aimech-cohort358-current-ownership-proposal-20261016/ownership-plan.proposed.json",
+  "sha256": "18880abb169b9d54e364184ff1b8653bcb90e14bd16c25a809959182a4c03f29"}, "source_question_origin":
+  {"path": "/private/tmp/aimech-memory-search-scientific-review-preparation-20261016/historical-source-accounting.json",
+  "sha256": "06a89daf0d68561a588803af11832c08df1f2ca7114d018f807bf403ca6cf614"}},
+  "cohort360_resolution": {"record_ids": ["AIMech:MAStar", "AIMech:MAOStar"], "reason":
+  "Add the two distinct source-scoped 1989 procedures MA* and MAO* under the existing
+  memory-search source owner. The subsequent public scan resolves the base-method
+  source responsibility without merging the algorithms or erasing historical access
+  gaps, cohort358 provenance, variant questions or source qualifications.", "previous_sha256":
+  "06b2078e773673df8df2b9173f21e79f85c11dc4cb70a4d93bb8537d7298647b", "ownership_plan":
+  {"path": "/private/tmp/aimech-cohort360-current-ownership-proposal-20261016/ownership-plan.proposed.json",
+  "sha256": "3d9d9aaeb1d1f99de2f1a1c09de4d15cc8dac24f7b5a6fc60e72df0eff072369"}, "source_question_origin":
+  {"path": "/private/tmp/aimech-ma-mao-cohort360-preparation-20261016/source-questions.structure.json",
+  "sha256": "da8a647a62277aab382265bb9d6aa3a74d0e1ebc9d3c200cac04901a856decb8"}},
+  "cohort361_resolution": {"record_ids": ["AIMech:ITERSSSStar"], "reason": "Represent
+  the exact Bhattacharyya–Bagchi1986 ITERSSS* bibliography responsibility under the
+  existing memory-search source umbrella, distinct from MA*/MAO*,SMA*,MREC,ITS and
+  StockmanSSS*.", "previous_sha256": "f74140b7cf9fcb1cf801c2dcb40babbd4540f8ecc012320dee621f98c264fca7",
+  "ownership_plan": {"path": "/private/tmp/aimech-cohort361-current-ownership-proposal-20261016/ownership-plan.proposed.json",
+  "sha256": "4471c78603c7d25ed5bb17af99cb435f8a3b0fdfde1446c394dcbe744cbf4b3f"}, "source_question_origin":
+  {"path": "/private/tmp/aimech-svpg-ie-itersss-cohort361-preparation-20261016/source-questions.v2.structure.json",
+  "sha256": "d3e0a339a6c9a440a81ccffa58b4b51fe82ee1add053f0f1ea6cb5eeff4859fa"}},
+  "cohort362_resolution": {"record_ids": ["AIMech:InformedNegaScout", "AIMech:DUALStar",
+  "AIMech:PartiallyInformedNegaScout"], "reason": "Represent the exact inherited1987
+  low-overhead source responsibility with distinct INS and DUAL* records, and its
+  separately read1985 PNS source question with Partially Informed NegaScout. This
+  shared source owner does not merge the three algorithms or equate them to MA*/MAO*/ITERSSS*.",
+  "previous_sha256": "2606450c020ef6913baafa9b79233e7d75773b47a61be3ef35bf30685817a153",
+  "ownership_plan": {"path": "/private/tmp/aimech-cohort362-current-ownership-proposal-20261016/ownership-plan.proposed.v2.json",
+  "sha256": "3ebf455f10f0a5eaab9200b751aa8c23c4a0b36ae665c9e783fc26ad01e11e95"}, "source_question_origin":
+  {"path": "/private/tmp/aimech-ins-dual-pns-cohort362-preparation-20261016/source-question-inputs.proposed.json",
+  "sha256": "5e521995a6c2567779cae0141f30291086cf821c18a2c18312574d0e5fa53a0a"}},
+  "cohort364_resolution": {"record_ids": ["AIMech:DispatchDependentDualQueuePlanning",
+  "AIMech:DispatchDependentValueFunctional"], "reason": "Add the two distinct source-scoped
+  CoPE2025 subjects under the already explicit main911 retrieval/source coordinator.
+  The algorithm and mathematical functional are not aliases of each other, DUAL*,
+  PNS or the earlier memory/search methods. No original source question is deleted
+  or closed.", "previous_sha256": "493c34a0a84e8869b4725edb1ec9ba3ced0fbc401ac5e01058092907ebef8b33",
+  "source_plan": {"path": "/private/tmp/aimech-cope-source-accounting-proposal-20261016/accounting-proposal.json",
+  "sha256": "0374601e324367d49509a44677644c77bac382aab4680e74c8647bbbe4e826b0"}, "source_question_origin":
+  {"path": "/private/tmp/aimech-cope-source-accounting-proposal-20261016/original-source-objects.json",
+  "sha256": "cd9ab0e78e98d34b80aa92fbea0c977e4138ae6c854beed78ad66d4198cb7413"}, "current_source_progress_sha256":
+  "f061cdf13c51a01d417321e21726dd2ff2ddbd6cf3d2524a81e7683932fa65a7", "current_route_progress_sha256":
+  "52d1de20d0dddc3a04e481d72d7c7f605d61f4742f76e836c2f1802a28f321b4"}, "cohort365_resolution":
+  {"record_ids": ["AIMech:OnlineHybridTemporalRegressionPlanning"], "status": "current_common_native_representation_with_residual_source_questions",
+  "reason": "Root accepts the actual merged-state identity/mapping assessment and
+  one common2004/2005 DRAFT algorithm. Reuse existing main911 for both historical
+  manufacturing retrieval occurrences and all52 source questions; no algorithm equivalence
+  or source closure is implied.", "previous_sha256": "bd69f0e209470f916a175deb8659be78a7a7f62b053600b7115f968b87182e5d",
+  "source_objects": {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/original-source-objects.json",
+  "sha256": "297e2c3db869c886b2811ad2b70f0cde74217da2e71845bd8d6bcf3b2cb67a23"}, "current_progress":
+  {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/current-source-progress.proposed.json",
+  "sha256": "1229a5eb2373de13ad5b5a9ff15369282371b3620ce8483adbbe3eef9ce1a2d5"}, "source_native_data":
+  {"path": "/private/tmp/aimech-online-hybrid-temporal-regression-native-data-20261016/handoff.json",
+  "sha256": "fb208d7ca6c437393e82b416bfacd1b8257f6a21b52f69bdcfb7cf17186d4ed2"}, "closed_source_questions":
+  [], "source_plan": {"path": "/private/tmp/aimech-manufacturing-source-accounting-proposal-20261016/accounting-proposal.json",
+  "sha256": "314ffba9b8e6936cd23c4b3c1449d93dc3b5a641d6d67f9fef7e34f7d15344b8"}}}'
+- 'MFG2004-B01: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B02: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B03: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B04: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B05: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B06: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B07: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B08: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B09: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B10: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B11: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-B12: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2004-V01: expanded2005_work_represented_in_common_native_record_with_residual_questions.
+  Retain the source-specific simplified regression, unknown-literal, agenda and implementation
+  questions; representation does not close them.'
+- 'MFG2004-V02: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-V03: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-V04: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-V05: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-V06: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-V07: pending_source_question. Acquire and read this exact later work if
+  pursuing its lineage, compare source-local architecture/results with2004/2005 and
+  current methods, and retain any distinct questions without assuming an alias.'
+- 'MFG2004-Q01: common2004_2005_procedure_represented_later_lineage_pending. Inspect2011
+  and other later primary works before extending the record or assigning aliases;
+  retain all source-local formal and empirical distinctions.'
+- 'MFG2004-Q02: pending_source_question. Read the exact h1_T source and implementation/later
+  derivation; establish minimum relaxed labels before extending admissibility claims.'
+- 'MFG2004-Q03: pending_source_question. Inspect original propagator definitions and
+  the exact sequential clamping implementation while retaining source-local assumptions.'
+- 'MFG2004-Q04: pending_source_question. Assess exact state representation, action
+  assumptions and implementation before claiming general uniqueness or identifying
+  a concrete defect.'
+- 'MFG2004-Q05: pending_source_question. Keep admissibility/fixed-context/feasibility
+  premises explicit; do not infer a global future-arrival optimum or competitive guarantee.'
+- 'MFG2004-Q06: pending_source_question. Inspect exact implementation or later primary
+  work for unreachable jobs, timeout/restart, completed-job retention and in-flight
+  failure behavior.'
+- 'MFG2004-Q07: current_identity_and_granularity_accepted_remaining_scope_questions_open.
+  Preserve coupled outer/inner architecture and component boundaries; reassess future
+  versions with their own evidence rather than treating pseudocode names as independent
+  concepts.'
+- 'MFG2004-Q08: pending_source_question. Use original tables/figures and experimental
+  premises for any later quantitative claim; do not promote the source’s reported
+  scale or productivity targets to universal performance.'
+- 'MFG2004-R01: exact_source_research_and_common_native_representation_completed_with_residuals.
+  Retain the source qualifications and cited-original/later-version questions under
+  existing main911; do not reacquire completed sources solely because historical status
+  says unread.'
+- 'MFG2004-R02: exact_source_research_and_common_native_representation_completed_with_residuals.
+  Retain both route occurrences, source qualifications and later/cited-original obligations;
+  source representation does not establish question closure.'
+- 'MFG2005-B01: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B02: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B03: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B04: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B05: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B06: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B07: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B08: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B09: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B10: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B11: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B12: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B13: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B14: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B15: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B16: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B17: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-B18: pending_source_question. Inspect the cited original at its exact work/version,
+  compare any relevant maintained method and source responsibilities, and curate only
+  supported distinctions. Retain this occurrence even if another paper cites the same
+  work.'
+- 'MFG2005-Q01: pending_source_question. Seek a precise implementation, stronger model
+  premises or later derivation; preserve the unaffected-precondition and polarity
+  issues separately.'
+- 'MFG2005-Q02: pending_source_question. Resolve the representation and heuristic
+  convention from exact later derivation or implementation before extending assurance.'
+- 'MFG2005-Q03: pending_source_question. Inspect an exact implementation convention
+  and its assumptions before interpreting strict/nonstrict intervals or controller-delay
+  limits.'
+- 'MFG2005-Q04: pending_source_question. Coordinate the linked2004 questions without
+  deleting either occurrence; verify exact label and duplicate-control mechanisms
+  before stronger claims.'
+- 'MFG2005-Q05: pending_source_question. Inspect the relevant original work and visual
+  evidence for any later version or performance extension; do not infer a shared algorithm
+  alias or numerical result from metadata.'
+tags:
+- source-scoped
+- temporal-planning
+- manufacturing
+```

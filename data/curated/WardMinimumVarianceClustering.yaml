@@ -1,0 +1,178 @@
+id: AIMech:WardMinimumVarianceClustering
+name: Ward minimum-variance clustering
+aliases:
+- Ward hierarchical clustering
+- Ward minimum-variance method
+- Ward's method
+concept_kind: algorithm
+definition: An agglomerative clustering algorithm for Euclidean observations that starts from singletons
+  and repeatedly merges the pair causing the smallest increase in total within-cluster squared deviations
+  from cluster means, producing a nested sequence of partitions.
+identity_notes: Compared all 442 pinned AIO and 650 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 58, 0, 4 lines. All distinct match contents were
+  inspected. Recovery-checkout hits describe Ward as a value-based abstraction component, a mathematical
+  example or a pending discovery lead; the two long generated search-index rows repeat that fully read
+  record. None identifies an existing standalone Ward record. The older checkout returned no matches including
+  ignored and hidden files; four original-checkout hits are unrelated Gregory P. Ward attribution in ignored
+  Click dependency code. Semantic matching covered 26 AIO and 167 native definitions, with every matched
+  definition read. 8 full annotated AIO node/edge/generated contexts and 4 full native records were inspected.
+  Retain the squared-Euclidean ESS specialization commonly called Ward minimum-variance clustering. Ward’s
+  broader 1963 arbitrary-objective grouping framework is not asserted as an exact alias. Greedy pair unions
+  differ from k-means reassignment, CURE representative-point linkage and BIRCH feature-tree compression.
+  The value-based abstraction record uses Ward as one optional component, not as the identity of its entire
+  family. Ward1 and Ward2 are distance-scale implementations of this criterion under appropriate inputs,
+  not separate curated concepts here.
+definition_evidence:
+- source_id: ward1963
+  locator: Section 1, printed pp.236–239 / PDF pp.2–5; Section 2 and Figure 2, printed pp.240–242 / PDF
+    pp.6–8
+  relation: supports
+- source_id: murtagh2011
+  locator: Sections 2.1–2.2 and 3–3.1, PDF pp.3–4,6–7
+  relation: supports
+claims:
+- claim_id: greedy-ess-hierarchy
+  kind: mechanism
+  statement: Start with one cluster per observation. At each stage choose the current pair whose union
+    increases the total error sum of squares least, merge it without undoing earlier unions, and update
+    cluster memberships and costs. Continuing to one cluster gives n−1 merges and a hierarchy; stopping
+    at a selected cluster count gives one level of that hierarchy.
+  evidence:
+  - source_id: ward1963
+    locator: Sections 1–2, printed pp.236–240 / PDF pp.2–6; Figure 2, printed p.242 / PDF p.8
+    relation: supports
+  - source_id: murtagh2011
+    locator: Section 3 opening and Section 3.1, PDF pp.6–7
+    relation: supports
+- claim_id: cardinality-weighted-increment
+  kind: mechanism
+  statement: For clusters A and B with sizes a and b and means mA and mB, the ESS increase is a*b/(a+b)
+    times the squared Euclidean norm of mA−mB. This is the merged-cluster ESS minus the two previous ESS
+    values. It accounts for cluster cardinalities; choosing the nearest two centroids alone need not select
+    the same pair.
+  evidence:
+  - source_id: ward1963
+    locator: Section 1 ESS example and formula, printed p.237 / PDF p.3
+    relation: supports
+  - source_id: murtagh2011
+    locator: Sections 2.1–2.2 and 3.1, Equations 1–2, PDF pp.3–4,6
+    relation: supports
+- claim_id: distance-scale-implementations
+  kind: mechanism
+  statement: In the paper’s Ward1 formulation, use squared Euclidean singleton dissimilarities and the
+    linear update D(A∪B,C)=((a+c)D(A,C)+(b+c)D(B,C)−cD(A,B))/(a+b+c). Ward2 applies that linear expression
+    to squared dissimilarities and takes its square root. Using Ward1 with squared Euclidean input and
+    Ward2 with Euclidean input gives matching merge choices under consistent tie handling and exact arithmetic,
+    with correspondingly transformed heights. Ordinary Euclidean input to the linear Ward1 update can
+    change the hierarchy.
+  evidence:
+  - source_id: murtagh2011
+    locator: Sections 3.2–3.3, Equations 3–7, PDF pp.7–9; Sections 4.3–4.4 and 5.1–5.2, PDF pp.13–17
+    relation: supports
+- claim_id: greedy-not-global
+  kind: limitation
+  statement: The chosen merge minimizes the loss among available pair unions at that step. Earlier unions
+    constrain later partitions, so this does not guarantee the minimum total ESS among all partitions
+    with a specified number of groups. The original paper explicitly distinguishes the hierarchical restriction
+    from globally optimal grouping.
+  evidence:
+  - source_id: ward1963
+    locator: Section 1, printed p.238 / PDF p.4
+    relation: supports
+  - source_id: murtagh2011
+    locator: Section 3.1, PDF pp.6–7
+    relation: supports
+- claim_id: geometry-and-choice-boundaries
+  kind: scope
+  statement: This record uses unweighted observations, arithmetic means and squared Euclidean ESS. The
+    original framework permits other investigator-chosen objectives, but these do not automatically denote
+    the same minimum-variance method. Choosing variables and their scale, the desired cluster count, and
+    tie handling remains part of the analysis; the original method does not automatically select the number
+    of groups or assign unseen observations.
+  evidence:
+  - source_id: ward1963
+    locator: Section 1, printed pp.237–239 / PDF pp.3–5; Figure 2, printed p.242 / PDF p.8
+    relation: supports
+  - source_id: murtagh2011
+    locator: Sections 2.1–2.4 and 3.2, PDF pp.3–7
+    relation: supports
+- claim_id: implementation-and-height-limits
+  kind: limitation
+  statement: 'The objective does not fix a software implementation or runtime. The original presentation
+    evaluates current pair unions, while the later paper discusses optimized nearest-neighbor-chain implementations
+    separately. Dendrogram height conventions must be stated: initializing the linear recurrence with
+    full squared Euclidean singleton distances yields values twice the direct ESS merge increments, and
+    Ward2 uses their square roots. Historical software examples do not establish current library behavior.'
+  evidence:
+  - source_id: ward1963
+    locator: Section 2 and Figure 2, printed pp.240–242 / PDF pp.6–8
+    relation: supports
+  - source_id: murtagh2011
+    locator: Sections 3.1–3.3, PDF pp.6–9; Sections 4–5.3, PDF pp.9–18
+    relation: supports
+evidence_sources:
+- source_id: ward1963
+  title: Hierarchical Grouping to Optimize an Objective Function
+  authors:
+  - Joe H. Ward Jr.
+  persistent_id: https://doi.org/10.1080/01621459.1963.10500845
+  version: 'Journal of the American Statistical Association 58(301), March 1963, pp.236–244. Public institutional
+    archived scan: 10 PDF pages including a JSTOR cover; all 9 article pages and cover visually read.'
+  source_type: primary_paper
+  url: https://wayback.archive-it.org/219/20260402195208/https://iv.cns.iu.edu/sw/data/ward.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T20:36:31Z'
+  sha256: 3d4ae4339b6fdd9d8c59bd0ac7a80dca032b31c2d2c61d24e31dab8b69e1c2d1
+- source_id: murtagh2011
+  title: 'Ward’s Hierarchical Clustering Method: Clustering Criterion and Agglomerative Algorithm'
+  authors:
+  - Fionn Murtagh
+  - Pierre Legendre
+  persistent_id: arXiv:1111.6285v2
+  version: Version-specific arXiv PDF, v2 submission metadata/sidebar dated 11 December 2011, 20 pages,
+    all visually read. Downloaded title page displays November 27, 2024 for an unestablished reason. Associated
+    2014 journal version was not compared.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1111.6285v2
+  access_level: full_text
+  accessed_at: '2026-10-13T20:35:28Z'
+  sha256: 85a8fb5959efea59f91466554726ad3fe8fb1129ff9cb7ec2b155ad065a6d4f9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:HierarchicalClustering
+  relation: related_match
+  rationale: The algorithm constructs a hierarchy by greedy ESS-based merges. The pinned target is a clustering
+    task under MachineLearningTask; the relationship does not equate that task with this algorithm or
+    assert subclass membership.
+- target: AIO:UnsupervisedClustering
+  relation: related_match
+  rationale: The specified procedure groups unlabeled numeric observations using within-cluster dispersion.
+    The task target does not specify the Ward criterion, greedy restriction or distance conventions.
+limitations:
+- The common Ward method is scoped here to the Euclidean ESS specialization. The broader 1963 objective-function
+  framework, generalized weighted variants and arbitrary dissimilarity recurrences are not exact aliases.
+  Ward1/Ward2 terminology requires the cited paper’s input and height conventions.
+- Minimum variance denotes a merge criterion, not a guarantee of globally optimal partitions or recovery
+  of true classes. With a specified tie order, values 1,2,3,4,6 yield two groups with ESS 5 while another
+  partition has ESS 4. Different tied merges can yield different later trees.
+- The source uses variance, ESS and dissimilarity on different scales. This record defines ESS without
+  division by cluster size and distinguishes it from normalized variance and displayed heights. Auxiliary
+  variance prose in the 2011 PDF is not treated as a proof of a common normalization for every formula.
+- The original five-value illustration 1,7,2,9,12 has exact successive total ESS 0,1/2,5/2,79/6,434/5;
+  the printed 13.17 and 86.80 are rounded. These and the input-scale and cardinality examples were checked
+  with a finite rational curator calculation, not an author implementation.
+- All 10 original scan pages and all 20 versioned arXiv PDF pages were visually read. The latter’s title
+  page date differs from its submission metadata; the reason is unestablished. No comparison with the
+  associated 2014 journal version, current API validation, author R execution or benchmark reproduction
+  was performed.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T20:58:07Z'
+  updated_at: '2026-10-13T20:58:07Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

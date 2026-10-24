@@ -1,0 +1,146 @@
+id: AIMech:BackpropagationThroughTime
+name: Backpropagation through time
+aliases:
+- BPTT
+concept_kind: algorithm
+definition: A reverse differentiation algorithm that computes derivatives of a finite dynamic-system objective
+  by propagating adjoints backward through its time-unfolded computation and accumulating contributions
+  for shared parameters.
+identity_notes: Compared all 442 pinned AIO and 581 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 66, 27, 27 lines. All distinct match contents were
+  inspected. Semantic matching covered 75 AIO and 166 native definitions, with unchanged preceding rows
+  verified and new matches read. 4 full annotated AIO node/edge/generated contexts and 3 full native records
+  were inspected. Matches are source mentions, existing architecture training descriptions, prior derivative
+  reviews and the pending nested lead. BPTT differentiates a temporally unfolded computation in reverse
+  order. RTRL propagates parameter sensitivities forward; the same fixed objective can have the same gradient
+  without making the algorithms identical. SGD and Rprop consume gradient information to update parameters
+  and do not define its temporal computation. Full finite-horizon BPTT is distinguished from detached-boundary
+  approximations. TrainingStrategy supplies a contextual relationship because its preprocessing genus
+  does not establish an algorithm superclass.
+definition_evidence:
+- source_id: werbos1990
+  locator: Sections I, II.D and III, PDF pp.1,3–7 / printed1550,1552–1556
+  relation: supports
+claims:
+- claim_id: temporal-reverse-differentiation
+  kind: mechanism
+  statement: Evaluate the dynamic system forward over the selected finite interval, then apply the chain
+    rule in reverse computational order, including reverse time. A recurrent parameter reused at many
+    steps receives the sum of contributions from those uses. Within-time computations must also respect
+    their dependency order. Unfolding is a derivative representation of a shared-parameter dynamic system;
+    it does not create independently trainable parameters for every time position.
+  evidence:
+  - source_id: werbos1990
+    locator: Section II.D, ordered derivatives, Equations7–8, PDF pp.3–4; Sections III.B–D, Equations15–18
+      and pseudocode, pp.5–7
+    relation: supports
+- claim_id: adjoint-and-direct-terms
+  kind: mechanism
+  statement: For the first-order specialization h_t=F_t(h_(t-1),theta) and L=sum_(t=1..T) ell_t(h_t,theta),
+    use column-vector adjoints lambda_t=partial_h ell_t+(partial_h F_(t+1))^T*lambda_(t+1), with the future
+    term omitted at T. The shared-parameter gradient is sum_t[partial_theta ell_t+(partial_theta F_t)^T*lambda_t],
+    plus (partial_theta h_0)^T*lambda_0 when initialization depends on theta; lambda_0=(partial_h F_1)^T*lambda_1.
+    Partial derivatives hold the displayed state arguments fixed. This is a chain-rule restatement of
+    the source for a first-order recurrence, including direct loss and initialization terms, not a verbatim
+    transcription of its lag-two example.
+  evidence:
+  - source_id: werbos1990
+    locator: Sections II.C–E, Equations6–12, PDF pp.3–4; Section III.C, Equations16–18 and initial-state
+      discussion, p.6; curator forward/reverse and finite-difference check
+    relation: supports
+- claim_id: objective-and-boundary-conditions
+  kind: scope
+  statement: The complete finite-trajectory derivative assumes the same parameter values define its forward
+    trajectory and backward calculation. Fixed external inputs and targets are treated as constants; parameter-dependent
+    supplied signals require their additional derivative paths. A zero future adjoint expresses that the
+    chosen objective has no later terms, not that an ongoing physical process ends. A missing direct loss
+    at one time does not remove gradients arriving through later states. Initial states may be specified
+    or learned and must use the corresponding derivative boundary.
+  evidence:
+  - source_id: werbos1990
+    locator: Section III.C–D, finite interval, zero future adjoints and initial states, PDF pp.6–7; selective
+      output errors, p.7; chain-rule conditions, Section II.D, pp.3–4
+    relation: supports
+- claim_id: storage-and-detached-boundary
+  kind: limitation
+  statement: The displayed full reverse pass retains intermediate trajectory information and processes
+    complete strings before their weight updates. In a constructed recurrence, carrying an intermediate
+    state numerically while treating it as independent of parameters drops its earlier derivative contribution.
+    Such a detached-boundary derivative need not equal the full-trajectory gradient, even when the forward
+    states match. This boundary observation does not prescribe or validate a particular truncated-BPTT
+    schedule. Storage and work depend on the computation and its implementation; no fixed hardware cost
+    or universal memory lower bound is asserted.
+  evidence:
+  - source_id: werbos1990
+    locator: Sections III.D and IV.C, PDF pp.7,9–10; full chain rule in Section II.D, pp.3–4; curator
+      terminal-loss detached-boundary example
+    relation: supports
+- claim_id: gradient-versus-optimization
+  kind: scope
+  statement: BPTT supplies derivatives that an optimizer can use. The source illustrates gradient descent
+    and discusses alternative optimization methods, but a particular learning rate, update rule, minimum
+    or convergence rate is not part of the derivative algorithm identity. Exact differentiation of the
+    stated smooth finite objective does not imply exact floating-point arithmetic, successful optimization
+    or generalization.
+  evidence:
+  - source_id: werbos1990
+    locator: Section III.D, PDF p.7; Section IV.D–E, optimization and local-minimum discussion with Table1,
+      p.10
+    relation: supports
+- claim_id: applications-and-implementation-scope
+  kind: scope
+  statement: The treatment discusses recurrent pattern recognition, dynamic-system identification and
+    control objectives, including differentiation through model and action networks. These application
+    descriptions do not establish a reproduced benchmark, universal control performance or correct identification
+    under arbitrary noise. The author explicitly says the printed code was not tested and presents it
+    to explain the equations; this record does not certify that pseudocode or a modern library implementation.
+  evidence:
+  - source_id: werbos1990
+    locator: Untested-code statement, PDF p.5 / printed1554; Sections IV.A–B, model/action/utility example
+      and Figure6, pp.7–9; Sections IV.C–E and summary, pp.9–10
+    relation: supports
+evidence_sources:
+- source_id: werbos1990
+  title: 'Backpropagation Through Time: What It Does and How to Do It'
+  authors:
+  - Paul J. Werbos
+  persistent_id: https://doi.org/10.1109/5.58337
+  version: Proceedings of the IEEE78(10),1550–1560,October1990; eleven-page scanned copy openly archived
+    in Zenodo record1262035. All pages, equations, pseudocode, figures, table and references visually
+    read; no executable author implementation inspected.
+  source_type: primary_paper
+  url: https://zenodo.org/records/1262035/files/article.pdf
+  access_level: full_text
+  accessed_at: '2026-10-13T06:30:38Z'
+  sha256: 2ba859accf7b93f624334ad666ed5b509ee5409545e9a41cbb361ffe139c8dc9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:TrainingStrategy
+  relation: related_match
+  rationale: BPTT supplies gradients used in training dynamic models. The pinned target has a preprocessing
+    genus rather than a derivative-algorithm definition; this is a contextual training relationship, not
+    exact identity or an is-a assertion.
+limitations:
+- The record covers full differentiation of a specified finite differentiable trajectory. Nonsmooth choices
+  require a derivative convention, and stochastic expectation gradients require additional assumptions
+  and estimators.
+- A detached intermediate boundary changes the derivative problem unless its omitted contribution is zero.
+  Particular truncation, checkpointing, reversible or online implementations require separate evidence.
+- The initial-state and direct-parameter terms in the generalized formula are required by the chain rule.
+  The source’s simple pseudocode uses fixed zero initial states and must not be generalized by silently
+  dropping those terms.
+- All eleven scanned journal pages were read. Earlier historical-priority sources, executable author code,
+  modern library code and empirical performance were not inspected or reproduced.
+- Constructed rational and finite-difference calculations check stated derivative boundaries only. No
+  model training, paid service, hardware measurement or numerical benchmark was run.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T06:43:42Z'
+  updated_at: '2026-10-13T06:43:42Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

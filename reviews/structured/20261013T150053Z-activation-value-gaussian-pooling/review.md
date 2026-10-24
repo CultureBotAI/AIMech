@@ -1,0 +1,585 @@
+# Scientific author self-review of Activation-Value Gaussian Pooling
+
+- Review: 20261013T150053Z-activation-value-gaussian-pooling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T14:54:02Z
+- Finished UTC: 2026-10-13T15:00:53Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Activation-Value Gaussian Pooling as a DRAFT native mathematical method with an explicit broader AIO mapping. All fields were assessed against the primary source and constructed calculations. Printed maximum-limit and linearity wording is qualified. Issue285 and the predecessor input-dependence finding are resolved by the corrected limitation; no unresolved actionable defect remains. This is author self-review, not independent approval.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:ActivationValueGaussianPooling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base cb7b73403f37eada1e7d30137cbb040faf30f5d7.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:ActivationValueGaussianPooling | data/curated/ActivationValueGaussianPooling.yaml | maintained | Activation-Value Gaussian Pooling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:ActivationValueGaussianPooling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 132.40s (0:02:12)<br>Checked 442 record(s); 0 failed.<br>Checked 626 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 302 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 299,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:ActivationValueGaussianPooling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:ActivationValueGaussianPooling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:ActivationValueGaussianPooling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:ActivationValueGaussianPooling | {"finite_difference_power_order": 0.20575414680923385, "input_finite_difference": [0.9933071490724095, -0.05978771582784876], "input_gradient": [0.9933071490757153, -0.059787715783616704], "inside_vs_after_pool_scaling": [0.4029671477879618, 1.0], "maximum_value": 2, "mean_finite_difference": 0.06648056681442249, "mean_gradient": 0.06648056670790156, "nonlinear_without_tanh": [0.37754066879814546, 0.2384058440442351, 0.7550813375962909], "normalized_power_order_derivative": 0.2057541468283313, "precision_finite_difference": -0.003324028335265419, "precision_gradient": -0.003324028335395078, "printed_order_derivative_with_normalized_forward": -0.1817269067077585, "sharp_nearest_value": 1.3428368576423187e-78, "zero_precision_average": 4.0} |
+
+## Scientific And Domain Assessments
+
+### Activation-Value Gaussian Pooling
+
+identity: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Retain this distinct DRAFT mathematical_method.
+
+Retain the activation-value Gaussian unit, scoped alias Diff-Gauss pooling. The 2012 spatial Gaussian component, stochastic location selection, learned absolute-power aggregation and the speaker adaptation algorithm have distinct identities.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+The declared AIO mapping is supported.
+
+MathematicalFunction is broader than this parameterized scalar computation. PoolingLayer specifies spatial convolutional downsampling in the pin; no such superclass is forced for grouped acoustic activations. LPPool1D/2D use different power rules. Four full AIO contexts and three complete native neighbors were inspected.
+
+### value-dependent-kernel-aggregation
+
+evidence: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations5–8 define normalized Gaussian weights over transformed activation values and shared pool parameters. Finite weights are positive and sum to one, yielding a bounded weighted average. No spatial or unit-L2 identity is imported.
+
+### precision-limits-and-nonlinearity
+
+evidence: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Positive precision approaching infinity selects values nearest a fixed mean, not necessarily the maximum. Zero precision is the mean. Input-dependent weights make the aggregation nonlinear even without tanh; counterexamples verify both qualifications.
+
+### coupled-input-and-parameter-gradients
+
+evidence: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Full derivatives include the dependence of every normalized weight on inputs. Algebra and finite differences agree for input, mean and precision derivatives. An input derivative can be negative without violating convex-hull bounds; numerical implementation safeguards remain unassessed.
+
+### amplitude-and-adaptation-boundaries
+
+evidence: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+An amplitude inside the value-kernel computation can change normalized weights; output scaling generally differs. The paper tests pool parameter adaptation and optional LHUC, not an identity between the unit and its adaptation algorithm.
+
+### finite-acoustic-evaluation-scope
+
+evidence: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Record keeps the supervised base acoustic model distinct from decoded-target adaptation. Group size3 and1175 units are configured experimental choices; corpus-specific inputs/decoding, finite WER/training-cost observations and undocumented positivity safeguards do not support universal claims.
+
+### activation-value identity, conditional sharp limit, input-coupled derivatives, nonlinear aggregation and amplitude placement
+
+consistency: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Constructed calculations support the stated distinctions.
+
+Algebra and finite differences verify input/mean/precision derivatives; constructed examples refute unconditional maximum limits, linearity without tanh and equivalence of inside/outside amplitude scaling. An additional normalized-power-order check concerns the related Lp variant, not a defect in the Gaussian rule or author code.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:ActivationValueGaussianPooling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Assessed definition, identity, kind and alias; all five claims and locators; source authors/version/access/hash; AIO snapshot/mapping; limitations and curation metadata. Challenged value-versus-position scope, normalization, maximum limit, missing input-weight gradients, inside/outside amplitude scaling and empirical overreach.
+
+## Findings
+
+### F1: Attribute pooling nonlinearity to input dependence
+
+minor / resolved / confirmed; issue key: activation-pooling-input-dependence.
+
+The limitations field says trainable weights make pooling nonlinear. Trainability alone is neither the defining cause nor sufficient: a learned fixed weighted sum is linear, and beta=0 gives an arithmetic mean. Here nonlinear aggregation generally arises from weights depending on input activation values, even after learned parameters are fixed. Align this summary with the already qualified precision-limits-and-nonlinearity claim and constructed scaling counterexample.
+
+Disposition: The limitation now attributes general nonlinearity to input-dependent weights even with fixed parameters and states the linear zero-precision exception. The complete corrected record, mapping YAML and primary page3 were reread after capture; report mirror, EDIT history and constructed examples agree. Corrected-input gates pass.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T145054Z-activation-value-gaussian-pooling.json | supports | Compared all 442 pinned AIO and 625 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 9, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 32 AIO and 55 native definitions, with every matched definition read. 4 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the source’s activation-value Gaussian pooling unit, with Diff-Gauss pooling scoped to that unit. It differs from the2012spatial Gaussian pooling/unpooling component, stochastic spatial selection, learned absolute-power units and the speaker-adaptation procedure. Similar names used for Gaussian rasterization are not aliases. This is a scalar parameterized mathematical computation over a group, not the entire acoustic network. |
+| mapping | sources/aio/aio.json | supports | MathematicalFunction is broader than this parameterized scalar computation. PoolingLayer specifies spatial convolutional downsampling in the pin; no such superclass is forced for grouped acoustic activations. LPPool1D/2D use different power rules. Four full AIO contexts and three complete native neighbors were inspected. |
+| swietojanski2016 | https://arxiv.org/pdf/1603.09630v2; Complete eleven-page arXiv1603.09630v2 visually inspected. Other versions, author software and empirical replication excluded. The2012 spatial and2016 LHUC papers supply identity/future-lead context only. | supports | arXiv:1603.09630v2, 13 July 2016, eleven PDF pages; printed DOI10.1109/TASLP.2016.2584700 agrees with primary metadata. All pages visually inspected including equations, seven tables, seven figures, footnotes and87references. Other versions and author implementation not inspected. |
+| calculation | research/discovery/activation-gaussian-pooling-boundaries.py | supports | Algebra and finite differences verify input/mean/precision derivatives; constructed examples refute unconditional maximum limits, linearity without tanh and equivalence of inside/outside amplitude scaling. An additional normalized-power-order check concerns the related Lp variant, not a defect in the Gaussian rule or author code. |
+| corrected-record | data/curated/ActivationValueGaussianPooling.yaml | supports | Complete corrected record read after capture; limitation names input-dependent weights, fixed-parameter nonlinearity and the linear zero-precision mean. |
+| predecessor | reviews/structured/20261013T145250Z-activation-pooling-input-dependence/review.yaml | supports | Immutable partial author self-review preserves the original input-dependence finding. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 626 native and 442 unchanged generated records. The 811-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All eleven PDF pages visually inspected, including every equation, seven tables, seven figures, footnotes and87references; author implementation not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T150053Z-activation-value-gaussian-pooling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Activation-Value Gaussian Pooling
+started_at: '2026-10-13T14:54:02Z'
+finished_at: '2026-10-13T15:00:53Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged activation-value identity, conditional
+    sharp limit, input-coupled derivatives, nonlinear aggregation and amplitude placement.
+    This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Activation-Value Gaussian Pooling as a DRAFT native mathematical method
+  with an explicit broader AIO mapping. All fields were assessed against the primary
+  source and constructed calculations. Printed maximum-limit and linearity wording
+  is qualified. Issue285 and the predecessor input-dependence finding are resolved
+  by the corrected limitation; no unresolved actionable defect remains. This is author
+  self-review, not independent approval.
+source:
+  git_revision: cb7b73403f37eada1e7d30137cbb040faf30f5d7
+  state: working_tree
+  inputs:
+  - path: data/aio/LPPool1DLayer.yaml
+    sha256: 5ffd0db4838efd447eebc325435b5712dfd9c4f81706aa895cc652087f098819
+    role: context
+  - path: data/aio/LPPool2DLayer.yaml
+    sha256: c5dc28f53ee24d6668e48f99d9013117914608ee01761d7fc1a4139d9cbdf9c8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/curated/ActivationValueGaussianPooling.yaml
+    sha256: 9f3697e8f528b0cb3876015321a23cc2af8f3f3e574ffde01f6d6da44903d4fc
+    role: target
+  - path: data/curated/GaussianDifferentiablePooling.yaml
+    sha256: 85ea11fb153f768aa31eaf690df7769e3696fb0f7be80a86650dcf564bf1a900
+    role: context
+  - path: data/curated/LearnedNormPoolingUnit.yaml
+    sha256: fb36da3270a145c8813181b645d14efff155cc08999e17f49a67e49a4d156337
+    role: context
+  - path: data/curated/StochasticPooling.yaml
+    sha256: 5e70a56403aae673f3d0d41f0a4c2bc546335b54d948c229e44c1d2e7d7458ad
+    role: context
+  - path: research/discovery/20261013T145054Z-activation-value-gaussian-pooling.json
+    sha256: a75578141b1b60909a04705d658d3312ba6d964c09364b5acdc3c8debd738cf4
+    role: context
+  - path: research/discovery/activation-gaussian-pooling-boundaries.py
+    sha256: c90721141dbc535fbd7f9bc740c393b277f474c6cd2bc6890a7ccca6527eac43
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:ActivationValueGaussianPooling
+  path: data/curated/ActivationValueGaussianPooling.yaml
+  label: Activation-Value Gaussian Pooling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ActivationValueGaussianPooling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:ActivationValueGaussianPooling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete eleven-page arXiv1603.09630v2 visually inspected. Other versions,
+      author software and empirical replication excluded. The2012 spatial and2016
+      LHUC papers supply identity/future-lead context only.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 132.40s (0:02:12)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 626 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 302 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 299,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/activation-gaussian-pooling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"finite_difference_power_order": 0.20575414680923385, "input_finite_difference":
+    [0.9933071490724095, -0.05978771582784876], "input_gradient": [0.9933071490757153,
+    -0.059787715783616704], "inside_vs_after_pool_scaling": [0.4029671477879618, 1.0],
+    "maximum_value": 2, "mean_finite_difference": 0.06648056681442249, "mean_gradient":
+    0.06648056670790156, "nonlinear_without_tanh": [0.37754066879814546, 0.2384058440442351,
+    0.7550813375962909], "normalized_power_order_derivative": 0.2057541468283313,
+    "precision_finite_difference": -0.003324028335265419, "precision_gradient": -0.003324028335395078,
+    "printed_order_derivative_with_normalized_forward": -0.1817269067077585, "sharp_nearest_value":
+    1.3428368576423187e-78, "zero_precision_average": 4.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T145054Z-activation-value-gaussian-pooling.json
+  accessed_at: '2026-10-13T14:54:02Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 625 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    9, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered
+    32 AIO and 55 native definitions, with every matched definition read. 4 full annotated
+    AIO node/edge/generated contexts and 3 full native records were inspected. Retain
+    the source’s activation-value Gaussian pooling unit, with Diff-Gauss pooling scoped
+    to that unit. It differs from the2012spatial Gaussian pooling/unpooling component,
+    stochastic spatial selection, learned absolute-power units and the speaker-adaptation
+    procedure. Similar names used for Gaussian rasterization are not aliases. This
+    is a scalar parameterized mathematical computation over a group, not the entire
+    acoustic network.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T14:54:02Z'
+  support: supports
+  summary: MathematicalFunction is broader than this parameterized scalar computation.
+    PoolingLayer specifies spatial convolutional downsampling in the pin; no such
+    superclass is forced for grouped acoustic activations. LPPool1D/2D use different
+    power rules. Four full AIO contexts and three complete native neighbors were inspected.
+- evidence_id: swietojanski2016
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1603.09630v2
+  locator: Complete eleven-page arXiv1603.09630v2 visually inspected. Other versions,
+    author software and empirical replication excluded. The2012 spatial and2016 LHUC
+    papers supply identity/future-lead context only.
+  accessed_at: '2026-10-13T14:20:35Z'
+  snapshot_sha256: 9cbd9b822c6e709284e32b2b083ba3ffa86f8595fe6e34d1f7652f747f9e68dc
+  support: supports
+  summary: arXiv:1603.09630v2, 13 July 2016, eleven PDF pages; printed DOI10.1109/TASLP.2016.2584700
+    agrees with primary metadata. All pages visually inspected including equations,
+    seven tables, seven figures, footnotes and87references. Other versions and author
+    implementation not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/activation-gaussian-pooling-boundaries.py
+  accessed_at: '2026-10-13T14:54:40Z'
+  snapshot_sha256: c90721141dbc535fbd7f9bc740c393b277f474c6cd2bc6890a7ccca6527eac43
+  support: supports
+  summary: Algebra and finite differences verify input/mean/precision derivatives;
+    constructed examples refute unconditional maximum limits, linearity without tanh
+    and equivalence of inside/outside amplitude scaling. An additional normalized-power-order
+    check concerns the related Lp variant, not a defect in the Gaussian rule or author
+    code.
+- evidence_id: corrected-record
+  kind: record_content
+  reference: data/curated/ActivationValueGaussianPooling.yaml
+  accessed_at: '2026-10-13T14:54:40Z'
+  snapshot_sha256: 9f3697e8f528b0cb3876015321a23cc2af8f3f3e574ffde01f6d6da44903d4fc
+  support: supports
+  summary: Complete corrected record read after capture; limitation names input-dependent
+    weights, fixed-parameter nonlinearity and the linear zero-precision mean.
+- evidence_id: predecessor
+  kind: record_content
+  reference: reviews/structured/20261013T145250Z-activation-pooling-input-dependence/review.yaml
+  accessed_at: '2026-10-13T14:54:40Z'
+  support: supports
+  summary: Immutable partial author self-review preserves the original input-dependence
+    finding.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Activation-Value Gaussian Pooling
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - identity
+  - swietojanski2016
+  summary: Retain this distinct DRAFT mathematical_method.
+  details: Retain the activation-value Gaussian unit, scoped alias Diff-Gauss pooling.
+    The 2012 spatial Gaussian component, stochastic location selection, learned absolute-power
+    aggregation and the speaker adaptation algorithm have distinct identities.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - mapping
+  - swietojanski2016
+  summary: The declared AIO mapping is supported.
+  details: MathematicalFunction is broader than this parameterized scalar computation.
+    PoolingLayer specifies spatial convolutional downsampling in the pin; no such
+    superclass is forced for grouped acoustic activations. LPPool1D/2D use different
+    power rules. Four full AIO contexts and three complete native neighbors were inspected.
+- assessment_id: value-dependent-kernel-aggregation
+  area: evidence
+  topic: value-dependent-kernel-aggregation
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations5–8 define normalized Gaussian weights over transformed activation
+    values and shared pool parameters. Finite weights are positive and sum to one,
+    yielding a bounded weighted average. No spatial or unit-L2 identity is imported.
+- assessment_id: precision-limits-and-nonlinearity
+  area: evidence
+  topic: precision-limits-and-nonlinearity
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Positive precision approaching infinity selects values nearest a fixed
+    mean, not necessarily the maximum. Zero precision is the mean. Input-dependent
+    weights make the aggregation nonlinear even without tanh; counterexamples verify
+    both qualifications.
+- assessment_id: coupled-input-and-parameter-gradients
+  area: evidence
+  topic: coupled-input-and-parameter-gradients
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Full derivatives include the dependence of every normalized weight on inputs.
+    Algebra and finite differences agree for input, mean and precision derivatives.
+    An input derivative can be negative without violating convex-hull bounds; numerical
+    implementation safeguards remain unassessed.
+- assessment_id: amplitude-and-adaptation-boundaries
+  area: evidence
+  topic: amplitude-and-adaptation-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: An amplitude inside the value-kernel computation can change normalized
+    weights; output scaling generally differs. The paper tests pool parameter adaptation
+    and optional LHUC, not an identity between the unit and its adaptation algorithm.
+- assessment_id: finite-acoustic-evaluation-scope
+  area: evidence
+  topic: finite-acoustic-evaluation-scope
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Record keeps the supervised base acoustic model distinct from decoded-target
+    adaptation. Group size3 and1175 units are configured experimental choices; corpus-specific
+    inputs/decoding, finite WER/training-cost observations and undocumented positivity
+    safeguards do not support universal claims.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: activation-value identity, conditional sharp limit, input-coupled derivatives,
+    nonlinear aggregation and amplitude placement
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - swietojanski2016
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Algebra and finite differences verify input/mean/precision derivatives;
+    constructed examples refute unconditional maximum limits, linearity without tanh
+    and equivalence of inside/outside amplitude scaling. An additional normalized-power-order
+    check concerns the related Lp variant, not a defect in the Gaussian rule or author
+    code.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  evidence_ids:
+  - identity
+  - mapping
+  - swietojanski2016
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Assessed definition, identity, kind and alias; all
+    five claims and locators; source authors/version/access/hash; AIO snapshot/mapping;
+    limitations and curation metadata. Challenged value-versus-position scope, normalization,
+    maximum limit, missing input-weight gradients, inside/outside amplitude scaling
+    and empirical overreach.
+findings:
+- finding_id: F1
+  issue_key: activation-pooling-input-dependence
+  category: evidence
+  severity: minor
+  status: resolved
+  certainty: confirmed
+  title: Attribute pooling nonlinearity to input dependence
+  description: 'The limitations field says trainable weights make pooling nonlinear.
+    Trainability alone is neither the defining cause nor sufficient: a learned fixed
+    weighted sum is linear, and beta=0 gives an arithmetic mean. Here nonlinear aggregation
+    generally arises from weights depending on input activation values, even after
+    learned parameters are fixed. Align this summary with the already qualified precision-limits-and-nonlinearity
+    claim and constructed scaling counterexample.'
+  target_ids:
+  - AIMech:ActivationValueGaussianPooling
+  field_paths:
+  - limitations[1]
+  evidence_ids:
+  - swietojanski2016
+  - corrected-record
+  - predecessor
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/ActivationValueGaussianPooling.yaml
+    role: maintained
+  external_issues:
+  - https://github.com/CultureBotAI/AIMech/issues/285
+  disposition_reason: The limitation now attributes general nonlinearity to input-dependent
+    weights even with fixed parameters and states the linear zero-precision exception.
+    The complete corrected record, mapping YAML and primary page3 were reread after
+    capture; report mirror, EDIT history and constructed examples agree. Corrected-input
+    gates pass.
+  previous_occurrences:
+  - repository: CultureBotAI/AIMech
+    review_id: 20261013T145250Z-activation-pooling-input-dependence
+    finding_id: F1
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 626 native and 442 unchanged generated records.
+  The 811-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All eleven PDF pages visually inspected, including every equation, seven tables,
+  seven figures, footnotes and87references; author implementation not inspected.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews:
+- repository: CultureBotAI/AIMech
+  review_id: 20261013T145250Z-activation-pooling-input-dependence
+  relationship: Resolves the explicitly linked input-dependence finding.
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

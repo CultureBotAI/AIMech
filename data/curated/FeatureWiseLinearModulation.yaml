@@ -1,0 +1,123 @@
+id: AIMech:FeatureWiseLinearModulation
+name: Feature-wise Linear Modulation
+aliases:
+- FiLM
+concept_kind: layer
+definition: A neural conditioning layer that applies a feature-wise affine transformation whose scale
+  and shift are generated from conditioning information, modifying an intermediate representation for
+  subsequent computation.
+identity_notes: Compared all 442 pinned AIO and 630 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 67, 0, 9 lines. All distinct match contents were
+  inspected. Semantic matching covered 21 AIO and 90 native definitions, with every matched definition
+  read. 5 full annotated AIO node/edge/generated contexts and 2 full native records were inspected. Retain
+  the conditional feature-wise affine layer. The complete question/image reasoning architecture is a separate
+  scope. A fixed learned speaker transform, input-dependent attention mechanism and generic preprocessing
+  rescaling are not equivalent identities. The FiLM acronym is scoped to the Perez and colleagues conditioning
+  method; unrelated film-library examples do not match.
+definition_evidence:
+- source_id: perez2017film
+  locator: Section 2.1, PDF p.2, Equations 1–2 and Figure 2
+  relation: supports
+claims:
+- claim_id: conditional-feature-affine-rule
+  kind: mechanism
+  statement: A conditioning generator produces gamma_c(x) and beta_c(x), and the modulated feature is
+    gamma_c(x)*F_c+beta_c(x). The conditioning information may come from the same input or another modality.
+    In the demonstrated CNN formulation, each channel has one scale and shift per example, broadcast across
+    its spatial positions; the coefficients are not separately predicted for every pixel. The generator
+    and the network using the modulated features are learned together.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 2.1, PDF p.2, Equations 1–2; Section 2.2, pp.2–3
+    relation: supports
+- claim_id: affine-and-gradient-boundaries
+  kind: limitation
+  statement: For fixed conditioning, the operation is diagonal affine in F and becomes linear only when
+    the shift is zero. The complete conditional computation need not be linear, especially when the conditioning
+    depends on F. Scales and shifts are unrestricted in the stated method. Gamma zero removes dependence
+    on that feature through this direct affine path but leaves beta; it does not necessarily produce a
+    zero activation or eliminate derivatives through the conditioning generator.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 2.1, PDF p.2; Section 4.2, p.5; Appendix Section 7.2, p.11; direct affine and input-dependent
+      examples
+    relation: supports
+- claim_id: normalization-independence
+  kind: scope
+  statement: FiLM itself does not require subtracting feature means or dividing by variances. The main
+    visual-reasoning architecture places FiLM after batch normalization with that normalization layer’s
+    own affine parameters disabled. The paper also evaluates other insertion points and normalization
+    choices. Those finite ablations support the layer’s architectural flexibility, not a general guarantee
+    that normalization is irrelevant or that every FiLM network trains equally well.
+  evidence:
+  - source_id: perez2017film
+    locator: Sections 2.1–2.2, PDF p.2; Section 4.3, pp.6–7, Table 2; Appendix Section 7.2, p.11
+    relation: supports
+- claim_id: coefficient-count-versus-application-cost
+  kind: limitation
+  statement: For C feature maps, a spatially broadcast FiLM operation needs 2C generated scale and shift
+    values, independent of map height and width. Applying the transformation to a C-by-H-by-W representation
+    still requires work proportional to CHW. The source’s resolution-independent conditioning description
+    must not be read as constant cost for transforming an arbitrarily large feature map or for running
+    the complete generator and vision model.
+  evidence:
+  - source_id: perez2017film
+    locator: Section 2.1, PDF p.2, spatial-resolution discussion; Equation 2; direct coefficient and elementwise-operation
+      counts
+    relation: supports
+- claim_id: architecture-and-evaluation-scope
+  kind: scope
+  statement: The visual-reasoning experiments combine a question encoder, image features, FiLM-modulated
+    residual blocks and a classifier on CLEVR and related settings. The pretrained-image variant uses
+    ImageNet supervision, whereas its lack of program supervision refers to the question-answer reasoning
+    task. CLEVR-Humans and CoGenT experiments examine particular language and attribute shifts; the reported
+    failures and adaptation effects do not establish general logical compositionality or universal superiority.
+    The separately described parameter-arithmetic inference experiment is not a mandatory FiLM-layer operation.
+  evidence:
+  - source_id: perez2017film
+    locator: Sections 2.2–4.5, PDF pp.2–9, Tables 1–4 and Figures9–10; Appendix Sections 7.1–7.3, pp.11–13
+    relation: supports
+evidence_sources:
+- source_id: perez2017film
+  title: 'FiLM: Visual Reasoning with a General Conditioning Layer'
+  authors:
+  - Ethan Perez
+  - Florian Strub
+  - Harm de Vries
+  - Vincent Dumoulin
+  - Aaron Courville
+  persistent_id: arXiv:1709.07871v2
+  version: arXiv:1709.07871v2, 18 December 2017, thirteen PDF pages with AAAI 2018 copyright. All pages
+    visually read, including Equations 1–3, Tables 1–4, Figures 1–18, references and Appendix Sections
+    7.1–7.3. Other versions and author implementation not inspected.
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1709.07871v2
+  access_level: full_text
+  accessed_at: '2026-10-13T14:50:22Z'
+  sha256: 765acea6f2a78b1d76961392099cd0af49cb2e7d6f06d0b3d82f1dbe9cdcd363
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:Layer
+  relation: broad_match
+  rationale: FiLM is a defined neural component that transforms an intermediate representation for subsequent
+    computation. The pinned generic layer class is broader than this conditional feature-wise affine layer.
+limitations:
+- The local identity denotes the conditioning layer, not the complete FiLM visual-reasoning architecture,
+  a trained checkpoint, ordinary fixed speaker adaptation, or parameter-arithmetic zero-shot inference.
+- The operation is affine under fixed conditioning. Input-dependent coefficients introduce additional
+  derivative paths; zero scale does not imply zero shifted output.
+- Broadcast coefficient count is independent of spatial resolution, but application work scales with the
+  number of feature elements. No author implementation or hardware benchmark was executed.
+- All thirteen pages of the primary arXiv v2 were visually read, including appendices, figures, tables
+  and references. Evaluation conclusions remain bounded to the reported configurations.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T16:12:59Z'
+  updated_at: '2026-10-13T16:12:59Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,0 +1,614 @@
+# Scientific author self-review of layer-wise adaptive rate control
+
+- Review: 20261013T034938Z-layer-wise-adaptive-rate-control
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T03:44:29Z
+- Finished UTC: 2026-10-13T03:49:38Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain LARC as a distinct DRAFT algorithm related to AIO TrainingStrategy. All seven claims and fields have support with explicit clipping/scaling, decay, optimizer-state, zero-norm and historical configuration boundaries. No actionable record defect found; no framework execution or training occurred.
+
+## Scope And Provenance
+
+All fields of the exact maintained LARC record and complete pinned method documentation and historical wrapper.
+
+Selection: Exact maintained ID: AIMech:LayerWiseAdaptiveRateControl
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 715dca8b63ce1cf38cbd83ff17b0317794adf60a.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:LayerWiseAdaptiveRateControl | data/curated/LayerWiseAdaptiveRateControl.yaml | maintained | Layer-wise adaptive rate control |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:LayerWiseAdaptiveRateControl | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 141.33s (0:02:21)<br>Checked 442 record(s); 0 failed.<br>Checked 568 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 222 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 222,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:LayerWiseAdaptiveRateControl | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:LayerWiseAdaptiveRateControl | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:LayerWiseAdaptiveRateControl | Exited 0 without output. |
+| Constructed LARC clipping and optimizer boundaries | passed | True | AIMech:LayerWiseAdaptiveRateControl | {"small_gradient": {"gradient": [0.03, 0.04], "fallback": false, "local_rate": 2.0, "factor": 1.0, "step": [0.003, 0.004], "norm": 0.005}, "large_gradient": {"gradient": [0.6, 0.7999999999999999], "fallback": false, "local_rate": 0.02, "factor": 0.19999999999999998, "step": [0.06, 0.08], "norm": 0.1}, "scaling_mode": {"gradient": [0.06, 0.08], "fallback": false, "local_rate": 0.02, "factor": 0.02, "step": [0.006, 0.008], "norm": 0.01}, "scaling_high_rate": {"gradient": [0.06, 0.08], "fallback": false, "local_rate": 0.02, "factor": 0.02, "step": [0.6, 0.8], "norm": 1.0}, "opposed_decay": {"gradient": [-0.39999999999999997, -0.5333333333333333], "fallback": false, "local_rate": 0.016666666666666666, "factor": 0.16666666666666666, "step": [-0.04, -0.05333333333333334], "norm": 0.06666666666666668}, "unclipped_branch_rescaling": {"gradient": [0.06, 0.08], "fallback": false, "local_rate": 1.0, "factor": 1.0, "step": [0.006, 0.008], "norm": 0.01}, "momentum_second_step": [0.188, 0.0], "momentum_current_weight_cap": 0.098, "ideal_adam_first_step": [0.1, 0.1], "zero_weight_fallback": {"gradient": [1.0, 0.0], "fallback": true, "local_rate": null, "factor": 1.0, "step": [0.1, 0.0], "norm": 0.1}, "zero_gradient_skips_wrapper_decay": {"gradient": [0.0, 0.0], "fallback": true, "local_rate": null, "factor": 1.0, "step": [0.0, 0.0], "norm": 0.0}} |
+
+## Scientific And Domain Assessments
+
+### Clipped block learning-rate control
+
+identity: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Retain LARC as a distinct DRAFT algorithm.
+
+The official minimum-rate rule differs from plain LARS multiplication; the historical named wrapper supports both modes, explicitly distinguished here. CLARS uses mean individual-gradient norms, LAMB normalizes an adaptive direction, and NovoGrad maintains scalar gradient-norm moments. Thirty recovery matches are comparisons and leads, and one ignored original-environment hit is an unrelated APDL lexer command. No existing normalized concept identity matched.
+
+### Qualified training context
+
+grounding: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Related TrainingStrategy mapping is supported.
+
+The algorithm directly controls model-training updates. TrainingStrategy has a preprocessing genus, so related_match preserves context without claiming equivalence or subclass membership. RegularizationLayer and SupervisedLearning do not define this update control rule.
+
+### clipped-rate-rule
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The documented local rate is the minimum of the global rate and a trust coefficient times the parameter/gradient norm ratio. With the stated nonnegative rates, the fresh vanilla-SGD displacement has the stated minimum norm. The chosen trust coefficient is not inferred as an automatically solved batch schedule.
+
+### clipping-versus-scaling
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The wrapper computes an adaptive rate including decay and epsilon, then divides by the base rate only in clipping mode. Consequently clipping produces min(a,gamma), whereas scaling produces gamma*a under vanilla SGD. A constructed example gives different displacements under identical inputs.
+
+### decay-and-fresh-bound
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The code adds decay to the raw direction and disables the base optimizer decay option during the step. The denominator is a sum of norms; it is not the norm of the sum. The stated triangle bound needs nonnegative decay/epsilon and the nonzero-norm path. The record does not conflate this with independent AdamW shrinkage.
+
+### wrapped-optimizer-boundary
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The wrapper mutates supplied gradients then invokes an arbitrary base optimizer. Accumulated momentum can exceed the fresh-increment cap, and an ideal first Adam step can cancel a positive common multiplier. The record therefore confines the rate interpretation and norm bound to vanilla SGD.
+
+### zero-norm-and-grouping-policies
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The code explicitly skips None gradients and only rescales/adds decay when both tensor norms are nonzero. It sets group weight decay to zero before that loop. Hence zero-gradient decay and zero-weight fallback differ from a naive extension of the ideal formula; existing optimizer state is not assumed zero.
+
+### configuration-and-source-version
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+The state dictionary methods delegate without adding trust coefficient, epsilon or clip mode. The pinned 2020 code is historical, separately versioned from the method documentation. The record makes no current installation, dependency, runtime or exception-handling guarantee.
+
+### intended-use-and-evidence-scope
+
+evidence: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Supported with explicit mathematical and source boundaries.
+
+Motivation for large-batch training and initialization sensitivity is retained as source context. No numerical benchmark, universal convergence or scale-invariance claim is imported.
+
+### Clipped and unclipped regimes, state and zero norms
+
+consistency: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+Constructed examples confirm the distinctions.
+
+For norm-five weights and trust .02, clipped vanilla SGD has fresh norm .1 while an unclipped small gradient gives .005; scaling mode gives .01. Opposed decay gives .06667. A momentum example produces .188 while the current fresh cap is .098; ideal first Adam gives norm .14142, beyond .1. Historical zero-weight fallback moves the zero block and zero-gradient fallback skips wrapper decay. These are arithmetic examples, not a framework execution.
+
+### Complete record and pinned documentation
+
+provenance: supported. Targets: AIMech:LayerWiseAdaptiveRateControl.
+
+All fields were inspected; DRAFT remains.
+
+Read ID, label, alias, kind, definition/citations, identity context, seven claims and locators, two versioned sources with hashes/access, AIO pin/mapping, six limitations and actual curation times. Exact report mirror and source/capture/context hashes agree. No actionable record defect identified.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T034427Z-layer-wise-adaptive-rate-control.json | supports | Compared all 442 pinned AIO and 567 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 30, 0, 1 lines. All matching lines were read: recovery hits are prior LARS comparisons and pending LARC leads or rendered/review mirrors, while the original ignored environment contains an unrelated APDL lexer command. A semantic search covered ten AIO rows and 91 native definitions: the preceding ten AIO and 90 native rows were verified unchanged, and the new NovoGrad definition was read. Three complete AIO node/edge/generated contexts were verified unchanged from the preceding full rereading; nine full native context records were read or verified against prior full readings. The documented LARC clipping rule uses a minimum of global and norm-ratio rates, unlike plain LARS multiplication. The named historical wrapper also supports a scaling mode, so the record explicitly curates the clipped identity and distinguishes wrapper modes. This control rule differs from CLARS individual-gradient normalization, LAMB final block normalization, NovoGrad scalar moment normalization and coordinate-wise Adam/RMSprop. |
+| mapping | sources/aio/aio.json | supports | Ten AIO rows and 91 native definitions were inspected or verified unchanged against previous readings, including the new NovoGrad definition. Three complete AIO node/edge/generated contexts and nine native records were read or hash-verified against earlier full readings. TrainingStrategy YAML was reread after capture; its preprocessing genus permits contextual relatedness rather than an optimizer superclass assertion. |
+| nvidiadocs | https://github.com/NVIDIA/OpenSeq2Seq/blob/8681d381ed404fde516e2c1b823de5a213c59aba/docs/sources/source/optimizers.rst; Complete pinned method documentation; LARC lines 13–41 reread after capture | supports | Git commit 8681d381ed404fde516e2c1b823de5a213c59aba (2020-09-09T14:37:04Z); complete file inspected statically. The Apex wrapper is explicitly historical; no current installation or runtime compatibility claim. |
+| apexlarc | https://github.com/NVIDIA/apex/blob/2ec84ebdca59278eaf15e8ddf32476d9d6d8b904/apex/parallel/LARC.py; Complete pinned historical wrapper; constructor, state methods and step lines 37–111 reread after capture | supports | Git commit 2ec84ebdca59278eaf15e8ddf32476d9d6d8b904 (2020-04-22T10:19:38Z); complete file inspected statically. The Apex wrapper is explicitly historical; no current installation or runtime compatibility claim. |
+| calculation | research/discovery/larc-clipping-boundaries.py | supports | Constructed vectors distinguish clipping and scaling, small-gradient and clipped regimes, coupled-decay bounds, momentum and ideal Adam counterexamples, and historical zero-norm fallbacks. These are algebraic examples, not PyTorch execution or training. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion. No issue manufactured for a clean record review.
+- One new DRAFT concept, yielding 568 native and 442 unchanged generated records. The 753-entry main frontier retains 483 pending and 57 partly addressed cohorts; discovery is incomplete.
+- No empirical training speed, accuracy, stability advantage or universal batch-size scaling rule is imported; constructed examples demonstrate algebraic boundaries only.
+- Complete pinned NVIDIA method documentation and a complete historical Apex wrapper were read. The tracked current Apex tree and file history were inspected to resolve the historical source. No PyTorch execution, dependency audit or empirical training replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T034938Z-layer-wise-adaptive-rate-control
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of layer-wise adaptive rate control
+started_at: '2026-10-13T03:44:29Z'
+finished_at: '2026-10-13T03:49:38Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged identity, mapping, clipping versus scaling,
+    decay, fresh-step versus stateful-optimizer bounds, zero-norm and versioned configuration
+    policies. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain LARC as a distinct DRAFT algorithm related to AIO TrainingStrategy.
+  All seven claims and fields have support with explicit clipping/scaling, decay,
+  optimizer-state, zero-norm and historical configuration boundaries. No actionable
+  record defect found; no framework execution or training occurred.
+source:
+  git_revision: 715dca8b63ce1cf38cbd83ff17b0317794adf60a
+  state: working_tree
+  inputs:
+  - path: data/aio/RegularizationLayer.yaml
+    sha256: d4280bbc058b841655bcfcea7ef1dd1e05ac5e0211a860045f13eaa30933dbae
+    role: context
+  - path: data/aio/SupervisedLearning.yaml
+    sha256: 472f033f91a14c8727e525ddd30f82fcaf16a2514fa8f062667fb94fc9c9b718
+    role: context
+  - path: data/aio/TrainingStrategy.yaml
+    sha256: 5b67f81f3735b07709b76437ee8f4438150886c34582e4f47c76cfd33a958daa
+    role: context
+  - path: data/curated/AMSGrad.yaml
+    sha256: cea17d1eed28932058c4a0c194673d3500cff0344cc3ca4ee4b282386bce4d95
+    role: context
+  - path: data/curated/Adam.yaml
+    sha256: b28d5f93f73b80005b3ef7b98d306b5b548f3d2aa77362592c497404e0ea944a
+    role: context
+  - path: data/curated/AdamW.yaml
+    sha256: 5a851955d9435629b76cb28e95d84ab6c1db16aa35df9b485254c9c76c025948
+    role: context
+  - path: data/curated/CompleteLayerWiseAdaptiveRateScaling.yaml
+    sha256: d0d787a30b38bcf874ccd4f1cd3f4a7df9dab9169ff7b195bd705977529f92ed
+    role: context
+  - path: data/curated/LayerWiseAdaptiveMoments.yaml
+    sha256: 276830afda084c3fecd2b3c2628c22b07a32421ae2ee66aae75f8637ff6586e3
+    role: context
+  - path: data/curated/LayerWiseAdaptiveRateControl.yaml
+    sha256: d570107412be98e998c95ef4556f57af9fe21c6b92291a574ac01b427d581add
+    role: target
+  - path: data/curated/LayerWiseAdaptiveRateScaling.yaml
+    sha256: 7db4ee009ec0d8967cc0666d7c3d36f633da005fa38126864869accfdaa0d7d6
+    role: context
+  - path: data/curated/NovoGrad.yaml
+    sha256: fab7b24fc418d1044fae44ddf7dcc028c0b3a2088f286b31deec7b9927f9783f
+    role: context
+  - path: data/curated/RMSprop.yaml
+    sha256: 25fe81add637f0323634a0860a706a201a5927826afd6783738aca2c80a7c49d
+    role: context
+  - path: data/curated/StochasticGradientDescent.yaml
+    sha256: 5c57fc809ae8667d5be8cda421cc9f0bd1f0c668f64ba3d7b23d788528b46e97
+    role: context
+  - path: research/discovery/20261013T034427Z-layer-wise-adaptive-rate-control.json
+    sha256: 603db919b3be2eba9c30bca9917c34ed91c468da6ae1f596b749e23223c5da3d
+    role: context
+  - path: research/discovery/larc-clipping-boundaries.py
+    sha256: 02dcd2c1158c62fc9b497609370d70930f51c37fa60d4b539bdad2d29fdb8820
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:LayerWiseAdaptiveRateControl
+  path: data/curated/LayerWiseAdaptiveRateControl.yaml
+  label: Layer-wise adaptive rate control
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/LayerWiseAdaptiveRateControl.yaml
+    role: maintained
+scope:
+  description: All fields of the exact maintained LARC record and complete pinned
+    method documentation and historical wrapper.
+  selection: 'Exact maintained ID: AIMech:LayerWiseAdaptiveRateControl'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not full scientific rereview.
+  - target: Framework dependencies and current runtime
+    reason: Complete pinned method documentation and historical wrapper were read;
+      no complete dependency or runtime audit.
+  - target: Training, benchmark reproduction and universal guarantees
+    reason: No source execution, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 141.33s (0:02:21)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 568 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 222 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 222,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited 0 without output.
+- check_id: calculation
+  name: Constructed LARC clipping and optimizer boundaries
+  command: python3 research/discovery/larc-clipping-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"small_gradient": {"gradient": [0.03, 0.04], "fallback": false, "local_rate":
+    2.0, "factor": 1.0, "step": [0.003, 0.004], "norm": 0.005}, "large_gradient":
+    {"gradient": [0.6, 0.7999999999999999], "fallback": false, "local_rate": 0.02,
+    "factor": 0.19999999999999998, "step": [0.06, 0.08], "norm": 0.1}, "scaling_mode":
+    {"gradient": [0.06, 0.08], "fallback": false, "local_rate": 0.02, "factor": 0.02,
+    "step": [0.006, 0.008], "norm": 0.01}, "scaling_high_rate": {"gradient": [0.06,
+    0.08], "fallback": false, "local_rate": 0.02, "factor": 0.02, "step": [0.6, 0.8],
+    "norm": 1.0}, "opposed_decay": {"gradient": [-0.39999999999999997, -0.5333333333333333],
+    "fallback": false, "local_rate": 0.016666666666666666, "factor": 0.16666666666666666,
+    "step": [-0.04, -0.05333333333333334], "norm": 0.06666666666666668}, "unclipped_branch_rescaling":
+    {"gradient": [0.06, 0.08], "fallback": false, "local_rate": 1.0, "factor": 1.0,
+    "step": [0.006, 0.008], "norm": 0.01}, "momentum_second_step": [0.188, 0.0], "momentum_current_weight_cap":
+    0.098, "ideal_adam_first_step": [0.1, 0.1], "zero_weight_fallback": {"gradient":
+    [1.0, 0.0], "fallback": true, "local_rate": null, "factor": 1.0, "step": [0.1,
+    0.0], "norm": 0.1}, "zero_gradient_skips_wrapper_decay": {"gradient": [0.0, 0.0],
+    "fallback": true, "local_rate": null, "factor": 1.0, "step": [0.0, 0.0], "norm":
+    0.0}}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T034427Z-layer-wise-adaptive-rate-control.json
+  accessed_at: '2026-10-13T03:44:29Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 567 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    30, 0, 1 lines. All matching lines were read: recovery hits are prior LARS comparisons
+    and pending LARC leads or rendered/review mirrors, while the original ignored
+    environment contains an unrelated APDL lexer command. A semantic search covered
+    ten AIO rows and 91 native definitions: the preceding ten AIO and 90 native rows
+    were verified unchanged, and the new NovoGrad definition was read. Three complete
+    AIO node/edge/generated contexts were verified unchanged from the preceding full
+    rereading; nine full native context records were read or verified against prior
+    full readings. The documented LARC clipping rule uses a minimum of global and
+    norm-ratio rates, unlike plain LARS multiplication. The named historical wrapper
+    also supports a scaling mode, so the record explicitly curates the clipped identity
+    and distinguishes wrapper modes. This control rule differs from CLARS individual-gradient
+    normalization, LAMB final block normalization, NovoGrad scalar moment normalization
+    and coordinate-wise Adam/RMSprop.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T03:44:29Z'
+  support: supports
+  summary: Ten AIO rows and 91 native definitions were inspected or verified unchanged
+    against previous readings, including the new NovoGrad definition. Three complete
+    AIO node/edge/generated contexts and nine native records were read or hash-verified
+    against earlier full readings. TrainingStrategy YAML was reread after capture;
+    its preprocessing genus permits contextual relatedness rather than an optimizer
+    superclass assertion.
+- evidence_id: nvidiadocs
+  kind: primary_source
+  reference: https://github.com/NVIDIA/OpenSeq2Seq/blob/8681d381ed404fde516e2c1b823de5a213c59aba/docs/sources/source/optimizers.rst
+  locator: Complete pinned method documentation; LARC lines 13–41 reread after capture
+  accessed_at: '2026-10-13T03:22:05Z'
+  snapshot_sha256: cc6d9da92b70200d20c2ebef34fbba105c3dabaa3675abd54ebd5b3d5e2fe138
+  support: supports
+  summary: Git commit 8681d381ed404fde516e2c1b823de5a213c59aba (2020-09-09T14:37:04Z);
+    complete file inspected statically. The Apex wrapper is explicitly historical;
+    no current installation or runtime compatibility claim.
+- evidence_id: apexlarc
+  kind: primary_source
+  reference: https://github.com/NVIDIA/apex/blob/2ec84ebdca59278eaf15e8ddf32476d9d6d8b904/apex/parallel/LARC.py
+  locator: Complete pinned historical wrapper; constructor, state methods and step
+    lines 37–111 reread after capture
+  accessed_at: '2026-10-13T03:23:28Z'
+  snapshot_sha256: 3d5c9836e4a794f8a9bfe216e7967536b097f01d0c70beb63e1f1b36c149a89e
+  support: supports
+  summary: Git commit 2ec84ebdca59278eaf15e8ddf32476d9d6d8b904 (2020-04-22T10:19:38Z);
+    complete file inspected statically. The Apex wrapper is explicitly historical;
+    no current installation or runtime compatibility claim.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/larc-clipping-boundaries.py
+  accessed_at: '2026-10-13T03:46:14Z'
+  snapshot_sha256: 02dcd2c1158c62fc9b497609370d70930f51c37fa60d4b539bdad2d29fdb8820
+  support: supports
+  summary: Constructed vectors distinguish clipping and scaling, small-gradient and
+    clipped regimes, coupled-decay bounds, momentum and ideal Adam counterexamples,
+    and historical zero-norm fallbacks. These are algebraic examples, not PyTorch
+    execution or training.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Clipped block learning-rate control
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - identity
+  - nvidiadocs
+  - apexlarc
+  - calculation
+  summary: Retain LARC as a distinct DRAFT algorithm.
+  details: The official minimum-rate rule differs from plain LARS multiplication;
+    the historical named wrapper supports both modes, explicitly distinguished here.
+    CLARS uses mean individual-gradient norms, LAMB normalizes an adaptive direction,
+    and NovoGrad maintains scalar gradient-norm moments. Thirty recovery matches are
+    comparisons and leads, and one ignored original-environment hit is an unrelated
+    APDL lexer command. No existing normalized concept identity matched.
+- assessment_id: mapping
+  area: grounding
+  topic: Qualified training context
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - mapping
+  - nvidiadocs
+  summary: Related TrainingStrategy mapping is supported.
+  details: The algorithm directly controls model-training updates. TrainingStrategy
+    has a preprocessing genus, so related_match preserves context without claiming
+    equivalence or subclass membership. RegularizationLayer and SupervisedLearning
+    do not define this update control rule.
+- assessment_id: clipped-rate-rule
+  area: evidence
+  topic: clipped-rate-rule
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - nvidiadocs
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The documented local rate is the minimum of the global rate and a trust
+    coefficient times the parameter/gradient norm ratio. With the stated nonnegative
+    rates, the fresh vanilla-SGD displacement has the stated minimum norm. The chosen
+    trust coefficient is not inferred as an automatically solved batch schedule.
+- assessment_id: clipping-versus-scaling
+  area: evidence
+  topic: clipping-versus-scaling
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - apexlarc
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The wrapper computes an adaptive rate including decay and epsilon, then
+    divides by the base rate only in clipping mode. Consequently clipping produces
+    min(a,gamma), whereas scaling produces gamma*a under vanilla SGD. A constructed
+    example gives different displacements under identical inputs.
+- assessment_id: decay-and-fresh-bound
+  area: evidence
+  topic: decay-and-fresh-bound
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - apexlarc
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The code adds decay to the raw direction and disables the base optimizer
+    decay option during the step. The denominator is a sum of norms; it is not the
+    norm of the sum. The stated triangle bound needs nonnegative decay/epsilon and
+    the nonzero-norm path. The record does not conflate this with independent AdamW
+    shrinkage.
+- assessment_id: wrapped-optimizer-boundary
+  area: evidence
+  topic: wrapped-optimizer-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - apexlarc
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The wrapper mutates supplied gradients then invokes an arbitrary base optimizer.
+    Accumulated momentum can exceed the fresh-increment cap, and an ideal first Adam
+    step can cancel a positive common multiplier. The record therefore confines the
+    rate interpretation and norm bound to vanilla SGD.
+- assessment_id: zero-norm-and-grouping-policies
+  area: evidence
+  topic: zero-norm-and-grouping-policies
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - apexlarc
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The code explicitly skips None gradients and only rescales/adds decay when
+    both tensor norms are nonzero. It sets group weight decay to zero before that
+    loop. Hence zero-gradient decay and zero-weight fallback differ from a naive extension
+    of the ideal formula; existing optimizer state is not assumed zero.
+- assessment_id: configuration-and-source-version
+  area: evidence
+  topic: configuration-and-source-version
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - apexlarc
+  - nvidiadocs
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: The state dictionary methods delegate without adding trust coefficient,
+    epsilon or clip mode. The pinned 2020 code is historical, separately versioned
+    from the method documentation. The record makes no current installation, dependency,
+    runtime or exception-handling guarantee.
+- assessment_id: intended-use-and-evidence-scope
+  area: evidence
+  topic: intended-use-and-evidence-scope
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - nvidiadocs
+  - apexlarc
+  - calculation
+  summary: Supported with explicit mathematical and source boundaries.
+  details: Motivation for large-batch training and initialization sensitivity is retained
+    as source context. No numerical benchmark, universal convergence or scale-invariance
+    claim is imported.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: Clipped and unclipped regimes, state and zero norms
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - nvidiadocs
+  - apexlarc
+  - calculation
+  summary: Constructed examples confirm the distinctions.
+  details: For norm-five weights and trust .02, clipped vanilla SGD has fresh norm
+    .1 while an unclipped small gradient gives .005; scaling mode gives .01. Opposed
+    decay gives .06667. A momentum example produces .188 while the current fresh cap
+    is .098; ideal first Adam gives norm .14142, beyond .1. Historical zero-weight
+    fallback moves the zero block and zero-gradient fallback skips wrapper decay.
+    These are arithmetic examples, not a framework execution.
+- assessment_id: complete-fields
+  area: provenance
+  topic: Complete record and pinned documentation
+  outcome: supported
+  target_ids:
+  - AIMech:LayerWiseAdaptiveRateControl
+  evidence_ids:
+  - identity
+  - mapping
+  - nvidiadocs
+  - apexlarc
+  - calculation
+  summary: All fields were inspected; DRAFT remains.
+  details: Read ID, label, alias, kind, definition/citations, identity context, seven
+    claims and locators, two versioned sources with hashes/access, AIO pin/mapping,
+    six limitations and actual curation times. Exact report mirror and source/capture/context
+    hashes agree. No actionable record defect identified.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion. No issue manufactured
+  for a clean record review.
+- One new DRAFT concept, yielding 568 native and 442 unchanged generated records.
+  The 753-entry main frontier retains 483 pending and 57 partly addressed cohorts;
+  discovery is incomplete.
+- No empirical training speed, accuracy, stability advantage or universal batch-size
+  scaling rule is imported; constructed examples demonstrate algebraic boundaries
+  only.
+- Complete pinned NVIDIA method documentation and a complete historical Apex wrapper
+  were read. The tracked current Apex tree and file history were inspected to resolve
+  the historical source. No PyTorch execution, dependency audit or empirical training
+  replication.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- optimization
+- learning-rate-control
+- self-review
+- discovery-ongoing
+```

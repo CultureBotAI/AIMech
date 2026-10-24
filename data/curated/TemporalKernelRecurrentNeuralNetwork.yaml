@@ -1,0 +1,148 @@
+id: AIMech:TemporalKernelRecurrentNeuralNetwork
+name: Temporal-kernel recurrent neural network
+aliases:
+- TKRNN
+concept_kind: architecture
+definition: A recurrent architecture that factors connections across time into learned spatial weights
+  and source-specific exponential temporal kernels, maintaining recursive traces of past inputs and hidden
+  activations before the nonlinear state update.
+identity_notes: Compared all 442 pinned AIO and 578 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 3, 0, 0 lines. All distinct match contents were
+  read and concern discovery leads and reviewed context, not an existing exact record. Semantic matching
+  inspected 63 AIO and 150 native definitions, with unchanged preceding rows verified and new matches
+  read. Four full annotated AIO node/edge/generated contexts and four full native records were inspected.
+  The temporal-kernel architecture factors lag weights and filters past input and hidden activities before
+  its nonlinear state computation. SCRN has a separate context trace and constrained recurrent block;
+  Clockwork uses prescribed module ticks; GF-RNN uses input-dependent pair gates. The existing NARX record
+  denotes a generic finite-lag input-output model family, not this source-specific exponential neural
+  realization. Fast persistent contrastive divergence is a training algorithm and Oja is a weight update.
+  Multiple exponential components remain configurations; no priority for leaky recurrence is asserted.
+  RecurrentNeuralNetwork is the selected broader architecture mapping; none of the three other full AIO
+  contexts establishes exact identity or a better broader target.
+definition_evidence:
+- source_id: sutskever2009
+  locator: Section 3, Equations 6–11, manuscript/PDF pp. 5–7
+  relation: supports
+claims:
+- claim_id: factored-temporal-connections
+  kind: mechanism
+  statement: For a source hidden unit j and destination i, the displayed lag-k connection has spatial
+    weight W_(j,i) multiplied by lambda_j^(k-1). Input units use a separate set of temporal parameters.
+    Hidden-state computation combines these weighted histories before applying the nonlinearity; it does
+    not average separately evolved nonlinear trajectories. Source-specific factors tie lag weights rather
+    than learning an unrelated full matrix for each lag. This mechanism differs from discrete clock schedules
+    or input-dependent gate values.
+  evidence:
+  - source_id: sutskever2009
+    locator: Section 3, Equations 6–7 and footnote 1, manuscript/PDF pp. 6–7
+    relation: supports
+- claim_id: recursive-traces-and-time-indexing
+  kind: mechanism
+  statement: The source initializes its traces at zero and rewrites each hidden trace as S_y(t)=y(t-1)+lambda_y*S_y(t-1),
+    with an analogous input trace S_x(t)=x(t-1)+lambda_x*S_x(t-1). These recurrences reproduce the displayed
+    finite exponential sums without explicitly revisiting all previous times. The kernel equations use
+    delayed inputs, whereas the background ordinary-RNN equation uses current input. Setting lambda to
+    zero selects the most recent term under the chosen indexing convention; a literal comparison to the
+    background equation must account for that input-time alignment.
+  evidence:
+  - source_id: sutskever2009
+    locator: Equations 1 and 6–11, manuscript/PDF pp. 3, 6–7; Section 3.1, p. 8; curator indexing consequence
+    relation: supports
+- claim_id: unnormalized-memory-and-stability
+  kind: limitation
+  statement: The displayed traces are unnormalized sums, without a (1-lambda) multiplier. For a fixed
+    bounded driving sequence of magnitude at most M and 0<=lambda<1, their magnitude is at most M/(1-lambda),
+    so the bound grows as lambda approaches one. Decay of a trace does not ensure contraction of the coupled
+    learned recurrent system, permanent memory, or nonvanishing gradients. Learned spatial weights and
+    nonlinear derivatives also enter the full transition Jacobian.
+  evidence:
+  - source_id: sutskever2009
+    locator: Equations 8–11 and Section 3.1, manuscript/PDF pp. 7–8; curator geometric-sum and derivative
+      consequences
+    relation: supports
+- claim_id: learned-timescales-and-multiple-kernels
+  kind: scope
+  statement: The positive-decay configuration learns a time-shared unconstrained parameter ell through
+    lambda=sigmoid(ell); it is not a gate recomputed from each input. The source discusses negative lambda
+    as a mathematical extension outside that positive-sigmoid parameterization. It also defines TKRNN+n
+    by summing multiple exponentially factored connection components with different scales and weights.
+    Those components combine before the state nonlinearity, rather than constituting an ensemble of independently
+    run networks. Their learned coefficients need not define nonnegative normalized attention weights.
+  evidence:
+  - source_id: sutskever2009
+    locator: Section 3 and Section 3.1, manuscript/PDF pp. 5–9
+    relation: supports
+- claim_id: timescale-and-computation-boundaries
+  kind: limitation
+  statement: The authors note that direct influence at long lags becomes small, that unsuitable initial
+    decay scales can impede learning, and that very slow traces provide coarse temporal summaries. Recursive
+    traces make a fixed-component forward computation linear in sequence length for fixed network dimensions,
+    but this does not imply constant total training memory or a hardware-independent speed guarantee.
+    Adding kernel components increases the maintained traces and arithmetic. The author manuscript supplies
+    figure captions without the corresponding artwork, and no implementation or runtime was inspected.
+  evidence:
+  - source_id: sutskever2009
+    locator: Section 3 and Section 3.1, manuscript/PDF pp. 5–9; curator recurrence-cost consequence
+    relation: supports
+- claim_id: conditional-recall-and-negative-result
+  kind: limitation
+  statement: The main experiment uses a selected multiple-kernel model on cued serial recall with a small
+    alphabet, chosen word length and variable delay, truncated long sequences, and specified capacities
+    and optimization settings. Its top-one and top-two character predictions during the second occurrence
+    measure partial next-symbol recall, not perfect reconstruction of every whole sequence or universal
+    memory capacity. The manuscript also reports failure on a multiple quadratic-function prediction task
+    where the cited LSTM comparison succeeded. The suggestion that a different optimizer should resolve
+    this is not a demonstrated result. No numerical benchmark, historical priority, universal LSTM equivalence
+    or independent reproduction is asserted.
+  evidence:
+  - source_id: sutskever2009
+    locator: Sections 5–5.1 and conclusion, manuscript/PDF pp. 10–13
+    relation: supports
+evidence_sources:
+- source_id: sutskever2009
+  title: Temporal Kernel Recurrent Neural Networks
+  authors:
+  - Ilya Sutskever
+  - Geoffrey Hinton
+  source_type: primary_paper
+  url: https://www.cs.utoronto.ca/~ilya/pubs/2008/tkrnn.pdf
+  version: Author manuscript dated 30 July 2009, fifteen PDF pages, associated with the 2010 Neural Networks23(2):239–243
+    article. All manuscript pages, Equations1–11 and references visually read. Figure1/2 captions are
+    present but corresponding artwork is absent. Published-version layout and figures were not inspected.
+  access_level: full_text
+  accessed_at: '2026-10-13T05:49:06Z'
+  sha256: a8d166b3b399370b84dcd02e2183ce637f34d77817cabe82a8dc344b9322a0f9
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:RecurrentNeuralNetwork
+  relation: broad_match
+  rationale: Temporal-kernel traces participate in nonlinear recurrent sequence dynamics; the AIO target
+    is the broader recurrent architecture category.
+limitations:
+- The inspected source is the author manuscript dated 30 July 2009, not the final 2010 journal layout.
+  All fifteen manuscript pages were read, but the two figure artworks are absent; captions alone do not
+  establish graphical details.
+- The delayed-input indexing in the kernel equations is retained explicitly. No silent substitution of
+  current input or claim of unqualified literal equality to the background update is made.
+- Exponential traces are not normalized attention or an automatic whole-network stability guarantee. Learned
+  timescales are time-shared parameters, not input-dependent gates.
+- Multiple kernels are configurations of this family. Negative decay is a discussed mathematical extension
+  outside the positive-sigmoid configuration; neither is assumed to have all the properties of a single
+  positive kernel.
+- Selected serial-recall metrics and the reported quadratic-task failure qualify empirical conclusions.
+  An architectural special case does not guarantee optimization success, and the number of possible strings
+  alone does not prove absence of overfitting.
+- The published version, figure artwork, author implementation, backward routine, training and hardware
+  runtime were not inspected. Earlier related work is acknowledged without a priority claim; no numerical
+  benchmark is curated.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T06:00:09Z'
+  updated_at: '2026-10-13T06:00:09Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

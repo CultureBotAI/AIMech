@@ -1,0 +1,150 @@
+id: AIMech:AnnealedImportanceSampling
+name: Annealed importance sampling
+aliases:
+- AIS
+concept_kind: algorithm
+definition: A Monte Carlo estimation algorithm that draws from a tractable base distribution, applies
+  Markov transitions invariant for a prescribed sequence of intermediate distributions, and weights each
+  resulting path by successive unnormalized-density ratios to estimate target expectations and normalizing-constant
+  ratios.
+definition_evidence:
+- source_id: neal1998ais
+  locator: Section 2, PDF pp. 4–6, Equations 3–11; self-normalized estimate, Equation 2, p. 2
+  relation: supports
+claims:
+- claim_id: path-law-and-weight
+  kind: mechanism
+  statement: For fixed distributions p_j=f_j/Z_j on a common measure space, let p_0 be the target and
+    p_n the base, with finite positive Z_j and p_j positive wherever p_(j−1) is positive. Draw x_(n−1)
+    from p_n, then apply T_(n−1),...,T_1 to obtain x_(n−2),...,x_0. Each T_j must preserve p_j. Return
+    x_0 with weight w=product over j=1,...,n of f_(j−1)(x_(j−1))/f_j(x_(j−1)). Intermediate kernels need
+    not equilibrate, be ergodic, or be reversible. Exact independent base draws and independent subsequent
+    randomness give independent runs. Evaluate the ratios in chronological order j=n down to1. If a numerator
+    is zero, assign that run zero weight and stop; no later ratio or endpoint observable is evaluated,
+    and the run contributes zero to weighted numerator and denominator sums. This explicit zero-weight
+    convention handles valid nested supports without a later 0/0.
+  evidence:
+  - source_id: neal1998ais
+    locator: Section 2, PDF pp. 4–6, Equations 4–11; support condition and invariance requirement, p.
+      4; zero-weight convention is a curator interpretation of the extended-space importance law, checked
+      in research/discovery/ais-boundaries.py
+    relation: supports
+- claim_id: estimand-and-unbiasedness-boundary
+  kind: mechanism
+  statement: With exact base sampling and the stated support and invariance assumptions, E[w]=Z_0/Z_n
+    and E[w*a(x_0)]=(Z_0/Z_n)*E_p0[a] for integrable a. Thus the mean weight is an unbiased estimate of
+    the normalizing-constant ratio. The self-normalized estimate sum(w*a)/sum(w) is generally biased at
+    finite sample size, though consistent under the corresponding law-of-large-numbers assumptions; it
+    is undefined when all sampled weights vanish. Neither averaging log weights nor taking the log of
+    their sample mean generally gives an unbiased log-ratio estimate. Unweighted endpoints need not have
+    distribution p_0. These distinctions follow from the extended-space importance identity, not from
+    a claim of exact equilibrium after annealing.
+  evidence:
+  - source_id: neal1998ais
+    locator: Extended-space construction, PDF pp. 5–6, Equations 6–11; ratio estimate, Equation 12, p.
+      7; curator finite examples in research/discovery/ais-boundaries.py
+    relation: supports
+- claim_id: finite-weight-law-checks
+  kind: scope
+  statement: A curator three-state example uses f_0=(1,2,7), f_1=(1,1,1), f_2=(3,2,1) and a deterministic
+    forward-cycle T_1. Exact enumeration gives E[w]=5/3 and weighted endpoint masses (1/6,1/3,7/6), while
+    unweighted endpoints have probabilities (1/6,1/2,1/3), distinct from target (1/10,1/5,7/10). For the
+    indicator of state 2, the expected self-normalized estimate is 1/3 with one run and 967/2025 with
+    two, rather than 7/10. A further 192 finite invariant-kernel cases satisfy the weighted-mass identity.
+    Separate reset-kernel and missing-support examples fail, demonstrating why the assumptions matter.
+    These are finite curator arithmetic checks, not general convergence proofs or performance benchmarks.
+    For valid nested supports f_0=f_1=(1,0), f_2=(1,1) and identity T_1, the zero-weight branch stops
+    after its first ratio rather than evaluate a later 0/0. Exact mean weight is1/2, matching Z_0/Z_2.
+  evidence:
+  - source_id: neal1998ais
+    locator: Equations 4–11, PDF pp. 5–6; exact independently authored finite enumeration in research/discovery/ais-boundaries.py
+    relation: supports
+- claim_id: bridge-and-bayesian-scope
+  kind: scope
+  statement: A geometric bridge f_j=f_0^beta_j*f_n^(1−beta_j), with beta decreasing from 1 to 0, is an
+    option rather than the algorithm identity. Auxiliary distributions must be proper; merely powering
+    an unnormalized target does not ensure a tractable proper base. When f_n is proportional to a prior
+    and f_0=f_n times the likelihood, Z_0/Z_n is the marginal likelihood. The shared prior constant cancels,
+    but likelihood constants must be retained for this interpretation.
+  evidence:
+  - source_id: neal1998ais
+    locator: Section 2, PDF pp. 4 and 6, Equation 3 and marginal-likelihood discussion
+    relation: supports
+- claim_id: terminal-and-correlated-extensions
+  kind: scope
+  statement: An optional fixed-length Markov chain preserving p_0 can start from each weighted endpoint;
+    use that run’s weight with its average observable. Error assessment must treat the within-run average
+    as one dependent-data summary rather than count its states as independent AIS runs. The paper also
+    permits correlated base states from an ergodic chain and discusses consistency, but that does not
+    justify finite-sample unbiasedness from an arbitrarily initialized base chain.
+  evidence:
+  - source_id: neal1998ais
+    locator: Section 2, PDF p. 6; accuracy discussion, p. 8
+    relation: supports
+- claim_id: diagnostic-and-efficiency-limits
+  kind: limitation
+  statement: Large or heavy-tailed weights can make the estimator unstable. A small observed weight variance
+    or large empirical effective sample size can miss an important mode that was never sampled. The paper’s
+    temperature-spacing and dimension-scaling analyses depend on idealized distributions and mixing assumptions,
+    and its synthetic and regression examples do not establish universal efficiency or mode discovery.
+    Intermediate distributions, transition effort and evidence for uncertainty remain problem-specific.
+  evidence:
+  - source_id: neal1998ais
+    locator: Section 3, PDF pp. 7–8; Section 4, pp. 8–11; examples, Sections 5–6, pp. 11–18; discussion,
+      pp. 21–24
+    relation: supports
+identity_notes: Compared AIS and tempered transitions against all 442 pinned AIO and 699 native identities;
+  no normalized match. Ignored- and hidden-inclusive three-checkout searches returned 1133,473,482 lines,
+  collapsed into 132 unique content groups. Groups were classified using short full content and long-line
+  paths/identity excerpts; full canonical model-neighbor records were read. Long generated search attributes
+  and ignored dependency linguistic tables were not claimed as complete raw-code readings. Hits concern
+  model-specific AIS uses, historical discovery/review context, pending methods and acronym noise. Semantic
+  assessment covered 103 AIO and306 native definitions, including47 and22 new rows;56 and284 prior rows
+  were verified unchanged. Ten complete AIO contexts and seven full native neighbors assessed. AIS estimates
+  expectations and normalizing-constant ratios using weighted annealing paths. It is distinct from annealing
+  for optimization, parallel-temperature replica exchange, ordinary Metropolis–Hastings, an up/down tempered
+  Metropolis transition, and model-specific uses of AIS already represented in AIMech.
+evidence_sources:
+- source_id: neal1998ais
+  title: Annealed Importance Sampling
+  authors:
+  - Radford M. Neal
+  source_type: primary_paper
+  access_level: full_text
+  persistent_id: arxiv:physics/9803008v2
+  version: arXiv physics/9803008v2, submitted September 4, 1998; printed report first version February
+    18, revised September 1, 1998. All 25 pages and 18 references inspected, with figure pages 14–15 and
+    core method pages 4–6 visually checked. Author metadata lists Statistics and Computing 11:125–139
+    (2001); journal-byte equivalence was not established.
+  url: https://arxiv.org/pdf/physics/9803008v2
+  accessed_at: '2026-10-14T07:51:05Z'
+  sha256: 6ae14b83d623438355c2de17a5e830d67a07fd5331b2eb997b82ed40174745cc
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:MarkovChain
+  relation: related_match
+  rationale: AIS uses Markov kernels preserving successive auxiliary distributions to construct weighted
+    paths. The local estimation algorithm is related to the target process/model; it is not asserted to
+    be a neural network, hidden layer or equivalent Markov-chain class.
+limitations:
+- The maintained identity is the fixed-sequence weighted-path estimator. Resampling particle systems,
+  linked importance sampling, adaptive schedules and full up/down tempered transitions need their own
+  definitions and evidence.
+- The intermediate-state paragraph on PDF p. 6 says x_j follows T_(j−1), inconsistent with Equation 4.
+  For 0<=j<=n−2, x_j follows T_(j+1); the top state x_(n−1) is drawn directly from p_n, with no T_n application.
+  The maintained algorithm uses Equations 4–5 and this initial-draw exception.
+- Missing support or noninvariant transitions invalidate the weighting identity. Finite precision, underflow
+  and practical transition implementations were not audited.
+- All 25 source pages were inspected, using images for plot-heavy pages 14–15; method pages 4–6 were visually
+  checked. Journal bytes, author software, model fits and benchmark replication were not assessed. DRAFT
+  remains.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-14T08:26:48Z'
+  updated_at: '2026-10-14T19:46:09Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

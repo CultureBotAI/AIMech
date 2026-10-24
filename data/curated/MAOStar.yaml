@@ -1,0 +1,243 @@
+id: AIMech:MAOStar
+name: MAO*
+aliases: []
+definition: A memory-controlled heuristic search algorithm for acyclic AND/OR graphs
+  that expands a marked partial solution graph, revises lower-bound costs through
+  OR selection and AND aggregation, and prunes unmarked OR arcs with newly orphaned
+  descendants while preserving the marked structure.
+concept_kind: algorithm
+identity_notes: Current ignored-inclusive identity review on 2026-10-16 at base 0da1b27de4ee552bc8fb16a083d0f91d2a093142
+  examined1241 records,4921 identity occurrences and3760 normalized values, plus945
+  exact search occurrences in215 distinct content groups across four recorded roots.
+  No candidate or context normalized collision was found for the recorded probes.
+  MAO* is curated as acyclic pure-AND/OR marked partial solution-graph search with
+  successor-specific backups and orphan-aware pruning; it remains distinct from the
+  other member of this pair, MREC, SMA*, ITS, RBFS, RTAA* and amortized SVGD. Full
+  current neighbor and inherited search-context readings are explicitly attributed
+  in the discovery report; this is bounded absence evidence, not global novelty. Shared
+  current source responsibility is main911, which remains partial; all27 original
+  source items and separate main7/main912 responsibilities survive.
+definition_evidence:
+- source_id: chakrabarti1989
+  locator: Sections3–3.1, printed pp.211–214 / reader pp.15–18
+  relation: supports
+claims:
+- claim_id: marked-partial-solution-graph
+  kind: mechanism
+  statement: MAO* operates on an acyclic structure of pure AND and OR nodes. It maintains
+    a marked partial solution graph rooted at the start and expands a nonterminal
+    tip of that marked structure. When the start is labelled SOLVED, the marked structure
+    is returned as the solution graph.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Section3–3.1, printed pp.211–213 / reader pp.15–17, initialization, termination
+      and step3.1
+    relation: supports
+- claim_id: single-or-all-and-generation
+  kind: mechanism
+  statement: Expansion generates the marked successor arc of an OR node, or all successor
+    arcs of an AND node. Existing explicit nodes are reused and only missing nodes
+    are created. Newly created nodes receive f=h; their successor-specific bounds
+    start from their node f at OR nodes and zero at AND nodes. MEMORY increases by
+    A per generated arc and N per new node, where A and N are the source’s storage
+    costs.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Algorithm MAO*, printed pp.212–213 / reader pp.16–17, steps1 and3.2
+    relation: supports
+- claim_id: monotone-cost-backup-with-source-gap
+  kind: mechanism
+  statement: The source describes revising a successor-specific bound with the child
+    f plus arc cost and raising node f only when the newly aggregated cost is greater.
+    OR aggregation takes a minimum; AND aggregation uses the problem’s Phi operation,
+    with sum and maximum given as examples. The displayed expansion includes the branch
+    update, but the later parent-revision queue does not explicitly show every parent-arc
+    refresh needed by the prose and worked trace.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Section3.1 prose on p.212; steps3.2(vi),4.2 on pp.213–214; Figure2(f)–(g)
+      on p.216 / reader pp.16–18,20
+    relation: supports
+- claim_id: marking-solved-and-parent-propagation
+  kind: mechanism
+  statement: For an OR node, mark a minimum-bound successor, preferring a SOLVED child
+    and then the currently marked child when ties remain; label the parent SOLVED
+    when its marked child is present and SOLVED. At an AND node mark all successors
+    and label it SOLVED when all are present and SOLVED. Cost revision processes descendants
+    before ancestors and queues marked parents when a node’s f changes or it is labelled
+    SOLVED.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Algorithm MAO*, printed pp.213–214 / reader pp.17–18, steps4.2.1–4.2.3
+    relation: supports
+- claim_id: unmarked-arc-and-orphan-pruning
+  kind: mechanism
+  statement: When memory exceeds MAX and the root is not SOLVED, choose an unmarked
+    outgoing arc of an OR node for pruning. Remove that arc and recursively remove
+    nodes and their outgoing arcs only when they become parentless; shared nodes with
+    remaining parents are retained. Stop when no eligible arc exists or MEMORY<=theta*MAX.
+    This protects the marked partial solution structure.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Algorithm MAO*, printed p.214 / reader p.18, steps5–6
+    relation: supports
+- claim_id: solution-graph-memory-scope
+  kind: scope
+  statement: The paper states a bound MAX+|C*|, where |C*| is the maximum storage
+    required by a partial solution graph of pathmax cost at most optimal solution
+    cost C*. This solution-graph quantity differs from the path-length quantity used
+    for MA*. The stated post-pruning bound is max(MAX,|C*|), not an unconditional
+    hard MAX cap.
+  evidence:
+  - source_id: chakrabarti1989
+    locator: Theorem3.5 and proof, printed p.219 / reader p.23; game-tree discussion
+      on p.220 / reader p.24
+    relation: supports
+evidence_sources:
+- source_id: chakrabarti1989
+  title: Heuristic Search in Restricted Memory
+  authors:
+  - P. P. Chakrabarti
+  - S. Ghose
+  - A. Acharya
+  - S. C. de Sarkar
+  source_type: primary_paper
+  url: https://www.scribd.com/document/1036541577/BaiBao12
+  persistent_id: doi:10.1016/0004-3702(89)90010-6
+  version: Artificial Intelligence41(2),197–221,1989; printed footer41(1989/90). Inspected25-page
+    public-reader scan reproduction. SHA-256 identifies public-reader-scan-bundle.json,
+    a JSON manifest binding every original image and HTML/JSONP asset; it is not a
+    publisher/downloaded journal PDF hash and does not establish publisher-byte equivalence.
+    The1987 ELDECS predecessor remains metadata-only.
+  access_level: full_text
+  accessed_at: '2026-10-16T02:59:32Z'
+  sha256: 199bddda69540c8c68cf7e2e72ac33cfbf1df8c9a3d2e97e2e5c8e98931fa17c
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Historical branch358 snapshot: pinned AIO commit397851c547d1c4d8f06ef184f63c1d40bc86937a,
+    SHA256 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6. All442
+    CLASS identity/synonym fields mechanically compared and class labels read;22 selected
+    full nodes and all133 incident relations inspected. Other definitions and external
+    definition-source papers were not all reread. This is a bounded pinned-snapshot
+    mapping proposal requiring reassessment at eventual curation.'
+  rationale: The retained concepts are resource-controlled heuristic search algorithms.
+    The inspected pinned AIO candidates describe supervised/learning tasks, neural
+    or language models/layers, graph representations and mathematical functions; shared
+    words such as graph, memory, recursive or minimum do not establish an exact, broader,
+    narrower or substantive related match.
+  examined_targets:
+  - target: AIO:Classification
+    rejection_reason: AIO specifies supervised grouping of things. Neither retained
+      algorithm is a classifier.
+  - target: AIO:DecisionTree
+    rejection_reason: AIO defines a classification decision model; a heuristic search
+      tree or AND/OR solution graph is not that classifier.
+  - target: AIO:GraphConvolutionalNetwork
+    rejection_reason: The class is a deep neural network using graph structure, not
+      a heuristic search procedure over problem states.
+  - target: AIO:GraphConvolutionalPolicyNetwork
+    rejection_reason: This is a graph-convolutional reinforcement-learning graph generator.
+      Neither candidate trains or deploys that policy network.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: A language model operating on graph-structured language inputs/outputs
+      is not the candidate search procedure.
+  - target: AIO:Layer
+    rejection_reason: A neural/deep-learning topology component is not a stateful
+      search algorithm.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The defining process builds methods that learn from data. Neither
+      candidate requires such learning; cost-bound revision is not sufficient to assert
+      this relation.
+  - target: AIO:MathematicalFunction
+    rejection_reason: A mathematical input/output rule does not identify these stateful
+      search algorithms. Their evaluation functions are components, not the curated
+      concept itself.
+  - target: AIO:MaximumLayer
+    rejection_reason: Elementwise tensor merging in a neural layer is unrelated to
+      selecting a highest-cost pruning candidate or a possible AND cost aggregation.
+  - target: AIO:MemoryAugmentedLLM
+    rejection_reason: External readable/writable memory in an LLM is distinct from
+      managing search nodes/arcs under memory pressure.
+  - target: AIO:MemoryCellLayer
+    rejection_reason: A cell layer with internal state/weights is not retained frontier
+      or solution-graph storage.
+  - target: AIO:MinimumLayer
+    rejection_reason: Elementwise tensor merging in a neural layer is not search bound
+      minimization.
+  - target: AIO:Model
+    rejection_reason: The class denotes an abstract system representation. The candidates
+      are procedures operating on search representations, not the represented system/model.
+  - target: AIO:Network
+    rejection_reason: The class denotes interconnected entities. A problem graph can
+      be such a representation, but that does not make the algorithm traversing it
+      a Network or substantiate a mapping.
+  - target: AIO:NeuroSymbolicLLM
+    rejection_reason: Neither candidate is an LLM combining neural language modeling
+      and symbolic reasoning.
+  - target: AIO:Preprocessing
+    rejection_reason: Neither algorithm is defined as formatting or transforming raw
+      data for a machine-learning model.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The AIO class represents conditional dependence among random
+      variables. MAO* acyclic AND/OR cost decomposition does not require a probabilistic
+      graphical model; MA* also does not.
+  - target: AIO:ReasoningLLM
+    rejection_reason: Heuristic search is not evidence that the algorithms are large
+      language models or a specific LLM reasoning component.
+  - target: AIO:RecursiveLLM
+    rejection_reason: Recursive neural architectures learning syntactic composition
+      differ from search recursion/retained bound propagation.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: A deep recursive language network with neural layers is not
+      either search procedure.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Neither candidate is defined by learning from reward through
+      exploration/exploitation. Selecting promising branches is insufficient for this
+      mapping.
+  - target: AIO:TrainingStrategy
+    rejection_reason: Neither source procedure trains a machine-learning model, and
+      its memory/pruning policy is not the AIO preprocessing/training class.
+limitations:
+- The inspected procedure is for acyclic AND/OR graphs with pure node types and a
+  specified problem-cost aggregation. It is not a general cyclic-graph version of
+  MA*, and the examples sum/max do not certify arbitrary aggregation operators or
+  imported uninspected AO* assumptions.
+- 'The parent-arc refresh in cost propagation is not fully explicit in the printed
+  pseudocode: updated child f values queue marked parents, whose aggregation reads
+  stored successor-specific bounds. The prose and Figure2 require a refreshed parent
+  branch bound. This omission/implicit-operation question is retained without silently
+  repairing the algorithm or asserting that every implementation is wrong.'
+- The source’s positive-individual-arc-cost argument does not by itself establish
+  termination on arbitrary infinite graphs, because bounded-cost infinite paths can
+  exist. Its finite zero-cost and game-tree statements are also not independently
+  certified here. No missing uniform lower-bound or finite-contour premise is falsely
+  attributed to the printed theorem.
+- A and N represent per-arc and per-node storage in the source model. Marked solution
+  structure can remain after pruning when no eligible unmarked arc exists, and expansion
+  precedes the memory check. Successor estimates, data structures and transient allocations
+  require implementation accounting; MAX=0 is not zero memory and MAX is not a strict
+  total byte cap.
+- Theorem3.6 states analogous node-generation savings for AND/OR trees using the preceding
+  simplified MA* analysis. It does not establish a general runtime bound, unrestricted
+  graph efficiency or a universal monotonic benefit from increasing memory.
+- The numerical Fifteen Puzzle study evaluates MA* and its pruning variants, not an
+  empirical benchmark of MAO*. The article’s possible game-tree and alternative-pruning
+  uses do not supply a measured general MAO* performance advantage.
+- The MAX=0 iterative-deepening behavior, large-MAX AO*/MarkA-like cases, possible
+  game-tree SSS* relationships and proposed alternate pruning policies remain scoped
+  source questions. They are not aliases, accepted independent concepts or an inspection
+  of the cited original algorithms.
+- Evidence is the inspected25-page public third-party reproduction of the journal
+  article. No publisher PDF byte identity is established; the1987 conference full
+  text and thesis were not acquired, and the exact version relationship or potential
+  primary clarification of the backup display remains unresolved.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T04:23:47Z'
+  updated_at: '2026-10-16T04:23:47Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

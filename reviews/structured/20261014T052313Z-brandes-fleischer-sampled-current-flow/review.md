@@ -1,0 +1,602 @@
+# Scientific author self-review of Brandes–Fleischer sampled-pair current-flow betweenness
+
+- Review: 20261014T052313Z-brandes-fleischer-sampled-current-flow
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-14T05:08:39Z
+- Finished UTC: 2026-10-14T05:23:13Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain the sampled-pair current-flow betweenness algorithm as DRAFT with an explicit bounded AIO no-match assessment. The inspected estimator and additive concentration analysis support its qualified claims; exact-current, endpoint, source-notation and evaluation limitations remain visible.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base c6f91891df3b98cdf29fe3c33a22aa13bff153ed.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:BrandesFleischerSampledCurrentFlowBetweenness | data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml | maintained | Brandes–Fleischer sampled-pair current-flow betweenness |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:BrandesFleischerSampledCurrentFlowBetweenness | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 302.78s (0:05:02)<br>Checked 442 record(s); 0 failed.<br>Checked 689 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 377 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 377,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:BrandesFleischerSampledCurrentFlowBetweenness | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:BrandesFleischerSampledCurrentFlowBetweenness | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:BrandesFleischerSampledCurrentFlowBetweenness | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:BrandesFleischerSampledCurrentFlowBetweenness | {"cases": {"path3": {"pair_count": 6, "exact": ["0", "1", "0"], "single_draw_expectation": ["0", "1", "0"], "two_draw_sequence_count": 36, "two_draw_middle_distribution": {"0": "4/9", "3/2": "4/9", "3": "1/9"}, "probability_middle_estimate_above_one": "5/9", "hypothetical_clipped_expectation": "5/9", "repeated_pair_for_k_equal_pair_count": ["0", "3", "0"], "note": "Clipping is a hypothetical altered estimator, not adopted."}, "path4": {"pair_count": 12, "exact": ["0", "2/3", "2/3", "0"], "single_draw_expectation": ["0", "2/3", "2/3", "0"], "two_draw_sequence_count": 144}, "weighted_triangle": {"pair_count": 6, "exact": ["3/11", "2/11", "6/11"], "single_draw_expectation": ["3/11", "2/11", "6/11"], "two_draw_sequence_count": 36}}, "sufficient_sample_count": {"n": 3, "epsilon": "1/2", "failure_probability": "1/20", "k": 87, "union_bound": 0.0477596630922387}, "scope": "Finite exact-current iid pair enumeration and explicit sufficient-bound algebra; no clipping, author software, numerical-solver guarantee or empirical benchmark."} |
+
+## Scientific And Domain Assessments
+
+### Brandes–Fleischer sampled-pair current-flow betweenness
+
+identity: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Retain this distinct DRAFT algorithm.
+
+Retain Algorithm 3’s independent source–sink pair experiment as distinct from exact sorted-row aggregation, grounded closeness and shortest-path source-pivot estimation. The same electrical centrality target does not make the exact and sampled computation identical. Author-qualified naming avoids claiming a generic approximation is unique to this paper.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+The explicit AIO mapping assessment is supported within its stated scope.
+
+Retain the bounded no-match over nine exact AIO contexts. The method is a graph-score estimator, not clustering, a selection-bias phenomenon, a language model or deep active learning. No forced relation follows from matrix computation or a possible downstream feature use.
+
+### domain-and-target
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Definitions in Sections 2/3 specify positive-conductance simple connected undirected networks, endpoint-excluded throughput and ordered-pair normalization n_B=(n-1)(n-2). Algorithm 3 explicitly skips endpoints. The maintained formula uses the source’s Laplacian and Ohm law without adopting its inconsistent current-cycle display.
+
+### independent-pair-estimator
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Theorem 3 defines independent uniform distinct-endpoint pair draws. Multiplying the pair mean by n(n-1)/n_B=n/(n-2) gives exact expectation B. Replacement across draws follows from the independent sampling experiment; targets share draws and need not be independent. Exact-current examples verify single- and two-draw expectations.
+
+### absolute-error-guarantee
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Throughput is in [0,1], giving the displayed two-sided Hoeffding bound. Multiplying by n and solving for k gives the stated sufficient simultaneous delta bound. Positive integer ell makes the source’s sample count integral and yields its per-target polynomial tail. No source claim of relative accuracy or guaranteed order is imported.
+
+### sample-range-and-repetition
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+On path3 only two of six ordered pairs send internal current through the middle, so the scaled contribution is 3 with probability 1/3. Exhausting 36 two-draw sequences gives probabilities 4/9,4/9,1/9 at 0,3/2,3. Clipping at one would have mean 5/9, unlike the true score one; it is explicitly hypothetical. Repeated identical pairs are permitted for any k.
+
+### solver-and-work-boundary
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Algorithm 3 makes one reduced solve per pair and traverses incident edges, yielding k solves plus O(km) aggregation. The source’s conjugate-gradient discussion omits an explicit tolerance in its runtime expression. Statistical error for exact throughputs does not automatically account for numerical error, conditioning or a particular preconditioner.
+
+### evidence-and-method-boundary
+
+evidence: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Supported within the stated primary-source and mathematical scope.
+
+Algorithm 3 and Section 5 are distinct from Algorithms 1/2 and shortest-path methods. Appendix A states ell=1 and Figure 1’s right panel shows maximum absolute error for six random and six AS graphs. The record gives no extracted numeric advantage, replication, causal inference or learned-performance claim. The paper’s FPRAS wording is qualified by its actual additive theorem.
+
+### iid source–sink versus source-pivot sampling, unbiased expectation versus sample range, clipping, absolute versus relative error, endpoints, solver error and algorithm identity
+
+consistency: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Constructed calculations support the stated distinctions.
+
+Finite rational currents on two paths and a weighted triangle are averaged over all one-draw and two-draw outcomes. Their expectations match exact normalized scores. A three-vertex path exposes estimates above one and bias from hypothetical clipping; repeated pairs do not become exhaustive enumeration. Uniform conductance rescaling and an explicit sufficient union-bound count are checked. These are curator arithmetic checks, not author software or an empirical benchmark.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:BrandesFleischerSampledCurrentFlowBetweenness.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. Complete maintained fields and all six claims, locators, source metadata/hash, bounded no-match mapping and actual provenance read. The scaled pair average matches the source’s endpoint-excluded normalization. Its probability statement is explicitly additive and assumes exact currents. Source terminology does not establish a relative approximation theorem; above-one sample values and clipping bias remain explicit.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261014T050808Z-brandes-fleischer-sampled-current-flow.json | supports | Compared all 442 pinned AIO and 688 native identities; no normalized match. Ignored- and hidden-inclusive searches of three full checkouts returned 89,0,0 lines, read as the exact-current record/report and prior chapter leads or query strings. Semantic assessment covered 147 AIO and 522 native definitions: all 147 AIO and 521 prior native rows verified unchanged and one newly selected native row read. Nine complete AIO contexts and six full native neighbors were assessed. Algorithm 3 independently samples source–sink pairs and averages scaled electrical throughputs. This differs from Algorithm 1’s exact sorted-row aggregation, grounded resistance-sum closeness, shortest-path dependency accumulation and source-pivot distance or dependency estimation. It estimates a structural graph score, not a causal influence model or a learned predictor. |
+| mapping | sources/aio/aio.json | supports | Retain the bounded no-match over nine exact AIO contexts. The method is a graph-score estimator, not clustering, a selection-bias phenomenon, a language model or deep active learning. No forced relation follows from matrix computation or a possible downstream feature use. |
+| brandesfleischer2005 | https://d-nb.info/1104942720/34; Section 5, Theorem 3 and Algorithm 3, PDF p. 10 / printed p. 542; Sections 2 and 3.1, Definition 2, PDF pp. 2–5 / printed pp. 534–537; Section 5, p. 10 / p. 542; Section 5, proof of Theorem 3 and Algorithm 3, PDF p. 10 / printed p. 542; Section 5, Theorem 3 and its displayed Hoeffding bound, PDF p. 10 / printed p. 542; union-bound algebra in research/discovery/sampled-current-flow-boundaries.py; Section 5, estimator and Algorithm 3, PDF p. 10 / printed p. 542; explicit curator consequences in research/discovery/sampled-current-flow-boundaries.py; Sections 4 and 5, conjugate-gradient discussion and Algorithm 3, PDF pp. 8–10 / printed pp. 540–542; Sections 4–6, PDF pp. 7–11 / printed pp. 539–543; Appendix A and Figure 1, PDF p. 12 / printed p. 544 | supports | Twelve-page repository-hosted typeset STACS 2005 chapter, Lecture Notes in Computer Science 3404:533–544, with a KOPS deposit overlay on the first page. All text and 22 references read; mathematical pages 2–10 and Appendix A/Figure 1 on page 12 visually inspected. Publisher metadata and abstract confirm title, authors, venue, pages and DOI. No author software, raw data or alternate corrected edition was inspected. |
+| calculation | research/discovery/sampled-current-flow-boundaries.py | supports | Finite rational currents on two paths and a weighted triangle are averaged over all one-draw and two-draw outcomes. Their expectations match exact normalized scores. A three-vertex path exposes estimates above one and bias from hypothetical clipping; repeated pairs do not become exhaustive enumeration. Uniform conductance rescaling and an explicit sufficient union-bound count are checked. These are curator arithmetic checks, not author software or an empirical benchmark. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- This round adds one DRAFT concept, reaching 689 native and 442 unchanged AIO records. The main frontier has 874 entries, including 472 pending and 58 partly addressed cohorts; nested leads remain.
+- Complete twelve-page STACS chapter and 22 references; method/equation pages 2–10 and Figure 1/page 12 visually read. Earlier Newman manuscript fully read as identity/normalization context.
+- No author software, raw benchmark, corrected chapter or numerical-solver experiment. Additive concentration assumes exact currents and iid pairs. Clipping is hypothetical, not adopted.
+- The broader current-flow chapter lead remains partly addressed. Grounded closeness and the original Newman direct-pair method remain queued with explicit next checks; sampled-pair approximation is added in this round.
+- Original Documents synchronization and old round141 cleanup remain unapproved after automatic-review rejection; only the isolated recovery worktree is modified.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261014T052313Z-brandes-fleischer-sampled-current-flow
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Brandes–Fleischer sampled-pair current-flow
+  betweenness
+started_at: '2026-10-14T05:08:39Z'
+finished_at: '2026-10-14T05:23:13Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged iid source–sink versus source-pivot sampling,
+    unbiased expectation versus sample range, clipping, absolute versus relative error,
+    endpoints, solver error and algorithm identity. This is adversarial author self-review,
+    not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain the sampled-pair current-flow betweenness algorithm as DRAFT with
+  an explicit bounded AIO no-match assessment. The inspected estimator and additive
+  concentration analysis support its qualified claims; exact-current, endpoint, source-notation
+  and evaluation limitations remain visible.
+source:
+  git_revision: c6f91891df3b98cdf29fe3c33a22aa13bff153ed
+  state: working_tree
+  inputs:
+  - path: data/aio/Clustering.yaml
+    sha256: 3727f99787bb5748c57338221c984e2575abc538ae51ebf3c6e69ef0da9405d5
+    role: context
+  - path: data/aio/DataPreparation.yaml
+    sha256: 99aebfc324b628969407ddc7591312e992db1469e7ef8fb3ad28e4b62d3bb359
+    role: context
+  - path: data/aio/DeepActiveLearning.yaml
+    sha256: b04c9aa74728adbe1bd907cb3f0e15b263bda18ed29660babce092daeed2b4f9
+    role: context
+  - path: data/aio/GraphLanguageModel.yaml
+    sha256: 1cdda6f7d19946e0672835185e179e2336832225c180e2b70d7860b0c96fc2a8
+    role: context
+  - path: data/aio/MathematicalFunction.yaml
+    sha256: a94d32b253e2a11dd3485b77f282486b775ffe577c8ef824d45875721317fca0
+    role: context
+  - path: data/aio/RankingBias.yaml
+    sha256: 3e931657e0ee2a47e36a7858dbb8f26f00b565040f4fedd138f55353551160b0
+    role: context
+  - path: data/aio/RepresentationBias.yaml
+    sha256: 5ac7d1455814eb8305b1ab9d0934e61fc50c09fe3dfd7724da5fdb4a21f360b2
+    role: context
+  - path: data/aio/SelectionAndSamplingBias.yaml
+    sha256: 72d8ef34949942ddee1fe60d645806a2117b95207f681de923297b64f78cc477
+    role: context
+  - path: data/aio/UnsupervisedClustering.yaml
+    sha256: 78d3917b751b29e83802dfd2ceff6b5ee131cd64a5a3a7d40de02f5d2b9bdb1e
+    role: context
+  - path: data/curated/BrandesBetweennessCentrality.yaml
+    sha256: 2ff7051fa27a4e1150545d634b90599a335b909b1fe6956441260c5284830e21
+    role: context
+  - path: data/curated/BrandesFleischerCurrentFlowBetweenness.yaml
+    sha256: a896d2aa6457fd83044d25cfd529a55570d7e215519f2709f75759759acf494b
+    role: context
+  - path: data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml
+    sha256: 32b66dbd161efc40fa7162b43f16436146accd5aa8ea90c10874d91be21948ad
+    role: target
+  - path: data/curated/BrandesPichPivotCentralityEstimation.yaml
+    sha256: 7f8492fc3a881da6c35439412b535572f687215410b85b05439d2ca8d799b9c1
+    role: context
+  - path: data/curated/EppsteinWangRANDClosenessApproximation.yaml
+    sha256: 33d58cab5cddbe19e25fa1f1efa66982a6ca9c461b8cee211df186c570688d19
+    role: context
+  - path: data/curated/IteratedWienerFilter.yaml
+    sha256: 803905a00467ecfc963cbd5a24f5616013484c0d0ce57d205c386868346addac
+    role: context
+  - path: data/curated/PageRank.yaml
+    sha256: 8561bc6973069e960effb6f14cd8eaa377e7d5e52ab6c15e2ea4a96f7eeb52e6
+    role: context
+  - path: research/discovery/20261014T050808Z-brandes-fleischer-sampled-current-flow.json
+    sha256: 5c47ae7e80c9cb1d33de5bacf74ee876a2a2dbd77410ca492b6c94255e32ad45
+    role: context
+  - path: research/discovery/current-flow-boundaries.py
+    sha256: a1fba8b59fd288e407eb5fd4600117b6d7e133c40c9f85aebf4fa3227937a798
+    role: context
+  - path: research/discovery/sampled-current-flow-boundaries.py
+    sha256: 939c43263879b33ef763b299d270a94e187703195c8063f8fcb8aaa6255f3dda
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  path: data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml
+  label: Brandes–Fleischer sampled-pair current-flow betweenness
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/BrandesFleischerSampledCurrentFlowBetweenness.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:BrandesFleischerSampledCurrentFlowBetweenness'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Uninspected source versions and implementation components
+    reason: The original chapter is fully read; no author software, raw results, corrected
+      edition or independent reviewer. Finite rational examples do not certify arbitrary
+      numerical solves. Neighboring exact betweenness, closeness and Newman conventions
+      are context rather than parts of this algorithm.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 302.78s (0:05:02)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 689 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 377 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 377,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/sampled-current-flow-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"cases": {"path3": {"pair_count": 6, "exact": ["0", "1", "0"], "single_draw_expectation":
+    ["0", "1", "0"], "two_draw_sequence_count": 36, "two_draw_middle_distribution":
+    {"0": "4/9", "3/2": "4/9", "3": "1/9"}, "probability_middle_estimate_above_one":
+    "5/9", "hypothetical_clipped_expectation": "5/9", "repeated_pair_for_k_equal_pair_count":
+    ["0", "3", "0"], "note": "Clipping is a hypothetical altered estimator, not adopted."},
+    "path4": {"pair_count": 12, "exact": ["0", "2/3", "2/3", "0"], "single_draw_expectation":
+    ["0", "2/3", "2/3", "0"], "two_draw_sequence_count": 144}, "weighted_triangle":
+    {"pair_count": 6, "exact": ["3/11", "2/11", "6/11"], "single_draw_expectation":
+    ["3/11", "2/11", "6/11"], "two_draw_sequence_count": 36}}, "sufficient_sample_count":
+    {"n": 3, "epsilon": "1/2", "failure_probability": "1/20", "k": 87, "union_bound":
+    0.0477596630922387}, "scope": "Finite exact-current iid pair enumeration and explicit
+    sufficient-bound algebra; no clipping, author software, numerical-solver guarantee
+    or empirical benchmark."}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261014T050808Z-brandes-fleischer-sampled-current-flow.json
+  accessed_at: '2026-10-14T05:08:39Z'
+  support: supports
+  summary: 'Compared all 442 pinned AIO and 688 native identities; no normalized match.
+    Ignored- and hidden-inclusive searches of three full checkouts returned 89,0,0
+    lines, read as the exact-current record/report and prior chapter leads or query
+    strings. Semantic assessment covered 147 AIO and 522 native definitions: all 147
+    AIO and 521 prior native rows verified unchanged and one newly selected native
+    row read. Nine complete AIO contexts and six full native neighbors were assessed.
+    Algorithm 3 independently samples source–sink pairs and averages scaled electrical
+    throughputs. This differs from Algorithm 1’s exact sorted-row aggregation, grounded
+    resistance-sum closeness, shortest-path dependency accumulation and source-pivot
+    distance or dependency estimation. It estimates a structural graph score, not
+    a causal influence model or a learned predictor.'
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-14T05:08:39Z'
+  support: supports
+  summary: Retain the bounded no-match over nine exact AIO contexts. The method is
+    a graph-score estimator, not clustering, a selection-bias phenomenon, a language
+    model or deep active learning. No forced relation follows from matrix computation
+    or a possible downstream feature use.
+- evidence_id: brandesfleischer2005
+  kind: primary_source
+  reference: https://d-nb.info/1104942720/34
+  locator: Section 5, Theorem 3 and Algorithm 3, PDF p. 10 / printed p. 542; Sections
+    2 and 3.1, Definition 2, PDF pp. 2–5 / printed pp. 534–537; Section 5, p. 10 /
+    p. 542; Section 5, proof of Theorem 3 and Algorithm 3, PDF p. 10 / printed p.
+    542; Section 5, Theorem 3 and its displayed Hoeffding bound, PDF p. 10 / printed
+    p. 542; union-bound algebra in research/discovery/sampled-current-flow-boundaries.py;
+    Section 5, estimator and Algorithm 3, PDF p. 10 / printed p. 542; explicit curator
+    consequences in research/discovery/sampled-current-flow-boundaries.py; Sections
+    4 and 5, conjugate-gradient discussion and Algorithm 3, PDF pp. 8–10 / printed
+    pp. 540–542; Sections 4–6, PDF pp. 7–11 / printed pp. 539–543; Appendix A and
+    Figure 1, PDF p. 12 / printed p. 544
+  accessed_at: '2026-10-14T04:15:45Z'
+  snapshot_sha256: 92063e95b544688e1aabb5468e2fefcb3276520743a661bf9febc8622e90556d
+  support: supports
+  summary: Twelve-page repository-hosted typeset STACS 2005 chapter, Lecture Notes
+    in Computer Science 3404:533–544, with a KOPS deposit overlay on the first page.
+    All text and 22 references read; mathematical pages 2–10 and Appendix A/Figure
+    1 on page 12 visually inspected. Publisher metadata and abstract confirm title,
+    authors, venue, pages and DOI. No author software, raw data or alternate corrected
+    edition was inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/sampled-current-flow-boundaries.py
+  accessed_at: '2026-10-14T05:09:40Z'
+  snapshot_sha256: 939c43263879b33ef763b299d270a94e187703195c8063f8fcb8aaa6255f3dda
+  support: supports
+  summary: Finite rational currents on two paths and a weighted triangle are averaged
+    over all one-draw and two-draw outcomes. Their expectations match exact normalized
+    scores. A three-vertex path exposes estimates above one and bias from hypothetical
+    clipping; repeated pairs do not become exhaustive enumeration. Uniform conductance
+    rescaling and an explicit sufficient union-bound count are checked. These are
+    curator arithmetic checks, not author software or an empirical benchmark.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Brandes–Fleischer sampled-pair current-flow betweenness
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - identity
+  - brandesfleischer2005
+  summary: Retain this distinct DRAFT algorithm.
+  details: Retain Algorithm 3’s independent source–sink pair experiment as distinct
+    from exact sorted-row aggregation, grounded closeness and shortest-path source-pivot
+    estimation. The same electrical centrality target does not make the exact and
+    sampled computation identical. Author-qualified naming avoids claiming a generic
+    approximation is unique to this paper.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - mapping
+  - brandesfleischer2005
+  summary: The explicit AIO mapping assessment is supported within its stated scope.
+  details: Retain the bounded no-match over nine exact AIO contexts. The method is
+    a graph-score estimator, not clustering, a selection-bias phenomenon, a language
+    model or deep active learning. No forced relation follows from matrix computation
+    or a possible downstream feature use.
+- assessment_id: domain-and-target
+  area: evidence
+  topic: domain-and-target
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Definitions in Sections 2/3 specify positive-conductance simple connected
+    undirected networks, endpoint-excluded throughput and ordered-pair normalization
+    n_B=(n-1)(n-2). Algorithm 3 explicitly skips endpoints. The maintained formula
+    uses the source’s Laplacian and Ohm law without adopting its inconsistent current-cycle
+    display.
+- assessment_id: independent-pair-estimator
+  area: evidence
+  topic: independent-pair-estimator
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Theorem 3 defines independent uniform distinct-endpoint pair draws. Multiplying
+    the pair mean by n(n-1)/n_B=n/(n-2) gives exact expectation B. Replacement across
+    draws follows from the independent sampling experiment; targets share draws and
+    need not be independent. Exact-current examples verify single- and two-draw expectations.
+- assessment_id: absolute-error-guarantee
+  area: evidence
+  topic: absolute-error-guarantee
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Throughput is in [0,1], giving the displayed two-sided Hoeffding bound.
+    Multiplying by n and solving for k gives the stated sufficient simultaneous delta
+    bound. Positive integer ell makes the source’s sample count integral and yields
+    its per-target polynomial tail. No source claim of relative accuracy or guaranteed
+    order is imported.
+- assessment_id: sample-range-and-repetition
+  area: evidence
+  topic: sample-range-and-repetition
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: On path3 only two of six ordered pairs send internal current through the
+    middle, so the scaled contribution is 3 with probability 1/3. Exhausting 36 two-draw
+    sequences gives probabilities 4/9,4/9,1/9 at 0,3/2,3. Clipping at one would have
+    mean 5/9, unlike the true score one; it is explicitly hypothetical. Repeated identical
+    pairs are permitted for any k.
+- assessment_id: solver-and-work-boundary
+  area: evidence
+  topic: solver-and-work-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Algorithm 3 makes one reduced solve per pair and traverses incident edges,
+    yielding k solves plus O(km) aggregation. The source’s conjugate-gradient discussion
+    omits an explicit tolerance in its runtime expression. Statistical error for exact
+    throughputs does not automatically account for numerical error, conditioning or
+    a particular preconditioner.
+- assessment_id: evidence-and-method-boundary
+  area: evidence
+  topic: evidence-and-method-boundary
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Algorithm 3 and Section 5 are distinct from Algorithms 1/2 and shortest-path
+    methods. Appendix A states ell=1 and Figure 1’s right panel shows maximum absolute
+    error for six random and six AS graphs. The record gives no extracted numeric
+    advantage, replication, causal inference or learned-performance claim. The paper’s
+    FPRAS wording is qualified by its actual additive theorem.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: iid source–sink versus source-pivot sampling, unbiased expectation versus
+    sample range, clipping, absolute versus relative error, endpoints, solver error
+    and algorithm identity
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - brandesfleischer2005
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Finite rational currents on two paths and a weighted triangle are averaged
+    over all one-draw and two-draw outcomes. Their expectations match exact normalized
+    scores. A three-vertex path exposes estimates above one and bias from hypothetical
+    clipping; repeated pairs do not become exhaustive enumeration. Uniform conductance
+    rescaling and an explicit sufficient union-bound count are checked. These are
+    curator arithmetic checks, not author software or an empirical benchmark.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:BrandesFleischerSampledCurrentFlowBetweenness
+  evidence_ids:
+  - identity
+  - mapping
+  - brandesfleischer2005
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 6 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. Complete maintained fields and all six claims, locators,
+    source metadata/hash, bounded no-match mapping and actual provenance read. The
+    scaled pair average matches the source’s endpoint-excluded normalization. Its
+    probability statement is explicitly additive and assumes exact currents. Source
+    terminology does not establish a relative approximation theorem; above-one sample
+    values and clipping bias remain explicit.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- This round adds one DRAFT concept, reaching 689 native and 442 unchanged AIO records.
+  The main frontier has 874 entries, including 472 pending and 58 partly addressed
+  cohorts; nested leads remain.
+- Complete twelve-page STACS chapter and 22 references; method/equation pages 2–10
+  and Figure 1/page 12 visually read. Earlier Newman manuscript fully read as identity/normalization
+  context.
+- No author software, raw benchmark, corrected chapter or numerical-solver experiment.
+  Additive concentration assumes exact currents and iid pairs. Clipping is hypothetical,
+  not adopted.
+- The broader current-flow chapter lead remains partly addressed. Grounded closeness
+  and the original Newman direct-pair method remain queued with explicit next checks;
+  sampled-pair approximation is added in this round.
+- Original Documents synchronization and old round141 cleanup remain unapproved after
+  automatic-review rejection; only the isolated recovery worktree is modified.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

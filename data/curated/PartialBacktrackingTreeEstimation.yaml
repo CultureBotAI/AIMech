@@ -1,0 +1,169 @@
+id: AIMech:PartialBacktrackingTreeEstimation
+name: Tree-size estimation by partial backtracking
+aliases:
+- Purdom partial-backtracking estimator
+concept_kind: algorithm
+definition: A randomized backtracking-tree estimator that explores a uniformly selected subset of successors
+  at each visited branching point and uses inverse inclusion weights to estimate the total cost of candidate
+  examinations in the corresponding complete fixed search.
+identity_notes: Compared all 442 pinned AIO and 643 native IDs, names, aliases and scoped synonyms; no
+  normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+  discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were
+  inspected. Semantic matching covered 66 AIO and 347 native definitions, with every matched definition
+  read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected. Retain
+  the basic and modified partial-backtracking estimators as one algorithm identity with distinct candidate-testing
+  order. Sampling several successors without replacement extends single-path tree probing without Chen-style
+  stratum merging. Conditional-model extrapolation, search-threshold control and score-based beam pruning
+  have different mechanisms.
+definition_evidence:
+- source_id: purdom1977tr60
+  locator: Section 2, PDF pp. 5–7, Basic B1–B6 and Modified M1–M5
+  relation: supports
+claims:
+- claim_id: basic-subset-weighting
+  kind: mechanism
+  statement: The basic variant chooses m of a candidate values without replacement, with 1 <= m <= a when
+    a is positive. Its sequential remaining-count selection produces a uniform subset. Each selected candidate
+    receives its parent weight multiplied by a/m, contributes its examination cost and is tested for feasibility
+    before recursion. For a finite fixed tree under the stated conditional sampling rule, the weighted
+    estimate preserves the expected complete examination cost. A branch with no candidates terminates.
+  evidence:
+  - source_id: purdom1977tr60
+    locator: Section 2, PDF pp. 5–6, B1–B6 and expectation discussion
+    relation: supports
+- claim_id: modified-pretesting
+  kind: mechanism
+  statement: The modified variant first tests every candidate at a visited parent and charges these tests
+    using the parent weight. It then forms the feasible set, samples m of its a members uniformly without
+    replacement and propagates weight a/m into their descendants. Testing all candidates can avoid choosing
+    a failed branch, but adds work even when only a few feasible children are followed. Basic and modified
+    variants have different sampling populations and cost-accounting order.
+  evidence:
+  - source_id: purdom1977tr60
+    locator: Section 2, PDF pp. 6–7, M1–M5
+    relation: supports
+- claim_id: count-target-and-scope
+  kind: scope
+  statement: 'The target cost may include failed feasibility tests, so it need not equal the number of
+    feasible expanded nodes. The displayed algorithm initializes the accumulated cost to zero and omits
+    a root test, while the later theoretical singleton-tree convention counts a root. Count conventions
+    must therefore be specified. Sampling multiple branches retains omitted-branch uncertainty: a finite
+    partial traversal does not certify that no solution or deep subtree exists, and node-test counts are
+    not universal wall-clock costs.'
+  evidence:
+  - source_id: purdom1977tr60
+    locator: Sections 1–3, PDF pp. 3–9; Section 4, PDF pp. 14–15
+    relation: supports
+- claim_id: efficiency-and-variance-scope
+  kind: limitation
+  statement: The report studies a finite random binary-tree family and a policy that sometimes explores
+    both successors instead of one. Its efficiency measure combines expected work with expected sampling
+    variance conditional on a tree. This is distinct from variance of true tree sizes across the random
+    family. Full traversal can remove sampling variance while remaining costly; the report’s depth-scheduling
+    advice and historical experiments do not establish a universally optimal sampling policy or finite-sample
+    accuracy guarantee.
+  evidence:
+  - source_id: purdom1977tr60
+    locator: Section 3, PDF pp. 8–13; Section 4 and Tables 1–2, PDF pp. 14–18; Figures 2–4, pp. 21–23
+    relation: supports
+- claim_id: printed-analysis-and-version
+  kind: limitation
+  statement: The inspected February 1977 report contains printed analysis inconsistencies. Its displayed
+    tree-size variance recurrence fails the two-level binary-tree case, and the work-distribution recurrence’s
+    literal bracketing loses branching probability mass when both successors are always selected. Displayed
+    policy expressions also conflict with the stated balance equation. These are qualifications on this
+    scanned report, not findings about uninspected implementation code or the later journal version; the
+    record does not certify those formulas or an optimal schedule.
+  evidence:
+  - source_id: purdom1977tr60
+    locator: Section 3, PDF pp. 9–11; report cover, PDF p. 1
+    relation: supports
+evidence_sources:
+- source_id: purdom1977tr60
+  title: Tree Size by Partial Backtracking
+  authors:
+  - Paul W. Purdom
+  persistent_id: https://scholarworks.iu.edu/dspace/items/5e00ff20-ab58-41fc-a866-d45b2988521c
+  version: 'Indiana University Technical Report No. 60, February 1977 as printed on the cover. Institutional
+    23-page scan, all pages visually inspected: Sections 1–4, Basic B1–B6 and Modified M1–M5 algorithms,
+    unnumbered recurrences, Tables 1–2, Figures 1–4 and four references. Repository metadata lists 1978-11;
+    the later November 1978 journal full text was not inspected or assumed equivalent.'
+  source_type: primary_paper
+  url: https://scholarworks.iu.edu/dspace/bitstreams/b3d3d0c0-d1d5-4ffb-952f-fac4efd0b012/download
+  access_level: full_text
+  accessed_at: '2026-10-13T17:56:41Z'
+  sha256: 9e6ad24e9ec6d9bfd2b9232008f1dd0bd00581cb1359274b74d0639949f3e437
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: Compared all 442 pinned AIO and 643 native IDs, names, aliases and scoped synonyms; no
+    normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older
+    discovery and original Documents checkouts returned 20, 0, 0 lines. All distinct match contents were
+    inspected. Semantic matching covered 66 AIO and 347 native definitions, with every matched definition
+    read. 13 full annotated AIO node/edge/generated contexts and 5 full native records were inspected.
+    Retain the basic and modified partial-backtracking estimators as one algorithm identity with distinct
+    candidate-testing order. Sampling several successors without replacement extends single-path tree
+    probing without Chen-style stratum merging. Conditional-model extrapolation, search-threshold control
+    and score-based beam pruning have different mechanisms.
+  rationale: No suitable pinned AIO counterpart was established for this subset-weighted backtracking-tree
+    estimator. The inspected classification, bias, learning-task and probabilistic-network identities
+    have different scopes; the no-match assessment is bounded to the inspected snapshot.
+  examined_targets:
+  - target: AIO:DecisionTree
+    rejection_reason: The pinned class is a classification task. This method estimates additive properties
+      of a backtracking search tree rather than fitting a classifier.
+  - target: AIO:MarkovChain
+    rejection_reason: Random subset selection does not identify the complete fixed-tree additive-cost
+      estimator with a generic stochastic-network class. No appropriate counterpart was established.
+  - target: AIO:SelectionAndSamplingBias
+    rejection_reason: The record is a sampling algorithm with an expectation claim, not the computational
+      bias phenomenon defined by this class.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The additive tree functional is an input; the maintained identity is the randomized
+      estimation procedure.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The algorithm samples an existing implicit tree and need not learn a model or perform
+      a machine-learning task.
+  - target: AIO:RegressionAnalysis
+    rejection_reason: No response-surface regression is required for the weighted tree estimate.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Sampling tree nodes to estimate a sum does not learn a reward-maximizing policy
+      or define exploration–exploitation control.
+  - target: AIO:ProbabilisticGraphicalModel
+    rejection_reason: The search tree is not asserted to factor a joint distribution of random variables;
+      no graphical-model learning task is required.
+  - target: AIO:BayesianNetwork
+    rejection_reason: An implicit rooted search tree is not by itself a Bayesian-network factorization
+      or a sampler from its joint law.
+  - target: AIO:GraphLanguageModel
+    rejection_reason: No graph-based language model is required.
+  - target: AIO:ReasoningLLM
+    rejection_reason: The procedure is not a language-model reasoning architecture.
+  - target: AIO:RecursiveLanguageModel
+    rejection_reason: Tree-structured neural language composition is distinct from randomized additive
+      tree-functional estimation.
+  - target: AIO:ComputationalBias
+    rejection_reason: Statistical bias is a property discussed when assessing estimators, not the identity
+      of this sampling procedure.
+limitations:
+- This record retains basic and modified variants together; neither is score-threshold beam pruning, conditional-model
+  CDP prediction, IDA* threshold control or Chen-style weighted-stratum representative merging.
+- The sampling subset must have the stated conditional inclusion probabilities, and weights must match
+  the actual sample size. Uniform weighting is not valid for arbitrary adaptive or preferential selection.
+- Candidate-test counts, feasible-tree counts, root conventions and variable examination costs must not
+  be interchanged. Tree path occurrences are not automatically deduplicated graph states.
+- Historical matrix-multiplication results include a nine-node discrepancy between prose and an exhaustive
+  table count; the larger problem has no exact comparison count. No numerical benchmark replication or
+  universal performance claim is made.
+- All 23 pages of the February 1977 TR60 scan were visually inspected. Institutional metadata lists 1978-11,
+  but equivalence to the later journal text is unverified. Author software was not inspected or executed;
+  constructed finite examples test boundaries only.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-13T19:22:29Z'
+  updated_at: '2026-10-13T19:22:29Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

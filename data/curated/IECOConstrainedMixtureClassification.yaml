@@ -1,0 +1,199 @@
+id: AIMech:IECOConstrainedMixtureClassification
+name: IECO constrained elliptical-mixture classification
+aliases: []
+concept_kind: algorithm
+definition: A constrained classification procedure that models each known class by
+  a mixture of elliptical category distributions, marginalizes category likelihoods,
+  and assigns independent observations to distinct class slots by minimizing negative
+  log mixture costs together with specified missing-slot prior costs.
+definition_evidence:
+- source_id: ritter1997
+  locator: PDF pp.7–9, Sections3.1–3.4, especially Eqs3 and10–11 and the IECO naming
+    paragraph
+  relation: supports
+claims:
+- claim_id: category-marginalized-class-density
+  kind: mechanism
+  statement: For each class slot j, provide category densities f_jk with nonnegative
+    category priors p_jk summing to one. Under the stated object/category independence
+    assumptions, the class likelihood for observation x_i is sum_k p_jk*f_jk(x_i).
+    IECO specializes these laws to elliptically symmetric regular and outlier distributions;
+    its radial-family choices are model inputs. The observation-to-class cost is the
+    negative natural logarithm of that mixture sum.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF pp.7–9, Sections3.1–3.4, Eqs2–3 and10; IECO naming paragraph
+    relation: supports
+- claim_id: injective-assignment-and-missing-slots
+  kind: mechanism
+  statement: For m observations and n class slots with m<=n, require an injective
+    assignment of observations to slots. With a missing-subset prior proportional
+    to the product of alpha_j over missing slots and an independent uniform permutation
+    prior, append n−m dummy rows of costs −log(alpha_j). Minimize the total n-by-n
+    assignment cost. Repeated slots can encode known class multiplicities; the generic
+    linear-assignment solver is a component, not the classifier identity.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF pp.7–9, Sections3.1–3.4, Eqs4–11; PDF pp.10–12, Section4 application
+      construction
+    relation: supports
+- claim_id: missing-weight-interpretation
+  kind: scope
+  statement: General alpha_j values are nonnegative subset weights with a normalizing
+    constant at fixed m. In the independent-coin construction they are failure odds
+    g_j/(1−g_j), not generally the marginal probabilities that classes are absent.
+    Only the normalized m=n−1 specialization identifies alpha_j with the probability
+    that slot j is missing.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF p.8, Section3.3, Eqs4–7
+    relation: supports
+- claim_id: class-versus-category-decision
+  kind: scope
+  statement: The decision maximizes the posterior of Φ, the injective assignment to
+    indexed virtual class slots, after marginalizing categories. It does not universally
+    maximize the posterior of a biological labeling obtained by merging equivalent
+    slots or category-dependent identities; that target requires aggregating posterior
+    mass over its compatible realizations. Choosing a maximum-posterior category after
+    the slot assignment also does not in general give the joint slot-and-category
+    MAP decision. The 1996 abstract’s minimum-over-quality scoring therefore cannot
+    be substituted for the 1997 mixture-sum costs.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF p.9, Section3.4, concluding category-estimator paragraph
+    relation: supports
+  - source_id: gallegos1996-context
+    locator: Rendered abstract PDF p.2, minimum-over-quality score before classification
+    relation: context
+- claim_id: iec-lineage-special-case
+  kind: scope
+  statement: With one category per class and fixed class multiplicities, the1997 construction
+    includes the earlier independent elliptical classifier setting. The1995 cancellation
+    of class-dependent determinant factors relies on fixed multiplicities; it does
+    not justify dropping those factors when comparing different missing-class or count
+    hypotheses. The generic1997 mixed-class construction supports broader densities,
+    while this proposed IECO record retains the authors’ elliptical specialization.
+  evidence:
+  - source_id: ritter1997
+    locator: PDF p.9, Section3.4, IECO naming and reference to IEC
+    relation: supports
+  - source_id: ritter1995-context
+    locator: PDF pp.4–7, likelihood, constrained classification and common radial-function
+      cases
+    relation: context
+aio_mappings:
+- target: AIO:Classification
+  relation: related_match
+  rationale: The procedure assigns observations to externally specified classes using
+    fitted class-conditional distributions and global class-slot constraints. The
+    inspected target is a classification task under SupervisedLearning, so the association
+    is related rather than an exact or subclass mapping. Unobserved regular/outlier
+    categories do not make the external class labels latent clusters, and two qualities
+    do not imply binary class assignment.
+limitations:
+- The MAP interpretation concerns Φ, the injective indexed-slot variable of Section
+  3, conditional on valid normalized component laws, category priors, object independence,
+  the specified missing-subset product prior, an independent uniform permutation prior
+  and feasible slot constraints. Equivalence to MAP over coarser biological labels
+  requires a separate aggregation argument; exchangeable fixed-multiplicity cases
+  have constant representation counts. This general boundary does not establish failure
+  of the paper’s specific 45-chromosome construction. It does not guarantee correct
+  biological labels or calibrated future error.
+- Positive mixture likelihoods and positive weights give finite costs. Zero likelihoods
+  or zero missing weights require infinite-cost constraints; an all-infeasible assignment
+  has no finite optimum and is not silently made valid.
+- The source’s generic section3 permits multiple category types, while IECO denotes
+  the elliptical regular/outlier specialization. A chromosome-specific construction,
+  a general assignment solver and every finite-mixture classifier are not exact aliases.
+- The author-hosted1997 PDF p.11 Eq13 displays a density symbol equated to an expression
+  with the form of a negative log cost, and its radial argument differs from the explicit
+  norm form in the1996 abstract. The proposal uses the valid supplied-density construction
+  of section3, does not certify Eq13 literally and does not silently repair it. No
+  defect in p.9 Eq9 was established.
+- The1995 Pareto radial family has a support cutoff; an unrestricted log-distance
+  score omitting that cutoff is not asserted equivalent to its literal likelihood.
+  This predecessor boundary is retained rather than imported into IECO as an unqualified
+  formula.
+- The1996 two-page conference abstract is context only and its maximum-over-quality
+  decision differs from the1997 sum-over-category rule. The earlier cutREG notation
+  is not used to patch the1997 fitting text.
+- Complete numerical reproduction needs component fitting, cutoff calibration, category
+  priors, covariance treatment, missing-slot conventions and a solver implementation.
+  No author code, historical benchmark, universal complexity or numerical performance
+  advantage is claimed.
+- The three source artifacts are exact author-hosted versions. Journal publication
+  metadata identifies the works but does not establish equivalence to publisher PDF
+  bytes. Source-version comparison remains a retained question.
+review_status: DRAFT
+identity_notes: Current identity assessment at base 7d38dafe42243c93664bc246a5ff77beca593cd3
+  compared the IDs, names, aliases and scoped synonyms of all 1234 records (4896 field
+  occurrences; 3739 unique normalized values), 19 AIO contexts and 17 native neighbors
+  against the accepted unchanged historical records, plus the current ignored/hidden-inclusive
+  four-root search and full frontier labels with matched/plausible owner bodies. This
+  record is the supplied-density IECO constrained virtual-slot assignment procedure,
+  with categories marginalized before MAP of Phi. It is distinct from POP/BAS/OUT
+  parameter fitting, independent per-object Gaussian QDA/LDA, Naive Bayes feature
+  independence, SeLa learned pseudo-label transport, and iterative conditional estimation.
+  The 1995 singleton-category fixed-count setting is contextual lineage, not an exact
+  alias; the 1996 maximum-over-quality rule differs from the 1997 category sum. No
+  universal MAP claim for aggregated biological labels is made. No exact pinned AIO
+  identity was established in the inspected scope; the selected AIO:Classification
+  related_match connects an algorithm to a task, not an equivalence or subclass claim.
+  Proposed main:913 is shared source responsibility for two separate records, retaining
+  all 22 bibliography occurrences and explicit residual questions. AutoClass retains
+  main:610. Frozen issue402 and issues404/406 plus the prior twelve search questions
+  remain unchanged; no source exhaustion is claimed.
+evidence_sources:
+- source_id: ritter1997
+  title: Outliers in Statistical Pattern Recognition and an Application to Automatic
+    Chromosome Classification
+  authors:
+  - Gunter Ritter
+  - María Teresa Gallegos
+  source_type: primary_paper
+  url: https://www.fim.uni-passau.de/fileadmin/dokumente/fakultaeten/fim/lehrstuhl/ritter/publications/rigall_outlier97.pdf
+  persistent_id: doi:10.1016/S0167-8655(97)00049-4
+  version: Author-hosted 17-page manuscript bearing the header Appeared in Pattern
+    Recognition Letters18(1997)525–539; publisher byte equivalence unverified. Locators
+    use internal PDF pages, not inferred journal offsets.
+  access_level: full_text
+  accessed_at: '2026-10-15T23:01:09Z'
+  sha256: 3e52f264d9803cdc4a5d9086592391203858d2a3eefc33f8a235e311ace53e25
+- source_id: ritter1995-context
+  title: Automatic context-sensitive karyotyping of human chromosomes based on elliptically
+    symmetric statistical distributions
+  authors:
+  - Gunter Ritter
+  - María Teresa Gallegos
+  - Karl Gaggermeier
+  source_type: primary_paper
+  url: https://www.fim.uni-passau.de/fileadmin/dokumente/fakultaeten/fim/lehrstuhl/ritter/publications/rigaga95.pdf
+  version: Author-hosted 13-page version bearing a Pattern Recognition28(1995)823–831
+    header; all pages visually read. Publisher byte equivalence unverified; lineage
+    context only.
+  access_level: full_text
+  accessed_at: '2026-10-15T23:22:47Z'
+  sha256: aefbb4588e6316fa04e148d1c52e1e0f6cdeaf317590480320b24a8fe671215b
+- source_id: gallegos1996-context
+  title: 'Outlier Treatment: A New Statistical Method for Automatic Chromosome Classification'
+  authors:
+  - María Teresa Gallegos
+  - Gunter Ritter
+  source_type: primary_paper
+  url: https://www.fim.uni-passau.de/fileadmin/dokumente/fakultaeten/fim/lehrstuhl/ritter/publications/gallcompstat96.pdf
+  version: Author-hosted two-page COMPSTAT96 conference abstract; both pages visually
+    read because native extraction is garbled. Abstract-level lineage context only,
+    not independent full-method evidence.
+  access_level: abstract_only
+  accessed_at: '2026-10-15T23:22:48Z'
+  sha256: 2f7496ce08ab17bb94bf4a1d70585877b0548ac82330da9781a0c018a4af8d7e
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+curation:
+  created_at: '2026-10-16T02:03:17Z'
+  updated_at: '2026-10-16T02:03:17Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

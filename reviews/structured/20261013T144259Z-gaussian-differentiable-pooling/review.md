@@ -1,0 +1,522 @@
+# Scientific author self-review of Gaussian Differentiable Pooling
+
+- Review: 20261013T144259Z-gaussian-differentiable-pooling
+- Repository: CultureBotAI/AIMech
+- Started UTC: 2026-10-13T14:37:06Z
+- Finished UTC: 2026-10-13T14:42:59Z
+- Reviewer: Codex (self_review)
+- Completion: completed
+- Verdict: pass_with_limitations
+- Scientific review: true
+
+## Summary
+
+Retain Gaussian Differentiable Pooling as a DRAFT native layer with explicit AIO mappings. Complete fields were assessed against the primarypaper and constructedcalculations. Source indexing/derivative discrepancies are qualified in the record; no actionable maintained-record defect identified. Author implementation and empirical replication excluded.
+
+## Scope And Provenance
+
+All maintained fields and the complete inspected primary sources.
+
+Selection: Exact maintained ID: AIMech:GaussianDifferentiablePooling
+Coverage: full; 1 reviewed / 1 in the declared population.
+Source: working_tree at Git base 789aab1661e460125c7e06de736dacb700349ddc.
+Working-tree hashes do not imply those bytes were committed.
+
+| Target | Path / selector | Kind | Label |
+| --- | --- | --- | --- |
+| AIMech:GaussianDifferentiablePooling | data/curated/GaussianDifferentiablePooling.yaml | maintained | Gaussian Differentiable Pooling |
+
+## Validation
+
+| Check | Status | Required | Targets | Result |
+| --- | --- | --- | --- | --- |
+| just check | passed | True | AIMech:GaussianDifferentiablePooling | All checks passed!<br>........................................................................ [ 28%]<br>........................................................................ [ 57%]<br>........................................................................ [ 86%]<br>...............................sss                                       [100%]<br>247 passed, 3 skipped in 151.26s (0:02:31)<br>Checked 442 record(s); 0 failed.<br>Checked 625 curated concept record(s); 0 error(s).<br>AIO: 442 records; 0 missing, 0 changed, 0 unexpected.<br>Checked 300 history record(s); 0 error(s).<br>{<br>  "repository": "CultureBotAI/AIMech",<br>  "valid_reviews": 297,<br>  "coverage": "declared_scopes_only"<br>}<br>uv run --locked --extra dev python scripts/check.py<br>topClass is deprecated - use top_class<br> |
+| just vendored-check | passed | True | AIMech:GaussianDifferentiablePooling | OK: 22 governed artifacts match the pinned claw revision<br>bash scripts/check_vendored_sync.sh<br> |
+| uv run --locked aimech check-source | passed | True | AIMech:GaussianDifferentiablePooling | Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a<br> |
+| git diff --check | passed | True | AIMech:GaussianDifferentiablePooling | Exited0 without output. |
+| Constructed mechanism boundaries | passed | True | AIMech:GaussianDifferentiablePooling | {"activation_max": 9, "analytic_jacobian": [[0.17888543819998318, -0.044721359549995794], [-0.08944271909999159, 0.02236067977499789]], "arbitrary_region_projection": [0.19999999999999998, 0.39999999999999997], "arithmetic_mean": 2.5, "finite_difference": [[0.17888543820676614, -0.04472135954891598], [-0.08944271909783195, 0.022360679780009104]], "overlapping_unit_columns_gram": [[0.9999999999999999, 0.9999999999999999], [0.9999999999999999, 0.9999999999999999]], "printed_eq19_off_diagonal": 0.08944271909999159, "printed_eq20_diagonal": 0.021114561800016828, "scalar_recovered_from_own_unpooling": 3.0, "sharp_spatial_mean_pool": 1.0000000001249916, "unit_l2_weights": [0.4472135954999579, 0.8944271909999159], "zero_precision_pool": 5.0} |
+
+## Scientific And Domain Assessments
+
+### Gaussian Differentiable Pooling
+
+identity: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Retain this distinct DRAFT layer.
+
+Retain the specific2012spatial Gaussian component. Source2016uses Gaussian kernels over activation values instead; learned-norm pooling and stochastic pooling are also distinct. The unrestricted phrase differentiable pooling is not asserted as an alias.
+
+### Explicit AIO mapping
+
+grounding: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+The declared AIO mapping is supported.
+
+PoolingLayer is broader by spatial aggregation and downsampling. DeconvolutionalNetwork is the complete demonstrated architecture, related at a different abstraction level. Fixed maximum, ordinary arithmetic average and MaxUnpool2D do not define this continuous Gaussian component. Five full AIO contexts and three full native neighbors were inspected.
+
+### gaussian-weights-and-spatial-limits
+
+evidence: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equation8normalizes squared weights, not their sum. Zero precision gives1/sqrt(n); highprecisionmeanslocationselection, notinherentlyactivationargmax. Constructedexamplesverifybothlimits.
+
+### conditional-unpooling-and-projection
+
+evidence: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Equations2–3andfootnote2support scalar recovery from its generated unpooling with fixed nonoverlapping weights. Arbitraryregionsproject; overlappingunitcolumnsneedadditionalorthogonality. The printed index is explicitly qualified rather than copied ascorrect.
+
+### image-specific-inference-and-training
+
+evidence: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Poolingparametersandtopfeaturesareimage-specific;filtersare shared. The globalreconstructionobjective admitsjointinference; Section4.1fixespretrainedfirst-layerfiltersinthepreferredschedule. Noall-filterjointtrainingorfeedforward-onlyclaim.
+
+### normalization-gradient-discrepancy
+
+evidence: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+Direct differentiation ofEq8and finite differences agree; printedEqs19–20do not. The recordlimitsfindingto theinspectedsourcemathematicswithoutinferringanimplementationbug. Both diagonal and offdiagonal examples verified.
+
+### optimization-and-empirical-boundaries
+
+evidence: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Supported within the stated primary-source and mathematical scope.
+
+RecordstatesconfiguredMNISTarchitectureandseparateSVM,nonnegativefiniteupdatesandnonconvexity. No numericalperformanceestimate,universalbenefit,uniquerepresentationorunconditionalinvariance asserted.
+
+### spatial component identity, square-root normalization, precision limits, conditional projections and source derivative discrepancies
+
+consistency: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Constructed calculations support the stated distinctions.
+
+Constructed normalization, finite-difference Jacobian, scalar-recovery, arbitrary-region projection, overlapping-column and spatial-precision examples verify the stated mathematical boundaries. Printed Eq19 has the wrong off-diagonal sign for Eq8; no author implementation behavior or empirical result is inferred.
+
+### All maintained fields
+
+provenance: supported. Targets: AIMech:GaussianDifferentiablePooling.
+
+Complete maintained record inspected; DRAFT remains.
+
+Read ID/name/aliases, kind, definition and evidence, identity context, all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping, limitations and actual curation timestamps. Capture/source/context hashes and exact report mirror agree. All five claims, definition, identity/kind, sources/version/access/hash, AIO mappings/pin, limitations and curation fields assessed. Rechecked square-root normalization, spatial precision limits, conditional recovery versus general projection, derivative discrepancies and the difference between joint inference and simultaneous filter learning.
+
+## Findings
+
+No findings recorded within this review's declared scope.
+
+## Recommended Actions And Acceptance Checks
+
+## Category Boundaries
+
+
+## Evidence
+
+| Evidence | Reference / locator | Support | Observation |
+| --- | --- | --- | --- |
+| identity | research/discovery/20261013T143656Z-gaussian-differentiable-pooling.json | supports | Compared all 442 pinned AIO and 624 native IDs, names, aliases and scoped synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string searches of the recovery, older discovery and original Documents checkouts returned 10, 0, 0 lines. All distinct match contents were inspected. Semantic matching covered 32 AIO and 54 native definitions, with every matched definition read. 5 full annotated AIO node/edge/generated contexts and 3 full native records were inspected. Retain the specific Zeiler–Fergus2012 spatial Gaussian pooling component. Its inferred location/precision and unit-L2 weights distinguish it from power-mean channel units, activation-proportional random location selection, saved discrete switches, fixed average/max pooling and complete deconvolutional architectures. Generic differentiable pooling and Gaussian pooling search terms are not asserted as unrestricted aliases. Acoustic adaptation and visual Gaussian-readout search leads require separate identity/primary evidence assessment. |
+| mapping | sources/aio/aio.json | supports | PoolingLayer is broader by spatial aggregation and downsampling. DeconvolutionalNetwork is the complete demonstrated architecture, related at a different abstraction level. Fixed maximum, ordinary arithmetic average and MaxUnpool2D do not define this continuous Gaussian component. Five full AIO contexts and three full native neighbors were inspected. |
+| zeiler2012 | https://arxiv.org/pdf/1207.0151v1; Complete12-pagearXiv1207.0151v1 visually inspected. Other versions, author implementation and empirical replication excluded. The separately read2016acoustic paper is identity/lead context, not a supporting source for the2012method. | supports | arXiv:1207.0151v1, 30 June 2012, twelve pages. All pages visually inspected including equations, Algorithm1, figures, tables, footnotes and references. PDF and printed page numbers agree; other versions and author code not inspected. |
+| calculation | research/discovery/gaussian-differentiable-pooling-boundaries.py | supports | Constructed normalization, finite-difference Jacobian, scalar-recovery, arbitrary-region projection, overlapping-column and spatial-precision examples verify the stated mathematical boundaries. Printed Eq19 has the wrong off-diagonal sign for Eq8; no author implementation behavior or empirical result is inferred. |
+
+## Limits And Additional Notes
+
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark replication.
+- One new DRAFT concept, yielding 625 native and 442 unchanged generated records. The 810-entry main frontier retains 475 pending and 57 partly addressed cohorts, plus nested leads; discovery is incomplete.
+- All twelve PDF pages visually inspected, including equations, Algorithm1, figures, tables, footnotes and all23 references; author implementation and other versions excluded.
+- No author code, training, paid service, hardware measurement or empirical replication. Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization and old round141 cleanup remain pending explicit approval after automatic review rejection.
+
+## Complete Structured Record
+
+The sibling review.yaml is authoritative.
+
+```yaml
+schema_version: 1.0.0
+review_id: 20261013T144259Z-gaussian-differentiable-pooling
+kind: record
+repository: CultureBotAI/AIMech
+title: Scientific author self-review of Gaussian Differentiable Pooling
+started_at: '2026-10-13T14:37:06Z'
+finished_at: '2026-10-13T14:42:59Z'
+reviewer:
+  identity: Codex
+  kind: agent
+  model: GPT-6
+  independence: self_review
+  independence_basis: The author challenged spatial component identity, square-root
+    normalization, precision limits, conditional projections and source derivative
+    discrepancies. This is adversarial author self-review, not independent approval.
+skill: .claude/skills/review-yaml-record/SKILL.md
+completion: completed
+verdict: pass_with_limitations
+scientific_review: true
+summary: Retain Gaussian Differentiable Pooling as a DRAFT native layer with explicit
+  AIO mappings. Complete fields were assessed against the primarypaper and constructedcalculations.
+  Source indexing/derivative discrepancies are qualified in the record; no actionable
+  maintained-record defect identified. Author implementation and empirical replication
+  excluded.
+source:
+  git_revision: 789aab1661e460125c7e06de736dacb700349ddc
+  state: working_tree
+  inputs:
+  - path: data/aio/AveragePooling2DLayer.yaml
+    sha256: c74f96fe4c3cfb4d4a4de2961a07bfa92dada4ccfc38223d2cfd80547f16d063
+    role: context
+  - path: data/aio/DeconvolutionalNetwork.yaml
+    sha256: 9349bc41b53f8948ed116ee0b4ce856ac2dbc21b193bb461a9e86b230ce82654
+    role: context
+  - path: data/aio/MaxPooling2DLayer.yaml
+    sha256: c8304ee279ce389eeaab9502eb4673de7cc0a89931c199700714db09707d8937
+    role: context
+  - path: data/aio/MaxUnpool2DLayer.yaml
+    sha256: 61e107019616856102104138e50afeb2b9f1ae1789992a0d92a8add0450992a6
+    role: context
+  - path: data/aio/PoolingLayer.yaml
+    sha256: 2a5cc182b52109a337a926a42bd715d5f1142e2a0876a8bfbc41890846e84246
+    role: context
+  - path: data/curated/AdaptiveDeconvolutionalNetwork.yaml
+    sha256: ca2d67e06444f8ad2fd4028ecf96f746f9dc212db2d13e8f0abeb832a0127244
+    role: context
+  - path: data/curated/GaussianDifferentiablePooling.yaml
+    sha256: 85ea11fb153f768aa31eaf690df7769e3696fb0f7be80a86650dcf564bf1a900
+    role: target
+  - path: data/curated/LearnedNormPoolingUnit.yaml
+    sha256: fb36da3270a145c8813181b645d14efff155cc08999e17f49a67e49a4d156337
+    role: context
+  - path: data/curated/StochasticPooling.yaml
+    sha256: 5e70a56403aae673f3d0d41f0a4c2bc546335b54d948c229e44c1d2e7d7458ad
+    role: context
+  - path: research/discovery/20261013T143656Z-gaussian-differentiable-pooling.json
+    sha256: 576b113c2fab8ba297e5e95d9d537bb184b098340569482d7be62a0db73fa3e5
+    role: context
+  - path: research/discovery/gaussian-differentiable-pooling-boundaries.py
+    sha256: 3b8b20192922427891b5366f7837c3a83bcc7ef1282a2405d9895ed2f19bd3cc
+    role: context
+  - path: sources/aio/aio.json
+    sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+    role: context
+  - path: sources/aio/source.yaml
+    sha256: a12f1e974c25fab2ebff5e44150fb86f64399471accdf0baeafd986f00e6f345
+    role: context
+  - path: src/aimech/curated.py
+    sha256: 67cc03d7def5f62490cc1f5db320a7c18fdfd41cebf43a35ad2bb88c32cd40d5
+    role: context
+  - path: src/aimech/schema/curated_concept.yaml
+    sha256: a4b7e2f0327eb784d2c5b98c713534f644adf3a7848d4e3c2995e772425725c4
+    role: context
+targets:
+- target_id: AIMech:GaussianDifferentiablePooling
+  path: data/curated/GaussianDifferentiablePooling.yaml
+  label: Gaussian Differentiable Pooling
+  kind: maintained
+  record_class: CuratedAIConcept
+  owner_paths:
+  - repository: CultureBotAI/AIMech
+    path: data/curated/GaussianDifferentiablePooling.yaml
+    role: maintained
+scope:
+  description: All maintained fields and the complete inspected primary sources.
+  selection: 'Exact maintained ID: AIMech:GaussianDifferentiablePooling'
+  coverage: full
+  population_size: 1
+  reviewed_target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exclusions:
+  - target: Neighboring AIO and native records
+    reason: Identity and mapping context, not complete scientific rereview.
+  - target: Other source versions and author implementation
+    reason: Complete12-pagearXiv1207.0151v1 visually inspected. Other versions, author
+      implementation and empirical replication excluded. The separately read2016acoustic
+      paper is identity/lead context, not a supporting source for the2012method.
+  - target: Training, benchmark replication and universal guarantees
+    reason: No model fitting, hardware experiment or general convergence certification.
+checks:
+- check_id: required-0
+  name: just check
+  command: just check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: "All checks passed!\n........................................................................\
+    \ [ 28%]\n........................................................................\
+    \ [ 57%]\n........................................................................\
+    \ [ 86%]\n...............................sss                                 \
+    \      [100%]\n247 passed, 3 skipped in 151.26s (0:02:31)\nChecked 442 record(s);\
+    \ 0 failed.\nChecked 625 curated concept record(s); 0 error(s).\nAIO: 442 records;\
+    \ 0 missing, 0 changed, 0 unexpected.\nChecked 300 history record(s); 0 error(s).\n\
+    {\n  \"repository\": \"CultureBotAI/AIMech\",\n  \"valid_reviews\": 297,\n  \"\
+    coverage\": \"declared_scopes_only\"\n}\nuv run --locked --extra dev python scripts/check.py\n\
+    topClass is deprecated - use top_class\n"
+- check_id: required-1
+  name: just vendored-check
+  command: just vendored-check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'OK: 22 governed artifacts match the pinned claw revision
+
+    bash scripts/check_vendored_sync.sh
+
+    '
+- check_id: required-2
+  name: uv run --locked aimech check-source
+  command: uv run --locked aimech check-source
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: 'Verified AIO https://w3id.org/aio/releases/2026-07-22/aio.json at 397851c547d1c4d8f06ef184f63c1d40bc86937a
+
+    '
+- check_id: required-3
+  name: git diff --check
+  command: git diff --check
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: Exited0 without output.
+- check_id: calculation
+  name: Constructed mechanism boundaries
+  command: python3 research/discovery/gaussian-differentiable-pooling-boundaries.py
+  status: passed
+  required: true
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  exit_code: 0
+  expected_exit_code: 0
+  summary: '{"activation_max": 9, "analytic_jacobian": [[0.17888543819998318, -0.044721359549995794],
+    [-0.08944271909999159, 0.02236067977499789]], "arbitrary_region_projection": [0.19999999999999998,
+    0.39999999999999997], "arithmetic_mean": 2.5, "finite_difference": [[0.17888543820676614,
+    -0.04472135954891598], [-0.08944271909783195, 0.022360679780009104]], "overlapping_unit_columns_gram":
+    [[0.9999999999999999, 0.9999999999999999], [0.9999999999999999, 0.9999999999999999]],
+    "printed_eq19_off_diagonal": 0.08944271909999159, "printed_eq20_diagonal": 0.021114561800016828,
+    "scalar_recovered_from_own_unpooling": 3.0, "sharp_spatial_mean_pool": 1.0000000001249916,
+    "unit_l2_weights": [0.4472135954999579, 0.8944271909999159], "zero_precision_pool":
+    5.0}'
+evidence:
+- evidence_id: identity
+  kind: search
+  reference: research/discovery/20261013T143656Z-gaussian-differentiable-pooling.json
+  accessed_at: '2026-10-13T14:37:06Z'
+  support: supports
+  summary: Compared all 442 pinned AIO and 624 native IDs, names, aliases and scoped
+    synonyms; no normalized identity match. Ignored- and hidden-inclusive fixed-string
+    searches of the recovery, older discovery and original Documents checkouts returned
+    10, 0, 0 lines. All distinct match contents were inspected. Semantic matching
+    covered 32 AIO and 54 native definitions, with every matched definition read.
+    5 full annotated AIO node/edge/generated contexts and 3 full native records were
+    inspected. Retain the specific Zeiler–Fergus2012 spatial Gaussian pooling component.
+    Its inferred location/precision and unit-L2 weights distinguish it from power-mean
+    channel units, activation-proportional random location selection, saved discrete
+    switches, fixed average/max pooling and complete deconvolutional architectures.
+    Generic differentiable pooling and Gaussian pooling search terms are not asserted
+    as unrestricted aliases. Acoustic adaptation and visual Gaussian-readout search
+    leads require separate identity/primary evidence assessment.
+  search_scope: All maintained/generated IDs, labels, aliases and scoped synonyms
+    normalized; full-text searches of the public clone and readable previous worktree
+    include ignored/hidden files. Original Documents access is restored; its full
+    readable checkout is included, with no mutation.
+- evidence_id: mapping
+  kind: record_content
+  reference: sources/aio/aio.json
+  accessed_at: '2026-10-13T14:37:06Z'
+  support: supports
+  summary: PoolingLayer is broader by spatial aggregation and downsampling. DeconvolutionalNetwork
+    is the complete demonstrated architecture, related at a different abstraction
+    level. Fixed maximum, ordinary arithmetic average and MaxUnpool2D do not define
+    this continuous Gaussian component. Five full AIO contexts and three full native
+    neighbors were inspected.
+- evidence_id: zeiler2012
+  kind: primary_source
+  reference: https://arxiv.org/pdf/1207.0151v1
+  locator: Complete12-pagearXiv1207.0151v1 visually inspected. Other versions, author
+    implementation and empirical replication excluded. The separately read2016acoustic
+    paper is identity/lead context, not a supporting source for the2012method.
+  accessed_at: '2026-10-13T14:08:37Z'
+  snapshot_sha256: ab91fb2534c305d11b02f0ad505cef9750584b6422613808aea3f5f619e1f290
+  support: supports
+  summary: arXiv:1207.0151v1, 30 June 2012, twelve pages. All pages visually inspected
+    including equations, Algorithm1, figures, tables, footnotes and references. PDF
+    and printed page numbers agree; other versions and author code not inspected.
+- evidence_id: calculation
+  kind: record_content
+  reference: research/discovery/gaussian-differentiable-pooling-boundaries.py
+  accessed_at: '2026-10-13T14:37:48Z'
+  snapshot_sha256: 3b8b20192922427891b5366f7837c3a83bcc7ef1282a2405d9895ed2f19bd3cc
+  support: supports
+  summary: Constructed normalization, finite-difference Jacobian, scalar-recovery,
+    arbitrary-region projection, overlapping-column and spatial-precision examples
+    verify the stated mathematical boundaries. Printed Eq19 has the wrong off-diagonal
+    sign for Eq8; no author implementation behavior or empirical result is inferred.
+assessments:
+- assessment_id: identity
+  area: identity
+  topic: Gaussian Differentiable Pooling
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - identity
+  - zeiler2012
+  summary: Retain this distinct DRAFT layer.
+  details: Retain the specific2012spatial Gaussian component. Source2016uses Gaussian
+    kernels over activation values instead; learned-norm pooling and stochastic pooling
+    are also distinct. The unrestricted phrase differentiable pooling is not asserted
+    as an alias.
+- assessment_id: mapping
+  area: grounding
+  topic: Explicit AIO mapping
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - mapping
+  - zeiler2012
+  summary: The declared AIO mapping is supported.
+  details: PoolingLayer is broader by spatial aggregation and downsampling. DeconvolutionalNetwork
+    is the complete demonstrated architecture, related at a different abstraction
+    level. Fixed maximum, ordinary arithmetic average and MaxUnpool2D do not define
+    this continuous Gaussian component. Five full AIO contexts and three full native
+    neighbors were inspected.
+- assessment_id: gaussian-weights-and-spatial-limits
+  area: evidence
+  topic: gaussian-weights-and-spatial-limits
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equation8normalizes squared weights, not their sum. Zero precision gives1/sqrt(n);
+    highprecisionmeanslocationselection, notinherentlyactivationargmax. Constructedexamplesverifybothlimits.
+- assessment_id: conditional-unpooling-and-projection
+  area: evidence
+  topic: conditional-unpooling-and-projection
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Equations2–3andfootnote2support scalar recovery from its generated unpooling
+    with fixed nonoverlapping weights. Arbitraryregionsproject; overlappingunitcolumnsneedadditionalorthogonality.
+    The printed index is explicitly qualified rather than copied ascorrect.
+- assessment_id: image-specific-inference-and-training
+  area: evidence
+  topic: image-specific-inference-and-training
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Poolingparametersandtopfeaturesareimage-specific;filtersare shared. The
+    globalreconstructionobjective admitsjointinference; Section4.1fixespretrainedfirst-layerfiltersinthepreferredschedule.
+    Noall-filterjointtrainingorfeedforward-onlyclaim.
+- assessment_id: normalization-gradient-discrepancy
+  area: evidence
+  topic: normalization-gradient-discrepancy
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  - calculation
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: Direct differentiation ofEq8and finite differences agree; printedEqs19–20do
+    not. The recordlimitsfindingto theinspectedsourcemathematicswithoutinferringanimplementationbug.
+    Both diagonal and offdiagonal examples verified.
+- assessment_id: optimization-and-empirical-boundaries
+  area: evidence
+  topic: optimization-and-empirical-boundaries
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  summary: Supported within the stated primary-source and mathematical scope.
+  details: RecordstatesconfiguredMNISTarchitectureandseparateSVM,nonnegativefiniteupdatesandnonconvexity.
+    No numericalperformanceestimate,universalbenefit,uniquerepresentationorunconditionalinvariance
+    asserted.
+- assessment_id: constructed-boundaries
+  area: consistency
+  topic: spatial component identity, square-root normalization, precision limits,
+    conditional projections and source derivative discrepancies
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - zeiler2012
+  - calculation
+  summary: Constructed calculations support the stated distinctions.
+  details: Constructed normalization, finite-difference Jacobian, scalar-recovery,
+    arbitrary-region projection, overlapping-column and spatial-precision examples
+    verify the stated mathematical boundaries. Printed Eq19 has the wrong off-diagonal
+    sign for Eq8; no author implementation behavior or empirical result is inferred.
+- assessment_id: complete-fields
+  area: provenance
+  topic: All maintained fields
+  outcome: supported
+  target_ids:
+  - AIMech:GaussianDifferentiablePooling
+  evidence_ids:
+  - identity
+  - mapping
+  - zeiler2012
+  summary: Complete maintained record inspected; DRAFT remains.
+  details: Read ID/name/aliases, kind, definition and evidence, identity context,
+    all 5 claims/locators, source identities/versions/access/hashes, AIO pin and mapping,
+    limitations and actual curation timestamps. Capture/source/context hashes and
+    exact report mirror agree. All five claims, definition, identity/kind, sources/version/access/hash,
+    AIO mappings/pin, limitations and curation fields assessed. Rechecked square-root
+    normalization, spatial precision limits, conditional recovery versus general projection,
+    derivative discrepancies and the difference between joint inference and simultaneous
+    filter learning.
+findings: []
+actions: []
+limitations:
+- Author self-review only; no independent approval or status promotion.
+- Constructed calculations assess mathematical boundaries; they are not benchmark
+  replication.
+- One new DRAFT concept, yielding 625 native and 442 unchanged generated records.
+  The 810-entry main frontier retains 475 pending and 57 partly addressed cohorts,
+  plus nested leads; discovery is incomplete.
+- All twelve PDF pages visually inspected, including equations, Algorithm1, figures,
+  tables, footnotes and all23 references; author implementation and other versions
+  excluded.
+- No author code, training, paid service, hardware measurement or empirical replication.
+  Constructed checks test stated boundaries only.
+- Only the isolated recovery checkout is changed; original-checkout synchronization
+  and old round141 cleanup remain pending explicit approval after automatic review
+  rejection.
+related_reviews: []
+links: []
+tags:
+- native-concepts
+- self-review
+- discovery-ongoing
+```

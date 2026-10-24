@@ -1,0 +1,175 @@
+id: AIMech:SteinVariationalPolicyGradient
+name: Stein Variational Policy Gradient
+aliases:
+- SVPG
+concept_kind: algorithm
+definition: A policy optimization method that applies Stein variational gradient descent
+  to an entropy-regularized distribution over policy parameters, updating multiple
+  policies through kernel-weighted return and prior gradients together with kernel-gradient
+  repulsion.
+definition_evidence:
+- source_id: liu2017-uai
+  locator: PDF p.3, Sections3.1–3.2, Eqs.5–8; p.4, Eq.9 and Algorithm1
+  relation: supports
+identity_notes: The current cohort361 prewrite comparison at base add2c806f6729c8599f4d5cfd6d75c7decde006c
+  covered 1,243 maintained records (801 native and 442 pinned AIO), 4,927 identity-field
+  occurrences and 3,766 normalized values. Candidate-normalized identity matches were
+  empty. Four ignored- and hidden-inclusive fixed-string/word-boundary scans produced
+  6,732 occurrences across 1,557 distinct matching contents, assessed through three
+  attributed reader scopes and exact inherited-wrapper reconstruction. SVPG denotes
+  the source-scoped interacting-policy-particle optimizer, distinct from direct SVGD
+  target approximation, amortized differentiable-sampler fitting, SoftQ action sampling,
+  REINFORCE, GAE and TRPO. Its policy-objective gradient and kernel interaction do
+  not imply an unrestricted KL guarantee, exact samples or mandatory neural architecture.
+  Main909 retains 71 citation occurrences, 36 family groupings, five questions and
+  three search-only leads, together with original cohort355/359 provenance. The AIO
+  reinforcement-learning related_match expresses a task relationship rather than algorithm
+  equivalence.
+claims:
+- claim_id: parameter-distribution-objective
+  kind: mechanism
+  statement: SVPG optimizes a distribution q over policy parameters using expected
+    return minus alpha times KL(q||q0), rather than directly adding entropy to each
+    action distribution.
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.3, Section3.1, Eqs.5–6
+    relation: supports
+- claim_id: normalized-tilted-target
+  kind: mechanism
+  statement: For positive temperature and a finite normalizer, the entropy-regularized
+    target has density proportional to q0(theta) exp(J(theta)/alpha).
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.3, Section3.1, Eq.7
+    relation: supports
+- claim_id: interacting-policy-update
+  kind: mechanism
+  statement: Its empirical update combines kernel-weighted return and prior gradients
+    with the gradient of the kernel across a population of policy-parameter particles.
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.3, Eq.8; p.4, Eq.9 and Algorithm1
+    relation: supports
+  - source_id: liu2017-arxiv-v1
+    locator: PDF pp.3–4, Section3.2, Eqs.8–9 and Algorithm1; earlier source version
+    relation: context
+- claim_id: return-gradient-inputs
+  kind: scope
+  statement: The method accepts policy-return gradient estimates, with finite-difference
+    and likelihood-ratio estimators presented as possible inputs; experiments instantiate
+    REINFORCE and A2C.
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.2, Section2.2, Eqs.1–4; p.4, Eq.9; p.6, Section5
+    relation: supports
+- claim_id: actor-critic-update-scope
+  kind: scope
+  statement: In the reported actor-critic implementation, SVPG updates policy parameters;
+    critic parameters retain ordinary TD-error-gradient updates.
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.6, Section5 opening paragraphs
+    relation: supports
+- claim_id: experimental-comparison-design
+  kind: scope
+  statement: The paper evaluates interacting policies against independent-policy and
+    pooled-data single-policy baselines on four continuous-control tasks, with matched
+    total transition counts per training iteration.
+  evidence:
+  - source_id: liu2017-uai
+    locator: PDF p.5, Figure1 and Table1; p.6, Sections5–5.2; p.7, Section5.3
+    relation: supports
+evidence_sources:
+- source_id: liu2017-uai
+  title: Stein Variational Policy Gradient
+  authors:
+  - Yang Liu
+  - Prajit Ramachandran
+  - Qiang Liu
+  - Jian Peng
+  source_type: primary_paper
+  url: https://auai.org/uai2017/proceedings/papers/239.pdf
+  version: Official UAI2017 proceedings paper239; inspected nine-page PDF; byte-identical
+    to PMLR R15 reissue, scientific publication2017
+  access_level: full_text
+  accessed_at: '2026-10-16T02:34:36Z'
+  sha256: c59f60fe4c2f28ba2dacb78b0c37783e5860cef327fb35529962b6038206f341
+- source_id: liu2017-arxiv-v1
+  title: Stein Variational Policy Gradient
+  authors:
+  - Yang Liu
+  - Prajit Ramachandran
+  - Qiang Liu
+  - Jian Peng
+  source_type: primary_paper
+  url: https://arxiv.org/pdf/1704.02399v1
+  version: arXiv:1704.02399v1, submitted7 April2017; earlier nine-page source version
+    used for comparison, not independent replication
+  access_level: full_text
+  accessed_at: '2026-10-16T02:34:36Z'
+  sha256: 0a1e2e5b220b1273cbec8fc0b93db22cf39ddc09681215921682d87018c74ea7
+  persistent_id: arXiv:1704.02399v1
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_mappings:
+- target: AIO:ReinforcementLearning
+  relation: related_match
+  rationale: In this scientific preparation, SVPG is a policy optimization algorithm
+    serving the pinned reinforcement-learning task, which is an AIO MachineLearningTask.
+    This algorithm-to-task relationship asserts neither equivalence nor subclass or
+    broad-match inclusion. Parameterized policies need not use the neural architecture
+    of the reported experiments. Root accepted this draft recommendation against the
+    inspected historical snapshot; fresh canonical-time context remains required.
+limitations:
+- Parameter-distribution entropy and state-conditional action entropy act on different
+  random variables. Shared Stein updates do not make this identical to Soft Q-learning
+  or amortized SVGD.
+- The posterior interpretation requires a finite positive normalizer. The reported
+  flat improper prior on an unbounded parameter space does not establish that condition.
+  The experiments should not be described as exact posterior sampling.
+- The finite population uses estimated return gradients and finite steps. The paper
+  does not supply a general finite-particle convergence, exact-sampling, monotonically
+  decreasing-KL or global-optimality guarantee for this practical algorithm.
+- Eq9 divides by alpha, so alpha=0 is not a directly defined substitution. A separately
+  rescaled zero-temperature limit still combines policy gradients through the kernel.
+  Approximate independent-policy updates additionally require negligible off-diagonal
+  weighted-gradient contributions; with the reported median-adaptive RBF bandwidth,
+  uniformly increasing all particle separations leaves kernel values unchanged and
+  does not by itself establish independence.
+- Kernel choice, high-dimensional parameter geometry and bandwidth are consequential.
+  The median-distance RBF rule is empirical; its bandwidth becomes zero for a zero
+  median unless an additional safeguard is supplied. Coincident-particle degeneracy
+  and a universally effective kernel are not resolved here. Euclidean repulsion follows
+  from the stated RBF derivative with a fixed chosen positive bandwidth, not from
+  positive definiteness alone.
+- Parameter separation need not imply useful behavioral diversity. The state-visitation
+  comparison is a t-SNE visualization of four selected policies and explicitly admits
+  projection artifacts.
+- Equal transition counts do not establish equal wall-clock cost. SVPG and the independent
+  baseline select the best-return agent; the joint baseline trains a single policy.
+- 'Table1 does not support uniform superiority on its episode column: A2C Double Pendulum
+  lists46 for Joint and199 for SVPG. Thresholds are relative to each policy’s own
+  best return, and the wording for negative returns is insufficient to infer a shared
+  performance target.'
+- The empirical scope is four rllab continuous-control tasks, five reruns and the
+  specified policy architecture, gradient estimators, particle count and hyperparameters;
+  no broad RL or universal performance claim follows.
+- 'The source versions disagree on log-standard-deviation parameterization: arXivv1
+  says a vector, while the official UAI version says a linear function. Code was not
+  inspected to resolve the difference.'
+- The rescaled exploration/exploitation expression in UAI Section5.4 multiplies Eq9’s
+  flat-prior direction by alpha and omits the averaging factor; it illustrates relative
+  weights, not a numerically identical fixed-step update.
+- Natural-policy-gradient, TRPO variants, adaptive temperature schedules and layer-wise
+  kernels are proposed future directions, not demonstrated implementations or guarantees
+  in this paper.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-16T05:14:56Z'
+  updated_at: '2026-10-16T05:14:56Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex

@@ -1,8 +1,8 @@
 # Discovery Report: Round 594 — LARS (Layer-wise Adaptive Rate Scaling)
 
 - **Timestamp**: `2026-10-19T11:17:00Z`
-- **Selected Concept**: `AIMech:LARSLayerwiseAdaptiveRateScaling` (*LARS (Layer-wise Adaptive Rate Scaling)*)
-- **Record Path**: `data/curated/LARSLayerwiseAdaptiveRateScaling.yaml`
+- **Selected Concept**: `AIMech:LayerWiseAdaptiveRateScaling` (*LARS (Layer-wise Adaptive Rate Scaling)*)
+- **Record Path**: `data/curated/LayerWiseAdaptiveRateScaling.yaml`
 - **Primary Source**: Yang You, Igor Gitman, Boris Ginsburg — *Large Batch Training of Convolutional Networks* (`https://dblp.org/rec/journals/corr/abs-1708-03888`).
 
 ## Identity & Boundary Resolution

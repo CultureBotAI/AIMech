@@ -1,0 +1,216 @@
+id: AIMech:DIRECTGlobalOptimization
+name: DIRECT global optimization
+concept_kind: algorithm
+definition: A deterministic derivative-free global optimization algorithm that adaptively partitions a
+  bounded real search box, samples rectangle centers and trisects the longest sides of every rectangle
+  that is potentially optimal for some positive rate-of-change weight and a specified score-improvement
+  threshold.
+definition_evidence:
+- source_id: jones1993-direct
+  locator: Sections 3–4, PDF pp.7–16 / printed pp.163–172, especially Definitions 3.1 and4.1 and the rectangle
+    division procedure.
+  relation: supports
+claims:
+- claim_id: normalized-center-sampled-partition
+  kind: mechanism
+  statement: For minimization of a finite-valued deterministic scalar objective on a finite-dimensional
+    box with strictly positive side lengths, normalize each coordinate to [0,1]. Start with the unit hypercube
+    and evaluate its center. Maintain a partition into axis-aligned hyperrectangles, each with an evaluated
+    center, and retain the smallest objective value observed. The defining search uses function values
+    rather than objective derivatives or a fitted probabilistic surrogate. The geometry is measured in
+    normalized coordinates, so the original coordinate bounds affect its metric.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Sections 3–4, PDF pp.7–14 / printed pp.163–170; center sampling, normalization and multivariate
+      algorithm Step 1.
+    relation: supports
+- claim_id: potentially-optimal-rectangle-rule
+  kind: mechanism
+  statement: Let c_i be each rectangle center and d_i its Euclidean distance to a vertex, equal to one
+    half of its diagonal length in normalized coordinates. For a fixed epsilon > 0 and current best value
+    f_min, rectangle j is potentially optimal when some finite K_tilde > 0 satisfies both f(c_j) - K_tilde
+    d_j <= f(c_i) - K_tilde d_i for every current rectangle i, and f(c_j) - K_tilde d_j <= f_min - epsilon
+    |f_min|. All such rectangles are eligible, including distinct rectangles tied at the same distance
+    and value. The rate-of-change weight is varied rather than supplied as a known Lipschitz bound; its
+    score is not automatically a certified lower bound on the objective inside the rectangle.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Definition 3.1, PDF p.9 / printed p.165, and Definition 4.1, PDF p.14 / printed p.170; distinction
+      from a known Lipschitz constant on PDF p.10 / printed p.166.
+    relation: supports
+- claim_id: longest-side-trisection
+  kind: mechanism
+  statement: For each selected rectangle, collect all dimensions whose side length equals its maximum
+    side length L. Evaluate the objective at c plus and minus (L/3)e_i for every such dimension i. Order
+    these dimensions by the smaller of their two sampled values. Trisect the rectangle containing the
+    original center along the best dimension, then continue splitting only the remaining central rectangle
+    along each subsequent dimension. With m tied longest dimensions, this creates 2m + 1 child rectangles
+    from 2m new center samples while reusing the original center value. A stated deterministic rule is
+    needed to order dimensions with equal pair scores; different valid tie orders can produce different
+    labeled partitions.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Section 4, PDF pp.11–13 / printed pp.167–169, Figure 7 and Procedure for Dividing Rectangles,
+      Steps 1–3; child-count and tie consequences of that procedure.
+    relation: supports
+- claim_id: complete-selected-set-iterations
+  kind: mechanism
+  statement: Determine the full potentially optimal set at the start of an iteration. Subdivide every
+    member of that fixed set, updating the partition and the observed best value, before computing a new
+    potentially optimal set. The original procedure processes all selected rectangles and does not replace
+    this step by repeatedly selecting only the current best rectangle. Complete-iteration results do not
+    depend on the order of processing disjoint selected rectangles when within-rectangle tie conventions
+    are fixed and evaluations are deterministic. An iteration can contain multiple new evaluations. The
+    source uses a specified iteration limit and also permits an evaluation budget; an early budget stop
+    may interrupt the complete-iteration convention.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Univariate algorithm Steps 2–7 and order discussion, PDF pp.10–11 / printed pp.166–167; multivariate
+      algorithm Steps 2–6, PDF pp.14–16 / printed pp.170–172.
+    relation: supports
+- claim_id: epsilon-and-objective-origin
+  kind: mechanism
+  statement: Epsilon imposes a required improvement on the weighted selection score relative to |f_min|;
+    it is not a verified error bound or stopping tolerance. At f_min = 0 the epsilon term vanishes, although
+    the remaining selection inequalities still apply. Multiplying all objective values by a positive constant
+    preserves the exact selection test after rescaling K_tilde. Adding a constant generally does not,
+    because |f_min| changes. For example, with epsilon = 1/100, a best small interval of radius 1/18 and
+    value 0 competes with larger intervals of radius 1/6 and value 1 for 0 < K_tilde <= 9. Adding 100
+    to every value requires K_tilde >= 18 for the small interval, so it ceases to be potentially optimal
+    despite unchanged objective rankings.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Definitions 3.1 and 4.1, PDF pp.9 and14 / printed pp.165 and170; epsilon discussion, PDF
+      pp.10 and23 / printed pp.166 and179. Scaling and translation statements are direct algebraic consequences,
+      checked in the supporting exact calculator.
+    relation: supports
+- claim_id: asymptotic-coverage-with-scoped-convergence
+  kind: mechanism
+  statement: For the ideal original algorithm continued indefinitely with exact selection, complete iterations
+    and finite objective values, at least one rectangle with maximal center-to-vertex distance is selected
+    each iteration. Repeated longest-side trisection makes the maximum rectangle radius tend to zero,
+    so sampled centers become dense in the box. If a finite global minimum is attained and the objective
+    is continuous in a neighborhood of a global minimizer, the best sampled values converge to that minimum.
+    This is an asymptotic value statement, not a finite-budget error certificate, a rate guarantee, exact
+    finite attainment of a boundary minimizer or a guarantee for arbitrary discontinuous objectives and
+    modified selection rules.
+  evidence:
+  - source_id: jones1993-direct
+    locator: Section 5, PDF pp.17–18 / printed pp.173–174, Eq 9 and dense-sampling argument; stopping
+      limitation on PDF p.3 / printed p.159. The zero-denominator caveat in printed Eq 11 is retained
+      below.
+    relation: supports
+identity_notes: 'DIRECT denotes the original deterministic box-partition method: normalized-domain center
+  sampling, potentially optimal rectangles under an unspecified positive slope, and longest-side trisection.
+  It does not require a surrogate or an information acquisition. This differs from random or grid search,
+  population-based differential evolution/CMA-ES, and GP-guided optimization. Direct Preference Optimization
+  is a policy objective and is unrelated.'
+limitations:
+- This record describes the original 1993 DIRECT construction. Later locally biased, tie-reduced, restart,
+  noisy-objective, constrained or parallel variants are not silently imported or declared exact aliases.
+  A direct-search optimizer is not the maintained DirectPreferenceOptimization algorithm.
+- The source uses finite-valued deterministic objective evaluations on a finite box. General constraints,
+  failed evaluations, noise handling, categorical parameters, zero-width coordinates and floating-point
+  degeneracy need additional implementation rules. Normalization and tie conventions can affect the search
+  trajectory; no rotation invariance or coordinate-independent behavior is asserted.
+- The lower-right convex-hull interpretation concerns existence of a positive weight satisfying both inequalities.
+  A point touching only at weight zero is excluded by the stated definition, and the epsilon filter can
+  exclude a hull candidate. Equal-distance candidates require direct value comparison rather than division
+  by a zero distance difference.
+- In the introductory Shubert comparison, PDF p.4 / printed p.160 Eq 5 omits the factor one half on K(b-a)
+  for the claimed bottom-of-V value. With equal endpoint values 0, interval [0,2] and K=1, the intersecting
+  lines have minimum -1, while the printed expression gives -2. That expression is a weaker lower bound
+  in this example, not the stated intersection value. DIRECT’s center-based Eq 8 and potentially optimal
+  definitions are separate.
+- The convergence proof’s Eq 11, PDF p.17 / printed p.173, writes an unrestricted maximum of ratios with
+  denominator d_j-d_i, including equal-distance cases and i=j. The argument requires taking those ratios
+  only over strictly smaller distances, while handling equal-distance centers by selecting a minimum-value
+  one. This is an explicit curator reading of the definition-level proof, not an asserted author-issued
+  correction.
+- 'Dense sampling alone does not guarantee convergence of values for arbitrary discontinuities: a function
+  equal to -1 only at sqrt(2)/2 and 0 elsewhere on [0,1] has an isolated minimum that the exact rational
+  center sequence never samples. Even for a continuous objective, a finite set of sampled values can miss
+  a narrow negative tent between samples. Without additional certified function bounds, a budget stop
+  cannot certify global accuracy.'
+- The source’s benchmark comparisons use different convergence definitions for competing methods and discuss
+  parameter-tuning and stochastic-run comparability problems. No benchmark was reproduced and no universal
+  speed, dimension-independent storage, parameter-insensitivity or superiority claim is made. The central
+  sample avoids enumerating all box vertices, but subdivision, retained rectangles and coordinate bookkeeping
+  still require resources.
+- The original bounded calculator in research/discovery/direct-boundaries.py uses rational radius clouds
+  for selection, exact multivariate partition geometry and finite one-dimensional examples. It does not
+  implement general multivariate square-root radius selection or establish asymptotic results by testing.
+  Its trace evaluation counts denote distinct sampled locations, not runtime function-call costs; center
+  values may be recomputed for geometric checks. It is supporting evidence within the author workflow,
+  not independent scientific approval or external author-code execution.
+evidence_sources:
+- source_id: jones1993-direct
+  title: Lipschitzian Optimization Without the Lipschitz Constant
+  authors:
+  - D. R. Jones
+  - C. D. Perttunen
+  - B. E. Stuckman
+  url: https://dumas.perso.math.cnrs.fr/DIRECT.pdf
+  persistent_id: doi:10.1007/BF00941892
+  version: Original October 1993 article, JOTA 79(1):157–181; inspected 25-page academic-hosted scan.
+    Publisher metadata corroborates bibliographic identity, not PDF byte equivalence. Scan build dates
+    2004/2014 are not publication dates.
+  source_type: primary_paper
+  access_level: full_text
+  accessed_at: '2026-10-14T23:51:43Z'
+  sha256: 7c5944920fe52145cbb11dfb26f3e9b68e1f8c653382dc09114d28fa980718f8
+aio_snapshot:
+  commit: 397851c547d1c4d8f06ef184f63c1d40bc86937a
+  sha256: 8f741d71408c93f15c62607106aa46f6edbc4e070c5546ed3ae111ada6e65cf6
+aio_no_match:
+  search_scope: 'Freshly assessed all 721 native and 442 pinned AIO records (1,163 total): IDs, names,
+    aliases, scoped synonyms and complete definitions. Four whole-checkout searches used rg --no-ignore
+    --hidden with exact IDs/full names and meaningful compounds; all 4,196 occurrences were reconciled
+    and all 88 decoded matching contexts read. Bare DIRECT was not treated as an exhaustive identity probe;
+    ordinary direct-algorithm phrases were false positives. All 902 main and 393 nested frontier labels/statuses,
+    all matching fields and 29 relevant full objects were read. Nine exact examined AIO CLASS nodes (ActiveLearning,
+    MachineLearningTask, TrainingStrategy, ReinforcementLearning, EvolutionaryLLM, MathematicalFunction,
+    Model, Network and MarkovChain), including metadata/synonyms and every incident edge, support no suitable
+    mapping for this deterministic rectangle-partition optimizer. TransferLearning was also inspected
+    for the cohort. This is a scoped pinned-snapshot no-match assessment, not absence from all ontologies.'
+  rationale: No inspected pinned AIO target provides a sufficiently specific mapping for the general DIRECT
+    optimizer. Its machine-learning uses do not make it a learning task, training preprocessing, network
+    or model. This is an explicit bounded no-match assessment, not a claim that no suitable concept exists
+    in another ontology.
+  examined_targets:
+  - target: AIO:ActiveLearning
+    rejection_reason: The general deterministic optimizer does not require labeling examples or selecting
+      queries by learned predictive uncertainty; objective evaluation alone does not establish this learning-task
+      mapping.
+  - target: AIO:MachineLearningTask
+    rejection_reason: The algorithm can optimize an arbitrary box-constrained objective without building
+      a method that learns from data; an AI application does not identify its full scope with this task.
+  - target: AIO:TrainingStrategy
+    rejection_reason: The pinned definition concerns preprocessing and model training. DIRECT is a reusable
+      optimizer; its use inside hyperparameter selection is an application rather than a necessary training
+      mechanism.
+  - target: AIO:ReinforcementLearning
+    rejection_reason: Balancing local and global exploration does not make the general search procedure
+      a policy/environment learning task.
+  - target: AIO:EvolutionaryLLM
+    rejection_reason: This target is a large language model and its broad related synonyms do not denote
+      the deterministic rectangle algorithm.
+  - target: AIO:MathematicalFunction
+    rejection_reason: The objective and selection score are mathematical functions, but the proposed concept
+      is the iterative partitioning algorithm, not a function node.
+  - target: AIO:Model
+    rejection_reason: A partition and stored evaluations do not make this search algorithm identical to
+      the pinned abstract model class.
+  - target: AIO:Network
+    rejection_reason: The optional search-tree representation is bookkeeping, not a defining network architecture.
+  - target: AIO:MarkovChain
+    rejection_reason: A generic state representation would be too broad; DIRECT does not define a stochastic
+      transition process or target-invariant sampler.
+review_status: DRAFT
+curation:
+  created_at: '2026-10-15T04:14:51Z'
+  updated_at: '2026-10-15T04:14:51Z'
+  curator: Codex
+  method: ai_assisted
+  model: GPT-6
+  agent_tool: Codex
