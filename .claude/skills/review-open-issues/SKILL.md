@@ -21,7 +21,7 @@ or touch another repository. Its output is a ranking with reasons.
 - Repository: `CultureBotAI/AIMech`
 - Package: `src/aimech`
 - Schema: `src/aimech/schema/aimech.yaml`
-- Curated records: `data/aio/*.yaml`
+- Curated records: `data/aio/*.yaml`, `data/curated/*.yaml`
 - Checkout resolved through `AIMECH_ROOT`
 
 ## Sweep the whole queue first
@@ -38,7 +38,7 @@ be listed reproduces the listing order, not a judgement.
 
 For each issue, answer three questions:
 
-1. **What does it break?** A wrong ontology grounding in `data/aio/*.yaml` is
+1. **What does it break?** A wrong ontology grounding in `data/aio/*.yaml`, `data/curated/*.yaml` is
    published data other repositories consume. A flaky test is a signal problem.
    A missing docstring is neither.
 2. **Who is standing on it?** A defect in a vendored artifact reaches every
